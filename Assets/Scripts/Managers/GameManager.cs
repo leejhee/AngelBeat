@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,15 +18,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
     UIManager _ui_manager = new UIManager();
     SoundManager _sound = new SoundManager();
-    SaveLoadManager _saveLoad = new SaveLoadManager();
+    //SaveLoadManager _saveLoad = new SaveLoadManager();
 
+    public static InputManager Input { get { return Inst._input; } }
     public static ResourceManager Resource { get { return Inst._resource; } }
     public static UIManager UI { get { return Inst._ui_manager; } }
     public static SoundManager Sound { get { return Inst._sound; } }
-    public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
+    //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
 
 
     private void Awake()
@@ -47,5 +50,10 @@ public class GameManager : MonoBehaviour
             _inst = go.GetComponent<GameManager>();
 
         }
+    }
+
+    private void Update()
+    {
+        _input.OnUpdate();
     }
 }
