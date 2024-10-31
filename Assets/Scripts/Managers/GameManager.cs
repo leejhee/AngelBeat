@@ -10,11 +10,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (_inst == null)
-            {
-                _inst = new GameManager();
-            }
-            return _inst;
+            Init(); return _inst ;
         }
     }
 

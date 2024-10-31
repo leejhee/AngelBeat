@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] GameObject pathFinder;
     [SerializeField] float speed;
-    private PathManager path;
     private Animator anim;
     private Coroutine moveCoroutine;
+    AStarGrid testBG;
 
     void Start()
     {
-        path = pathFinder.GetComponent<PathManager>();
+        testBG = new AStarGrid(100, 100);
         anim = GetComponent<Animator>();
         GameManager.Input.KeyAction -= OnClickMouse;
         GameManager.Input.KeyAction += OnClickMouse;
@@ -23,20 +22,33 @@ public class Mover : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             anim.SetBool("doMove", true);
-            path.startPos = Vector2Int.RoundToInt(transform.position);
+
+            Vector2Int startPos = Vector2Int.RoundToInt(transform.position);
             Vector2 clickedPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            path.targetPos = Vector2Int.RoundToInt(clickedPos);
-            path.PathFinding();
+            Vector2Int targetPos = Vector2Int.RoundToInt(clickedPos);
+
+            AStarParameter param = GetAStarParam(startPos, targetPos);
+            var pathPoints = AStarPathFinder.AStarPath(param);
+            var pathVector = PointConverter.ToVector2Int(pathPoints);
 
             if (moveCoroutine != null)
                 StopCoroutine(moveCoroutine);
-            moveCoroutine = StartCoroutine(nameof(MoveObject));
+            moveCoroutine = StartCoroutine(nameof(MoveObject), pathVector);
         }
     }
 
-    IEnumerator MoveObject()
+    private AStarParameter GetAStarParam(Vector2Int startPos, Vector2Int endPos)
     {
-        foreach(var node in path.FinalNodeList)
+        Node startNode = new Node(startPos.x, startPos.y);
+        Node endNode = new Node(endPos.x, endPos.y);
+        AStarParameter aStar = 
+            new AStarParameter(testBG, startNode, endNode, DiagonalPermit.Always);
+        return aStar;
+    }
+
+    private IEnumerator MoveObject(List<Vector2Int> path)
+    {
+        foreach(var node in path)
         {
             bool arrived = false;
             while (!arrived)
@@ -47,7 +59,7 @@ public class Mover : MonoBehaviour
                 if(Vector3.Distance(transform.position, new Vector3(node.x, node.y, 0))<0.1f)
                     arrived = true;
 
-                yield return new WaitForFixedUpdate();
+              yield return new WaitForFixedUpdate();
             }           
         }
 
