@@ -15,9 +15,3 @@ public enum Sound
     Effect,
     MaxCount
 }
-
-public enum Scene
-{
-    Unknown,
-    Explore,
-}
