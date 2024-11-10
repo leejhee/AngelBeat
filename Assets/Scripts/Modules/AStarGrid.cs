@@ -31,9 +31,7 @@ public class Node : IComparable<Node>
     public static bool operator ==(Node node1, Node node2)
     {
         if (ReferenceEquals(node1, node2)) return true;
-        if (ReferenceEquals(null, node1)) return false;
-        if (ReferenceEquals(node2, null)) return false;
-
+        if (node1 is null || node2 is null) return false;
         return node1.x == node2.x && node1.y == node2.y;
     }
 
@@ -120,11 +118,16 @@ public class GridFrame
     }
 }
 
+public abstract class GridBase
+{
+}
+
+
 /// <summary>
-/// Static한 배열을 사용하기로 함. 추후 Dynamic한 Grid 실험 시 변경 예정.
+/// Static한 배열을 사용하기로 함.
 /// 현재 static으로 맵 상에 존재하게 하여, 모든 객체가 상태 공유할 수 있게 함.
 /// </summary>
-public class AStarGrid
+public class AStarGrid : GridBase
 {
     GridFrame frame;
     public GridFrame Frame { get { return frame; } }
@@ -157,7 +160,7 @@ public class AStarGrid
             for (int j = frame.LBY; j < frame.RTY + 1; j++)
             {
                 mapNodes[i][j] = new Node(i, j);
-                if (!Physics2D.OverlapPoint(new Vector2Int(i, j), LayerMask.GetMask("Wall")))
+                if (Physics2D.OverlapPoint(new Vector2Int(i, j), LayerMask.GetMask("Walkable")))
                     mapNodes[i][j].walkable = true;
             }
         }
@@ -165,7 +168,7 @@ public class AStarGrid
                 
     }
 
-    public List<Node> GetNeighbors(Node current, DiagonalPermit constraint)
+    public List<Node> GetNeighbors(Node current, DiagonalConstraint constraint)
     {
         List<Node> neighbors = new List<Node>();
 
@@ -178,33 +181,29 @@ public class AStarGrid
         #region Check Straight
         if (IsWalkable(checkPos.SetPoint(x, y - 1)))
         {
-            downPass = true;
-            neighbors.Add(GetNode(checkPos));
+            downPass = true; neighbors.Add(GetNode(checkPos));
         }
         if (IsWalkable(checkPos.SetPoint(x, y + 1)))
         {
-            upPass = true;
-            neighbors.Add(GetNode(checkPos));
+            upPass = true; neighbors.Add(GetNode(checkPos));
         }
         if (IsWalkable(checkPos.SetPoint(x - 1, y)))
         {
-            leftPass = true;
-            neighbors.Add(GetNode(checkPos));
+            leftPass = true; neighbors.Add(GetNode(checkPos));
         }
         if (IsWalkable(checkPos.SetPoint(x + 1, y)))
         {
-            rightPass = true;
-            neighbors.Add(GetNode(checkPos));
+            rightPass = true; neighbors.Add(GetNode(checkPos));
         }
         #endregion
 
         #region Check Diagonal
         bool pass1 = false, pass3 = false, pass7 = false, pass9 = false;
-        if (constraint == DiagonalPermit.Always)
+        if (constraint == DiagonalConstraint.Always)
         {
             pass1 = true; pass3 = true; pass7 = true; pass9 = true;
         }
-        else if(constraint == DiagonalPermit.DontCrossCorner)
+        else if(constraint == DiagonalConstraint.DontCrossCorner)
         {
             pass1 = downPass && leftPass;
             pass3 = downPass && rightPass;
@@ -255,4 +254,22 @@ public class AStarGrid
         Node checkNode = GetNode(point);
         checkNode.walkable = set;
     }
+
+}
+
+public class GridWDic : GridBase
+{
+    GridFrame frame;
+    static Dictionary<GridPoint, Node> mapNodes;
+
+    public GridWDic(GridFrame f, List<GridPoint> walkablePointsOnly)
+    {
+        frame.LBX = f.LBX;
+        frame.RTY = f.RTY;
+        frame.LBY = f.LBY;
+        frame.RTX = f.RTX;
+
+    }
+
+
 }
