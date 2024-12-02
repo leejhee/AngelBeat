@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,14 +19,15 @@ public class GameManager : MonoBehaviour
     ResourceManager _resource = new ResourceManager();
     UIManager _ui_manager = new UIManager();
     SoundManager _sound = new SoundManager();
+    DataManager _data = new DataManager();
     //SaveLoadManager _saveLoad = new SaveLoadManager();
 
     public static InputManager Input { get { return Inst._input; } }
     public static ResourceManager Resource { get { return Inst._resource; } }
     public static UIManager UI { get { return Inst._ui_manager; } }
     public static SoundManager Sound { get { return Inst._sound; } }
+    public static DataManager Data { get { return Inst._data; } }
     //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
-
 
     private void Awake()
     {

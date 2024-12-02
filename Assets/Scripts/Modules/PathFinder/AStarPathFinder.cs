@@ -136,5 +136,10 @@ public static class PointConverter
         }
         return result;
     }
+
+    public static List<Vector2> ToIsoVec2(List<GridPoint> points, GridPoint pivot)
+    {
+        return null;
+    }
 }
 
