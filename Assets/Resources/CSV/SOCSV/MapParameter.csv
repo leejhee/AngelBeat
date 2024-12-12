@@ -1,0 +1,4 @@
+맵종류Index,맵이름,최대 스테이지,경로 지정 횟수,가로길이,가능한 지점,가능한 경로
+index,mapName,maxDepth,trialNum,width,availablePoints,avaliableEvents
+int,string,int,int,int,int[],int[]
+1,test,6,4,5,[2.3],[5.6]

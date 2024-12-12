@@ -15,38 +15,7 @@ public static class MapGenerator
     private static List<MapFloor> GetNodePoints(int maxDepth, int trialNum, int width)
     {
         int id = 1;
-        var nodes = new List<MapFloor>();
-        /*
-        //List<int> GiveCandidate(GridPoint point)
-        //{
-        //    #region field init
-        //    int left =      point.x - 1;
-        //    int middle =    point.x;
-        //    int right =     point.x + 1;
-        //    int y =         point.y;
-        //    List<int> candidates = new List<int> { left, middle, right };
-        //    #endregion
-        //    #region clamp candidate x
-        //    if (left < 0)       candidates.Remove(left);
-        //    if (right >= width) candidates.Remove(right);
-        //    if (candidates.Count <= 1) return candidates; //여기에 디버그가 걸리면 안된다(비정상적 맵 파라미터.)
-        //    #endregion
-        //    #region investigate cross path
-        //    MapNode criterion = nodes[point.y + 1].GetNode(middle);
-        //    if (criterion != null)
-        //    {
-        //        bool crossLeft = candidates.Contains(left) &&
-        //                        nodes[y].GetNode(left).Children.Contains(criterion);
-        //        bool crossRight = candidates.Contains(right) &&
-        //                        nodes[y].GetNode(right).Children.Contains(criterion);
-        //        if (crossLeft) candidates.Remove(left);
-        //        if (crossRight) candidates.Remove(right);
-        //    }
-
-        //    return candidates;
-        //    #endregion
-        //}
-        */
+        var nodes = new List<MapFloor>();        
 
         #region Pointing Nodes
         for (int floorNum = 0; floorNum <= maxDepth; floorNum++)
@@ -57,7 +26,7 @@ public static class MapGenerator
             var lineStartNode = nodes[1].AddNode(new MapNode(id, Random.Range(0, width), 1));
             id++;
             var current = lineStartNode;
-            for (int floorIdx = 1; floorIdx < maxDepth - 2; floorIdx++)
+            for (int floorIdx = 1; floorIdx < maxDepth - 1; floorIdx++)
             {
                 var nextFloor = nodes[floorIdx + 1];
                 List<int> candidates = GiveCandidates(nodes, current.GridPoint, width);
@@ -101,12 +70,28 @@ public static class MapGenerator
         MapNode criterion = nodes[Point.y + 1].GetNode(middle);
         if (criterion != null)
         {
-            bool crossLeft = candidates.Contains(left) &&
-                            nodes[y].GetNode(left).Children.Contains(criterion);
-            bool crossRight = candidates.Contains(right) &&
-                            nodes[y].GetNode(right).Children.Contains(criterion);
-            if (crossLeft) candidates.Remove(left);
-            if (crossRight) candidates.Remove(right);
+            bool leftStill = candidates.Contains(left);
+            bool rightStill = candidates.Contains(right);
+
+            if (leftStill)
+            {
+                MapNode leftNode = nodes[y].GetNode(left);
+                if (leftNode != null)
+                {
+                    bool frontExists = leftNode.Children.Contains(criterion);
+                    if (frontExists) candidates.Remove(left);
+                }
+            }
+
+            if (rightStill)
+            {
+                MapNode rightNode = nodes[y].GetNode(right);
+                if (rightNode != null)
+                {
+                    bool frontExists = rightNode.Children.Contains(criterion);
+                    if (frontExists) candidates.Remove(right);
+                }             
+            }
         }
 
         return candidates;

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class MapNodePrefab : UI_Base
 {
+
     public enum Buttons
     {
         NodeButton,

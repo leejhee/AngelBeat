@@ -38,7 +38,7 @@ public class MapNode : IComparable<MapNode>, IEquatable<MapNode>
         else        { if (Children.Contains(node)) Children.Remove(node); }
     }
 
-    public void SetNodeData(PointNodeData nodeData) => _nodeData = nodeData;
+    //public void SetNodeData(PointNodeData nodeData) => _nodeData = nodeData;
 
     #region operator overloading
     public bool Equals(MapNode other)

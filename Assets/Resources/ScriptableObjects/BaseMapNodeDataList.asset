@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dccd3217a3b8b44897b062cf0d95483, type: 3}
-  m_Name: Hospital
+  m_Script: {fileID: 11500000, guid: 89e3687c3ce7b7d469390444540c06a6, type: 3}
+  m_Name: BaseMapNodeDataList
   m_EditorClassIdentifier: 
-  index: 0
-  nodeSprite: {fileID: 21300000, guid: 6f1eb87cd3c67c94ea97e1943279acd4, type: 3}
-  nodeType: 0
+  objects: []

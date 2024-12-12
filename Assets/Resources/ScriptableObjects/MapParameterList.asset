@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4d2f9e871a0e0744b68d6d1f04e2517, type: 3}
-  m_Name: DemoMap
+  m_Script: {fileID: 11500000, guid: eb61665c543a90c44a2dca11c8d85799, type: 3}
+  m_Name: MapParameterList
   m_EditorClassIdentifier: 
-  availablePoints: []
-  availableEvents: []
-  maxDepth: 6
-  trialNum: 4
-  width: 5
+  objects:
+  - index: 1
+    mapName: test
+    maxDepth: 6
+    trialNum: 4
+    width: 5
+    availablePoints: 0200000003000000
+    avaliableEvents: 0500000006000000

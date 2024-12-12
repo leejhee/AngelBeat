@@ -33,7 +33,11 @@ public enum eNodeType
     Hospital,
     Resistance,
     Treasure,
-    Inn
+    Inn,
+    Safe,
+    Encounter,
+
+    MaxValue
 }
 
 public enum eMystery

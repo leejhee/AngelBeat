@@ -259,7 +259,7 @@ public class AStarGrid : GridBase
 
 public class GridWDic : GridBase
 {
-    GridFrame frame;
+    GridFrame frame = null;
     static Dictionary<GridPoint, Node> mapNodes;
 
     public GridWDic(GridFrame f, List<GridPoint> walkablePointsOnly)

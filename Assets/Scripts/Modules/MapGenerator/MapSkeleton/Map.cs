@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class Map : MonoBehaviour
+public class Map
 {
     private List<MapFloor> _mapNodes;
     private List<MapPath> _mapPaths;
@@ -46,25 +46,37 @@ public class Map : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// 맵 형태 살펴보는 용도(디버깅 용도)
+    /// </summary>
     public void DebugMap()
     {
-        var debugMap = new StringBuilder("생성된 맵입니다. 생성 일시 : " + DateTime.Now.ToString("MM/dd/yyyy") + '\n');
+        var debugMap = new StringBuilder("\n생성된 맵입니다. 생성 일시 : " + DateTime.Now.ToString("MM/dd/yyyy") + '\n');
         _mapNodes.Reverse();
         foreach(var mapfloor in _mapNodes)
         {
             var debugFloor = new StringBuilder(mapfloor.FloorNum.ToString() + '\t');
             int xInterval = 0;
+            int xCurrent = 0;
             
             foreach(var node in mapfloor.FloorMembers)
             {
-                xInterval = node.GridPoint.x - xInterval;
-                if(xInterval == 0) continue;
-                debugFloor.Append(xInterval * '\t' + node.NodeID.ToString());
+                xInterval = node.GridPoint.x - xCurrent;
+                xCurrent = node.GridPoint.x;
+
+                if(xInterval == 0 && node.GridPoint.x != 0) continue;
+                debugFloor.Append('\t', xInterval).Append(node.NodeID.ToString());
             }            
             debugMap.AppendLine(debugFloor.ToString());
         }
 
         Debug.Log(debugMap.ToString());
+
+        var debugString = new StringBuilder().AppendLine("맵에 사용된 패스는 이렇습니다");
+        foreach (var path in _mapPaths)
+        {
+            
+        }
     }
 
     public void ClearMap()
