@@ -34,8 +34,8 @@ public enum eNodeType
     Resistance,
     Treasure,
     Inn,
-    Safe,
-    Encounter,
+    Hazard,
+    Combat,
 
     MaxValue
 }

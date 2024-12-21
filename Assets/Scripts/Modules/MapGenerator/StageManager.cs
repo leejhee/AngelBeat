@@ -1,35 +1,51 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+/// <summary>
+/// 탐험 단계에서 스테이지를 관리하는 역할
+/// </summary>
+public class StageManager : SingletonObject<StageManager>
 {
-    private MapParameterList Parameters;
+    private MapParameterList _parameters;
 
-    // 싱글턴...해야하나?
-    int stageNum = 0;
+    private int stageNum = 0;
 
     private Map _stageMap;
     public Map StageMap { get { return _stageMap; } }
 
-
-    public void SetStage(int stageNum)
-    {        
-        MapParameter param = Parameters.Objects[stageNum];
-        _stageMap = MapGenerator.CreateMap(param);
-        _stageMap.DebugMap();
-    }
-
-    private void Start()
+    public override void Init()
     {
-        Parameters = GameManager.Resource.Load<MapParameterList>("ScriptableObjects/MapParameterList");
-        SetStage(stageNum);
+        _parameters = GameManager.Resource.Load<MapParameterList>("ScriptableObjects/MapParameterList");
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// 탐험 시작 시 호출
+    /// </summary>
+    /// <param name="stageNum"></param>
+    public void SetStage(int stageNum, bool isFirst = false)
     {
-        Resources.UnloadAsset(Parameters);
+        if (isFirst) 
+        { 
+            MapParameter param = _parameters.Objects[stageNum];
+            _stageMap = MapGenerator.CreateMap(param);
+            _stageMap.DebugMap();
+        }
+        else
+        {
+            //불러오기...
+        }
     }
-    //그 외 추가적 메소드를 두자...
+
+    /// <summary> 노드 이벤트 진행 시 호출 </summary>
+    public void ProceedStage()
+    {
+
+    }
+    
+    /// <summary>
+    /// 탐험 이탈 시 호출
+    /// </summary>
+    public void ExitStage()
+    {
+
+    }
 }

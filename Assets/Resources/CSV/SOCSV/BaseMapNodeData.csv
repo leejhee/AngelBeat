@@ -1,9 +1,9 @@
 노드종류Index,노드 타입,노드 아이콘,노드 선택 여부
 index,nodeType,nodeSprite,selectable
-int,eNodeType,string,bool
-1,Hospital,HospitalNode,true
-2,Resistance,ResistanceNode,true
-3,Treasure,TreasureNode,true
-4,Inn,InnNode,true
-5,Safe,SafeRoad,false
-6,Encounter,EncounterRoad,false
+int,eNodeType,Sprite,bool
+1,Hospital,Hospital,true
+2,Resistance,Resistance,true
+3,Treasure,Treasure,true
+4,Inn,Inn,true
+5,Hazard,Hazard,false
+6,Combat,Combat,false

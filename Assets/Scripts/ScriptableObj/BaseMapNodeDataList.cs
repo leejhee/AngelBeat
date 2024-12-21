@@ -45,9 +45,9 @@ public class BaseMapNodeDataList : ScriptableObject, ITableSO
 				    data.nodeType = (eNodeType)Enum.Parse(typeof(eNodeType), values[1]);
 				
 				if(values[2] == "")
-				    data.nodeSprite = default;
+				    data.nodeSprite = null;
 				else
-				    data.nodeSprite = Convert.ToString(values[2]);
+				    data.nodeSprite = Resources.Load<Sprite>($"Sprites/BaseMapNodeData/{values[2]}");
 				
 				if(values[3] == "")
 				    data.selectable = default;

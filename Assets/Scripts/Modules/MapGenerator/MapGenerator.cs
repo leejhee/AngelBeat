@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 
@@ -117,17 +116,47 @@ public static class MapGenerator
 
         return paths;
     }
-
     
+    private static void SetMapData(Map skeleton, List<int> nodeIndices, List<int> eventIndices)
+    {
+        #region Init avaliable nodes
+        var baseNodeTypes = Resources.Load<BaseMapNodeDataList>("ScriptableObjects/BaseMapNodeDataList");
+        var PointNodeList = nodeIndices.Select(x => baseNodeTypes.Objects[x]).ToList();
+        var EventNodeList = eventIndices.Select(x => baseNodeTypes.Objects[x]).ToList();
+        Resources.UnloadAsset(baseNodeTypes);
+        #endregion
+
+        #region Set Point's Data
+        var points = skeleton.MapNodes;
+        foreach(var floor in points)
+        {
+            foreach(var node in floor.FloorMembers)
+            {
+                // 단순히 랜덤으로만 편성함. 나중에 로직 편성 시 이 부분에 포함시켜야 함.
+                node.SetNodeData(PointNodeList[Random.Range(0, PointNodeList.Count)]);
+            }
+        }
+        #endregion
+        #region Set Path's Data
+        var paths = skeleton.MapPaths;
+        foreach(var path in paths)
+        {
+            // 단순히 랜덤으로만 편성함. 나중에 로직 편성 시 이 부분에 포함시켜야 함.
+            path.SetEventNode(EventNodeList[Random.Range(0, EventNodeList.Count)]);
+        }
+        #endregion
+
+    }
+
     /// <summary>
     /// 최종적으로 맵을 생성한다. 이거로 쓸 것.
     /// </summary>
     public static Map CreateMap(MapParameter param)
     {        
         var mapPoints = GetNodePoints(param.maxDepth, param.trialNum, param.width);
-        var mapPaths = GiveMapPaths(mapPoints);
-
+        var mapPaths = GiveMapPaths(mapPoints);        
         var map = new Map(mapPoints, mapPaths);
+        SetMapData(map, param.availablePoints, param.avaliableEvents);
         return map;
     }
 }

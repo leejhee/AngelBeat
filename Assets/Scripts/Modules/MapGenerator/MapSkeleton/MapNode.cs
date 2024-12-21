@@ -10,7 +10,7 @@ public class MapNode : IComparable<MapNode>, IEquatable<MapNode>
     private GridPoint _gridPoint;
     private List<MapNode> _parents;
     private List<MapNode> _children;
-    private PointNodeData _nodeData = null;
+    private BaseMapNodeData _nodeData = null;
 
     public int NodeID {  get { return _nodeID; } }
     public GridPoint GridPoint { get { return _gridPoint; } }
@@ -38,7 +38,7 @@ public class MapNode : IComparable<MapNode>, IEquatable<MapNode>
         else        { if (Children.Contains(node)) Children.Remove(node); }
     }
 
-    //public void SetNodeData(PointNodeData nodeData) => _nodeData = nodeData;
+    public void SetNodeData(BaseMapNodeData nodeData) => _nodeData = nodeData;
 
     #region operator overloading
     public bool Equals(MapNode other)

@@ -12,4 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e3687c3ce7b7d469390444540c06a6, type: 3}
   m_Name: BaseMapNodeDataList
   m_EditorClassIdentifier: 
-  objects: []
+  objects:
+  - index: 1
+    nodeType: 1
+    nodeSprite: {fileID: 21300000, guid: 6f1eb87cd3c67c94ea97e1943279acd4, type: 3}
+    selectable: 1
+  - index: 2
+    nodeType: 2
+    nodeSprite: {fileID: 21300000, guid: 3a3659e8298676e4286801b5590c4d28, type: 3}
+    selectable: 1
+  - index: 3
+    nodeType: 3
+    nodeSprite: {fileID: 21300000, guid: 8343344b38951f644a5b4700a467d063, type: 3}
+    selectable: 1
+  - index: 4
+    nodeType: 4
+    nodeSprite: {fileID: 21300000, guid: 0c156629ce1d99d4f9e39936f7f05aec, type: 3}
+    selectable: 1
+  - index: 5
+    nodeType: 5
+    nodeSprite: {fileID: 21300000, guid: 9828458380fc4f7458af1e92c7ba13d3, type: 3}
+    selectable: 0
+  - index: 6
+    nodeType: 6
+    nodeSprite: {fileID: 21300000, guid: 03826a1f92564f54fac6cece55248c73, type: 3}
+    selectable: 0

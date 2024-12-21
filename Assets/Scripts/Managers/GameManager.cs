@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    #region 싱글턴.
     static GameManager _inst;
     public static GameManager Inst
     {
@@ -14,19 +15,20 @@ public class GameManager : MonoBehaviour
             Init(); return _inst ;
         }
     }
+    GameManager() { }
+    #endregion
 
+    //[TODO] : 필요 시 전부 SingletonObject<T>로 상속받도록 구조 바꿀것.
     InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
     UIManager _ui_manager = new UIManager();
     SoundManager _sound = new SoundManager();
-    DataManager _data = new DataManager();
     //SaveLoadManager _saveLoad = new SaveLoadManager();
 
     public static InputManager Input { get { return Inst._input; } }
     public static ResourceManager Resource { get { return Inst._resource; } }
     public static UIManager UI { get { return Inst._ui_manager; } }
     public static SoundManager Sound { get { return Inst._sound; } }
-    public static DataManager Data { get { return Inst._data; } }
     //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
 
     private void Awake()
@@ -44,9 +46,12 @@ public class GameManager : MonoBehaviour
                 go.AddComponent<GameManager>();
             }
 
-            DontDestroyOnLoad(go);
             _inst = go.GetComponent<GameManager>();
+            DontDestroyOnLoad(go);
 
+            //산하에 SingletonObject<T> 상속받는 매니저들 초기화.
+            DataManager.Instance.Init();
+            StageManager.Instance.Init();
         }
     }
 

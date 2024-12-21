@@ -10,6 +10,9 @@ public class Map
     public List<MapFloor> MapNodes { get { return _mapNodes; } }
     public List<MapPath> MapPaths { get { return _mapPaths; } }
 
+    // 플레이어 현재 위치 용도.
+    public MapNode Current = null;
+
     public Map()
     {
         _mapNodes = new List<MapFloor>();
@@ -23,6 +26,8 @@ public class Map
     }
 
     #region Add or Delete
+    // 맵 생성 시에는 아직 쓰지 않는 메서드. 맵 내의 층단위로 관리를 하기 때문.
+
     public void AddNode(int floor, MapNode target)
     {
         _mapNodes[floor].AddNode(target);
@@ -45,6 +50,7 @@ public class Map
             _mapPaths.Remove(path);
     }
     #endregion
+
 
     /// <summary>
     /// 맵 형태 살펴보는 용도(디버깅 용도)

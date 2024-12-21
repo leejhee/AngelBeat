@@ -39,6 +39,17 @@ if(values[{0}] == """")
 else
     data.{1} = ({2})Enum.Parse(typeof({2}), values[{0}]);";
 
+    public static string dataSpriteRegisterFormat =
+@"public {0} {1}; // {2}";
+
+    public static string dataSpriteParseFormat =
+@"
+if(values[{0}] == """")
+    data.{1} = null;
+else
+    data.{1} = Resources.Load<Sprite>($""Sprites/{2}/{{values[{0}]}}"");";
+
+
     // {0} : 클래스 이름
     // {1} : 자료형들
     // {2} : 파싱

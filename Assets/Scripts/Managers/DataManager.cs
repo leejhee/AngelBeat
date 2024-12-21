@@ -11,7 +11,7 @@ using UnityEngine;
 /// <summary> 
 /// 데이터 매니저 (Sheet 데이터 관리)
 /// </summary>
-public class DataManager
+public class DataManager : SingletonObject<DataManager>
 {
     /// 로드한 적 있는 DataTable (Table 명을  Key1 데이터 ID를 Key2로 사용)
     Dictionary<string, Dictionary<long, SheetData>> _cache = new Dictionary<string, Dictionary<long, SheetData>>();
