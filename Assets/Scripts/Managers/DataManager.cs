@@ -16,11 +16,12 @@ public class DataManager : SingletonObject<DataManager>
     /// 로드한 적 있는 DataTable (Table 명을  Key1 데이터 ID를 Key2로 사용)
     Dictionary<string, Dictionary<long, SheetData>> _cache = new Dictionary<string, Dictionary<long, SheetData>>();
 
-    public void Init()
+    public override void Init()
     {
         DataLoad();
         //GameManager.Inst.InitAfterDataLoad();
     }
+
     public void DataLoad()
     {
         // 현재 어셈블리 내에서 SheetData를 상속받는 모든 타입을 찾음

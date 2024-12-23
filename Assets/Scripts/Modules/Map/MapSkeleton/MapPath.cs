@@ -1,4 +1,5 @@
 
+[System.Serializable]
 public class MapPath
 {
     int _from;

@@ -89,13 +89,13 @@ public class SoundManager
 
         if (type == Sound.Bgm)
         {
-            audioClip = GameManager.Resource.Load<AudioClip>(path);
+            audioClip = ResourceManager.Instance.Load<AudioClip>(path);
         }
         else
         {
             if (_audioClips.TryGetValue(path, out audioClip) == false)
             {
-                audioClip = GameManager.Resource.Load<AudioClip>(path);
+                audioClip = ResourceManager.Instance.Load<AudioClip>(path);
                 _audioClips.Add(path, audioClip);
             }
         }

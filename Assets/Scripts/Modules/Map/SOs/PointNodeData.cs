@@ -7,8 +7,3 @@ public class PointNodeData : BaseMapNodeData
 {
 
 }
-
-
-
-
-

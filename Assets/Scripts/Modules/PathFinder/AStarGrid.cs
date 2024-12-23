@@ -6,7 +6,7 @@ using UnityEngine;
 /// 알고리즘 내부의 Grid 상에서만 사용.
 /// 반환은 해당 그리드의 좌표로만 할거임.
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class Node : IComparable<Node>
 {
     public Node(int _x, int _y) { x = _x; y = _y; }
@@ -59,6 +59,7 @@ public class Node : IComparable<Node>
 /// <summary>
 /// Grid 내의 좌표로 활용. 인덱싱 용도로 활용 예정
 /// </summary>
+[Serializable]
 public class GridPoint: IEquatable<GridPoint>
 {
     public int x, y;

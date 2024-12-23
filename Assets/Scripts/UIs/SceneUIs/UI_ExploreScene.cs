@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SlaytheSpireScene : UI_Scene
+public class UI_ExploreScene : UI_Scene
 {
     enum Buttons
     {
@@ -25,6 +25,6 @@ public class UI_SlaytheSpireScene : UI_Scene
 
     void OnClickMapGenerate(PointerEventData evt)
     {
-        GameManager.UI.ShowPopupUI<MapPopup>();
+        UIManager.Instance.ShowPopupUI<MapViewPopup>();
     }
 }

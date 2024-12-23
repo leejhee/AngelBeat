@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager
+public class UIManager : SingletonObject<UIManager>
 {
     int _order = 0;
 
-    private Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
+    
+    Dictionary<System.Type, GameObject> _popupInstances = new Dictionary<System.Type, GameObject>();
+
     UI_Scene _scene = null;
+
+    #region 생성자
+    UIManager() { }
+    #endregion
 
     public GameObject Root
     {
@@ -25,49 +32,60 @@ public class UIManager
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
-        GameObject go = GameManager.Resource.Instantiate($"UI/Popup/{name}");
-        T popup = Util.GetOrAddComponent<T>(go);
-        _popupStack.Push(popup);
-        go.transform.SetParent(Root.transform);
-        return popup;
-    }
-    public void ClosePopupUI(UI_Popup popup)
-    {
-        if (_popupStack.Count == 0)
-            return;
-        if (_popupStack.Peek() != popup)
+        GameObject popup;
+        T popupUI;
+
+        if(_popupInstances.TryGetValue(typeof(T), out popup) == false)
         {
-            Debug.Log("Close Popup Failed");
-            return;
+            popup = ResourceManager.Instance.Instantiate($"UI/popup/{name}");
+            _popupInstances.Add(typeof(T), popup);
+            popupUI = Util.GetOrAddComponent<T>(popup);
         }
-        ClosePopupUI();
+        else
+        {
+            popupUI = Util.GetOrAddComponent<T>(popup);
+            popupUI.ReOpenPopupUI();
+            popupUI.GetComponent<Canvas>().sortingOrder = _order++;
+        }
+
+        _popupStack.Push(popupUI);
+        popup.transform.SetParent(Root.transform);
+        return popupUI;
     }
+
     public void ClosePopupUI()
     {
-        if (_popupStack.Count == 0)
+        if (_popupStack.Count <= 0)
             return;
         UI_Popup popup = _popupStack.Pop();
-        GameManager.Resource.Destroy(popup.gameObject);
-        popup = null;
+        popup.gameObject.SetActive(false);
         _order--;
     }
-    public void SetCanvas(GameObject go, bool sort = true)
+
+    public void CloseAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+            ClosePopupUI();
+    }
+
+    public void SetCanvas(GameObject go, bool sort = true, int order = 0)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
 
         if (sort)
-            canvas.sortingOrder = 5 + _order++;
+            canvas.sortingOrder = _order++;
         else
-            canvas.sortingOrder = -2;
+            canvas.sortingOrder = order;
     }
+
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        GameObject go = GameManager.Resource.Instantiate($"UI/Scene/{name}");
+        GameObject go = ResourceManager.Instance.Instantiate($"UI/Scene/{name}");
         T sceneUI = Util.GetOrAddComponent<T>(go);
         _scene = sceneUI;
 
@@ -75,12 +93,13 @@ public class UIManager
 
         return sceneUI;
     }
+
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name;
 
-        GameObject go = GameManager.Resource.Instantiate($"UI/SubItem/{name}");
+        GameObject go = ResourceManager.Instance.Instantiate($"UI/SubItem/{name}");
         if (parent != null)
             go.transform.SetParent(parent);
 
@@ -88,10 +107,22 @@ public class UIManager
         return Util.GetOrAddComponent<T>(go);
     }
 
-    public void CloseAllPopupUI()
+    public T FindSceneUI<T>(string name = null) where T : UI_Scene
     {
-        while (_popupStack.Count > 0)
-            ClosePopupUI();
+        if(string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        T sceneUI = GameObject.FindAnyObjectByType<T>();
+        return sceneUI;
+    }
+
+    public T FindPopupUI<T>(string name = null) where T : UI_Popup
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        T popupUI = GameObject.FindAnyObjectByType<T>();
+        return popupUI;
     }
 
     public void Clear()

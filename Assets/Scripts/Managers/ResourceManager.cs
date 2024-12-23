@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager
+public class ResourceManager : SingletonObject<ResourceManager>
 {
     Dictionary<string, Object> _cache = new Dictionary<string, Object>();
+
+    #region 생성자
+    ResourceManager () { }
+    #endregion
 
     private string GetPrefabPath(string path) => $"Prefabs/{path}";
 
@@ -32,6 +36,9 @@ public class ResourceManager
 
     public GameObject Instantiate(string path, Transform parent = null) => Instantiate<GameObject>(path, parent);
 
+    public GameObject Instantiate(GameObject go, Transform parent = null) => Instantiate(go, parent);
+
+    public AudioClip LoadAudioClip(string path) => Instance.Load<AudioClip>($"Sounds/{path}");
 
     public T Instantiate<T>(string path, Transform parent = null) where T : UnityEngine.Object
     {

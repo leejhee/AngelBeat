@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 
 public class Util
@@ -49,5 +51,101 @@ public class Util
             return null;
 
         return transform.gameObject;
+    }
+
+    public static void SaveJson<DataClass>(DataClass dataClass, string fileName = null) where DataClass : class
+    {
+        string jsonText = null;
+
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = typeof(DataClass).Name;
+
+            int index = fileName.IndexOf("DataClass");
+            if(index != -1)
+            {
+                fileName = string.Concat(fileName.Substring(0, index), 's');
+            }
+        }
+
+        string savePath;
+        string appender = "/userdata";
+        string nameString = $"/{fileName}.json";
+
+#if UNITY_EDITOR
+        savePath = Application.dataPath;
+#elif UNITY_ANDROID
+        savePath = Application.persistentDataPath;
+#endif
+
+        StringBuilder stringBuilder = new StringBuilder(savePath);
+        stringBuilder.Append(appender);
+        if (!Directory.Exists(stringBuilder.ToString()))
+        {
+            Debug.Log("No such directory");
+            Directory.CreateDirectory(stringBuilder.ToString());
+        }
+        stringBuilder.Append(nameString);
+
+        jsonText = JsonUtility.ToJson(dataClass, true);
+        Debug.Log(jsonText);
+
+        using(FileStream fileStream = new FileStream(stringBuilder.ToString(), FileMode.Create))
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(jsonText);
+            fileStream.Write(bytes, 0, bytes.Length);
+            fileStream.Close();
+        }
+    }
+
+    public static DataClass LoadSaveData<DataClass>(string fileName = null) where DataClass : class
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = typeof(DataClass).Name;
+
+            int index = fileName.IndexOf("DataClass");
+            if (index != -1)
+            {
+                fileName = string.Concat(fileName.Substring(0, index), 's');
+            }
+        }
+
+        DataClass gameData;
+        string loadPath;
+        string appender = "/userdata";
+        string nameString = $"/{fileName}.json";
+
+#if UNITY_EDITOR
+        loadPath = Application.dataPath;
+#elif UNITY_ANDROID
+        savePath = Application.persistentDataPath;
+#endif
+        StringBuilder stringBuilder = new StringBuilder(loadPath);
+        stringBuilder.Append(appender);
+        if (!Directory.Exists(stringBuilder.ToString()))
+        {
+            Debug.Log("No such directory. Returns nothing");
+            Directory.CreateDirectory(stringBuilder.ToString());
+            return default(DataClass);
+        }
+        stringBuilder.Append(nameString);
+
+        if (File.Exists(stringBuilder.ToString()))
+        {
+            using(FileStream filestream = new FileStream(stringBuilder.ToString(), FileMode.Open))
+            {
+                byte[] bytes = new byte[filestream.Length];
+                filestream.Read(bytes, 0, bytes.Length);
+                filestream.Close();
+                string jsonData = Encoding.UTF8.GetString(bytes);
+                gameData = JsonUtility.FromJson<DataClass>(jsonData);
+            }
+        }
+        else
+        {
+            gameData = default(DataClass);
+        }
+        return gameData;
     }
 }

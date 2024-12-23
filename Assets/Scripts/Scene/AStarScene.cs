@@ -11,6 +11,6 @@ public class AStarScene : MonoBehaviour
 
     void Start()
     {
-        GameManager.UI.ShowSceneUI<UI_AStarScene>();
+        UIManager.Instance.ShowSceneUI<UI_AStarScene>();
     }
 }

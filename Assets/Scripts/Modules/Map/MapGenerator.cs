@@ -121,8 +121,8 @@ public static class MapGenerator
     {
         #region Init avaliable nodes
         var baseNodeTypes = Resources.Load<BaseMapNodeDataList>("ScriptableObjects/BaseMapNodeDataList");
-        var PointNodeList = nodeIndices.Select(x => baseNodeTypes.Objects[x]).ToList();
-        var EventNodeList = eventIndices.Select(x => baseNodeTypes.Objects[x]).ToList();
+        var PointNodeList = nodeIndices.Select(x => baseNodeTypes.Objects[x - 1]).ToList();
+        var EventNodeList = eventIndices.Select(x => baseNodeTypes.Objects[x - 1]).ToList();
         Resources.UnloadAsset(baseNodeTypes);
         #endregion
 

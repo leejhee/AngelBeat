@@ -59,11 +59,11 @@ public static class CSVToClass
 
         fieldDeclaration = fieldDeclaration.Replace("\n", "\n\t");
         fieldParsing = fieldParsing.Replace("\n", "\n\t\t\t\t");
-        try
+        //try
         {
             if(isSheetData)
             {
-                var dataScript = string.Format(DataClassFormat.classDataFormat, dataType, fieldDeclaration.ToString());
+                var dataScript = string.Format(DataClassFormat.classDataFormat, dataType, fieldDeclaration.ToString(), fieldParsing.ToString());
                 File.WriteAllText($"{Application.dataPath}/Scripts/SheetData/{dataType}.cs", dataScript);
                 Debug.Log($"코드 작성 완료. {dataType}.cs");
 
@@ -83,10 +83,10 @@ public static class CSVToClass
             }
             
         }
-        catch (FormatException e)
-        {
-            Debug.Log(e.Message);
-        }
+        //catch (FormatException e)
+        //{
+        //    Debug.Log(e.Message);
+        //}
 
 
         #endregion

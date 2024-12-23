@@ -9,7 +9,19 @@ using UnityEngine.UI;
 public abstract class UI_Base : MonoBehaviour
 {
     protected Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
-    public abstract void Init();
+
+    float setWidth = 3200;
+    float setHeight = 1440;
+    private CanvasScaler canvasScaler;
+    public virtual void Init()
+    {
+        canvasScaler = GetComponent<CanvasScaler>();
+        
+    }
+    private void Awake()
+    {
+        Init();
+    }
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
@@ -57,6 +69,26 @@ public abstract class UI_Base : MonoBehaviour
                 evt.OnDragHandler -= action;
                 evt.OnDragHandler += action;
                 break;
+        }
+    }
+
+    public void SetResolution()
+    {
+        float deviceWidth = Screen.width;
+        float deviceHeight = Screen.height;
+
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(setWidth, setHeight);
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+
+        if(setWidth / setHeight < deviceWidth / deviceHeight)
+        {
+            canvasScaler.matchWidthOrHeight = 1f;
+        }
+        else
+        {
+            canvasScaler.matchWidthOrHeight = 0f;
+
         }
     }
 }

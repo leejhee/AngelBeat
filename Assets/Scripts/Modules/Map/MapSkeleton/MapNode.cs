@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class MapNode : IComparable<MapNode>, IEquatable<MapNode>
 { 
     [SerializeField] 
@@ -17,6 +18,7 @@ public class MapNode : IComparable<MapNode>, IEquatable<MapNode>
     //각각 맵 설정 시 외부에서 넣는다.
     public List<MapNode> Parents { get { return _parents; } }
     public List<MapNode> Children { get { return _children; } }
+    public BaseMapNodeData NodeData { get { return _nodeData; } }
 
     public MapNode(int ID, int x, int y)
     {

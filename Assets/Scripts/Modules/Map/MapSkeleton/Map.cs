@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
+[Serializable]
 public class Map
 {
     private List<MapFloor> _mapNodes;
