@@ -24,7 +24,7 @@ else
 @"
 ListStr = values[{0}].Replace('[',' ');
 ListStr = ListStr.Replace(']', ' ');
-var {1}Data = ListStr.ToString().Split('.').Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).Select(x => Convert.{2}(x)).ToList();
+var {1}Data = ListStr.ToString().Split(',').Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).Select(x => Convert.{2}(x)).ToList();
 data.{1} = {1}Data;";
 
     //추후 enum 묶는 클래스 부여 시 활용 예정
@@ -120,7 +120,7 @@ using System.IO;
 using UnityEngine;
 using System.Data;
 using System.Linq;
-
+using System.Text.RegularExpressions;
 
 public partial class {0} : SheetData
 {{
@@ -132,17 +132,22 @@ public partial class {0} : SheetData
 
         string ListStr = null;
 		int line = 0;
-        TextAsset csvFile = Resources.Load<TextAsset>($""CSV/{{this.GetType().Name}}"");
+        TextAsset csvFile = Resources.Load<TextAsset>($""CSV/MEMCSV/{{this.GetType().Name}}"");
         try
 		{{            
             string csvContent = csvFile.text;
-            string[] lines = csvContent.Split('\n');
+            string[] lines = Regex.Split(csvContent, @""(?<!""[^""]*)\r?\n"");
+
             for (int i = 3; i < lines.Length; i++)
             {{
                 if (string.IsNullOrWhiteSpace(lines[i]))
                     continue;
 
-                string[] values = lines[i].Trim().Split(',');
+                string[] values = Regex.Split(lines[i].Trim(),
+                                        @"",(?=(?:[^""""\[\]]*(?:""""[^""""]*""""|[\[][^\]]*[\]])?)*[^""""\[\]]*$)"")
+                                        .Select(column => column.Trim())
+                                        .Select(column => Regex.Replace(column, @""^""""|""""$"", """"))
+                                        .ToArray();
                 line = i;
 
                 {0} data = new {0}();

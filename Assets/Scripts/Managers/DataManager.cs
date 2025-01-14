@@ -16,6 +16,10 @@ public class DataManager : SingletonObject<DataManager>
     /// 로드한 적 있는 DataTable (Table 명을  Key1 데이터 ID를 Key2로 사용)
     Dictionary<string, Dictionary<long, SheetData>> _cache = new Dictionary<string, Dictionary<long, SheetData>>();
 
+    #region 생성자
+    DataManager() { }
+    #endregion
+
     public override void Init()
     {
         DataLoad();

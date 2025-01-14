@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using System;
 using System.IO;
 using UnityEngine;
@@ -8,8 +9,8 @@ public static class CSVToClass
     /// <summary> CSV 저장 및 데이터 클래스 스크립트 작성. 타입 이름은 시트에서 가져옴 </summary>
     public static void ParseSheet(string csv, string dataType, bool isSheetData)
     {
-        // CSV 테이블화
-        var rows = csv.Split("\r\n");
+        // CSV 테이블화. #에 쓰는 시트 설명에 대한 예외사항 반영
+        var rows = Regex.Split(csv, @"\r\n");
         var fieldComments = rows[0].Split(",");
         var fieldNames = rows[1].Split(",");
         var fieldTypes = rows[2].Split(",");

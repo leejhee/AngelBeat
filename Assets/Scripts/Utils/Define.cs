@@ -51,3 +51,9 @@ public enum eEdgeEvents
     None,
     //추가 예정.
 }
+
+public enum eCharType
+{
+    Player,
+
+}
