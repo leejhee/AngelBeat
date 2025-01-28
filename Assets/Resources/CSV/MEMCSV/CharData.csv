@@ -3,3 +3,5 @@ index,#,charName,charPrefabName,charImage,charSkillList,charStat,defaultCharType
 long,#,string,string,string,long[],long,eCharType
 1,,도깨비,"dokkaebidfds\n
 hggh",dokkaebi,"[1001, 1002]",1001,Player
+2,,갑사,"dfgdfg,sdfsd
+sdfsdf",gegr,[1003],1442,Player

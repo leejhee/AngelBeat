@@ -122,6 +122,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+[Serializable]
 public partial class {0} : SheetData
 {{
     {1}
@@ -136,7 +137,7 @@ public partial class {0} : SheetData
         try
 		{{            
             string csvContent = csvFile.text;
-            string[] lines = Regex.Split(csvContent, @""(?<!""[^""]*)\r?\n"");
+            string[] lines = Regex.Split(csvContent, @""(?=[^""""]*,""""[^""""]*"""",)\n"");
 
             for (int i = 3; i < lines.Length; i++)
             {{
@@ -144,10 +145,12 @@ public partial class {0} : SheetData
                     continue;
 
                 string[] values = Regex.Split(lines[i].Trim(),
-                                        @"",(?=(?:[^""""\[\]]*(?:""""[^""""]*""""|[\[][^\]]*[\]])?)*[^""""\[\]]*$)"")
-                                        .Select(column => column.Trim())
-                                        .Select(column => Regex.Replace(column, @""^""""|""""$"", """"))
-                                        .ToArray();
+                                        @"",(?=(?:[^""""\[\]]*(?:""""[^""""]*""""|[\[][^\]]*[\]])?)*[^""""\[\]]*$)"");
+                for (int j = 0; j < values.Length; j++)
+                    {{
+                        values[j] = Regex.Replace(values[j], @""^""""|""""$"", """");
+                    }}
+
                 line = i;
 
                 {0} data = new {0}();
@@ -164,6 +167,60 @@ public partial class {0} : SheetData
 			Debug.LogError($""{{this.GetType().Name}}의 {{line}}전후로 데이터 문제 발생"");
 			return new Dictionary<long, SheetData>();
 		}}
+    }}
+}}";
+
+    public static string stringDataFormat =
+@"using Client;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using System.Data;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace Client
+{{
+    public partial class {0} : SheetData
+    {{
+{1}
+
+        public override Dictionary<long, SheetData> LoadData()
+        {{
+            var dataList = new Dictionary<long, SheetData>();
+
+            string ListStr = null;
+			int line = 0;
+            TextAsset csvFile = Resources.Load<TextAsset>($""CSV/MEMTSV/{{this.GetType().Name}}"");
+            try
+			{{            
+                string csvContent = csvFile.text;
+                var lines = Regex.Split(csvContent, @""(?<!""""[^""""]*)\r?\n"");
+                for (int i = 3; i < lines.Length; i++)
+                {{
+                    if (string.IsNullOrWhiteSpace(lines[i]))
+                        continue;
+
+                    string[] values = lines[i].Trim().Split('\t');
+                    line = i;
+
+                    {0} data = new {0}();
+
+                    {2}
+
+                    dataList[data.Index] = data;
+                }}
+
+                return dataList;
+            }}
+			catch (Exception e)
+			{{
+				Debug.LogError($""{{this.GetType().Name}}의 {{line}}전후로 데이터 문제 발생"");
+				return new Dictionary<long, SheetData>();
+			}}
+        }}
     }}
 }}";
 }

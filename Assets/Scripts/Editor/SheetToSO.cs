@@ -91,7 +91,7 @@ public class SheetToSO : EditorWindow
                 if (!init)
                 {                   
                     string selectedType = dataTypes[idx];
-                    CSVToClass.ParseSheet(importedCSV, selectedType, false);
+                    TextAssetToClass.ParseCSV(importedCSV, selectedType, false);
                 }
                 else // 가져올 타입 목록 초기화
                 {

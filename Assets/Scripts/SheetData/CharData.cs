@@ -28,7 +28,7 @@ public partial class CharData : SheetData
         try
 		{            
             string csvContent = csvFile.text;
-            string[] lines = Regex.Split(csvContent, @"(?<!""[^""]*)\r?\n");
+            string[] lines = Regex.Split(csvContent, @"(?=[^""]*,""[^""]*"",)\n");
 
             for (int i = 3; i < lines.Length; i++)
             {

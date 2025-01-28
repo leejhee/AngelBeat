@@ -7,12 +7,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SheetToSD : EditorWindow
+public class SheetToStringData : EditorWindow
 {
-    [MenuItem("Tools/Import Sheet Data")]
+    [MenuItem("Tools/Import String Sheet Data")]
     public static void ShowWindow()
     {
-        GetWindow<SheetToSD>("Import Sheet Data from Google Sheets");
+        GetWindow<SheetToStringData>("Import Sheet Data from Google Sheets");
     }
 
     private const string ADDRESS = "https://docs.google.com/spreadsheets/d/";
@@ -29,7 +29,7 @@ public class SheetToSD : EditorWindow
     {
         #region Init Dictionary of SheetData Type with GID Pair
         typeBringer = new Dictionary<string, string>();
-        string filePath = Application.dataPath + "/Resources/CSV/MEMCSV/ImportDescription.txt";
+        string filePath = Application.dataPath + "/Resources/CSV/MEMTSV/ImportDescription.txt";
         if (File.Exists(filePath))
         {
             string description = File.ReadAllText(filePath);
@@ -63,7 +63,7 @@ public class SheetToSD : EditorWindow
 
     private IEnumerator ParseSheet(bool init = false)
     {
-        string url = ADDRESS + spreadsheetId + $"/export?format=csv&gid={gid}";
+        string url = ADDRESS + spreadsheetId + $"/export?format=tsv&gid={gid}";
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
             yield return www.SendWebRequest();
@@ -74,16 +74,16 @@ public class SheetToSD : EditorWindow
             }
             else
             {
-                string importedCSV = www.downloadHandler.text;
-                Debug.Log("Data retrieved: \n" + importedCSV);
+                string importedTSV = www.downloadHandler.text;
+                Debug.Log("Data retrieved: \n" + importedTSV);
                 if (!init)
                 {
                     string selectedType = dataTypes[idx];
-                    TextAssetToClass.ParseCSV(importedCSV, selectedType, true);
+                    TextAssetToClass.ParseTSV(importedTSV, selectedType, true);
                 }
                 else // 가져올 타입 목록 초기화
                 {
-                    InitSheetAddresses(importedCSV);
+                    InitSheetAddresses(importedTSV);
                 }
             }
         }
@@ -95,7 +95,7 @@ public class SheetToSD : EditorWindow
         var rows = idTable.Split("\r\n");
         foreach (var row in rows)
         {
-            var elements = row.Split(',');
+            var elements = row.Split('\t');
             typeBringer.Add(elements[0], elements[1]);
         }
         dataTypes = typeBringer.Keys.ToArray();
