@@ -183,6 +183,7 @@ using System.Text.RegularExpressions;
 
 namespace Client
 {{
+    [Serializable]
     public partial class {0} : SheetData
     {{
 {1}
@@ -210,7 +211,7 @@ namespace Client
 
                     {2}
 
-                    dataList[data.Index] = data;
+                    dataList[data.index] = data;
                 }}
 
                 return dataList;

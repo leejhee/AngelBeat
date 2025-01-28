@@ -96,9 +96,9 @@ public static class TextAssetToClass
     public static void ParseTSV(string tsv, string dataType,  bool isSheetData)
     {
         var rows = Regex.Split(tsv, @"\r\n");
-        var fieldComments = rows[0].Split(",");
-        var fieldNames = rows[1].Split(",");
-        var fieldTypes = rows[2].Split(",");
+        var fieldComments = rows[0].Split("\t");
+        var fieldNames = rows[1].Split("\t");
+        var fieldTypes = rows[2].Split("\t");
 
         #region Write Script
         StringBuilder fieldDeclaration = new();
@@ -152,7 +152,7 @@ public static class TextAssetToClass
             File.WriteAllText($"{Application.dataPath}/Scripts/SheetData/{dataType}.cs", dataScript);
             Debug.Log($"코드 작성 완료. {dataType}.cs");
 
-            File.WriteAllText($"{Application.dataPath}/Resources/CSV/MEMTSV/{dataType}.tsv", tsv);
+            File.WriteAllText($"{Application.dataPath}/Resources/CSV/MEMTSV/{dataType}.csv", tsv);
             Debug.Log($"TSV 저장 완료. {dataType}.csv");
         }
 
