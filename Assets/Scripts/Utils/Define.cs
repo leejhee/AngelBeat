@@ -57,3 +57,16 @@ public enum eCharType
     Player,
 
 }
+
+public enum NovelCommand
+{
+    NormalText,
+    PersonText,
+    BackGround,
+    Stand,
+    BGM,
+    SFX,
+    Choice,
+    Effect,
+    End
+}
