@@ -55,8 +55,20 @@ public enum eEdgeEvents
 public enum eCharType
 {
     Player,
-
+    Enemy,
 }
+
+public enum eExecutionType
+{
+    None,
+    Avoidance,
+    StateBuff,
+    StateBuffPer,
+    StateBuffNPer,
+    Parrying,
+    DotDamage,
+}
+
 
 public enum NovelCommand
 {
