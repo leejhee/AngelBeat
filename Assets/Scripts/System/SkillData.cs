@@ -6,6 +6,7 @@ using UnityEngine;
 public class SkillData: SheetData
 {
     public long index;
+    public string skillTimeLineName;
     // 밑에는 그 외 데이터에서 파싱한 내용들이 들어가 있어야 한다.
     public override Dictionary<long, SheetData> LoadData()
     {
