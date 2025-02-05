@@ -5,22 +5,9 @@ using UnityEngine;
 
 namespace novel
 {
+    // 여기서는 어떤 스크립트 순서 관련만
     public class NovelManager : MonoBehaviour
     {
-        private static NovelParser parser;
-        public List<NovelDataSample> nowNovel;
-        private void Start()
-        {
-            for (int i = 1; i < 5; i++)
-            {
-                nowNovel.Add(DataManager.Instance.GetData<NovelDataSample>(i));
-            }
-        }
 
-        private void LoadNovel(int index)
-        {
-            // 인덱스 범위 지정해서 해당하는 스크립트들 불러오기
-        }
     }
-
 }

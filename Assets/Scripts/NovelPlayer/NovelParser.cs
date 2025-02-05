@@ -4,37 +4,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 namespace novel
 {
-    public class NovelParser
+    public class NovelParser : MonoBehaviour
     {
-        public void Parse(NovelDataSample data)
+        public ParseObject Parse(DialogueLine dialogue)
         {
-            NovelCommand command = (NovelCommand)Enum.Parse(typeof(NovelCommand), data.command);
-            switch (command)
+            ParseObject parseObj = new();
+            switch (dialogue.command)
             {
-                case NovelCommand.NormalText:
-
+                case CommandType.None:
+                    parseObj.command = dialogue.command;
+                    string[] split_data = dialogue.dialogue.Split(": ");
+                    if (split_data.Length <= 1)
+                    {
+                        //사람 이름이 없는 경우
+                        parseObj.name = "";
+                        parseObj.text = split_data[0];
+                    }
+                    else
+                    {
+                        parseObj.name = split_data[0];
+                        parseObj.text = split_data[1];
+                    }
                     break;
-                case NovelCommand.PersonText:
+                case CommandType.Background:
                     break;
-                case NovelCommand.BackGround:
+                case CommandType.BGM:
                     break;
-                case NovelCommand.Stand:
+                case CommandType.SFX:
                     break;
-                case NovelCommand.BGM:
+                case CommandType.Effect:
                     break;
-                case NovelCommand.SFX:
+                case CommandType.ShowCharacter:
                     break;
-                case NovelCommand.Choice:
+                case CommandType.HideCharacter:
                     break;
-                case NovelCommand.Effect:
+                case CommandType.Clearall:
                     break;
-                default:
+                case CommandType.Choice:
+                    break;
+                case CommandType.Goto:
                     break;
             }
+            return parseObj;
         }
+    }
+
+    public class ParseObject
+    {
+        public CommandType command { get; set; }
+        public string text { get; set; }
+        public string name { get; set; }
+        public string standing { get; set; }
     }
 }
 
