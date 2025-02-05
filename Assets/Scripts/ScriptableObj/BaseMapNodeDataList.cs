@@ -42,7 +42,7 @@ public class BaseMapNodeDataList : ScriptableObject, ITableSO
 				if(values[1] == "")
 				    data.nodeType = default;
 				else
-				    data.nodeType = (eNodeType)Enum.Parse(typeof(eNodeType), values[1]);
+				    data.nodeType = (SystemEnum.eNodeType)Enum.Parse(typeof(SystemEnum.eNodeType), values[1]);
 				
 				if(values[2] == "")
 				    data.nodeSprite = null;

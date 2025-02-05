@@ -34,7 +34,7 @@ public class MapNodePrefab : UI_Base
     // 현재 클릭으로 invoke됨. 
     public void OnClickPrefab(PointerEventData evt)
     {
-        StageManager.Instance.ProceedStage(_data.nodeType);
+        //StageManager.Instance.ProceedStage(_data.nodeType);
     }   
 
 }

@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+[Serializable]
 public partial class CharData : SheetData
 {
     public long index; // 캐릭터 ID
@@ -15,7 +16,8 @@ public partial class CharData : SheetData
 	public string charImage; // 캐릭터 아이콘 루트
 	public List<long> charSkillList; // 캐릭터 스킬 ID 리스트
 	public long charStat; // 캐릭터 스탯 ID
-	public eCharType defaultCharType; // 캐릭터 타입
+	public SystemEnum.eCharType defaultCharType; // 캐릭터 타입
+	public List<long> defaultExecutionList; // 초기 패시브 리스트
 	
 
     public override Dictionary<long, SheetData> LoadData()
@@ -36,10 +38,12 @@ public partial class CharData : SheetData
                     continue;
 
                 string[] values = Regex.Split(lines[i].Trim(),
-                                        @",(?=(?:[^""\[\]]*(?:""[^""]*""|[\[][^\]]*[\]])?)*[^""\[\]]*$)")
-                                        .Select(column => column.Trim())
-                                        .Select(column => Regex.Replace(column, @"^""|""$", ""))
-                                        .ToArray();
+                                        @",(?=(?:[^""\[\]]*(?:""[^""]*""|[\[][^\]]*[\]])?)*[^""\[\]]*$)");
+                for (int j = 0; j < values.Length; j++)
+                    {
+                        values[j] = Regex.Replace(values[j], @"^""|""$", "");
+                    }
+
                 line = i;
 
                 CharData data = new CharData();
@@ -78,7 +82,12 @@ public partial class CharData : SheetData
 				if(values[7] == "")
 				    data.defaultCharType = default;
 				else
-				    data.defaultCharType = (eCharType)Enum.Parse(typeof(eCharType), values[7]);
+				    data.defaultCharType = (SystemEnum.eCharType)Enum.Parse(typeof(SystemEnum.eCharType), values[7]);
+				
+				ListStr = values[8].Replace('[',' ');
+				ListStr = ListStr.Replace(']', ' ');
+				var defaultExecutionListData = ListStr.ToString().Split(',').Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).Select(x => Convert.ToInt64(x)).ToList();
+				data.defaultExecutionList = defaultExecutionListData;
 				
 
                 dataList[data.index] = data;

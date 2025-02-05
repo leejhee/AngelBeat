@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static SystemEnum;
 
 /// <summary>
 /// 탐험 단계에서 스테이지를 관리하는 역할. 스테이지 View에 대한 Controller 역할

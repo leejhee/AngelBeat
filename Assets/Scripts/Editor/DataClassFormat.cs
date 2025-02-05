@@ -29,7 +29,7 @@ data.{1} = {1}Data;";
 
     //추후 enum 묶는 클래스 부여 시 활용 예정
     public static string dataEnumRegisterFormat =
-@"public {0} {1}; // {2}";
+@"public SystemEnum.{0} {1}; // {2}";
 
     // {2} : Enum 자료형
     public static string dataEnumParseFomat =
@@ -37,7 +37,7 @@ data.{1} = {1}Data;";
 if(values[{0}] == """")
     data.{1} = default;
 else
-    data.{1} = ({2})Enum.Parse(typeof({2}), values[{0}]);";
+    data.{1} = (SystemEnum.{2})Enum.Parse(typeof(SystemEnum.{2}), values[{0}]);";
 
     public static string dataSpriteRegisterFormat =
 @"public {0} {1}; // {2}";

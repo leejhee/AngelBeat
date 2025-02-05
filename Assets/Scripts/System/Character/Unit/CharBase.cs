@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class CharBase : MonoBehaviour
 {
-    [SerializeField] long _index;
+    [SerializeField] private long _index;
     [SerializeField] private GameObject _SkillRoot;
     [SerializeField] protected Animator _Animator;
 
@@ -18,6 +18,7 @@ public abstract class CharBase : MonoBehaviour
     public ExecutionInfo ExecutionInfo => _executionInfo;
     public SkillInfo SkillInfo => _skillInfo;
     public StackInfo StackInfo => _stackInfo;
+    public SystemEnum.eCharType CharType => _charData.defaultCharType;
 
     private void Awake()
     {
@@ -38,10 +39,7 @@ public abstract class CharBase : MonoBehaviour
 
         // 스킬
         _skillInfo = new SkillInfo(this);
-        if (_skillInfo != null)
-        {
-            _skillInfo.Init(_charData.charSkillList);
-        }
+        _skillInfo?.Init(_charData.charSkillList);
 
 
     }
