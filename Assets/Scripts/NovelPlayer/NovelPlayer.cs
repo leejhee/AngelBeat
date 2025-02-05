@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
 
 namespace novel
@@ -9,7 +10,7 @@ namespace novel
         public NovelScript nowScript;
         public TMP_Text charNameText;
         public TMP_Text dialogText;
-        public Image[] standingList;
+        public List<Image> standingList;
 
         private int curLineIndex = 0;
 
@@ -36,7 +37,16 @@ namespace novel
                 NextDialogue();
             }
         }
+        public void SetDialogue(NovelScript script)
+        {
+            nowScript = script;
+            charNameText.text = "";
+            dialogText.text = "";
+            standingList.Clear();
 
+            curLineIndex = 0;
+            ShowDialogue();
+        }
         private void ShowDialogue()
         {
             if (curLineIndex >= nowScript.dialogueLines.Count)
