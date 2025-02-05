@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillData : MonoBehaviour
+//[TODO] : 데이터 정상화 시 파싱해서 사용할 것.
+public class SkillData: SheetData
 {
-    // Start is called before the first frame update
-    void Start()
+    public long index;
+    public string skillTimeLineName;
+    // 밑에는 그 외 데이터에서 파싱한 내용들이 들어가 있어야 한다.
+    public override Dictionary<long, SheetData> LoadData()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        throw new System.NotImplementedException();
     }
 }
