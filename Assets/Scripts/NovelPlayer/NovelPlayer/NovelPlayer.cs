@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+//임시 나중에 제거해도 될듯
+using UnityEditor;
 
 namespace novel
 {
@@ -18,8 +20,17 @@ namespace novel
 
         public GameObject nameObject;
 
+        //테스트를 위한 임시 변수
+        public NovelName novelName;
+
         private void Start()
         {
+            // 테스트용
+            if (novelName != NovelName.MaxCount)
+            {
+                nowScript = AssetDatabase.LoadAssetAtPath<NovelScript>($"Assets/NovelScriptData/{novelName.ToString()}.asset");
+            }
+            //여기까지 테스트
             if (nowScript == null || nowScript.dialogueLines.Count == 0)
             {
                 Debug.LogError("스크립트가 없거나 비어있음");

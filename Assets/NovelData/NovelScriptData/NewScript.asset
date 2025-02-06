@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726c6991478c44844b0950e90088118f, type: 3}
   m_Name: NewScript
   m_EditorClassIdentifier: 
-  scriptTitle: 
+  scriptTitle: 1234
   dialogueLines:
   - index: 1
     dialogue: "\uC61B\uB0A0 \uC61B\uB0A0\uC5D0 \uC544\uC8FC \uC61B\uB0A0\uC5D0 \uD638\uB791\uC774\uAC00
@@ -20,7 +20,7 @@ MonoBehaviour:
       \uC788\uC5C8\uB2E4"
     command: 0
   - index: 2
-    dialogue: "\uCCA0\uC218: \uC548\uB155"
+    dialogue: "\uCCA0\uC218: \uD558\uC774"
     command: 0
   - index: 3
     dialogue: "\uC601\uD76C: \uC548\uB155"

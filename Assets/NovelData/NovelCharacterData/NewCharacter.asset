@@ -9,17 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726c6991478c44844b0950e90088118f, type: 3}
-  m_Name: aaa
+  m_Script: {fileID: 11500000, guid: db804b1395b32614882eaa9fd31e2f11, type: 3}
+  m_Name: NewCharacter
   m_EditorClassIdentifier: 
-  scriptTitle: 
-  dialogueLines:
-  - index: 1
-    dialogue: 
-    command: 0
-  - index: 2
-    dialogue: 
-    command: 0
-  - index: 0
-    dialogue: 
-    command: 0
+  characterName: "\uC774\uB984"
+  bodySpirtes: []
+  faceSprites: []
+  effectSprites: []

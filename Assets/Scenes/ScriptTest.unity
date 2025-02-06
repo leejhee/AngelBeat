@@ -795,6 +795,7 @@ MonoBehaviour:
   standingList: []
   parser: {fileID: 1698827593}
   nameObject: {fileID: 2096077881}
+  novelName: 2
 --- !u!114 &1698827593
 MonoBehaviour:
   m_ObjectHideFlags: 0
