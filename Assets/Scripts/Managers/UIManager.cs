@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class UIManager : SingletonObject<UIManager>
@@ -27,6 +28,15 @@ public class UIManager : SingletonObject<UIManager>
             return root;
         }
     }
+
+    public void ShowUI(GameObject UIObject)
+    {
+        if (UIObject)
+        {
+            ResourceManager.Instance.Instantiate(UIObject, Root.transform);
+        }
+    }
+
 
     public T ShowPopupUI<T>(string name = null) where T : UI_Popup
     {

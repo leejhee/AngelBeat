@@ -6,12 +6,14 @@ using UnityEngine;
 public class BattleController : MonoBehaviour
 {
     // 상호작용 가능을 따지는 ENUM
-
+    //private Dictionary<Type, Dictionary<long, List<CharBase>>> battleCharDict;
+    private List<CharBase> _battleCharList;
     private TurnController _turnManager;
+    
 
     private void Start()
     {
-        _turnManager = new TurnController();
+        _turnManager = new TurnController(_battleCharList);
         Init();
     }
 
@@ -23,7 +25,7 @@ public class BattleController : MonoBehaviour
 
     private void SetTurnOrder()
     {
-        _turnManager.InitController();
+        //
     }
 
     private void InitEnvironment()

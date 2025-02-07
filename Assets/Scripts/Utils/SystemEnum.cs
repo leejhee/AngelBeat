@@ -1,4 +1,6 @@
 
+using Unity.VisualScripting;
+
 public class SystemEnum
 {
     public enum UIEvent
@@ -20,16 +22,18 @@ public class SystemEnum
         MaxCount
     }
 
+    #region SO 관련 데이터 enum
+    /// <summary>
+    /// 엑셀 데이터로 받아올 예정
+    /// </summary>
+    /// 
     public enum eMapNode
     {
         None,
         Location,
         Event
     }
-
-    /// <summary>
-    /// 엑셀 데이터로 받아올 예정
-    /// </summary>
+   
     public enum eNodeType
     {
         None,
@@ -55,6 +59,8 @@ public class SystemEnum
         //추가 예정.
     }
 
+    #endregion
+
     public enum eCharType
     {
         Player,
@@ -65,28 +71,38 @@ public class SystemEnum
     {
         None,
 
-        STR,
-        AGI,
-        INT,
+        STR,    // 기존 힘
+        NSTR,   // 현재 힘
+
+        AGI,    // 기존 민첩
+        NAGI,   // 현재 민첩
+
+        INT,    // 기존 지력
+        NINT,   // 현재 지력
 
         HP, // 기본 HP
         NHP, // 현재 HP
         NMHP, // 현재 최고 HP
 
+        /*//////////////// 아래는 스탯 종속값 ////////////////////////////////*/
+
         Defence, // 기본 방어력
         NDefence, // 현재 방어력
 
-        SP, // 기본 SP
-        NSP, // 현재 SP
-        NMSP, // 현재 최고 SP
-
-        Speed, // 기본 스피드 
-        NSpeed, // 현재 Speed
+        Speed, // 기본 속도 
+        NSpeed, // 현재 속도
 
         Attack, // 공격력
         NAttack, // 현재 공격력
 
         MaxCount
+    }
+
+    public enum eSkillKind
+    {
+        None,
+        Physical,
+
     }
 
     public enum eExecutionType

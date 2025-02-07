@@ -18,7 +18,9 @@ public abstract class CharBase : MonoBehaviour
     public ExecutionInfo ExecutionInfo => _executionInfo;
     public SkillInfo SkillInfo => _skillInfo;
     public StackInfo StackInfo => _stackInfo;
-    public SystemEnum.eCharType CharType => _charData.defaultCharType;
+    protected SystemEnum.eCharType CharType => _charData.defaultCharType;
+
+    protected long _uid;
 
     private void Awake()
     {
@@ -42,6 +44,13 @@ public abstract class CharBase : MonoBehaviour
         _skillInfo?.Init(_charData.charSkillList);
 
 
+    }
+
+    public long GetID() => _uid;
+
+    public SystemEnum.eCharType GetCharType()
+    {
+        return CharType;
     }
 
 }

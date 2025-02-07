@@ -2,28 +2,48 @@ using System.Collections.Generic;
 
 public class TurnController
 {
-    private List<CharBase> _participants;
+    private Queue<Turn> _turnQueue;
+
     private Turn _currentTurn;
 
     public Turn CurrentTurn => _currentTurn;
     public CharBase TurnOwner => _currentTurn.TurnOwner;
 
-    public TurnController()
+    public TurnController(List<CharBase> BattleList)
     {
-
+        List<Turn> turns = new List<Turn>();
+        foreach (var character in BattleList)
+        {
+            turns.Add(new Turn(character));
+        }
+        SortTurn(turns);
     }
 
-    // 턴 계산 여기서 비교자 사용해서 할거임
-    public void InitController()
+    public void SortTurn(List<Turn> turns)
     {
         //턴 계산 코드..
-        
+    }
+
+    public void ChangeTurn()
+    {
+        if(_currentTurn != null)
+            _currentTurn.Exit(TurnOwner);
+
+        //if (_turnQueue.Count == 0)
+        //    SortTurn();
+
+        _currentTurn = _turnQueue.Dequeue();
+        _currentTurn.Enter(TurnOwner);
     }
 
     public void ChangeTurn(Turn targetTurn)
     {
-        _currentTurn.Exit(TurnOwner);
+        if (_currentTurn != null)
+            _currentTurn.Exit(TurnOwner);
+
         _currentTurn = targetTurn;
         _currentTurn.Enter(TurnOwner);
+
+        // 강제 턴 조정 관련한 로직 작성하기.
     }
 }
