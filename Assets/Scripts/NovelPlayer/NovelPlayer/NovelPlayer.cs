@@ -24,9 +24,12 @@ namespace novel
         public NovelName novelName;
 
         public GameObject backgroundPanel;
-        private string backgroundPath = "Sprites/NovelGraphics/Background/";
+        
         public GameObject standingPanel;
 
+
+        // paths
+        private string novelDataPath = "Assets/NovelData/NovelResourceData/";
         private void Start()
         {
             // 테스트용
@@ -89,9 +92,9 @@ namespace novel
                     }
                     break;
                 case CommandType.Background:
-                    GameObject backgroundObject = Resources.Load<GameObject>("Prefabs/Novel/BackgroundBase");
-                    
-                    Texture2D texture = Resources.Load<Texture2D>($"{backgroundPath + parseObject.text}");
+                    GameObject backgroundObject = AssetDatabase.LoadAssetAtPath<GameObject>($"{novelDataPath}GraphicData/BackgroundData/BackgroundBase.prefab");
+
+                    Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>($"{novelDataPath}GraphicData/BackgroundData/{parseObject.text}.jpg");
                     if (texture != null)
                     {
                         Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
@@ -101,13 +104,21 @@ namespace novel
                             backgroundObject.GetComponent<Image>().sprite = newSprite;
                             Debug.Log($"{parseObject.text} 배경화면 띄움");
                         }
+                        else
+                        {
+                            Debug.Log("프리팹 인식 안됨");
+                            return;
+                        }
                     }
                     else
                     {
                         Debug.Log($"{parseObject.text} 배경화면이 존재하지 않음");
+                        return;
                     }
 
                     Instantiate(backgroundObject, backgroundPanel.transform);
+
+                    // 대사창은 꺼야할듯?
                     break;
                 case CommandType.BGM:
                     break;
