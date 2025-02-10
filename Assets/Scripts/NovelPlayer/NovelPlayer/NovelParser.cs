@@ -32,6 +32,11 @@ namespace novel
                     }
                     break;
                 case CommandType.Background:
+                    parseObj.command = dialogue.command;
+                    // 다른거 다 빈 데이터 넣고
+                    parseObj.name = "";
+                    // text에 해당하는 배경화면 이름 넣기
+                    parseObj.text = dialogue.dialogue;
                     break;
                 case CommandType.BGM:
                     break;

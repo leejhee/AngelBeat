@@ -23,6 +23,10 @@ namespace novel
         //테스트를 위한 임시 변수
         public NovelName novelName;
 
+        public GameObject backgroundPanel;
+        private string backgroundPath = "Sprites/NovelGraphics/Background/";
+        public GameObject standingPanel;
+
         private void Start()
         {
             // 테스트용
@@ -85,6 +89,25 @@ namespace novel
                     }
                     break;
                 case CommandType.Background:
+                    GameObject backgroundObject = Resources.Load<GameObject>("Prefabs/Novel/BackgroundBase");
+                    
+                    Texture2D texture = Resources.Load<Texture2D>($"{backgroundPath + parseObject.text}");
+                    if (texture != null)
+                    {
+                        Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                        
+                        if (backgroundObject != null)
+                        {
+                            backgroundObject.GetComponent<Image>().sprite = newSprite;
+                            Debug.Log($"{parseObject.text} 배경화면 띄움");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log($"{parseObject.text} 배경화면이 존재하지 않음");
+                    }
+
+                    Instantiate(backgroundObject, backgroundPanel.transform);
                     break;
                 case CommandType.BGM:
                     break;
