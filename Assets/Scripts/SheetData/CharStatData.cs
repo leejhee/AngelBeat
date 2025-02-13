@@ -14,6 +14,8 @@ public partial class CharStatData : SheetData
 	public int strength; // 근력
 	public int agility; // 민첩
 	public int intel; // 지능
+	public int speed; // "속도
+	public int defense; //  민첩에 종속"
 	
 
     public override Dictionary<long, SheetData> LoadData()
@@ -64,6 +66,16 @@ public partial class CharStatData : SheetData
 				    data.intel = default;
 				else
 				    data.intel = Convert.ToInt32(values[3]);
+				
+				if(values[4] == "")
+				    data.speed = default;
+				else
+				    data.speed = Convert.ToInt32(values[4]);
+				
+				if(values[5] == "")
+				    data.defense = default;
+				else
+				    data.defense = Convert.ToInt32(values[5]);
 				
 
                 dataList[data.index] = data;

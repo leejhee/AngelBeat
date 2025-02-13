@@ -1,6 +1,3 @@
-
-using Unity.VisualScripting;
-
 public class SystemEnum
 {
     public enum UIEvent
@@ -65,6 +62,9 @@ public class SystemEnum
     {
         Player,
         Enemy,
+        Neutral,
+
+        eMax
     }
 
     public enum eState
@@ -92,8 +92,6 @@ public class SystemEnum
         Speed, // 기본 속도 
         NSpeed, // 현재 속도
 
-        Attack, // 공격력
-        NAttack, // 현재 공격력
 
         MaxCount
     }
@@ -114,6 +112,9 @@ public class SystemEnum
         StateBuffNPer,
         Parrying,
         DotDamage,
+
+
+        eMax
     }
 
 

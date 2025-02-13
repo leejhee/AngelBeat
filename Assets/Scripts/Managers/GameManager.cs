@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public static SoundManager Sound { get { return Inst._sound; } }
     //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }

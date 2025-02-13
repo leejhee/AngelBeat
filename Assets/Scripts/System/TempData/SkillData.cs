@@ -54,6 +54,8 @@ public class DamageCalculator
 
     public static void PolyParser(string Input)
     {
+        Input = Input.Trim(); // 먼저 공백 전부 제거하고, 한글자 한글자 담는다.
+
 
     }
 

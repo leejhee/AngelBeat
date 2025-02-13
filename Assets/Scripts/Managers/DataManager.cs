@@ -104,7 +104,23 @@ public class DataManager : SingletonObject<DataManager>
     }
 
 
+#if UNITY_EDITOR
+    // 데이터 검증용(에디터에서만 사용)
+    public Dictionary<long, SheetData> GetDictionary(string typeName)
+    {
+        if (_cache.ContainsKey(typeName) == false)
+        {
+            Debug.LogWarning($"DataManager : {typeName} 타입 데이터가 존재하지 않습니다.");
+            return null;
+        }
+        return _cache[typeName];
+    }
+    public void ClearCache()
+    {
+        _cache.Clear();
 
+    }
+#endif
 
 
 }

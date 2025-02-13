@@ -29,6 +29,11 @@ public class SkillBase : MonoBehaviour
         _CharBase = charBase;
     }
 
+    public void Init(SkillData skillData)
+    {
+
+    }
+
     public void SkillPlay(SkillParameter param)
     {
         if (_director == null)

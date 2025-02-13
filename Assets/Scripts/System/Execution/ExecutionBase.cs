@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExecutionBase : MonoBehaviour
+public abstract class ExecutionBase
 {
     protected CharBase _TargetChar = null; 
     protected CharBase _CastChar = null; // 기능 캐스팅 캐릭터
     protected ExecutionData _ExecutionData = null; // 기능 데이터
+
+    protected int _LifeTurn = -1;
+    protected int _StartTurn = 0;
+    protected int _RunningTurn = 0;
+
+    public SystemEnum.eExecutionType ExecutionType;
 
     public ExecutionBase(ExecutionParameter buffParam)
     {
@@ -18,7 +24,46 @@ public class ExecutionBase : MonoBehaviour
         {
             Debug.LogError($"Execution : {buffParam.ExecutionIndex} 데이터 획득 실패");
         }
+
+        ExecutionType = _ExecutionData.type;
     }
 
-    // 작동 함수 필요
+    // '턴'으로 바꿔야한다!
+    public virtual void InitFunction() => _StartTurn = (int)Time.time;
+
+
+    /// <summary>
+    /// 버프 시작과 종료
+    /// </summary>
+    /// <param name="StartFunction"> true: 행동 시작 false 행동 종료 </param>
+    public virtual void RunFunction(bool StartFunction = true)
+    {
+        if (StartFunction)
+        {
+            _TargetChar.ExecutionInfo.EnqueueFunction(this);
+        }
+        else
+        {
+            _TargetChar.ExecutionInfo.EnqueueKill(this);
+        }
+    }
+
+    public virtual void Update(float delta) { }
+
+    /// <summary>
+    /// 기능 시간 완료 체크
+    /// </summary>
+    public void CheckTimeOver()
+    {
+        if (_LifeTurn == -1f) return;
+
+        int runTime = _RunningTurn - _StartTurn;
+        if (runTime > _LifeTurn || _LifeTurn == 0)
+        {
+            RunFunction(false);
+        }
+
+    }
+
+    // 구체적 작동은 상속으로 작성할 것.
 }

@@ -14,10 +14,12 @@ public abstract class CharBase : MonoBehaviour
     private ExecutionInfo   _executionInfo;
     private SkillInfo       _skillInfo;
     private StackInfo       _stackInfo;
-
+    private CharStat        _charStat;
     public ExecutionInfo ExecutionInfo => _executionInfo;
     public SkillInfo SkillInfo => _skillInfo;
     public StackInfo StackInfo => _stackInfo;
+    public CharStat CharStat => _charStat;
+
     protected SystemEnum.eCharType CharType => _charData.defaultCharType;
 
     protected long _uid;
@@ -26,8 +28,8 @@ public abstract class CharBase : MonoBehaviour
     {
         _charTransform = transform;
         _charData = DataManager.Instance.GetData<CharData>(_index);
+        _charStat = new(DataManager.Instance.GetData<CharStatData>(_charData.charStat));
         
-        // 스탯 필수 초기화 사항
     }
 
     private void Start()

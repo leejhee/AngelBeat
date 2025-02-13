@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 public class TurnController
 {
+    private Dictionary<Turn.Side, Queue<Turn>> _turnQueueBySide;  
+
     private Queue<Turn> _turnQueue;
 
     private Turn _currentTurn;
