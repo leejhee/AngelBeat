@@ -21,7 +21,10 @@ public class Turn : State<CharBase>
         _turnOwner = TurnOwner;
         _whoseSide = TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy ?
             Side.Enemy : Side.Player;
+
     }
+
+
 
 
 }

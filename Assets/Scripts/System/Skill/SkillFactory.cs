@@ -19,7 +19,7 @@ public static class SkillFactory
             return null;
         }
 
-        skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLineName}");
+        skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
 
         if (_skillData == null)
         {

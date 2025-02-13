@@ -96,7 +96,7 @@ public class SystemEnum
         MaxCount
     }
 
-    public enum eSkillKind
+    public enum eSkillType
     {
         None,
         Physical,

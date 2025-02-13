@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.Audio;
 using static SystemEnum;
 
-public class SoundManager
+public class SoundManager : SingletonObject<SoundManager>
 {
+    #region 생성자
+    private SoundManager() { }
+    #endregion
+
     AudioSource[] _audioSources = new AudioSource[(int)Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
@@ -14,7 +18,7 @@ public class SoundManager
     public float currentBGMVolume { get; set; }
     public float currentEffectVolume { get; set; }
 
-    public void Init()
+    public override void Init()
     {
         //나중에 세이브데이터에서 받아오기
         currentBGMVolume = 1;

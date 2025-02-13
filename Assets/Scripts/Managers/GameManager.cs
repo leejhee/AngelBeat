@@ -20,11 +20,10 @@ public class GameManager : MonoBehaviour
 
     //[TODO] : 필요 시 전부 SingletonObject<T>로 상속받도록 구조 바꿀것.
     InputManager _input = new InputManager();
-    SoundManager _sound = new SoundManager();
+
     //SaveLoadManager _saveLoad = new SaveLoadManager();
 
     public static InputManager Input { get { return Inst._input; } }
-    public static SoundManager Sound { get { return Inst._sound; } }
     //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
 
     private void Start()
