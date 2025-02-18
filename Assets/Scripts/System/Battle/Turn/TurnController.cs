@@ -2,49 +2,50 @@ using System.Collections.Generic;
 
 public class TurnController
 {
-    private Dictionary<Turn.Side, Queue<Turn>> _turnQueueBySide;  
+    private readonly Queue<Turn> _turnQueue = new();
+    private readonly List<Turn> _turnBuffer = new();
 
-    private Queue<Turn> _turnQueue;
+    public Turn CurrentTurn { get; private set; }
+    public CharBase TurnOwner => CurrentTurn?.TurnOwner;
 
-    private Turn _currentTurn;
-
-    public Turn CurrentTurn => _currentTurn;
-    public CharBase TurnOwner => _currentTurn.TurnOwner;
-
-    public TurnController(List<CharBase> BattleList)
+    public TurnController()
     {
-        List<Turn> turns = new List<Turn>();
-        foreach (var character in BattleList)
-        {
-            turns.Add(new Turn(character));
-        }
-        SortTurn(turns);
+        InitializeTurnQueue();
     }
 
-    public void SortTurn(List<Turn> turns)
+    private void InitializeTurnQueue()
     {
-        //턴 계산 코드..
+        var sorted = CharManager.Instance.GetBattleParticipants();
+        foreach (var character in sorted)
+        {
+            _turnQueue.Enqueue(new Turn(character));
+        }
+    }
+
+    public void RebuildTurnQueue()
+    {
+        _turnQueue.Clear();
+        InitializeTurnQueue();
     }
 
     public void ChangeTurn()
     {
-        if(_currentTurn != null)
-            _currentTurn.Exit(TurnOwner);
+        CurrentTurn?.End();
 
-        //if (_turnQueue.Count == 0)
-        //    SortTurn();
+        if (_turnQueue.Count == 0)
+            RebuildTurnQueue();
 
-        _currentTurn = _turnQueue.Dequeue();
-        _currentTurn.Enter(TurnOwner);
+        CurrentTurn = _turnQueue.Dequeue();
+        CurrentTurn.Begin();
+        
     }
 
     public void ChangeTurn(Turn targetTurn)
     {
-        if (_currentTurn != null)
-            _currentTurn.Exit(TurnOwner);
+        CurrentTurn?.End();
 
-        _currentTurn = targetTurn;
-        _currentTurn.Enter(TurnOwner);
+        CurrentTurn = targetTurn;
+        CurrentTurn.Begin();
 
         // 강제 턴 조정 관련한 로직 작성하기.
     }

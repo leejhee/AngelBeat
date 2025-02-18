@@ -14,7 +14,9 @@ public class SkillBase : MonoBehaviour
 {
     private SkillData _skillData;
     private PlayableDirector _director;
-    private CharBase _CharBase;
+    public CharBase CharPlayer { get; private set; }
+
+   
 
     private void Awake()
     {
@@ -26,12 +28,12 @@ public class SkillBase : MonoBehaviour
     }
     public void SetCharBase(CharBase charBase)
     {
-        _CharBase = charBase;
+        CharPlayer = charBase;
     }
 
     public void Init(SkillData skillData)
     {
-
+        _skillData = skillData;
     }
 
     public void SkillPlay(SkillParameter param)

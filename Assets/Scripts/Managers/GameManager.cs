@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     #region 싱글턴.
-    static GameManager _inst;
-    public static GameManager Inst
+    static GameManager _instance;
+    public static GameManager Instance
     {
         get
         {
-            Init(); return _inst ;
+            Init(); return _instance ;
         }
     }
     GameManager() { }
@@ -23,16 +23,16 @@ public class GameManager : MonoBehaviour
 
     //SaveLoadManager _saveLoad = new SaveLoadManager();
 
-    public static InputManager Input { get { return Inst._input; } }
+    public static InputManager Input { get { return Instance._input; } }
     //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
 
     private void Start()
     {
         Init();
     }
-    static void Init()
+    private static void Init()
     {
-        if (_inst == null)
+        if (_instance == null)
         {
             GameObject go = GameObject.Find("@GameManager");
             if (go == null)
@@ -41,11 +41,11 @@ public class GameManager : MonoBehaviour
                 go.AddComponent<GameManager>();
             }
 
-            _inst = go.GetComponent<GameManager>();
+            _instance = go.GetComponent<GameManager>();
             DontDestroyOnLoad(go);
 
             //산하에 SingletonObject<T> 상속받는 매니저들 초기화.
-            //DataManager.Instance.Init();
+            DataManager.Instance.Init();
             StageManager.Instance.Init();
             NovelManager.Instance.Init();
         }

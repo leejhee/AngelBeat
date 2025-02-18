@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static SystemEnum;
@@ -97,12 +98,12 @@ public class CharManager : SingletonObject<CharManager>
         return true;
     }
 
-    //public CharBase CharGenerate(CharParameter charParam)
-    //{
-    //    CharBase charBase = Instance.CharGenerate(charParam.CharIndex);
-    //    charBase.transform.position = charParam.GeneratePos;
-    //    return charBase;
-    //}
+    public CharBase CharGenerate(CharParameter charParam)
+    {
+        CharBase charBase = Instance.CharGenerate(charParam.CharIndex);
+        charBase.transform.position = charParam.GeneratePos;
+        return charBase;
+    }
 
     public CharBase CharGenerate(long charIndex)
     {
@@ -136,25 +137,26 @@ public class CharManager : SingletonObject<CharManager>
         return null;
     }
 
-    // 누구편인지에 따라 갈라서, 리스트에 넣고 전달한다.(전향 시 해당사항 반영하여
-    public Dictionary<eCharType, List<CharBase>> GetBattleCandidates()
+    // 누구편인지에 따라 갈라서, 리스트에 넣고 전달한다.(속도로 sorting할 것)
+    // 도대체 여기에 넣은 이유가 뭐임 : 외부로 복잡한 자료구조를 굳이 전달하고 싶지 않았음.
+    public List<CharBase> GetBattleParticipants()
     {
-        var dict = new Dictionary<eCharType, List<CharBase>>();
-        for (int i = 0; i < (int)eCharType.eMax; i++)
-        {
-            dict.Add((eCharType)i, new List<CharBase>());
-        }
-
+        var battleParticipants = new List<CharBase>();
+        
         foreach (var kvp in _cache)
         {
             foreach(var unit in kvp.Value)
             {
                 CharBase character = unit.Value;
-                dict[character.GetCharType()].Add(character);
+                battleParticipants.Add(character);
             }
         }
 
-        return dict;
+        return battleParticipants
+            .OrderByDescending(x => x.CharStat.GetStat(SystemEnum.eStats.NSpeed))
+            .ThenBy(c => c.GetCharType() == eCharType.Enemy)
+            .ThenBy(c => c.GetID())
+            .ToList();
     }
 
 

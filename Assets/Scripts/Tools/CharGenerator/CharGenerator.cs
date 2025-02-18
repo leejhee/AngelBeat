@@ -1,8 +1,6 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -144,10 +142,8 @@ namespace Client
                 children.Add(t);           
             foreach (Transform child in children)
             {
-                child.SetParent(CharPrefab.transform);                
-                Quaternion rotY = Quaternion.Euler(0f, 90f, 0f);
-                Quaternion rotX = Quaternion.Euler(270f, 0f, 0f);
-                child.SetPositionAndRotation(new Vector3(0, 1f, 0), rotY * rotX);
+                child.SetParent(CharPrefab.transform);
+                child.position = new Vector3(0, 1f, 0);
             }
 
             DestroyImmediate(SPUMPrefab);
@@ -179,8 +175,11 @@ namespace Client
     {
         public static CharBase AddBaseComponent(CharData data, GameObject go)
         {
-            var nav = go.AddComponent<NavMeshAgent>();
-            nav.baseOffset = 0.5f;
+            var capsule = go.AddComponent<CapsuleCollider2D>();
+            capsule.offset = new Vector2(0, 0.5f);
+            capsule.size = new Vector2(0.5f, 1f);
+            go.AddComponent<Rigidbody2D>();
+
             switch (data.defaultCharType)
             {
                 case SystemEnum.eCharType.Neutral:
@@ -191,27 +190,45 @@ namespace Client
                 default:
                     return null;
             }
-
-            //NavMesh는 기획 결정에 따라 추가할 것.
         }
 
         // 캐릭터 내 필요한 하위 오브젝트 및 컴포넌트 조정
         public static void CharacterizeBase(GameObject go)
-        {            
-            GameObject Descendant = new GameObject("FightCollider");
-            Descendant.transform.SetParent(go.transform, false);
-            Descendant.AddComponent<CapsuleCollider>();
+        {
+            CharBase charGo = go.GetComponent<CharBase>();
+            SerializedObject obj = new SerializedObject(charGo);
 
-            Descendant = new GameObject("MoveCollider");
-            Descendant.transform.SetParent(go.transform, false);
-            Descendant.AddComponent<CapsuleCollider>();
+            //////////UnitRoot(Animator)/////////
+            Animator anim = go.GetComponentInChildren<Animator>();
+            SerializedProperty animator = obj.FindProperty("_Animator");
+            animator.objectReferenceValue = anim;
 
+            //////////FightCollider//////////////
+            GameObject Descendant = new GameObject("BattleCollider");
+            Descendant.transform.SetParent(go.transform, false);
+            CapsuleCollider col = Descendant.AddComponent<CapsuleCollider>();
+            col.radius = 0.25f;
+            col.center = new Vector3(-0.5f, 0, 0);
+
+            SerializedProperty FightCollider = obj.FindProperty("_battleCollider");
+            FightCollider.objectReferenceValue = col;
+
+            //////////SkillRoot//////////////
             Descendant = new GameObject("SkillRoot");
             Descendant.transform.SetParent(go.transform, false);
 
+            SerializedProperty SkillRoot = obj.FindProperty("_SkillRoot");
+            SkillRoot.objectReferenceValue = Descendant;
+
+            //////////CameraPos//////////////
             Descendant = new GameObject("CameraPos");
             Descendant.transform.SetParent(go.transform, false);
-                    
+
+            SerializedProperty CamaraPos = obj.FindProperty("_CharCameraPos");
+            CamaraPos.objectReferenceValue = Descendant;
+
+            obj.ApplyModifiedProperties();
+
         }
     }
 }

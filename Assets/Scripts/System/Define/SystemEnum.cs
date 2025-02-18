@@ -19,6 +19,15 @@ public class SystemEnum
         MaxCount
     }
 
+    public enum eScene
+    {
+        Title,
+        Lobby,
+        BattleTestScene,
+
+        MaxCount
+    }
+
     #region SO 관련 데이터 enum
     /// <summary>
     /// 엑셀 데이터로 받아올 예정
@@ -67,7 +76,7 @@ public class SystemEnum
         eMax
     }
 
-    public enum eState
+    public enum eStats
     {
         None,
 
@@ -92,14 +101,22 @@ public class SystemEnum
         Speed, // 기본 속도 
         NSpeed, // 현재 속도
 
+        Cost,   // 기본 코스트 양
+        NCost,  // 현재 코스트 양
 
-        MaxCount
+        eMax
     }
 
     public enum eSkillType
     {
         None,
-        Physical,
+
+        PhysicalAttack,
+        MagicAttack,
+        Buff,
+        Debuff,
+
+        eMax
 
     }
 
@@ -117,6 +134,13 @@ public class SystemEnum
         eMax
     }
 
+    public enum eIsAttack
+    {
+        Player,
+        Monster,
+
+        eMax
+    }
 
     public enum NovelCommand
     {
