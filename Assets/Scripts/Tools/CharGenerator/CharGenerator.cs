@@ -208,7 +208,7 @@ namespace Client
             Descendant.transform.SetParent(go.transform, false);
             CapsuleCollider col = Descendant.AddComponent<CapsuleCollider>();
             col.radius = 0.25f;
-            col.center = new Vector3(-0.5f, 0, 0);
+            col.center = new Vector3(0, 0.5f, 0);
 
             SerializedProperty FightCollider = obj.FindProperty("_battleCollider");
             FightCollider.objectReferenceValue = col;
