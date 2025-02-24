@@ -4,10 +4,10 @@ using UnityEngine.Tilemaps;
 using static SystemEnum;
 
 // 전투 시작시 생성될 맵 오브젝트
+[RequireComponent(typeof(Grid))]
 public class StageMap : MonoBehaviour
 {
     //추후 기능 필요 시 작성 요함.
-
     private Dictionary<eCharType, List<Vector3>> _spawnDict = new();
     
     public void SpawnUnit(CharBase charBase, int squadOrder)
@@ -21,4 +21,12 @@ public class StageMap : MonoBehaviour
         Instantiate(charBase, _spawnDict[type][squadOrder], Quaternion.identity);
         //charmanager 등록 로직으로 변경할 것.
     }
+
+#if UNITY_EDITOR
+    // 에디터 툴 내에서만 사용할 것
+    public Dictionary<eCharType, List<Vector3>> GetSpawners()
+    {
+        return _spawnDict;
+    }
+#endif
 }

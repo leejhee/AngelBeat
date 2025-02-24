@@ -69,6 +69,8 @@ public class SystemEnum
 
     public enum eCharType
     {
+        None, 
+
         Player,
         Enemy,
         Neutral,
