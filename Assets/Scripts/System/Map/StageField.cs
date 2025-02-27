@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static SystemEnum;
@@ -10,7 +11,7 @@ public class StageField : MonoBehaviour
 {
     private Dictionary<eCharType, List<Vector3>> _spawnDict = new();
 
-    [SerializeReference] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
+    [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
 
     private void Start()
@@ -52,36 +53,5 @@ public class StageField : MonoBehaviour
 #endif
 }
 
-[Serializable]
-public class FieldSpawnInfo
-{
-    [SerializeField] private eCharType spawnType; 
-    [SerializeField] private List<Vector3> spawnPositions = new();  
 
-    public eCharType SpawnType => spawnType; 
-    public List<Vector3> SpawnPositions => spawnPositions;
-    public int SpawnerCount => spawnPositions.Count;
 
-    public FieldSpawnInfo(eCharType spawnType, List<Vector3> spawnList)
-    {
-        this.spawnType = spawnType;
-        spawnPositions = spawnList;
-    }
-}
-
-[Serializable]
-public class BattleFieldSpawnInfo
-{
-    [SerializeField] 
-    public List<FieldSpawnInfo> fieldSpawnInfos = new();
-
-    public Dictionary<eCharType, List<Vector3>> Convert2Dict()
-    {
-        Dictionary<eCharType, List<Vector3>> dict = new();
-        foreach(var info in fieldSpawnInfos)
-        {
-            dict.Add(info.SpawnType, info.SpawnPositions);
-        }
-        return dict;
-    }
-}

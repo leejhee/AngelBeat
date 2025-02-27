@@ -7,10 +7,14 @@ using UnityEditor.SceneManagement;
 using System;
 using static SystemEnum;
 using System.Linq;
-using Unity.VisualScripting;
 
-public class SpawnPointEditor : EditorWindow
-{
+public class SpawnPointEditor : EditorWindow{
+    public enum ePlacementMode
+    {
+        Spawner,
+        Object  
+    }
+
     private const string TARGET_SCENE_PATH = "Assets/Scenes/Editing/LevelEditingScene.unity";
     private const string PREF_SPAWN_INDICATOR = "PREF_SPAWN_INDICATOR";
 
@@ -36,11 +40,15 @@ public class SpawnPointEditor : EditorWindow
             return go.transform;
         } }
 
-
-    private eCharType _currentCharType = eCharType.None;
+    private ePlacementMode _currentPlacementMode    = ePlacementMode.Spawner;
+    
+    private eCharType _currentCharType              = eCharType.None;
     private Dictionary<eCharType, Color> typeColorMapping = new();
     private Dictionary<eCharType, List<SpawnIndicator>> SpawnIndicators = new();
-
+    
+    private GameObject _selectedPrefab;
+    private List<GameObject> _prefabList = new();
+    
     private Vector2 scrollPosition; 
 
     [MenuItem("Tools/StageMap Editor")]
@@ -90,7 +98,12 @@ public class SpawnPointEditor : EditorWindow
 
     private void OnGUI()
     {
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.Width(position.width), GUILayout.Height(position.height));
+        _currentPlacementMode = (ePlacementMode)GUILayout.Toolbar((int)_currentPlacementMode,
+        new string[] { "Spawner Mode", "Object Mode" });
+
+        // 스크롤 뷰 시작
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
         EditorGUILayout.HelpBox("맵 에디팅 완료 후 저장 시 반드시 Save Map을 누르고 닫아주세요. ", MessageType.Warning);
         GUILayout.Space(20);
 
@@ -179,6 +192,8 @@ public class SpawnPointEditor : EditorWindow
             }
         }
 
+
+        
         if (GUILayout.Button("Clear All"))
         {
             ClearAllIndicators();
@@ -189,26 +204,24 @@ public class SpawnPointEditor : EditorWindow
             SaveSpawnPoints();
         }
 
+
+        EditorGUILayout.EndScrollView();
         #endregion
-
-              
-
+        
         GUILayout.FlexibleSpace();
 
-        if(GUILayout.Button("Save Map"))
+
+        if (GUILayout.Button("Save Map"))
         {
             SavePrefab();
         }
 
-        GUILayout.Space(10);
-        
         if (GUILayout.Button("Close Editor"))
         {
             TryCloseEditor();
         }
 
-        EditorGUILayout.EndScrollView();
-
+        minSize = new Vector2(400, 500);
     }
 
     #region 에디팅 시 안전성 보장

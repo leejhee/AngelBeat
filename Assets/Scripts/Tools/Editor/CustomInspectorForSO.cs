@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Object), true)]
+[CustomEditor(typeof(ScriptableObject), true)]
 public class CustomInspectorForSO : Editor
 {
     public override void OnInspectorGUI()
