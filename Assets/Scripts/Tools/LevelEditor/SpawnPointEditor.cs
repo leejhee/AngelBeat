@@ -25,12 +25,20 @@ public class SpawnPointEditor : EditorWindow{
     /// <summary> 현재 올라가 있는 프리팹의 인스턴스이다. </summary>
     /// <remarks> <b>이거로만 내부에서 편집 작업한다!</b> </remarks>
     private StageField targetInstance;
+   
+    /// <summary> 배치 모드. 무엇을 배치할 건가요? </summary>
+    private ePlacementMode _currentPlacementMode    = ePlacementMode.Spawner;
+    
+    #region Spawner Placing Mode
 
     /// <summary> 스포너 표지기 프리팹.</summary>
     /// <remarks> <b>처음에는 등록해주셔야 함</b> </remarks>
     private SpawnIndicator IndicatorPrefab;
-    
-    private Transform IndicatorRoot { get
+
+    /// <summary> 씬의 스포너 표지기들이 모이는 곳. 깔끔한 하이어라키를 위함 </summary>
+    private Transform IndicatorRoot
+    {
+        get
         {
             GameObject go = GameObject.Find("IndicatorRoot");
             if (go == null)
@@ -38,17 +46,20 @@ public class SpawnPointEditor : EditorWindow{
                 go = new GameObject("IndicatorRoot");
             }
             return go.transform;
-        } }
+        }
+    }
 
-    private ePlacementMode _currentPlacementMode    = ePlacementMode.Spawner;
-    
     private eCharType _currentCharType              = eCharType.None;
     private Dictionary<eCharType, Color> typeColorMapping = new();
     private Dictionary<eCharType, List<SpawnIndicator>> SpawnIndicators = new();
-    
+
+    #endregion
+
+    #region Object Placing Mode
     private GameObject _selectedPrefab;
     private List<GameObject> _prefabList = new();
-    
+    #endregion
+
     private Vector2 scrollPosition; 
 
     [MenuItem("Tools/StageMap Editor")]
@@ -98,14 +109,20 @@ public class SpawnPointEditor : EditorWindow{
 
     private void OnGUI()
     {
+        #region Init Part
         _currentPlacementMode = (ePlacementMode)GUILayout.Toolbar((int)_currentPlacementMode,
         new string[] { "Spawner Mode", "Object Mode" });
-
-        // 스크롤 뷰 시작
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+       
+        bool isSpawnerMode = (_currentPlacementMode == ePlacementMode.Spawner);
+        bool isObjectMode = (_currentPlacementMode == ePlacementMode.Object);
 
         EditorGUILayout.HelpBox("맵 에디팅 완료 후 저장 시 반드시 Save Map을 누르고 닫아주세요. ", MessageType.Warning);
         GUILayout.Space(20);
+
+        #endregion
+
+        // 스크롤 뷰 시작
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);     
 
         #region Select and Instantiate StageMap Component
         GUILayout.Label("레벨 디자인 맵 선택", EditorStyles.boldLabel);
@@ -118,8 +135,11 @@ public class SpawnPointEditor : EditorWindow{
         }
         IndicatorPrefab = (SpawnIndicator)EditorGUILayout.ObjectField("Spawn Indicator Prefab", IndicatorPrefab, typeof(SpawnIndicator), false);
         #endregion
-
+        
         GUILayout.Space(10);
+
+        #region SPAWNER PLACING MODE
+        GUI.enabled = isSpawnerMode;
 
         #region Customize Prefab Color      
         GUILayout.Label("타입별 색상 설정", EditorStyles.boldLabel);
@@ -191,9 +211,7 @@ public class SpawnPointEditor : EditorWindow{
                 EditorGUILayout.EndHorizontal();
             }
         }
-
-
-        
+       
         if (GUILayout.Button("Clear All"))
         {
             ClearAllIndicators();
@@ -203,13 +221,24 @@ public class SpawnPointEditor : EditorWindow{
         {
             SaveSpawnPoints();
         }
+        #endregion
 
+        GUI.enabled = true;
+        #endregion
+
+        #region OBJECT PAINTING MODE
+        GUI.enabled = isObjectMode;
+
+        #region Show Object Prefab List
+        DrawObjectModeUI();
+        #endregion
+
+        GUI.enabled = true;
+        #endregion
 
         EditorGUILayout.EndScrollView();
-        #endregion
-        
-        GUILayout.FlexibleSpace();
 
+        GUILayout.FlexibleSpace();
 
         if (GUILayout.Button("Save Map"))
         {
@@ -220,8 +249,6 @@ public class SpawnPointEditor : EditorWindow{
         {
             TryCloseEditor();
         }
-
-        minSize = new Vector2(400, 500);
     }
 
     #region 에디팅 시 안전성 보장
@@ -531,6 +558,42 @@ public class SpawnPointEditor : EditorWindow{
         }
     }
     #endregion
+
+    private void DrawObjectModeUI()
+    {
+        GUILayout.Label("오브젝트 배치 모드", EditorStyles.boldLabel);
+
+        for (int i = 0; i < _prefabList.Count; i++)
+        {
+            if (_prefabList[i] == null) continue;
+
+            if (GUILayout.Button(_prefabList[i].name))
+            {
+                _selectedPrefab = _prefabList[i];
+            }
+
+            if (_selectedPrefab == _prefabList[i])
+            {
+                GUILayout.Space(5);
+                Texture2D previewTexture = AssetPreview.GetAssetPreview(_selectedPrefab);
+                if (previewTexture != null)
+                {
+                    GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
+                }
+            }
+        }
+
+        if (_selectedPrefab != null)
+        {
+            GUILayout.Label("현재 선택된 프리팹: " + _selectedPrefab.name);
+        }
+        else
+        {
+            GUILayout.Label("현재 선택된 프리팹이 없습니다.");
+        }
+    }
+
+
 
     #region 실행 취소 관리
     private void UndoRedoMap()

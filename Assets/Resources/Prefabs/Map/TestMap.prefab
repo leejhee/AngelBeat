@@ -81,6 +81,7 @@ MonoBehaviour:
         - spawnType: 3
           spawnPositions:
           - {x: -3.924175, y: 5.787672, z: 0}
+          - {x: -1.9596746, y: 1.0079409, z: 0}
 --- !u!1 &5334843670865837907
 GameObject:
   m_ObjectHideFlags: 0
