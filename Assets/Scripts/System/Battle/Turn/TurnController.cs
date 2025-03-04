@@ -15,7 +15,7 @@ public class TurnController
 
     private void InitializeTurnQueue()
     {
-        var sorted = CharManager.Instance.GetBattleParticipants();
+        var sorted = BattleCharManager.Instance.GetBattleParticipants();
         foreach (var character in sorted)
         {
             _turnQueue.Enqueue(new Turn(character));

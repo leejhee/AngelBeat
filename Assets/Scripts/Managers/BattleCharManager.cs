@@ -6,14 +6,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static SystemEnum;
 
-public class CharManager : SingletonObject<CharManager>
+/// <summary>
+/// 전투 씬 내에서의 캐릭터를 관리하도록 함.
+/// </summary>
+public class BattleCharManager : SingletonObject<BattleCharManager>
 {
     // 존재하는 Char (Char Type을 Key1 Char ID를 Key2로 사용)
     private Dictionary<Type, Dictionary<long, CharBase>> _cache = new Dictionary<Type, Dictionary<long, CharBase>>();
     // 고유 ID 생성 
     private long _nextID = 0;
     #region 생성자
-    CharManager() { }
+    BattleCharManager() { }
     #endregion
     public long SelectedCharIndex { get; private set; } = 1;
     // 고유 ID 생성
@@ -138,7 +141,6 @@ public class CharManager : SingletonObject<CharManager>
     }
 
     // 누구편인지에 따라 갈라서, 리스트에 넣고 전달한다.(속도로 sorting할 것)
-    // 도대체 여기에 넣은 이유가 뭐임 : 외부로 복잡한 자료구조를 굳이 전달하고 싶지 않았음.
     public List<CharBase> GetBattleParticipants()
     {
         var battleParticipants = new List<CharBase>();

@@ -19,6 +19,7 @@ public class StageField : MonoBehaviour
         _spawnDict = battleSpawnerData.Convert2Dict();
     }
 
+    // 이거는 CharManager에서 해줘야 하는 일이다.
     public void SpawnUnit(CharBase charBase, int squadOrder)
     {
         eCharType type = charBase.GetCharType();
@@ -27,8 +28,12 @@ public class StageField : MonoBehaviour
             Debug.LogError("현재 편성 인원 기준을 맵이 수용하지 못합니다. 데이터 체크 요망");
             return;
         }
-        Instantiate(charBase, _spawnDict[type][squadOrder], Quaternion.identity);
-        //charmanager 등록 로직으로 변경할 것.
+        BattleCharManager.Instance.CharGenerate(new CharParameter()
+        {
+            Scene = eScene.BattleTestScene,
+            GeneratePos = _spawnDict[type][squadOrder],
+            CharIndex = charBase.Index
+        });
     }
 
     public void SpawnAllUnitsByType(eCharType type, List<CharBase> characters)
@@ -40,18 +45,29 @@ public class StageField : MonoBehaviour
         }
         for (int i = 0; i < characters.Count; i++)
         {
-            Instantiate(characters[i], _spawnDict[type][i], Quaternion.identity);
-            //charmanager 등록 로직으로 변경할 것.
+            BattleCharManager.Instance.CharGenerate(new CharParameter()
+            {
+                Scene = eScene.BattleTestScene,
+                GeneratePos = _spawnDict[type][i],
+                CharIndex = characters[i].Index
+            });
         }
     }
 
+
+
+    #region 에디터 툴용
 #if UNITY_EDITOR
     public BattleFieldSpawnInfo LoadSpawnerOnlyInEditor()
     {
         return battleSpawnerData;
     }
 #endif
+    #endregion
+
+
 }
+
 
 
 

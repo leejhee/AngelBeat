@@ -9,6 +9,8 @@ public class BattleTestScene : MonoBehaviour
     [SerializeField] private CharBase TestEnemy;
     [SerializeField] private Vector3 testEnemyPoint;
 
+    [SerializeField] private StageField MapPrefab;
+
     private void Awake()
     {
         GameManager instance = GameManager.Instance;
@@ -17,12 +19,16 @@ public class BattleTestScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TestChar = CharManager.Instance.CharGenerate
+        Instantiate(MapPrefab);
+
+        // TODO : 두 로직을 연결하자.
+
+        TestChar = BattleCharManager.Instance.CharGenerate
             (new CharParameter(SystemEnum.eScene.BattleTestScene,
             testPlayerPoint,
             TestChar.Index));
 
-        TestEnemy = CharManager.Instance.CharGenerate
+        TestEnemy = BattleCharManager.Instance.CharGenerate
             (new CharParameter(SystemEnum.eScene.BattleTestScene,
             testEnemyPoint,
             TestEnemy.Index));

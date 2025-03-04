@@ -57,10 +57,15 @@ public class SpawnPointEditor : EditorWindow{
 
     #region Object Placing Mode
     private GameObject _selectedPrefab;
+
+    [SerializeField]
     private List<GameObject> _prefabList = new();
+
+    private SerializedProperty _prefabListProperty;
     #endregion
 
-    private Vector2 scrollPosition; 
+    private Vector2 scrollPosition;
+    private SerializedObject targetObject;
 
     [MenuItem("Tools/StageMap Editor")]
     public static void ShowWindow()
@@ -79,10 +84,13 @@ public class SpawnPointEditor : EditorWindow{
 
     private void OnEnable()
     {
-        //targetObject = new SerializedObject(this);
+        targetObject = new SerializedObject(this);
+        _prefabListProperty = targetObject.FindProperty("_prefabList");
 
         LoadSpawnIndicatorPrefab();
         LoadColorPreferences();
+
+        LoadPrefabList();
 
         EditorSceneManager.sceneOpened          += OnSceneOpened;
         SceneView.duringSceneGui                += ModalScene;
@@ -95,6 +103,8 @@ public class SpawnPointEditor : EditorWindow{
     {
         SaveSpawnIndicatorPrefab();
         SaveColorPreferences();
+
+        SavePrefabList();
 
         EditorSceneManager.sceneOpened          -= OnSceneOpened;
         SceneView.duringSceneGui                -= ModalScene;
@@ -563,25 +573,34 @@ public class SpawnPointEditor : EditorWindow{
     {
         GUILayout.Label("오브젝트 배치 모드", EditorStyles.boldLabel);
 
-        for (int i = 0; i < _prefabList.Count; i++)
-        {
-            if (_prefabList[i] == null) continue;
+        targetObject.Update();
 
-            if (GUILayout.Button(_prefabList[i].name))
-            {
-                _selectedPrefab = _prefabList[i];
-            }
+        SerializedProperty prop = targetObject.FindProperty("_prefabList");
+        EditorGUILayout.PropertyField(prop, new GUIContent(prop.displayName));
 
-            if (_selectedPrefab == _prefabList[i])
-            {
-                GUILayout.Space(5);
-                Texture2D previewTexture = AssetPreview.GetAssetPreview(_selectedPrefab);
-                if (previewTexture != null)
-                {
-                    GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
-                }
-            }
-        }
+        //for (int i = 0; i < _prefabList.Count; i++)
+        //{
+        //    if (_prefabList[i] == null) continue;
+        //
+        //    if (GUILayout.Button(_prefabList[i].name))
+        //    {
+        //        _selectedPrefab = _prefabList[i];
+        //    }
+        //
+        //    if (_selectedPrefab == _prefabList[i])
+        //    {
+        //        GUILayout.Space(5);
+        //        Texture2D previewTexture = AssetPreview.GetAssetPreview(_selectedPrefab);
+        //        if (previewTexture != null)
+        //        {
+        //            GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
+        //        }
+        //    }
+        //
+        //
+        //}
+
+        targetObject.ApplyModifiedProperties();
 
         if (_selectedPrefab != null)
         {
@@ -593,6 +612,42 @@ public class SpawnPointEditor : EditorWindow{
         }
     }
 
+    private void SavePrefabList()
+    {
+        List<string> prefabPaths = new List<string>();
+        foreach (var prefab in _prefabList)
+        {
+            if (prefab != null)
+            {
+                prefabPaths.Add(AssetDatabase.GetAssetPath(prefab));
+            }
+        }
+
+        EditorPrefs.SetString("ObjectPrefabList", string.Join(";", prefabPaths));
+    }
+
+    private void LoadPrefabList()
+    {
+        _prefabList.Clear();
+
+        if (EditorPrefs.HasKey("ObjectPrefabList"))
+        {
+            string savedData = EditorPrefs.GetString("ObjectPrefabList");
+            string[] prefabPaths = savedData.Split(';');
+
+            foreach (string path in prefabPaths)
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (prefab != null)
+                    {
+                        _prefabList.Add(prefab);
+                    }
+                }
+            }
+        }
+    }
 
 
     #region 실행 취소 관리

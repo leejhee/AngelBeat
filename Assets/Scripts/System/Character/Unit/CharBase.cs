@@ -52,7 +52,7 @@ public abstract class CharBase : MonoBehaviour
     {
         _charTransform = transform;
         _charUnitRoot = Util.FindChild<Transform>(gameObject, "UnitRoot");
-        _uid = CharManager.Instance.GetNextID();
+        _uid = BattleCharManager.Instance.GetNextID();
 
         _charData = DataManager.Instance.GetData<CharData>(_index);
         _charAnim = new();
@@ -97,7 +97,7 @@ public abstract class CharBase : MonoBehaviour
     public virtual void CharDistroy()
     {
         Type myType = this.GetType();
-        CharManager.Instance.Clear(myType, _uid);
+        BattleCharManager.Instance.Clear(myType, _uid);
         Destroy(gameObject);
     }
 

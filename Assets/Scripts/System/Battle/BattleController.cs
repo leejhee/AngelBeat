@@ -22,7 +22,7 @@ public class BattleController : MonoBehaviour
 
     private void InitEnvironment()
     {
-
+        //일단 맵을 로드해야한다.
     }
 
     public void EndBattle()

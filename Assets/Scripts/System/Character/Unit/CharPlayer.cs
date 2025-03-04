@@ -4,6 +4,6 @@ public class CharPlayer : CharBase
     protected override void CharInit()
     {
         base.CharInit();
-        CharManager.Instance.SetChar<CharPlayer>(this);
+        BattleCharManager.Instance.SetChar<CharPlayer>(this);
     }
 }

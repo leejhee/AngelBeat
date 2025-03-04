@@ -6,7 +6,7 @@ public class CharMonster : CharBase
     protected override void CharInit()
     {
         base.CharInit();
-        CharManager.Instance.SetChar<CharMonster>(this);
+        BattleCharManager.Instance.SetChar<CharMonster>(this);
         _charAI = new(this);
 
     }
