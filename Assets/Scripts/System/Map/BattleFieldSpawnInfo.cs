@@ -9,6 +9,9 @@ public class BattleFieldSpawnInfo
     [SerializeField]
     public List<FieldSpawnInfo> fieldSpawnInfos = new();
 
+    [SerializeField]
+    public List<FieldObjectInfo> fieldObjectInfos = new();
+
     public Dictionary<eCharType, List<Vector3>> Convert2Dict()
     {
         Dictionary<eCharType, List<Vector3>> dict = new();
@@ -20,6 +23,7 @@ public class BattleFieldSpawnInfo
     }
 }
 
+/// <summary> 유닛 스폰 정보 </summary>
 [Serializable]
 public class FieldSpawnInfo
 {
@@ -35,4 +39,15 @@ public class FieldSpawnInfo
         this.spawnType = spawnType;
         spawnPositions = spawnList;
     }
+}
+
+[Serializable]
+public class FieldObjectInfo
+{
+    [SerializeField] private string prefabName;
+    [SerializeField] private Vector3 position;
+
+    public string PrefabName => prefabName;
+    public Vector3 Position => position;
+
 }

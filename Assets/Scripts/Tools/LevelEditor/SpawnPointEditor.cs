@@ -7,6 +7,7 @@ using UnityEditor.SceneManagement;
 using System;
 using static SystemEnum;
 using System.Linq;
+using UnityEditor.TerrainTools;
 
 public class SpawnPointEditor : EditorWindow{
     public enum ePlacementMode
@@ -57,11 +58,12 @@ public class SpawnPointEditor : EditorWindow{
 
     #region Object Placing Mode
     private GameObject _selectedPrefab;
+    private SerializedProperty _prefabListProperty;
 
     [SerializeField]
     private List<GameObject> _prefabList = new();
 
-    private SerializedProperty _prefabListProperty;
+    private List<FieldObjectInfo> _placedObjects = new();
     #endregion
 
     private Vector2 scrollPosition;
@@ -575,30 +577,29 @@ public class SpawnPointEditor : EditorWindow{
 
         targetObject.Update();
 
-        SerializedProperty prop = targetObject.FindProperty("_prefabList");
-        EditorGUILayout.PropertyField(prop, new GUIContent(prop.displayName));
+        EditorGUILayout.PropertyField(_prefabListProperty, new GUIContent(_prefabListProperty.displayName));
 
-        //for (int i = 0; i < _prefabList.Count; i++)
-        //{
-        //    if (_prefabList[i] == null) continue;
-        //
-        //    if (GUILayout.Button(_prefabList[i].name))
-        //    {
-        //        _selectedPrefab = _prefabList[i];
-        //    }
-        //
-        //    if (_selectedPrefab == _prefabList[i])
-        //    {
-        //        GUILayout.Space(5);
-        //        Texture2D previewTexture = AssetPreview.GetAssetPreview(_selectedPrefab);
-        //        if (previewTexture != null)
-        //        {
-        //            GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
-        //        }
-        //    }
-        //
-        //
-        //}
+        for (int i = 0; i < _prefabList.Count; i++)
+        {
+            if (_prefabList[i] == null) continue;
+        
+            if (GUILayout.Button(_prefabList[i].name))
+            {
+                _selectedPrefab = _prefabList[i];
+            }
+        
+            if (_selectedPrefab == _prefabList[i])
+            {
+                GUILayout.Space(5);
+                Texture2D previewTexture = AssetPreview.GetAssetPreview(_selectedPrefab);
+                if (previewTexture != null)
+                {
+                    GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
+                }
+            }
+        
+        
+        }
 
         targetObject.ApplyModifiedProperties();
 
@@ -610,6 +611,92 @@ public class SpawnPointEditor : EditorWindow{
         {
             GUILayout.Label("현재 선택된 프리팹이 없습니다.");
         }
+
+        GUILayout.Space(10);
+
+        if (!_isPainting && _selectedPrefab != null)
+        {
+            if (GUILayout.Button("Start Painting", GUILayout.Height(30)))
+            {
+                StartPainting();
+            }
+        }
+        else if (_isPainting)
+        {
+            if (GUILayout.Button("Stop Painting", GUILayout.Height(30)))
+            {
+                StopPainting();
+            }
+        }
+
+    }
+
+    bool _isPainting;
+    private GameObject _previewObject; 
+
+    private void StartPainting()
+    {
+        if (_selectedPrefab == null) return;
+
+        _isPainting = true;
+
+        SceneView.duringSceneGui += OnSceneGUI;
+
+        if (_previewObject == null)
+        {
+            _previewObject = Instantiate(_selectedPrefab);
+            _previewObject.name = "PreviewObject";
+            _previewObject.hideFlags = HideFlags.HideAndDontSave; // 에디터에서만 표시하고 저장 안 함
+            //SetPreviewMaterial(_previewObject); // 반투명하게 보이도록 설정
+        }
+    }
+
+    private void StopPainting()
+    {
+        _isPainting = false;
+
+        SceneView.duringSceneGui -= OnSceneGUI;
+
+        if (_previewObject != null)
+        {
+            DestroyImmediate(_previewObject);
+            _previewObject = null;
+        }
+    }
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        if (!_isPainting || _selectedPrefab == null) return;
+
+        Event e = Event.current;
+        Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 targetPosition = hit.point;
+
+            if (_previewObject != null)
+            {
+                _previewObject.transform.position = targetPosition;
+            }
+
+            if (e.type == EventType.MouseDown && e.button == 0)
+            {
+                PlaceObject(targetPosition);
+                e.Use(); 
+            }
+        }
+
+        SceneView.RepaintAll();
+    }
+
+    private void PlaceObject(Vector3 position)
+    {
+        if (_selectedPrefab == null) return;
+
+        GameObject root = GameObject.Find("ObjectRoot");
+        if (root == null) root = new GameObject("ObjectRoot");
+
+        GameObject newObject = Instantiate(_selectedPrefab, position, Quaternion.identity, root.transform);
+        Undo.RegisterCreatedObjectUndo(newObject, "Placed Object");
     }
 
     private void SavePrefabList()
