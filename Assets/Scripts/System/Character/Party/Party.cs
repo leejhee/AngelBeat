@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using static SystemEnum;
@@ -10,15 +11,37 @@ using static SystemEnum;
 public class LightWeightCharacter
 {
     private long _index;
+    private CharData _data;
     private CharStat _stat;
+    private Vector3 _curPos;
 
     public long Index => _index;
     public CharStat Stat => _stat;
 
-    public LightWeightCharacter(long index, CharStat stat)
+    public LightWeightCharacter(long index)
     {
         _index = index;
+        _data = DataManager.Instance.GetData<CharData>(index);
+        if(_data == null)
+        {
+            Debug.LogError("생성자 중 포함되지 않은 캐릭터데이터에 의한 오류");
+            return;
+        }
+        else
+        {
+            var stat = DataManager.Instance.GetData<CharStatData>(index);
+            _stat = new CharStat(stat);
+        }
+
+        _curPos = default;
+    }
+
+    public LightWeightCharacter(long index, CharData data, CharStat stat, Vector3 curPos)
+    {
+        _index = index;
+        _data = data;
         _stat = stat;
+        _curPos = curPos;
     }
 }
 

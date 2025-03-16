@@ -50,4 +50,9 @@ public class FieldObjectInfo
     public string PrefabName => prefabName;
     public Vector3 Position => position;
 
+    public FieldObjectInfo(string prefabName, Vector3 position)
+    {
+        this.prefabName = prefabName;
+        this.position = position;
+    }
 }
