@@ -883,12 +883,6 @@ public class StageEditor : EditorWindow
     private SpawnIndicator spawnIndicatorPrefab;
     #endregion
 
-    #region ObjectPlacer 제어용
-    //[SerializeField] private List<GameObject> prefabList = new List<GameObject>();
-    //private SerializedProperty prefabListProperty;
-    //private SerializedObject serializedObjectRef;
-    #endregion
-
     private Vector2 scrollPosition;
 
     [MenuItem("Tools/Stage Editor")]
@@ -904,9 +898,6 @@ public class StageEditor : EditorWindow
 
     private void OnEnable()
     {
-        //serializedObjectRef = new SerializedObject(this);
-        //prefabListProperty = serializedObjectRef.FindProperty("prefabList");
-
         #region Module Initialization
         LoadSpawnIndicatorPrefab();
         spawnPointEditor = new SpawnPointEditor(spawnIndicatorPrefab);
@@ -992,7 +983,7 @@ public class StageEditor : EditorWindow
                 spawnPointEditor.OnSceneGUI(sceneView, targetInstance);
                 break;
             case ePlacementMode.Object:
-                objectPlacer.OnSceneGUI(sceneView);
+                objectPlacer.OnSceneGUI(sceneView, targetInstance);
                 break;
         }
     }
@@ -1082,9 +1073,10 @@ public class StageEditor : EditorWindow
         }
 
         spawnPointEditor.SaveSpawnPoints(targetInstance);
+        objectPlacer.SaveObjects(targetInstance);
 
         // 저장 전에 Spawn Point 데이터 업데이트 (필요에 따라 spawnPointEditor에서 저장)
-        spawnPointEditor.ClearAllIndicators();
+        //spawnPointEditor.ClearAllIndicators();
         if (PrefabUtility.IsPartOfPrefabInstance(targetInstance))
         {
             PrefabUtility.ApplyPrefabInstance(targetInstance.gameObject, InteractionMode.UserAction);

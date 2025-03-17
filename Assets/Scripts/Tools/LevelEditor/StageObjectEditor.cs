@@ -62,7 +62,7 @@ public class StageObjectEditor
         }
     }
 
-    public void OnSceneGUI(SceneView sceneView)
+    public void OnSceneGUI(SceneView sceneView, StageField targetInstance)
     {
         if (!IsPainting || SelectedPrefab == null) return;
 
@@ -87,7 +87,7 @@ public class StageObjectEditor
 
         if (e.type == EventType.MouseDown && e.button == 0)
         {
-            PlaceObject(worldPos);
+            PlaceObject(worldPos, targetInstance.ObjectRoot);
             e.Use();
         }
 
@@ -118,13 +118,10 @@ public class StageObjectEditor
     /// <summary>
     /// PlaceObject는 선택된 프리팹을 주어진 위치에 인스턴스화하고, 배치 정보를 기록합니다.
     /// </summary>
-    public void PlaceObject(Vector3 position)
+    public void PlaceObject(Vector3 position, Transform parent=null)
     {
         if (SelectedPrefab == null) return;
-        GameObject root = GameObject.Find("ObjectRoot");
-        if (root == null)
-            root = new GameObject("ObjectRoot");
-        GameObject newObj = UnityEngine.Object.Instantiate(SelectedPrefab, position, Quaternion.identity, root.transform);
+        GameObject newObj = UnityEngine.Object.Instantiate(SelectedPrefab, position, Quaternion.identity, parent);
         Undo.RegisterCreatedObjectUndo(newObj, "Place Object");
 
         FieldObjectInfo info = new (SelectedPrefab.name, newObj.transform.position);
@@ -141,7 +138,7 @@ public class StageObjectEditor
 
         Undo.RecordObject(targetInstance, "Save Object Placements");
 
-        SerializedObject so = new SerializedObject(targetInstance);
+        SerializedObject so = new(targetInstance);
         SerializedProperty spawnerProp = so.FindProperty("battleSpawnerData");
         if (spawnerProp == null)
         {

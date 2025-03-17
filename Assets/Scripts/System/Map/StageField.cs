@@ -14,7 +14,16 @@ public class StageField : MonoBehaviour
     [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
 
-
+    public Transform ObjectRoot { get
+        {
+            GameObject root = GameObject.Find("ObjectRoot");
+            if(root == null)
+            {
+                root = new GameObject("ObjectRoot");
+                root.transform.SetParent(transform);
+            }
+            return root.transform;
+        } }
 
     private void Start()
     {
