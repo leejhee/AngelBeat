@@ -15,5 +15,5 @@ MonoBehaviour:
   scriptTitle: 
   dialogueLines:
   - index: 1
-    dialogue: a
-    command: 0
+    dialogue: 'A: @body A_body_1 @face A_face_1'
+    command: 5

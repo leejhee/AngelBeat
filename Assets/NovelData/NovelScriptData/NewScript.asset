@@ -23,18 +23,21 @@ MonoBehaviour:
       \uC788\uC5C8\uB2E4"
     command: 0
   - index: 3
+    dialogue: 'Test: @Body Test_Body'
+    command: 5
+  - index: 4
     dialogue: "\uCCA0\uC218: \uD558\uC774"
     command: 0
-  - index: 4
+  - index: 5
     dialogue: "\uC601\uD76C: \uC548\uB155"
     command: 0
-  - index: 5
+  - index: 6
     dialogue: "\uCCA0\uC218\uB294 \uC601\uD76C\uC5D0\uAC8C \uC5B4\uB5A0\uD55C \uAC10\uC815\uC744
       \uB290\uAF08\uB2E4"
     command: 0
-  - index: 6
+  - index: 7
     dialogue: "\uADF8\uB54C \uB2CC\uC790\uAC00 \uB098\uD0C0\uB098\uC11C \uBAB0\uC0B4\uC2DC\uCF30\uB2E4"
     command: 0
-  - index: 7
+  - index: 8
     dialogue: "\uB2CC\uC790: \uD558\uD558\uD558"
     command: 0

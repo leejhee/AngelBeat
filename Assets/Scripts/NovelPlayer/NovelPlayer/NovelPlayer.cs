@@ -35,9 +35,11 @@ namespace novel
             // 테스트용
             if (novelName != NovelName.MaxCount)
             {
-                nowScript = AssetDatabase.LoadAssetAtPath<NovelScript>($"Assets/NovelScriptData/{novelName.ToString()}.asset");
+                nowScript = AssetDatabase.LoadAssetAtPath<NovelScript>($"Assets/NovelData/NovelScriptData/{novelName.ToString()}.asset");
+
             }
             //여기까지 테스트
+
             if (nowScript == null || nowScript.dialogueLines.Count == 0)
             {
                 Debug.LogError("스크립트가 없거나 비어있음");
@@ -127,6 +129,10 @@ namespace novel
                 case CommandType.Effect:
                     break;
                 case CommandType.ShowCharacter:
+                    // parseObject.text 에서 캐릭터 등장 시켜줌
+                    NovelCharacter character = AssetDatabase.LoadAssetAtPath<NovelCharacter>($"Assets/NovelData/NovelCharacterData/{parseObject.name}");
+
+                    Debug.Log(parseObject.text);
                     break;
                 case CommandType.HideCharacter:
                     break;
@@ -160,6 +166,11 @@ namespace novel
         public int GetCurrentLineIndex()
         {
             return curLineIndex;
+        }
+
+        private void ShowStanding()
+        {
+
         }
     }
 }

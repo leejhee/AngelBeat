@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db804b1395b32614882eaa9fd31e2f11, type: 3}
-  m_Name: NewCharacter
+  m_Name: Jicheol
   m_EditorClassIdentifier: 
-  characterName: "\uC774\uB984"
-  bodySpirtes: []
+  characterName: Jicheol
+  bodySpirtes:
+  - bodyName: Jicheol_Normal
+    bodySprite: {fileID: 21300000, guid: c98c5369ca4387c49b33eedc171a0d16, type: 3}
   faceSprites: []
   effectSprites: []

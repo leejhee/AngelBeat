@@ -14,10 +14,11 @@ namespace novel
         public ParseObject Parse(DialogueLine dialogue)
         {
             ParseObject parseObj = new();
+            parseObj.command = dialogue.command;
             switch (dialogue.command)
             {
                 case CommandType.None:
-                    parseObj.command = dialogue.command;
+                    
                     string[] split_data = dialogue.dialogue.Split(": ");
                     if (split_data.Length <= 1)
                     {
@@ -32,7 +33,6 @@ namespace novel
                     }
                     break;
                 case CommandType.Background:
-                    parseObj.command = dialogue.command;
                     // 다른거 다 빈 데이터 넣고
                     parseObj.name = "";
                     // text에 해당하는 배경화면 이름 넣기
@@ -45,6 +45,19 @@ namespace novel
                 case CommandType.Effect:
                     break;
                 case CommandType.ShowCharacter:
+                    split_data = null;
+                    split_data = dialogue.dialogue.Split(": ");
+                    if (split_data.Length <= 1)
+                    {
+                        //사람 이름이 없는 경우
+                        Debug.Log($"Error : 해당하는 캐릭터 존재하지 않음");
+                    }
+                    else
+                    {
+                        parseObj.name = split_data[0];
+                        parseObj.text = split_data[1];
+                    }
+                    
                     break;
                 case CommandType.HideCharacter:
                     break;
@@ -65,6 +78,7 @@ namespace novel
         public string text { get; set; }
         public string name { get; set; }
         public string standing { get; set; }
+        public Dictionary<string, string> parameters { get; set; }
     }
 }
 
