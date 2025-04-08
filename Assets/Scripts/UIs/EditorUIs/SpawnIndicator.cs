@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class SpawnIndicator : MonoBehaviour
 {
-    [SerializeField] SystemEnum.eCharType spawnerType;
-    [SerializeField] TMP_Text spawnerText;
-    [SerializeField] SpriteRenderer spawnerRenderer;
-
+    [SerializeField] private SystemEnum.eCharType spawnerType;
+    [SerializeField] private TMP_Text spawnerText;
+    [SerializeField] private SpriteRenderer spawnerRenderer;
+    public long spawnFixedIndex;
+    
     public void SetIndicator(SystemEnum.eCharType type, Color indicatorColor )
     {
         spawnerType = type;

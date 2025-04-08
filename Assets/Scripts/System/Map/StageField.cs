@@ -9,7 +9,7 @@ using static SystemEnum;
 [RequireComponent(typeof(Grid))]
 public class StageField : MonoBehaviour
 {
-    private Dictionary<eCharType, List<Vector3>> _spawnDict = new();
+    private Dictionary<eCharType, List<SpawnData>> _spawnDict = new();
 
     [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
@@ -42,7 +42,7 @@ public class StageField : MonoBehaviour
         BattleCharManager.Instance.CharGenerate(new CharParameter()
         {
             Scene = eScene.BattleTestScene,
-            GeneratePos = _spawnDict[type][squadOrder],
+            GeneratePos = _spawnDict[type][squadOrder].SpawnPosition,
             CharIndex = charBase.Index
         });
     }
@@ -59,7 +59,7 @@ public class StageField : MonoBehaviour
             BattleCharManager.Instance.CharGenerate(new CharParameter()
             {
                 Scene = eScene.BattleTestScene,
-                GeneratePos = _spawnDict[type][i],
+                GeneratePos = _spawnDict[type][i].SpawnPosition,
                 CharIndex = characters[i].Index
             });
         }

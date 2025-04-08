@@ -25,7 +25,7 @@ public class StageObjectEditor
         for (int i = 0; i < prefabList.Count; i++)
         {
             prefabList[i] = (GameObject)EditorGUILayout.ObjectField("Prefab " + i, prefabList[i], typeof(GameObject), false);
-            if (prefabList[i] != null)
+            if (prefabList[i] is not null)
             {
                 if (GUILayout.Button(prefabList[i].name))
                     SelectedPrefab = prefabList[i];
@@ -33,7 +33,7 @@ public class StageObjectEditor
                 {
                     GUILayout.Space(5);
                     Texture2D previewTexture = AssetPreview.GetAssetPreview(SelectedPrefab);
-                    if (previewTexture != null)
+                    if (previewTexture is not null)
                         GUILayout.Label(previewTexture, GUILayout.Width(100), GUILayout.Height(100));
                 }
             }
@@ -43,14 +43,14 @@ public class StageObjectEditor
         if (GUILayout.Button("Clear List"))
             prefabList.Clear();
 
-        if (SelectedPrefab != null)
+        if (SelectedPrefab is not null)
             EditorGUILayout.LabelField("현재 선택된 프리팹: " + SelectedPrefab.name);
         else
             EditorGUILayout.LabelField("현재 선택된 프리팹이 없습니다.");
 
         GUILayout.Space(10);
 
-        if (!IsPainting && SelectedPrefab != null)
+        if (!IsPainting && SelectedPrefab is not null)
         {
             if (GUILayout.Button("Start Painting", GUILayout.Height(30)))
                 StartPainting();
@@ -96,9 +96,9 @@ public class StageObjectEditor
 
     public void StartPainting()
     {
-        if (SelectedPrefab == null) return;
+        if (!SelectedPrefab) return;
         IsPainting = true;
-        if (previewObject == null)
+        if (!previewObject)
         {
             previewObject = UnityEngine.Object.Instantiate(SelectedPrefab);
             previewObject.name = "PreviewObject";

@@ -2,6 +2,7 @@ using static SystemEnum;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class BattleFieldSpawnInfo
@@ -12,12 +13,12 @@ public class BattleFieldSpawnInfo
     [SerializeField]
     public List<FieldObjectInfo> fieldObjectInfos = new();
 
-    public Dictionary<eCharType, List<Vector3>> Convert2Dict()
+    public Dictionary<eCharType, List<SpawnData>> Convert2Dict()
     {
-        Dictionary<eCharType, List<Vector3>> dict = new();
+        Dictionary<eCharType, List<SpawnData>> dict = new();
         foreach (var info in fieldSpawnInfos)
         {
-            dict.Add(info.SpawnType, info.SpawnPositions);
+            dict.Add(info.SpawnType, info.UnitSpawnList);
         }
         return dict;
     }
@@ -28,16 +29,18 @@ public class BattleFieldSpawnInfo
 public class FieldSpawnInfo
 {
     [SerializeField] private eCharType spawnType;
-    [SerializeField] private List<Vector3> spawnPositions = new();
+    [FormerlySerializedAs("spawnPositions")] [SerializeField] private List<SpawnData> unitSpawnList = new();
 
     public eCharType SpawnType => spawnType;
-    public List<Vector3> SpawnPositions => spawnPositions;
-    public int SpawnerCount => spawnPositions.Count;
+    public List<SpawnData> UnitSpawnList => unitSpawnList;
+    public int SpawnerCount => unitSpawnList.Count;
 
-    public FieldSpawnInfo(eCharType spawnType, List<Vector3> spawnList)
+
+
+    public FieldSpawnInfo(eCharType spawnType, List<SpawnData> unitSpawnList)
     {
         this.spawnType = spawnType;
-        spawnPositions = spawnList;
+        this.unitSpawnList = unitSpawnList;
     }
 }
 

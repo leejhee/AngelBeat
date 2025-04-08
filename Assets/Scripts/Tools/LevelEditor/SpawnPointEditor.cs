@@ -19,10 +19,10 @@ public class SpawnPointEditor
     {
         get
         {
-            if (_indicatorRoot == null)
+            if (!_indicatorRoot)
             {
                 GameObject go = GameObject.Find("IndicatorRoot");
-                if (go == null)
+                if (!go)
                     go = new GameObject("IndicatorRoot");
                 _indicatorRoot = go.transform;
             }
@@ -87,7 +87,6 @@ public class SpawnPointEditor
     #endregion
 
     
-
     /// <summary> Spawn Point 관련 OnGUI </summary>
     public void DrawGUI()
     {
@@ -131,7 +130,7 @@ public class SpawnPointEditor
             EditorGUILayout.LabelField($"[ {type} ]", EditorStyles.boldLabel);
             for (int i = SpawnIndicators[type].Count - 1; i >= 0; i--)
             {
-                if (SpawnIndicators[type][i] == null) continue;
+                if (!SpawnIndicators[type][i]) continue;
                 EditorGUILayout.BeginHorizontal();
                 SpawnIndicators[type][i] = (SpawnIndicator)EditorGUILayout.ObjectField(
                     $"Indicator {i + 1}", SpawnIndicators[type][i], typeof(SpawnIndicator), true);
@@ -139,6 +138,8 @@ public class SpawnPointEditor
                                           SpawnIndicators[type][i].transform.position.y);
                 EditorGUILayout.LabelField($"위치: {pos}", GUILayout.Width(120));
                 EditorGUILayout.LabelField($"순서: {i + 1}", GUILayout.Width(50));
+                EditorGUILayout.LongField("정해진 유닛 인덱스", SpawnIndicators[type][i].spawnFixedIndex);
+                
                 if (GUILayout.Button("Remove", GUILayout.Width(70)))
                 {
                     Undo.DestroyObjectImmediate(SpawnIndicators[type][i].gameObject);
@@ -171,7 +172,8 @@ public class SpawnPointEditor
             worldPos.z = 0;
             Vector3 localPos = targetInstance.transform.InverseTransformPoint(worldPos);
 
-            SpawnIndicator newIndicator = UnityEngine.Object.Instantiate(SpawnIndicatorPrefab, localPos, Quaternion.identity, IndicatorRoot);
+            SpawnIndicator newIndicator = UnityEngine.Object.Instantiate
+                (SpawnIndicatorPrefab, localPos, Quaternion.identity, IndicatorRoot);
             newIndicator.SetIndicator(CurrentCharType, TypeColorMapping[CurrentCharType]);
 
             if (!SpawnIndicators.ContainsKey(CurrentCharType))
@@ -188,7 +190,7 @@ public class SpawnPointEditor
         {
             foreach (var indicator in SpawnIndicators[type])
             {
-                if (indicator != null)
+                if (indicator)
                     UnityEngine.Object.DestroyImmediate(indicator.gameObject);
             }
         }
@@ -203,9 +205,10 @@ public class SpawnPointEditor
         {
             if (!SpawnIndicators.ContainsKey(info.SpawnType))
                 SpawnIndicators[info.SpawnType] = new List<SpawnIndicator>();
-            foreach (var pos in info.SpawnPositions)
+            foreach (var data in info.UnitSpawnList)
             {
-                SpawnIndicator newIndicator = UnityEngine.Object.Instantiate(SpawnIndicatorPrefab, targetInstance.transform.TransformPoint(pos), Quaternion.identity, IndicatorRoot);
+                SpawnIndicator newIndicator = UnityEngine.Object.Instantiate
+                    (SpawnIndicatorPrefab, targetInstance.transform.TransformPoint(data.SpawnPosition), Quaternion.identity, IndicatorRoot);
                 newIndicator.SetIndicator(info.SpawnType, TypeColorMapping[info.SpawnType]);
                 SpawnIndicators[info.SpawnType].Add(newIndicator);
             }
@@ -215,13 +218,13 @@ public class SpawnPointEditor
 
     public void SaveSpawnPoints(StageField targetInstance)
     {
-        if (targetInstance == null)
+        if (!targetInstance)
         {
             Debug.LogError("StageMap이 설정되지 않았습니다. 저장 불가.");
             return;
         }
         Undo.RecordObject(targetInstance, "Save Spawn Points");
-        SerializedObject so = new SerializedObject(targetInstance);
+        SerializedObject so = new(targetInstance);
         SerializedProperty spawnerProp = so.FindProperty("battleSpawnerData");
         if (spawnerProp == null)
         {
@@ -234,12 +237,12 @@ public class SpawnPointEditor
         spawnerInfos.fieldSpawnInfos.Clear();
         foreach (var kv in SpawnIndicators)
         {
-            List<Vector3> posList = new();
+            List<SpawnData> spawnDataList = new();
             foreach (var indicator in kv.Value)
             {
-                posList.Add(indicator.transform.position);
+                spawnDataList.Add(new SpawnData(indicator.spawnFixedIndex, indicator.gameObject.transform.position));
             }
-            spawnerInfos.fieldSpawnInfos.Add(new FieldSpawnInfo(kv.Key, posList));
+            spawnerInfos.fieldSpawnInfos.Add(new FieldSpawnInfo(kv.Key, spawnDataList));
         }
         spawnerProp.managedReferenceValue = spawnerInfos;
         so.ApplyModifiedProperties();
