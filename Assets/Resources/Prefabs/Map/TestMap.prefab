@@ -156,7 +156,7 @@ MonoBehaviour:
           unitSpawnList:
           - SpawnCharacterIndex: 0
             SpawnPosition: {x: -7.812281, y: -0.71806806, z: 0}
-          - SpawnCharacterIndex: 0
+          - SpawnCharacterIndex: 1000
             SpawnPosition: {x: -5.1068873, y: 5.630591, z: 0}
         - spawnType: 2
           unitSpawnList:

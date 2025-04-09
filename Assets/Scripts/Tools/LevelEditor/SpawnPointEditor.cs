@@ -9,10 +9,10 @@ using static SystemEnum;
 
 public class SpawnPointEditor
 {
-    public SpawnIndicator SpawnIndicatorPrefab { get; set; }
-    public Dictionary<eCharType, Color> TypeColorMapping { get; private set; }
-    public Dictionary<eCharType, List<SpawnIndicator>> SpawnIndicators { get; private set; }
-    public eCharType CurrentCharType { get; private set; } = eCharType.None;
+    private SpawnIndicator SpawnIndicatorPrefab { get; set; }
+    private Dictionary<eCharType, Color> TypeColorMapping { get; set; }
+    private Dictionary<eCharType, List<SpawnIndicator>> SpawnIndicators { get; set; }
+    private eCharType CurrentCharType { get; set; } = eCharType.None;
 
     private Transform _indicatorRoot;
     private Transform IndicatorRoot
@@ -138,7 +138,7 @@ public class SpawnPointEditor
                                           SpawnIndicators[type][i].transform.position.y);
                 EditorGUILayout.LabelField($"위치: {pos}", GUILayout.Width(120));
                 EditorGUILayout.LabelField($"순서: {i + 1}", GUILayout.Width(50));
-                EditorGUILayout.LongField("정해진 유닛 인덱스", SpawnIndicators[type][i].spawnFixedIndex);
+                SpawnIndicators[type][i].spawnFixedIndex = EditorGUILayout.LongField("정해진 유닛 인덱스", SpawnIndicators[type][i].spawnFixedIndex);
                 
                 if (GUILayout.Button("Remove", GUILayout.Width(70)))
                 {
@@ -174,7 +174,7 @@ public class SpawnPointEditor
 
             SpawnIndicator newIndicator = UnityEngine.Object.Instantiate
                 (SpawnIndicatorPrefab, localPos, Quaternion.identity, IndicatorRoot);
-            newIndicator.SetIndicator(CurrentCharType, TypeColorMapping[CurrentCharType]);
+            newIndicator.SetIndicator(CurrentCharType, TypeColorMapping[CurrentCharType], 0);
 
             if (!SpawnIndicators.ContainsKey(CurrentCharType))
                 SpawnIndicators[CurrentCharType] = new List<SpawnIndicator>();
@@ -208,8 +208,14 @@ public class SpawnPointEditor
             foreach (var data in info.UnitSpawnList)
             {
                 SpawnIndicator newIndicator = UnityEngine.Object.Instantiate
-                    (SpawnIndicatorPrefab, targetInstance.transform.TransformPoint(data.SpawnPosition), Quaternion.identity, IndicatorRoot);
-                newIndicator.SetIndicator(info.SpawnType, TypeColorMapping[info.SpawnType]);
+                    (SpawnIndicatorPrefab, 
+                    targetInstance.transform.TransformPoint(data.SpawnPosition), 
+                    Quaternion.identity, 
+                    IndicatorRoot);
+                newIndicator.SetIndicator(
+                    info.SpawnType, 
+                    TypeColorMapping[info.SpawnType], 
+                    data.SpawnCharacterIndex);
                 SpawnIndicators[info.SpawnType].Add(newIndicator);
             }
         }
@@ -240,7 +246,7 @@ public class SpawnPointEditor
             List<SpawnData> spawnDataList = new();
             foreach (var indicator in kv.Value)
             {
-                spawnDataList.Add(new SpawnData(indicator.spawnFixedIndex, indicator.gameObject.transform.position));
+                spawnDataList.Add(new SpawnData(indicator.spawnFixedIndex, indicator.transform.position));
             }
             spawnerInfos.fieldSpawnInfos.Add(new FieldSpawnInfo(kv.Key, spawnDataList));
         }

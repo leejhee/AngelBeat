@@ -177,7 +177,7 @@ public class StageEditor : EditorWindow
 
     private void LoadStageMapIntoScene()
     {
-        if (targetStageMap == null) return;
+        if (!targetStageMap) return;
         if (SceneManager.GetActiveScene().path != TARGET_SCENE_PATH)
         {
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -188,7 +188,7 @@ public class StageEditor : EditorWindow
                 return;
             }
         }
-        if (targetInstance != null)
+        if (targetInstance)
         {
             DestroyImmediate(targetInstance.gameObject);
         }
@@ -272,9 +272,9 @@ public class StageEditor : EditorWindow
     private bool HasUnsavedChanges()
     {
         if (!targetInstance || !targetStageMap) return false;
-        SerializedObject currentSO = new SerializedObject(targetInstance);
+        SerializedObject currentSO = new(targetInstance);
         SerializedProperty currentData = currentSO.FindProperty("battleSpawnerData");
-        SerializedObject originalSO = new SerializedObject(targetStageMap);
+        SerializedObject originalSO = new(targetStageMap);
         SerializedProperty originalData = originalSO.FindProperty("battleSpawnerData");
         return !SerializedProperty.DataEquals(currentData, originalData);
     }

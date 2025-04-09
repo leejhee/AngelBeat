@@ -7,13 +7,15 @@ public class SpawnIndicator : MonoBehaviour
     [SerializeField] private TMP_Text spawnerText;
     [SerializeField] private SpriteRenderer spawnerRenderer;
     public long spawnFixedIndex;
-    
-    public void SetIndicator(SystemEnum.eCharType type, Color indicatorColor )
+
+    public void SetIndicator(SystemEnum.eCharType type, Color indicatorColor, long fixedIndex)
     {
         spawnerType = type;
         spawnerText.SetText(type.ToString());
         spawnerRenderer.color = indicatorColor;
+        spawnFixedIndex = fixedIndex;
     }
+    
 #if UNITY_EDITOR
     public void UpdateColor(Color newcolor)
     {
