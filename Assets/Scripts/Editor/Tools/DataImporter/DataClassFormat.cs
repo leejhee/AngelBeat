@@ -1,60 +1,62 @@
-public static class DataClassFormat
+namespace AngelBeat.Tools.DataImporter
 {
-    // {0} 자료형
-    // {1} 변수명
-    // {2} 설명
-    public static string dataRegisterFormat =
-@"public {0} {1}; // {2}";
+    public static class DataClassFormat
+    {
+        // {0} 자료형
+        // {1} 변수명
+        // {2} 설명
+        public static string dataRegisterFormat =
+            @"public {0} {1}; // {2}";
 
-    public static string dataRegisterListFormat =
-@"public List<{0}> {1}; // {2}";
+        public static string dataRegisterListFormat =
+            @"public List<{0}> {1}; // {2}";
 
-    // {0} : row index
-    // {1} : 자료형 이름
-    // {2} : 자료형 변환
-    public static string dataParseFomat =
-@"
+        // {0} : row index
+        // {1} : 자료형 이름
+        // {2} : 자료형 변환
+        public static string dataParseFomat =
+            @"
 if(values[{0}] == """")
     data.{1} = default;
 else
     data.{1} = Convert.{2}(values[{0}]);";
 
 
-    public static string dataParseListFormat =
-@"
+        public static string dataParseListFormat =
+            @"
 ListStr = values[{0}].Replace('[',' ');
 ListStr = ListStr.Replace(']', ' ');
 var {1}Data = ListStr.ToString().Split(',').Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).Select(x => Convert.{2}(x)).ToList();
 data.{1} = {1}Data;";
 
-    //추후 enum 묶는 클래스 부여 시 활용 예정
-    public static string dataEnumRegisterFormat =
-@"public SystemEnum.{0} {1}; // {2}";
+        //추후 enum 묶는 클래스 부여 시 활용 예정
+        public static string dataEnumRegisterFormat =
+            @"public SystemEnum.{0} {1}; // {2}";
 
-    // {2} : Enum 자료형
-    public static string dataEnumParseFomat =
-@"
+        // {2} : Enum 자료형
+        public static string dataEnumParseFomat =
+            @"
 if(values[{0}] == """")
     data.{1} = default;
 else
     data.{1} = (SystemEnum.{2})Enum.Parse(typeof(SystemEnum.{2}), values[{0}]);";
 
-    public static string dataSpriteRegisterFormat =
-@"public {0} {1}; // {2}";
+        public static string dataSpriteRegisterFormat =
+            @"public {0} {1}; // {2}";
 
-    public static string dataSpriteParseFormat =
-@"
+        public static string dataSpriteParseFormat =
+            @"
 if(values[{0}] == """")
     data.{1} = null;
 else
     data.{1} = Resources.Load<Sprite>($""Sprites/{2}/{{values[{0}]}}"");";
 
 
-    // {0} : 클래스 이름
-    // {1} : 자료형들
-    // {2} : 파싱
-    public static string SODataFormat =
-@"using System.Collections;
+        // {0} : 클래스 이름
+        // {1} : 자료형들
+        // {2} : 파싱
+        public static string SODataFormat =
+            @"using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,8 +66,8 @@ public partial class {0}
     {1}   
 }}";
 
-    public static string SOContainerFormat =
-@"using UnityEngine;
+        public static string SOContainerFormat =
+            @"using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -112,8 +114,8 @@ public class {0}List : ScriptableObject, ITableSO
     }}
 }}";
 
-    public static string classDataFormat =
-@"using System;
+        public static string classDataFormat =
+            @"using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -166,8 +168,8 @@ public partial class {0} : SheetData
     }}
 }}";
 
-    public static string stringDataFormat =
-@"using Client;
+        public static string stringDataFormat =
+            @"using Client;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -219,5 +221,9 @@ namespace Client
 			}}
         }}
     }}
-}}";
+}}"; 
+    }
+
+
 }
+ 
