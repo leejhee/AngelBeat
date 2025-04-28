@@ -148,7 +148,7 @@ namespace AngelBeat.Tools.LevelEditor
             }
         }
 
-        private void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        private void OnSceneOpened(UnityEngine.SceneManagement.Scene scene, OpenSceneMode mode)
         {
             if (scene.path != TARGET_SCENE_PATH)
             {

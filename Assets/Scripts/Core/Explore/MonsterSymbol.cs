@@ -1,14 +1,16 @@
+using AngelBeat.Scene;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MonsterSymbol : MonoBehaviour
+namespace AngelBeat.Core.Explore
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public class MonsterSymbol : MonoBehaviour
     {
-        Debug.Log("나중에는 로딩으로 하세요~ 씬 바꿈.");
-        SceneManager.LoadScene("BattleTestScene");
+        private async void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("나중에는 로딩으로 하세요~ 씬 바꿈.");
+            await SceneUtil.LoadSceneAdditiveAsync("BattleTestScene");
+        }
     }
 }
