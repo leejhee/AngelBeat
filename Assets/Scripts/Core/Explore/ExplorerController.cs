@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using AngelBeat.Core.Character.Party;
 using UnityEngine;
 
 namespace AngelBeat.Core.Explore
 {
     public class ExploreController : MonoBehaviour
     {
+        #region Mover for Demo
         [SerializeField] private float speed;
         void Update()
         {
@@ -20,6 +20,10 @@ namespace AngelBeat.Core.Explore
             Vector3 moveDir = new Vector3(moveX, moveY, 0f).normalized;
             transform.position += moveDir * (speed * Time.deltaTime);
         }
+        #endregion
+
+        public Party PlayerParty { get; private set;}
+        
     }
 }
 

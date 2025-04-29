@@ -4,20 +4,20 @@ namespace AngleBeat.Core.SingletonObjects
 {
     public class BattlePayload : SingletonObject<BattlePayload>{
         public Party PlayerParty { get; private set; }
-        public string MapName { get; private set; }
+        public SystemEnum.eDungeon DungeonName { get; private set; }
 
         private BattlePayload() { }
-
-        public void SetBattleData(Party party, string mapName)
+        
+        public void SetBattleData(Party party, SystemEnum.eDungeon dungeon)
         {
             PlayerParty = party;
-            MapName = mapName;
+            DungeonName = dungeon;
         }
 
         public void Clear()
         {
             PlayerParty = null;
-            MapName = null;
+            DungeonName = default;
         }
     }
 }

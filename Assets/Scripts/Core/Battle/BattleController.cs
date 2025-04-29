@@ -1,3 +1,5 @@
+using AngelBeat.Core.Character.Party;
+using AngleBeat.Core.SingletonObjects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +10,15 @@ namespace AngelBeat.Core.Battle
     {
         private List<CharBase> _battleCharList;
         private TurnController _turnManager;
-        
+
+        private void Start()
+        {
+            Party party = BattlePayload.Instance.PlayerParty;
+            SystemEnum.eDungeon dungeon = BattlePayload.Instance.DungeonName;
+            
+           
+        }
+
         public void InitializeBattle()
         {
             InitEnvironment();

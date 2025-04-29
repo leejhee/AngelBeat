@@ -1,3 +1,4 @@
+using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 
 public class TurnController

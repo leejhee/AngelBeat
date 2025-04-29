@@ -1,8 +1,6 @@
-using System;
+using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using static SystemEnum;
 
 // 전투 시작시 생성될 맵 오브젝트

@@ -1,3 +1,5 @@
+using AngelBeat.Core.SingletonObjects.Managers;
+
 public class CharPlayer : CharBase
 {
     protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Player;
