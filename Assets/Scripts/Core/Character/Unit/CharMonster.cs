@@ -1,3 +1,5 @@
+using AngelBeat.Core.SingletonObjects.Managers;
+
 public class CharMonster : CharBase
 {
     private CharAI _charAI;

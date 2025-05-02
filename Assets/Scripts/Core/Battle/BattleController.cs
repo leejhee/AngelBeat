@@ -1,36 +1,40 @@
+using AngelBeat.Core.Character.Party;
+using AngleBeat.Core.SingletonObjects;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// BattleScene 초기화 시 작동 시작.
-public class BattleController : MonoBehaviour
+namespace AngelBeat.Core.Battle
 {
-    private List<CharBase> _battleCharList;
-    private TurnController _turnManager;
-    
-
-    private void Start()
+    public class BattleController : MonoBehaviour
     {
-        _turnManager = new TurnController();
-        Init();
+        private List<CharBase> _battleCharList;
+        private TurnController _turnManager;
+
+        private void Start()
+        {
+            Party party = BattlePayload.Instance.PlayerParty;
+            SystemEnum.eDungeon dungeon = BattlePayload.Instance.DungeonName;
+            
+           
+        }
+
+        public void InitializeBattle()
+        {
+            InitEnvironment();
+        }
+
+        private void InitEnvironment()
+        {
+            //일단 맵을 로드해야한다.
+        }
+
+        public void EndBattle()
+        {
+			
+        }
+        
     }
-
-    private void Init()
-    {
-        InitEnvironment();
-    }
-
-    private void InitEnvironment()
-    {
-        //일단 맵을 로드해야한다.
-    }
-
-    public void EndBattle()
-    {
-
-    }
-
-
 }
 
 

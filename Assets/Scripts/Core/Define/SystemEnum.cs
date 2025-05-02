@@ -122,6 +122,16 @@ public class SystemEnum
 
     }
 
+    public enum eDungeon
+    {
+        None,
+        
+        DEEP_FOREST,
+        
+        eMax
+    }
+    
+    
     public enum eExecutionType
     {
         None,
