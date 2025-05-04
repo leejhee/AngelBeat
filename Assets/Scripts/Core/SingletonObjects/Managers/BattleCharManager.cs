@@ -108,7 +108,9 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             charBase.transform.position = charParam.GeneratePos;
             return charBase;
         }
-
+        
+        
+        
         public CharBase CharGenerate(long charIndex)
         {
             CharData charData = DataManager.Instance.GetData<CharData>(charIndex);

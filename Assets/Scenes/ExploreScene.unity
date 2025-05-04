@@ -267,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b25c8de078f9e498246004f1ab5473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeon: 1
 --- !u!58 &1016059191
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -673,6 +674,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  playerParty:
+    partyType: 1
+    partyMembers:
+    - _index: 0
+    FunctionsPerParty: 
 --- !u!212 &1511068806
 SpriteRenderer:
   m_ObjectHideFlags: 0

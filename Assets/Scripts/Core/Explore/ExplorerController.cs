@@ -1,4 +1,4 @@
-using AngelBeat.Core.Character.Party;
+using AngelBeat.Core.Character;
 using UnityEngine;
 
 namespace AngelBeat.Core.Explore
@@ -22,8 +22,9 @@ namespace AngelBeat.Core.Explore
         }
         #endregion
 
-        public Party PlayerParty { get; private set;}
-        
+        [SerializeField] private Party playerParty;
+        public Party PlayerParty => playerParty;
+
     }
 }
 

@@ -1,4 +1,4 @@
-﻿using AngelBeat.Core.Character.Party;
+﻿using AngelBeat.Core.Character;
 
 namespace AngleBeat.Core.SingletonObjects
 {

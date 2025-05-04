@@ -1,10 +1,12 @@
+using AngelBeat.Core.Character;
 using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using static SystemEnum;
+using CharacterInfo = AngelBeat.Core.Character.CharacterInfo;
 
 // 전투 시작시 생성될 맵 오브젝트
-[RequireComponent(typeof(Grid))]
+[RequireComponent(typeof(Grid)), System.Serializable]
 public class StageField : MonoBehaviour
 {
     private Dictionary<eCharType, List<SpawnData>> _spawnDict = new();
@@ -12,7 +14,8 @@ public class StageField : MonoBehaviour
     [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
 
-    public Transform ObjectRoot { get
+    public Transform ObjectRoot { 
+        get
         {
             GameObject root = GameObject.Find("ObjectRoot");
             if(root == null)
@@ -63,8 +66,15 @@ public class StageField : MonoBehaviour
         }
     }
 
+    public void SpawnAllUnits(Party playerParty)
+    {
+        //PlayerSide
+        List<CharacterInfo> partyInfo = playerParty.partyMembers;
+        
 
-
+        //EnemySide
+    }
+    
     #region 에디터 툴용
 #if UNITY_EDITOR
     public BattleFieldSpawnInfo LoadSpawnerOnlyInEditor()

@@ -1,6 +1,6 @@
-using AngelBeat.Core.Character.Party;
+using AngelBeat.Core.Character;
+using AngelBeat.Core.Map;
 using AngleBeat.Core.SingletonObjects;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,20 +13,32 @@ namespace AngelBeat.Core.Battle
 
         private void Start()
         {
-            Party party = BattlePayload.Instance.PlayerParty;
+            BattleInitialize();
+        }
+        
+        private void BattleInitialize()
+        {
+            Debug.Log("Starting Battle Initialization...");
             SystemEnum.eDungeon dungeon = BattlePayload.Instance.DungeonName;
+            StageField battleField = SetMapEnvironment(dungeon);
+            if (!battleField)
+            {
+                Debug.LogError("Map Load Error");
+                return;
+            }
             
-           
+            Party party = BattlePayload.Instance.PlayerParty;
+            battleField.SpawnAllUnits(party);
+            
+            Debug.Log("Battle Initialization Complete");
+            BattlePayload.Instance.Clear();
         }
 
-        public void InitializeBattle()
+        private StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)
         {
-            InitEnvironment();
-        }
-
-        private void InitEnvironment()
-        {
-            //일단 맵을 로드해야한다.
+            BattleFieldGroup battleFieldGroup = 
+                Resources.Load<BattleFieldGroup>("ScriptableObjects/BattleFieldGroup/" + dungeon);
+            return Instantiate(battleFieldGroup.GetRandomBattleField());
         }
 
         public void EndBattle()

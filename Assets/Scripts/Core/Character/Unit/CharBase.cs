@@ -12,6 +12,8 @@ public abstract class CharBase : MonoBehaviour
     [SerializeField] private Collider _battleCollider;
     [SerializeField] private GameObject _CharCameraPos;
 
+    private CharacterInfo _charInfo;
+    
     private Transform       _charTransform;
     private Transform       _charUnitRoot;
 
@@ -95,6 +97,11 @@ public abstract class CharBase : MonoBehaviour
 
     }
 
+    protected virtual void CharInit(CharacterInfo charInfo)
+    {
+        
+    }
+    
     public virtual void CharDistroy()
     {
         Type myType = this.GetType();
