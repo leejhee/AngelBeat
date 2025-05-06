@@ -18,10 +18,14 @@ namespace AngelBeat
 
         private void InitializeTurnQueue(List<CharBase> battleMembers)
         {
-            //var sorted = BattleCharManager.Instance.GetBattleParticipants();
             foreach (var character in battleMembers)
             {
-                _turnQueue.Enqueue(new Turn(character));
+                _turnBuffer.Add(new Turn(character));
+            }
+            _turnBuffer.Sort(new TurnComparer(TurnComparisonMethods.VanillaComparer));
+            foreach (var turn in _turnBuffer)
+            {
+                _turnQueue.Enqueue(turn);
             }
         }
 
@@ -29,8 +33,8 @@ namespace AngelBeat
         {
             
         }
-        
-        public void RebuildTurnQueue()
+
+        private void RebuildTurnQueue()
         {
             _turnQueue.Clear();
             InitializeTurnQueue(_turnBuffer);
@@ -45,7 +49,6 @@ namespace AngelBeat
 
             CurrentTurn = _turnQueue.Dequeue();
             CurrentTurn.Begin();
-        
         }
 
         public void ChangeTurn(Turn targetTurn)

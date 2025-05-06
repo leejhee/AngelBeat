@@ -73,17 +73,19 @@ MonoBehaviour:
           - SpawnCharacterIndex: 0
             SpawnPosition: {x: -7.812281, y: -0.71806806, z: 0}
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -5.1068873, y: 5.630591, z: 0}
+            SpawnPosition: {x: -4.8404512, y: -0.8355684, z: 0}
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -2.3215199, y: 5.3222218, z: 0}
+            SpawnPosition: {x: -6.5453005, y: 5.322765, z: 0}
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -5.121052, y: -0.9604492, z: 0}
+            SpawnPosition: {x: -3.8662515, y: 5.5663147, z: 0}
         - spawnType: 2
           unitSpawnList:
           - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 6.2557693, y: 5.197728, z: 0}
           - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 8.9611635, y: -1.2591469, z: 0}
+          - SpawnCharacterIndex: 2030
+            SpawnPosition: {x: 2.8835607, y: 5.322765, z: 0}
         fieldObjectInfos: []
 --- !u!1 &4934528557023620504
 GameObject:

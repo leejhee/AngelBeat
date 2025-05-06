@@ -1,5 +1,12 @@
-public class UIParameter
+using Core.SingletonObjects.Managers;
+
+namespace AngelBeat
 {
-    //UI 변경사항 적용에 대한 파라미터
-    //상속받아서 사용하자
+    public abstract class UIParameter : MessageUnit{ }
+
+    public class OnTurnChanged : UIParameter
+    {
+        public CharBase TurnOwner;
+    }
+    
 }

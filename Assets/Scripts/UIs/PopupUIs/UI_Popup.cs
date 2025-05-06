@@ -1,17 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using AngelBeat.Core;
 
-public abstract class UI_Popup : UI_Base
+namespace AngelBeat.UI
 {
-    public override void Init()
+    public abstract class UI_Popup : UI_Base
     {
-        base.Init();
-        UIManager.Instance.SetCanvas(gameObject, true);
+        public override void Init()
+        {
+            base.Init();
+            UIManager.Instance.SetCanvas(gameObject, true);
+        }
+
+        public virtual void ReOpenPopupUI() { }
+
+        public virtual void SetParameter(UIParameter param) { }
+
     }
-
-    public virtual void ReOpenPopupUI() { }
-
-    public virtual void SetParameter(UIParameter param) { }
-
+ 
 }
