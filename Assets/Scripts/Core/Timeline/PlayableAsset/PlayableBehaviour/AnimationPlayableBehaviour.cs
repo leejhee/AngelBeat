@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
-namespace Client
+namespace AngelBeat
 {
     public class AnimationPlayableBehaviour: SkillTimeLinePlayableBehaviour
     {
@@ -12,30 +12,30 @@ namespace Client
 
         PlayableGraph playableGraph;
 
-        // Å¬¸³ÀÌ ½ÃÀÛµÉ ¶§ È£Ãâ
+        // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ È£ï¿½ï¿½
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
-            // PlayableGraph »ý¼º
+            // PlayableGraph ï¿½ï¿½ï¿½ï¿½
             playableGraph = PlayableGraph.Create("AnimationPlayable");
 
-            // AnimationClipPlayable »ý¼º
+            // AnimationClipPlayable ï¿½ï¿½ï¿½ï¿½
             AnimationClipPlayable clipPlayable = AnimationClipPlayable.Create(playableGraph, animationClip);
 
-            // Ãâ·Â »ý¼º ¹× ¿¬°á
+            // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             var output = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
             output.SetSourcePlayable(clipPlayable);
 
-            // Playable Àç»ý
+            // Playable ï¿½ï¿½ï¿½
             playableGraph.Play();
         }
 
-        // Å¬¸³ÀÌ ¸ØÃâ ¶§ È£Ãâ
+        // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
             if (playableGraph.IsValid())
             {
-                playableGraph.Stop(); // ±×·¡ÇÁ Á¤Áö
-                playableGraph.Destroy(); // ±×·¡ÇÁ ¸®¼Ò½º ÇØÁ¦
+                playableGraph.Stop(); // ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                playableGraph.Destroy(); // ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
             animator.Play("IDLE",0,0);
         }

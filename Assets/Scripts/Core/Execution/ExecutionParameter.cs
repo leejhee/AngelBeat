@@ -1,7 +1,10 @@
-public struct ExecutionParameter
+namespace AngelBeat
 {
-    public SystemEnum.eExecutionType eExecutionType;
-    public CharBase TargetChar;
-    public CharBase CastChar;
-    public long ExecutionIndex;
+    public struct ExecutionParameter
+    {
+        public SystemEnum.eExecutionType eExecutionType;
+        public CharBase TargetChar;
+        public CharBase CastChar;
+        public long ExecutionIndex;
+    }
 }

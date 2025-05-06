@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace Client
+namespace AngelBeat
 {
     [TrackColor(0.1f, 0.6f, 0.1f)]
     [TrackBindingType(typeof(GameObject))]

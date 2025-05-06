@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace Client
+namespace AngelBeat
 {
 
     public class SkillTimeLine : MonoBehaviour, INotificationReceiver

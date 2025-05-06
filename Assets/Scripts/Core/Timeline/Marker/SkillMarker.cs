@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace Client
+namespace AngelBeat
 {
     /// <summary>
-    /// ½ºÅ³ Å¸ÀÓ¶óÀÎ¿ë ¸¶Ä¿
+    /// ï¿½ï¿½Å³ Å¸ï¿½Ó¶ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Ä¿
     /// </summary>
     public class SkillMarker : Marker, INotification
     {

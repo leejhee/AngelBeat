@@ -5,7 +5,7 @@ namespace AngelBeat.Core.Character
 {
     /// <summary> 파티에는 이 정보가 저장됩니다. </summary>
     [Serializable]
-    public class CharacterInfo
+    public class CharacterModel
     {
         [SerializeField]
         private long _index;
@@ -16,7 +16,7 @@ namespace AngelBeat.Core.Character
         public long Index => _index;
         public CharStat Stat => _stat;
 
-        public CharacterInfo(long index)
+        public CharacterModel(long index)
         {
             _index = index;
             _data = DataManager.Instance.GetData<CharData>(index);
@@ -34,7 +34,7 @@ namespace AngelBeat.Core.Character
             _curPos = default;
         }
 
-        public CharacterInfo(long index, CharData data, CharStat stat, Vector3 curPos)
+        public CharacterModel(long index, CharData data, CharStat stat, Vector3 curPos)
         {
             _index = index;
             _data = data;

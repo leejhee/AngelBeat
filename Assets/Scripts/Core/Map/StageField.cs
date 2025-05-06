@@ -3,9 +3,10 @@ using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using static SystemEnum;
-using CharacterInfo = AngelBeat.Core.Character.CharacterInfo;
 
-// 전투 시작시 생성될 맵 오브젝트
+namespace AngelBeat
+{
+    // 전투 시작시 생성될 맵 오브젝트
 [RequireComponent(typeof(Grid)), System.Serializable]
 public class StageField : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class StageField : MonoBehaviour
             return root.transform;
         } }
 
-    private void Start()
+    private void Awake()
     {
         _spawnDict = battleSpawnerData.Convert2Dict();
     }
@@ -69,10 +70,33 @@ public class StageField : MonoBehaviour
     public void SpawnAllUnits(Party playerParty)
     {
         //PlayerSide
-        List<CharacterInfo> partyInfo = playerParty.partyMembers;
-        
+        List<CharacterModel> partyInfo = playerParty.partyMembers;
+        for (int i = 0; i < partyInfo.Count; i++)
+        {
+            CharacterModel character = partyInfo[i];
+            SpawnData data = _spawnDict[eCharType.Player][i];
+            CharBase battlePrefab = BattleCharManager.Instance.CharGenerate(new CharParameter
+            {
+                CharIndex = character.Index,
+                GeneratePos = data.SpawnPosition,
+                Scene = eScene.BattleTestScene
+            });
+            battlePrefab.UpdateCharacterInfo(character);
+            
+        }
 
         //EnemySide
+        foreach (var spawnData in _spawnDict[eCharType.Enemy])
+        {
+            CharBase battlePrefab = BattleCharManager.Instance.CharGenerate(new CharParameter()
+            {
+                CharIndex = spawnData.SpawnCharacterIndex,
+                GeneratePos = spawnData.SpawnPosition,
+                Scene = eScene.BattleTestScene
+            });
+        }
+        
+        
     }
     
     #region 에디터 툴용
@@ -90,3 +114,5 @@ public class StageField : MonoBehaviour
 
 
 
+
+}

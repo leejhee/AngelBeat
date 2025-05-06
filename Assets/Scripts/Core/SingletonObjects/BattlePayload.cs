@@ -1,6 +1,6 @@
 ﻿using AngelBeat.Core.Character;
 
-namespace AngleBeat.Core.SingletonObjects
+namespace AngelBeat.Core.SingletonObjects
 {
     public class BattlePayload : SingletonObject<BattlePayload>{
         public Party PlayerParty { get; private set; }

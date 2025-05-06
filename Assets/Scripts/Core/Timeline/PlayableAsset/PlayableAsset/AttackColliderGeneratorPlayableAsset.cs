@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using static SystemEnum;
 
-namespace Client
+namespace AngelBeat
 {
     public class AttackColliderGeneratorPlayableAsset : SkillTimeLinePlayableAsset
     {

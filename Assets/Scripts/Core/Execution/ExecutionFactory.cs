@@ -1,16 +1,19 @@
-public static class ExecutionFactory
+namespace AngelBeat
 {
-    //execution type에 따라 만들어야함. 종류 많을 예정
-      
-    public static ExecutionBase ExecutionGenerate(ExecutionParameter buffParam)
+    public static class ExecutionFactory
     {
-        switch (buffParam.eExecutionType)
+        //execution type에 따라 만들어야함. 종류 많을 예정
+      
+        public static ExecutionBase ExecutionGenerate(ExecutionParameter buffParam)
         {
-            default:
-                return null;
+            switch (buffParam.eExecutionType)
+            {
+                default:
+                    return null;
+            }
+
         }
 
-    }
-
     
+    }
 }

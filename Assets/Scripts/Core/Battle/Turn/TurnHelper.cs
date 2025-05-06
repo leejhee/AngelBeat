@@ -1,31 +1,34 @@
 using System.Collections.Generic;
 using System;
 
-public class TurnComparer : IComparer<Turn>
+namespace AngelBeat
 {
-    private Func<Turn, Turn, int>[] comparisonFunctions;
-    public TurnComparer(params Func<Turn, Turn, int>[] comparisonFunctions)
+    public class TurnComparer : IComparer<Turn>
     {
-        this.comparisonFunctions = comparisonFunctions;
-    }
-    public int Compare(Turn x, Turn y)
-    {
-        foreach (var func in comparisonFunctions)
+        private Func<Turn, Turn, int>[] comparisonFunctions;
+        public TurnComparer(params Func<Turn, Turn, int>[] comparisonFunctions)
         {
-            int result = func(x, y);
-            if (result != 0)
-                return result;
+            this.comparisonFunctions = comparisonFunctions;
         }
-        return 0;
+        public int Compare(Turn x, Turn y)
+        {
+            foreach (var func in comparisonFunctions)
+            {
+                int result = func(x, y);
+                if (result != 0)
+                    return result;
+            }
+            return 0;
+        }
     }
-}
 
 //[TODO] : 속도 계산식 나오면 작업할 것.
-public static class TurnComparisonMethods
-{
-    public static int VanillaComparer(Turn x, Turn y)
+    public static class TurnComparisonMethods
     {
+        public static int VanillaComparer(Turn x, Turn y)
+        {
 
-        return 0;
+            return 0;
+        }
     }
 }

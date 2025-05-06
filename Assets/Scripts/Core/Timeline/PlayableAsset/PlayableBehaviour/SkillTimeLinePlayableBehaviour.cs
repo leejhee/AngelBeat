@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Playables;
 
-namespace Client
+namespace AngelBeat
 {
     /// <summary>
-    /// ½ºÅ³¿ë ÇÃ·¹ÀÌ¾îºí Çàµ¿
+    /// ï¿½ï¿½Å³ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½àµ¿
     /// </summary>
     public abstract class SkillTimeLinePlayableBehaviour : PlayableBehaviour
     {

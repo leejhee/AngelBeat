@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Playables;
 
-namespace Client
+namespace AngelBeat
 {
     public class AttackColliderGeneratorPlayableBehavior : SkillTimeLinePlayableBehaviour
     {

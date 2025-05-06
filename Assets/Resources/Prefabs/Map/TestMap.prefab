@@ -80,9 +80,9 @@ MonoBehaviour:
             SpawnPosition: {x: -5.121052, y: -0.9604492, z: 0}
         - spawnType: 2
           unitSpawnList:
-          - SpawnCharacterIndex: 1000
+          - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 6.2557693, y: 5.197728, z: 0}
-          - SpawnCharacterIndex: 1000
+          - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 8.9611635, y: -1.2591469, z: 0}
         fieldObjectInfos: []
 --- !u!1 &4934528557023620504

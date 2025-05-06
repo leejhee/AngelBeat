@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Animations;
 
-namespace Client
+namespace AngelBeat
 {
     public class AnimationPlayableAsset: SkillTimeLinePlayableAsset
     {
@@ -25,10 +25,10 @@ namespace Client
             playableBehaviour.animationClip = animationClip;
             var scriptPlayable = ScriptPlayable<AnimationPlayableBehaviour>.Create(graph, playableBehaviour);
 
-            // AnimationClipPlayable »ý¼º
+            // AnimationClipPlayable ï¿½ï¿½ï¿½ï¿½
             var animationPlayable = AnimationClipPlayable.Create(graph, animationClip);
 
-            // ÇÃ·¹ÀÌºíÀ» ¿¬°á
+            // ï¿½Ã·ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             scriptPlayable.AddInput(animationPlayable, 0, 1);
 
             return scriptPlayable;

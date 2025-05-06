@@ -1,6 +1,7 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
-using AngleBeat.Core.SingletonObjects;
+using AngelBeat.Scene;
+using AngelBeat.Core.SingletonObjects;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace AngelBeat.Core.Battle
             BattleInitialize();
         }
         
+        // TODO : Initializer 객체 따로 사용해서 초기화할 것
         private void BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
@@ -32,6 +34,7 @@ namespace AngelBeat.Core.Battle
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
+            
         }
 
         private StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)

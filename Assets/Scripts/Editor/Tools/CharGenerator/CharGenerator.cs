@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace AngelBeat.Tools.CharGenerator
+namespace AngelBeat
 {
     public class CharGenerator : EditorWindow
 {
@@ -178,7 +178,8 @@ public static class CharFactory
         var capsule = go.AddComponent<CapsuleCollider2D>();
         capsule.offset = new Vector2(0, 0.5f);
         capsule.size = new Vector2(0.5f, 1f);
-        go.AddComponent<Rigidbody2D>();
+        var rigid = go.AddComponent<Rigidbody2D>();
+        rigid.freezeRotation = true;
 
         switch (data.defaultCharType)
         {

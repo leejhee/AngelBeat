@@ -1,4 +1,4 @@
-using Client;
+using AngelBeat;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Client
+namespace AngelBeat
 {
     [Serializable]
     public partial class NovelDataSample : SheetData

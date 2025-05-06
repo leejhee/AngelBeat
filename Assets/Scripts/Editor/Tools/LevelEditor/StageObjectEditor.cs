@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using AngelBeat;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;

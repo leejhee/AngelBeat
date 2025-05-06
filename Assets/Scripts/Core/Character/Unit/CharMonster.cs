@@ -1,17 +1,20 @@
 using AngelBeat.Core.SingletonObjects.Managers;
 
-public class CharMonster : CharBase
+namespace AngelBeat
 {
-    private CharAI _charAI;
-
-    protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Enemy;
-    protected override void CharInit()
+    public class CharMonster : CharBase
     {
-        base.CharInit();
-        BattleCharManager.Instance.SetChar<CharMonster>(this);
-        _charAI = new(this);
+        private CharAI _charAI;
 
-    }
+        protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Enemy;
+        protected override void CharInit()
+        {
+            base.CharInit();
+            BattleCharManager.Instance.SetChar<CharMonster>(this);
+            _charAI = new(this);
+
+        }
 
     
+    }
 }

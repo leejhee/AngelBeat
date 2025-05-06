@@ -17,15 +17,13 @@ public class GameManager : MonoBehaviour
     }
     GameManager() { }
     #endregion
-
+    
+    #region 없앨 것.
     //[TODO] : 필요 시 전부 SingletonObject<T>로 상속받도록 구조 바꿀것.
     InputManager _input = new InputManager();
-
-    //SaveLoadManager _saveLoad = new SaveLoadManager();
-
     public static InputManager Input { get { return Instance._input; } }
-    //public static SaveLoadManager SaveLoad { get { return Inst._saveLoad; } }
-
+    #endregion
+    
     private void Start()
     {
         Init();

@@ -21,10 +21,15 @@ public class SystemEnum
 
     public enum eScene
     {
+        None,
+        
         Title,
         Lobby,
+        
+        LoadingScene,
+        ExploreScene,
         BattleTestScene,
-
+        
         MaxCount
     }
 

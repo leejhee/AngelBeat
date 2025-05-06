@@ -12,7 +12,7 @@ namespace AngelBeat.Core.Character
         public SystemEnum.eCharType partyType;
 
         [Header("파티 멤버들을 기록합니다.")]
-        public List<CharacterInfo> partyMembers;
+        public List<CharacterModel> partyMembers;
 
         [Header("해당 파티 전원에 적용되는 효과를 기록합니다.")]
         public List<long> FunctionsPerParty;

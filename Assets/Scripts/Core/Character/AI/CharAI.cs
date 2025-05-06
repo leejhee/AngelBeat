@@ -1,12 +1,15 @@
-public class CharAI
+namespace AngelBeat
 {
-    public CharBase CharAgent { get; private set; }
-    public CharBase CurrentTarget { get; private set; }
-
-    public CharAI(CharBase charAgent)
+    public class CharAI
     {
-        CharAgent = charAgent;
-    }
+        public CharBase CharAgent { get; private set; }
+        public CharBase CurrentTarget { get; private set; }
 
-    //로직 기록...
+        public CharAI(CharBase charAgent)
+        {
+            CharAgent = charAgent;
+        }
+
+        //로직 기록...
+    }
 }

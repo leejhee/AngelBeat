@@ -16,9 +16,12 @@ public class BattleFieldSpawnInfo
     public Dictionary<eCharType, List<SpawnData>> Convert2Dict()
     {
         Dictionary<eCharType, List<SpawnData>> dict = new();
-        foreach (var info in fieldSpawnInfos)
+        foreach (FieldSpawnInfo info in fieldSpawnInfos)
         {
-            dict.Add(info.SpawnType, info.UnitSpawnList);
+            if(!dict.ContainsKey(info.SpawnType))
+                dict.Add(info.SpawnType, new List<SpawnData>());
+            foreach(SpawnData data in info.UnitSpawnList)
+                dict[info.SpawnType].Add(data);
         }
         return dict;
     }

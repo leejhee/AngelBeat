@@ -1,11 +1,18 @@
 using AngelBeat.Core.SingletonObjects.Managers;
 
-public class CharPlayer : CharBase
+namespace  AngleBeat
 {
-    protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Player;
-    protected override void CharInit()
+    
+}
+namespace AngelBeat
+{
+    public class CharPlayer : CharBase
     {
-        base.CharInit();
-        BattleCharManager.Instance.SetChar<CharPlayer>(this);
+        protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Player;
+        protected override void CharInit()
+        {
+            base.CharInit();
+            BattleCharManager.Instance.SetChar<CharPlayer>(this);
+        }
     }
 }
