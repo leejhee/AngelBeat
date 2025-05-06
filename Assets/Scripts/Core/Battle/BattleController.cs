@@ -30,7 +30,8 @@ namespace AngelBeat.Core.Battle
             }
             
             Party party = BattlePayload.Instance.PlayerParty;
-            battleField.SpawnAllUnits(party);
+            List<CharBase> battleMembers = battleField.SpawnAllUnits(party);
+            _turnManager = new TurnController(battleMembers); 
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();

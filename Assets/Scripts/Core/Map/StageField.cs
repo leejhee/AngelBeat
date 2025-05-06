@@ -67,8 +67,10 @@ public class StageField : MonoBehaviour
         }
     }
 
-    public void SpawnAllUnits(Party playerParty)
+    public List<CharBase> SpawnAllUnits(Party playerParty)
     {
+        List<CharBase> battleMembers = new();
+        
         //PlayerSide
         List<CharacterModel> partyInfo = playerParty.partyMembers;
         for (int i = 0; i < partyInfo.Count; i++)
@@ -82,7 +84,7 @@ public class StageField : MonoBehaviour
                 Scene = eScene.BattleTestScene
             });
             battlePrefab.UpdateCharacterInfo(character);
-            
+            battleMembers.Add(battlePrefab);
         }
 
         //EnemySide
@@ -94,9 +96,10 @@ public class StageField : MonoBehaviour
                 GeneratePos = spawnData.SpawnPosition,
                 Scene = eScene.BattleTestScene
             });
+            battleMembers.Add(battlePrefab);
         }
-        
-        
+
+        return battleMembers;
     }
     
     #region 에디터 툴용

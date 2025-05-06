@@ -11,24 +11,29 @@ namespace AngelBeat
         public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
 
-        public TurnController()
+        public TurnController(List<CharBase> battleMembers)
         {
-            InitializeTurnQueue();
+            InitializeTurnQueue(battleMembers);
         }
 
-        private void InitializeTurnQueue()
+        private void InitializeTurnQueue(List<CharBase> battleMembers)
         {
-            var sorted = BattleCharManager.Instance.GetBattleParticipants();
-            foreach (var character in sorted)
+            //var sorted = BattleCharManager.Instance.GetBattleParticipants();
+            foreach (var character in battleMembers)
             {
                 _turnQueue.Enqueue(new Turn(character));
             }
         }
 
+        private void InitializeTurnQueue(List<Turn> buffer)
+        {
+            
+        }
+        
         public void RebuildTurnQueue()
         {
             _turnQueue.Clear();
-            InitializeTurnQueue();
+            InitializeTurnQueue(_turnBuffer);
         }
 
         public void ChangeTurn()
