@@ -24,10 +24,19 @@ namespace AngelBeat
             skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
             skillBase.Init(_skillData);
 
-            if (_skillData == null)
+            return skillBase;
+        }
+        
+        // GetData를 많이 하는 것보다 나을 거 같아서 사용
+        public static SkillBase CreateSkill(SkillData skillData)
+        {
+            if (skillData == null)
             {
-                Debug.LogWarning($"CreateSkill : {skillIndex} 스킬 생성 실패.");
+                Debug.LogError("왜 매개변수로 null 넣으세요? : CreateSkill(SkillData)");
+                return null;
             }
+            SkillBase skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillData.skillTimeLine}");
+            skillBase.Init(skillData);
             return skillBase;
         }
     }

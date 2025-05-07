@@ -27,7 +27,8 @@ namespace AngelBeat.Tools.DataImporter
                 var name = fieldNames[col];
                 var type = fieldTypes[col];
 
-                if (comment[0] == '#' || name[0] == '#' || type[0] == '#') continue;
+                if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(type) 
+                    || comment[0] == '#' || name[0] == '#' || type[0] == '#') continue;
 
                 var toMemberType = ToMemberType(type.Replace("[]", ""));
                 if (toMemberType != string.Empty)

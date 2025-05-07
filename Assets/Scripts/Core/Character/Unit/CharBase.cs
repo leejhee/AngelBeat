@@ -13,8 +13,9 @@ namespace AngelBeat
         [SerializeField] protected Animator _Animator;
         [SerializeField] private Collider _battleCollider;
         [SerializeField] private GameObject _CharCameraPos;
-
-        private CharacterInfo _charInfo;
+        
+        //TODO : 현 CharBase와 겹치는 사항 관리하기
+        private CharacterModel _charInfo;
         
         private Transform       _charTransform;
         private Transform       _charUnitRoot;
@@ -48,9 +49,6 @@ namespace AngelBeat
         protected virtual SystemEnum.eCharType CharType => _charData.defaultCharType;
 
         protected long _uid;
-
-
-
         protected CharBase() { }
 
         private void Awake()
@@ -58,10 +56,9 @@ namespace AngelBeat
             _charTransform = transform;
             _charUnitRoot = Util.FindChild<Transform>(gameObject, "UnitRoot");
             _uid = BattleCharManager.Instance.GetNextID();
-
-            _charData = DataManager.Instance.GetData<CharData>(_index);
             _charAnim = new();
-
+            
+            _charData = DataManager.Instance.GetData<CharData>(_index);
             if (_charData != null)
             {
                 CharStatData charStat = DataManager.Instance.GetData<CharStatData>(_charData.charStat);
@@ -90,18 +87,21 @@ namespace AngelBeat
             CharInit();
         }
 
-        protected virtual void CharInit()
+        protected virtual void CharInit(){}
+        
+        public void UpdateCharacterInfo(CharacterModel charInfo)
         {
-            // 스킬
+            if (charInfo.Index != _index)
+            {
+                Debug.LogError("인덱스 불일치. 코드 이상 혹은 데이터의 캐릭터 정보와 프리팹 차이 학인 바람");
+                return;
+            }
+            _charData = DataManager.Instance.GetData<CharData>(charInfo.Index);
+            
             _skillInfo = new SkillInfo(this);
             _skillInfo?.Init(_charData.charSkillList);
 
-
-        }
-
-        public void UpdateCharacterInfo(CharacterModel charInfo)
-        {
-            
+            _charStat = charInfo.Stat;
         }
         
         public virtual void CharDistroy()

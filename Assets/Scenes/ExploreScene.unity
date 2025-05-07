@@ -677,7 +677,7 @@ MonoBehaviour:
   playerParty:
     partyType: 1
     partyMembers:
-    - _index: 88888888
+    - index: 0
     FunctionsPerParty: 
 --- !u!212 &1511068806
 SpriteRenderer:

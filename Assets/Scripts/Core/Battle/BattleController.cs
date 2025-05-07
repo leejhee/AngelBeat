@@ -1,7 +1,7 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
-using AngelBeat.Scene;
 using AngelBeat.Core.SingletonObjects;
+using Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,8 @@ namespace AngelBeat.Core.Battle
     {
         private List<CharBase> _battleCharList;
         private TurnController _turnManager;
-
+        private CharBase FocusChar => _turnManager.TurnOwner;
+        
         private void Start()
         {
             BattleInitialize();
@@ -33,6 +34,15 @@ namespace AngelBeat.Core.Battle
             List<CharBase> battleMembers = battleField.SpawnAllUnits(party);
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
+            EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
+            {
+                _turnManager.ChangeTurn();
+            });
+
+            EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
+            {
+                Debug.Log("Message Received : OnMoveInput");
+            }); 
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();

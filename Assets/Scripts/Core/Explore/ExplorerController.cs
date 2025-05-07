@@ -1,4 +1,6 @@
 using AngelBeat.Core.Character;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AngelBeat.Core.Explore
@@ -24,6 +26,12 @@ namespace AngelBeat.Core.Explore
 
         [SerializeField] private Party playerParty;
         public Party PlayerParty => playerParty;
+
+        private void Start()
+        {
+            var testXiaoModel = new CharacterModel(88888888);
+            playerParty = new Party(new List<CharacterModel> { testXiaoModel });
+        }
 
     }
 }

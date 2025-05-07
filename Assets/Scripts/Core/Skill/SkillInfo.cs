@@ -32,10 +32,27 @@ namespace AngelBeat
             // 스킬 추가
             for (int i = 0; i < skillArray.Count; i++)
             {
-                AddSkill(skillArray[i], i);
+                AddSkill(skillArray[i]);
             }
-        }    
+        }
 
+        public void Init(List<SkillData> skills)
+        {
+            string SkillRoot = "SkillRoot";
+            GameObject skillRoot = Util.FindChild(_charBase.gameObject, SkillRoot, false);
+            if (skillRoot == null)
+            {
+                skillRoot = new GameObject(SkillRoot);
+            }
+            _SkillRoot = skillRoot.transform;
+            
+            for (int i = 0; i < skills.Count; i++)
+            {
+                AddSkill(skills[i]);
+            }
+        }
+        
+        
         public void DeleteSkill(long skillIndex)
         {
             if (_dicSkill == null)
@@ -47,23 +64,36 @@ namespace AngelBeat
             }
         }
 
-        public void AddSkill(long skillIndex, int idx)
+        public void AddSkill(long skillIndex)
         {
             if (_dicSkill == null)
                 return;
+            
+            SkillBase skillBase = SkillFactory.CreateSkill(skillIndex);
+            if (skillBase == null)
+                return;
 
-            if (!_dicSkill.ContainsKey(idx + 1))
-            {
-                SkillBase skillBase = SkillFactory.CreateSkill(skillIndex);
-                if (skillBase == null)
-                    return;
-
-                skillBase.SetCharBase(_charBase);
-                _dicSkill.Add(skillIndex, skillBase);
-                skillBase.transform.parent = _SkillRoot;
-            }
+            skillBase.SetCharBase(_charBase);
+            _dicSkill.Add(skillIndex, skillBase);
+            skillBase.transform.parent = _SkillRoot;
+            
         }
 
+        public void AddSkill(SkillData skillData)
+        {
+            if (_dicSkill == null)
+                return;
+            
+            SkillBase skillBase = SkillFactory.CreateSkill(skillData);
+            if (skillBase == null)
+                return;
+            
+            skillBase.SetCharBase(_charBase);
+            _dicSkill.Add(skillData.index, skillBase);
+            skillBase.transform.parent = _SkillRoot;
+        }
+        
+        
         public void PlaySkill(long skillIndex, SkillParameter parameter)
         {
             if (_dicSkill == null)

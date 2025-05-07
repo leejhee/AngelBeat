@@ -10,9 +10,11 @@ namespace AngelBeat
         protected override void CharInit()
         {
             base.CharInit();
-            BattleCharManager.Instance.SetChar<CharMonster>(this);
+            BattleCharManager.Instance.SetChar(this);
+            
+            
+            
             _charAI = new(this);
-
         }
 
     

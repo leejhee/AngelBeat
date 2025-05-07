@@ -31,7 +31,11 @@ namespace AngelBeat
 
         private void InitializeTurnQueue(List<Turn> buffer)
         {
-            
+            buffer.Sort(new TurnComparer(TurnComparisonMethods.VanillaComparer));
+            foreach (var turn in buffer)
+            {
+                _turnQueue.Enqueue(turn);
+            }
         }
 
         private void RebuildTurnQueue()

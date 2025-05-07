@@ -10,16 +10,14 @@ namespace AngelBeat
     {
 
     }
-
-
+    
+    [RequireComponent(typeof(SkillMarkerReceiver))]
     public class SkillBase : MonoBehaviour
     {
         private SkillData _skillData;
         private PlayableDirector _director;
         public CharBase CharPlayer { get; private set; }
-
-   
-
+        
         private void Awake()
         {
             _director = GetComponent<PlayableDirector>();

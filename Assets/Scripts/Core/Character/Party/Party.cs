@@ -16,6 +16,22 @@ namespace AngelBeat.Core.Character
 
         [Header("해당 파티 전원에 적용되는 효과를 기록합니다.")]
         public List<long> FunctionsPerParty;
+
+        public Party(
+            List<CharacterModel> partyMembers,
+            List<long> FunctionsPerParty=null,
+            SystemEnum.eCharType partyType = SystemEnum.eCharType.Player
+            )
+        {
+            this.partyMembers = partyMembers;
+            this.FunctionsPerParty = FunctionsPerParty;
+            this.partyType = partyType;
+        }
+        
+        public void AddMember(CharacterModel member)
+        {
+            partyMembers.Add(member);
+        }
         
     }
 }

@@ -12,7 +12,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
     public class BattleCharManager : SingletonObject<BattleCharManager>
     {
         // 존재하는 Char (Char Type을 Key1 Char ID를 Key2로 사용)
-        private Dictionary<Type, Dictionary<long, CharBase>> _cache = new Dictionary<Type, Dictionary<long, CharBase>>();
+        private Dictionary<Type, Dictionary<long, CharBase>> _cache = new();
         // 고유 ID 생성 
         private long _nextID = 0;
         #region 생성자
@@ -108,9 +108,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             charBase.transform.position = charParam.GeneratePos;
             return charBase;
         }
-        
-        
-        
+       
         public CharBase CharGenerate(long charIndex)
         {
             CharData charData = DataManager.Instance.GetData<CharData>(charIndex);

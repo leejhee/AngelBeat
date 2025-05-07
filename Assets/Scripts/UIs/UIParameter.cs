@@ -9,4 +9,10 @@ namespace AngelBeat
         public CharBase TurnOwner;
     }
     
+    public class OnMoveInput : UIParameter
+    {
+    }
+    
+    public class OnTurnEndInput : UIParameter{}
+    
 }

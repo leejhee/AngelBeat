@@ -23,9 +23,10 @@ namespace AngelBeat
             if (_ExecutionData == null)
             {
                 Debug.LogError($"Execution : {buffParam.ExecutionIndex} 데이터 획득 실패");
+                return;
             }
 
-            ExecutionType = _ExecutionData.type;
+            ExecutionType = _ExecutionData.executionType;
         }
 
         // '턴'으로 바꿔야한다!

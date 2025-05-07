@@ -151,6 +151,16 @@ public class SystemEnum
         eMax
     }
 
+    public enum eExecutionPhase
+    {
+        None,
+        EoR,
+        Always,
+        SoR,
+        Instant,
+        eMax
+    }
+    
     public enum eIsAttack
     {
         Player,
