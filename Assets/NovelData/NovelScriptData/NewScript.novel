@@ -5,3 +5,5 @@
 영희: 안녕?
 //이건 주석이야
 @char 철수
+@back 리월항입구.DropFade pos: 10.1, 2.4 scale: 0.2 time : 2.1 wait!
+여기까지인가보다

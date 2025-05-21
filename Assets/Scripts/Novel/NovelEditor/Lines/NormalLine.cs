@@ -10,10 +10,9 @@ namespace novel
         
         public string line;
 
-        public NormalLine(string line) : base(DialogoueType.NormalLine)
+        public NormalLine(int index, string line) : base(index, DialogoueType.NormalLine)
         {
             this.line = line;
         }
-        public NormalLine() : base(DialogoueType.NormalLine) { }
     }
 }

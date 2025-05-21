@@ -10,11 +10,10 @@ namespace novel
         public string actorName;
         public string actorLine;
 
-        public PersonLine(string name, string line) : base(DialogoueType.PersonLine)
+        public PersonLine(int index, string name, string line) : base(index, DialogoueType.PersonLine)
         {
             this.actorLine = line;
             this.actorName = name;
         }
-        public PersonLine() : base(DialogoueType.PersonLine) { }
     }
 }

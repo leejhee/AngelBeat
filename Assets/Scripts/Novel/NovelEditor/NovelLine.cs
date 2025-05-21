@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,9 @@ namespace novel
         public int index;
         public DialogoueType type;
 
-        protected NovelLine(DialogoueType type)
+        protected NovelLine(int index, DialogoueType type)
         {
+            this.index = index;
             this.type = type;
         }
     }

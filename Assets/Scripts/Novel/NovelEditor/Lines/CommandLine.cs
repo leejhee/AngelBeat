@@ -5,14 +5,13 @@ using UnityEngine;
 namespace novel
 {
     [System.Serializable]
-    public class CommandLine : NovelLine
+    public abstract class CommandLine : NovelLine
     {
-        public CommandType commandType;
-
-        public CommandLine(CommandType cmdType) : base(DialogoueType.CommandLine)
+        public CommandLine(int index, DialogoueType type) : base(index, type)
         {
-            commandType = cmdType;
+
         }
-        public CommandLine() : base(DialogoueType.CommandLine) { }
+
+        public abstract void Execute();
     }
 }

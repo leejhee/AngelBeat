@@ -9,11 +9,10 @@ namespace novel
     {
         public string labelName;
 
-        public LabelLine(string labelName) : base(DialogoueType.LabelLine)
+        public LabelLine(int index, string labelName) : base(index, DialogoueType.LabelLine)
         {
             this.labelName = labelName;
         }
-        public LabelLine() : base(DialogoueType.LabelLine) { }
     }
 }
 
