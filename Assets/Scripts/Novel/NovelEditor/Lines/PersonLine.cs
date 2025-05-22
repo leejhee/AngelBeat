@@ -13,7 +13,9 @@ namespace novel
         public PersonLine(int index, string name, string line) : base(index, DialogoueType.PersonLine)
         {
             this.actorLine = line;
-            this.actorName = name;
+
+            
+            this.actorName = NovelManager.Instance.GetCharacterSO(name).name;
         }
     }
 }

@@ -21,6 +21,7 @@ public static class NovelCharacterSOFactory
         var asset = ScriptableObject.CreateInstance<NovelCharacterSO>();
         asset.Init(name, sprites);
 
+
         if (!string.IsNullOrEmpty(characterSOPath))
         {
             //기존에 이미 SO파일이 있다면 머리 위치만 남기고 삭제

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using novel;
 using System;
+using Unity.VisualScripting;
 
 
 public class NovelManager : SingletonObject<NovelManager>
@@ -11,13 +12,24 @@ public class NovelManager : SingletonObject<NovelManager>
     NovelManager() { }
     #endregion
 
-    private Dictionary<string, NovelCharacterSO> characterSODict = new();
+    private Dictionary<string, NovelCharacterSO> _characterSODict = new();
     private const string characterSOPath = "Novel/NovelResourceData/CharacterData/CharacterSO";
+
+    public Dictionary<string, NovelCharacterSO> characterSODict
+    {
+        get { return _characterSODict; }
+        private set { _characterSODict = value; }
+    }
     public override void Init()
     {
-        //CreateCharacterSOAssets();
+        CreateCharacterSOAssets();
+
+        //저장되어 있는 SO 불러오기
         LoadCharacterSO();
+
     }
+
+    
     private void CreateCharacterSOAssets()
     {
         string[] characterNames = Enum.GetNames(typeof(CharacterName));
@@ -28,7 +40,7 @@ public class NovelManager : SingletonObject<NovelManager>
     }
     private void LoadCharacterSO()
     {
-        characterSODict.Clear();
+        _characterSODict.Clear();
 
         string[] characterNames = Enum.GetNames(typeof(CharacterName));
         NovelCharacterSO[] characterSOs = ResourceManager.LoadAllAssets<NovelCharacterSO>(characterSOPath);
@@ -43,9 +55,20 @@ public class NovelManager : SingletonObject<NovelManager>
 
         foreach (var character in characterSOs)
         {
-            characterSODict.Add(character.name, character);
+            _characterSODict.Add(character.name, character);
         }
         
+    }
+    public NovelCharacterSO GetCharacterSO(string name)
+    {
+        NovelCharacterSO characterSO = null;
+        _characterSODict.TryGetValue(name, out characterSO);
+        if (characterSO == null)
+        {
+            Debug.LogError($"{name} SO 불러오기 실패");
+            return null;
+        }
+        return characterSO;
     }
     public void PlayScript(string scriptTitle)
     {

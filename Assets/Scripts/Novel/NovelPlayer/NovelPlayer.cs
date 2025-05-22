@@ -13,18 +13,20 @@ public class NovelPlayer : MonoBehaviour
     public TextAsset novelScript;
     [SerializeField]
     public NovelAct currentAct = new();
+    public Dictionary<string, int> labelDict = new Dictionary<string, int>();
      
     private bool isFinished = false;
 
-    [Header("노벨 플레이어 UI 오브젝트")]
+    [Header("노벨 플레이어 UI 패널")]
     [SerializeField]
     private GameObject _dialoguePanel;
-    [SerializeField]
     public GameObject backgroundPanel;
+    public GameObject namePanel;
+    public GameObject standingPanel;
+
+    [Header("노벨 플레이어 UI 기타 오브젝트")]
     [SerializeField]
     private TextMeshProUGUI novelText;
-    [SerializeField]
-    private GameObject namePanel;
     [SerializeField]
     private TextMeshProUGUI nameText;
     [SerializeField]
@@ -34,7 +36,9 @@ public class NovelPlayer : MonoBehaviour
     public GameObject currentBackgroundObject;
 
     private List<CommandLine> _waitedCommandLines = new();
-    public List<GameObject> standingObjects = new();
+    //public List<NovelCharacterSO> currentCharacters = new();
+    public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
+
 
     [Header("프리팹")]
     public GameObject backgroundPrefab;
@@ -58,13 +62,21 @@ public class NovelPlayer : MonoBehaviour
         nextButton.onClick.AddListener(OnNextLineClicked);
         currentAct.ResetAct();
 
-        GameObject body = standingObject.transform.GetChild(0).gameObject;
-        GameObject head = standingObject.transform.GetChild(1).gameObject;
-        Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
-        Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
-        head.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
-        Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
+
+        NovelCharacterSO so = new NovelCharacterSO();
+        NovelManager.Instance.characterSODict.TryGetValue("DonQuixote", out so);
+        foreach (var sprite in so.headDict.Values)
+        {
+            Debug.Log(sprite);
+        }
+
+        //GameObject body = standingObject.transform.GetChild(0).gameObject;
+        //GameObject head = standingObject.transform.GetChild(1).gameObject;
+        //Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
+        //Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
+        //head.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+        //Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
+        //Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
     }
     private void OnNextLineClicked()
     {
