@@ -36,7 +36,6 @@ public class NovelPlayer : MonoBehaviour
     public GameObject currentBackgroundObject;
 
     private List<CommandLine> _waitedCommandLines = new();
-    //public List<NovelCharacterSO> currentCharacters = new();
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
 
 
@@ -65,18 +64,7 @@ public class NovelPlayer : MonoBehaviour
 
         NovelCharacterSO so = new NovelCharacterSO();
         NovelManager.Instance.characterSODict.TryGetValue("DonQuixote", out so);
-        foreach (var sprite in so.headDict.Values)
-        {
-            Debug.Log(sprite);
-        }
 
-        //GameObject body = standingObject.transform.GetChild(0).gameObject;
-        //GameObject head = standingObject.transform.GetChild(1).gameObject;
-        //Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
-        //Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
-        //head.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
-        //Debug.Log(body.GetComponent<RectTransform>().anchoredPosition);
-        //Debug.Log(head.GetComponent<RectTransform>().anchoredPosition);
     }
     private void OnNextLineClicked()
     {

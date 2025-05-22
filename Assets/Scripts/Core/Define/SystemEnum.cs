@@ -169,16 +169,16 @@ public class SystemEnum
         eMax
     }
 
-    public enum NovelCommand
-    {
-        NormalText,
-        PersonText,
-        BackGround,
-        Stand,
-        BGM,
-        SFX,
-        Choice,
-        Effect,
-        End
-    }
+    //public enum NovelCommand
+    //{
+    //    NormalText,
+    //    PersonText,
+    //    BackGround,
+    //    Stand,
+    //    BGM,
+    //    SFX,
+    //    Choice,
+    //    Effect,
+    //    End
+    //}
 }

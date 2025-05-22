@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using novel;
 using System;
-using Unity.VisualScripting;
 
 
 public class NovelManager : SingletonObject<NovelManager>

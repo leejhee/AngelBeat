@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
             DataManager.Instance.Init();
             StageManager.Instance.Init();
             NovelManager.Instance.Init();
+            SoundManager.Instance.Init();
         }
     }
 

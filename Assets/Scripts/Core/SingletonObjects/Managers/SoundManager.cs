@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UIElements;
 using static SystemEnum;
 
 public class SoundManager : SingletonObject<SoundManager>
@@ -25,7 +26,7 @@ public class SoundManager : SingletonObject<SoundManager>
         currentEffectVolume = 1;
 
 
-        audioMixer = Resources.Load<AudioMixer>("MyMixer");
+        audioMixer = Resources.Load<AudioMixer>("AudioMixer");
         AudioMixerGroup[] audioMixerGroups = audioMixer.FindMatchingGroups("Master");
 
         GameObject root = GameObject.Find("@Sound");
@@ -44,6 +45,7 @@ public class SoundManager : SingletonObject<SoundManager>
             }
 
             _audioSources[(int)Sound.Bgm].loop = true;
+
         }
     }
 
@@ -88,8 +90,8 @@ public class SoundManager : SingletonObject<SoundManager>
 
     AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)
     {
-        if (path.Contains("Sounds/") == false)
-            path = $"Sounds/{path}";
+        //if (path.Contains("Sounds/") == false)
+        //    path = $"Sounds/{path}";
         AudioClip audioClip = null;
 
         if (type == Sound.Bgm)

@@ -26,7 +26,8 @@ namespace novel
 
         public override void Execute()
         {
-            Debug.Log("BGM Execute");
+            string path = $"Novel/NovelResourceData/SoundData/BGMData/{bgmName}";
+            SoundManager.Instance.Play(path, SystemEnum.Sound.Bgm);
         }
     }
 

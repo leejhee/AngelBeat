@@ -1,3 +1,4 @@
+@bgm Ereb
 첫번째 스크립트
 #라벨
 //이건 주석이야
@@ -10,4 +11,3 @@ DonQuixote : 자, 동료들이여! 자세를 갖추고 저들을 맞이하세! �
 @back 천수각
 @char DonQuixote.Annoing
 여기가 어디지?
-@bgm 메인사운드 volume : 23 loop! time : 2.3 fade : 1.1 !wait
