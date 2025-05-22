@@ -1,4 +1,3 @@
-using nonvel;
 using novel;
 using System;
 using System.Collections;
@@ -14,12 +13,24 @@ public static class NovelParser
     private static Regex commandLine = new Regex(@"^@\s*");
     private static Regex personLine = new Regex(@"(?<name>.+?)\s*:\s*(?<line>.+)\s*$");
 
-    // 각 인수 별 우선순위
-    private static Regex backCommand = new Regex(@"^@back\s+(?<name>\w+)(\.(?<transition>\w+))?" + 
-                                                @"(\s+pos\s*:\s*(?<posX>[\d.]+)\s*,\s*(?<posY>[\d.]+))?(\s+scale\s*:\s*(?<scale>[\d.]+))?" + 
-                                                @"(\s+time\s*:\s*(?<time>[\d.]+))?(\s+(?<wait>!wait|wait!))?", RegexOptions.Compiled);
-    
-    
+    //Command Regex
+    private static Regex backCommand = new Regex(@"^@back\s+(?<name>\w+)(\.(?<transition>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex bgmCommand = new Regex(@"^@bgm\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex charCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    //Command Parameter Regex
+    private static Regex posPattern = new Regex(@"pos\s*:\s*(?<posX>[\d.]+)\s*,\s*(?<posY>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex scalePattern = new Regex(@"scale\s*:\s*(?<scale>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex timePattern = new Regex(@"time\s*:\s*(?<time>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex waitPattern = new Regex(@"(?<wait>!wait|wait!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private static Regex volumePattern = new Regex(@"volume\s*:\s*(?<volume>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex loopPattern = new Regex(@"(?<loop>!loop|loop!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex fadePattern = new Regex(@"fade\s*:\s*(?<fade>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private static Regex transitionPattern = new Regex(@"transition\s*:\s*(?<transition>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+
     public static NovelAct Parse(string[] lines)
     {
         NovelAct act = new();
@@ -73,30 +84,34 @@ public static class NovelParser
         if (backCommand.IsMatch(line))
         {
             var match = backCommand.Match(line);
+
             string backName = match.Groups["name"].Value;
             string transition = match.Groups["transition"].Value;
+
             Vector2? pos = null;
-            if (match.Groups["posX"].Success && match.Groups["posY"].Success)
+            var PosMatch = posPattern.Match(line);
+            if (PosMatch.Success)
             {
-                Debug.Log("이거 작동 안해?");
-                float x = float.Parse(match.Groups["posX"].Value);
-                float y = float.Parse(match.Groups["posY"].Value);
+                float x = float.Parse(PosMatch.Groups["posX"].Value);
+                float y = float.Parse(PosMatch.Groups["posY"].Value);
                 pos = new Vector2(x, y);
             }
 
-            Debug.Log(backName);
-            Debug.Log(transition);
-            Debug.Log(pos);
+            float? scale = null;
+            var scaleMatch = scalePattern.Match(line);
+            if (scaleMatch.Success)
+                scale = float.Parse(scaleMatch.Groups["scale"].Value);
 
-
-            float? scale = float.Parse(match.Groups["scale"].Value);
-            float? time = float.Parse(match.Groups["time"].Value);
+            float? time = null;
+            var timeMatch = timePattern.Match(line);
+            if (timeMatch.Success)
+                time = float.Parse(timeMatch.Groups["time"].Value);
 
             bool? wait = null;
-
-            if (match.Groups["wait"].Success)
+            var waitMatch = waitPattern.Match(line);
+            if (waitMatch.Success)
             {
-                var waitStr = match.Groups["wait"].Value;
+                var waitStr = waitMatch.Groups["wait"].Value;
                 if (waitStr == "!wait")
                     wait = true;
                 else if (waitStr == "wait!")
@@ -105,6 +120,95 @@ public static class NovelParser
 
             Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nWait : {wait}");
             act.novelLines.Add(new BackCommand(index, backName, transition, pos, scale, time, wait));
+        }
+        else if (bgmCommand.IsMatch(line))
+        {
+            var bgmMatch = bgmCommand.Match(line);
+            string bgmName = bgmMatch.Groups["name"].Value;
+
+            int? volume = null;
+            var volumeMatch = volumePattern.Match(line);
+            if (volumeMatch.Success)
+                volume = int.Parse(volumeMatch.Groups["volume"].Value);
+
+            bool? loop = null;
+            var loopMatch = loopPattern.Match(line);
+            if (loopMatch.Success)
+            {
+                var loopStr = loopMatch.Groups["loop"].Value;
+                if (loopStr == "!loop")
+                    loop = true;
+                else if (loopStr == "loop!")
+                    loop = false;
+            }
+
+            float? time = null;
+            var timeMatch = timePattern.Match(line);
+            if (timeMatch.Success)
+                time = float.Parse(timeMatch.Groups["time"].Value);
+
+            float? fade = null;
+            var fadeMatch = fadePattern.Match(line);
+            if (fadeMatch.Success)
+                fade = float.Parse(fadeMatch.Groups["fade"].Value);
+
+            bool? wait = null;
+            var waitMatch = waitPattern.Match(line);
+            if (waitMatch.Success)
+            {
+                var waitStr = waitMatch.Groups["wait"].Value;
+                if (waitStr == "!wait")
+                    wait = true;
+                else if (waitStr == "wait!")
+                    wait = false;
+            }
+
+            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nwait : {wait}");
+            act.novelLines.Add(new BgmCommand(index, bgmName, volume, time, fade, loop, wait));
+        }
+        else if (charCommand.IsMatch(line))
+        {
+            var charMatch = charCommand.Match(line);
+            string name = charMatch.Groups["name"].Value;
+            string appearance = charMatch.Groups["appearance"].Value;
+
+            Vector2? pos = null;
+            var PosMatch = posPattern.Match(line);
+            if (PosMatch.Success)
+            {
+                float x = float.Parse(PosMatch.Groups["posX"].Value);
+                float y = float.Parse(PosMatch.Groups["posY"].Value);
+                pos = new Vector2(x, y);
+            }
+
+            float? scale = null;
+            var scaleMatch = scalePattern.Match(line);
+            if (scaleMatch.Success)
+                scale = float.Parse(scaleMatch.Groups["scale"].Value);
+
+            string transition = null;
+            var transitionMatch = transitionPattern.Match(line);
+            if (transitionMatch.Success)
+                transition = transitionMatch.Groups["transition"].Value;
+
+            float? time = null;
+            var timeMatch = timePattern.Match(line);
+            if (timeMatch.Success)
+                time = float.Parse(timeMatch.Groups["time"].Value);
+
+            bool? wait = null;
+            var waitMatch = waitPattern.Match(line);
+            if (waitMatch.Success)
+            {
+                var waitStr = waitMatch.Groups["wait"].Value;
+                if (waitStr == "!wait")
+                    wait = true;
+                else if (waitStr == "wait!")
+                    wait = false;
+            }
+
+            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}");
+            act.novelLines.Add(new CharCommand(index, name, appearance, transition, pos, scale, time, wait));
         }
     }
 }

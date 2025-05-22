@@ -1,0 +1,10 @@
+첫번째 스크립트
+#라벨
+//이건 주석이야
+@char DonQuixote
+@char DonQuixote.CloseEye
+돈키호테 : 자, 동료들이여! 자세를 갖추고 저들을 맞이하세! 우리를 가로막는 저 시련을 해치우고, 끝나지 않는 모험을 향하여!
+@char 영희.웃음 pos : 2,1 scale :2.5transition: qwer time : 3.3
+@back 천수각 pos : 100, 100 scale: 0.5
+@bgm 메인사운드 volume : 23 loop! time : 2.3 fade : 1.1 !wait
+여기까지인가보다

@@ -7,6 +7,7 @@ namespace novel
     [System.Serializable]
     public class NovelAct
     {
+        [SerializeReference]
         public List<NovelLine> novelLines = new();
 
         private int currentIndex = 0;

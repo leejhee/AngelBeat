@@ -13,6 +13,7 @@ namespace novel
         protected NovelLine(int index, DialogoueType type)
         {
             this.index = index;
+
             this.type = type;
         }
     }

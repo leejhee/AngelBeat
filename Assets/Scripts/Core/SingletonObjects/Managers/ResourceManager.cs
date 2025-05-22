@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : SingletonObject<ResourceManager>
+public partial class ResourceManager : SingletonObject<ResourceManager>
 {
     Dictionary<string, Object> _cache = new Dictionary<string, Object>();
 

@@ -20,4 +20,8 @@ namespace novel
         Choice,
         Goto
     }
+    public enum CharacterName
+    {
+        DonQuixote
+    }
 }
