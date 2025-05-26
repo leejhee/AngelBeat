@@ -1,3 +1,5 @@
+using System;
+
 public class SystemEnum
 {
     public enum UIEvent
@@ -114,6 +116,29 @@ public class SystemEnum
         eMax
     }
 
+    public enum eConditionCheckType
+    {
+        STACK_화상,
+        
+        STAT_NMHP,
+        STAT_NHP,
+        
+    }
+
+    public enum eConditionOpcode
+    {
+        None,
+        
+        BIGGER,
+        SMALLER,
+        EQUAL,
+        NOT_EQUAL,
+        GREATER_EQUAL,
+        LESS_EQUAL,
+        
+        eMax
+    }
+
     public enum eSkillType
     {
         None,
@@ -127,6 +152,14 @@ public class SystemEnum
 
     }
 
+    public enum ePivot
+    {
+        None,
+        
+        SELF,
+        TARGET_ENEMY,
+    }
+    
     public enum eDungeon
     {
         None,
@@ -151,6 +184,14 @@ public class SystemEnum
         eMax
     }
 
+    public enum eKeyword
+    {
+        화상,
+        파열,
+        충전,
+        출혈,
+    }
+
     public enum eExecutionPhase
     {
         None,
@@ -168,17 +209,25 @@ public class SystemEnum
 
         eMax
     }
-
-    //public enum NovelCommand
-    //{
-    //    NormalText,
-    //    PersonText,
-    //    BackGround,
-    //    Stand,
-    //    BGM,
-    //    SFX,
-    //    Choice,
-    //    Effect,
-    //    End
-    //}
+    
+    [Flags]
+    public enum eSkillUnlock
+    {
+        EUINYEO_SKILL_1,
+        EUINYEO_SKILL_2,
+        EUINYEO_SKILL_3,
+    }
+    
+    public enum NovelCommand
+    {
+        NormalText,
+        PersonText,
+        BackGround,
+        Stand,
+        BGM,
+        SFX,
+        Choice,
+        Effect,
+        End
+    }
 }

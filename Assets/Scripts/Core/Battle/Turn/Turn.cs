@@ -1,5 +1,5 @@
 using AngelBeat.Core;
-using Core.SingletonObjects.Managers;
+using AngelBeat.Core.SingletonObjects.Managers;
 using System;
 
 namespace AngelBeat

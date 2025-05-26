@@ -1,5 +1,6 @@
 using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
+using static AngelBeat.TurnComparisonMethods;
 
 namespace AngelBeat
 {
@@ -22,7 +23,7 @@ namespace AngelBeat
             {
                 _turnBuffer.Add(new Turn(character));
             }
-            _turnBuffer.Sort(new TurnComparer(TurnComparisonMethods.VanillaComparer));
+            _turnBuffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in _turnBuffer)
             {
                 _turnQueue.Enqueue(turn);
@@ -31,7 +32,7 @@ namespace AngelBeat
 
         private void InitializeTurnQueue(List<Turn> buffer)
         {
-            buffer.Sort(new TurnComparer(TurnComparisonMethods.VanillaComparer));
+            buffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in buffer)
             {
                 _turnQueue.Enqueue(turn);

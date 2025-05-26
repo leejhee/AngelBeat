@@ -1,3 +1,4 @@
+using AngelBeat.Core;
 using AngelBeat.Core.Character;
 using AngelBeat.Core.SingletonObjects.Managers;
 using System;
@@ -15,18 +16,19 @@ namespace AngelBeat
         [SerializeField] private GameObject _CharCameraPos;
         
         //TODO : 현 CharBase와 겹치는 사항 관리하기
-        private CharacterModel _charInfo;
+        private CharacterModel  _charInfo;
         
         private Transform       _charTransform;
         private Transform       _charUnitRoot;
-
+        private GameObject      _charSnapShot;
+        
         private CharData        _charData;  
-        private StackInfo       _stackInfo;
         private CharStat        _charStat;
         private CharAnim        _charAnim = null;
         
         private ExecutionInfo   _executionInfo;
         private SkillInfo       _skillInfo;
+        private KeywordInfo     _keywordInfo;
 
         private PlayerState _currentState; // 현재 상태
         private bool _isAction = false;    // 행동중인가? 판별
@@ -38,14 +40,36 @@ namespace AngelBeat
         public GameObject SkillRoot => _SkillRoot;
         public Collider BattleCollider => _battleCollider;
         public GameObject CharCameraPos => _CharCameraPos;
+        public GameObject CharSnapShot => _charSnapShot;
         public CharAnim CharAnim => _charAnim;
         public CharStat CharStat => _charStat;
 
         public ExecutionInfo ExecutionInfo => _executionInfo;
         public SkillInfo SkillInfo => _skillInfo;
-        public StackInfo StackInfo => _stackInfo;
+        public KeywordInfo KeywordInfo => _keywordInfo;
         public PlayerState PlayerState => _currentState;
 
+        // RULE : set은 반드시 초기화 시에 사용하고, 값 수정 필요 시 get으로만 할 것.
+        public CharacterModel CharInfo
+        {
+            get => _charInfo;
+            private set
+            {
+                _charInfo = value;
+                if (value.Index != _index)
+                {
+                    Debug.LogError("인덱스 불일치. 코드 이상 혹은 데이터의 캐릭터 정보와 프리팹 차이 학인 바람");
+                    return;
+                }
+                _charData = DataManager.Instance.GetData<CharData>(value.Index);
+            
+                _skillInfo = new SkillInfo(this);
+                _skillInfo?.Init(_charData.charSkillList);
+
+                _charStat = value.Stat;
+            }
+        }
+        
         protected virtual SystemEnum.eCharType CharType => _charData.defaultCharType;
 
         protected long _uid;
@@ -73,7 +97,10 @@ namespace AngelBeat
                 Debug.LogError($"캐릭터 ID : {_index} Data 데이터 Get 실패");
             }
         }
-
+        
+        /// <summary>
+        /// 현재 start에서는 애니메이션 초기화만 함
+        /// </summary>
         private void Start()
         {
             if (_charAnim != null)
@@ -89,19 +116,15 @@ namespace AngelBeat
 
         protected virtual void CharInit(){}
         
+        /// <summary>
+        /// 파티의 캐릭터 모델을 
+        /// </summary>
+        /// <param name="charInfo"></param>
         public void UpdateCharacterInfo(CharacterModel charInfo)
         {
-            if (charInfo.Index != _index)
-            {
-                Debug.LogError("인덱스 불일치. 코드 이상 혹은 데이터의 캐릭터 정보와 프리팹 차이 학인 바람");
-                return;
-            }
-            _charData = DataManager.Instance.GetData<CharData>(charInfo.Index);
-            
-            _skillInfo = new SkillInfo(this);
-            _skillInfo?.Init(_charData.charSkillList);
-
-            _charStat = charInfo.Stat;
+            // property 기반으로 set에서 발동되도록 설정
+            // TODO : 나중에 MODEL을 제외. 
+            CharInfo = charInfo;
         }
         
         public virtual void CharDistroy()
@@ -127,6 +150,11 @@ namespace AngelBeat
             _charAnim.PlayAnimation(state);
         }
 
+        public CharacterModel SaveCharModel()
+        {
+            return new CharacterModel(_charData, _charStat, _charInfo.Skills);
+        }
+        
     }
 }
 

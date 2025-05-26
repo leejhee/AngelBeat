@@ -1,9 +1,5 @@
 using AngelBeat.Core.SingletonObjects.Managers;
 
-namespace  AngleBeat
-{
-    
-}
 namespace AngelBeat
 {
     public class CharPlayer : CharBase

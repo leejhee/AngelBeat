@@ -1,4 +1,6 @@
-using Core.SingletonObjects.Managers;
+using AngelBeat.Core.Battle;
+using AngelBeat.Core.SingletonObjects.Managers;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,18 +9,24 @@ namespace AngelBeat.UI
 {
     public class BattleSceneUI : MonoBehaviour
     {
+        #region UI
         [SerializeField] private Button moveButton;
-        [SerializeField] private TMP_Text turnOwnerText;
-        [SerializeField] private GameObject skillButtonPanel;
         [SerializeField] private Button turnEndButton;
-        
-        private CharBase _turnOwner;
+        [SerializeField] private SkillButtonPanel skillButtonPanel;
+
+        [SerializeField] private TMP_Text turnOwnerText;
+        #endregion
         
         private void Awake()
         {
+            #region Model 변경 구독
             EventBus.Instance.SubscribeEvent<OnTurnChanged>(this, OnTurnChange);
+            #endregion
+            
+            #region UI 입력 구독
             turnEndButton.onClick.AddListener(OnTurnEndClick);
             moveButton.onClick.AddListener(OnClickMove);
+            #endregion
         }
         
         private void OnDestroy()
@@ -26,10 +34,17 @@ namespace AngelBeat.UI
             EventBus.Instance.UnsubscribeEvent(this);
         }
         
+        // 지금은 그냥 CharBase가 CharacterModel처럼 역할한다고 생각하셈
+        /// <summary> 턴이 바뀐다 = 포커스 정보가 바뀐다. </summary>
+        /// TODO : 캐릭터 정보, 이동 및 스킬 UI 변경에 모두 연결되어야 함. 
         private void OnTurnChange(OnTurnChanged info)
         {
-            _turnOwner = info.TurnOwner;
-            turnOwnerText.text = _turnOwner.name;
+            CharBase turnOwner = info.TurnOwner;
+            
+            //UI 변경
+            turnOwnerText.text = turnOwner.name;
+            IReadOnlyList<SkillData> skillList = turnOwner.CharInfo.Skills;
+            skillButtonPanel.SetSkillButtons(turnOwner, skillList);
         }
 
         private void OnTurnEndClick()
@@ -41,7 +56,16 @@ namespace AngelBeat.UI
         private void OnClickMove()
         {
             EventBus.Instance.SendMessage(new OnMoveInput());
+            //이동 관련 미리보기 UI를 띄우게 해야함.
+            //이건 Preview UI쪽에서 뜨게 해야함.
+            //일단 플랫폼간 이동만 되게 할거니까, Preview UI쪽에서는 해당 클릭이 들어가면, 포커스쪽에다가 오브젝트를 활성화시키는 쪽으로
+            //하는게 낫겠다.
             Debug.Log("move input");
+        }
+        
+        private void OnSkillInput()
+        {
+            
         }
         
     }

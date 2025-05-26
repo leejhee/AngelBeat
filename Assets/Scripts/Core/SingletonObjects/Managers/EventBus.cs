@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.SingletonObjects.Managers
+namespace AngelBeat.Core.SingletonObjects.Managers
 {
     public abstract class MessageUnit : EventArgs {}
     

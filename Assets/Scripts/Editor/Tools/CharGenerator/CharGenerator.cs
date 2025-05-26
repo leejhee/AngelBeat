@@ -199,11 +199,18 @@ public static class CharFactory
         CharBase charGo = go.GetComponent<CharBase>();
         SerializedObject obj = new SerializedObject(charGo);
 
-        //////////UnitRoot(Animator)/////////
+        //////////UnitRoot(Animator & Duplicate for Snapshot)/////////
+        GameObject unitRoot = go.transform.Find("UnitRoot").gameObject;
         Animator anim = go.GetComponentInChildren<Animator>();
         SerializedProperty animator = obj.FindProperty("_Animator");
         animator.objectReferenceValue = anim;
-
+        
+        GameObject snapshotDuplicate = Object.Instantiate(unitRoot, go.transform);
+        snapshotDuplicate.name = "Snapshot";
+        SerializedProperty snapshot = obj.FindProperty("_charSnapShot");
+        snapshot.objectReferenceValue = snapshotDuplicate;
+        snapshotDuplicate.SetActive(false);
+        
         //////////FightCollider//////////////
         GameObject Descendant = new GameObject("BattleCollider");
         Descendant.transform.SetParent(go.transform, false);

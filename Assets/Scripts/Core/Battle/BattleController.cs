@@ -1,14 +1,28 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
-using Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 using UnityEngine;
+using EventBus = AngelBeat.Core.SingletonObjects.Managers.EventBus;
 
 namespace AngelBeat.Core.Battle
 {
+    // 잠시 싱글턴 사용한다.
     public class BattleController : MonoBehaviour
     {
+        #region singleton
+        private static BattleController _instance;
+        public BattleController Instance
+        {
+            get
+            {
+                if (!_instance)
+                    _instance = this;
+                return _instance;
+            }
+        }
+        #endregion
+        
         private List<CharBase> _battleCharList;
         private TurnController _turnManager;
         private CharBase FocusChar => _turnManager.TurnOwner;
@@ -34,19 +48,22 @@ namespace AngelBeat.Core.Battle
             List<CharBase> battleMembers = battleField.SpawnAllUnits(party);
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
+            
+            #region 기본적인 전투의 시스템 이벤트 예약
             EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
             {
                 _turnManager.ChangeTurn();
             });
-
             EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
             {
+                // 움직임 관련 
                 Debug.Log("Message Received : OnMoveInput");
             }); 
             
+            #endregion
+            
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
-            
         }
 
         private StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)
@@ -58,7 +75,15 @@ namespace AngelBeat.Core.Battle
 
         public void EndBattle()
         {
-			
+            // 결과 내보내기(onBattleEnd 필요)
+            
+			// 캐릭터 모델 갱신
+            
+            // 탐사로 비동기 로딩. 아... 탐사 정보 저장되어야 하는구나.
+            
+            // 
+            
+            // 
         }
         
     }

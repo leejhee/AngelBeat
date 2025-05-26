@@ -436,9 +436,77 @@ PrefabInstance:
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 989458123373845410, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 989458123373845410, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 989458123373845410, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 989458123373845410, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2255768716526657494, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
       propertyPath: m_Name
       value: BattleSceneUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3657599145380412087, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: skillButtonPanel
+      value: 
+      objectReference: {fileID: 3732947947311561672}
+    - target: {fileID: 5160844702030315312, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160844702030315312, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160844702030315312, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160844702030315312, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284267037544292532, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284267037544292532, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284267037544292532, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284267037544292532, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638423069653277863, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638423069653277863, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638423069653277863, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7638423069653277863, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8632419890963316826, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
       propertyPath: m_Pivot.x
@@ -525,6 +593,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+--- !u!224 &3732947947311561672 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1864282989136172736, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
+  m_PrefabInstance: {fileID: 3732947947311561671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

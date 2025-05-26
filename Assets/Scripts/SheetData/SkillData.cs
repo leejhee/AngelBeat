@@ -13,7 +13,9 @@ public partial class SkillData : SheetData
     public long index; // 스킬 ID
 	public string skillName; // 스킬 이름
 	public SystemEnum.eSkillType skillType; // 스킬 종류
-	public long skillSubjects; // 스킬 대상 및 범위
+	public int skillRange; // 스킬 사용 사거리
+	public SystemEnum.ePivot skillPivot; // 스킬 중심
+	public int skillPivotRange; // 스킬 중심거리
 	public int skillCritical; // 치명타 배율
 	public int skillAccuracy; // 명중율
 	public long skillDamage; // 스킬 데미지
@@ -21,6 +23,7 @@ public partial class SkillData : SheetData
 	public string skillCondition; // 스킬 발동 조건
 	public string skillIconImage; // 스킬 아이콘명
 	public string skillTimeLine; // 스킬 타임라인명
+	public SystemEnum.eSkillUnlock unlockCondition; // 스킬 해금 조건
 	
 
     public override Dictionary<long, SheetData> LoadData()
@@ -64,44 +67,59 @@ public partial class SkillData : SheetData
 				    data.skillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[3]);
 				
 				if(values[4] == "")
-				    data.skillSubjects = default;
+				    data.skillRange = default;
 				else
-				    data.skillSubjects = Convert.ToInt64(values[4]);
+				    data.skillRange = Convert.ToInt32(values[4]);
 				
 				if(values[5] == "")
-				    data.skillCritical = default;
+				    data.skillPivot = default;
 				else
-				    data.skillCritical = Convert.ToInt32(values[5]);
+				    data.skillPivot = (SystemEnum.ePivot)Enum.Parse(typeof(SystemEnum.ePivot), values[5]);
 				
 				if(values[6] == "")
-				    data.skillAccuracy = default;
+				    data.skillPivotRange = default;
 				else
-				    data.skillAccuracy = Convert.ToInt32(values[6]);
+				    data.skillPivotRange = Convert.ToInt32(values[6]);
 				
 				if(values[7] == "")
-				    data.skillDamage = default;
+				    data.skillCritical = default;
 				else
-				    data.skillDamage = Convert.ToInt64(values[7]);
+				    data.skillCritical = Convert.ToInt32(values[7]);
 				
 				if(values[8] == "")
-				    data.executionIndex = default;
+				    data.skillAccuracy = default;
 				else
-				    data.executionIndex = Convert.ToInt64(values[8]);
+				    data.skillAccuracy = Convert.ToInt32(values[8]);
 				
 				if(values[9] == "")
-				    data.skillCondition = default;
+				    data.skillDamage = default;
 				else
-				    data.skillCondition = Convert.ToString(values[9]);
+				    data.skillDamage = Convert.ToInt64(values[9]);
 				
 				if(values[10] == "")
-				    data.skillIconImage = default;
+				    data.executionIndex = default;
 				else
-				    data.skillIconImage = Convert.ToString(values[10]);
+				    data.executionIndex = Convert.ToInt64(values[10]);
 				
 				if(values[11] == "")
+				    data.skillCondition = default;
+				else
+				    data.skillCondition = Convert.ToString(values[11]);
+				
+				if(values[12] == "")
+				    data.skillIconImage = default;
+				else
+				    data.skillIconImage = Convert.ToString(values[12]);
+				
+				if(values[13] == "")
 				    data.skillTimeLine = default;
 				else
-				    data.skillTimeLine = Convert.ToString(values[11]);
+				    data.skillTimeLine = Convert.ToString(values[13]);
+				
+				if(values[14] == "")
+				    data.unlockCondition = default;
+				else
+				    data.unlockCondition = (SystemEnum.eSkillUnlock)Enum.Parse(typeof(SystemEnum.eSkillUnlock), values[14]);
 				
 
                 dataList[data.index] = data;

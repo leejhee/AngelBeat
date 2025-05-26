@@ -8,7 +8,7 @@ namespace AngelBeat
         private Dictionary<long, SkillBase> _dicSkill = new Dictionary<long, SkillBase>(); // 스킬 리스트
         private CharBase _charBase; // 스킬 시전자
         private Transform _SkillRoot; // 스킬 루트 
-
+        
         public SkillInfo(CharBase charBase)
         {
             _charBase = charBase;
