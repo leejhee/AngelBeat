@@ -3,6 +3,7 @@ using AngelBeat.Core.SingletonObjects.Managers;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace AngelBeat.UI
@@ -12,13 +13,18 @@ namespace AngelBeat.UI
         #region UI
         [SerializeField] private Button moveButton;
         [SerializeField] private Button turnEndButton;
-        [SerializeField] private SkillButtonPanel skillButtonPanel;
-
         [SerializeField] private TMP_Text turnOwnerText;
+        
+        [SerializeField] private GameObject panelPrefab;
+        private SkillButtonPanel _skillButtonPanel;
         #endregion
+        
+        
         
         private void Awake()
         {
+            _skillButtonPanel = panelPrefab.GetComponent<SkillButtonPanel>();
+            
             #region Model 변경 구독
             EventBus.Instance.SubscribeEvent<OnTurnChanged>(this, OnTurnChange);
             #endregion
@@ -40,11 +46,14 @@ namespace AngelBeat.UI
         private void OnTurnChange(OnTurnChanged info)
         {
             CharBase turnOwner = info.TurnOwner;
-            
-            //UI 변경
             turnOwnerText.text = turnOwner.name;
-            IReadOnlyList<SkillModel> skillList = turnOwner.CharInfo.Skills;
-            skillButtonPanel.SetSkillButtons(turnOwner, skillList);
+            if (turnOwner.GetCharType() == SystemEnum.eCharType.Player)
+            {
+                IReadOnlyList<SkillModel> skillList = turnOwner.CharInfo.Skills;
+                _skillButtonPanel.SetSkillButtons(turnOwner, skillList); 
+            }
+            //UI 변경
+            
         }
 
         private void OnTurnEndClick()
@@ -61,11 +70,6 @@ namespace AngelBeat.UI
             //일단 플랫폼간 이동만 되게 할거니까, Preview UI쪽에서는 해당 클릭이 들어가면, 포커스쪽에다가 오브젝트를 활성화시키는 쪽으로
             //하는게 낫겠다.
             Debug.Log("move input");
-        }
-        
-        private void OnSkillInput()
-        {
-            
         }
         
     }

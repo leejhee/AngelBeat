@@ -125,9 +125,9 @@ namespace AngelBeat
 
         #region LOAD COPIED ASSET AND EDIT
 
-        GameObject CharPrefab = new GameObject(targetData.charPrefabName);
+        GameObject CharPrefab = new(targetData.charPrefabName);
         CharPrefab.transform.position = new Vector3(0, 1f, 0);
-
+        
         #region TEMPORARY OBJECT - SPUMPrefab
         GameObject SPUMPrefab = PrefabUtility.InstantiatePrefab(SPUM_Object) as GameObject;
         if (!SPUMPrefab)
@@ -150,6 +150,7 @@ namespace AngelBeat
         #endregion
 
         CharBase newCharBase = CharFactory.AddBaseComponent(targetData, CharPrefab);
+        CharPrefab.layer = LayerMask.NameToLayer("Character");
         SerializedObject serialized = new SerializedObject(newCharBase);
 
         SerializedProperty Index = serialized.FindProperty("_index");

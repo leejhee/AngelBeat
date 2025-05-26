@@ -6,7 +6,7 @@ public class BattleTestScene : MonoBehaviour
 {
     [SerializeField] private List<GameObject> BattleUI;
     
-    void Start()
+    void Awake()
     {
         foreach(var go in BattleUI)
             UIManager.Instance.ShowUI(go);

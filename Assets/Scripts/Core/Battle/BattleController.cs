@@ -1,8 +1,10 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using EventBus = AngelBeat.Core.SingletonObjects.Managers.EventBus;
 
 namespace AngelBeat.Core.Battle
@@ -11,17 +13,19 @@ namespace AngelBeat.Core.Battle
     public class BattleController : MonoBehaviour
     {
         #region singleton
-        private static BattleController _instance;
-        public BattleController Instance
+        public static BattleController Instance { get; private set; }
+        private void Awake()
         {
-            get
-            {
-                if (!_instance)
-                    _instance = this;
-                return _instance;
-            }
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
         #endregion
+        
+        [SerializeField]
+        private GameObject previewPrefab;
+        private SkillPreview _preview;
         
         private List<CharBase> _battleCharList;
         private TurnController _turnManager;
@@ -76,6 +80,18 @@ namespace AngelBeat.Core.Battle
                 // 움직임 관련 
                 Debug.Log("Message Received : OnMoveInput");
             }); 
+        }
+
+        public void ShowMovePreview()
+        {
+            
+        }
+        
+        public void ShowSkillPreview(SkillModel targetSkill)
+        {
+            if (!_preview)
+                _preview = Instantiate(previewPrefab.GetComponent<SkillPreview>(), FocusChar.CharTransform);
+            _preview.InitPreview(FocusChar, targetSkill);
         }
         
         public void EndBattle()

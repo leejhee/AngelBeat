@@ -1,3 +1,4 @@
+using AngelBeat.Core.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,18 +19,16 @@ namespace AngelBeat
                 skillButtons[i].gameObject.SetActive(isSkill);
                 if (isSkill)
                 {
-                    skillButtons[i].SetButton(skillList[i]);
+                    int idx = i;
+                    SkillButton button = skillButtons[idx];
+                    button.SetButton(skillList[idx]);
                     
-                    skillButtons[i].onClick.RemoveAllListeners();
-                    
-                    
-                    
-                    //TODO : 스킬 미리보기 UI로 바뀌게 수정할 것.
-                    //var idx = i;
-                    //skillButtons[i].onClick.AddListener(() =>
-                    //{
-                    //    focus.SkillInfo.PlaySkill(skillList[idx].index, new SkillParameter());
-                    //});
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.AddListener(() =>
+                    {
+                        BattleController.Instance.ShowSkillPreview(skillList[idx]);
+                        Debug.Log($"Skill {skillList[idx].SkillName} Selected");
+                    });
                     
                 }
             }
