@@ -29,6 +29,7 @@ namespace AngelBeat.Core.Battle
         
         private void Start()
         {
+            Debug.Log("Starting Battle...");
             BattleInitialize();
         }
         
@@ -50,16 +51,7 @@ namespace AngelBeat.Core.Battle
             _turnManager.ChangeTurn();
             
             #region 기본적인 전투의 시스템 이벤트 예약
-            EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
-            {
-                _turnManager.ChangeTurn();
-            });
-            EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
-            {
-                // 움직임 관련 
-                Debug.Log("Message Received : OnMoveInput");
-            }); 
-            
+            BindBattleEvent();
             #endregion
             
             Debug.Log("Battle Initialization Complete");
@@ -73,6 +65,19 @@ namespace AngelBeat.Core.Battle
             return Instantiate(battleFieldGroup.GetRandomBattleField());
         }
 
+        private void BindBattleEvent()
+        {
+            EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
+            {
+                _turnManager.ChangeTurn();
+            });
+            EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
+            {
+                // 움직임 관련 
+                Debug.Log("Message Received : OnMoveInput");
+            }); 
+        }
+        
         public void EndBattle()
         {
             // 결과 내보내기(onBattleEnd 필요)

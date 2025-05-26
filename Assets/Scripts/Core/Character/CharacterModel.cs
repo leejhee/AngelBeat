@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AngelBeat.Core.Character
 {
@@ -14,12 +13,12 @@ namespace AngelBeat.Core.Character
         private long index;
         private CharData _data;
         private CharStat _stat;
-        private List<SkillData> _activeSkills = new();
-        private List<SkillData> _inActiveSkills = new();
+        
+        private List<SkillModel> _skillModels = new();
         
         public long Index => index;
         public CharStat Stat => _stat;
-        public IReadOnlyList<SkillData> Skills => _activeSkills.AsReadOnly();
+        public IReadOnlyList<SkillModel> Skills => _skillModels.AsReadOnly();
         
         // 탐사 중 영입 시 등록
         public CharacterModel(long index)
@@ -39,16 +38,16 @@ namespace AngelBeat.Core.Character
             foreach (long skill in skillList)
             {
                 SkillData skillData = DataManager.Instance.GetData<SkillData>(skill);
-                _activeSkills.Add(skillData);
+                _skillModels.Add(new SkillModel(skillData));
             }
         }
         
         // 기존의 데이터로 등록
-        public CharacterModel(CharData data, CharStat stat, IReadOnlyCollection<SkillData> skills)
+        public CharacterModel(CharData data, CharStat stat, IReadOnlyCollection<SkillModel> skills)
         {
             _data = data;
             _stat = stat;
-            _activeSkills = skills.ToList();
+            _skillModels = skills.ToList();
         }
         
     }

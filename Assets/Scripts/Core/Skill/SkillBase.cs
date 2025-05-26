@@ -8,7 +8,7 @@ namespace AngelBeat
 {
     public class SkillParameter
     {
-
+        public CharBase Target;
     }
     
     [RequireComponent(typeof(SkillMarkerReceiver))]

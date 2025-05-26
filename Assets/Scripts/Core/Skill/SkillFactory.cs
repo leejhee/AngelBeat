@@ -4,6 +4,7 @@ namespace AngelBeat
 {
     public static class SkillFactory
     {
+        
         public static SkillBase CreateSkill(string skillName)
         {
             SkillBase skillBase = null;

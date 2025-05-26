@@ -9,7 +9,7 @@ namespace AngelBeat
     {
         [SerializeField] private List<SkillButton> skillButtons;
     
-        public void SetSkillButtons(CharBase focus, IReadOnlyList<SkillData> skillList)
+        public void SetSkillButtons(CharBase focus, IReadOnlyList<SkillModel> skillList)
         {
             int skillCount = skillList.Count;
             for (int i = 0; i < skillButtons.Count; i++)
@@ -19,14 +19,17 @@ namespace AngelBeat
                 if (isSkill)
                 {
                     skillButtons[i].SetButton(skillList[i]);
+                    
                     skillButtons[i].onClick.RemoveAllListeners();
                     
+                    
+                    
                     //TODO : 스킬 미리보기 UI로 바뀌게 수정할 것.
-                    var idx = i;
-                    skillButtons[i].onClick.AddListener(() =>
-                    {
-                        focus.SkillInfo.PlaySkill(skillList[idx].index, new SkillParameter());
-                    });
+                    //var idx = i;
+                    //skillButtons[i].onClick.AddListener(() =>
+                    //{
+                    //    focus.SkillInfo.PlaySkill(skillList[idx].index, new SkillParameter());
+                    //});
                     
                 }
             }

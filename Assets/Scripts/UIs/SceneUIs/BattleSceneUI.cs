@@ -43,7 +43,7 @@ namespace AngelBeat.UI
             
             //UI 변경
             turnOwnerText.text = turnOwner.name;
-            IReadOnlyList<SkillData> skillList = turnOwner.CharInfo.Skills;
+            IReadOnlyList<SkillModel> skillList = turnOwner.CharInfo.Skills;
             skillButtonPanel.SetSkillButtons(turnOwner, skillList);
         }
 

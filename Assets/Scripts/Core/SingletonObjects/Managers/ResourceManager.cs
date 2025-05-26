@@ -33,10 +33,12 @@ public partial class ResourceManager : SingletonObject<ResourceManager>
 
         return obj as T;
     }
-
+    
+    public Sprite LoadSprite(string path) => Load<Sprite>("Sprites/" + path);
+    
     public GameObject Instantiate(string path, Transform parent = null) => Instantiate<GameObject>(path, parent);
 
-    public GameObject Instantiate(GameObject go, Transform parent = null) => Instantiate(go, parent);
+    public GameObject Instantiate(GameObject go, Transform parent = null) => Object.Instantiate(go, parent);
 
     public AudioClip LoadAudioClip(string path) => Instance.Load<AudioClip>($"Sounds/{path}");
 
