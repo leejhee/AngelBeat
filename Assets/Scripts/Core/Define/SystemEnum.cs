@@ -89,29 +89,50 @@ public class SystemEnum
     {
         None,
 
-        STR,    // 기존 힘
-        NSTR,   // 현재 힘
-
-        AGI,    // 기존 민첩
-        NAGI,   // 현재 민첩
-
-        INT,    // 기존 지력
-        NINT,   // 현재 지력
-
-        HP, // 기본 HP
-        NHP, // 현재 HP
-        NMHP, // 현재 최고 HP
-
-        /*//////////////// 아래는 스탯 종속값 ////////////////////////////////*/
-
-        Defence, // 기본 방어력
-        NDefence, // 현재 방어력
-
-        Speed, // 기본 속도 
-        NSpeed, // 현재 속도
-
-        Cost,   // 기본 코스트 양
-        NCost,  // 현재 코스트 양
+        BLUE,
+        N_BLUE,
+        RED,
+        N_RED,
+        YELLOW,
+        N_YELLOW,
+        WHITE,
+        N_WHITE,
+        BLACK,
+        N_BLACK,
+        
+        HP,
+        NHP,
+        NMHP,
+        
+        ARMOR,
+        NARMOR,
+        MAGIC_RESIST,
+        NMAGIC_RESIST,
+        
+        MELEE_ATTACK,
+        NMELEE_ATTACK,
+        MAGICAL_ATTACK,
+        NMAGICAL_ATTACK,
+        
+        
+        ACCURACY,
+        NACCURACY,
+        CRIT_CHANCE,
+        NCRIT_CHANCE,
+        
+        SPEED, // 기본 속도 
+        NSPEED, // 현재 속도
+        
+        ACTION_POINT,
+        NACTION_POINT,
+        
+        DODGE,
+        NDODGE,
+        
+        RESISTANCE,
+        NRESISTANCE,
+        
+        RANGE_INCREASE,
 
         eMax
     }
@@ -186,10 +207,8 @@ public class SystemEnum
 
     public enum eKeyword
     {
-        화상,
-        파열,
-        충전,
-        출혈,
+        Burn,
+        Amber,
     }
 
     public enum eExecutionPhase

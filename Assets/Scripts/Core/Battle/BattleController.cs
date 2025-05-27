@@ -91,6 +91,7 @@ namespace AngelBeat.Core.Battle
         {
             if (!_preview)
                 _preview = Instantiate(previewPrefab.GetComponent<SkillPreview>(), FocusChar.CharTransform);
+            _preview.gameObject.SetActive(true);
             _preview.InitPreview(FocusChar, targetSkill);
         }
         

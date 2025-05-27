@@ -156,7 +156,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             }
 
             return battleParticipants
-                .OrderByDescending(x => x.CharStat.GetStat(SystemEnum.eStats.NSpeed))
+                .OrderByDescending(x => x.CharStat.GetStat(SystemEnum.eStats.NSPEED))
                 .ThenBy(c => c.GetCharType() == eCharType.Enemy)
                 .ThenBy(c => c.GetID())
                 .ToList();

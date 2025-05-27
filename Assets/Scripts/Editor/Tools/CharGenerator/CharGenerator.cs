@@ -197,48 +197,67 @@ public static class CharFactory
     // 캐릭터 내 필요한 하위 오브젝트 및 컴포넌트 조정
     public static void CharacterizeBase(GameObject go)
     {
-        CharBase charGo = go.GetComponent<CharBase>();
-        SerializedObject obj = new SerializedObject(charGo);
+        try
+        {
+            CharBase charGo = go.GetComponent<CharBase>();
+            SerializedObject obj = new SerializedObject(charGo);
 
-        //////////UnitRoot(Animator & Duplicate for Snapshot)/////////
-        GameObject unitRoot = go.transform.Find("UnitRoot").gameObject;
-        Animator anim = go.GetComponentInChildren<Animator>();
-        SerializedProperty animator = obj.FindProperty("_Animator");
-        animator.objectReferenceValue = anim;
+            //////////UnitRoot(Animator & Duplicate for Snapshot)/////////
+            GameObject unitRoot = go.transform.Find("UnitRoot").gameObject;
+            Animator anim = go.GetComponentInChildren<Animator>();
+            SerializedProperty animator = obj.FindProperty("_Animator");
+            animator.objectReferenceValue = anim;
         
-        GameObject snapshotDuplicate = Object.Instantiate(unitRoot, go.transform);
-        snapshotDuplicate.name = "Snapshot";
-        SerializedProperty snapshot = obj.FindProperty("_charSnapShot");
-        snapshot.objectReferenceValue = snapshotDuplicate;
-        snapshotDuplicate.SetActive(false);
+            GameObject snapshotDuplicate = Object.Instantiate(unitRoot, go.transform);
+            snapshotDuplicate.name = "Snapshot";
+            SetLayerRecursive(snapshotDuplicate, LayerMask.NameToLayer("Snapshot Target"));
+            SerializedProperty snapshot = obj.FindProperty("_charSnapShot");
+            snapshot.objectReferenceValue = snapshotDuplicate;
+            snapshotDuplicate.SetActive(false);
         
-        //////////FightCollider//////////////
-        GameObject Descendant = new GameObject("BattleCollider");
-        Descendant.transform.SetParent(go.transform, false);
-        CapsuleCollider col = Descendant.AddComponent<CapsuleCollider>();
-        col.radius = 0.25f;
-        col.center = new Vector3(0, 0.5f, 0);
+            //////////FightCollider//////////////
+            GameObject Descendant = new GameObject("BattleCollider");
+            Descendant.transform.SetParent(go.transform, false);
+            CapsuleCollider col = Descendant.AddComponent<CapsuleCollider>();
+            col.radius = 0.25f;
+            col.center = new Vector3(0, 0.5f, 0);
 
-        SerializedProperty FightCollider = obj.FindProperty("_battleCollider");
-        FightCollider.objectReferenceValue = col;
+            SerializedProperty FightCollider = obj.FindProperty("_battleCollider");
+            FightCollider.objectReferenceValue = col;
 
-        //////////SkillRoot//////////////
-        Descendant = new GameObject("SkillRoot");
-        Descendant.transform.SetParent(go.transform, false);
+            //////////SkillRoot//////////////
+            Descendant = new GameObject("SkillRoot");
+            Descendant.transform.SetParent(go.transform, false);
 
-        SerializedProperty SkillRoot = obj.FindProperty("_SkillRoot");
-        SkillRoot.objectReferenceValue = Descendant;
+            SerializedProperty SkillRoot = obj.FindProperty("_SkillRoot");
+            SkillRoot.objectReferenceValue = Descendant;
 
-        //////////CameraPos//////////////
-        Descendant = new GameObject("CameraPos");
-        Descendant.transform.SetParent(go.transform, false);
+            //////////CameraPos//////////////
+            Descendant = new GameObject("CameraPos");
+            Descendant.transform.SetParent(go.transform, false);
 
-        SerializedProperty CamaraPos = obj.FindProperty("_CharCameraPos");
-        CamaraPos.objectReferenceValue = Descendant;
+            SerializedProperty CamaraPos = obj.FindProperty("_CharCameraPos");
+            CamaraPos.objectReferenceValue = Descendant;
 
-        obj.ApplyModifiedProperties();
-
+            obj.ApplyModifiedProperties();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+            Object.DestroyImmediate(go);
+        }
+        
     }
+
+    private static void SetLayerRecursive(GameObject go, int layer)
+    {
+        go.layer = layer;
+        foreach (Transform child in go.transform)
+        {
+            SetLayerRecursive(child.gameObject, layer);
+        }
+    }
+        
 }
 
 #endif

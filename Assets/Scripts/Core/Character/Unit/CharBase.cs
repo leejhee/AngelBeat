@@ -14,13 +14,13 @@ namespace AngelBeat
         [SerializeField] protected Animator _Animator;
         [SerializeField] private Collider _battleCollider;
         [SerializeField] private GameObject _CharCameraPos;
+        [SerializeField] private GameObject _charSnapShot;
         
         //TODO : 현 CharBase와 겹치는 사항 관리하기
         private CharacterModel  _charInfo;
         
         private Transform       _charTransform;
         private Transform       _charUnitRoot;
-        private GameObject      _charSnapShot;
         
         private CharData        _charData;  
         private CharStat        _charStat;

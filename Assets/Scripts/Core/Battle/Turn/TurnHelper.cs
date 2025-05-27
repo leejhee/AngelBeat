@@ -27,8 +27,8 @@ namespace AngelBeat
     {
         public static int VanillaComparer(Turn x, Turn y)
         {
-            int xSpeed = (int)x.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSpeed);
-            int ySpeed = (int)y.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSpeed);
+            int xSpeed = (int)x.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSPEED);
+            int ySpeed = (int)y.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSPEED);
             return ySpeed - xSpeed;
         }
     }
