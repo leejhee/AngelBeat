@@ -818,7 +818,6 @@ MonoBehaviour:
   currentBackgroundObject: {fileID: 0}
   backgroundPrefab: {fileID: 636896890383791273, guid: 3b2d427cf45449540a2223e179f72a5d, type: 3}
   standingPrefab: {fileID: 5442131785131527348, guid: 0e7ce356612690f4591f4d32408099f3, type: 3}
-  standingObject: {fileID: 0}
   references:
     version: 2
     RefIds: []

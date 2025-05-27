@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using novel;
 using System;
 
@@ -21,11 +22,21 @@ public class NovelManager : SingletonObject<NovelManager>
     }
     public override void Init()
     {
-        CreateCharacterSOAssets();
-
+        Debug.Log("SO 생성");
+        // 캐릭터 SO 생성
+        //CreateCharacterSOAssets();
+        Debug.Log("SO 생성 끝");
         //저장되어 있는 SO 불러오기
         LoadCharacterSO();
-
+        NovelCharacterSO charSO;
+        _characterSODict.TryGetValue("DonQuixote", out charSO);
+        int i = 0;
+        foreach(var head in charSO.standingFaceDict.pairs)
+        {
+            Debug.Log(head.value.name);
+            i++;
+        }
+        Debug.Log(i);
     }
 
     
@@ -34,6 +45,7 @@ public class NovelManager : SingletonObject<NovelManager>
         string[] characterNames = Enum.GetNames(typeof(CharacterName));
         foreach (var characterName in characterNames)
         {
+            Debug.Log($"{characterName}");
             NovelCharacterSOFactory.CreateSpriteDataFromAtlas(characterName);
         }
     }
@@ -73,4 +85,6 @@ public class NovelManager : SingletonObject<NovelManager>
     {
 
     }
+
+
 }

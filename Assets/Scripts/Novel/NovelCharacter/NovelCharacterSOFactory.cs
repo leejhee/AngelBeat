@@ -18,26 +18,23 @@ public static class NovelCharacterSOFactory
         //기존 에셋 불러옴
         NovelCharacterSO oldAsset = AssetDatabase.LoadAssetAtPath<NovelCharacterSO>(assetPathAndName);
 
-        var asset = ScriptableObject.CreateInstance<NovelCharacterSO>();
+        NovelCharacterSO asset = ScriptableObject.CreateInstance<NovelCharacterSO>();
+
         asset.Init(name, sprites);
 
-
-        if (!string.IsNullOrEmpty(characterSOPath))
+        //기존에 이미 SO파일이 있다면 머리 위치랑 이름 남기고 삭제
+        if (oldAsset != null)
         {
-            //기존에 이미 SO파일이 있다면 머리 위치만 남기고 삭제
-            if (oldAsset != null)
-            {
-                asset.headOffset = oldAsset.headOffset;
-                AssetDatabase.DeleteAsset(assetPathAndName);
-                Debug.Log("SO 덮어씌우기");
-            }
-
-            AssetDatabase.CreateAsset(asset, assetPathAndName);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            Debug.Log($"Asset created at {assetPathAndName}");
+            asset.headOffset = oldAsset.headOffset;
+            asset.novelName = oldAsset.novelName;
+            AssetDatabase.DeleteAsset(assetPathAndName);
+            Debug.Log("SO 덮어씌우기");
         }
-        else Debug.LogError($"SO 저장 실패 : {name}");
+
+        AssetDatabase.CreateAsset(asset, assetPathAndName);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        Debug.Log($"Asset created at {assetPathAndName}");
     }
 }
 #endif

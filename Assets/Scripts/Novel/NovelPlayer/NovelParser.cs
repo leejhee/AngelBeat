@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
+using UnityEngine.UIElements;
 public static class NovelParser
 {
     private static Regex labelLine = new Regex(@"^#(?<name>.+?)\s*$");
@@ -17,6 +19,9 @@ public static class NovelParser
     private static Regex backCommand = new Regex(@"^@back\s+(?<name>\w+)(\.(?<transition>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex bgmCommand = new Regex(@"^@bgm\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex charCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex hideCommand = new Regex(@"^@hide\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex hideAllCommand = new Regex(@"^@hideall\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
 
     //Command Parameter Regex
     private static Regex posPattern = new Regex(@"pos\s*:\s*(?<posX>[\d.]+)\s*,\s*(?<posY>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -210,6 +215,15 @@ public static class NovelParser
 
             Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}");
             act.novelLines.Add(new CharCommand(index, name, appearance, transition, pos, scale, time, wait));
+        }
+        else if (hideCommand.IsMatch(line))
+        {
+            Debug.Log("hide command");
+        }
+        else if (hideAllCommand.IsMatch(line))
+        {
+            Debug.Log("Hide All Command");
+            act.novelLines.Add(new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll));
         }
     }
 }

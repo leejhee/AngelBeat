@@ -16,7 +16,9 @@ namespace novel
         float? scale;
         float? time;
         bool? wait;
-        public CharCommand(int index, string name, string appearance, string transition, Vector2? pos, float? scale, float? time, bool? wait) : base(index, DialogoueType.CommandLine)
+
+        CharCommandType charCommandType;
+        public CharCommand(int index, string name, string appearance, string transition, Vector2? pos, float? scale, float? time, bool? wait, CharCommandType charCommandType = CharCommandType.Show) : base(index, DialogoueType.CommandLine)
         {
             this.charName = name;
             this.appearance = appearance;
@@ -25,10 +27,22 @@ namespace novel
             this.scale = scale;
             this.time = time;
             this.wait = wait;
+            this.charCommandType = charCommandType;   
         }
-
         public override void Execute()
         {
+            if (charCommandType == CharCommandType.HideAll)
+            {
+                Debug.Log("Hide All 커맨드 실행");
+
+                foreach (var charObject in NovelPlayer.Instance.currentCharacterDict.Values)
+                {
+                    GameObject.Destroy(charObject.gameObject);
+                }
+                NovelPlayer.Instance.currentCharacterDict.Clear();
+                return;
+            }
+
             // 해당하는 이름이 존재하지 않으면 리턴
             if (!NovelManager.Instance.characterSODict.ContainsKey(charName))
             {
@@ -38,21 +52,70 @@ namespace novel
 
 
             //노벨 매니저에 캐싱해둔 캐릭터 SO 불러오기
-            NovelCharacterSO charSO;
-            NovelManager.Instance.characterSODict.TryGetValue(charName, out charSO);
+            NovelCharacterSO charSO = NovelManager.Instance.GetCharacterSO(charName);
+            //NovelManager.Instance.characterSODict.TryGetValue(charName, out charSO);
             if (charSO == null)
             {
                 Debug.LogError($"{charName} 캐릭터 SO 불러오기 실패");
                 return;
             }
+            // 목표료 하는 스탠딩의 게임오브젝트
+            GameObject standingObject = null;
 
-            // 지금 언급한 스탠딩이 이미 띄워져 있을 경우
+
+            // 캐릭터 숨기기
+            if (charCommandType == CharCommandType.Hide)
+            {
+                Debug.Log($"Hide Character : {charName}");
+                return;
+            }
+
+            
             if (NovelPlayer.Instance.currentCharacterDict.ContainsKey(charSO))
             {
-                GameObject standingObject;
+                // 지금 언급한 스탠딩이 이미 띄워져 있을 경우
+
+
                 NovelPlayer.Instance.currentCharacterDict.TryGetValue(charSO, out standingObject);
 
-                // 표정이 없으면 몸에 달려있는 기본 표정으로
+                // 이미 떠 있는 스탠딩에 대한 페이드 아웃
+                if (transition == "fadeout")
+                {
+                    Image[] images = standingObject.GetComponentsInChildren<Image>();
+                    float fadeTime = time ?? 0;
+                    foreach (var image in images)
+                    {
+                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO);
+                    }
+
+
+                    
+                }
+                else if (time != null)
+                {
+                    // 이미 떠 있는데 페이드인 설정이 들어간 경우
+
+                    Image[] images = standingObject.GetComponentsInChildren<Image>(true);
+
+                    // 일단 투명하게 만들기
+                    foreach(var image in images)
+                    {
+                        Color curColor = image.color;
+                        image.color = new Color(curColor.r, curColor.g, curColor.b, 0f);
+                    }
+
+
+                    // 그 후 페이드 인
+                    float fadeTime = time ?? 0;
+                    foreach (var image in images)
+                    {
+                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO,false);
+                    }
+                }
+
+                // 표정 변화
+
+                // appearance가 널이면 기본 표정으로 - 머리오브젝트 끄기
                 if (appearance == "" || appearance == null)
                 {
                     standingObject.transform.GetChild(1).gameObject.SetActive(false);
@@ -79,14 +142,19 @@ namespace novel
             }
             else
             {
+                // 스탠딩을 새로 띄워야 하는 경우
+
                 // 프리팹 인스턴스화
-                GameObject standingObject = GameObject.Instantiate(NovelPlayer.Instance.standingPrefab);
+                standingObject = GameObject.Instantiate(NovelPlayer.Instance.standingPrefab);
                 standingObject.name = charSO.name;
+
+
+                GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
+                GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+
 
                 // 몸통 스프라이트 조정
                 Sprite bodySprite = charSO.body;
-
-                GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
                 bodyObject.GetComponent<Image>().sprite = bodySprite;
                 RectTransform bodyTransform = bodyObject.GetComponent<RectTransform>();
                 bodyTransform.sizeDelta = new Vector2(bodySprite.rect.width, bodySprite.rect.height);
@@ -101,7 +169,7 @@ namespace novel
                 else
                 {
                     // 머리 스프라이트 조정
-                    GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+                    
                     headObject.SetActive(true);
                     Sprite headSprite = charSO.GetHead(appearance);
                     if (headSprite == null)
@@ -128,8 +196,26 @@ namespace novel
 
                 rectTransform.anchoredPosition = Vector2.zero;
 
+                // 처음 띄울때는 투명하게
+                Image[] images = standingObject.GetComponentsInChildren<Image>(true);
+                Color startColor = new Color(255f, 255f, 255f, 0f);
+                foreach(Image image in images)
+                {
+                    image.color = startColor;
+                }
+
+                // 만약 캐릭터 색깔만 바꾸는 경우가 있다면 수정할것
+
+                float fadeTime = time ?? 0;
+                foreach (var image in images)
+                {
+                    NovelPlayer.Instance.FadeOut(image, fadeTime, charSO, false);
+                }
+
+
                 // 스탠딩 패널에 넣기
                 standingObject.transform.SetParent(NovelPlayer.Instance.standingPanel.transform, false);
+
                 // 현재 나와있는 스탠딩리스트에 추가
                 NovelPlayer.Instance.currentCharacterDict.Add(charSO, standingObject);
             }

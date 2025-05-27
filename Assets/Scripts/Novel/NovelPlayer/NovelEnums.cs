@@ -24,4 +24,12 @@ namespace novel
     {
         DonQuixote
     }
+    public enum CharCommandType
+    {
+        Show,
+        Hide,
+        HideAll,
+        Fade,
+        Effect
+    }
 }

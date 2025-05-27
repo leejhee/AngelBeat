@@ -32,10 +32,12 @@ public class NovelPlayer : MonoBehaviour
     [SerializeField]
     private Button nextButton;
 
-
+    // 현재 배경화면
     public GameObject currentBackgroundObject;
 
     private List<CommandLine> _waitedCommandLines = new();
+
+    // 현재 스탠딩 나와 있는 캐릭터들
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
 
 
@@ -43,7 +45,7 @@ public class NovelPlayer : MonoBehaviour
     public GameObject backgroundPrefab;
     public GameObject standingPrefab;
 
-    public GameObject standingObject;
+    //public GameObject standingObject;
 
     private void Awake()
     {
@@ -112,5 +114,54 @@ public class NovelPlayer : MonoBehaviour
                 novelText.text = person.actorLine;
                 break;
         }
+    }
+
+
+    public void FadeOut(Image image, float duration, NovelCharacterSO charSO ,bool isFadeOut = true)
+    {
+        if (image != null)
+        {
+            StartCoroutine(FadeOutCoroutine(image, duration, isFadeOut, charSO));
+        }
+    }
+    private IEnumerator FadeOutCoroutine(Image image, float duration, bool isFadeOut, NovelCharacterSO charSO)
+    {
+        float counter = 0f;
+        Color originalColor = image.color;
+
+        if (isFadeOut)
+        {
+            while(counter < duration)
+            {
+                float alpha = Mathf.Lerp(1f, 0f, counter / duration);
+                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                counter += Time.deltaTime;
+                yield return null;
+            }
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+            if (NovelPlayer.Instance.currentCharacterDict.ContainsKey(charSO))
+            {
+                GameObject destroyObject = null;
+                NovelPlayer.Instance.currentCharacterDict.TryGetValue(charSO, out destroyObject);
+                GameObject.Destroy(destroyObject);
+                NovelPlayer.Instance.currentCharacterDict.Remove(charSO);
+            }
+        }
+        else
+        {
+            //페이드 인 정의
+            while (counter < duration)
+            {
+                float alpha = Mathf.Lerp(0f, 1f, counter/ duration);
+                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                counter += Time.deltaTime;
+                yield return null;
+            }
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+        }
+        
+
+
     }
 }

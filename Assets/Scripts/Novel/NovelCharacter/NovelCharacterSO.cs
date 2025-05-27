@@ -7,9 +7,11 @@ public class NovelCharacterSO : ScriptableObject
 {
     public string characterName;
     public Sprite body;
-    public Dictionary<string, Sprite> headDict = new();
-    [Tooltip("얘는 나중에 직접 수정해줘야함")]
+    public NovelStandingFaceDict standingFaceDict = new();
+
+    [Header("직접 수정해야 하는것")]
     public Vector2 headOffset;
+    public string novelName;
 
     public void Init(string name, List<Sprite> heads)
     {
@@ -18,9 +20,11 @@ public class NovelCharacterSO : ScriptableObject
     }
     public Sprite GetHead(string head)
     {
-        Sprite sprite;
-        headDict.TryGetValue(head, out sprite);
-
+        Sprite sprite = standingFaceDict.GetSprite(head);
+        foreach(var pair in standingFaceDict.pairs)
+        {
+            Debug.Log(pair.key);
+        }
         if (sprite == null)
         {
             Debug.LogError($"{head} 표정이 존재하지 않음");
@@ -33,12 +37,15 @@ public class NovelCharacterSO : ScriptableObject
     {
         foreach (var sprite in sprites)
         {
-            if (!headDict.ContainsKey(sprite.name))
+            if (!standingFaceDict.ContainsKey(sprite.name))
             {
                 if (sprite.name == "Body")
                     body = sprite;
                 else
-                    headDict.Add(sprite.name, sprite);
+                {
+                    standingFaceDict.Add(sprite.name, sprite);
+                }
+                    
             }
         }
     }
