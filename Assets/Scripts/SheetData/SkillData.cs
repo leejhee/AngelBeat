@@ -17,6 +17,7 @@ public partial class SkillData : SheetData
 	public SystemEnum.ePivot skillPivot; // 스킬 중심
 	public int skillPivotRange; // 스킬 중심거리
 	public int skillCritical; // 치명타 배율
+	public float damageCalibration; // 피해보정계수
 	public int skillAccuracy; // 명중율
 	public long skillDamage; // 스킬 데미지
 	public long executionIndex; // 스킬 효과
@@ -87,39 +88,44 @@ public partial class SkillData : SheetData
 				    data.skillCritical = Convert.ToInt32(values[7]);
 				
 				if(values[8] == "")
-				    data.skillAccuracy = default;
+				    data.damageCalibration = default;
 				else
-				    data.skillAccuracy = Convert.ToInt32(values[8]);
+				    data.damageCalibration = Convert.ToSingle(values[8]);
 				
 				if(values[9] == "")
-				    data.skillDamage = default;
+				    data.skillAccuracy = default;
 				else
-				    data.skillDamage = Convert.ToInt64(values[9]);
+				    data.skillAccuracy = Convert.ToInt32(values[9]);
 				
 				if(values[10] == "")
-				    data.executionIndex = default;
+				    data.skillDamage = default;
 				else
-				    data.executionIndex = Convert.ToInt64(values[10]);
+				    data.skillDamage = Convert.ToInt64(values[10]);
 				
 				if(values[11] == "")
-				    data.skillCondition = default;
+				    data.executionIndex = default;
 				else
-				    data.skillCondition = Convert.ToString(values[11]);
+				    data.executionIndex = Convert.ToInt64(values[11]);
 				
 				if(values[12] == "")
-				    data.skillIconImage = default;
+				    data.skillCondition = default;
 				else
-				    data.skillIconImage = Convert.ToString(values[12]);
+				    data.skillCondition = Convert.ToString(values[12]);
 				
 				if(values[13] == "")
-				    data.skillTimeLine = default;
+				    data.skillIconImage = default;
 				else
-				    data.skillTimeLine = Convert.ToString(values[13]);
+				    data.skillIconImage = Convert.ToString(values[13]);
 				
 				if(values[14] == "")
+				    data.skillTimeLine = default;
+				else
+				    data.skillTimeLine = Convert.ToString(values[14]);
+				
+				if(values[15] == "")
 				    data.unlockCondition = default;
 				else
-				    data.unlockCondition = (SystemEnum.eSkillUnlock)Enum.Parse(typeof(SystemEnum.eSkillUnlock), values[14]);
+				    data.unlockCondition = (SystemEnum.eSkillUnlock)Enum.Parse(typeof(SystemEnum.eSkillUnlock), values[15]);
 				
 
                 dataList[data.index] = data;

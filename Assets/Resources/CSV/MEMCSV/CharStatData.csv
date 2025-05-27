@@ -1,5 +1,5 @@
-캐릭터 스탯 ID,청,적,황,백,흑,체력,물리방어력,마법방어력,물리공격력,마법공격력,명중률,치명타율,행동속도,이동력,회피율,상태이상저항,사거리증가
-index,blue,red,yellow,white,black,HP,armor,magicResist,meleeAttack,magicalAttack,accuracy,critChance,speed,actionPoint,dodge,resistance,rangeIncrease
-long,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int
-8888,5,5,5,5,5,500,50,50,50,50,50,50,5,50,50,50,0
-10101,1,1,1,1,1,100,10,10,10,10,10,10,1,10,10,10,0
+캐릭터 스탯 ID,청,적,황,백,흑,체력,물리방어력,마법방어력,물리공격력,마법공격력,치명타율,행동속도,이동력,회피율,상태이상저항,사거리증가
+index,blue,red,yellow,white,black,HP,armor,magicResist,meleeAttack,magicalAttack,critChance,speed,actionPoint,dodge,resistance,rangeIncrease
+long,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int
+8888,5,5,5,5,5,500,50,50,50,50,50,5,50,50,50,0
+10101,1,1,1,1,1,100,10,10,10,10,10,1,10,10,10,0

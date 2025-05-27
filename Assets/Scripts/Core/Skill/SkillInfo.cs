@@ -101,6 +101,7 @@ namespace AngelBeat
 
             if (_dicSkill.ContainsKey(skillIndex))
             {
+                Debug.Log($"Skill Played : {skillIndex}");
                 _dicSkill[skillIndex].SkillPlay(parameter);
             }
         }

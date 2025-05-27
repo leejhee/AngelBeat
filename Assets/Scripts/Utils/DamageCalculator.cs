@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using UnityEngine;
 
 public class PureFormulaCalculator
 {
@@ -10,7 +13,7 @@ public class PureFormulaCalculator
         _formula = formula;
     }
 
-    public double Calculate(params double[] values)
+    public float Calculate(params float[] values)
     {
         // {0}, {1}을 실제 값으로 치환
         string expression = _formula;
@@ -22,13 +25,12 @@ public class PureFormulaCalculator
         return EvaluateInfix(expression);
     }
 
-    private double EvaluateInfix(string expression)
+    private float EvaluateInfix(string expression)
     {
         var postfix = ConvertToPostfix(expression);
         return EvaluatePostfix(postfix);
     }
 
-    // 중위 → 후위 표기법 변환 (Shunting-yard 알고리즘)
     private List<string> ConvertToPostfix(string expr)
     {
         List<string> output = new List<string>();
@@ -77,20 +79,20 @@ public class PureFormulaCalculator
     }
 
     // 후위 표기식 계산
-    private double EvaluatePostfix(List<string> postfix)
+    private float EvaluatePostfix(List<string> postfix)
     {
-        Stack<double> stack = new Stack<double>();
+        Stack<float> stack = new();
 
         foreach (var token in postfix)
         {
-            if (double.TryParse(token, out double num))
+            if (float.TryParse(token, out float num))
             {
                 stack.Push(num);
             }
             else
             {
-                double b = stack.Pop();
-                double a = stack.Pop();
+                float b = stack.Pop();
+                float a = stack.Pop();
                 stack.Push(ApplyOperator(a, b, token));
             }
         }
@@ -99,7 +101,7 @@ public class PureFormulaCalculator
     }
 
     // 연산자 적용
-    private double ApplyOperator(double a, double b, string op)
+    private float ApplyOperator(float a, float b, string op)
     {
         return op switch
         {
@@ -107,7 +109,6 @@ public class PureFormulaCalculator
             "-" => a - b,
             "*" => a * b,
             "/" => a / b,
-            "^" => Math.Pow(a, b),
             _ => throw new ArgumentException($"Invalid operator: {op}")
         };
     }
@@ -126,7 +127,7 @@ public class PureFormulaCalculator
             {
                 numBuffer += c;
             }
-            else if ("+-*/^()".Contains(c))
+            else if ("+-*/()".Contains(c))
             {
                 if (numBuffer != "")
                 {
@@ -143,5 +144,89 @@ public class PureFormulaCalculator
         }
 
         return tokens;
+    }
+}
+
+public static class DamageCalculator
+{
+    public static float Evaluate(string formula, List<float> inputStats, List<float> inputKeywords)
+    {
+        if(string.IsNullOrWhiteSpace(formula)) return 0f;
+        
+        formula = Regex.Replace(formula, @"\{(\d+)\}", 
+            m => inputStats[int.Parse(m.Groups[1].Value)].ToString(CultureInfo.InvariantCulture));
+        formula = Regex.Replace(formula, @"\[(\d+)\]", 
+            m => inputStats[int.Parse(m.Groups[1].Value)].ToString(CultureInfo.InvariantCulture));
+        
+        List<string> expr = ExpressionConvert(formula);
+        return EvaluateFinal(expr);
+    }
+
+    private static List<string> ExpressionConvert(string expr)
+    {
+        Stack<string> opStack = new();
+        List<string> output = new();
+        List<string> tokens = Tokenize(expr);
+
+        Dictionary<string, int> precedence = new() { ["+"] = 1, ["-"] = 1, ["*"] = 2, ["/"] = 2 };
+        foreach (var token in tokens)
+        {
+            if(float.TryParse(token, out _))
+                output.Add(token);
+            else if (token == "(")
+                opStack.Push(token);
+            else if (token == ")")
+            {
+                while (opStack.Peek() != "(")
+                {
+                    output.Add(opStack.Pop());
+                }
+                opStack.Pop();
+            }
+            else if (precedence.ContainsKey(token))
+            {
+                while(opStack.Count > 0 && precedence.TryGetValue(opStack.Peek(), out int p) && p >= precedence[token])
+                    output.Add(opStack.Pop());
+                opStack.Push(token);
+            }
+        }
+        while(opStack.Count > 0)
+            output.Add(opStack.Pop());
+        return output;
+    }
+
+    private static List<string> Tokenize(string expr)
+    {
+        List<string> tokens = new();
+        Regex regex = new Regex(@"(\d+\.\d+|\d+|[()+\-*/])");
+        foreach(Match m in regex.Matches(expr.Replace(" ", "")))
+            tokens.Add(m.Value);
+        return tokens;
+    }
+
+    private static float EvaluateFinal(List<string> expr)
+    {
+        Stack<float> stack = new();
+        foreach (var token in expr)
+        {
+            if (float.TryParse(token, out float num))
+            {
+                stack.Push(num);
+            }
+            else
+            {
+                float second = stack.Pop();
+                float first = stack.Pop();
+                stack.Push(token switch
+                {
+                    "+" => first + second,
+                    "-" => first - second,
+                    "*" => first * second,
+                    "/" => first / second,
+                    _ => throw new ArgumentException($"Invalid operator: {token}")
+                });
+            }
+        }
+        return stack.Pop();
     }
 }

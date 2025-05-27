@@ -114,14 +114,11 @@ public class SystemEnum
         MAGICAL_ATTACK,
         NMAGICAL_ATTACK,
         
-        
-        ACCURACY,
-        NACCURACY,
         CRIT_CHANCE,
         NCRIT_CHANCE,
         
-        SPEED, // 기본 속도 
-        NSPEED, // 현재 속도
+        SPEED, 
+        NSPEED,
         
         ACTION_POINT,
         NACTION_POINT,
@@ -133,7 +130,9 @@ public class SystemEnum
         NRESISTANCE,
         
         RANGE_INCREASE,
-
+        DAMAGE_INCREASE,
+        ACCURACY_INCREASE,
+        
         eMax
     }
 

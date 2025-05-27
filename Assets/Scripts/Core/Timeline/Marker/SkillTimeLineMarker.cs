@@ -6,20 +6,13 @@ using UnityEngine.Playables;
 
 namespace AngelBeat
 {
-    public class SkillTimeLineMarker : Marker, INotification
+    public abstract class SkillTimeLineMarker : Marker, INotification
     {
         public PropertyName id => new PropertyName("SkillTimeLineMarker");
         protected SkillParameter inputParam;
 
-        public virtual void MarkerAction()
-        {
-
-        }
-
-        public virtual void SkillInitialize()
-        {
-
-        }
+        public abstract void MarkerAction();
+        protected virtual void SkillInitialize() { }
 
         public override void OnInitialize(TrackAsset aPent)
         {

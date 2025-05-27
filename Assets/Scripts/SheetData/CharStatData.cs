@@ -21,7 +21,6 @@ public partial class CharStatData : SheetData
 	public int magicResist; // 마법방어력
 	public int meleeAttack; // 물리공격력
 	public int magicalAttack; // 마법공격력
-	public int accuracy; // 명중률
 	public int critChance; // 치명타율
 	public int speed; // 행동속도
 	public int actionPoint; // 이동력
@@ -111,39 +110,34 @@ public partial class CharStatData : SheetData
 				    data.magicalAttack = Convert.ToInt32(values[10]);
 				
 				if(values[11] == "")
-				    data.accuracy = default;
-				else
-				    data.accuracy = Convert.ToInt32(values[11]);
-				
-				if(values[12] == "")
 				    data.critChance = default;
 				else
-				    data.critChance = Convert.ToInt32(values[12]);
+				    data.critChance = Convert.ToInt32(values[11]);
 				
-				if(values[13] == "")
+				if(values[12] == "")
 				    data.speed = default;
 				else
-				    data.speed = Convert.ToInt32(values[13]);
+				    data.speed = Convert.ToInt32(values[12]);
 				
-				if(values[14] == "")
+				if(values[13] == "")
 				    data.actionPoint = default;
 				else
-				    data.actionPoint = Convert.ToInt32(values[14]);
+				    data.actionPoint = Convert.ToInt32(values[13]);
 				
-				if(values[15] == "")
+				if(values[14] == "")
 				    data.dodge = default;
 				else
-				    data.dodge = Convert.ToInt32(values[15]);
+				    data.dodge = Convert.ToInt32(values[14]);
 				
-				if(values[16] == "")
+				if(values[15] == "")
 				    data.resistance = default;
 				else
-				    data.resistance = Convert.ToInt32(values[16]);
+				    data.resistance = Convert.ToInt32(values[15]);
 				
-				if(values[17] == "")
+				if(values[16] == "")
 				    data.rangeIncrease = default;
 				else
-				    data.rangeIncrease = Convert.ToInt32(values[17]);
+				    data.rangeIncrease = Convert.ToInt32(values[16]);
 				
 
                 dataList[data.index] = data;

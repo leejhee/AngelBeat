@@ -1,9 +1,11 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
+using AngelBeat.Scene;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using EventBus = AngelBeat.Core.SingletonObjects.Managers.EventBus;
 
@@ -27,7 +29,8 @@ namespace AngelBeat.Core.Battle
         private GameObject previewPrefab;
         private SkillPreview _preview;
         
-        private List<CharBase> _battleCharList;
+        private List<CharBase> _playerParty;
+        private List<CharBase> _enemyParty;
         private TurnController _turnManager;
         private CharBase FocusChar => _turnManager.TurnOwner;
         
@@ -54,9 +57,7 @@ namespace AngelBeat.Core.Battle
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
             
-            #region 기본적인 전투의 시스템 이벤트 예약
             BindBattleEvent();
-            #endregion
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
@@ -101,8 +102,8 @@ namespace AngelBeat.Core.Battle
             
 			// 캐릭터 모델 갱신
             
-            // 탐사로 비동기 로딩. 아... 탐사 정보 저장되어야 하는구나.
-            
+            // 탐사로 비동기 로딩. 
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
             // 
             
             // 

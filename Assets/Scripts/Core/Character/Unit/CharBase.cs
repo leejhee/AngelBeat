@@ -116,10 +116,6 @@ namespace AngelBeat
 
         protected virtual void CharInit(){}
         
-        /// <summary>
-        /// 파티의 캐릭터 모델을 
-        /// </summary>
-        /// <param name="charInfo"></param>
         public void UpdateCharacterInfo(CharacterModel charInfo)
         {
             // property 기반으로 set에서 발동되도록 설정
