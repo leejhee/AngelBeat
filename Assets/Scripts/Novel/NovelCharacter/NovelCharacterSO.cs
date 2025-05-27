@@ -21,10 +21,6 @@ public class NovelCharacterSO : ScriptableObject
     public Sprite GetHead(string head)
     {
         Sprite sprite = standingFaceDict.GetSprite(head);
-        foreach(var pair in standingFaceDict.pairs)
-        {
-            Debug.Log(pair.key);
-        }
         if (sprite == null)
         {
             Debug.LogError($"{head} 표정이 존재하지 않음");

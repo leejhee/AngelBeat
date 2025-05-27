@@ -117,14 +117,14 @@ public class NovelPlayer : MonoBehaviour
     }
 
 
-    public void FadeOut(Image image, float duration, NovelCharacterSO charSO ,bool isFadeOut = true)
+    public void FadeOut(Image image, float duration, NovelCharacterSO charSO,bool isFadeOut = true)
     {
         if (image != null)
         {
-            StartCoroutine(FadeOutCoroutine(image, duration, isFadeOut, charSO));
+            StartCoroutine(CharacterFadeOutCoroutine(image, duration, isFadeOut, charSO));
         }
     }
-    private IEnumerator FadeOutCoroutine(Image image, float duration, bool isFadeOut, NovelCharacterSO charSO)
+    private IEnumerator CharacterFadeOutCoroutine(Image image, float duration, bool isFadeOut, NovelCharacterSO charSO)
     {
         float counter = 0f;
         Color originalColor = image.color;
@@ -160,8 +160,49 @@ public class NovelPlayer : MonoBehaviour
             }
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         }
-        
 
+    }
+    public void BackgroundFadeOut(Image image, float duration, GameObject backObject, bool isFadeOut = true)
+    {
+        if (image != null)
+        {
+            StartCoroutine(BackgroundFadeOutCoroutine(image, duration, backObject, isFadeOut));
+        }
+    }
+    private IEnumerator BackgroundFadeOutCoroutine(Image image, float duration, GameObject backObject, bool isFadeOut)
+    {
+        float counter = 0f;
+        Color originalColor = image.color;
+
+        if (isFadeOut)
+        {
+            while (counter < duration)
+            {
+                float alpha = Mathf.Lerp(1f, 0f, counter / duration);
+                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                counter += Time.deltaTime;
+                yield return null;
+            }
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+            if (NovelPlayer.Instance.currentBackgroundObject != null)
+            {
+                currentBackgroundObject = null;
+                GameObject.Destroy(backObject);
+            }
+        }
+        else
+        {
+            //페이드 인 정의
+            while (counter < duration)
+            {
+                float alpha = Mathf.Lerp(0f, 1f, counter / duration);
+                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                counter += Time.deltaTime;
+                yield return null;
+            }
+            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
+        }
 
     }
 }

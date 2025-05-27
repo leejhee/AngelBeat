@@ -29,6 +29,8 @@ namespace novel
 
         public override void Execute()
         {
+
+
             // 기존에 있던 배경 오브젝트 제거
             if (NovelPlayer.Instance.currentBackgroundObject != null)
                 GameObject.Destroy(NovelPlayer.Instance.currentBackgroundObject);
@@ -70,6 +72,24 @@ namespace novel
                     backgroundPrefab.transform.localScale = Vector3.one * scale.Value;
 
             }
+
+            // 전환효과가 있을 경우
+            if (transition != null && transition != "")
+            {
+                if (transition.ToLower() == "fadeout")
+                {
+                    Debug.Log("페이드아웃");
+                    float fadeTime = time ?? 0f;
+                    NovelPlayer.Instance.BackgroundFadeOut(image, fadeTime, backgroundPrefab);
+                }
+                else
+                {
+                    Debug.Log("왜안대");
+                }
+            }
+
+
+
             backgroundPrefab.transform.SetParent(NovelPlayer.Instance.backgroundPanel.transform, false);
             NovelPlayer.Instance.currentBackgroundObject = backgroundPrefab;
         }
