@@ -25,7 +25,13 @@ namespace AngelBeat.Core
         {
             return _keywordDict.ContainsKey(keyword);
         }
-
+        
+        public int GetKeywordCount(SystemEnum.eKeyword keyword) => 
+            _keywordDict.ContainsKey(keyword) ? _keywordDict[keyword].EffectCount : 0;
+        
+        public int GetKeywordValue(SystemEnum.eKeyword keyword) => 
+            _keywordDict.ContainsKey(keyword) ? _keywordDict[keyword].EffectValue : 0;
+        
         public void KeywordChange(OnKeywordChange onKeywordChange)
         {
             

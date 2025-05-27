@@ -8,7 +8,25 @@ namespace AngelBeat
 {
     public class SkillParameter
     {
-        public CharBase Target;
+        public CharBase Caster;
+        public List<CharBase> Target;
+        public float DamageCalibration;
+        public float Accuracy;
+        public float CritMultiplier;
+        
+        public SkillParameter(
+            CharBase caster, 
+            List<CharBase> target,
+            float damageCalibration = 1,
+            float accuracy = 100,
+            float critMultiplier = 1)
+        {
+            Caster = caster;
+            Target = target;
+            DamageCalibration = damageCalibration;
+            Accuracy = accuracy;
+            CritMultiplier = critMultiplier;
+        }
     }
     
     [RequireComponent(typeof(SkillMarkerReceiver))]
@@ -17,7 +35,7 @@ namespace AngelBeat
         private SkillData _skillData;
         private PlayableDirector _director;
         public CharBase CharPlayer { get; private set; }
-        
+        public SkillParameter SkillParameter;
         private void Awake()
         {
             _director = GetComponent<PlayableDirector>();
@@ -40,7 +58,8 @@ namespace AngelBeat
         {
             if (_director == null)
                 return;
-
+            SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
+            receiver.Input = param;
             _director.Play();
         }
 

@@ -9,13 +9,17 @@ namespace AngelBeat
         private SkillData _skillData;
         public readonly string      SkillName;
         
+        public long                SkillIndex => _skillData.index;
+
         // 가변
         public bool                 IsSkillActive;
         public int                  SkillRange;
         public int                  SkillHitRange;
         public Sprite               Icon;
         public SystemEnum.ePivot    SkillPivot;
-
+        public float                DamageCalibration;
+        public int                  Accuracy;
+        public int                  CritMultiplier;
         public SkillModel(SkillData skillData)
         {
             _skillData = skillData;
@@ -23,6 +27,11 @@ namespace AngelBeat
             SkillRange = skillData.skillRange;
             SkillPivot = skillData.skillPivot;
             SkillHitRange = skillData.skillPivotRange;
+            
+            DamageCalibration = skillData.damageCalibration;
+            Accuracy = skillData.skillAccuracy;
+            CritMultiplier = skillData.skillCritical;
+            
             Icon = ResourceManager.Instance.LoadSprite("Sprites/SkillIcon" + skillData.skillIconImage);
             SkillName = skillData.skillName;
             

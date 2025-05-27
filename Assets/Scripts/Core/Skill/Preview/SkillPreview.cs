@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AngelBeat
@@ -23,7 +24,6 @@ namespace AngelBeat
         private int _range;
         private SystemEnum.ePivot _pivotType;
         private int _pointerRange;
-        private bool _targetable;
         
         public void InitPreview(CharBase focus, SkillModel skillModel)
         {
@@ -33,6 +33,7 @@ namespace AngelBeat
             _pivot = focus.CharTransform.position;
             _rangeCircle.transform.localScale = new Vector3(_range * 2f, _range * 2f, 1);
             _pivotType = _previewSkill.SkillPivot;
+            _pointerRange = _previewSkill.SkillHitRange;
         }
         
         private void Update()
@@ -70,13 +71,42 @@ namespace AngelBeat
                         _previewFocusSnapshot.SetActive(false);
                     _previewFocusSnapshot = target.CharSnapShot;
                     _previewFocusSnapshot.SetActive(true);
+                    
                     Capture(_previewFocusSnapshot);
-                }
-                //
-                
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Debug.Log($"Skill Used : {_previewSkill.SkillName}");
+                    
+                    #region Target Decision
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        List<CharBase> targets = new();
+                        if (_pointerRange == 0)
+                        {
+                            targets.Add(target);
+                        }
+                        else if (_pointerRange > 0)
+                        {
+                            var center = _pivotType == SystemEnum.ePivot.SELF ?
+                                (Vector2)_pivot : new Vector2(target.CharTransform.position.x, target.CharTransform.position.y);
+                            
+                            Collider2D[] hits = Physics2D.OverlapBoxAll
+                                (center, new Vector2(_pointerRange, 1), 0f, LayerMask.GetMask("Character"));
+                            foreach (Collider2D col in hits)
+                            {
+                                if (col.TryGetComponent(out CharBase rangeTarget))
+                                {
+                                    if (rangeTarget == _previewFocus)
+                                        continue;
+                                    targets.Add(rangeTarget);
+                                }
+                            }
+                        }
+                        
+                        _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
+                            new SkillParameter(_previewFocus, targets, 
+                                _previewSkill.DamageCalibration, _previewSkill.Accuracy, _previewSkill.CritMultiplier));
+                        Debug.Log($"Skill Used : {_previewSkill.SkillName}");
+                        gameObject.SetActive(false);
+                    }
+                    #endregion
                 }
             }
             else
