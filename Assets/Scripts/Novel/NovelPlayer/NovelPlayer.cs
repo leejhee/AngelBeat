@@ -35,7 +35,6 @@ public class NovelPlayer : MonoBehaviour
     // 현재 배경화면
     public GameObject currentBackgroundObject;
 
-    private List<CommandLine> _waitedCommandLines = new();
 
     // 현재 스탠딩 나와 있는 캐릭터들
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
@@ -44,6 +43,8 @@ public class NovelPlayer : MonoBehaviour
     [Header("프리팹")]
     public GameObject backgroundPrefab;
     public GameObject standingPrefab;
+
+    public bool waitFlag = false;
 
     //public GameObject standingObject;
 
@@ -64,13 +65,14 @@ public class NovelPlayer : MonoBehaviour
         currentAct.ResetAct();
 
 
-        NovelCharacterSO so = new NovelCharacterSO();
-        NovelManager.Instance.characterSODict.TryGetValue("DonQuixote", out so);
+        NovelCharacterSO so = NovelManager.Instance.characterSODict.GetValue("DonQuixote");
+        //NovelManager.Instance.characterSODict.TryGetValue("DonQuixote", out so);
 
     }
     private void OnNextLineClicked()
     {
         if (isFinished) return;
+
 
         while (true)
         {
@@ -83,20 +85,21 @@ public class NovelPlayer : MonoBehaviour
                 Debug.Log("스크립트 끝까지 플레이");
                 return;
             }
-
+            // 라벨일 경우
             if (line is LabelLine)
                 continue;
-            else if (line is IExecutable exec)
+
+            if (line is IExecutable exec)
             {
+                // 커맨드일 경우
                 exec.Execute();
                 continue;
             }
-
-                PlayLine(line);
+            // 대사나 나래이션
+            PlayLine(line);
             return;
         }
     }
-
 
     private void PlayLine(NovelLine line)
     {

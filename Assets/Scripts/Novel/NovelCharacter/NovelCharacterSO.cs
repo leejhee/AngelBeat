@@ -7,7 +7,7 @@ public class NovelCharacterSO : ScriptableObject
 {
     public string characterName;
     public Sprite body;
-    public NovelStandingFaceDict standingFaceDict = new();
+    public SerializableDict<string, Sprite> faceDict = new();
 
     [Header("직접 수정해야 하는것")]
     public Vector2 headOffset;
@@ -20,7 +20,7 @@ public class NovelCharacterSO : ScriptableObject
     }
     public Sprite GetHead(string head)
     {
-        Sprite sprite = standingFaceDict.GetSprite(head);
+        Sprite sprite = faceDict.GetValue(head);
         if (sprite == null)
         {
             Debug.LogError($"{head} 표정이 존재하지 않음");
@@ -33,13 +33,13 @@ public class NovelCharacterSO : ScriptableObject
     {
         foreach (var sprite in sprites)
         {
-            if (!standingFaceDict.ContainsKey(sprite.name))
+            if (!faceDict.ContainsKey(sprite.name))
             {
                 if (sprite.name == "Body")
                     body = sprite;
                 else
                 {
-                    standingFaceDict.Add(sprite.name, sprite);
+                    faceDict.Add(sprite.name, sprite);
                 }
                     
             }

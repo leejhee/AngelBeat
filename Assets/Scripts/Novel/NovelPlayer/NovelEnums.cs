@@ -32,4 +32,9 @@ namespace novel
         Fade,
         Effect
     }
+    public enum BGMCommandType
+    {
+        Play,
+        Stop
+    }
 }

@@ -222,6 +222,10 @@ namespace novel
 
 
         }
+        public override bool? IsWait()
+        {
+            return this.wait;
+        }
     }
 }
 

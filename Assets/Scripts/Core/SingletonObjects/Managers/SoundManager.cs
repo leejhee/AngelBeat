@@ -116,4 +116,13 @@ public class SoundManager : SingletonObject<SoundManager>
     {
         return _audioSources[(int)Sound.Bgm].isPlaying;
     }
+    public void StopBGM()
+    {
+        AudioSource bgmSource = _audioSources[(int)Sound.Bgm];
+        if (bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+            bgmSource.clip = null; // 필요 없으면 이 줄은 빼도 돼!
+        }
+    }
 }

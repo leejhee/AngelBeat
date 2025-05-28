@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: DonQuixote
   body: {fileID: 420220554, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-  standingFaceDict:
+  faceDict:
     pairs:
     - key: Annoing
       value: {fileID: -864729973, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}

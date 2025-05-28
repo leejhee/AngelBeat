@@ -93,5 +93,9 @@ namespace novel
             backgroundPrefab.transform.SetParent(NovelPlayer.Instance.backgroundPanel.transform, false);
             NovelPlayer.Instance.currentBackgroundObject = backgroundPrefab;
         }
+        public override bool? IsWait()
+        {
+            return this.wait;
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace novel
         public CommandLine(int index, DialogoueType type) : base(index, type) { }
 
         public abstract void Execute();
+        public abstract bool? IsWait();
     }
 }

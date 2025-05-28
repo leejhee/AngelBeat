@@ -13,21 +13,33 @@ namespace novel
         public float? fade;
         public bool? loop;
         public bool? wait;
+        public BGMCommandType commandType;
 
-        public BgmCommand(int index, string bgmName, int? volume, float? time, float? fade, bool? loop, bool? wait) : base(index, DialogoueType.CommandLine)
+        public BgmCommand(int index, string bgmName, int? volume, float? time, float? fade, bool? loop, bool? wait, BGMCommandType commandType = BGMCommandType.Play) : base(index, DialogoueType.CommandLine)
         {
             this.bgmName = bgmName;
             this.volume = volume;
-            this.time = time;   
+            this.time = time;
             this.fade = fade;
             this.loop = loop;
             this.wait = wait;
+            this.commandType = commandType;
         }
 
         public override void Execute()
         {
+            if (commandType == BGMCommandType.Stop)
+            {
+                Debug.Log("BGM 중단");
+                SoundManager.Instance.StopBGM();
+                return;
+            }
             string path = $"Novel/NovelResourceData/SoundData/BGMData/{bgmName}";
             SoundManager.Instance.Play(path, SystemEnum.Sound.Bgm);
+        }
+        public override bool? IsWait()
+        {
+            return this.wait;
         }
     }
 

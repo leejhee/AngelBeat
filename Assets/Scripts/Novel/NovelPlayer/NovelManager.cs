@@ -12,10 +12,10 @@ public class NovelManager : SingletonObject<NovelManager>
     NovelManager() { }
     #endregion
 
-    private Dictionary<string, NovelCharacterSO> _characterSODict = new();
+    private SerializableDict<string, NovelCharacterSO> _characterSODict = new();
     private const string characterSOPath = "Novel/NovelResourceData/CharacterData/CharacterSO";
 
-    public Dictionary<string, NovelCharacterSO> characterSODict
+    public SerializableDict<string, NovelCharacterSO> characterSODict
     {
         get { return _characterSODict; }
         private set { _characterSODict = value; }
@@ -28,10 +28,10 @@ public class NovelManager : SingletonObject<NovelManager>
         Debug.Log("SO 생성 끝");
         //저장되어 있는 SO 불러오기
         LoadCharacterSO();
-        NovelCharacterSO charSO;
-        _characterSODict.TryGetValue("DonQuixote", out charSO);
+        NovelCharacterSO charSO = _characterSODict.GetValue("DonQuixote");
+        //_characterSODict.TryGetValue("DonQuixote", out charSO);
         int i = 0;
-        foreach(var head in charSO.standingFaceDict.pairs)
+        foreach(var head in charSO.faceDict.pairs)
         {
             Debug.Log(head.value.name);
             i++;
@@ -72,8 +72,8 @@ public class NovelManager : SingletonObject<NovelManager>
     }
     public NovelCharacterSO GetCharacterSO(string name)
     {
-        NovelCharacterSO characterSO = null;
-        _characterSODict.TryGetValue(name, out characterSO);
+        NovelCharacterSO characterSO = _characterSODict.GetValue(name);
+        //_characterSODict.TryGetValue(name, out characterSO);
         if (characterSO == null)
         {
             Debug.LogError($"{name} SO 불러오기 실패");
