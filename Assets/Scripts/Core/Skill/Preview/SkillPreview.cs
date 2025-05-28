@@ -99,11 +99,14 @@ namespace AngelBeat
                                 }
                             }
                         }
-                        
-                        _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
-                            new SkillParameter(_previewFocus, targets, 
-                                _previewSkill.DamageCalibration, _previewSkill.Accuracy, _previewSkill.CritMultiplier));
-                        Debug.Log($"Skill Used : {_previewSkill.SkillName}");
+
+                        if (_previewFocus.CharStat.UseActionPoint(SystemConst.fps))
+                        {
+                            _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
+                                new SkillParameter(_previewFocus, targets, 
+                                    _previewSkill.DamageCalibration, _previewSkill.Accuracy, _previewSkill.CritMultiplier));
+                            Debug.Log($"Skill Used : {_previewSkill.SkillName}");
+                        }
                         gameObject.SetActive(false);
                     }
                     #endregion

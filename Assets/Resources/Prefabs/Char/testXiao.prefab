@@ -7737,9 +7737,11 @@ MonoBehaviour:
   _index: 88888888
   _SkillRoot: {fileID: 8609823808903597583}
   _Animator: {fileID: 5301040406538068084}
-  _battleCollider: {fileID: 5178122843961624578}
+  _battleCollider: {fileID: 7628026706837311413}
   _CharCameraPos: {fileID: 7717449326079893023}
   _charSnapShot: {fileID: 2037855664912564555}
+  _rigid: {fileID: 3813620889452704325}
+  moveSpeed: 5
 --- !u!1 &7130105309895485560
 GameObject:
   m_ObjectHideFlags: 0

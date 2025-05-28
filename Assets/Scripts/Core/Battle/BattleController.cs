@@ -1,6 +1,7 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
+using AngelBeat.Core.SingletonObjects.Managers;
 using AngelBeat.Scene;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,9 @@ namespace AngelBeat.Core.Battle
                 Destroy(gameObject);
         }
         #endregion
-        
-        [SerializeField]
-        private GameObject previewPrefab;
+        [SerializeField] private GameObject gameOverPrefab;
+        [SerializeField] private GameObject gameWinPrefab;
+        [SerializeField] private GameObject previewPrefab;
         private SkillPreview _preview;
         
         private List<CharBase> _playerParty;
@@ -59,6 +60,7 @@ namespace AngelBeat.Core.Battle
             
             BindBattleEvent();
             
+            
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
         }
@@ -81,11 +83,7 @@ namespace AngelBeat.Core.Battle
                 // 움직임 관련 
                 Debug.Log("Message Received : OnMoveInput");
             }); 
-        }
-
-        public void ShowMovePreview()
-        {
-            
+            BattleCharManager.Instance.SubscribeDeathEvents();
         }
         
         public void ShowSkillPreview(SkillModel targetSkill)
@@ -96,17 +94,22 @@ namespace AngelBeat.Core.Battle
             _preview.InitPreview(FocusChar, targetSkill);
         }
         
-        public void EndBattle()
+        public void EndBattle(SystemEnum.eCharType winnerType)
         {
             // 결과 내보내기(onBattleEnd 필요)
-            
+            if (winnerType == SystemEnum.eCharType.Player)
+            {
+                // 이겼을 때 보수를 주는 UI를 올린다.
+                UIManager.Instance.ShowUI(gameWinPrefab);
+            }
+            else
+            {
+                UIManager.Instance.ShowUI(gameOverPrefab);
+            }
 			// 캐릭터 모델 갱신
             
             // 탐사로 비동기 로딩. 
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
-            // 
-            
-            // 
+            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
         }
         
     }

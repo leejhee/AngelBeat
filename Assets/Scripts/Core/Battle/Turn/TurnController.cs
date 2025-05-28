@@ -53,6 +53,9 @@ namespace AngelBeat
                 RebuildTurnQueue();
 
             CurrentTurn = _turnQueue.Dequeue();
+            while(!CurrentTurn.TurnOwner)
+                CurrentTurn = _turnQueue.Dequeue();
+            
             CurrentTurn.Begin();
         }
 

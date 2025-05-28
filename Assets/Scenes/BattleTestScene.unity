@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10e6fe6a18c3e94e90f1b6c00b116c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverPrefab: {fileID: 7529872561760963752, guid: 2c90e4088b2c6834d93e97a2bfa35d1f, type: 3}
+  gameWinPrefab: {fileID: 5464895019958645753, guid: d94ea6fac8cf3d149887ce915f01ad5a, type: 3}
   previewPrefab: {fileID: 4849087280689241070, guid: 7e3cec4c0464df448b1af62f951a319d, type: 3}
 --- !u!4 &881014747
 Transform:

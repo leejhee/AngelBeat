@@ -54,6 +54,8 @@ namespace AngelBeat.UI
             }
             //UI 변경
             
+            
+            
         }
 
         private void OnTurnEndClick()

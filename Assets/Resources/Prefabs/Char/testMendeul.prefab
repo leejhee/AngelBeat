@@ -717,9 +717,10 @@ MonoBehaviour:
   _index: 2030
   _SkillRoot: {fileID: 734225689629277190}
   _Animator: {fileID: 5157407825698508134}
-  _battleCollider: {fileID: 4606982231400349967}
+  _battleCollider: {fileID: 1664138821393116518}
   _CharCameraPos: {fileID: 3049406652878586865}
   _charSnapShot: {fileID: 8339138222784202019}
+  _rigid: {fileID: 3017881293671671045}
 --- !u!1 &734225689629277190
 GameObject:
   m_ObjectHideFlags: 0

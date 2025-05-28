@@ -12,5 +12,11 @@ namespace AngelBeat
     {
         public CharBase charBase;
         public SkillBase skillBase;
+        
+        public virtual void InitBehaviour(CharBase charBase, SkillBase skillBase)
+        {
+            this.charBase = charBase;
+            this.skillBase = skillBase;
+        }
     }
 }

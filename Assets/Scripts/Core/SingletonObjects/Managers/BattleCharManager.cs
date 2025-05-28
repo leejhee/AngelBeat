@@ -1,3 +1,4 @@
+using AngelBeat.Core.Battle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
                 Debug.LogWarning($"{myType.ToString()} 타입을 찾을 수 없음 삭제 실패");
                 return false;
             }
-            if (_cache[myType].ContainsKey(id))
+            if (!_cache[myType].ContainsKey(id))
             {
                 Debug.LogWarning($"{myType.ToString()} 타입의 ID: {id}을 찾을 수 없음 삭제 실패");
                 return false;
@@ -161,9 +162,61 @@ namespace AngelBeat.Core.SingletonObjects.Managers
                 .ThenBy(c => c.GetID())
                 .ToList();
         }
+        
+        
+        //TODO : 구리다. 반드시 갈도록 하자. 승리조건 트리깅은 오케이.
+        public void SubscribeDeathEvents()
+        {
+            foreach (var kvp in _cache)
+            {
+                foreach(var unit in kvp.Value)
+                {
+                    CharBase character = unit.Value;
+                    character.OnCharDead += () =>
+                    {
+                        var type = character.GetCharType();
+                        if (!_cache.ContainsKey(GetTypeByEnum(type)) ||
+                            _cache[GetTypeByEnum(type)].Count == 0)
+                            BattleController.Instance.EndBattle(GetEnemyType(type));
+                    };
+                }
+            }
+        }
 
+        public void CheckDeathEvents(eCharType type)
+        {
+            if (!_cache.ContainsKey(GetTypeByEnum(type)) ||
+                _cache[GetTypeByEnum(type)].Count == 0)
+                BattleController.Instance.EndBattle(GetEnemyType(type));
+        }
 
+        private static Type GetTypeByEnum(eCharType type)
+        {
+            switch (type)
+            {
+                case eCharType.Player : return typeof(CharPlayer);
+                case eCharType.Enemy : return typeof(CharMonster);
+            }
+            return null;
+        }
 
+        private static eCharType GetEnemyType(eCharType type)
+        {
+            switch (type)
+            {
+                case eCharType.Player : return eCharType.Enemy;
+                case eCharType.Enemy : return eCharType.Player;
+            }
+            return eCharType.None;
+        }
 
+        public CharBase GetNearestEnemy(CharBase client)
+        {
+            eCharType enemyType = GetEnemyType(client.GetCharType());
+            Type key = GetTypeByEnum(enemyType);
+            if (_cache.ContainsKey(key) == false) return null;
+            return _cache[key].Values.OrderBy(x => 
+                (x.transform.position - client.transform.position).sqrMagnitude).FirstOrDefault();
+        }
     }
 }

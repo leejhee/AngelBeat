@@ -1,13 +1,7 @@
 using novel;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
-using UnityEngine.UIElements;
+
 public static class NovelParser
 {
     private static Regex labelLine = new Regex(@"^#(?<name>.+?)\s*$");

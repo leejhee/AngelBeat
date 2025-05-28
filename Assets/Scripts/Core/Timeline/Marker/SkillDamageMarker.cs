@@ -18,6 +18,7 @@ namespace AngelBeat
             CharStat casterStat = caster.CharStat;
             foreach (CharBase target in inputParam.Target)
             {
+                if (!caster || !target) continue;
                 CharStat targetStat = target.CharStat;
                 
                 #region 명중 계산
@@ -49,7 +50,8 @@ namespace AngelBeat
                 }
                 else
                 {
-                    Debug.Log($"{caster.name}의 공격 {target.name}이 회피");
+                    if(caster && target)
+                        Debug.Log($"{caster.name}의 공격 {target.name}이 회피");
                 }
                 #endregion
             }

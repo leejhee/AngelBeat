@@ -8,7 +8,6 @@ namespace AngelBeat
     public class CharStat
     {
         private long[] _charStat = new long[(int)eStats.eMax];
-
         public CharStat(CharStatData charStat)
         {
             _charStat[(int)eStats.BLUE] = charStat.blue;
@@ -48,8 +47,8 @@ namespace AngelBeat
             _charStat[(int)eStats.SPEED] = charStat.speed;
             _charStat[(int)eStats.NSPEED] = charStat.speed;
             
-            _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint;
-            _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint;
+            _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint * (long)SystemConst.fps;
+            _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint * (long)SystemConst.fps;
             
             _charStat[(int)eStats.DODGE] = charStat.actionPoint;
             _charStat[(int)eStats.NDODGE] = charStat.actionPoint;
@@ -60,9 +59,9 @@ namespace AngelBeat
             _charStat[(int)eStats.RANGE_INCREASE] = 0;
             _charStat[(int)eStats.DAMAGE_INCREASE] = 0;
             _charStat[(int)eStats.ACCURACY_INCREASE] = 0;
-
+            
         }
-
+        
         private eStats GetProperStatAttribute(eStats stat)
         {
             switch (stat)
@@ -100,15 +99,32 @@ namespace AngelBeat
             }
             return stat;
         }
-        
-        public long GetStat(eStats stat)
+
+        private float CalibratedStat(eStats stat)
         {
+            switch (stat)
+            {
+                case eStats.ACTION_POINT:
+                case eStats.NACTION_POINT:
+                    return _charStat[(int)stat] / SystemConst.fps;
+                    
+            }
+            return _charStat[(int)stat];
+        }
+        
+        public float GetStat(eStats stat)
+        {
+            //return CalibratedStat(GetProperStatAttribute(stat));
             return _charStat[(int)GetProperStatAttribute(stat)];
         }
 
+        public event Action<eStats, long> OnStatChanged;
+        public void ClearChangeEvent() => OnStatChanged = null;
         public void ChangeStat(eStats stat, long valueDelta)
         {
-            _charStat[(int)GetProperStatAttribute(stat)] += valueDelta;
+            eStats realStat = GetProperStatAttribute(stat);
+            _charStat[(int)realStat] += valueDelta;
+            OnStatChanged?.Invoke(realStat, _charStat[(int)realStat]);
         }
     
         #region Damage Part
@@ -124,10 +140,7 @@ namespace AngelBeat
             if (_charStat[(int)eStats.NHP] <= 0)
             {
                 _charStat[(int)eStats.NHP] = 0;
-                Debug.Log("죽여줘,..");
             }
-               
-            
         }
         
         public DamageParameter GetDamageParameter(CharBase damageTarget, string damageInput)
@@ -139,6 +152,24 @@ namespace AngelBeat
             }
             #endregion
             return new DamageParameter();
+        }
+        
+        #endregion
+        
+        #region Action Point Part
+
+        public bool UseActionPoint(float value)
+        {
+            if (GetStat(eStats.NACTION_POINT) >= value)
+            {
+                _charStat[(int)eStats.NACTION_POINT] -= (long)value;
+            }
+            else
+            {
+                Debug.Log($"Action Point 부족함. {GetStat(eStats.NACTION_POINT)}");
+                return false;
+            }
+            return true;
         }
         
         #endregion

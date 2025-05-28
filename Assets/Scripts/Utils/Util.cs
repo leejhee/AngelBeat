@@ -72,7 +72,7 @@ public class Util
         string appender = "/userdata";
         string nameString = $"/{fileName}.json";
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE
         savePath = Application.dataPath;
 #elif UNITY_ANDROID
         savePath = Application.persistentDataPath;
@@ -115,12 +115,11 @@ public class Util
         string loadPath;
         string appender = "/userdata";
         string nameString = $"/{fileName}.json";
-
-#if UNITY_EDITOR
+#if UNITY_ANDROID
+        loadPath = Application.persistentDataPath;
+#endif        
         loadPath = Application.dataPath;
-#elif UNITY_ANDROID
-        savePath = Application.persistentDataPath;
-#endif
+
         StringBuilder stringBuilder = new StringBuilder(loadPath);
         stringBuilder.Append(appender);
         if (!Directory.Exists(stringBuilder.ToString()))

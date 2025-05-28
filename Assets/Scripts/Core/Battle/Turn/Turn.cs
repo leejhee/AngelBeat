@@ -34,9 +34,36 @@ namespace AngelBeat
                 EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
                 
                 // Control Logic.
-                
+                if (turnOwner.GetCharType() == SystemEnum.eCharType.Player)
+                {
+                    CharPlayer player = turnOwner as CharPlayer;
+                    if (player)
+                        player.OnUpdate += player.OnPlayerMoveUpdate;
+                }
+                else if (turnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+                {
+                    CharMonster monster = turnOwner as CharMonster;
+                    if(monster)
+                        monster.StartAI();
+                }
             };
-            
+
+            _onEndTurn += () =>
+            {
+                if (turnOwner.GetCharType() == SystemEnum.eCharType.Player)
+                {
+                    CharPlayer player = turnOwner as CharPlayer;
+                    if (player)
+                        player.OnUpdate -= player.OnPlayerMoveUpdate;
+                }
+                else if (turnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+                {
+                    CharMonster monster = turnOwner as CharMonster;
+                    if (monster)
+                        monster.StopAI();
+                }
+            };
+
         }
 
         public void Begin() => _onBeginTurn();

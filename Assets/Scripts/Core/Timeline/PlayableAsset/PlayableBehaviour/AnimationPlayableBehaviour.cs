@@ -37,7 +37,7 @@ namespace AngelBeat
                 playableGraph.Stop(); // �׷��� ����
                 playableGraph.Destroy(); // �׷��� ���ҽ� ����
             }
-            animator.Play("IDLE",0,0);
+            //animator.Play("IDLE",0,0);
         }
     }
 }

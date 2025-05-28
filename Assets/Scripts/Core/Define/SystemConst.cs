@@ -1,12 +1,12 @@
+using UnityEngine;
 public class SystemConst
-{   
-    // 기획에 따라,
-    // 최대, 최소값
-    // 또는 단위 적기
+{
+    public const float fps = 60f;
 }
 
 public class SystemString
 {
+    
     public const string SkillIconPath = "Sprites/SkillIcon/";
     
     public const string PlayerHitCollider = "PlayerHitCollider";

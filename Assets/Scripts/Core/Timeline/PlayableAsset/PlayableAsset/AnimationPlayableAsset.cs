@@ -20,8 +20,12 @@ namespace AngelBeat
             base.CreatePlayable(graph, owner);
 
             var playableBehaviour = new AnimationPlayableBehaviour();
-
-            playableBehaviour.animator = charBase.CharAnim.Animator;
+            
+            SkillBase skill = owner.GetComponent<SkillBase>();
+            CharBase player = skill.CharPlayer;
+            playableBehaviour.InitBehaviour(player, skill);
+            
+            playableBehaviour.animator = player.CharAnim.Animator;
             playableBehaviour.animationClip = animationClip;
             var scriptPlayable = ScriptPlayable<AnimationPlayableBehaviour>.Create(graph, playableBehaviour);
 
