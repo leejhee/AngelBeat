@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using EventBus = AngelBeat.Core.SingletonObjects.Managers.EventBus;
 
 namespace AngelBeat.Core.Battle
@@ -25,10 +24,17 @@ namespace AngelBeat.Core.Battle
                 Destroy(gameObject);
         }
         #endregion
+        
+        #region UI Member
         [SerializeField] private GameObject gameOverPrefab;
         [SerializeField] private GameObject gameWinPrefab;
         [SerializeField] private GameObject previewPrefab;
+        
         private SkillPreview _preview;
+        #endregion
+        
+        private IBattleStageSource _stageSource;
+        private IMapLoader _mapLoader;
         
         private List<CharBase> _playerParty;
         private List<CharBase> _enemyParty;
@@ -38,40 +44,65 @@ namespace AngelBeat.Core.Battle
         private void Start()
         {
             Debug.Log("Starting Battle...");
+            if (_stageSource == null)
+            {
+                Debug.Log("Stage source not set : Using Battle Payload");
+                _stageSource = new BattlePayloadSource();
+            }
+            _mapLoader = new StageLoader(_stageSource);
+            
             BattleInitialize();
         }
         
-        // TODO : Initializer 객체 따로 사용해서 초기화할 것
+        /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
+        /// <param name="stageSource"> 테스트 용도의 stage source. </param>
+        public void SetStageSource(IBattleStageSource stageSource) => _stageSource = stageSource;
+        
+        /// <summary>
+        /// 역할 : 전투 진입 시의 최초 동작 메서드. 전투 환경을 초기화한다.
+        /// </summary>
         private void BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
-            SystemEnum.eDungeon dungeon = BattlePayload.Instance.DungeonName;
-            StageField battleField = SetMapEnvironment(dungeon);
-            if (!battleField)
-            {
-                Debug.LogError("Map Load Error");
-                return;
-            }
             
-            Party party = BattlePayload.Instance.PlayerParty;
-            List<CharBase> battleMembers = battleField.SpawnAllUnits(party);
+            SystemEnum.eDungeon dungeon = _stageSource.Dungeon;
+            string stageName = _stageSource.StageName;
+            Party playerParty = _stageSource.PlayerParty;
+
+            StageField battleField = _mapLoader.GetBattleField(stageName);
+            
+            List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
             
             BindBattleEvent();
             
-            
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
         }
 
-        private StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)
+        private static StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)
         {
             BattleFieldGroup battleFieldGroup = 
-                Resources.Load<BattleFieldGroup>("ScriptableObjects/BattleFieldGroup/" + dungeon);
+                Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
             return Instantiate(battleFieldGroup.GetRandomBattleField());
         }
 
+        private static StageField SetMapEnvironment(SystemEnum.eDungeon dungeon, string stageName)
+        {
+            BattleFieldGroup battleFieldGroup = 
+                Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
+            try
+            {
+                return Instantiate(battleFieldGroup.GetBattleField(stageName));
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                return null;
+            }
+        }
+        
         private void BindBattleEvent()
         {
             EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>

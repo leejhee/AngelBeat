@@ -48,7 +48,7 @@ public class StageField : MonoBehaviour
             CharIndex = charBase.Index
         });
     }
-
+    
     public void SpawnAllUnitsByType(eCharType type, List<CharBase> characters)
     {
         if (characters.Count > _spawnDict[type].Count)
@@ -66,7 +66,12 @@ public class StageField : MonoBehaviour
             });
         }
     }
-
+    
+    /// <summary>
+    /// 스테이지에서 플레이어 파티와 
+    /// </summary>
+    /// <param name="playerParty"> 플레이어 측의 파티 </param>
+    /// <returns> 스폰된 모든 캐릭터를 반환합니다. </returns>
     public List<CharBase> SpawnAllUnits(Party playerParty)
     {
         List<CharBase> battleMembers = new();

@@ -20,10 +20,10 @@ namespace AngelBeat
         private SkillModel _previewSkill;
         
         private CharBase _previewFocus;
-        private Vector3 _pivot; // 무조건 시전자 중심
-        private int _range;
+        private Vector3 _pivot;     // 무조건 시전자 중심
+        private int _range;         // 시전자로부터의 범위
         private SystemEnum.ePivot _pivotType;
-        private int _pointerRange;
+        private int _pointerRange;  // 스킬 시전될 중심으로부터의 범위
         
         public void InitPreview(CharBase focus, SkillModel skillModel)
         {
@@ -99,15 +99,20 @@ namespace AngelBeat
                                 }
                             }
                         }
-
+                        #region 스킬 사용부
                         if (_previewFocus.CharStat.UseActionPoint(SystemConst.fps))
                         {
                             _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
-                                new SkillParameter(_previewFocus, targets, 
-                                    _previewSkill.DamageCalibration, _previewSkill.Accuracy, _previewSkill.CritMultiplier));
+                                new SkillParameter(
+                                    _previewFocus, 
+                                    targets, 
+                                    _previewSkill.DamageCalibration, 
+                                    _previewSkill.Accuracy, 
+                                    _previewSkill.CritMultiplier));
                             Debug.Log($"Skill Used : {_previewSkill.SkillName}");
                         }
                         gameObject.SetActive(false);
+                        #endregion
                     }
                     #endregion
                 }
@@ -129,7 +134,9 @@ namespace AngelBeat
             }   
         }
 
-        /// <summary> 현재 포인팅 중인 타겟의 임시 sprite 생성 및 outlining 실시</summary>
+        /// <summary>
+        /// 현재 포인팅 중인 타겟의 임시 sprite 생성 및 outlining 실시
+        /// </summary>
         private void Capture(GameObject target)
         {
             Vector3 targetPos = target.transform.position;
