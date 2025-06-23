@@ -15,6 +15,7 @@ public static class NovelParser
     private static Regex sfxCommand = new Regex(@"^@sfx\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex charCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex gotoCommand = new Regex(@"^@goto\s+(?<label>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex choiceCommand = new Regex(@"^@choice\s+(?<choice>.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static Regex hideCommand = new Regex(@"^@hide\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex hideAllCommand = new Regex(@"^@hideall\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -26,6 +27,8 @@ public static class NovelParser
     private static Regex stopBGMCommand = new Regex(@"^@stopbgm\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex stopSFXCommand = new Regex(@"^@stopsfx\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex stopVoiceCommand = new Regex(@"^@stopvoice\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private static Regex waitCommand = new Regex(@"^@wait(?:\s+(?<time>[\d.]+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 
     //Command Parameter Regex
@@ -40,7 +43,7 @@ public static class NovelParser
 
     private static Regex transitionPattern = new Regex(@"transition\s*:\s*(?<transition>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-
+    private static Regex subLinePattern = new Regex("^ {4}(?<argument>.*)", RegexOptions.Compiled);
     public static NovelAct Parse(string[] lines)
     {
         NovelAct act = new();
@@ -48,7 +51,7 @@ public static class NovelParser
 
         foreach(string raw in lines)
         {
-            string line = raw.Trim();
+            string line = raw;
 
             if (string.IsNullOrEmpty(line)) continue;
 
@@ -63,7 +66,7 @@ public static class NovelParser
                 string labelName = match.Groups["name"].Value;
                 //act.novelLines.Add(new LabelLine(index, labelName));
                 NovelPlayer.Instance.labelDict.Add(labelName, index);
-                Debug.Log($"Label Name : {labelName}");
+                Debug.Log($"Label Name : {labelName}\nIndex : {index}");
             }
             else if (commandLine.IsMatch(line))
             {
@@ -76,12 +79,28 @@ public static class NovelParser
                 string actorLine = match.Groups["line"].Value;
                 act.novelLines.Add(new PersonLine(index, actorName, actorLine));
 
-                Debug.Log($"Person : {actorName}, Line : {actorLine}");
+                Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
+            }
+            else if(subLinePattern.IsMatch(line))
+            {
+                var subMatch = subLinePattern.Match(line);
+                string sub = subMatch.Groups["argument"].Value;
+                ParseSubLine(act, sub, index - 1);
+
+                //Debug.Log($"Sub Line : {sub}\nIndex : {index}");
+                
+                continue;
             }
             else
             {
-                act.novelLines.Add(new NormalLine(index, line));
-                Debug.Log($"Normal : {line}");
+                string normalLine = line.Trim();
+                if (normalLine == null || normalLine == "")
+                {
+                    continue;
+                }
+                act.novelLines.Add(new NormalLine(index, normalLine));
+
+                Debug.Log($"Normal : {line}\nIndex : {index}");
             }
             index++;
 
@@ -129,7 +148,7 @@ public static class NovelParser
                     wait = false;
             }
 
-            Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nWait : {wait}");
+            Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nWait : {wait}\nIndex : {index}");
             act.novelLines.Add(new BackCommand(index, backName, transition, pos, scale, time, wait));
         }
         else if (bgmCommand.IsMatch(line))
@@ -174,13 +193,13 @@ public static class NovelParser
                     wait = false;
             }
 
-            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nwait : {wait}");
+            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nwait : {wait}\nIndex : {index}");
             act.novelLines.Add(new BgmCommand(index, bgmName, volume, time, fade, loop, wait));
         }
         else if (stopBGMCommand.IsMatch(line))
         {
             act.novelLines.Add(new BgmCommand(index, null, null, null, null, null, null, BGMCommandType.Stop));
-            Debug.Log($"StopBGM");
+            Debug.Log($"StopBGM\nIndex : {index}");
         }
         else if (charCommand.IsMatch(line))
         {
@@ -223,17 +242,102 @@ public static class NovelParser
                     wait = false;
             }
 
-            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}");
+            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}\nIndex : {index}");
             act.novelLines.Add(new CharCommand(index, name, appearance, transition, pos, scale, time, wait));
         }
         else if (hideCommand.IsMatch(line))
         {
-            Debug.Log("hide command");
+            Debug.Log("hide command\nIndex : {index}");
         }
         else if (hideAllCommand.IsMatch(line))
         {
-            Debug.Log("Hide All Command");
+            Debug.Log("Hide All Command\nIndex : {index}");
             act.novelLines.Add(new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll));
+        }
+        else if (choiceCommand.IsMatch(line))
+        {
+            string choice = null;
+            var choiceMatch = choiceCommand.Match(line);
+            if (choiceMatch.Success)
+                choice = choiceMatch.Groups["choice"].Value;
+
+            act.novelLines.Add(new ChoiceCommand(index, choice));
+            Debug.Log($"Choice : {choice}\nIndex : {index}");
+        }
+        else if (waitCommand.IsMatch(line))
+        {
+            var waitMatch = waitCommand.Match(line);
+
+            float waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : 0f;
+
+            act.novelLines.Add(new WaitCommand(index, waitTime));
+            Debug.Log($"Wait \nTime : {waitTime}\nIndex : {index}");
+        }
+    }
+    private static void ParseSubLine(NovelAct act, string line, int index)
+    {
+        int subIndex = index;
+        // index - 1번 명령어의 리스트에 서브라인들 넣어줌
+        if (string.IsNullOrEmpty(line)) return;
+
+        if (commentLine.IsMatch(line))
+        {
+            // 주석은 파싱 안함
+            return;
+        }
+        //else if (labelLine.IsMatch(line))
+        //{
+        //    var match = labelLine.Match(line);
+        //    string labelName = match.Groups["name"].Value;
+        //    //act.novelLines.Add(new LabelLine(index, labelName));
+        //    NovelPlayer.Instance.labelDict.Add(labelName, index);
+        //    Debug.Log($"Sub Label Name : {labelName}");
+        //}
+        else if (commandLine.IsMatch(line))
+        {
+            //ParseCommand(act, index, line);
+        }
+        else if (personLine.IsMatch(line))
+        {
+            var match = personLine.Match(line);
+            string actorName = match.Groups["name"].Value;
+            string actorLine = match.Groups["line"].Value;
+            //act.novelLines.Add(new PersonLine(index, actorName, actorLine));
+
+            Debug.Log($"Person : {actorName}, Line : {actorLine}");
+        }
+        else if (subLinePattern.IsMatch(line))
+        {
+            var subMatch = subLinePattern.Match(line);
+            string sub = subMatch.Groups["argument"].Value;
+            ParseSubLine(act, sub, subIndex);
+
+            Debug.Log($"Sub Line : {sub}");
+
+            return;
+        }
+        else
+        {
+            NovelLine beforeLine = null;
+            foreach(var novelLine in act.novelLines)
+            {
+                if(novelLine.index == index)
+                {
+                    beforeLine = novelLine;
+                    break;
+                }
+            }
+            if (beforeLine == null)
+            {
+                Debug.LogError("서브라인이 들어갈 메인라인이 없음");
+                return;
+            }
+            if (beforeLine is CommandLine command)
+            {
+                command.subLines.Add(new NormalLine(index, line));
+            }
+
+            Debug.Log($"Sub Normal : {line}\nParentLine : {index}");
         }
     }
 }

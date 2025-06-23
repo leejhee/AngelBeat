@@ -45,6 +45,7 @@ namespace novel
                 Debug.LogError("배경 이미지 불러오기 실패" + backName);
                 return;
             }
+            bool isWait = wait ?? false;
 
             Image image = backgroundPrefab.GetComponent<Image>();
             if (image != null)
@@ -80,11 +81,7 @@ namespace novel
                 {
                     Debug.Log("페이드아웃");
                     float fadeTime = time ?? 0f;
-                    NovelPlayer.Instance.BackgroundFadeOut(image, fadeTime, backgroundPrefab);
-                }
-                else
-                {
-                    Debug.Log("왜안대");
+                    NovelPlayer.Instance.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
                 }
             }
 

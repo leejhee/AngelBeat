@@ -123,6 +123,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9715362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9715363}
+  - component: {fileID: 9715364}
+  m_Layer: 5
+  m_Name: ChoicePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9715363
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9715362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 338037317823911022}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9715364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9715362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &793396907
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +467,7 @@ RectTransform:
   - {fileID: 970748920960876097}
   - {fileID: 7098483164824156392}
   - {fileID: 667937028038546455}
+  - {fileID: 9715363}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -805,19 +868,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98905f991744f4341915da459a29b518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  novelScript: {fileID: 2811297602134710623, guid: 5def8bc4108998b43bba7482dd6a7270, type: 3}
+  novelScript: {fileID: 2811297602134710623, guid: aa05d960f34095544bdee1f06ac80e23, type: 3}
   currentAct:
     novelLines: []
   _dialoguePanel: {fileID: 1177681902666396089}
   backgroundPanel: {fileID: 9121459471869113641}
   namePanel: {fileID: 4965996505053066219}
   standingPanel: {fileID: 4649459937484270071}
+  choicePanel: {fileID: 9715362}
   novelText: {fileID: 2320005344630964270}
   nameText: {fileID: 3929207745689077359}
   nextButton: {fileID: 4601046237696962614}
   currentBackgroundObject: {fileID: 0}
+  currentChoices:
+    pairs: []
   backgroundPrefab: {fileID: 636896890383791273, guid: 3b2d427cf45449540a2223e179f72a5d, type: 3}
   standingPrefab: {fileID: 5442131785131527348, guid: 0e7ce356612690f4591f4d32408099f3, type: 3}
+  choiceButtonPrefab: {fileID: 6842113844703858137, guid: 931014d0679e2b34baa6e47c376e1f9f, type: 3}
+  typingSpeed: 0.03
+  isWait: 0
   references:
     version: 2
     RefIds: []

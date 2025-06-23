@@ -23,25 +23,15 @@ public class NovelManager : SingletonObject<NovelManager>
     }
     public override void Init()
     {
-        Debug.Log("SO 생성");
         // 캐릭터 SO 생성
         //CreateCharacterSOAssets();
-        Debug.Log("SO 생성 끝");
+
         //저장되어 있는 SO 불러오기
         LoadCharacterSO();
-        NovelCharacterSO charSO = _characterSODict.GetValue("DonQuixote");
-        //_characterSODict.TryGetValue("DonQuixote", out charSO);
-        int i = 0;
-        foreach(var head in charSO.faceDict.pairs)
-        {
-            Debug.Log(head.value.name);
-            i++;
-        }
-        Debug.Log(i);
     }
 
-    
-    private void CreateCharacterSOAssets()
+
+    public  void CreateCharacterSOAssets()
     {
         string[] characterNames = Enum.GetNames(typeof(CharacterName));
         foreach (var characterName in characterNames)

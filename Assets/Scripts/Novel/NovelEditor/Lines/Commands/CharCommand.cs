@@ -46,6 +46,7 @@ namespace novel
             // 해당하는 이름이 존재하지 않으면 리턴
             if (!NovelManager.Instance.characterSODict.ContainsKey(charName))
             {
+                //string name = charName.ToLower();
                 Debug.LogError($"{charName} 캐릭터 존재하지 않음");
                 return;
             }
@@ -70,7 +71,7 @@ namespace novel
                 return;
             }
 
-            
+            bool isWait = wait ?? false;
             if (NovelPlayer.Instance.currentCharacterDict.ContainsKey(charSO))
             {
                 // 지금 언급한 스탠딩이 이미 띄워져 있을 경우
@@ -85,7 +86,7 @@ namespace novel
                     float fadeTime = time ?? 0;
                     foreach (var image in images)
                     {
-                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO);
+                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO, true);
                     }
 
 
@@ -109,7 +110,7 @@ namespace novel
                     float fadeTime = time ?? 0;
                     foreach (var image in images)
                     {
-                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO,false);
+                        NovelPlayer.Instance.FadeOut(image, fadeTime, charSO, false);
                     }
                 }
 
@@ -205,13 +206,12 @@ namespace novel
                 }
 
                 // 만약 캐릭터 색깔만 바꾸는 경우가 있다면 수정할것
-
+                //Debug.Log(isWait);
                 float fadeTime = time ?? 0;
                 foreach (var image in images)
                 {
                     NovelPlayer.Instance.FadeOut(image, fadeTime, charSO, false);
                 }
-
 
                 // 스탠딩 패널에 넣기
                 standingObject.transform.SetParent(NovelPlayer.Instance.standingPanel.transform, false);

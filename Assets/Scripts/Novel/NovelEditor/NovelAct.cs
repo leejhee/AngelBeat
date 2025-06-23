@@ -31,7 +31,6 @@ namespace novel
             //    }
             //}
         }
-
         public void ResetAct() => currentIndex = 0;
     }
 }

@@ -22,7 +22,9 @@ namespace novel
     }
     public enum CharacterName
     {
-        DonQuixote
+        DonQuixote,
+        Gosegu,
+        Jururu
     }
     public enum CharCommandType
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace novel
 {
+    [System.Serializable]
     public class GotoCommand : CommandLine
     {
         public string label;

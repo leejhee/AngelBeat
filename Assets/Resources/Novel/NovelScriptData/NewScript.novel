@@ -1,21 +1,23 @@
-//@bgm Ereb
-첫번째 스크립트
+@bgm Ereb
+테스트 스크립트
 #라벨
 //이건 주석이야
-스탠딩 띄우기
 @char DonQuixote
-페이드인 중복 테스트
-@char DonQuixote time:0.5
+@char DonQuixote time:2 !wait
 
-페이드아웃 테스트
+일반 나래이션
 @char DonQuixote transition:fadeout time:0.5
 //@hideall
-DonQuixote : 자, 동료들이여! 자세를 갖추고 저들을 맞이하세! 우리를 가로막는 저 시련을 해치우고, 끝나지 않는 모험을 향하여!
+DonQuixote : 안녕
+@choice 때린다
+    DonQuixote : 아야
+    @goto label
+@choice 더 세게 때린다
+    DonQuixote : 아야야
+#label
 @char DonQuixote.CloseEye
 돈키호테는 눈을 감았다.
 @back 천수각
 @char DonQuixote.Annoing
-여기가 어디지?
-@back 천수각.Fadeout time:0.5
 
 @stopbgm
