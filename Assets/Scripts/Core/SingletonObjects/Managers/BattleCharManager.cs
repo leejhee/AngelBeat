@@ -162,9 +162,23 @@ namespace AngelBeat.Core.SingletonObjects.Managers
                 .ThenBy(c => c.GetID())
                 .ToList();
         }
+
+        public List<CharBase> GetBattleMembers()
+        {
+            List<CharBase> battleMembers = new();
+            foreach (var kvp in _cache)
+            {
+                foreach (var unit in kvp.Value)
+                {
+                    CharBase character = unit.Value;
+                    battleMembers.Add(character);
+                }
+            }
+
+            return battleMembers;
+        }
         
-        
-        //TODO : 구리다. 반드시 갈도록 하자. 승리조건 트리깅은 오케이.
+        /// <summary> 캐릭터 사망에 대한 로직 구독 </summary>
         public void SubscribeDeathEvents()
         {
             foreach (var kvp in _cache)
@@ -174,10 +188,8 @@ namespace AngelBeat.Core.SingletonObjects.Managers
                     CharBase character = unit.Value;
                     character.OnCharDead += () =>
                     {
-                        var type = character.GetCharType();
-                        if (!_cache.ContainsKey(GetTypeByEnum(type)) ||
-                            _cache[GetTypeByEnum(type)].Count == 0)
-                            BattleController.Instance.EndBattle(GetEnemyType(type));
+                        eCharType type = character.GetCharType();
+                        CheckDeathEvents(type);
                     };
                 }
             }

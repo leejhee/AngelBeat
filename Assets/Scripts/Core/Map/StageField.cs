@@ -1,6 +1,8 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.SingletonObjects.Managers;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using static SystemEnum;
 
@@ -29,6 +31,7 @@ public class StageField : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Initializing Spawn Data...");
         _spawnDict = battleSpawnerData.Convert2Dict();
     }
 
@@ -48,7 +51,7 @@ public class StageField : MonoBehaviour
             CharIndex = charBase.Index
         });
     }
-
+    
     public void SpawnAllUnitsByType(eCharType type, List<CharBase> characters)
     {
         if (characters.Count > _spawnDict[type].Count)
@@ -66,9 +69,15 @@ public class StageField : MonoBehaviour
             });
         }
     }
-
+    
+    /// <summary>
+    /// 스테이지에서 플레이어 파티와 적 캐릭터들을 인스턴스화하고, 그 전체 목록을 반환.
+    /// </summary>
+    /// <param name="playerParty"> 플레이어 측의 파티 </param>
+    /// <returns> 스폰된 모든 캐릭터를 반환합니다. </returns>
     public List<CharBase> SpawnAllUnits(Party playerParty)
     {
+        Debug.Log("Spawning All Units...");
         List<CharBase> battleMembers = new();
         
         //PlayerSide

@@ -13,20 +13,20 @@ namespace AngelBeat
         {
             base.CharInit();
             BattleCharManager.Instance.SetChar(this);
-            _charAI = new(this);
+            //_charAI = new(this);
 
             CharInfo = new CharacterModel(Index);
         }
 
         public void StartAI()
         {
-            _aiRoutine =  StartCoroutine(_charAI.AIRoutine());
+            //_aiRoutine =  StartCoroutine(_charAI.AIRoutine());
         }
 
         public void StopAI()
         {
-            if(_aiRoutine != null)
-                StopCoroutine(_aiRoutine);
+            //if(_aiRoutine != null)
+            //    StopCoroutine(_aiRoutine);
         }
     
     }

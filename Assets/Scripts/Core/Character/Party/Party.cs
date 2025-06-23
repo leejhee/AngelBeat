@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 // ReSharper disable All
 
@@ -32,6 +33,12 @@ namespace AngelBeat.Core.Character
         {
             partyMembers.Add(member);
         }
-        
+
+        public override string ToString()
+        {
+            string func = FunctionsPerParty == null || FunctionsPerParty.Count == 0
+                ? "없음" : $"{FunctionsPerParty.Count}개 버프 있음";
+            return new StringBuilder($"{partyType} : {partyMembers.Count}명 | 버프 : ").Append(func).ToString();
+        }
     }
 }

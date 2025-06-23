@@ -2,78 +2,73 @@ Shader "Custom/Sprite_Outline"
 {
     Properties
     {
-        [PerRendererData]_MainTex ("Sprite Texture", 2D) = "white" {}
+        _MainTex ("Sprite Texture", 2D) = "white" {}
         _OutlineColor ("Outline Color", Color) = (1,0,0,1)
         _OutlineSize ("Outline Size", Float) = 1
     }
 
     SubShader
     {
-        Tags
-        {
-            "Queue"="Transparent"
-            "RenderType"="Transparent"
-        }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         LOD 100
-
-        Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off
-        Lighting Off
-        ZWrite Off
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
+            Cull Off
+            ZWrite Off
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-            struct appdata_t
+            struct appdata
             {
                 float4 vertex : POSITION;
-                float2 texcoord : TEXCOORD0;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
+                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float2 texcoord : TEXCOORD0;
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float4 _OutlineColor;
+            float4 _MainTex_TexelSize;
+            fixed4 _OutlineColor;
             float _OutlineSize;
 
-            v2f vert(appdata_t v)
+            v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.uv = v.uv;
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            fixed4 frag (v2f i) : SV_Target
             {
-                float2 uv = i.texcoord;
-                float4 col = tex2D(_MainTex, uv);
+                float alpha = 0.0;
+                float2 offsets[8] = {
+                    float2(-1, -1), float2(-1, 0), float2(-1, 1),
+                    float2(0, -1),                float2(0, 1),
+                    float2(1, -1),  float2(1, 0), float2(1, 1)
+                };
 
-                // outline 샘플링용 주변 pixel
-                float alpha = col.a;
-                for (int x = -1; x <= 1; x++)
+                for (int j = 0; j < 8; ++j)
                 {
-                    for (int y = -1; y <= 1; y++)
-                    {
-                        float2 offset = float2(x, y) * (_OutlineSize / _ScreenParams.xy);
-                        float a = tex2D(_MainTex, uv + offset).a;
-                        alpha = max(alpha, a);
-                    }
+                    float2 offsetUV = i.uv + offsets[j] * _OutlineSize * _MainTex_TexelSize.xy;
+                    fixed4 sample = tex2D(_MainTex, offsetUV);
+                    alpha = max(alpha, sample.a);
                 }
 
-                if (col.a == 0 && alpha > 0)
-                    return _OutlineColor;
-                else
-                    return col;
+                // 현재 픽셀 알파
+                fixed4 center = tex2D(_MainTex, i.uv);
+                if (center.a > 0.01)
+                    discard; // 내부 픽셀은 버림
+
+                return fixed4(_OutlineColor.rgb, alpha * _OutlineColor.a);
             }
             ENDCG
         }
