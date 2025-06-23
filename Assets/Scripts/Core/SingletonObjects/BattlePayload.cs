@@ -1,5 +1,6 @@
 ﻿using AngelBeat.Core.Character;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace AngelBeat.Core.SingletonObjects
 {
@@ -15,6 +16,8 @@ namespace AngelBeat.Core.SingletonObjects
             PlayerParty = party;
             DungeonName = dungeon;
             StageName = stageName;
+            
+            Debug.Log($"{party}");
         }
 
         public void Clear()

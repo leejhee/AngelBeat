@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace AngelBeat
 {
+    /// <summary>
+    /// 몇 턴(또는 영구)에 걸쳐 장기적으로 유지되어야 하는 버프의 예다.
+    /// </summary>
     public abstract class ExecutionBase
     {
         protected CharBase _TargetChar = null; 

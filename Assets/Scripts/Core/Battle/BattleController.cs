@@ -36,8 +36,6 @@ namespace AngelBeat.Core.Battle
         private IBattleStageSource _stageSource;
         private IMapLoader _mapLoader;
         
-        private List<CharBase> _playerParty;
-        private List<CharBase> _enemyParty;
         private TurnController _turnManager;
         private CharBase FocusChar => _turnManager.TurnOwner;
         
@@ -64,43 +62,26 @@ namespace AngelBeat.Core.Battle
         private void BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
-            
-            SystemEnum.eDungeon dungeon = _stageSource.Dungeon;
-            string stageName = _stageSource.StageName;
-            Party playerParty = _stageSource.PlayerParty;
-
-            StageField battleField = _mapLoader.GetBattleField(stageName);
-            
-            List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
-            _turnManager = new TurnController(battleMembers); 
-            _turnManager.ChangeTurn();
-            
-            BindBattleEvent();
-            
-            Debug.Log("Battle Initialization Complete");
-            BattlePayload.Instance.Clear();
-        }
-
-        private static StageField SetMapEnvironment(SystemEnum.eDungeon dungeon)
-        {
-            BattleFieldGroup battleFieldGroup = 
-                Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
-            return Instantiate(battleFieldGroup.GetRandomBattleField());
-        }
-
-        private static StageField SetMapEnvironment(SystemEnum.eDungeon dungeon, string stageName)
-        {
-            BattleFieldGroup battleFieldGroup = 
-                Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
             try
             {
-                return Instantiate(battleFieldGroup.GetBattleField(stageName));
+                string stageName = _stageSource.StageName;
+                Party playerParty = _stageSource.PlayerParty;
+                
+                StageField battleField = Instantiate(_mapLoader.GetBattleField(stageName));
+            
+                List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
+                _turnManager = new TurnController(battleMembers); 
+                _turnManager.ChangeTurn();
+            
+                BindBattleEvent();
             }
             catch (Exception e)
             {
-                Debug.Log(e);
-                return null;
+                Debug.LogError($"[에러 발생] : {e.Message}\n{e.StackTrace}");
             }
+            
+            Debug.Log("Battle Initialization Complete");
+            BattlePayload.Instance.Clear();
         }
         
         private void BindBattleEvent()

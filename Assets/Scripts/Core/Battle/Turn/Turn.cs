@@ -11,65 +11,64 @@ namespace AngelBeat
 
         public CharBase TurnOwner { get; private set; }
         public Side WhoseSide { get; private set; }
-
+        public bool IsValid => TurnOwner;
+        
         private readonly Action _onBeginTurn =     delegate { };
-        private readonly Action _onProcessTurn =   delegate { };
         private readonly Action _onEndTurn =       delegate { };
 
         public Turn(CharBase turnOwner)
         {
-            this.TurnOwner = turnOwner;
+            TurnOwner = turnOwner;
             WhoseSide = turnOwner.GetCharType() == SystemEnum.eCharType.Enemy ?
                 Side.Enemy : Side.Player;
             
-            // Ready Turn for Owner.
-            _onBeginTurn += () =>
-            {
-                // Control Camera.
-                Vector3 cameraPos = Camera.main.transform.position;
-                Vector3 charPos = TurnOwner.transform.position;
-                Camera.main.transform.position = new Vector3(charPos.x, charPos.y, cameraPos.z);
-                
-                // Control UI.
-                EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
-                
-                // Control Logic.
-                if (turnOwner.GetCharType() == SystemEnum.eCharType.Player)
-                {
-                    CharPlayer player = turnOwner as CharPlayer;
-                    if (player)
-                        player.OnUpdate += player.OnPlayerMoveUpdate;
-                }
-                else if (turnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
-                {
-                    CharMonster monster = turnOwner as CharMonster;
-                    if(monster)
-                        monster.StartAI();
-                }
-            };
+            _onBeginTurn += DefaultTurnBegin;
+            _onEndTurn += DefaultTurnEnd;
+        }
+        
+        public void Begin() => _onBeginTurn();
+        public void End() => _onEndTurn();
 
-            _onEndTurn += () =>
+        private void DefaultTurnBegin()
+        {
+            // Control Camera.
+            Vector3 cameraPos = Camera.main.transform.position;
+            Vector3 charPos = TurnOwner.transform.position;
+            Camera.main.transform.position = new Vector3(charPos.x, charPos.y, cameraPos.z);
+                
+            // Control UI.
+            EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
+                
+            // Control Logic.
+            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
             {
-                if (turnOwner.GetCharType() == SystemEnum.eCharType.Player)
-                {
-                    CharPlayer player = turnOwner as CharPlayer;
-                    if (player)
-                        player.OnUpdate -= player.OnPlayerMoveUpdate;
-                }
-                else if (turnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
-                {
-                    CharMonster monster = turnOwner as CharMonster;
-                    if (monster)
-                        monster.StopAI();
-                }
-            };
-
+                CharPlayer player = TurnOwner as CharPlayer;
+                if (player)
+                    player.OnUpdate += player.OnPlayerMoveUpdate;
+            }
+            else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+            {
+                CharMonster monster = TurnOwner as CharMonster;
+                if(monster)
+                    monster.StartAI();
+            }
         }
 
-        public void Begin() => _onBeginTurn();
-        public void Process() => _onProcessTurn();
-        public void End() => _onEndTurn();
-        
+        private void DefaultTurnEnd()
+        {
+            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
+            {
+                CharPlayer player = TurnOwner as CharPlayer;
+                if (player)
+                    player.OnUpdate -= player.OnPlayerMoveUpdate;
+            }
+            else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+            {
+                CharMonster monster = TurnOwner as CharMonster;
+                if (monster)
+                    monster.StopAI();
+            }
+        }
 
     }
 }

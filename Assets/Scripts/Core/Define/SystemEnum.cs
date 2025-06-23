@@ -213,11 +213,23 @@ public class SystemEnum
     public enum eExecutionPhase
     {
         None,
-        EoR,
-        Always,
         SoR,
+        EoR,
+        SoT,
+        EoT,
         Instant,
+        Always,
         eMax
+    }
+    
+    public enum eKeywordTargetType
+    {
+        Self,
+        AllyAll,
+        EnemyAll,
+        EnemyNearest,
+        EnemyRandom,
+        // 추가 가능
     }
     
     public enum eIsAttack

@@ -161,12 +161,12 @@ namespace AngelBeat
             Type myType = GetType();
             BattleCharManager.Instance.Clear(myType, _uid);
             Debug.Log($"{gameObject.name} is dead");
-            Destroy(gameObject);
             
             OnCharDead?.Invoke();
             OnUpdate = null;
             CharStat.ClearChangeEvent();
-            BattleCharManager.Instance.CheckDeathEvents(GetCharType());
+            
+            Destroy(gameObject);
         }
         
 
