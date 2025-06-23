@@ -206,8 +206,14 @@ public class SystemEnum
 
     public enum eKeyword
     {
+        None,
+        
         Burn,
-        Amber,
+        Ember,
+        BurningHeart,
+        MendeulMendeul,
+        
+        eMax
     }
 
     public enum eExecutionPhase
@@ -224,12 +230,24 @@ public class SystemEnum
     
     public enum eKeywordTargetType
     {
+        None,
         Self,
         AllyAll,
         EnemyAll,
         EnemyNearest,
         EnemyRandom,
         // 추가 가능
+    }
+
+    public enum eInfluenceType
+    {
+        None,
+        
+        Negative,
+        Positive,
+        Neutral,
+        
+        eMax
     }
     
     public enum eIsAttack

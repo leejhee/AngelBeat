@@ -36,10 +36,10 @@ namespace AngelBeat
             Vector3 charPos = TurnOwner.transform.position;
             Camera.main.transform.position = new Vector3(charPos.x, charPos.y, cameraPos.z);
                 
-            // Control UI.
+            // Control UI. TODO : 이거 이벤트버스를 써야할까? 그냥 model이 BattleCharManager인거 아닐까..?
             EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
                 
-            // Control Logic.
+            #region Control Logic
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
             {
                 CharPlayer player = TurnOwner as CharPlayer;
@@ -48,10 +48,14 @@ namespace AngelBeat
             }
             else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
-                CharMonster monster = TurnOwner as CharMonster;
-                if(monster)
-                    monster.StartAI();
+                Debug.Log("Monster turn : AI not implemented");
+                //CharMonster monster = TurnOwner as CharMonster;
+                //if(monster)
+                //    monster.StartAI();
             }
+            
+            TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT);
+            #endregion
         }
 
         private void DefaultTurnEnd()
@@ -64,10 +68,13 @@ namespace AngelBeat
             }
             else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
-                CharMonster monster = TurnOwner as CharMonster;
-                if (monster)
-                    monster.StopAI();
+                Debug.Log("Monster turn ended");
+                //CharMonster monster = TurnOwner as CharMonster;
+                //if (monster)
+                //    monster.StopAI();
             }
+            
+            TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT);
         }
 
     }
