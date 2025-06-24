@@ -38,6 +38,7 @@ namespace AngelBeat
         private Dictionary<PlayerState, int> _indexPair = new();
         
         public long Index => _index;
+        public string UnitName => _charData.charName;
         public Transform CharTransform => _charTransform;
         public Transform CharUnitRoot => _charUnitRoot;
         public GameObject SkillRoot => _SkillRoot;
@@ -62,6 +63,21 @@ namespace AngelBeat
             }
         }
 
+        public Transform FloatingUIRoot
+        {
+            get
+            {
+                Transform uiRoot = CharTransform.Find("FloatingUIRoot");
+                if (uiRoot == null)
+                {
+                    GameObject root = new("FloatingUIRoot");
+                    root.transform.SetParent(CharTransform);
+                    return root.transform;
+                }
+                return uiRoot;
+            }
+        }
+        
         public ExecutionInfo ExecutionInfo => _executionInfo;
         public SkillInfo SkillInfo => _skillInfo;
         public KeywordInfo KeywordInfo => _keywordInfo;
@@ -83,7 +99,8 @@ namespace AngelBeat
             
                 _skillInfo = new SkillInfo(this);
                 _skillInfo?.Init(_charData.charSkillList);
-
+                _executionInfo = new();
+                _keywordInfo = new(this);
                 _charStat = value.Stat;
                 
             }
@@ -140,7 +157,10 @@ namespace AngelBeat
             OnUpdate?.Invoke();
         }
 
-        protected virtual void CharInit(){}
+        protected virtual void CharInit()
+        {
+            
+        }
         
         public void UpdateCharacterInfo(CharacterModel charInfo)
         {

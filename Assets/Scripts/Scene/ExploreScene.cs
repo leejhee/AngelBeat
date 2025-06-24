@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ExploreScene : MonoBehaviour
+namespace AngelBeat
 {
-
-    void Start()
+    public class ExploreScene : MonoBehaviour
     {
-        GameManager instance = GameManager.Instance;
-        //UIManager.Instance.ShowSceneUI<UI_ExploreScene>();
-        //StageManager.Instance.Init();
-        //StageManager.Instance.SetStage(0, true);
+
+        void Start()
+        {
+            GameManager instance = GameManager.Instance;
+            //UIManager.Instance.ShowSceneUI<UI_ExploreScene>();
+            //StageManager.Instance.Init();
+            //StageManager.Instance.SetStage(0, true);
+        }
     }
 }
+

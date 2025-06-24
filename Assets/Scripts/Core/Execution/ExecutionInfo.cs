@@ -63,6 +63,10 @@ namespace AngelBeat
             _functionKillQueue.Enqueue(target);
         }
 
+        public void AddExecution(ExecutionParameter param)
+        {
+            EnqueueFunction(ExecutionFactory.ExecutionGenerate(param));
+        }
 
     }
 }

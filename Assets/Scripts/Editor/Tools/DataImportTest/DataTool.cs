@@ -4,16 +4,20 @@ using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
-public class DataTool
+
+namespace AngelBeat
 {
-    [MenuItem("Data/데이터검증")]
-    public static void DataVerification()
+    public class DataTool
     {
-        DataManager.Instance.ClearCache();
-        DataManager.Instance.DataLoad();
+        [MenuItem("Data/데이터검증")]
+        public static void DataVerification()
+        {
+            DataManager.Instance.ClearCache();
+            DataManager.Instance.DataLoad();
 
-        Debug.Log("데이터 검증 끝.");
+            Debug.Log("데이터 검증 끝.");
+        }
+
     }
-
-}
 #endif
+}

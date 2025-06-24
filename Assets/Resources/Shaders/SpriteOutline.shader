@@ -51,9 +51,14 @@ Shader "Custom/Sprite_Outline"
             {
                 float alpha = 0.0;
                 float2 offsets[8] = {
-                    float2(-1, -1), float2(-1, 0), float2(-1, 1),
-                    float2(0, -1),                float2(0, 1),
-                    float2(1, -1),  float2(1, 0), float2(1, 1)
+                    float2(-1, -1), 
+                    float2(-1, 0), 
+                    float2(-1, 1),
+                    float2(0, -1),                
+                    float2(0, 1),     //주변 8픽셀 감지
+                    float2(1, -1),  
+                    float2(1, 0), 
+                    float2(1, 1)
                 };
 
                 for (int j = 0; j < 8; ++j)

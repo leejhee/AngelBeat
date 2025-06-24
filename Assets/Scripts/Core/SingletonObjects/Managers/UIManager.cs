@@ -3,7 +3,7 @@ using UnityEngine;
 using AngelBeat.UI;
 using System;
 
-namespace AngelBeat.Core
+namespace AngelBeat
 {
     public class UIManager : SingletonObject<UIManager>
     {
@@ -40,6 +40,16 @@ namespace AngelBeat.Core
             }
         }
 
+        public void ShowFloatingUI(CharBase ch, FloatingUI ui)
+        {
+            if (!ui)
+            {
+                Debug.LogError("Check your floating ui prefab.");
+                return;
+            }
+            ResourceManager.Instance.Instantiate(ui.gameObject, ch.FloatingUIRoot);
+        }
+        
 
         public T ShowPopupUI<T>(string name = null) where T : UI_Popup
         {

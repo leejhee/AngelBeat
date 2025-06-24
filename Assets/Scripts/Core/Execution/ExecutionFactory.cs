@@ -1,3 +1,5 @@
+using AngelBeat.KeywordExecution;
+
 namespace AngelBeat
 {
     public static class ExecutionFactory
@@ -8,6 +10,7 @@ namespace AngelBeat
         {
             switch (buffParam.eExecutionType)
             {
+                case SystemEnum.eExecutionType.STACK_CHANGE : return new KeywordChange(buffParam);
                 default:
                     return null;
             }

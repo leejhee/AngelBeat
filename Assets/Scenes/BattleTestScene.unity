@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f280a8f6ab59a064bb734f1dd9af3f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleUI:
+  battleUI:
   - {fileID: 2255768716526657494, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
 --- !u!4 &1906016943
 Transform:

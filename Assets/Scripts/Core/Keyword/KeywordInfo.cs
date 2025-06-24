@@ -26,6 +26,11 @@ namespace AngelBeat
             _executionPhaseDict[key].Add(keywordBase);
         }
 
+        public void AddKeyword(eKeyword keyword)
+        {
+            
+        }
+        
         public bool HasKeyword(eKeyword keyword)
         {
             return _executionPhaseDict.Values

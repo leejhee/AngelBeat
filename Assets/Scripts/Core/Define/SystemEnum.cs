@@ -193,13 +193,8 @@ public class SystemEnum
     public enum eExecutionType
     {
         None,
-        Avoidance,
-        StateBuff,
-        StateBuffPer,
-        StateBuffNPer,
-        Parrying,
-        DotDamage,
-
+        STACK_CHANGE,
+        EXCHANGE_STACK,
 
         eMax
     }

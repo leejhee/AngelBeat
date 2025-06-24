@@ -1,17 +1,16 @@
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-/// <summary> 
+namespace AngelBeat
+{
+    /// <summary> 
 /// 데이터 매니저 (Sheet 데이터 관리)
 /// </summary>
-public class DataManager : SingletonObject<DataManager>
+public partial class DataManager : SingletonObject<DataManager>
 {
     /// 로드한 적 있는 DataTable (Table 명을  Key1 데이터 ID를 Key2로 사용)
     Dictionary<string, Dictionary<long, SheetData>> _cache = new Dictionary<string, Dictionary<long, SheetData>>();
@@ -50,8 +49,14 @@ public class DataManager : SingletonObject<DataManager>
             {
                 _cache.Add(type.Name, sheet);
             }
+            SetTypeData(type.Name);
 
         }
+    }
+
+    private void SetTypeData(string typeName)
+    {
+        if(typeof(KeywordData).ToString().Contains(typeName)) {SetKeywordDataMap(); return; }
     }
 
     public T GetData<T>(long Index) where T : SheetData
@@ -102,7 +107,19 @@ public class DataManager : SingletonObject<DataManager>
             _cache[key].Add(id, data);
         }
     }
+    
+    public List<SheetData> GetDataList<T>() where T : SheetData
+    {
+        string typeName = typeof(T).Name;
+        if (_cache.ContainsKey(typeName) == false)
+        {
+            Debug.LogWarning($"DataManager : {typeName} 타입 데이터가 존재하지 않습니다.");
 
+            return null;
+        }
+
+        return _cache[typeName].Values.ToList();
+    }
 
 #if UNITY_EDITOR
     // 데이터 검증용(에디터에서만 사용)
@@ -122,5 +139,7 @@ public class DataManager : SingletonObject<DataManager>
     }
 #endif
 
+
+}
 
 }

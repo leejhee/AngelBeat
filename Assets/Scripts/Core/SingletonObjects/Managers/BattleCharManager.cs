@@ -230,5 +230,21 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             return _cache[key].Values.OrderBy(x => 
                 (x.transform.position - client.transform.position).sqrMagnitude).FirstOrDefault();
         }
+#if UNITY_EDITOR
+
+        public List<CharBase> GetCurrentCharacters()
+        {
+            var charlist = new List<CharBase>();
+            foreach(var dicts in _cache)
+            {
+                foreach(var character in dicts.Value)
+                {
+                    charlist.Add(character.Value);
+                }
+            }
+            return charlist;
+        }
+#endif
+
     }
 }

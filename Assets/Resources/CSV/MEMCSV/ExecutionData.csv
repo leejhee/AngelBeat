@@ -1,8 +1,4 @@
-효과 ID,#이름,#효과 설명,효과 분류,# 이펙트 ,효과 적용 대상 스탯,실행 시점,지속되는 턴 수,1번입력,2번입력,3번입력,4번입력,실행 조건,연쇄 실행 Execution List
-index,#,#,executionType,# effectPath,targetStat,executionPhase,executionDuration,input1,input2,input3,input4,,nextExecutionList
-long,#,#,eExecutionType,# string,eStats,eExecutionPhase,int,long,long,long,long,long,long[]
-30030001,#화상 효과,# 마지막 턴에 스택만큼 데미지를 입음.,apply_status,#  화상,"HP, Burn",EoR,0,,,,,,
-30030002,#잔불 효과,# 스킬을 위한 스택 데이터,stack,#  잔불,Ember,Always,-1,,,,,12412414,30031002
-30030003,#타.마.꺼.모 효과,# 턴 시작시 모든 화상을 잔불로 바꿈,change_status,#  타.마.꺼.모,"Burn,Ember",SoR,-1,,,,,,
-30030004,#맨들맨들 효과,# 이 패시브 이외의 패시브에게 영향 받지 않음,stack,#  반짝,,Always,,,,,,,
-30031002,#잔불 이펙트,#잔불이 10 이상일 때 나오는 이펙트,effect,#  일렁거림,,Instant,,,,,,,
+효과 ID,#이름,#효과 설명,효과 분류,# 이펙트 ,효과 적용 대상 스탯,실행 시점,지속되는 턴 수,적용 확률,1번입력,2번입력,3번입력,4번입력,연쇄 실행 조건,연쇄 실행 Execution List
+index,#,#조건에 따라 발동하는 것만 표기해도 됩니다,executionType,# effectPath,targetStat,executionPhase,executionDuration,prob,input1,input2,input3,input4,nextCondition,nextExecutionList
+long,#,#키워드 현재 분리되어 부여 가능한 상태,eExecutionType,# string,eStats,eExecutionPhase,int,int,long,long,long,long,long,long[]
+30000001,화상 부여 - Xiao Skill,"공격 명중 시 적에게 화상 횟수 1, 수치 3을 3턴에 걸쳐서 부여",STACK_CHANGE,,,EoT,3,100,1,3,,,,

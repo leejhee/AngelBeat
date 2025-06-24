@@ -62,8 +62,8 @@ namespace AngelBeat.Core.Battle
         private void BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
-            try
-            {
+            // try
+            // {
                 string stageName = _stageSource.StageName;
                 Party playerParty = _stageSource.PlayerParty;
                 
@@ -74,11 +74,11 @@ namespace AngelBeat.Core.Battle
                 _turnManager.ChangeTurn();
             
                 BindBattleEvent();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[에러 발생] : {e.Message}\n{e.StackTrace}");
-            }
+            //}
+            // catch (Exception e)
+            // {
+            //     Debug.LogError($"[에러 발생] : {e.Message}\n{e.StackTrace}");
+            // }
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();

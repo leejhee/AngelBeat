@@ -11,7 +11,8 @@ namespace AngelBeat
         public int EffectCount { get; protected set; }
         public abstract eExecutionPhase Phase { get;}
         public eKeyword KeywordType => data.keywordType;
-
+        public string KeywordIconName => data.keywordIcon;
+        
         protected KeywordBase(KeywordData data)
         {
             this.data = data;
