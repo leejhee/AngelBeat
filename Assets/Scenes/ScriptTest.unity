@@ -868,9 +868,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98905f991744f4341915da459a29b518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  novelScript: {fileID: 2811297602134710623, guid: aa05d960f34095544bdee1f06ac80e23, type: 3}
+  novelScript: {fileID: 2811297602134710623, guid: 5def8bc4108998b43bba7482dd6a7270, type: 3}
   currentAct:
     novelLines: []
+  labelDict:
+    pairs: []
   _dialoguePanel: {fileID: 1177681902666396089}
   backgroundPanel: {fileID: 9121459471869113641}
   namePanel: {fileID: 4965996505053066219}
@@ -880,8 +882,6 @@ MonoBehaviour:
   nameText: {fileID: 3929207745689077359}
   nextButton: {fileID: 4601046237696962614}
   currentBackgroundObject: {fileID: 0}
-  currentChoices:
-    pairs: []
   backgroundPrefab: {fileID: 636896890383791273, guid: 3b2d427cf45449540a2223e179f72a5d, type: 3}
   standingPrefab: {fileID: 5442131785131527348, guid: 0e7ce356612690f4591f4d32408099f3, type: 3}
   choiceButtonPrefab: {fileID: 6842113844703858137, guid: 931014d0679e2b34baa6e47c376e1f9f, type: 3}

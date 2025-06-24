@@ -295,10 +295,15 @@ public class NovelPlayer : MonoBehaviour
         }
     }
 
-
-    [ContextMenu("캐릭터 SO 제작")]
-    public void CreateCharacterSO()
+    public void Resume()
     {
-        NovelManager.Instance.CreateCharacterSOAssets();
+        isWait = false;
+        OnNextLineClicked();
     }
+
+    //[ContextMenu("캐릭터 SO 제작")]
+    //public void CreateCharacterSO()
+    //{
+    //    NovelManager.Instance.CreateCharacterSOAssets();
+    //}
 }

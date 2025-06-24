@@ -14,59 +14,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: DonQuixote
   body: {fileID: 420220554, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-  standingFaceDict:
+  faceDict:
     pairs:
-    - key: Annoing
-      value: {fileID: -864729973, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: CloseEye
-      value: {fileID: -2042814917, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_5
-      value: {fileID: -2018653370, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_6
-      value: {fileID: -609926400, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_7
-      value: {fileID: 76561551, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_8
-      value: {fileID: 413611455, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_9
-      value: {fileID: 2119082085, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_10
-      value: {fileID: -818378360, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_11
-      value: {fileID: 611599968, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_12
-      value: {fileID: -595660857, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_13
-      value: {fileID: 1325394641, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_14
-      value: {fileID: 1220756477, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_15
-      value: {fileID: 1589215766, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_16
-      value: {fileID: -1398044450, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_17
-      value: {fileID: -790871686, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_18
-      value: {fileID: 1009833090, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_19
-      value: {fileID: -434793854, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_20
-      value: {fileID: -1152598295, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_21
-      value: {fileID: 1392359210, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_22
-      value: {fileID: -1283938056, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_23
-      value: {fileID: -1103287646, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_24
-      value: {fileID: 780705923, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_25
-      value: {fileID: 1701599535, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_26
-      value: {fileID: -1565248943, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: DonQuixote_27
-      value: {fileID: -2126398159, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
-    - key: Smile
-      value: {fileID: 312581987, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
   headOffset: {x: -72.4, y: 247.8}
   novelName: "\uB3C8\uD0A4\uD638\uD14C"

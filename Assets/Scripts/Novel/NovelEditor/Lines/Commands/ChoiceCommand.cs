@@ -30,15 +30,22 @@ namespace novel
         private void OnClickChoiceButton()
         {
             Debug.Log("선택지 클릭");
-            foreach(var line in subLines)
-            {
-                NovelPlayer.Instance.currentSubLines.Add(line);
-            }
 
-            foreach(var line in NovelPlayer.Instance.currentSubLines)
+            foreach (Transform child in NovelPlayer.Instance.choicePanel.transform)
             {
-                Debug.Log(line);
+                GameObject.Destroy(child.gameObject);
             }
+            NovelPlayer.Instance.Resume();
+            // 선택지 밑에 실행하는거 일단 못했음
+            //foreach(var line in subLines)
+            //{
+            //    NovelPlayer.Instance.currentSubLines.Add(line);
+            //}
+
+            //foreach(var line in NovelPlayer.Instance.currentSubLines)
+            //{
+            //    Debug.Log(line);
+            //}
         }
         public override bool? IsWait()
         {

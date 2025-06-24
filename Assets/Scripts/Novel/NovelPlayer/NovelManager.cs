@@ -27,19 +27,20 @@ public class NovelManager : SingletonObject<NovelManager>
         //CreateCharacterSOAssets();
 
         //저장되어 있는 SO 불러오기
+        Debug.Log("여기");
         LoadCharacterSO();
     }
 
 
-    public  void CreateCharacterSOAssets()
-    {
-        string[] characterNames = Enum.GetNames(typeof(CharacterName));
-        foreach (var characterName in characterNames)
-        {
-            Debug.Log($"{characterName}");
-            NovelCharacterSOFactory.CreateSpriteDataFromAtlas(characterName);
-        }
-    }
+    //public  void CreateCharacterSOAssets()
+    //{
+    //    string[] characterNames = Enum.GetNames(typeof(CharacterName));
+    //    foreach (var characterName in characterNames)
+    //    {
+    //        Debug.Log($"{characterName}");
+    //        NovelCharacterSOFactory.CreateSpriteDataFromAtlas(characterName);
+    //    }
+    //}
     private void LoadCharacterSO()
     {
         _characterSODict.Clear();

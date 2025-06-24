@@ -1,19 +1,14 @@
-@bgm Ereb
+//@bgm Ereb
 테스트 스크립트
 #라벨
-//이건 주석이야
-@char DonQuixote
-@char DonQuixote time:2 !wait
-
+@char DonQuixote transition:fadein time:0.5
 일반 나래이션
-@char DonQuixote transition:fadeout time:0.5
-//@hideall
 DonQuixote : 안녕
 @choice 때린다
-    DonQuixote : 아야
-    @goto label
 @choice 더 세게 때린다
-    DonQuixote : 아야야
+@wait
+DonQuixote : 아야
+
 #label
 @char DonQuixote.CloseEye
 돈키호테는 눈을 감았다.
