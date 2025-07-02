@@ -1,5 +1,44 @@
-캐릭터 ID,#캐릭터 설명,캐릭터 이름(추후 stringcode로 교체할 것),캐릭터 프리팹 루트,캐릭터 아이콘 루트,캐릭터 스킬 ID 리스트,캐릭터 스탯 ID,캐릭터 타입,초기 패시브 리스트
-index,#,charName,charPrefabName,charImage,charSkillList,charStat,defaultCharType,defaultExecutionList
-long,#,string,string,string,long[],long,eCharType,long[]
-88888888,#테스트 주인공,샤오,testXiao,xiao,[10111001],8888,Player,
-2030,#테스트 적,대머리,testMendeul,mendeul,[10010001],10101,Enemy,
+﻿캐릭터 ID,#캐릭터 설명,캐릭터 이름(추후 stringcode로 교체할 것),캐릭터 프리팹 루트,캐릭터 아이콘 루트,캐릭터 스킬 ID 리스트,캐릭터 스탯 ID,캐릭터 타입,초기 패시브 리스트,,,,
+index,#,charName,charPrefabName,charImage,charSkillList,charStat,defaultCharType,defaultExecutionList,,,,
+long,#,string,string,string,long[],long,eCharType,long[],,,,
+88888888,#테스트 주인공,샤오,testXiao,xiao,[10111001],8888,Player,,,,,
+2030,#테스트 적,대머리,testMendeul,mendeul,[10010001],10101,Enemy,,,,,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

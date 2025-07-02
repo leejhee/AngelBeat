@@ -1,7 +1,44 @@
-키워드 ID,#키워드 설명,키워드 enum,키워드 이름,긍정/중립/부정,키워드 아이콘,키워드 효과(삭제예정),아이콘이 보이는지
-index,#,keywordType,keywordName,InfluenceType,keywordIcon,keywordExecution,iconIsVisible
-long,#,eKeyword,string,eInfluenceType,string,long,bool
-20010001,#화상,Burn,Burn,Negative,Burn,30030001,true
-20010002,#잔불,Ember,Ember,Neutral,Ember,30030002,true
-20010003,#타들어가는 마음은 꺼질 줄 모르고,BurningHeart,BurningHeart,Positive,BurningHeart,30030003,true
-20010004,# 맨들맨들,MendeulMendeul,MendeulMendeul,Positive,Mendeulmendeul,30030004,true
+﻿키워드 ID,#키워드 설명,키워드 enum,키워드 이름,긍정/중립/부정,키워드 아이콘,키워드 효과(삭제예정),아이콘이 보이는지,,,,,,,,,
+index,#,keywordType,keywordName,InfluenceType,keywordIcon,keywordExecution,iconIsVisible,,,,,,,,,
+long,#,eKeyword,string,eInfluenceType,string,long,bool,,,,,,,,,
+20010001,#화상,Burn,Burn,Negative,Burn,30030001,true,,,,,,,,,
+20010002,#잔불,Ember,Ember,Neutral,Ember,30030002,true,,,,,,,,,
+20010003,#타들어가는 마음은 꺼질 줄 모르고,BurningHeart,BurningHeart,Positive,BurningHeart,30030003,true,,,,,,,,,
+20010004,# 맨들맨들,MendeulMendeul,MendeulMendeul,Positive,Mendeulmendeul,30030004,true,,,,,,,,,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

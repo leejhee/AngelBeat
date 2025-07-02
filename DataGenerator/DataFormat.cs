@@ -77,7 +77,7 @@ namespace AngelBeat
 
             string ListStr = null;
 			int line = 0;
-            TextAsset csvFile = Resources.Load<TextAsset>($""CSV/{{this.GetType().Name}}"");
+            TextAsset csvFile = Resources.Load<TextAsset>($""CSV/MEMCSV/{{this.GetType().Name}}"");
             try
 			{{            
                 string csvContent = csvFile.text;
