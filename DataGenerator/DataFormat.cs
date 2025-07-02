@@ -87,7 +87,7 @@ namespace AngelBeat
                     if (string.IsNullOrWhiteSpace(lines[i]))
                         continue;
 
-                    string[] values = lines[i].Trim().Split(',');
+                    string[] values = CSVParser.Parse(lines[i].Trim());
                     line = i;
 
                     {0} data = new {0}();

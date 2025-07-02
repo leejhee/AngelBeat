@@ -44,7 +44,7 @@ public long index; // 효과 ID
                     if (string.IsNullOrWhiteSpace(lines[i]))
                         continue;
 
-                    string[] values = lines[i].Trim().Split(',');
+                    string[] values = CSVParser.Parse(lines[i].Trim());
                     line = i;
 
                     ExecutionData data = new ExecutionData();

@@ -38,7 +38,7 @@ public long index; // 캐릭터 ID
                     if (string.IsNullOrWhiteSpace(lines[i]))
                         continue;
 
-                    string[] values = lines[i].Trim().Split(',');
+                    string[] values = CSVParser.Parse(lines[i].Trim());
                     line = i;
 
                     CharData data = new CharData();

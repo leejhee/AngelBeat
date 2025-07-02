@@ -47,7 +47,7 @@ public long index; // 스킬 ID
                     if (string.IsNullOrWhiteSpace(lines[i]))
                         continue;
 
-                    string[] values = lines[i].Trim().Split(',');
+                    string[] values = CSVParser.Parse(lines[i].Trim());
                     line = i;
 
                     SkillData data = new SkillData();
