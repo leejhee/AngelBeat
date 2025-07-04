@@ -2,10 +2,22 @@ using AngelBeat;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 public static class DamageCalculator
 {
+    public static float Evaluate(
+        string formula, 
+        List<SystemEnum.eStats> inputStats,
+        List<SystemEnum.eKeyword> inputKeywords, 
+        CharBase client)
+    {
+        List<float> statInputs = inputStats.Select(stat => client.CharStat.GetStat(stat)).ToList();
+        List<float> keywordInputs = inputKeywords.Select(kw => (float)client.KeywordInfo.GetKeywordCount(kw)).ToList();
+        return Evaluate(formula, statInputs, keywordInputs);
+    }
+
     public static float Evaluate(string formula, List<float> inputStats, List<float> inputKeywords)
     {
         if(string.IsNullOrWhiteSpace(formula)) return 0f;
@@ -13,7 +25,7 @@ public static class DamageCalculator
         formula = Regex.Replace(formula, @"\{(\d+)\}", 
             m => inputStats[int.Parse(m.Groups[1].Value)].ToString(CultureInfo.InvariantCulture));
         formula = Regex.Replace(formula, @"\[(\d+)\]", 
-            m => inputStats[int.Parse(m.Groups[1].Value)].ToString(CultureInfo.InvariantCulture));
+            m => inputKeywords[int.Parse(m.Groups[1].Value)].ToString(CultureInfo.InvariantCulture));
         
         List<string> expr = ExpressionConvert(formula);
         return EvaluateFinal(expr);

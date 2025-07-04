@@ -17,11 +17,7 @@ namespace AngelBeat
         {
             
             CharBase caster = InputParam.Caster;
-
-            List<float> statInputs = inputStats.Select(stat => caster.CharStat.GetStat(stat)).ToList();
-            List<float> keywordInputs = inputKeywords.Select(kw => (float)caster.KeywordInfo.GetKeywordCount(kw)).ToList();
-
-            float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, statInputs, keywordInputs);
+            float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, inputStats, inputKeywords, caster);
 
             foreach (CharBase target in InputParam.Target)
             {
