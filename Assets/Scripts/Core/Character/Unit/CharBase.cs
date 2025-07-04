@@ -205,22 +205,57 @@ namespace AngelBeat
         /// <summary>
         /// 피격자의 피격 시 호출하는 이벤트
         /// </summary>
-        public Action<DamageParameter> OnHit;
+        public event Action<DamageParameter> OnHit;
         
         /// <summary>
         /// 회피 시 호출하는 이벤트
         /// </summary>
-        public Action<DamageParameter> OnMiss;
+        public event Action<DamageParameter> OnMiss;
         
-        
-        public void SkillDamage(DamageParameter damageInfo)
+        //TODO : HP만 별도로 CharBase에 프로퍼티로 놓을지 고민할 것.
+        //TODO : 이벤트 매개변수에 damage parameter만 필요할지 고민해봐야 함.
+        /// <summary>
+        /// 대미지 관련 파라미터로 이벤트 발생시킴.
+        /// </summary>
+        /// <param name="damageInfo">기존 대미지 파라미터</param>
+        /// <param name="accuracy">스킬 적중 요소 : 명중률</param>
+        /// <param name="skillDamageMultiplier">스킬 대미지 요소 : 스킬 고유 인자</param>
+        public void SkillDamage(DamageParameter damageInfo, float accuracy, float skillDamageMultiplier)
         {
             // 여기에 명중 굴림
-            OnAttackTrial?.Invoke(damageInfo);
-            
-            
+            CharBase attacker = damageInfo.Attacker;
+            attacker.OnAttackTrial?.Invoke(damageInfo);
+            if (TryEvade(attacker.CharStat, accuracy))
+            {
+                Debug.Log($"{attacker.name}의 공격을 {name}이 회피했습니다.");
+                OnMiss?.Invoke(damageInfo);
+            }
+            else
+            {
+                Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
+                OnAttackSuccess?.Invoke(damageInfo);
+                
+                float damageInc = attacker.CharStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
+                float armor = CharStat.GetStat(SystemEnum.eStats.ARMOR);
+
+                float finalDamage = damageInfo.FinalDamage *
+                                    skillDamageMultiplier * 
+                                    (1f + damageInc * 0.01f) *
+                                    (1f - armor * 0.01f);
+
+                CharStat.ReceiveDamage(finalDamage);
+                OnHit?.Invoke(damageInfo);
+            }
         }
-        
+
+        private bool TryEvade(CharStat attackerStat, float accuracy)
+        {
+            float dodge = CharStat.GetStat(SystemEnum.eStats.DODGE);
+            float accuracyBonus = attackerStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
+            float hitChance = accuracy + accuracyBonus - dodge + 5;
+
+            return UnityEngine.Random.Range(0f, 100f) < Mathf.Clamp(hitChance, 0, 100);
+        }
         #endregion
         
         

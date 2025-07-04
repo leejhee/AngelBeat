@@ -106,6 +106,7 @@ namespace AngelBeat
                                 new SkillParameter(
                                     _previewFocus, 
                                     targets, 
+                                    _previewSkill.SkillType,
                                     _previewSkill.DamageCalibration, 
                                     _previewSkill.Accuracy, 
                                     _previewSkill.CritMultiplier));

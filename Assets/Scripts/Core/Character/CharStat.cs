@@ -117,12 +117,7 @@ namespace AngelBeat
         }
     
         #region Damage Part
-
-        public void Damage(CharBase damageTarget, long damage)
-        {
-            //TODO : Marker의 동작을 여기에 분리할 것
-        }
-
+        
         public void ReceiveDamage(float damage)
         {
             ChangeStat(eStats.HP, -(long)damage);

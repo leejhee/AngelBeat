@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,53 +15,36 @@ namespace AngelBeat
         
         public override void MarkerAction()
         {
-            CharBase caster = inputParam.Caster;
-            CharStat casterStat = caster.CharStat;
-            foreach (CharBase target in inputParam.Target)
+            
+            CharBase caster = InputParam.Caster;
+
+            List<float> statInputs = inputStats.Select(stat => caster.CharStat.GetStat(stat)).ToList();
+            List<float> keywordInputs = inputKeywords.Select(kw => (float)caster.KeywordInfo.GetKeywordCount(kw)).ToList();
+
+            float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, statInputs, keywordInputs);
+
+            foreach (CharBase target in InputParam.Target)
             {
-                if (!caster || !target) continue;
-                CharStat targetStat = target.CharStat;
-                
-                #region 명중 계산
-                float finalAcurracy = 
-                    inputParam.Accuracy + 
-                    casterStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE) -
-                    targetStat.GetStat(SystemEnum.eStats.DODGE) + 5;
-                finalAcurracy = Mathf.Clamp(finalAcurracy, 0, 100);
-                bool isHit = Random.Range(0, 100) < finalAcurracy;
-                #endregion
-                
-                #region 대미지 계산
-                if (isHit)
+                if (target == null) continue;
+
+                DamageParameter param = new()
                 {
-                    #region Evaluation
-                    List<float> stats = new();
-                    foreach(SystemEnum.eStats input in inputStats)
-                        stats.Add(casterStat.GetStat(input));
-                    List<float> keywords = new();
-                    foreach (SystemEnum.eKeyword input in inputKeywords)
-                        keywords.Add(caster.KeywordInfo.GetKeywordCount(input));
-                    float damage = DamageCalculator.Evaluate(damageFormulaInput, stats, keywords);
-                    #endregion
-                    
-                    float finalDamage = damage *
-                                        inputParam.DamageCalibration *
-                                        inputParam.CritMultiplier *
-                                        (casterStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) == 0 ? 
-                                            1 : casterStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE)) *
-                                        (100 - targetStat.GetStat(SystemEnum.eStats.ARMOR)) * 0.01f;
-                    targetStat.ReceiveDamage(finalDamage);
-                }
-                else
-                {
-                    if(caster && target)
-                        Debug.Log($"{caster.name}의 공격 {target.name}이 회피");
-                }
-                #endregion
+                    Attacker = caster,
+                    Target = target,
+                    FinalDamage = baseDamage,
+                    SkillType = InputParam.SkillType,
+                };
+
+                target.SkillDamage(
+                    param,
+                    InputParam.Accuracy,
+                    InputParam.CritMultiplier * InputParam.DamageCalibration
+                    );
             }
             
         }
 
         protected override void SkillInitialize() { }
+        
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 #pragma warning disable IDE0051
 public static class MapGenerator
 {
-    //  [TODO]
     //  1. 입력 시드 통해서 생성한 난수를 통해 맵을 생성하도록 한다.
     //  2. 보스는 하나일 지. 최종맵에서 2개라던가...할건지.
     //  3. 노드 포인팅 시, 시작과 끝 노드는 완전히 다른 블록으로 빼서 초기화하는게 좋을듯.    

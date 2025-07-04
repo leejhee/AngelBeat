@@ -63,15 +63,15 @@ namespace AngelBeat
                     }
                     else
                     {
-                        if (AgentStat.UseActionPoint(SystemConst.fps))
-                        {
-                            CharAgent.SkillInfo.PlaySkill(_reloaded.SkillIndex, new SkillParameter(
-                                CharAgent, new List<CharBase> { CurrentTarget }));
-                            
-                            yield return new WaitUntil(() => 
-                                CharAgent.SkillInfo.GetPlayingTimeline(_reloaded.SkillIndex).state != PlayState.Playing);
-                            _reloaded = null;
-                        }
+                        //if (AgentStat.UseActionPoint(SystemConst.fps))
+                        //{
+                        //    CharAgent.SkillInfo.PlaySkill(_reloaded.SkillIndex, new SkillParameter(
+                        //        CharAgent, new List<CharBase> { CurrentTarget }));
+                        //    
+                        //    yield return new WaitUntil(() => 
+                        //        CharAgent.SkillInfo.GetPlayingTimeline(_reloaded.SkillIndex).state != PlayState.Playing);
+                        //    _reloaded = null;
+                        //}
                     }
                 }
             }

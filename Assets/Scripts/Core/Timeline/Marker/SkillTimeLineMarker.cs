@@ -9,7 +9,7 @@ namespace AngelBeat
     public abstract class SkillTimeLineMarker : Marker, INotification
     {
         public PropertyName id => new PropertyName("SkillTimeLineMarker");
-        protected SkillParameter inputParam;
+        protected SkillParameter InputParam;
 
         public abstract void MarkerAction();
         protected virtual void SkillInitialize() { }
@@ -22,7 +22,7 @@ namespace AngelBeat
 
         public virtual void InitInput(SkillParameter input)
         {
-            inputParam = input;
+            InputParam = input;
         }
 
     }
