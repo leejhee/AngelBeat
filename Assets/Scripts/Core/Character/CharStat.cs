@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using static SystemEnum;
+// ReSharper disable All
 
 namespace AngelBeat
 {
@@ -10,6 +11,7 @@ namespace AngelBeat
         private long[] _charStat = new long[(int)eStats.eMax];
         public CharStat(CharStatData charStat)
         {
+            #region Init Stat Array
             _charStat[(int)eStats.BLUE] = charStat.blue;
             _charStat[(int)eStats.N_BLUE] = charStat.blue;
             
@@ -59,47 +61,34 @@ namespace AngelBeat
             _charStat[(int)eStats.RANGE_INCREASE] = 0;
             _charStat[(int)eStats.DAMAGE_INCREASE] = 0;
             _charStat[(int)eStats.ACCURACY_INCREASE] = 0;
+            #endregion
+            
             
         }
-        
+        #region Stat Helper
         private eStats GetProperStatAttribute(eStats stat)
         {
             switch (stat)
             {
-                case eStats.BLUE:
-                    return eStats.N_BLUE;
-                case eStats.RED:
-                    return eStats.N_RED;
-                case eStats.YELLOW:
-                    return eStats.N_YELLOW;
-                case eStats.WHITE:
-                    return eStats.N_WHITE;
-                case eStats.BLACK:
-                    return eStats.N_BLACK;
-                case eStats.HP:
-                    return eStats.NHP;
-                case eStats.ARMOR:
-                    return eStats.NARMOR;
-                case eStats.MAGIC_RESIST:
-                    return eStats.NMAGIC_RESIST;
-                case eStats.MELEE_ATTACK:
-                    return eStats.NMELEE_ATTACK;
-                case eStats.MAGICAL_ATTACK:
-                    return eStats.NMAGICAL_ATTACK;
-                case eStats.CRIT_CHANCE:
-                    return eStats.NCRIT_CHANCE;
-                case eStats.SPEED:
-                    return eStats.NSPEED;
-                case eStats.ACTION_POINT:
-                    return eStats.NACTION_POINT;
-                case eStats.DODGE:
-                    return eStats.NDODGE;
-                case eStats.RESISTANCE:
-                    return eStats.NRESISTANCE;
+                case eStats.BLUE:           return eStats.N_BLUE;
+                case eStats.RED:            return eStats.N_RED;
+                case eStats.YELLOW:         return eStats.N_YELLOW;
+                case eStats.WHITE:          return eStats.N_WHITE;
+                case eStats.BLACK:          return eStats.N_BLACK;
+                case eStats.HP:             return eStats.NHP;
+                case eStats.ARMOR:          return eStats.NARMOR;
+                case eStats.MAGIC_RESIST:   return eStats.NMAGIC_RESIST;
+                case eStats.MELEE_ATTACK:   return eStats.NMELEE_ATTACK;
+                case eStats.MAGICAL_ATTACK: return eStats.NMAGICAL_ATTACK;
+                case eStats.CRIT_CHANCE:    return eStats.NCRIT_CHANCE;
+                case eStats.SPEED:          return eStats.NSPEED;
+                case eStats.ACTION_POINT:   return eStats.NACTION_POINT;
+                case eStats.DODGE:          return eStats.NDODGE;
+                case eStats.RESISTANCE:     return eStats.NRESISTANCE;
             }
             return stat;
         }
-
+        #endregion
         private float CalibratedStat(eStats stat)
         {
             switch (stat)
@@ -173,12 +162,5 @@ namespace AngelBeat
         }
         
         #endregion
-    }
-
-    public struct DamageParameter
-    {
-        public float FinalDamage;
-        public CharBase Attacker;
-        public SystemEnum.eSkillType SkillType;
     }
 }

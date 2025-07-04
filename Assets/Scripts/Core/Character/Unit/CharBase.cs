@@ -10,6 +10,7 @@ namespace AngelBeat
 {
     public abstract class CharBase : MonoBehaviour
     {
+        #region Member Field
         [SerializeField] private long _index;
         [SerializeField] private GameObject _SkillRoot;
         [SerializeField] protected Animator _Animator;
@@ -37,6 +38,10 @@ namespace AngelBeat
         private bool _isAction = false;    // 행동중인가? 판별
         private Dictionary<PlayerState, int> _indexPair = new();
         
+        protected long _uid;
+        #endregion
+        
+        #region Properties
         public long Index => _index;
         public string UnitName => _charData.charName;
         public Transform CharTransform => _charTransform;
@@ -107,10 +112,21 @@ namespace AngelBeat
         }
         
         protected virtual SystemEnum.eCharType CharType => _charData.defaultCharType;
+        
+        public long GetID() => _uid;
 
-        protected long _uid;
+        public SystemEnum.eCharType GetCharType()
+        {
+            return CharType;
+        }
+        
+        #endregion       
+        
+        #region Constructor
         protected CharBase() { }
-
+        #endregion
+        
+        #region Initialization
         private void Awake()
         {
             _charTransform = transform;
@@ -151,30 +167,64 @@ namespace AngelBeat
             CharInit();
         }
 
-        public event Action OnUpdate;
-        private void Update()
-        {
-            OnUpdate?.Invoke();
-        }
+        
 
         protected virtual void CharInit()
         {
             
         }
+        #endregion
         
+        
+        
+        #region Initialize & Save Character Model
         public void UpdateCharacterInfo(CharacterModel charInfo)
         {
             // TODO : 나중에 MODEL을 제외. 
             CharInfo = charInfo;
         }
         
-        public virtual void CharDistroy()
+        public CharacterModel SaveCharModel()
         {
-            Type myType = this.GetType();
-            BattleCharManager.Instance.Clear(myType, _uid);
-            Destroy(gameObject);
+            return new CharacterModel(_charData, _charStat, _charInfo.Skills);
         }
-
+        #endregion
+        
+        #region Damage & Stat Section
+        
+        /// <summary>
+        /// 공격자의 공격 시도 시 호출하는 이벤트 
+        /// </summary>
+        public Action<DamageParameter> OnAttackTrial;
+        
+        /// <summary>
+        /// 공격자의 공격 성공 시 호출하는 이벤트
+        /// </summary>
+        public Action<DamageParameter> OnAttackSuccess;
+        
+        /// <summary>
+        /// 피격자의 피격 시 호출하는 이벤트
+        /// </summary>
+        public Action<DamageParameter> OnHit;
+        
+        /// <summary>
+        /// 회피 시 호출하는 이벤트
+        /// </summary>
+        public Action<DamageParameter> OnMiss;
+        
+        
+        public void SkillDamage(DamageParameter damageInfo)
+        {
+            // 여기에 명중 굴림
+            OnAttackTrial?.Invoke(damageInfo);
+            
+            
+        }
+        
+        #endregion
+        
+        
+        #region Character Death
         public event Action OnCharDead;
         public virtual void CharDead()
         {
@@ -189,14 +239,15 @@ namespace AngelBeat
             Destroy(gameObject);
         }
         
-
-        public long GetID() => _uid;
-
-        public SystemEnum.eCharType GetCharType()
+        public virtual void CharDestroy()
         {
-            return CharType;
+            Type myType = this.GetType();
+            BattleCharManager.Instance.Clear(myType, _uid);
+            Destroy(gameObject);
         }
+        #endregion
 
+        #region Character Animation
         public void SetStateAnimationIndex(PlayerState state, int index = 0)
         {
             _indexPair[state] = index;
@@ -205,24 +256,21 @@ namespace AngelBeat
         {
             _charAnim.PlayAnimation(state);
         }
-
-        public CharacterModel SaveCharModel()
-        {
-            return new CharacterModel(_charData, _charStat, _charInfo.Skills);
-        }
-
+        #endregion
+        
+        #region Character movement Control
 
         private bool _isGrounded = true;
         public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
 
-        public void CharMove(Vector3 targetDir, float moveSpeed = 5f)
+        public void CharMove(Vector3 targetDir, float speed = 5f)
         {
-            if (CharStat.UseActionPoint(moveSpeed))
+            if (CharStat.UseActionPoint(speed))
             {
                 Vector3 scale = CharTransform.localScale;
                 scale.x = -targetDir.x;
                 CharTransform.localScale = scale;
-                CharTransform.position += targetDir * (moveSpeed * Time.deltaTime);
+                CharTransform.position += targetDir * (speed * Time.deltaTime);
             }
         }
         
@@ -256,7 +304,15 @@ namespace AngelBeat
                 _battleCollider.enabled = true;
             }
         }
-
+        #endregion
+        
+        #region Unity Events
+        public event Action OnUpdate;
+        private void Update()
+        {
+            OnUpdate?.Invoke();
+        }
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Platform"))
@@ -265,6 +321,7 @@ namespace AngelBeat
                     _isGrounded = true;
             }
         }
+        #endregion
     }
 }
 

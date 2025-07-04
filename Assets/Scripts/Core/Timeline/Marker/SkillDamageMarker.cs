@@ -33,6 +33,7 @@ namespace AngelBeat
                 #region 대미지 계산
                 if (isHit)
                 {
+                    #region Evaluation
                     List<float> stats = new();
                     foreach(SystemEnum.eStats input in inputStats)
                         stats.Add(casterStat.GetStat(input));
@@ -40,11 +41,13 @@ namespace AngelBeat
                     foreach (SystemEnum.eKeyword input in inputKeywords)
                         keywords.Add(caster.KeywordInfo.GetKeywordCount(input));
                     float damage = DamageCalculator.Evaluate(damageFormulaInput, stats, keywords);
+                    #endregion
+                    
                     float finalDamage = damage *
                                         inputParam.DamageCalibration *
+                                        inputParam.CritMultiplier *
                                         (casterStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) == 0 ? 
                                             1 : casterStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE)) *
-                                        inputParam.CritMultiplier *
                                         (100 - targetStat.GetStat(SystemEnum.eStats.ARMOR)) * 0.01f;
                     targetStat.ReceiveDamage(finalDamage);
                 }
