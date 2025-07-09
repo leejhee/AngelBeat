@@ -48,9 +48,11 @@ namespace AngelBeat
             
             _charStat[(int)eStats.SPEED] = charStat.speed;
             _charStat[(int)eStats.NSPEED] = charStat.speed;
-            
-            _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint * (long)SystemConst.fps;
-            _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint * (long)SystemConst.fps;
+
+            _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint;
+            _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint;
+
+            _charStat[(int)eStats.MOVE_POINT] = charStat.movePoint;
             
             _charStat[(int)eStats.DODGE] = charStat.actionPoint;
             _charStat[(int)eStats.NDODGE] = charStat.actionPoint;
@@ -62,8 +64,6 @@ namespace AngelBeat
             _charStat[(int)eStats.DAMAGE_INCREASE] = 0;
             _charStat[(int)eStats.ACCURACY_INCREASE] = 0;
             #endregion
-            
-            
         }
         #region Stat Helper
         private eStats GetProperStatAttribute(eStats stat)
@@ -89,21 +89,20 @@ namespace AngelBeat
             return stat;
         }
         #endregion
-        private float CalibratedStat(eStats stat)
-        {
-            switch (stat)
-            {
-                case eStats.ACTION_POINT:
-                case eStats.NACTION_POINT:
-                    return _charStat[(int)stat] / SystemConst.fps;
-                    
-            }
-            return _charStat[(int)stat];
-        }
+        //private float CalibratedStat(eStats stat)
+        //{
+        //    switch (stat)
+        //    {
+        //        case eStats.ACTION_POINT:
+        //        case eStats.NACTION_POINT:
+        //            return _charStat[(int)stat] / SystemConst.fps;
+        //            
+        //    }
+        //    return _charStat[(int)stat];
+        //}
         
         public float GetStat(eStats stat)
         {
-            //return CalibratedStat(GetProperStatAttribute(stat));
             return _charStat[(int)GetProperStatAttribute(stat)];
         }
 
@@ -127,22 +126,11 @@ namespace AngelBeat
             }
         }
         
-        public DamageParameter GetDamageParameter(CharBase damageTarget, string damageInput)
-        {
-            #region Damage Calculation
-            {
-                
-                
-            }
-            #endregion
-            return new DamageParameter();
-        }
-        
         #endregion
         
         #region Action Point Part
 
-        public bool UseActionPoint(float value)
+        public bool UseActionPoint(float value=1f)
         {
             if (GetStat(eStats.NACTION_POINT) >= value)
             {

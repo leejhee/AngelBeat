@@ -32,9 +32,7 @@ namespace AngelBeat
         private void DefaultTurnBegin()
         {
             // Control Camera.
-            Vector3 cameraPos = Camera.main.transform.position;
-            Vector3 charPos = TurnOwner.transform.position;
-            Camera.main.transform.position = new Vector3(charPos.x, charPos.y, cameraPos.z);
+            TurnOwner.OnUpdate += FocusCamera;
                 
             // Control UI. TODO : 이거 이벤트버스를 써야할까? 그냥 model이 BattleCharManager인거 아닐까..?
             EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
@@ -60,6 +58,9 @@ namespace AngelBeat
 
         private void DefaultTurnEnd()
         {
+            // Release Camera Control.
+            TurnOwner.OnUpdate -= FocusCamera;
+            // Release Character Control.
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
             {
                 CharPlayer player = TurnOwner as CharPlayer;
@@ -77,5 +78,11 @@ namespace AngelBeat
             TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT);
         }
 
+        private void FocusCamera()
+        {
+            float z = TurnOwner.MainCamera.transform.position.z;
+            Vector3 charPos = TurnOwner.CharTransform.position;
+            TurnOwner.MainCamera.transform.position = new Vector3(charPos.x, charPos.y, z);
+        }
     }
 }

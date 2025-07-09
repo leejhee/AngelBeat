@@ -100,7 +100,7 @@ namespace AngelBeat
                             }
                         }
                         #region 스킬 사용부
-                        if (_previewFocus.CharStat.UseActionPoint(SystemConst.fps))
+                        if (_previewFocus.CharStat.UseActionPoint())
                         {
                             _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
                                 new SkillParameter(

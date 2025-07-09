@@ -21,11 +21,11 @@ namespace AngelBeat
         {
             if (Input.GetKey(KeyCode.A))
             {
-                CharMove(Vector3.left, MoveSpeed);
+                CharMove(Vector3.left);
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                CharMove(Vector3.right, MoveSpeed);
+                CharMove(Vector3.right);
             }
             else if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             {

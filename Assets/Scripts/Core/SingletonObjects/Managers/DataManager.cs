@@ -62,7 +62,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public T GetData<T>(long Index) where T : SheetData
     {
         string key = typeof(T).ToString();
-        key = key.Replace("Client.", "");
+        key = key.Replace("AngelBeat.", "");
         if (!_cache.ContainsKey(key))
         {
             Debug.LogError($"{key} 데이터 테이블은 존재하지 않습니다.");
@@ -87,7 +87,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public void SetData<T>(int id, T data) where T : SheetData
     {
         string key = typeof(T).ToString();
-        key = key.Replace("Client.", "");
+        key = key.Replace("AngelBeat.", "");
 
         if (_cache.ContainsKey(key))
         {

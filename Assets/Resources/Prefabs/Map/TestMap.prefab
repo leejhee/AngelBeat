@@ -249,19 +249,13 @@ MonoBehaviour:
             SpawnPosition: {x: -1.6676824, y: 5.777526, z: 0}
         - spawnType: 2
           unitSpawnList:
-          - SpawnCharacterIndex: 0
+          - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 4.858222, y: 5.936694, z: 0}
-          - SpawnCharacterIndex: 0
+          - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 7.0335236, y: -0.43004188, z: 0}
-          - SpawnCharacterIndex: 0
+          - SpawnCharacterIndex: 2030
             SpawnPosition: {x: 10.694397, y: -0.37698573, z: 0}
-        fieldObjectInfos:
-        - prefabName: Ball
-          position: {x: 1.1442928, y: -0.5892103, z: 0}
-        - prefabName: Ball
-          position: {x: 1.1442928, y: 5.353077, z: 0}
-        - prefabName: Ball
-          position: {x: -6.2835665, y: -0.8014348, z: 0}
+        fieldObjectInfos: []
 --- !u!1 &4934528557023620504
 GameObject:
   m_ObjectHideFlags: 0

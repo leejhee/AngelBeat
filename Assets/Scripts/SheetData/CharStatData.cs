@@ -24,7 +24,8 @@ public long index; // 캐릭터 스탯 ID
 		public int magicalAttack; // 마법공격력
 		public int critChance; // 치명타율
 		public int speed; // 행동속도
-		public int actionPoint; // 이동력
+		public int actionPoint; // 행동력
+		public int movePoint; // 이동력
 		public int dodge; // 회피율
 		public int resistance; // 상태이상저항
 		public int rangeIncrease; // 사거리증가
@@ -123,19 +124,24 @@ public long index; // 캐릭터 스탯 ID
 					    data.actionPoint = Convert.ToInt32(values[13]);
 					
 					if(values[14] == "")
-					    data.dodge = default;
+					    data.movePoint = default;
 					else
-					    data.dodge = Convert.ToInt32(values[14]);
+					    data.movePoint = Convert.ToInt32(values[14]);
 					
 					if(values[15] == "")
-					    data.resistance = default;
+					    data.dodge = default;
 					else
-					    data.resistance = Convert.ToInt32(values[15]);
+					    data.dodge = Convert.ToInt32(values[15]);
 					
 					if(values[16] == "")
+					    data.resistance = default;
+					else
+					    data.resistance = Convert.ToInt32(values[16]);
+					
+					if(values[17] == "")
 					    data.rangeIncrease = default;
 					else
-					    data.rangeIncrease = Convert.ToInt32(values[16]);
+					    data.rangeIncrease = Convert.ToInt32(values[17]);
 					
 
                     dataList[data.index] = data;

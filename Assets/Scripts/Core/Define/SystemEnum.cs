@@ -123,6 +123,8 @@ public class SystemEnum
         ACTION_POINT,
         NACTION_POINT,
         
+        MOVE_POINT,
+        
         DODGE,
         NDODGE,
         

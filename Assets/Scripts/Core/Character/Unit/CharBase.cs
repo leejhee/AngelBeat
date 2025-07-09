@@ -39,6 +39,11 @@ namespace AngelBeat
         private Dictionary<PlayerState, int> _indexPair = new();
         
         protected long _uid;
+
+        private float _movePoint;
+        private float _currentMovePoint;
+        
+        private Camera _mainCamera;
         #endregion
         
         #region Properties
@@ -52,7 +57,8 @@ namespace AngelBeat
         public GameObject CharSnapShot => _charSnapShot;
         public CharAnim CharAnim => _charAnim;
         public Rigidbody2D Rigid => _rigid;
-        public float MoveSpeed => moveSpeed;
+        public Camera MainCamera => _mainCamera;
+        
         public CharStat CharStat
         {
             get => _charStat;
@@ -65,9 +71,18 @@ namespace AngelBeat
                     if (stat == SystemEnum.eStats.NHP && changed <= 0)
                         CharDead();
                 };
+                
             }
         }
 
+        public float CurrentHP => _charStat.GetStat(SystemEnum.eStats.NHP);
+        public float MaxHP => _charStat.GetStat(SystemEnum.eStats.NMHP);
+        public float Armor => _charStat.GetStat(SystemEnum.eStats.ARMOR);
+        public float Dodge => _charStat.GetStat(SystemEnum.eStats.DODGE);
+        public float BonusAccuracy => _charStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
+        public float DamageIncrease => _charStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
+        
+        
         public Transform FloatingUIRoot
         {
             get
@@ -148,6 +163,7 @@ namespace AngelBeat
             {
                 Debug.LogError($"캐릭터 ID : {_index} Data 데이터 Get 실패");
             }
+            _mainCamera = Camera.main;
         }
         
         /// <summary>
@@ -171,7 +187,7 @@ namespace AngelBeat
 
         protected virtual void CharInit()
         {
-            
+            _currentMovePoint = _movePoint = _charStat.GetStat(SystemEnum.eStats.MOVE_POINT);
         }
         #endregion
         
@@ -212,8 +228,6 @@ namespace AngelBeat
         /// </summary>
         public event Action<DamageParameter> OnMiss;
         
-        //TODO : HP만 별도로 CharBase에 프로퍼티로 놓을지 고민할 것.
-        //TODO : 이벤트 매개변수에 damage parameter만 필요할지 고민해봐야 함.
         /// <summary>
         /// 대미지 관련 파라미터로 이벤트 발생시킴.
         /// </summary>
@@ -222,10 +236,9 @@ namespace AngelBeat
         /// <param name="skillDamageMultiplier">스킬 대미지 요소 : 스킬 고유 인자</param>
         public void SkillDamage(DamageParameter damageInfo, float accuracy, float skillDamageMultiplier)
         {
-            // 여기에 명중 굴림
             CharBase attacker = damageInfo.Attacker;
             attacker.OnAttackTrial?.Invoke(damageInfo);
-            if (TryEvade(attacker.CharStat, accuracy))
+            if (TryEvade(attacker, accuracy))
             {
                 Debug.Log($"{attacker.name}의 공격을 {name}이 회피했습니다.");
                 OnMiss?.Invoke(damageInfo);
@@ -233,28 +246,28 @@ namespace AngelBeat
             else
             {
                 Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
-                OnAttackSuccess?.Invoke(damageInfo);
+                attacker.OnAttackSuccess?.Invoke(damageInfo);
                 
-                float damageInc = attacker.CharStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
-                float armor = CharStat.GetStat(SystemEnum.eStats.ARMOR);
-
                 float finalDamage = damageInfo.FinalDamage *
                                     skillDamageMultiplier * 
-                                    (1f + damageInc * 0.01f) *
-                                    (1f - armor * 0.01f);
+                                    (1f + attacker.DamageIncrease * 0.01f) *
+                                    (1f - Armor * 0.01f);
 
                 CharStat.ReceiveDamage(finalDamage);
                 OnHit?.Invoke(damageInfo);
             }
         }
-
-        private bool TryEvade(CharStat attackerStat, float accuracy)
+        
+        /// <summary>
+        /// 명중 처리 역할
+        /// </summary>
+        /// <param name="attacker">공격자</param>
+        /// <param name="accuracy">해당 스킬의 기본 명중률</param>
+        /// <returns>피했나? 안피했나?</returns>
+        private bool TryEvade(CharBase attacker, float accuracy)
         {
-            float dodge = CharStat.GetStat(SystemEnum.eStats.DODGE);
-            float accuracyBonus = attackerStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
-            float hitChance = accuracy + accuracyBonus - dodge + 5;
-
-            return UnityEngine.Random.Range(0f, 100f) < Mathf.Clamp(hitChance, 0, 100);
+            float hitChance = accuracy + attacker.BonusAccuracy - Dodge + 5;
+            return UnityEngine.Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
         }
         #endregion
         
@@ -298,14 +311,20 @@ namespace AngelBeat
         private bool _isGrounded = true;
         public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
 
-        public void CharMove(Vector3 targetDir, float speed = 5f)
+        public void CharMove(Vector3 targetDir)
         {
-            if (CharStat.UseActionPoint(speed))
+            float unit = moveSpeed * Time.deltaTime;
+            if (_currentMovePoint < unit)
+            {
+                Debug.Log($"{name}의 이동력이 부족하여 이동 불가합니다.");
+            }
+            else
             {
                 Vector3 scale = CharTransform.localScale;
                 scale.x = -targetDir.x;
                 CharTransform.localScale = scale;
-                CharTransform.position += targetDir * (speed * Time.deltaTime);
+                CharTransform.position += targetDir * unit;
+                _currentMovePoint -= unit;
             }
         }
         
@@ -357,6 +376,7 @@ namespace AngelBeat
             }
         }
         #endregion
+        
     }
 }
 
