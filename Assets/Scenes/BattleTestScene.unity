@@ -370,7 +370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1906016943}
-  - component: {fileID: 1906016942}
+  - component: {fileID: 1906016944}
   m_Layer: 0
   m_Name: BattleTestScene
   m_TagString: Untagged
@@ -378,20 +378,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1906016942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1906016941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f280a8f6ab59a064bb734f1dd9af3f05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  battleUI:
-  - {fileID: 2255768716526657494, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
 --- !u!4 &1906016943
 Transform:
   m_ObjectHideFlags: 0
@@ -407,6 +393,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906016944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906016941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d3f16bdc9f4d9f9e7d5d90325956ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleUI:
+  - {fileID: 2255768716526657494, guid: 7d900f8b4784cd042a7570b41af024c1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

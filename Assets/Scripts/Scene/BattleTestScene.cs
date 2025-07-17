@@ -1,7 +1,6 @@
 using AngelBeat;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BattleTestScene : MonoBehaviour
 {

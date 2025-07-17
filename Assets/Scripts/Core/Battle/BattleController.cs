@@ -15,7 +15,23 @@ namespace AngelBeat.Core.Battle
     public class BattleController : MonoBehaviour
     {
         #region singleton
-        public static BattleController Instance { get; private set; }
+        private static BattleController instance;
+
+        public static BattleController Instance
+        {
+            get
+            {
+                GameObject go = GameObject.Find("BattleController");
+                if (!go)
+                {
+                    go = new GameObject("BattleController");
+                    instance = go.AddComponent<BattleController>();
+                }
+                return instance;
+            }
+            private set => instance = value;
+        }
+
         private void Awake()
         {
             if (Instance == null)

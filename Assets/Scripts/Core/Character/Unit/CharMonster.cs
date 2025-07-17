@@ -1,5 +1,6 @@
 using AngelBeat.Core.Character;
 using AngelBeat.Core.SingletonObjects.Managers;
+using Modules.BT;
 using UnityEngine;
 
 namespace AngelBeat
@@ -7,17 +8,20 @@ namespace AngelBeat
     public class CharMonster : CharBase
     {
         private CharAI _charAI;
-        private Coroutine _aiRoutine;
         protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Enemy;
+        
+        
         protected override void CharInit()
         {
             base.CharInit();
             BattleCharManager.Instance.SetChar(this);
-            //_charAI = new(this);
-
+            
             CharInfo = new CharacterModel(Index);
+            BTContext context = new(this);
+            _charAI = new CharAI(context);
         }
-
+        
+        //private Coroutine _aiRoutine;
         public void StartAI()
         {
             //_aiRoutine =  StartCoroutine(_charAI.AIRoutine());

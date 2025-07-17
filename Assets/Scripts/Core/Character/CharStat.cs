@@ -89,17 +89,6 @@ namespace AngelBeat
             return stat;
         }
         #endregion
-        //private float CalibratedStat(eStats stat)
-        //{
-        //    switch (stat)
-        //    {
-        //        case eStats.ACTION_POINT:
-        //        case eStats.NACTION_POINT:
-        //            return _charStat[(int)stat] / SystemConst.fps;
-        //            
-        //    }
-        //    return _charStat[(int)stat];
-        //}
         
         public float GetStat(eStats stat)
         {
