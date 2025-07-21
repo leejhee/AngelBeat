@@ -1,5 +1,14 @@
 namespace Modules.BT.Nodes
 {
+    public enum BTNodeType
+    {
+        Root,
+        Selector,
+        Sequence,
+        Condition,
+        Action
+    }
+    
     public abstract class BTNode
     {
         public enum State
@@ -9,7 +18,7 @@ namespace Modules.BT.Nodes
             Running
         }
         
-        public abstract State Evaluate();
+        public abstract State Evaluate(BTContext context);
     }
 }
 

@@ -128,7 +128,6 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             CharBase charBase = gameObject.GetComponent<CharBase>();
             return charBase;
         }
-
         
         public CharBase GetFieldChar(long uid)
         {
@@ -157,7 +156,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             }
 
             return battleParticipants
-                .OrderByDescending(x => x.CharStat.GetStat(SystemEnum.eStats.NSPEED))
+                .OrderByDescending(x => x.CharStat.GetStat(eStats.NSPEED))
                 .ThenBy(c => c.GetCharType() == eCharType.Enemy)
                 .ThenBy(c => c.GetID())
                 .ToList();
@@ -176,6 +175,13 @@ namespace AngelBeat.Core.SingletonObjects.Managers
             }
 
             return battleMembers;
+        }
+
+        public List<CharBase> GetEnemies(eCharType type)
+        {
+            Type enemyType = GetTypeByEnum(GetEnemyType(type));
+            List<CharBase> enemyList = _cache[enemyType].Values.ToList();
+            return enemyList;
         }
         
         /// <summary> 캐릭터 사망에 대한 로직 구독 </summary>

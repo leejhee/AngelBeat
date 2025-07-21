@@ -1,4 +1,6 @@
 ﻿using AngelBeat;
+using Modules.BT.Action;
+using Modules.BT.Condition;
 using Modules.BT.Nodes;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ namespace Modules.BT.Runtime
 {
     public static class BTBuilder
     {
-        public static BTNode BuildTree(BTGraphData data, CharMonster owner)
+        public static BTNode BuildTree(BTGraphData data, BTContext context)
         {
             var nodeDict = new Dictionary<string, BTNode>();
 
@@ -18,6 +20,8 @@ namespace Modules.BT.Runtime
                 {
                     "Selector" => new BTSelector(),
                     "Sequence" => new BTSequence(),
+                    "Condition" => new BTCondition(BTConditionFactory.Create(nodeData.parameter)),
+                    "Action" => new BTAction(BTActionFactory.Create(nodeData.parameter)),
                     _ => throw new Exception($"Node Type을 확인하세요 : {nodeData.nodeType}")
                 };
                 nodeDict[nodeData.guid] = node;
@@ -44,7 +48,7 @@ namespace Modules.BT.Runtime
             var inputSet = data.links.Select(l => l.inputNodeGuid).ToHashSet();
             var rootGuid = outputSet.Except(inputSet).FirstOrDefault();
             
-            return nodeDict.ContainsKey(rootGuid) ? nodeDict[rootGuid] : null;
+            return rootGuid != null ? nodeDict[rootGuid] : null;
         }
     }
 }

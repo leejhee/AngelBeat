@@ -5,11 +5,11 @@
     /// </summary>
     public class BTSelector : BTCompositeNode
     {
-        public override State Evaluate()
+        public override State Evaluate(BTContext context)
         {
             foreach (BTNode child in Children)
             {
-                var result = child.Evaluate();
+                var result = child.Evaluate(context);
                 if(result != State.Failure)
                     return result;
             }

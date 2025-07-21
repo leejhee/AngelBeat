@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Modules.BT.Action;
+using System;
 
 namespace Modules.BT.Nodes
 {
     public class BTAction : BTNode
     {
-        private readonly Func<State> _action;
+        private readonly IBTAction _action;
 
-        public BTAction(Func<State> action)
+        public BTAction(IBTAction action)
         {
             _action = action;
         }
 
-        public override State Evaluate()
+        public override State Evaluate(BTContext context)
         {
-            return _action.Invoke();
+            return _action.Execute(context);
         }
     }
 }

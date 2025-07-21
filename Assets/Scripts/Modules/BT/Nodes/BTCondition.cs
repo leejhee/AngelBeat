@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Modules.BT.Condition;
+using System;
 
 namespace Modules.BT.Nodes
 {
     public class BTCondition : BTNode
     {
-        private readonly Func<bool> _condition;
+        private readonly IBTCondition _condition;
 
-        public BTCondition(Func<bool> condition)
+        public BTCondition(IBTCondition condition)
         {
             _condition = condition;
         }
 
-        public override State Evaluate()
+        public override State Evaluate(BTContext context)
         {
-            return _condition.Invoke() ? State.Success : State.Failure;
+            return _condition.Evaluate(context) ? State.Success : State.Failure;
         }
     }
 }
