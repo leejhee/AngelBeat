@@ -1,18 +1,24 @@
-//@bgm Ereb
-테스트 스크립트
-#라벨
-@char DonQuixote transition:fadein time:0.5
-일반 나래이션
-DonQuixote : 안녕
-@choice 때린다
-@choice 더 세게 때린다
+
+Gosegu: 안녕
+
+//@goto label_1
+
+
+@choice 선택지 1
+    @goto label_1
+    가나다라
+    
+@choice 선택지 2
+    @goto label_2
 @wait
-DonQuixote : 아야
+서브라인 끝
 
-#label
-@char DonQuixote.CloseEye
-돈키호테는 눈을 감았다.
-@back 천수각
-@char DonQuixote.Annoing
+#label_1
+goto 해서 여기로 왔음
+문장 여러개가 있을거에요
+진짜 끝나?
 
-@stopbgm
+
+#label_2
+선택지로 왔어욤 뿌우
+마지막 인사~

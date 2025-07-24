@@ -15,6 +15,8 @@ namespace novel
 
         public override void Execute()
         {
+            Debug.Log($"goto 실행 : {label}");
+
             NovelPlayer.Instance.currentAct.JumpToLabel(label);
         }
 

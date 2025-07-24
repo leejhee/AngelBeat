@@ -56,9 +56,11 @@ public class NovelPlayer : MonoBehaviour
     public float typingSpeed = 0.03f;
     private Coroutine typingCoroutine;
     public Coroutine currentCommandCoroutine;
+
     private bool isTyping = false;
-    
+    private bool isSubLinePlaying = false;
     public bool isWait = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -88,6 +90,41 @@ public class NovelPlayer : MonoBehaviour
                 yield break;
             }
 
+            // 서브라인이 실행중이면
+            if (isSubLinePlaying)
+            {
+                Debug.Log($"남은 서브라인 개수 : {currentSubLines.Count}");
+
+                NovelLine subLine = currentSubLines[0];
+                currentSubLines.RemoveAt(0);
+                if (subLine is LabelLine)
+                {
+                    continue;
+                }
+                else if (subLine is IExecutable iexec)
+                {
+                    iexec.Execute();
+                    continue;
+                }
+                // 대사나 나래이션
+                PlayLine(subLine);
+
+                if (subLine is NormalLine normal)
+                {
+                    Debug.Log(normal.line);
+                }
+                else if (subLine is PersonLine person)
+                {
+                    Debug.Log("사람 대사");
+                }
+
+                if (currentSubLines.Count == 0 || currentSubLines[0] == null)
+                {
+                    isSubLinePlaying = false;
+                }
+                break;
+            }
+
             var line = currentAct.GetNextLine();
 
             if (line == null)
@@ -105,7 +142,6 @@ public class NovelPlayer : MonoBehaviour
             {
                 // 커맨드일 경우
                 exec.Execute();
-                //yield return StartCoroutine(ExecuteWithWait(exec));
                 continue;
             }
             // 대사나 나래이션
@@ -113,16 +149,6 @@ public class NovelPlayer : MonoBehaviour
             yield break;
         }
     }
-    //private IEnumerator ExecuteWithWait(IExecutable exec)
-    //{
-    //    exec.Execute();
-
-    //    while (waitFlag)
-    //    {
-    //        yield return null;
-    //    }
-    //    currentCommandCoroutine = null;
-    //}
 
     private void OnNextLineClicked()
     {
@@ -300,7 +326,10 @@ public class NovelPlayer : MonoBehaviour
         isWait = false;
         OnNextLineClicked();
     }
-
+    public void SetSublinePlaying()
+    {
+        isSubLinePlaying = true;
+    }
     //[ContextMenu("캐릭터 SO 제작")]
     //public void CreateCharacterSO()
     //{

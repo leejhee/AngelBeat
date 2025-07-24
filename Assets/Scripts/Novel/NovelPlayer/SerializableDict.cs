@@ -8,9 +8,13 @@ using UnityEngine;
 public class SerializableDict<TKey, TValue>
 {
     public List<SerializableKeyValuePair<TKey, TValue>> pairs = new();
+    public List<TKey> keys = new();
+    public List<TValue> values = new();
     public void Add(TKey key, TValue value)
     {
         pairs.Add(new SerializableKeyValuePair<TKey, TValue>(key, value));
+        keys.Add(key);
+        values.Add(value);
     }
     public TValue GetValue(TKey key)
     {

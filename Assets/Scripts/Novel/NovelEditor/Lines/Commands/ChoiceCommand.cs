@@ -18,7 +18,7 @@ namespace novel
 
         public override void Execute()
         {
-            // 배경 프리팹 불러오기
+            // 선택지 프리팹 불러오기
             GameObject choicePrefab = GameObject.Instantiate(NovelPlayer.Instance.choiceButtonPrefab);
             choicePrefab.transform.SetParent(NovelPlayer.Instance.choicePanel.transform);
             choicePrefab.GetComponentInChildren<TextMeshProUGUI>().text = argument;
@@ -31,21 +31,25 @@ namespace novel
         {
             Debug.Log("선택지 클릭");
 
+            // 선택지 오브젝트 제거
             foreach (Transform child in NovelPlayer.Instance.choicePanel.transform)
             {
                 GameObject.Destroy(child.gameObject);
             }
-            NovelPlayer.Instance.Resume();
-            // 선택지 밑에 실행하는거 일단 못했음
-            //foreach(var line in subLines)
-            //{
-            //    NovelPlayer.Instance.currentSubLines.Add(line);
-            //}
 
-            //foreach(var line in NovelPlayer.Instance.currentSubLines)
-            //{
-            //    Debug.Log(line);
-            //}
+
+            
+
+
+            // 선택한 선택지의 서브라인들을 현재 서브라인 리스트에 넣어줌
+            foreach (var line in subLines)
+            {
+                NovelPlayer.Instance.currentSubLines.Add(line);
+            }
+
+
+            NovelPlayer.Instance.SetSublinePlaying();
+            NovelPlayer.Instance.Resume();
         }
         public override bool? IsWait()
         {
