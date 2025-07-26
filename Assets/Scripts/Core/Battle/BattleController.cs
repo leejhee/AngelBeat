@@ -2,7 +2,6 @@ using AngelBeat.Core.Character;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
 using AngelBeat.Core.SingletonObjects.Managers;
-using AngelBeat.Scene;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

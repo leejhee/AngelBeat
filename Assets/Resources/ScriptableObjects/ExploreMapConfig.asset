@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2388a2e990d74676844dd4503b28ca2b, type: 3}
+  m_Name: ExploreMapConfig
+  m_EditorClassIdentifier: 
+  dungeonName: 0
+  floor: 0
+  xCapacity: 0
+  yCapacity: 0
+  eventSymbolCount: 0
+  itemSymbolCount: 0
+  battleSymbolCount: 0
+  itemCandidate: 
+  eventCandidate: 000000000100000002000000

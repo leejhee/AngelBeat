@@ -190,8 +190,19 @@ public class SystemEnum
         
         eMax
     }
+
+    public enum eEvent
+    {
+        DUMMY_1,
+        DUMMY_2,
+        DUMMY_3,
+        DUMMY_4,
+        DUMMY_5,
+        
+        eMax
+    }
     
-    
+    #region Execution & Keyword
     public enum eExecutionType
     {
         None,
@@ -246,6 +257,8 @@ public class SystemEnum
         
         eMax
     }
+    
+    #endregion
     
     public enum eIsAttack
     {

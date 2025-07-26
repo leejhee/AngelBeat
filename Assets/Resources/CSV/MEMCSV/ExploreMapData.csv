@@ -1,0 +1,6 @@
+Index,탐사 지역 이름,층,x방향 최대치,y방향 최대치,전투 횟수,이벤트 횟수,아이템 개수
+index,reignName,floor,xCapacity,yCapacity,battleCount,eventCount,itemCount
+long,string,int,int,int,int,int,int
+1,뒷산,1,5,5,2,2,1
+2,뒷산,2,10,10,3,3,2
+3,뒷산,3,15,15,3,4,3

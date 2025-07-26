@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace AngelBeat.Scene
+namespace Scene
 {
     public class LoadingScene : MonoBehaviour
     {

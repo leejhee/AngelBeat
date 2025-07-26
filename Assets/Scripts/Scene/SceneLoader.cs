@@ -1,9 +1,7 @@
 ﻿using System;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 
-namespace AngelBeat.Scene
+namespace Scene
 {
     public static class SceneLoader
     {

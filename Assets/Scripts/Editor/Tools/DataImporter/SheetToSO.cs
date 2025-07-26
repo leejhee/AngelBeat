@@ -126,9 +126,10 @@ namespace AngelBeat.Tools.DataImporter
                 return;
             }
           
-            var objcontainer = CreateInstance(containerType.Name);
-            AssetDatabase.CreateAsset(objcontainer, $"Assets/Resources/ScriptableObjects/{dataType}List.asset");
-            EditorUtility.SetDirty(objcontainer);
+            var objContainer = CreateInstance(containerType.Name);
+            AssetDatabase.CreateAsset(objContainer, 
+                $"Assets/Resources/ScriptableObjects/{dataType}/{dataType}List.asset");
+            EditorUtility.SetDirty(objContainer);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

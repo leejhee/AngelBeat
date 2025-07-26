@@ -1,3 +1,4 @@
+using Modules.RoguelikeNodeMap;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -18,12 +19,6 @@ namespace AngelBeat
             }
         }
         GameManager() { }
-        #endregion
-    
-        #region 없앨 것.
-        //[TODO] : 필요 시 전부 SingletonObject<T>로 상속받도록 구조 바꿀것.
-        InputManager _input = new InputManager();
-        public static InputManager Input { get { return Instance._input; } }
         #endregion
     
         private void Start()
@@ -49,12 +44,13 @@ namespace AngelBeat
                 StageManager.Instance.Init();
                 NovelManager.Instance.Init();
                 SoundManager.Instance.Init();
+                InputManager.Instance.Init();
             }
         }
 
         private void Update()
         {
-            _input.OnUpdate();
+            InputManager.Instance.OnUpdate();
         }
     }
 }

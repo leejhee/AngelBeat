@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using AngelBeat;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace AngelBeat
+namespace Scene
 {
     public class ExploreScene : MonoBehaviour
     {
