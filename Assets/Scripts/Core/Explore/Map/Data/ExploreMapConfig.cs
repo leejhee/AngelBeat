@@ -3,14 +3,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Explore.Map
+namespace Core.Explore.Map.Data
 {
+    /// <summary>
+    /// 탐사를 시작시키기 위한 파라미터
+    /// </summary>
     public class ExploreParameter
     {
         public Party PlayerParty;
-        public ExploreMapConfig MapConfig;
+        public SystemEnum.eDungeon DungeonName;
+        public int FloorNum;
+
+        public ExploreParameter(Party playerParty, SystemEnum.eDungeon DungeonName, int FloorNum)
+        {
+            PlayerParty = playerParty;
+            this.DungeonName = DungeonName;
+            this.FloorNum = FloorNum;
+        }
     }
-    
+
+
     /// <summary>
     /// 탐사 맵 config 클래스
     /// </summary>
@@ -46,7 +58,25 @@ namespace Core.Explore.Map
     /// </summary>
     public static class ExploreMapGenerator
     {
+        private static ExploreMapConfigDB _configDB;
         
+        private static ExploreMapConfigDB GetConfigDB()
+        {
+            if (_configDB == null)
+            {
+                _configDB = Resources.Load<ExploreMapConfigDB>(SystemString.MapConfigDBPath);
+            }
+            return _configDB;
+        }
+    
+        public static ExploreMap GenerateMap(SystemEnum.eDungeon dungeon, int floor)
+        {
+            var config = GetConfigDB().GetConfig(dungeon, floor);
+            if (config == null) return null;
+        
+            var map = new ExploreMap();
+            return map;
+        }
     }
     
 }

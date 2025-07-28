@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 namespace Core.Explore.Map
 {
     /// <summary>
-    /// 맵의 기본 구조를 나타내는 
+    /// 맵의 기본 구조를 나타내는 클래스
     /// </summary>
     [Serializable]
     public class ExploreMap : ISavableEntity

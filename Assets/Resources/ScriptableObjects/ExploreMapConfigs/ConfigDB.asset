@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2388a2e990d74676844dd4503b28ca2b, type: 3}
-  m_Name: ExploreMapConfig
+  m_Script: {fileID: 11500000, guid: fd03ca7f771f4d8ba50439600cf4cf8d, type: 3}
+  m_Name: ConfigDB
   m_EditorClassIdentifier: 
-  dungeonName: 0
-  floor: 0
-  xCapacity: 0
-  yCapacity: 0
-  eventSymbolCount: 0
-  itemSymbolCount: 0
-  battleSymbolCount: 0
-  itemCandidate: 
-  eventCandidate: 000000000100000002000000
+  mapConfigs:
+    pairs:
+    - key:
+        dungeon: 1
+        floor: 1
+      value: {fileID: 11400000, guid: d7409f2027011d447a7bae57f61526e2, type: 2}
+    keys: []
+    values: []
