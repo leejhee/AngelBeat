@@ -51,32 +51,4 @@ namespace Core.Explore.Map.Data
         [Header("심볼 내 이벤트 후보 ENUM 리스트")]
         public List<SystemEnum.eEvent> eventCandidate;
     }
-    
-    
-    /// <summary>
-    /// 탐사 맵 생성기
-    /// </summary>
-    public static class ExploreMapGenerator
-    {
-        private static ExploreMapConfigDB _configDB;
-        
-        private static ExploreMapConfigDB GetConfigDB()
-        {
-            if (_configDB == null)
-            {
-                _configDB = Resources.Load<ExploreMapConfigDB>(SystemString.MapConfigDBPath);
-            }
-            return _configDB;
-        }
-    
-        public static ExploreMap GenerateMap(SystemEnum.eDungeon dungeon, int floor)
-        {
-            var config = GetConfigDB().GetConfig(dungeon, floor);
-            if (config == null) return null;
-        
-            var map = new ExploreMap();
-            return map;
-        }
-    }
-    
 }

@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-namespace Core.Explore.Map
+namespace Core.Explore.Map.Logic
 {
     /// <summary>
     /// 맵의 기본 구조를 나타내는 클래스
@@ -13,7 +12,7 @@ namespace Core.Explore.Map
     public class ExploreMap : ISavableEntity
     {
         private string _randomSeed;
-        private Dictionary<Vector2Int, ExploreMapTileBase> _tileMap = new();
+        private Dictionary<Vector2Int, ExploreMapNode> _tileMap = new();
         
         
         

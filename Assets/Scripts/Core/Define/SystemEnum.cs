@@ -50,6 +50,7 @@ public class SystemEnum
     public enum eNodeType
     {
         None,
+        
         Hospital,
         Resistance,
         Treasure,
@@ -201,6 +202,7 @@ public class SystemEnum
         
         eMax
     }
+    
     
     #region Execution & Keyword
     public enum eExecutionType
