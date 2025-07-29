@@ -12,12 +12,12 @@ public class NovelPlayer : MonoBehaviour
 
     [Header("실행할 노벨 스크립트")]
     public TextAsset novelScript;
+
     public NovelAct currentAct = new();
-    [SerializeField]
-    public List<NovelLine> currentSubLines = new();
+
     public SerializableDict<string, int> labelDict = new SerializableDict<string, int>();
-    
-     
+
+
     private bool isFinished = false;
 
     [Header("노벨 플레이어 UI 패널")]
@@ -70,6 +70,12 @@ public class NovelPlayer : MonoBehaviour
         }
         Instance = this;
     }
+    private void OnDisable()
+    {
+        currentAct = null;
+        currentCharacterDict = null;
+        currentChoices = null;
+    }
     void Start()
     {
         var lines = novelScript.text.Split('\n');
@@ -88,41 +94,6 @@ public class NovelPlayer : MonoBehaviour
             if (isWait)
             {
                 yield break;
-            }
-
-            // 서브라인이 실행중이면
-            if (isSubLinePlaying)
-            {
-                Debug.Log($"남은 서브라인 개수 : {currentSubLines.Count}");
-
-                NovelLine subLine = currentSubLines[0];
-                currentSubLines.RemoveAt(0);
-                if (subLine is LabelLine)
-                {
-                    continue;
-                }
-                else if (subLine is IExecutable iexec)
-                {
-                    iexec.Execute();
-                    continue;
-                }
-                // 대사나 나래이션
-                PlayLine(subLine);
-
-                if (subLine is NormalLine normal)
-                {
-                    Debug.Log(normal.line);
-                }
-                else if (subLine is PersonLine person)
-                {
-                    Debug.Log("사람 대사");
-                }
-
-                if (currentSubLines.Count == 0 || currentSubLines[0] == null)
-                {
-                    isSubLinePlaying = false;
-                }
-                break;
             }
 
             var line = currentAct.GetNextLine();
@@ -169,12 +140,6 @@ public class NovelPlayer : MonoBehaviour
             return;
         }
 
-        // 커맨드 도중이면 중단만 하고 다음 줄 실행은 막기
-        //if (waitFlag)
-        //{
-        //    waitFlag = false;
-        //    return;
-        //}
 
         StartCoroutine(NextLine());
     }
@@ -194,11 +159,13 @@ public class NovelPlayer : MonoBehaviour
             case NormalLine normal:
                 namePanel.SetActive(false);
                 typingCoroutine = StartCoroutine(TypeText(normal.line));
+                Debug.Log($"Play Normal Line :  {normal.line} \nIndex : {normal.index}");
                 break;
             case PersonLine person:
                 namePanel.SetActive(true);
                 nameText.text = person.actorName;
                 typingCoroutine = StartCoroutine(TypeText(person.actorLine));
+                Debug.Log($"Play Person Line :  {person.actorLine} \nIndex : {person.index}");
                 break;
         }
     }
@@ -243,11 +210,6 @@ public class NovelPlayer : MonoBehaviour
                 counter += Time.deltaTime;
                 yield return null;
 
-                //if (!waitFlag)
-                //{
-                //    image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
-                //    yield break;
-                //}
             }
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
@@ -268,11 +230,6 @@ public class NovelPlayer : MonoBehaviour
                 image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
                 counter += Time.deltaTime;
                 yield return null;
-                //if (!waitFlag)
-                //{
-                //    image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
-                //    yield break;
-                //}
             }
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         }
@@ -326,13 +283,11 @@ public class NovelPlayer : MonoBehaviour
         isWait = false;
         OnNextLineClicked();
     }
-    public void SetSublinePlaying()
-    {
-        isSubLinePlaying = true;
-    }
     //[ContextMenu("캐릭터 SO 제작")]
     //public void CreateCharacterSO()
     //{
     //    NovelManager.Instance.CreateCharacterSOAssets();
     //}
+
+
 }

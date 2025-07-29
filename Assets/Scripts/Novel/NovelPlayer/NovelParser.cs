@@ -69,7 +69,32 @@ public static class NovelParser
                 {
                     continue;
                 }
-                ParseSubLine(act, trimedLine, index - 1);
+
+
+                // 비어있으면 컨티뉴
+                if (string.IsNullOrEmpty(trimedLine)) continue;
+
+                if (commentLine.IsMatch(trimedLine))
+                {
+                    // 주석은 파싱 안함
+                    continue;
+                }
+
+
+                if (gotoCommand.IsMatch(trimedLine))
+                {
+                    var labelMatch = gotoCommand.Match(trimedLine);
+                    string label = labelMatch.Groups["label"].Value;
+
+                    Debug.Log(act.novelLines.Count - 1);
+
+                    if (act.novelLines[act.novelLines.Count - 1] is ChoiceCommand choice)
+                    {
+                        choice.subLine = new GotoCommand(index, label);
+
+                        Debug.Log($"SubLine Goto \nIndex : {index}, Label : {label}");
+                    }
+                }
 
                 continue;
             }
@@ -283,55 +308,6 @@ public static class NovelParser
 
             act.novelLines.Add(new GotoCommand(index, label));
             Debug.Log($"Goto \nIndex : {index}, Label : {label}");
-        }
-    }
-    private static void ParseSubLine(NovelAct act, string line, int index)
-    {
-        Debug.Log($"서브라인 \"{line}\" 파싱");
-        int subIndex = index;
-        // index - 1번 명령어의 리스트에 서브라인들 넣어줌
-        if (string.IsNullOrEmpty(line)) return;
-
-        if (commentLine.IsMatch(line))
-        {
-            // 주석은 파싱 안함
-            return;
-        }
-        else if (commandLine.IsMatch(line))
-        {
-            ParseCommand(act, index, line);
-        }
-        else if (personLine.IsMatch(line))
-        {
-            var match = personLine.Match(line);
-            string actorName = match.Groups["name"].Value;
-            string actorLine = match.Groups["line"].Value;
-            //act.novelLines.Add(new PersonLine(index, actorName, actorLine));
-
-            Debug.Log($"Sub Person : {actorName}, Line : {actorLine}");
-        }
-        else
-        {
-            NovelLine beforeLine = null;
-            foreach(var novelLine in act.novelLines)
-            {
-                if(novelLine.index == index)
-                {
-                    beforeLine = novelLine;
-                    break;
-                }
-            }
-            if (beforeLine == null)
-            {
-                Debug.LogError("서브라인이 들어갈 메인라인이 없음");
-                return;
-            }
-            if (beforeLine is CommandLine command)
-            {
-                command.subLines.Add(new NormalLine(index, line));
-            }
-
-            Debug.Log($"Sub Normal : {line}\nParentLine : {index}");
         }
     }
 }

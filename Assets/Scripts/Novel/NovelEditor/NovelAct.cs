@@ -9,6 +9,7 @@ namespace novel
     {
         [SerializeReference]
         public List<NovelLine> novelLines = new();
+        [SerializeField]
         private int currentIndex = 0;
 
         public NovelLine GetNextLine()
@@ -26,5 +27,11 @@ namespace novel
             currentIndex = targetIndex - 1;
         }
         public void ResetAct() => currentIndex = 0;
+
+
+        public int GetIndex()
+        {
+            return currentIndex;
+        }
     }
 }

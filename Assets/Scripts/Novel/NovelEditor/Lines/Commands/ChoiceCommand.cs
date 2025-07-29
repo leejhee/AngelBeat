@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.U2D;
 
 namespace novel
 {
@@ -26,29 +27,25 @@ namespace novel
             choiceButton.onClick.AddListener(() => OnClickChoiceButton());
 
             NovelPlayer.Instance.currentChoices.Add(this, choicePrefab);
+
+            Debug.Log($"선택지 프리팹 생성 : {argument}");
         }
         private void OnClickChoiceButton()
         {
-            Debug.Log("선택지 클릭");
+            Debug.Log($"선택지 {argument} 클릭");
 
             // 선택지 오브젝트 제거
             foreach (Transform child in NovelPlayer.Instance.choicePanel.transform)
             {
                 GameObject.Destroy(child.gameObject);
-            }
-
-
             
-
-
-            // 선택한 선택지의 서브라인들을 현재 서브라인 리스트에 넣어줌
-            foreach (var line in subLines)
-            {
-                NovelPlayer.Instance.currentSubLines.Add(line);
             }
 
-
-            NovelPlayer.Instance.SetSublinePlaying();
+            if (subLine is CommandLine command)
+            {
+                command.Execute();
+            }
+            NovelPlayer.Instance.currentChoices = new();
             NovelPlayer.Instance.Resume();
         }
         public override bool? IsWait()

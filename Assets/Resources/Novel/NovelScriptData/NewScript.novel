@@ -1,24 +1,22 @@
-
-Gosegu: 안녕
-
-//@goto label_1
+#start
+도르마무 거래를 하러 왔다
 
 
+@choice 리셋
+    @goto start
 @choice 선택지 1
     @goto label_1
-    가나다라
-    
 @choice 선택지 2
     @goto label_2
 @wait
-서브라인 끝
 
 #label_1
-goto 해서 여기로 왔음
-문장 여러개가 있을거에요
-진짜 끝나?
-
-
+1번 선택지 선택함
+@goto end
 #label_2
-선택지로 왔어욤 뿌우
-마지막 인사~
+2번 선택지 선택함
+
+#end
+마무리 스크립트
+스크립트 끝
+이거 왜 안떠

@@ -8,7 +8,7 @@ namespace novel
     public abstract class CommandLine : NovelLine, IExecutable
     {
         [SerializeReference]
-        public List<NovelLine> subLines = new();
+        public NovelLine subLine;
         public CommandLine(int index, DialogoueType type) : base(index, type) { }
 
         public abstract void Execute();

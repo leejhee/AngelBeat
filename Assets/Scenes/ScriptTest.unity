@@ -873,6 +873,8 @@ MonoBehaviour:
     novelLines: []
   labelDict:
     pairs: []
+    keys: []
+    values: 
   _dialoguePanel: {fileID: 1177681902666396089}
   backgroundPanel: {fileID: 9121459471869113641}
   namePanel: {fileID: 4965996505053066219}
