@@ -75,6 +75,7 @@ public class NovelPlayer : MonoBehaviour
         currentAct = null;
         currentCharacterDict = null;
         currentChoices = null;
+        labelDict = null;
     }
     void Start()
     {

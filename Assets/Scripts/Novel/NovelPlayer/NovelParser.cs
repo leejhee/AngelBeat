@@ -103,6 +103,7 @@ public static class NovelParser
                 var match = labelLine.Match(line);
                 string labelName = match.Groups["name"].Value;
                 NovelPlayer.Instance.labelDict.Add(labelName, index);
+                act.novelLines.Add(new LabelLine(index, labelName));
                 Debug.Log($"Label Name : {labelName}\nIndex : {index}");
             }
             else if (commandLine.IsMatch(line))
