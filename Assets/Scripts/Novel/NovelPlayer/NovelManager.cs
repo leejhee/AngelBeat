@@ -13,6 +13,8 @@ public class NovelManager : SingletonObject<NovelManager>
     NovelManager() { }
     #endregion
 
+    
+    
     private SerializableDict<string, NovelCharacterSO> _characterSODict = new();
     private const string characterSOPath = "Novel/NovelResourceData/CharacterData/CharacterSO";
 

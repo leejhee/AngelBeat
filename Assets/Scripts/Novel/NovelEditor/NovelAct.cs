@@ -19,6 +19,14 @@ namespace novel
             return novelLines[currentIndex++];
         }
 
+        public NovelLine GetLineFromIndex(int index)
+        {
+            foreach (NovelLine line in novelLines)
+            {
+                if (line.index == index) return line;
+            }
+            return null;
+        }
         // 이거 인덱스 어디로 가야할지 나중에 한번 체크해야함
         public void JumpToLabel(string label)
         {
