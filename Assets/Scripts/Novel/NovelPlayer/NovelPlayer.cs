@@ -5,17 +5,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using AngelBeat.Core.Character;
 
 public class NovelPlayer : MonoBehaviour
 {
+
     public static NovelPlayer Instance {  get; private set; }
 
     [Header("실행할 노벨 스크립트")]
     public TextAsset novelScript;
-
     public NovelAct currentAct = new();
-
     public SerializableDict<string, int> labelDict = new SerializableDict<string, int>();
+    // 현재 실행중인 서브라인
+    [SerializeReference]
+    public List<NovelLine> currentSublines = new();
 
 
     private bool isFinished = false;
@@ -45,6 +48,7 @@ public class NovelPlayer : MonoBehaviour
     //  현재 선택지
     [NonSerialized]
     public SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
+
 
 
     [Header("프리팹")]
@@ -86,6 +90,14 @@ public class NovelPlayer : MonoBehaviour
         _dialoguePanel.SetActive(false);
 
         OnNextLineClicked();
+
+
+        var testXiaoModel = new CharacterModel(88888888);
+        Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
+        Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+
+
+
     }
     private IEnumerator NextLine()
     {
@@ -96,6 +108,34 @@ public class NovelPlayer : MonoBehaviour
             {
                 yield break;
             }
+
+            if (isSubLinePlaying)
+            {
+                if (currentSublines.Count > 0)
+                {
+                    NovelLine subline = currentSublines[0];
+
+                    if (subline is IExecutable execSub)
+                    {
+                        // 커맨드일 경우
+                        execSub.Execute();
+                        currentSublines.RemoveAt(0);
+                        continue;
+                    }
+
+                    // 대사나 나래이션
+                    PlayLine(subline);
+
+                    currentSublines.RemoveAt(0);
+                    yield break;
+                }
+                else
+                {
+                    isSubLinePlaying = false;
+                    continue;
+                }
+            }
+
 
             var line = currentAct.GetNextLine();
 
@@ -170,6 +210,8 @@ public class NovelPlayer : MonoBehaviour
                 break;
         }
     }
+
+
     private IEnumerator TypeText(string fullText)
     {
         isTyping = true;
@@ -190,6 +232,15 @@ public class NovelPlayer : MonoBehaviour
         isTyping = false;
     }
 
+    public void SetSublinePlaying(List<NovelLine> lines)
+    {
+        isSubLinePlaying = true;
+        currentSublines = lines;
+    }
+
+
+    // 연출관련 함수들은 나중에 모듈로 뺄거임
+    #region 연출 관련
     public void FadeOut(Image image, float duration, NovelCharacterSO charSO, bool isFadeOut = true )
     {
         if (image != null)
@@ -278,6 +329,27 @@ public class NovelPlayer : MonoBehaviour
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
         }
     }
+    public void StartWait(float time)
+    {
+        StartCoroutine(WaitCoroutine(time));
+    }
+    private IEnumerator WaitCoroutine(float time)
+    {
+        isWait = true;
+
+        float counter = 0f;
+        while (counter < time)
+        {
+            Debug.Log($"{counter}초째 기다리는중");
+            counter += Time.deltaTime;
+            yield return null;
+        }
+
+        isWait = false;
+        OnNextLineClicked();
+    }
+    #endregion
+
 
     public void Resume()
     {

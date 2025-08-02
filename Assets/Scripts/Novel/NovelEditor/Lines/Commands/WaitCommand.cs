@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace novel
@@ -8,17 +9,22 @@ namespace novel
     public class WaitCommand : CommandLine
     {
         float waitTime;
-        public WaitCommand(int index, float waitTime) : base(index, DialogoueType.CommandLine)
+        public WaitCommand(int index, float waitTime, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
         {
             this.waitTime = waitTime;
         }
 
         public override void Execute()
         {
-            NovelPlayer.Instance.isWait = true;
-
-
-            // 시간 있을때 시간만큼만 멈추는거 나중에 해야함
+            if (waitTime > 0)
+            {
+                NovelPlayer.Instance.StartWait(waitTime);
+            }
+            else
+            {
+                NovelPlayer.Instance.isWait = true;
+            }
+                
         }
 
         public override bool? IsWait()

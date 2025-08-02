@@ -1,8 +1,11 @@
 #start
-도르마무 거래를 하러 왔다
 
-@choice 리셋
-    @goto start
+도르마무 거래를 하러 왔다
+                         
+@choice 이거 골라
+    이거 골랐음
+    가나다라
+    @goto end
 @choice 선택지 1
     @goto label_1
 @choice 선택지 2
@@ -18,3 +21,4 @@
 #end
 마무리 스크립트
 스크립트 끝
+

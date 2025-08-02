@@ -12,7 +12,7 @@ namespace novel
     {
         public string argument;
         
-        public ChoiceCommand(int index, string argument) : base(index, DialogoueType.CommandLine)
+        public ChoiceCommand(int index, string argument, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
         {
             this.argument = argument;
         }
@@ -33,6 +33,8 @@ namespace novel
         private void OnClickChoiceButton()
         {
             Debug.Log($"선택지 {argument} 클릭");
+            NovelPlayer.Instance.SetSublinePlaying(subLines);
+
 
             // 선택지 오브젝트 제거
             foreach (Transform child in NovelPlayer.Instance.choicePanel.transform)
@@ -41,12 +43,12 @@ namespace novel
             
             }
 
-            if (subLine is CommandLine command)
-            {
-                command.Execute();
-            }
+            
+            
+
             NovelPlayer.Instance.currentChoices = new();
             NovelPlayer.Instance.Resume();
+
         }
         public override bool? IsWait()
         {

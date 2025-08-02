@@ -8,8 +8,8 @@ namespace novel
     public abstract class CommandLine : NovelLine, IExecutable
     {
         [SerializeReference]
-        public NovelLine subLine;
-        public CommandLine(int index, DialogoueType type) : base(index, type) { }
+        public  List<NovelLine> subLines = new();
+        public CommandLine(int index, DialogoueType type, int depth) : base(index, type, depth) { }
 
         public abstract void Execute();
         public abstract bool? IsWait();
