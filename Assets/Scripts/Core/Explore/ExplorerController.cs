@@ -15,6 +15,7 @@ namespace AngelBeat.Core.Explore
         {
             var testXiaoModel = new CharacterModel(88888888);
             playerParty = new Party(new List<CharacterModel> { testXiaoModel });
+            Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
         }
 
         private void OnEnable()

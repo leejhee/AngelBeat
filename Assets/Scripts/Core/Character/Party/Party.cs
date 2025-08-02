@@ -40,5 +40,10 @@ namespace AngelBeat.Core.Character
                 ? "없음" : $"{FunctionsPerParty.Count}개 버프 있음";
             return new StringBuilder($"{partyType} : {partyMembers.Count}명 | 버프 : ").Append(func).ToString();
         }
+
+        public CharacterModel SearchCharacter(string charName)
+        {
+            return partyMembers.Find(x => x.Name == charName);
+        }
     }
 }
