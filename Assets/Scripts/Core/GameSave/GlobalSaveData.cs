@@ -8,7 +8,7 @@ namespace Core.GameSave
     public class GlobalSaveData
     {
         [Header("영구 데이터")]
-        public readonly ulong UID;
+        public readonly string UID;
         public readonly long FirstInstallTime;
         
         [Header("슬롯 데이터")]
@@ -18,9 +18,16 @@ namespace Core.GameSave
         
         [Header("전역 설정")]
         public GameSettings GameSettings;
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public GlobalSaveData()
         {
+            UID = Guid.NewGuid().ToString();
+            FirstInstallTime = DateTime.Now.Ticks;
+            
+            GameSettings = new GameSettings();
             
         }
         

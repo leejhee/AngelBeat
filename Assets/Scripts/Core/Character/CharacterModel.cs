@@ -17,6 +17,7 @@ namespace AngelBeat.Core.Character
         private List<SkillModel> _skillModels = new();
         
         public long Index => index;
+        public string Name => _data.charName;
         public CharStat Stat => _stat;
         public IReadOnlyList<SkillModel> Skills => _skillModels.AsReadOnly();
         
