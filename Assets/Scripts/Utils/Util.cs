@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using Newtonsoft.Json;
+using System;
 
 public class Util
 {
@@ -147,4 +149,85 @@ public class Util
         }
         return gameData;
     }
+    
+    public static void SaveJsonNewtonsoft<TSave>(TSave dataClass, string fileName = null) where TSave : class
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = typeof(TSave).Name;
+            int index = fileName.IndexOf("DataClass", StringComparison.Ordinal);
+            if (index != -1)
+            {
+                fileName = string.Concat(fileName.Substring(0, index), 's');
+            }
+        }
+
+        string savePath = GetSavePath();
+        string fullPath = Path.Combine(savePath, "userdata", $"{fileName}.json");
+
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
+
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            DateFormatHandling = DateFormatHandling.IsoDateFormat,
+            TypeNameHandling = TypeNameHandling.Auto
+        };
+
+        string jsonText = JsonConvert.SerializeObject(dataClass, settings);
+        File.WriteAllText(fullPath, jsonText, Encoding.UTF8);
+        
+        Debug.Log($"Saved: {fullPath}");
+    }
+
+    public static TSave LoadSaveDataNewtonsoft<TSave>(string fileName = null) where TSave : class
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = typeof(TSave).Name;
+            int index = fileName.IndexOf("DataClass", StringComparison.Ordinal);
+            if (index != -1)
+            {
+                fileName = string.Concat(fileName.Substring(0, index), 's');
+            }
+        }
+
+        string loadPath = GetSavePath();
+        string fullPath = Path.Combine(loadPath, "userdata", $"{fileName}.json");
+
+        if (!File.Exists(fullPath))
+        {
+            Debug.Log($"No save file found: {fullPath}");
+            return default(TSave);
+        }
+
+        try
+        {
+            string jsonData = File.ReadAllText(fullPath, Encoding.UTF8);
+            
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            };
+            
+            return JsonConvert.DeserializeObject<TSave>(jsonData, settings);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load save data: {e.Message}");
+            return default(TSave);
+        }
+    }
+
+    private static string GetSavePath()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE
+        return Application.dataPath;
+#elif UNITY_ANDROID
+        return Application.persistentDataPath;
+#else
+        return Application.persistentDataPath;
+#endif
+    }
+
 }

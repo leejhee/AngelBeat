@@ -2,6 +2,17 @@ using System;
 
 public class SystemEnum
 {
+    public enum GameState
+    {
+        None,
+        Lobby,
+        Loading,
+        Village,
+        Explore,
+        Battle,
+        EMax
+    }
+    
     public enum UIEvent
     {
         Click,
