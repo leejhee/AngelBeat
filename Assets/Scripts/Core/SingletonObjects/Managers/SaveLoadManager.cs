@@ -119,6 +119,12 @@ namespace Core.SingletonObjects.Managers
                 gameSlot = CreateGameSlotFromMetadata(slotMetaData);
                 Debug.LogWarning("습... 일부러 삭제하셨어요? 이번만 조금 복구해드립니다?");
             }
+            
+            _cachedSlotData = gameSlot;
+            _globalSave.LastPlayedSlotIndex = slotIndex;
+            SaveGlobalData();
+            
+            return true;
         }
         
         //필요한가...? 일단 귀찮은 일은 만들지 맙시다.
@@ -138,20 +144,30 @@ namespace Core.SingletonObjects.Managers
                 Debug.LogWarning("지금 저장할 슬롯이 따로 없습니다?");
                 return;
             }
-
+            
+            SaveAllDirtyStates();
+            
             string slotFileName = $"{SystemString.SlotPrefix}{_globalSave.LastPlayedSlotIndex}";
             Util.SaveJsonNewtonsoft(_globalSave, slotFileName);
 
             if (_globalSave.LastPlayedSlotIndex >= 0 &&
                 _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
             {
-                //이거 그냥 대입 아닌가...?
-                _globalSave.GameSlots[_globalSave.LastPlayedSlotIndex] = _cachedSlotData;
+                UpdateSlotMetadata();
                 SaveGlobalData();
             }
             Debug.Log($"Current Slot Saved : {_cachedSlotData.slotName}");
         }
 
+        private void UpdateSlotMetadata()
+        {
+            if (_globalSave.LastPlayedSlotIndex >= 0 && 
+                _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
+            {
+                _globalSave.UpdateSlotMetadata(_globalSave.LastPlayedSlotIndex, _cachedSlotData);
+            }
+        }
+        
         public bool DeleteSlot(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= _globalSave.GameSlots.Count)
@@ -160,30 +176,53 @@ namespace Core.SingletonObjects.Managers
                 return false;
             }
 
-            string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}";
+            string deletedSlotName = _globalSave.GameSlots[slotIndex].slotName;
             
-            string deleted = _globalSave.GameSlots[slotIndex].slotName;
-            _globalSave.GameSlots.RemoveAt(slotIndex);
-
+            // 개별 슬롯 파일 삭제
+            string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}";
+            DeleteSlotFile(slotFileName);
+            
+            // 글로벌 데이터에서 슬롯을 빈 상태로 만들기
+            bool success = _globalSave.DeleteSlot(slotIndex);
+            
+            // 현재 캐시된 슬롯이 삭제된 경우 정리
             if (_globalSave.LastPlayedSlotIndex == slotIndex)
             {
                 _cachedSlotData = null;
-                _globalSave.LastPlayedSlotIndex = -1;
-            }
-            else if (_globalSave.LastPlayedSlotIndex > slotIndex)
-            {
-                _globalSave.LastPlayedSlotIndex--;
+                ClearCache();
             }
             
             SaveGlobalData();
-            Debug.Log($"Slot deleted: {deleted} | Index : {slotIndex}");
-            return true;
+            Debug.Log($"Slot deleted: {deletedSlotName}");
+            return success;
         }
-
-        public List<GameSlotData> GetAllSlots()
+        
+        private void DeleteSlotFile(string fileName)
         {
-            return _globalSave.GameSlots;
+            try
+            {
+                string filePath = System.IO.Path.Combine(GetSaveDirectory(), $"{fileName}.json");
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    Debug.Log($"Deleted slot file: {fileName}");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Failed to delete slot file {fileName}: {ex.Message}");
+            }
         }
+        
+        private string GetSaveDirectory()
+        {
+            return System.IO.Path.Combine(Application.persistentDataPath, "userdata");
+        }
+        
+        //public List<GameSlotData> GetAllSlots()
+        //{
+        //    return _globalSave.GameSlots;
+        //}
 
         public void SaveAllDirtyStates()
         {

@@ -67,6 +67,12 @@ namespace Core.GameSave
         {
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
         }
+
+        public GameSlotData(string slotName)
+        {
+            gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
+            this.slotName = slotName;
+        }
         
         [JsonConstructor]
         public GameSlotData(
