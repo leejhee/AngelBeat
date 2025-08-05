@@ -12,4 +12,7 @@ public class SystemString
     public const string PlayerHitCollider = "PlayerHitCollider";
     public const string MonsterHitCollider = "MonsterHitCollider";
     public const string MapConfigDBPath = "ScriptableObjects/ExploreMapConfigs/ConfigDB";
+
+    public const string GlobalSaveDataPath = "SaveData";
+    public const string SlotPrefix = "GameSlot_";
 }

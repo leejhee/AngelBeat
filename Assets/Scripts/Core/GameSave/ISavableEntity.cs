@@ -6,5 +6,6 @@
         public void Load();
         public bool IsDirty();
         public void ClearDirty();
+        
     }
 }
