@@ -1,11 +1,11 @@
-
+using AngelBeat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace AngelBeat
+namespace Core.SingletonObjects.Managers
 {
     /// <summary> 
 /// 데이터 매니저 (Sheet 데이터 관리)

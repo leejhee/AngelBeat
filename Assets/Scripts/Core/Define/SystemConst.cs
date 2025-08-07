@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 public class SystemConst
 {
@@ -15,4 +16,9 @@ public class SystemString
 
     public const string GlobalSaveDataPath = "SaveData";
     public const string SlotPrefix = "GameSlot_";
+    
+    public static string GetSlotName(int slotIndex)
+    {
+        return new StringBuilder(SlotPrefix).Append(slotIndex.ToString()).ToString();
+    } 
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AngelBeat;
+using Core.SingletonObjects.Managers;
+using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AngelBeat
+namespace UIs.UIObjects
 {
     public class RewardObject : MonoBehaviour
     {

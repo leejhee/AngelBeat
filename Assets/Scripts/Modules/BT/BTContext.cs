@@ -1,4 +1,5 @@
 ﻿using AngelBeat;
+using Character.Unit;
 
 namespace Modules.BT
 {

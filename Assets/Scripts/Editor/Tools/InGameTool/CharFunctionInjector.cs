@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using AngelBeat.Core.SingletonObjects.Managers;
+using Character.Unit;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
@@ -37,7 +38,7 @@ namespace AngelBeat
             if (EditorApplication.isPlaying)
             {
                 characterList = BattleCharManager.Instance.GetCurrentCharacters();
-                var functionlist = DataManager.Instance.GetDataList<ExecutionData>();
+                var functionlist = global::Core.SingletonObjects.Managers.DataManager.Instance.GetDataList<ExecutionData>();
                 for (int i = 0; i < functionlist.Count; i++)
                 {
                     var target = functionlist[i] as ExecutionData;

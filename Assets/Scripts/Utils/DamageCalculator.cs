@@ -1,4 +1,5 @@
 using AngelBeat;
+using Character.Unit;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

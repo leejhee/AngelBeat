@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SystemEnum;
 
-namespace AngelBeat
+namespace Core.SingletonObjects.Managers
 {
     public partial class DataManager
     {

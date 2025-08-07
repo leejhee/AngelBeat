@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using GamePlay.Battle.Save;
+using GamePlay.Character.Save;
+using GamePlay.Explore;
+using GamePlay.Village;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Utils.Core.Random;
@@ -9,20 +11,18 @@ using static SystemEnum;
 
 namespace Core.GameSave
 {
-    //NewtonSoft 쓰니까 전부 serialize 가능
+    /// <summary>
+    /// 게임 실제 슬롯마다의 데이터
+    /// </summary>
     [Serializable]
     public class GameSlotData
     {
         #region System Part
-        [JsonProperty("lastSavedTime")]
-        public DateTime lastSavedTime;
+        [JsonProperty("lastSavedTime")] public DateTime lastSavedTime;
+        [JsonProperty("lastGameState")] public GameState lastGameState;
+        [JsonProperty("playTime")]      public long playTimeTicks;
+        [JsonProperty("slotName")] public string slotName = "New Game";
         
-        [JsonProperty("lastGameState")]
-        public GameState lastGameState;
-
-        [JsonProperty("playTime")] 
-        public long playTimeTicks;
-
         [JsonIgnore]
         public TimeSpan PlayTime
         {
@@ -30,41 +30,30 @@ namespace Core.GameSave
             set => playTimeTicks = value.Ticks;
         }
         
-        [JsonProperty("slotName")]
-        public string slotName = "New Game";
-        
-        [JsonProperty("stateSave")]
-        public Dictionary<GameState, JObject> savedDict = new();
-        
         #endregion        
         
+        #region Gameplay Part
+
+        [JsonProperty("characterProgressData")]
+        public CharacterProgressSaveData characterProgress;
         
-        #region Skill Locker Part
-        //이건 추후 ISavableEntity를 상속하는 애한테 갈 파트이다.
-        public SystemEnum.eSkillUnlock skillLocker;
-        public void SetSkillFlag(SystemEnum.eSkillUnlock changingLocker, bool flag)
-        {
-            if (flag)
-            {
-                skillLocker |= changingLocker;
-            }
-            else
-            {
-                skillLocker &= ~changingLocker;
-            }
-        }
-        public bool GetSkillFlag(SystemEnum.eSkillUnlock target) => skillLocker.HasFlag(target);
-        #endregion
+        [JsonProperty("partyData")] 
+        public ExploreSaveData exploreData;
+
+        [JsonProperty("villageData")] 
+        public VillageSaveData villageData;
         
-        #region General Fiels
-        [JsonIgnore]
-        public GameRandom gameRnd;
+        [JsonProperty("battleData")] 
+        public BattleSaveData battleData;
+        
+        [JsonIgnore] public GameRandom gameRnd;
         
         #endregion
         
         #region Cosntructor
         public GameSlotData()
         {
+            // 새 슬롯 생성 시의 시간에 따라 난수기 결정. 
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
         }
 
@@ -79,73 +68,18 @@ namespace Core.GameSave
             [JsonProperty("lastSavedTime")] DateTime lastSavedTime,
             [JsonProperty("lastGameState")] GameState lastGameState,
             [JsonProperty("playTime")] long playTimeTicks,
-            [JsonProperty("slotName")] string slotName,
-            [JsonProperty("savedDict")] Dictionary<GameState, JObject> savedDict = null)
+            [JsonProperty("slotName")] string slotName)
         {
             this.slotName = slotName;
             this.lastSavedTime = lastSavedTime;
             this.lastGameState = lastGameState;
             this.playTimeTicks =  playTimeTicks;
-            this.savedDict = savedDict ?? new();
             
             Debug.Log($"Game Slot Loaded : {slotName} (saved at {lastSavedTime})");
         }
         
         #endregion
         
-        #region Core
-        public T GetStateData<T>(GameState state) where T : ISavableEntity, new()
-        {
-            if (savedDict.TryGetValue(state, out JObject obj))
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<T>(obj.ToString());
-                }
-                catch (JsonException ex)
-                {
-                    Debug.LogError("[Deserialization Failed] : 안됐지롱. \n" +
-                                   $"타입명 : {typeof(T).Name} | 저장 파트 : {state}\n" +
-                                   $"{ex.Message}\n" +
-                                   $"{ex.StackTrace}");
-                }
-            }
-            T defaultState = new();
-            SetStateData(state, defaultState);
-            return defaultState;
-        }
-
-        public void SetStateData<T>(GameState state, T data) where T : ISavableEntity
-        {
-            if (data == null)
-            {
-                Debug.LogWarning($"자네 지금 null을 저장하려는 건가?");
-                return;
-            }
-
-            try
-            {
-                savedDict[state] = JObject.FromObject(data);
-                lastSavedTime = DateTime.Now;
-                Debug.Log($"{state}의 데이터인 {typeof(T).Name}이 성공적으로 저장되었습니다.");
-            }
-            catch (JsonException ex)
-            {
-                Debug.LogError($"[Serialization Failed] : {state}의 데이터인 {typeof(T).Name} 저장 실패");
-            }
-        }
-
-        public bool HasGameState(GameState state)
-        {
-            return savedDict.ContainsKey(state);
-        }
-
-        public void Clear()
-        {
-            savedDict.Clear();
-            Debug.Log("이 슬롯의 모든 저장 상태 초기화");
-        }
-        #endregion
         
         #region Util Part
 
@@ -157,11 +91,6 @@ namespace Core.GameSave
                 .Append($"{lastSavedTime:yyyy/MM/dd HH:mm}")
                 .ToString();
         }
-
-        public List<GameState> GetSavedStates()
-        {
-            return new List<GameState>(savedDict.Keys);
-        }
         
         public void PrintAllStates()
         {
@@ -169,7 +98,6 @@ namespace Core.GameSave
             Debug.Log($"Last Saved: {lastSavedTime}");
             Debug.Log($"Play Time: {PlayTime}");
             Debug.Log($"Last State: {lastGameState}");
-            Debug.Log($"Saved States: {string.Join(", ", savedDict.Keys)}");
         }
         
         #endregion

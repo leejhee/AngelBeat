@@ -127,6 +127,10 @@ namespace Core.GameSave
             {
                 GameSlots[slotIndex].SyncWithGameSlot(gameSlot);
             }
+            else
+            {
+                Debug.LogError("Slot Index out of range");
+            }
         }
 
         /// <summary>

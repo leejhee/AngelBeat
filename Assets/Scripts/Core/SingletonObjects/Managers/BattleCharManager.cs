@@ -1,4 +1,5 @@
 using AngelBeat.Core.Battle;
+using Character.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +113,7 @@ namespace AngelBeat.Core.SingletonObjects.Managers
        
         public CharBase CharGenerate(long charIndex)
         {
-            CharData charData = DataManager.Instance.GetData<CharData>(charIndex);
+            CharData charData = global::Core.SingletonObjects.Managers.DataManager.Instance.GetData<CharData>(charIndex);
             if (charData == null)
             {
                 Debug.LogWarning($"CharFactory : {charIndex} 의 CharIndex를 찾을 수 없음");

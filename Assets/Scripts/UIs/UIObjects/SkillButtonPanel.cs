@@ -1,4 +1,5 @@
 using AngelBeat.Core.Battle;
+using Character.Unit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

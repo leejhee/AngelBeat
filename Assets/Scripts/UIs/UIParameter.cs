@@ -1,4 +1,5 @@
 using AngelBeat.Core.SingletonObjects.Managers;
+using Character.Unit;
 using static SystemEnum;
 
 namespace AngelBeat

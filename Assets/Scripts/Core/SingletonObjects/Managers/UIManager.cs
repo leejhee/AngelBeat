@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AngelBeat.UI;
+using Character.Unit;
 using System;
 
 namespace AngelBeat

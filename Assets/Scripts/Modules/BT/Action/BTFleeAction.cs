@@ -1,5 +1,6 @@
 ﻿using AngelBeat;
 using AngelBeat.Core.SingletonObjects.Managers;
+using Character.Unit;
 using Modules.BT.Nodes;
 using System.Collections;
 using System.Collections.Generic;

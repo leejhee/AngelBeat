@@ -1,4 +1,6 @@
-﻿namespace AngelBeat
+﻿using Character.Unit;
+
+namespace AngelBeat
 {
     /// <summary>
     /// 대미지 전달 단위값

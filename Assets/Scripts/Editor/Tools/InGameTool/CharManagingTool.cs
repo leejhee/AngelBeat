@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 using AngelBeat.Core.SingletonObjects.Managers;
+using Character.Unit;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;

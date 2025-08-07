@@ -1,4 +1,4 @@
-﻿using AngelBeat.Core.Character;
+﻿using GamePlay.Character;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
