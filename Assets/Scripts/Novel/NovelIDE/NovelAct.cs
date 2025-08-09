@@ -8,7 +8,7 @@ namespace novel
     public class NovelAct
     {
         [SerializeReference]
-        public List<NovelLine> novelLines = new();
+        public List<NovelLine> novelLines;
         [SerializeField]
         private int currentIndex = 0;
 

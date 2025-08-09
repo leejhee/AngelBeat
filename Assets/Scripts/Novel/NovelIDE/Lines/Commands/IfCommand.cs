@@ -7,7 +7,8 @@ namespace novel
     public enum IfType
     {
         If,
-        Else
+        Else,
+        None
     }
     public enum CompOP
     {
@@ -16,7 +17,8 @@ namespace novel
         GreaterThanOrEqual, // >=
         LessThanOrEqual,    // <=
         Equal,             // ==
-        NotEqual           // !=
+        NotEqual,           // !=,
+        None
     }
     [System.Serializable]
     public class IfCommand : CommandLine
@@ -25,13 +27,12 @@ namespace novel
         public string entity;
         public string var;
         public CompOP op;
-        public float value;
+        public float? value;
         
 
-        public IfCommand(int index, IfType typeOfIf , string var, CompOP op, float value, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public IfCommand(int index, IfType typeOfIf = IfType.None, string var = null, CompOP op = CompOP.None, float? value = null, int? depth = 0) : base(index, DialogoueType.CommandLine, depth)
         {
             this.typeOfIf = typeOfIf;
-            //this.entity = entity;
             this.value = value;
             this.var = var;
             this.op = op;
@@ -43,30 +44,8 @@ namespace novel
         {
             // 데이터에서 변수값 받아오기
             float realVar = 0;
-
-            switch (op)
-            {
-                case CompOP.GreaterThan:
-                    if (realVar > value)
-                    {
-
-                    }
-
-                    break;
-                case CompOP.LessThan:
-                    break;
-                case CompOP.GreaterThanOrEqual:
-                    break;
-                case CompOP.LessThanOrEqual:
-                    break;
-                case CompOP.Equal:
-                    break;
-                case CompOP.NotEqual:
-                    break;
-                default:
-                    Debug.LogError("Error : 정의되지 않은 연산자");
-                    break;
-            }
+            float realValue = value ?? 0;
+            bool returnBool = NovelUtils.ConditinalStateMent(realVar, op, realValue);
         }
 
         public override bool? IsWait()

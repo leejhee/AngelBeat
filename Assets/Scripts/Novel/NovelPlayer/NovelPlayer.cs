@@ -18,7 +18,6 @@ public class NovelPlayer : MonoBehaviour
     public NovelAct currentAct = new();
     public SerializableDict<string, int> labelDict = new SerializableDict<string, int>();
     // 현재 실행중인 서브라인
-    [SerializeReference]
     public List<NovelLine> currentSublines = new();
 
 
@@ -47,7 +46,6 @@ public class NovelPlayer : MonoBehaviour
     // 현재 스탠딩 나와 있는 캐릭터들
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
     //  현재 선택지
-    [NonSerialized]
     public SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
 
@@ -74,13 +72,6 @@ public class NovelPlayer : MonoBehaviour
             return;
         }
         Instance = this;
-    }
-    private void OnDisable()
-    {
-        currentAct = null;
-        currentCharacterDict = null;
-        currentChoices = null;
-        labelDict = null;
     }
     void Start()
     {

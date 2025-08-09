@@ -1,7 +1,7 @@
 using novel;
 using System;
 using System.Text.RegularExpressions;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class NovelParser
@@ -55,6 +55,8 @@ public static class NovelParser
     public static NovelAct Parse(string[] lines)
     {
         NovelAct act = new();
+        act.novelLines = new();
+        List<NovelLine> novelLines = new();
         int index = 1;
 
         foreach(string raw in lines)
@@ -62,12 +64,13 @@ public static class NovelParser
             NovelLine line = ParseLine(act, raw, index);
             if (line != null)
             {
-                act.novelLines.Add(line);
+                novelLines.Add(line);
 
                 index++;
             }
 
         }
+        act.novelLines = novelLines;
         Debug.Log("파싱 끝");
         return act; 
     }

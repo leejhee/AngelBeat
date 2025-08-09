@@ -958,6 +958,10 @@ MonoBehaviour:
   nameText: {fileID: 3929207745689077359}
   nextButton: {fileID: 4601046237696962614}
   currentBackgroundObject: {fileID: 0}
+  currentChoices:
+    pairs: []
+    keys: []
+    values: []
   backgroundPrefab: {fileID: 636896890383791273, guid: 3b2d427cf45449540a2223e179f72a5d, type: 3}
   standingPrefab: {fileID: 5442131785131527348, guid: 0e7ce356612690f4591f4d32408099f3, type: 3}
   choiceButtonPrefab: {fileID: 6842113844703858137, guid: 931014d0679e2b34baa6e47c376e1f9f, type: 3}

@@ -9,8 +9,8 @@ namespace novel
     {
         public int index;
         public DialogoueType type;
-        public int depth;
-        protected NovelLine(int index, DialogoueType type, int depth)
+        public int? depth;
+        protected NovelLine(int index, DialogoueType type, int? depth)
         {
             this.index = index;
             this.type = type;
