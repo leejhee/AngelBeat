@@ -1,6 +1,13 @@
 using Core.GameSave;
+using Core.GameSave.IO;
+using GamePlay.Battle.Save;
+using GamePlay.Character.Save;
 using GamePlay.Explore;
+using GamePlay.Village;
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.SingletonObjects.Managers
@@ -19,6 +26,21 @@ namespace Core.SingletonObjects.Managers
         public GameSlotData CurrentSlot => _cachedSlotData;
         public bool HasCurrentSlot => _cachedSlotData != null;
         public bool HasLastPlayed => _globalSave?.LastPlayedSlotData is { isEmpty: false };
+        
+        #region Slot Data Properties for Load
+
+        public ExploreSaveData ExploreData => 
+            HasCurrentSlot ? _cachedSlotData.exploreData : null;
+        public VillageSaveData VillageData => 
+            HasCurrentSlot ? _cachedSlotData.villageData : null;
+        public BattleSaveData BattleData => 
+            HasCurrentSlot ? _cachedSlotData.battleData : null;
+        public CharacterProgressSaveData CharProgressData => 
+            HasCurrentSlot ? _cachedSlotData.characterProgress : null;
+        
+        #endregion
+        
+        
         #endregion
         
         public override void Init()
@@ -28,6 +50,10 @@ namespace Core.SingletonObjects.Managers
             GameManager.Instance.BeforeGameStateChange += SaveCurrentSlot;
         }
         
+       
+        #region Synchronous Save & Load
+        
+        #region Global Data Management
         public void OnApplicationQuit()
         {
             if (HasCurrentSlot)
@@ -38,7 +64,6 @@ namespace Core.SingletonObjects.Managers
             }
         }
         
-        #region Global Data Management
         public void LoadGlobalData()
         {
             _globalSave = Util.LoadSaveDataNewtonsoft<GlobalSaveData>(SystemString.GlobalSaveDataPath);
@@ -239,5 +264,41 @@ namespace Core.SingletonObjects.Managers
         
         #endregion
         
+        #endregion
+        
+        #region Asynchronous Save & Load
+        public async Task<bool> LoadSlotAsync(int slotIndex, CancellationToken ct)
+        {
+            var path = SystemString.GetSlotName(slotIndex) + ".json";
+            // 1) 파일 읽기 (백그라운드)
+            var loaded = await SlotIO.LoadAsync(path, ct);
+
+            // 2) 메모리에 캐시
+            _cachedSlotData = loaded;
+            _globalSave.LastPlayedSlotIndex = slotIndex;
+            SaveGlobalData();
+
+            // 3) 적용은 반드시 메인 스레드에서
+            // (UniTask가 있으면 await UniTask.SwitchToMainThread();)
+            foreach (var c in _contributors) c.ApplyFrom(_cachedSlotData);
+            return true;
+        }
+
+        public async Task SaveCurrentSlotAsync(SystemEnum.GameState state, CancellationToken ct)
+        {
+            // 1) 각 시스템 상태를 DTO로 수집(메인 스레드)
+            foreach (var c in _contributors) c.CaptureTo(_cachedSlotData);
+            _cachedSlotData.lastGameState = state;
+            _cachedSlotData.lastSavedTime = DateTime.Now;
+
+            // 2) 파일 쓰기(백그라운드)
+            var path = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + ".json";
+            await SlotIO.SaveAsync(path, _cachedSlotData, ct);
+
+            // 3) 메타데이터 업데이트
+            UpdateSlotMetadata();
+            SaveGlobalData();
+        }
+        #endregion
     }
 }

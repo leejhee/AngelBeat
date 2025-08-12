@@ -56,9 +56,11 @@ namespace Core.SingletonObjects.Managers
 
             //산하에 SingletonObject<T> 상속받는 매니저들 초기화.
             DataManager.Instance.Init();
+            SaveLoadManager.Instance.Init();
             NovelManager.Instance.Init();
             SoundManager.Instance.Init();
             InputManager.Instance.Init();
+            
             
         }
 
