@@ -1,4 +1,5 @@
 ﻿using AngelBeat.Core.SingletonObjects;
+using Core.Foundation.Define;
 using GamePlay.Character;
 
 namespace AngelBeat.Core.Battle

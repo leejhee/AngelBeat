@@ -12,8 +12,8 @@ namespace AngelBeat
         [MenuItem("Data/데이터검증")]
         public static void DataVerification()
         {
-            global::Core.SingletonObjects.Managers.DataManager.Instance.ClearCache();
-            global::Core.SingletonObjects.Managers.DataManager.Instance.DataLoad();
+            global::Core.Managers.DataManager.Instance.ClearCache();
+            global::Core.Managers.DataManager.Instance.DataLoad();
 
             Debug.Log("데이터 검증 끝.");
         }

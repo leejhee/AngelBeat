@@ -1,7 +1,8 @@
 ﻿using AngelBeat;
 using AngelBeat.Core.Battle;
 using Character;
-using Core.SingletonObjects.Managers;
+using Core.Foundation.Define;
+using Core.Managers;
 using GamePlay.Character;
 using System.Collections.Generic;
 using UnityEngine;

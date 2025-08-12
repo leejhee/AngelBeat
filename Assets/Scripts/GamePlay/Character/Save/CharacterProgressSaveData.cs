@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Foundation.Define;
+using Newtonsoft.Json;
 using System;
 
 namespace GamePlay.Character.Save

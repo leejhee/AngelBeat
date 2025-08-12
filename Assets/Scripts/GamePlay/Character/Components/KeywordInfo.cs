@@ -1,7 +1,7 @@
 using Character.Unit;
 using System.Collections.Generic;
 using System.Linq;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat
 {

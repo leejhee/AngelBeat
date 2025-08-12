@@ -1,5 +1,5 @@
 ﻿using AngelBeat;
-using Core.SingletonObjects.Managers;
+using Core.Managers;
 using UnityEngine;
 
 namespace Scene

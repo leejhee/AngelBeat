@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Foundation.Define;
+using Newtonsoft.Json;
 using System;
-using static SystemEnum;
+
 namespace Core.GameSave
 {
     /// <summary>
@@ -14,7 +15,7 @@ namespace Core.GameSave
         [JsonProperty("lastSavedTime")]
         public DateTime lastSavedTime;
         [JsonProperty("lastGameState")]
-        public GameState lastGameState;
+        public SystemEnum.GameState lastGameState;
         [JsonProperty("playTime")]
         public long playTimeTicks;
         
@@ -106,7 +107,7 @@ namespace Core.GameSave
         public void Clear()
         {
             slotName = "New Game";
-            lastGameState = GameState.Village;
+            lastGameState = SystemEnum.GameState.Village;
             playTimeTicks = 0;
             isEmpty = true;
             lastSavedTime = DateTime.Now;

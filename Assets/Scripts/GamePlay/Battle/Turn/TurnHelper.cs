@@ -1,3 +1,4 @@
+using Core.Foundation.Define;
 using System.Collections.Generic;
 using System;
 

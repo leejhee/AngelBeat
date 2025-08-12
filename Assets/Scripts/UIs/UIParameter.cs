@@ -1,6 +1,7 @@
 using AngelBeat.Core.SingletonObjects.Managers;
 using Character.Unit;
-using static SystemEnum;
+using Core.Foundation;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat
 {

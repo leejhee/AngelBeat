@@ -1,6 +1,7 @@
+using Core.Data;
 using System;
 using UnityEngine;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 // ReSharper disable All
 
 namespace AngelBeat

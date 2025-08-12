@@ -1,10 +1,11 @@
 ﻿using AngelBeat;
-using Core.SingletonObjects.Managers;
+using Core.Data;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DataManager = Core.Managers.DataManager;
 
 namespace UIs.UIObjects
 {

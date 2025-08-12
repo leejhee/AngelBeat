@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Core.Data;
+using Core.Foundation.Define;
+using UnityEngine;
 
 namespace AngelBeat.Core
 {

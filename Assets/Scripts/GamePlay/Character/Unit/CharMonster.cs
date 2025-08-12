@@ -1,5 +1,6 @@
 using AngelBeat;
 using AngelBeat.Core.SingletonObjects.Managers;
+using Core.Foundation.Define;
 using Modules.BT;
 
 namespace Character.Unit

@@ -1,5 +1,6 @@
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 using AngelBeat;
+using Core.Data;
 
 namespace AngelBeat
 {

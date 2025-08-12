@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Core.Data;
+using Core.Foundation.Define;
+using System;
 using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Skill
 {
     [Serializable]
     public class SkillModel

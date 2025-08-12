@@ -1,8 +1,9 @@
+using GamePlay.Skill;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static SystemString;
+using static Core.Foundation.Define.SystemString;
 
 namespace AngelBeat
 {

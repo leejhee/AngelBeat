@@ -1,4 +1,5 @@
 using Character;
+using Core.Foundation.Utils;
 using GamePlay.Character;
 using novel;
 using System.Collections;

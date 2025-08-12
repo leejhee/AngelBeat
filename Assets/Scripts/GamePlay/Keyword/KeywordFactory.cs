@@ -1,4 +1,5 @@
-﻿using static SystemEnum;
+﻿using Core.Data;
+using static Core.Foundation.Define.SystemEnum;
 namespace AngelBeat.Core
 {
     public static class KeywordFactory

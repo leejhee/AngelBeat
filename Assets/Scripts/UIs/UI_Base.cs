@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 public abstract class UI_Base : MonoBehaviour
 {

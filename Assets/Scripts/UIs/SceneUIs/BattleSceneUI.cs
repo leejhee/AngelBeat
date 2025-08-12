@@ -1,6 +1,9 @@
 using AngelBeat.Core.Battle;
 using AngelBeat.Core.SingletonObjects.Managers;
 using Character.Unit;
+using Core.Foundation;
+using Core.Foundation.Define;
+using GamePlay.Skill;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;

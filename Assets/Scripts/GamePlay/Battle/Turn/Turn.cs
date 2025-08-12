@@ -1,6 +1,8 @@
 using AngelBeat.Core;
 using AngelBeat.Core.SingletonObjects.Managers;
 using Character.Unit;
+using Core.Foundation;
+using Core.Foundation.Define;
 using System;
 using UnityEngine;
 

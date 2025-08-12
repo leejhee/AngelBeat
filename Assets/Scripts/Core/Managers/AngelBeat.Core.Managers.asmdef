@@ -1,0 +1,16 @@
+﻿{
+  "name": "AngelBeat.Core.Managers",
+  "references": [
+    "AngelBeat.Core.GameSave.Contracts",
+    "AngelBeat.Core.Foundation",
+    "AngelBeat.Core.GameSave",
+    "AngelBeat.Core.Data"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

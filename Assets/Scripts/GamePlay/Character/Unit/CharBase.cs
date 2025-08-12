@@ -1,10 +1,13 @@
 using AngelBeat;
 using AngelBeat.Core.SingletonObjects.Managers;
+using Core.Data;
+using Core.Foundation.Define;
+using Core.Foundation.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DataManager = Core.SingletonObjects.Managers.DataManager;
+using DataManager = Core.Managers.DataManager;
 
 namespace Character.Unit
 {

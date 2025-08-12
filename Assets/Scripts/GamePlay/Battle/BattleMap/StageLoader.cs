@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using AngelBeat.Core.SingletonObjects;
+using Core.Foundation.Define;
 
 namespace AngelBeat.Core.Map
 {

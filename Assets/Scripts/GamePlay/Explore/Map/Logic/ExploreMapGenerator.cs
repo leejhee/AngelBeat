@@ -1,4 +1,5 @@
-﻿using GamePlay.Explore.Map.Data;
+﻿using Core.Foundation.Define;
+using GamePlay.Explore.Map.Data;
 using UnityEngine;
 
 namespace GamePlay.Explore.Map.Logic

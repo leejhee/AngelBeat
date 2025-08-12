@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Foundation.Define;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AngelBeat.Core.Map

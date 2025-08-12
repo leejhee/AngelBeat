@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat.Tools.LevelEditor
 {

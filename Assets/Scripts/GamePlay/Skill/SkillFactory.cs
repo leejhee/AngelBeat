@@ -1,6 +1,8 @@
+using AngelBeat;
+using Core.Data;
 using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Skill
 {
     public static class SkillFactory
     {
@@ -14,7 +16,7 @@ namespace AngelBeat
         public static SkillBase CreateSkill(long skillIndex)
         {
             SkillBase skillBase = null;
-            var _skillData = global::Core.SingletonObjects.Managers.DataManager.Instance.GetData<SkillData>(skillIndex);
+            var _skillData = global::Core.Managers.DataManager.Instance.GetData<SkillData>(skillIndex);
 
             if (_skillData == null)
             {

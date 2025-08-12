@@ -1,9 +1,11 @@
 ﻿using AngelBeat;
+using Core.Data;
+using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using DataManager = Core.SingletonObjects.Managers.DataManager;
+using DataManager = Core.Managers.DataManager;
 
 namespace Character
 {

@@ -1,4 +1,4 @@
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 using System.Collections.Generic;
 using System;
 using UnityEngine;

@@ -1,0 +1,13 @@
+﻿{
+  "name": "AngelBeat.Core.Data",
+  "references": [
+    "AngelBeat.Core.Foundation"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

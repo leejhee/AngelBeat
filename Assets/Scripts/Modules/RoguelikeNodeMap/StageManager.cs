@@ -1,6 +1,7 @@
+using Core.Foundation;
 using Modules.RoguelikeNodeMap.MapSkeleton;
 using UnityEngine;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace Modules.RoguelikeNodeMap
 {

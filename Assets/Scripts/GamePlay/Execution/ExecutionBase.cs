@@ -1,4 +1,6 @@
 using Character.Unit;
+using Core.Data;
+using Core.Foundation.Define;
 using UnityEngine;
 
 namespace AngelBeat
@@ -22,7 +24,7 @@ namespace AngelBeat
         {
             _TargetChar = buffParam.TargetChar;
             _CastChar = buffParam.CastChar;
-            _ExecutionData = global::Core.SingletonObjects.Managers.DataManager.Instance.GetData<ExecutionData>(buffParam.ExecutionIndex);
+            _ExecutionData = global::Core.Managers.DataManager.Instance.GetData<ExecutionData>(buffParam.ExecutionIndex);
 
             if (_ExecutionData == null)
             {

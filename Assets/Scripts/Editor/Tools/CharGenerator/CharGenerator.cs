@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
 using Character.Unit;
+using Core.Data;
+using Core.Foundation.Define;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -28,8 +30,8 @@ namespace AngelBeat
 
     void OnEnable()
     {
-        global::Core.SingletonObjects.Managers.DataManager.Instance.DataLoad();
-        CharDict = global::Core.SingletonObjects.Managers.DataManager.Instance.GetDictionary("CharData");
+        global::Core.Managers.DataManager.Instance.DataLoad();
+        CharDict = global::Core.Managers.DataManager.Instance.GetDictionary("CharData");
         List<string> options = new();
         foreach(var value in CharDict.Values)
         {
@@ -42,7 +44,7 @@ namespace AngelBeat
     void OnDisable()
     {
         AssetDatabase.SaveAssets();
-        global::Core.SingletonObjects.Managers.DataManager.Instance.ClearCache();
+        global::Core.Managers.DataManager.Instance.ClearCache();
     }
 
     void OnGUI()

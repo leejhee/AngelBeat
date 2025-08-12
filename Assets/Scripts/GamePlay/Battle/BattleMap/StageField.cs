@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat
 {

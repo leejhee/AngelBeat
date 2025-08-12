@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Foundation.Define;
+using System;
 using UnityEngine.SceneManagement;
 
 namespace Scene

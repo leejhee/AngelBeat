@@ -1,4 +1,5 @@
 using Character;
+using Core.Foundation.Define;
 using System;
 using System.Collections.Generic;
 using System.Text;

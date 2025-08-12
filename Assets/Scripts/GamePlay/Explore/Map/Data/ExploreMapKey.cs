@@ -1,4 +1,6 @@
-﻿namespace GamePlay.Explore.Map.Data
+﻿using Core.Foundation.Define;
+
+namespace GamePlay.Explore.Map.Data
 {
     [System.Serializable]
     public struct ExploreMapKey : System.IEquatable<ExploreMapKey>

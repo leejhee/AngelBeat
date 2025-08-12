@@ -1,4 +1,5 @@
-using AngelBeat.KeywordExecution;
+using Core.Foundation.Define;
+using GamePlay.Execution.KeywordExecution;
 
 namespace AngelBeat
 {

@@ -1,13 +1,9 @@
-﻿using GamePlay.Battle.Save;
-using GamePlay.Character.Save;
-using GamePlay.Explore;
-using GamePlay.Village;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Text;
 using UnityEngine;
-using Utils.Core.Random;
-using static SystemEnum;
+using Core.Foundation.Utils;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace Core.GameSave
 {
@@ -33,18 +29,20 @@ namespace Core.GameSave
         #endregion        
         
         #region Gameplay Part
-
-        [JsonProperty("characterProgressData")]
-        public CharacterProgressSaveData characterProgress;
         
-        [JsonProperty("partyData")] 
-        public ExploreSaveData exploreData;
-
-        [JsonProperty("villageData")] 
-        public VillageSaveData villageData;
         
-        [JsonProperty("battleData")] 
-        public BattleSaveData battleData;
+        
+        //[JsonProperty("characterProgressData")]
+        //public CharacterProgressSaveData characterProgress;
+        //
+        //[JsonProperty("partyData")] 
+        //public ExploreSaveData exploreData;
+//
+        //[JsonProperty("villageData")] 
+        //public VillageSaveData villageData;
+        //
+        //[JsonProperty("battleData")] 
+        //public BattleSaveData battleData;
         
         [JsonIgnore] public GameRandom gameRnd;
         

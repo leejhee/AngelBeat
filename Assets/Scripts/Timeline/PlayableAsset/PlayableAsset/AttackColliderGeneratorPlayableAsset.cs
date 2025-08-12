@@ -1,6 +1,7 @@
+using Core.Foundation.Define;
 using UnityEngine;
 using UnityEngine.Playables;
-using static SystemEnum;
+using static Core.Foundation.Define.SystemEnum;
 
 namespace AngelBeat
 {

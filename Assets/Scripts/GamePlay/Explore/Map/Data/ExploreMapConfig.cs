@@ -1,4 +1,5 @@
-﻿using GamePlay.Character;
+﻿using Core.Foundation.Define;
+using GamePlay.Character;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

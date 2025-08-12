@@ -1,6 +1,10 @@
-﻿using AngelBeat.Core;
+﻿using AngelBeat;
+using AngelBeat.Core;
+using Core.Data;
+using Core.Foundation.Define;
+using Core.Managers;
 
-namespace AngelBeat.KeywordExecution
+namespace GamePlay.Execution.KeywordExecution
 {
     public class KeywordChange : ExecutionBase
     {
@@ -10,7 +14,7 @@ namespace AngelBeat.KeywordExecution
         
         public KeywordChange(ExecutionParameter buffParam) : base(buffParam)
         {
-            var data = global::Core.SingletonObjects.Managers.DataManager.Instance.GetData<ExecutionData>(buffParam.ExecutionIndex);
+            var data = DataManager.Instance.GetData<ExecutionData>(buffParam.ExecutionIndex);
             keywordType = (SystemEnum.eKeyword)(data.input1);
             effectCount = data.input2;
             effectValue = data.input3;
@@ -21,7 +25,7 @@ namespace AngelBeat.KeywordExecution
             base.RunFunction(StartFunction);
             if (StartFunction)
             {
-                var keyword = global::Core.SingletonObjects.Managers.DataManager.Instance.KeywordMap[keywordType];
+                var keyword = global::Core.Managers.DataManager.Instance.KeywordMap[keywordType];
                 var keywordBase = KeywordFactory.CreateKeyword(keyword);
                 keywordBase.ChangeEffect((int)effectCount, (int)effectValue);
                 _TargetChar.KeywordInfo.AddKeyword(keywordBase);

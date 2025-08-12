@@ -1,4 +1,6 @@
 ﻿using Character.Unit;
+using Core.Foundation.Define;
+using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
