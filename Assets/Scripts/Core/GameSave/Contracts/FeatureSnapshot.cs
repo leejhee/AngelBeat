@@ -7,6 +7,9 @@ namespace Core.GameSave.Contracts
     [Serializable]
     public abstract class FeatureSnapshot
     {
+        /// <summary>
+        /// 어떤 종류의 스냅샷 데이터인가?(슬롯데이터의 key로 활용)
+        /// </summary>
         [JsonProperty] public string Feature { get; private set; }
         [JsonProperty] public int    Version { get; private set; }
 

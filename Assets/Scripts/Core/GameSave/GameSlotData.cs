@@ -3,6 +3,8 @@ using System;
 using System.Text;
 using UnityEngine;
 using Core.Foundation.Utils;
+using Core.GameSave.Contracts;
+using System.Collections.Generic;
 using static Core.Foundation.Define.SystemEnum;
 
 namespace Core.GameSave
@@ -17,7 +19,7 @@ namespace Core.GameSave
         [JsonProperty("lastSavedTime")] public DateTime lastSavedTime;
         [JsonProperty("lastGameState")] public GameState lastGameState;
         [JsonProperty("playTime")]      public long playTimeTicks;
-        [JsonProperty("slotName")] public string slotName = "New Game";
+        [JsonProperty("slotName")]      public string slotName = "New Game";
         
         [JsonIgnore]
         public TimeSpan PlayTime
@@ -30,19 +32,11 @@ namespace Core.GameSave
         
         #region Gameplay Part
         
+        [JsonProperty("exploreData")]
+        public ExploreSnapshot exploreData;
         
-        
-        //[JsonProperty("characterProgressData")]
-        //public CharacterProgressSaveData characterProgress;
-        //
-        //[JsonProperty("partyData")] 
-        //public ExploreSaveData exploreData;
-//
-        //[JsonProperty("villageData")] 
-        //public VillageSaveData villageData;
-        //
-        //[JsonProperty("battleData")] 
-        //public BattleSaveData battleData;
+        [JsonProperty("features")]
+        public Dictionary<string, FeatureSnapshot> features;
         
         [JsonIgnore] public GameRandom gameRnd;
         
@@ -52,11 +46,15 @@ namespace Core.GameSave
         public GameSlotData()
         {
             // 새 슬롯 생성 시의 시간에 따라 난수기 결정. 
+            lastSavedTime = DateTime.Now;
+            features ??= new();
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
         }
 
         public GameSlotData(string slotName)
         {
+            lastSavedTime = DateTime.Now;
+            features ??= new();
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             this.slotName = slotName;
         }
@@ -72,13 +70,37 @@ namespace Core.GameSave
             this.lastSavedTime = lastSavedTime;
             this.lastGameState = lastGameState;
             this.playTimeTicks =  playTimeTicks;
-            
+            features ??= new();
+            gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             Debug.Log($"Game Slot Loaded : {slotName} (saved at {lastSavedTime})");
         }
         
         #endregion
         
+        #region Saving Snapshots
         
+        /// <summary>
+        /// feature을 key로 하여 덮어씌우는 식의 저장
+        /// </summary>
+        public void WriteSnapshot(FeatureSnapshot snapshot)
+        {
+            if (snapshot == null) return;
+            features ??= new();
+            features[snapshot.Feature] = snapshot;
+        }
+        
+        public bool TryGet<T>(string featureKey, out T feature) where T : FeatureSnapshot
+        {
+            if (features.TryGetValue(featureKey, out var v) && v is T t)
+            {
+                feature = t;
+                return true;
+            }
+            feature = null;
+            return false;
+        }
+
+        #endregion
         
         #region Util Part
 

@@ -2,6 +2,7 @@ using Core.Foundation;
 using Core.Foundation.Define;
 using Core.Foundation.Utils;
 using Core.GameSave;
+using Core.GameSave.Contracts;
 using Core.GameSave.IO;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Core.Managers
         
         private GlobalSaveData _globalSave;
         private GameSlotData _cachedSlotData;
+        public event Action<GameSlotData> SlotLoaded;
         
         #region Properties
         public GlobalSaveData GlobalSave => _globalSave;
@@ -26,42 +28,38 @@ namespace Core.Managers
         public bool HasCurrentSlot => _cachedSlotData != null;
         public bool HasLastPlayed => _globalSave?.LastPlayedSlotData is { isEmpty: false };
         
-        #region Slot Data Properties for Load
-
-        //public ExploreSnapshot ExploreData => 
-        //    HasCurrentSlot ? _cachedSlotData.exploreData : null;
-        //public VillageSaveData VillageData => 
-        //    HasCurrentSlot ? _cachedSlotData.villageData : null;
-        //public BattleSaveData BattleData => 
-        //    HasCurrentSlot ? _cachedSlotData.battleData : null;
-        //public CharacterProgressSaveData CharProgressData => 
-        //    HasCurrentSlot ? _cachedSlotData.characterProgress : null;
-        
-        #endregion
-        
-        
         #endregion
         
         public override void Init()
         {
             base.Init();
             LoadGlobalData();
-            GameManager.Instance.BeforeGameStateChange += SaveCurrentSlot;
         }
         
        
         #region Synchronous Save & Load
         
         #region Global Data Management
+        
+        #region Events
         public void OnApplicationQuit()
         {
             if (HasCurrentSlot)
             {
-                //그냥 현재 슬롯을 현 게임 상태에 따라 저장.
-                SaveCurrentSlot(GameManager.Instance.GameState);
+                
                 Debug.Log("강제 종료 관계로 저장.");
             }
         }
+
+        public void OnApplicationPause(bool _pauseStatus)
+        {
+            if (!_pauseStatus) return;
+            if (HasCurrentSlot)
+            {
+                SaveSlotByState(GameManager.Instance.GameState);
+            }
+        }
+        #endregion
         
         public void LoadGlobalData()
         {
@@ -165,33 +163,33 @@ namespace Core.Managers
         /// <summary>
         /// 현재 게임에 로드되어있는 슬롯에 내용을 덮어씌워서 저장한다.
         /// </summary>
-        public void SaveCurrentSlot(SystemEnum.GameState savingState)
+        public void SaveCurrentSlot(FeatureSnapshot snapshot)
         {
             if (!HasCurrentSlot)
             {
                 Debug.LogWarning("[저장 실패] : 호출되면 안되는 로그. 지금 저장할 슬롯이 따로 없습니다?");
                 return;
             }
-
-            switch (savingState)
-            {
-                case SystemEnum.GameState.Explore:
-                    //ExploreManager.Instance.SaveCurrentExploration();
-                    break;
-            }
+            
+            _cachedSlotData.WriteSnapshot(snapshot); // 쓰기
             
             string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex);
-            Util.SaveJsonNewtonsoft(_globalSave, slotFileName);
+            Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName); // IO
 
             if (_globalSave.LastPlayedSlotIndex >= 0 &&
                 _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
             {
-                UpdateSlotMetadata();
+                UpdateSlotMetadata(); // 연결용 메타데이터 업데이트 및 글로벌 데이터 저장
                 SaveGlobalData();
             }
             Debug.Log($"Current Slot Saved : {_cachedSlotData.slotName}");
         }
 
+        public void SaveSlotByState(SystemEnum.GameState state)
+        {
+            
+        }
+        
         private void UpdateSlotMetadata()
         {
             if (_globalSave.LastPlayedSlotIndex >= 0 && 
@@ -245,7 +243,7 @@ namespace Core.Managers
                     Debug.Log($"Deleted slot file: {fileName}");
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError($"Failed to delete slot file {fileName}: {ex.Message}");
             }
@@ -299,5 +297,16 @@ namespace Core.Managers
             SaveGlobalData();
         }
         #endregion
+
+
+        public void RegisterProvider(IFeatureSaveProvider featureProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnregisterProvider(IFeatureSaveProvider featureProvider)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
