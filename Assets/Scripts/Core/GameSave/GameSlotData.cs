@@ -35,6 +35,12 @@ namespace Core.GameSave
         [JsonProperty("exploreData")]
         public ExploreSnapshot exploreData;
         
+        [JsonProperty("battleData")]
+        public BattleSnapshot battleData;
+        
+        [JsonProperty("villageData")]
+        public VillageSnapshot villageData;
+        
         [JsonProperty("features")]
         public Dictionary<string, FeatureSnapshot> features;
         
@@ -77,7 +83,7 @@ namespace Core.GameSave
         
         #endregion
         
-        #region Saving Snapshots
+        #region Read and Write
         
         /// <summary>
         /// feature을 key로 하여 덮어씌우는 식의 저장

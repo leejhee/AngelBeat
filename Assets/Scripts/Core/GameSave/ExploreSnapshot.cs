@@ -2,7 +2,6 @@
 using Core.GameSave.Contracts;
 using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 namespace Core.GameSave
 {
@@ -11,8 +10,7 @@ namespace Core.GameSave
     {
         public const int V = 1;
         public override int CurrentVersion => V;
-
-        // === 직렬화 필드(예시) ===
+        
         [JsonProperty] public string dungeon;           // 던전 이름(또는 enum 문자열)
         [JsonProperty] public int    floor;             // 층 수
         [JsonProperty] public int    playerX;           // 플레이어 X/Y
@@ -25,7 +23,6 @@ namespace Core.GameSave
 
         public override void MigrateIfNeeded()
         {
-            // if (Version < 1) { ... 필드 보정 ... }
             BumpVersion();
         }
     }
