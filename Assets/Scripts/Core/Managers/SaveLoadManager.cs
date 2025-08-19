@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-
 namespace Core.Managers
 {
     public class SaveLoadManager : SingletonObject<SaveLoadManager>
@@ -266,16 +265,13 @@ namespace Core.Managers
         #region Asynchronous Save & Load
         public async Task<bool> LoadSlotAsync(int slotIndex, CancellationToken ct)
         {
-            var path = SystemString.GetSlotName(slotIndex) + ".json";
-            // 1) 파일 읽기 (백그라운드)
-            var loaded = await SlotIO.LoadAsync(path, ct);
+            string path = SystemString.GetSlotName(slotIndex) + ".json";
+            GameSlotData loaded = await SlotIO.LoadAsync(path, ct);
 
-            // 2) 메모리에 캐시
             _cachedSlotData = loaded;
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
 
-            // 3) 적용은 반드시 메인 스레드에서
             // (UniTask가 있으면 await UniTask.SwitchToMainThread();)
             //foreach (var c in _contributors) c.ApplyFrom(_cachedSlotData);
             return true;
