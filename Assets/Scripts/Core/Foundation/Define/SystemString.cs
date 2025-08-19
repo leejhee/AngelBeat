@@ -10,7 +10,9 @@ namespace Core.Foundation.Define
         public const string PlayerHitCollider = "PlayerHitCollider";
         public const string MonsterHitCollider = "MonsterHitCollider";
         public const string MapConfigDBPath = "ScriptableObjects/ExploreMapConfigs/ConfigDB";
-
+        
+        public const string JsonExtension = ".json";
+        
         public const string GlobalSaveDataPath = "SaveData";
         public const string SlotPrefix = "GameSlot_";
 
@@ -18,6 +20,7 @@ namespace Core.Foundation.Define
         public const string BattleKeyFeature = "Battle";
         public const string VillageKeyFeature = "Village";
         public const string GlobalKeyFeature = "Global";
+        
         
         public static string GetSlotName(int slotIndex)
         {

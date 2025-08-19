@@ -1,11 +1,15 @@
 using Core.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
 
 namespace Core.Data
 {
-    public partial class KeywordData : Data.SheetData
+    public partial class KeywordData : SheetData
     {
 public long index; // 키워드 ID
 		
@@ -18,9 +22,9 @@ public long index; // 키워드 ID
 		public bool iconIsVisible; // 아이콘이 보이는지
 		
 
-        public override Dictionary<long, Data.SheetData> LoadData()
+        public override Dictionary<long, SheetData> LoadData()
         {
-            var dataList = new Dictionary<long, Data.SheetData>();
+            var dataList = new Dictionary<long, SheetData>();
 
             string ListStr = null;
 			int line = 0;
@@ -84,7 +88,7 @@ public long index; // 키워드 ID
 			catch (Exception e)
 			{
 				Debug.LogError($"{this.GetType().Name}의 {line}전후로 데이터 문제 발생");
-				return new Dictionary<long, Data.SheetData>();
+				return new Dictionary<long, SheetData>();
 			}
         }
     }

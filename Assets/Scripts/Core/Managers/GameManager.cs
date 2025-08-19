@@ -37,8 +37,6 @@ namespace Core.Managers
         public event Action<SystemEnum.GameState> OnGameStateChanged;
         #endregion
         
-        
-        
         private void Start()
         {
             Init();
@@ -55,19 +53,27 @@ namespace Core.Managers
             instance = go.GetComponent<GameManager>();
             DontDestroyOnLoad(go);
 
-            //산하에 SingletonObject<T> 상속받는 매니저들 초기화.
+            //산하에 SingletonObject<T> 상속받는 매니저들 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
+            //나머지는 전부 런타임에 게임플레이 어딘가(씬 등)에서 호출합니다.
             DataManager.Instance.Init();
             SaveLoadManager.Instance.Init();
-            //NovelManager.Instance.Init(); NovelManager은 GamePlay 쪽에서 초기화하도록 합니다.
             SoundManager.Instance.Init();
             InputManager.Instance.Init();
-            
-            
         }
 
         private void Update()
         {
             InputManager.Instance.OnUpdate();
+        }
+
+        private void OnApplicationQuit()
+        {
+            SaveLoadManager.Instance.OnApplicationQuit();
+        }
+
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            SaveLoadManager.Instance.OnApplicationPause(pauseStatus);
         }
     }
 }

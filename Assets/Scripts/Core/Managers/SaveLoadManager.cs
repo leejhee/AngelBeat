@@ -9,10 +9,22 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+
 namespace Core.Managers
 {
     public class SaveLoadManager : SingletonObject<SaveLoadManager>
     {
+        #if UNITY_INCLUDE_TESTS
+        public static bool suppressSlotLoadEvent = false;
+        public void FlushCurrentSlotSync()
+        {
+            if (!HasCurrentSlot) return;
+            string path = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            SlotIO.SaveAsync(path, _cachedSlotData, CancellationToken.None).GetAwaiter().GetResult();
+        }
+        #endif
+        
+        
         #region Constructor
         private SaveLoadManager() { }
         #endregion
@@ -20,6 +32,16 @@ namespace Core.Managers
         private GlobalSaveData _globalSave;
         private GameSlotData _cachedSlotData;
         public event Action<GameSlotData> SlotLoaded;
+
+        private readonly Dictionary<string, IFeatureSaveProvider> _providers = new();
+        private readonly Dictionary<SystemEnum.GameState, List<string>> _stateToFeatures = new()
+        {
+            [SystemEnum.GameState.Explore] = new() {"Explore"},
+            [SystemEnum.GameState.Battle] = new() {"Battle"},
+            [SystemEnum.GameState.Village] = new() {"Village"},
+        };
+        private DateTime _lastAutoSave = DateTime.MinValue;
+        private const double AutoSaveIntervalSec = 5d;
         
         #region Properties
         public GlobalSaveData GlobalSave => _globalSave;
@@ -32,10 +54,12 @@ namespace Core.Managers
         public override void Init()
         {
             base.Init();
+            string root = System.IO.Path.Combine(Application.persistentDataPath, "userdata");
+            SlotIO.InitUserRoot(root);
             LoadGlobalData();
+            
         }
         
-       
         #region Synchronous Save & Load
         
         #region Global Data Management
@@ -45,17 +69,29 @@ namespace Core.Managers
         {
             if (HasCurrentSlot)
             {
-                
+                try
+                {
+                    var cts = new CancellationTokenSource();
+                    cts.CancelAfter(150); //밀리세컨
+                    string fileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+                    SlotIO.SaveAsync(fileName, _cachedSlotData, cts.Token).GetAwaiter().GetResult();
+                }
+                catch{/* 일이 잘못돼도 소란피우지 맙시다*/}
                 Debug.Log("강제 종료 관계로 저장.");
             }
         }
-
-        public void OnApplicationPause(bool _pauseStatus)
+        
+        public void OnApplicationPause(bool pauseStatus)
         {
-            if (!_pauseStatus) return;
+            if (!pauseStatus) return;
             if (HasCurrentSlot)
             {
-                SaveSlotByState(GameManager.Instance.GameState);
+                // 앱 내릴 시 자동저장인데... 이거 맞나? 아닌거같으면 바로 없애자.
+                if ((DateTime.Now - _lastAutoSave).TotalSeconds > AutoSaveIntervalSec)
+                {
+                    _lastAutoSave = DateTime.Now;
+                    SaveSlotByState(GameManager.Instance.GameState);
+                }
             }
         }
         #endregion
@@ -117,8 +153,19 @@ namespace Core.Managers
             _cachedSlotData = newSlot;
             
             // 슬롯 데이터는 별도로 저장한다.
-            string slotFileName = SystemString.GetSlotName(slotIndex);
-            Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName);
+            //string slotFileName = SystemString.GetSlotName(slotIndex);
+            //Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName);
+
+            try
+            {
+                string slotFileName = SystemString.GetSlotName(slotIndex) + SystemString.JsonExtension;
+                SlotIO.SaveAsync(slotFileName, _cachedSlotData, CancellationToken.None).GetAwaiter().GetResult();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[New Slot Save Error] {slotName} : {e}");
+            }
+            
             
             Debug.Log($"[New Slot Created]: {slotName}, Index : {slotIndex}");
             return true;
@@ -143,18 +190,25 @@ namespace Core.Managers
                 return false;
             }
             
-            string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}";
-            var gameSlot = Util.LoadSaveDataNewtonsoft<GameSlotData>(slotFileName);
+            string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}.json";
+            var gameSlot = SlotIO.LoadAsync(slotFileName, CancellationToken.None).GetAwaiter().GetResult();
             if (gameSlot == null)
             {
                 // TODO : 메타데이터가 있는데 게임 슬롯이 없는 경우는 흔하지는 않다. 이러면 그냥 유효하지 않다 하고 튕겨버리자.
-                Debug.LogError("[로드 실패] : 비유효 데이터가 감지되어 로드할 수 없습니다. 해당 슬롯을 삭제해주세요.");
+                Debug.LogError("[로드 실패] : 슬롯 파일이 없어 로드할 수 없습니다. 해당 슬롯을 삭제해주세요.");
             }
             
             // 할당부
             _cachedSlotData = gameSlot;
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
+            
+            #if UNITY_INCLUDE_TESTS
+            if(!suppressSlotLoadEvent)
+                SlotLoaded?.Invoke(_cachedSlotData); //할당할거 다 하고 호출!
+            #else
+            SlotLoaded?.Invoke(_cachedSlotData);
+            #endif
             
             return true;
         }
@@ -172,9 +226,14 @@ namespace Core.Managers
             
             _cachedSlotData.WriteSnapshot(snapshot); // 쓰기
             
-            string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex);
-            Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName); // IO
-
+            //string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex);
+            //Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName); // IO
+            
+            string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            //??
+            AsyncJobQueue.EnqueueKeyed("save-slot",
+                ct => SlotIO.SaveAsync(slotFileName, _cachedSlotData, ct));
+            
             if (_globalSave.LastPlayedSlotIndex >= 0 &&
                 _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
             {
@@ -183,11 +242,35 @@ namespace Core.Managers
             }
             Debug.Log($"Current Slot Saved : {_cachedSlotData.slotName}");
         }
-
+        
+        /// <summary>
+        /// 외부 요인으로 어쩔 수 없이 저장을 해야할 때 호출하는 저장함수입니다.
+        /// </summary>
+        /// <param name="state">인게임 상태를 캡처해서 저장하므로, GameState에 따라 저장됩니다.</param>
         public void SaveSlotByState(SystemEnum.GameState state)
         {
+            if (!HasCurrentSlot) return;
+
+            if (_stateToFeatures.TryGetValue(state, out List<string> features) && features != null)
+            {
+                foreach(string key in features)
+                    if(_providers.TryGetValue(key, out IFeatureSaveProvider provider))
+                        _cachedSlotData.WriteSnapshot(provider.Capture());
+            }
             
+            _cachedSlotData.lastGameState = state;
+            _cachedSlotData.lastSavedTime = DateTime.Now;
+
+            string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            AsyncJobQueue.EnqueueKeyed("save-slot",
+                ct => SlotIO.SaveAsync(slotFileName, _cachedSlotData, ct));
+            
+            UpdateSlotMetadata();
+            SaveGlobalData();
         }
+
+        public void SaveSlotByCurrentState() => SaveSlotByState(GameManager.Instance.GameState);
+        
         
         private void UpdateSlotMetadata()
         {
@@ -265,30 +348,33 @@ namespace Core.Managers
         #region Asynchronous Save & Load
         public async Task<bool> LoadSlotAsync(int slotIndex, CancellationToken ct)
         {
-            string path = SystemString.GetSlotName(slotIndex) + ".json";
+            string path = SystemString.GetSlotName(slotIndex) + SystemString.JsonExtension;
             GameSlotData loaded = await SlotIO.LoadAsync(path, ct);
 
             _cachedSlotData = loaded;
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
-
-            // (UniTask가 있으면 await UniTask.SwitchToMainThread();)
-            //foreach (var c in _contributors) c.ApplyFrom(_cachedSlotData);
+            
+            SlotLoaded?.Invoke(_cachedSlotData);
             return true;
         }
 
-        public async Task SaveCurrentSlotAsync(SystemEnum.GameState state, CancellationToken ct)
+        public async Task SaveCurrentSlotAsync(SystemEnum.GameState state)
         {
-            // 1) 각 시스템 상태를 DTO로 수집(메인 스레드)
-            //foreach (var c in _contributors) c.CaptureTo(_cachedSlotData);
+            if (!HasCurrentSlot) return;
+            if (_stateToFeatures.TryGetValue(state, out List<string> features) && features != null)
+            {
+                foreach (string key in features) 
+                    if(_providers.TryGetValue(key, out IFeatureSaveProvider provider))
+                      _cachedSlotData.WriteSnapshot(provider.Capture());
+            }
+            
             _cachedSlotData.lastGameState = state;
             _cachedSlotData.lastSavedTime = DateTime.Now;
-
-            // 2) 파일 쓰기(백그라운드)
-            var path = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + ".json";
-            await SlotIO.SaveAsync(path, _cachedSlotData, ct);
-
-            // 3) 메타데이터 업데이트
+            
+            string path = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            await AsyncJobQueue.EnqueueKeyedWithCompletion("save-slot", token => SlotIO.SaveAsync(path, _cachedSlotData, token));
+            
             UpdateSlotMetadata();
             SaveGlobalData();
         }
@@ -297,12 +383,14 @@ namespace Core.Managers
 
         public void RegisterProvider(IFeatureSaveProvider featureProvider)
         {
-            throw new NotImplementedException();
+            if (featureProvider == null) return;
+            _providers[featureProvider.FeatureName] = featureProvider;
         }
 
         public void UnregisterProvider(IFeatureSaveProvider featureProvider)
         {
-            throw new NotImplementedException();
+            if (featureProvider == null) return;
+            _providers.Remove(featureProvider.FeatureName);
         }
     }
 }

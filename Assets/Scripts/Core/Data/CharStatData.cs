@@ -1,10 +1,15 @@
+using Core.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
 
 namespace Core.Data
 {
-    public partial class CharStatData : Data.SheetData
+    public partial class CharStatData : SheetData
     {
 public long index; // 캐릭터 스탯 ID
 		public int blue; // 청
@@ -26,9 +31,9 @@ public long index; // 캐릭터 스탯 ID
 		public int rangeIncrease; // 사거리증가
 		
 
-        public override Dictionary<long, Data.SheetData> LoadData()
+        public override Dictionary<long, SheetData> LoadData()
         {
-            var dataList = new Dictionary<long, Data.SheetData>();
+            var dataList = new Dictionary<long, SheetData>();
 
             string ListStr = null;
 			int line = 0;
@@ -147,7 +152,7 @@ public long index; // 캐릭터 스탯 ID
 			catch (Exception e)
 			{
 				Debug.LogError($"{this.GetType().Name}의 {line}전후로 데이터 문제 발생");
-				return new Dictionary<long, Data.SheetData>();
+				return new Dictionary<long, SheetData>();
 			}
         }
     }

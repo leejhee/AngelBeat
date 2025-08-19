@@ -7,21 +7,55 @@ using UnityEngine;
 
 namespace Core.Foundation.Utils
 {
+    /// <summary>
+    /// fire-and-forget 패턴의 전역 비동기 작업 큐
+    /// </summary>
     public static class AsyncJobQueue
     {
         /// <summary>
         /// thread-safe한 비동기 큐. SLM이 Producer(작업 delegate 보냄), WorkerLoop 하나가 Consumer(받아서 처리함)
         /// </summary>
-        private static readonly Channel<Func<CancellationToken, Task>> Queue =
-            Channel.CreateUnbounded<Func<CancellationToken, Task>>();
-        private static CancellationTokenSource globalCts = new CancellationTokenSource();
+        private static Channel<Func<CancellationToken, Task>> queue;
+        private static CancellationTokenSource globalCts;
         private static readonly Dictionary<string, CancellationTokenSource> KeyCts = new();
         private static readonly object Gate = new();
-        private static readonly Task _worker = Task.Run(WorkerLoop);
+        private static readonly object WorkerGate = new();
+        private static Task worker;
 
         private static int pendingCount;
         private static TaskCompletionSource<bool> idle = NewIdle();
         private static TaskCompletionSource<bool> NewIdle() => new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        static AsyncJobQueue()
+        {
+            Reset();
+            StartWorker();
+        }
+
+        private static void Reset()
+        {
+            queue = Channel.CreateUnbounded<Func<CancellationToken, Task>>();
+            globalCts?.Dispose();
+            globalCts = new CancellationTokenSource();
+            pendingCount = 0;
+            idle = NewIdle();
+        }
+
+        private static void StartWorker()
+        {
+            lock (WorkerGate)
+            {
+                if (worker is { IsCompleted: false })
+                    return;
+                if(globalCts == null || globalCts.IsCancellationRequested)
+                {
+                    globalCts?.Dispose();
+                    globalCts = new CancellationTokenSource();
+                }
+
+                worker = Task.Run(WorkerLoop);
+            }
+        }
         
         /// <summary>
         /// 대길이같은 역할. 비동기 작업수행을 의미한다.
@@ -30,11 +64,11 @@ namespace Core.Foundation.Utils
         {
             try
             {
-                while (await Queue.Reader.WaitToReadAsync(globalCts.Token))
+                while (await queue.Reader.WaitToReadAsync(globalCts.Token).ConfigureAwait(false))
                 {
-                    while (Queue.Reader.TryRead(out Func<CancellationToken, Task> job))
+                    while (queue.Reader.TryRead(out Func<CancellationToken, Task> job))
                     {
-                        try { await job(globalCts.Token); }
+                        try { await job(globalCts.Token).ConfigureAwait(false); }
                         catch (OperationCanceledException)
                         {/*꺼@지는거지 뭐*/}
                         catch (Exception e) { Debug.LogError($"[AsyncJobQueue] job error: {e}"); }
@@ -51,9 +85,10 @@ namespace Core.Foundation.Utils
 
         public static void Enqueue(Func<CancellationToken, Task> job)
         {
+            EnsureStarted();
             if (Interlocked.Increment(ref pendingCount) == 1)
                 idle = NewIdle();
-            if (!Queue.Writer.TryWrite(job))
+            if (!queue.Writer.TryWrite(job))
             {
                 if (Interlocked.Decrement(ref pendingCount) == 0)
                     idle.TrySetResult(true);
@@ -63,6 +98,7 @@ namespace Core.Foundation.Utils
 
         public static void EnqueueKeyed(string key, Func<CancellationToken, Task> job)
         {
+            EnsureStarted();
             CancellationToken t;
             lock (Gate)
             {
@@ -79,7 +115,7 @@ namespace Core.Foundation.Utils
 
             if (Interlocked.Increment(ref pendingCount) == 1)
                 idle = NewIdle();
-            Queue.Writer.TryWrite(async _ =>
+            queue.Writer.TryWrite(async _ =>
             {
                 try { await job(t); }
                 finally
@@ -93,14 +129,15 @@ namespace Core.Foundation.Utils
                         }
                     }
 
-                    if (Interlocked.Decrement(ref pendingCount) == 0)
-                        idle.TrySetResult(true);
+                    //if (Interlocked.Decrement(ref pendingCount) == 0)
+                    //    idle.TrySetResult(true);
                 }
             });
         }
 
         public static Task EnqueueKeyedWithCompletion(string key, Func<CancellationToken, Task> job)
         {
+            EnsureStarted();
             var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             EnqueueKeyed(key, async ct =>
             {
@@ -133,14 +170,21 @@ namespace Core.Foundation.Utils
                 foreach (var kv in KeyCts.Values) kv.Cancel();
                 foreach (var kv in KeyCts.Values) kv.Dispose();
                 KeyCts.Clear();
-                
-                globalCts.Cancel();
-                globalCts.Dispose();
-                globalCts = new();
             }
+
+            lock (WorkerGate)
+            {
+                try{globalCts?.Cancel();} catch{}
+            }
+            
+            idle?.TrySetResult(true);
+            Reset();
+            StartWorker();
         }
 
         public static Task WaitIdleAsync() => idle.Task;
+
+        public static void EnsureStarted() => StartWorker();
     }
     
 }

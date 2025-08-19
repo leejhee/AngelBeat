@@ -56,7 +56,7 @@ else
         // {1} : 자료형들 (ex: int a)
         // {2} : 파싱
         public static string dataFormat =
-@"using AngelBeat;
+@"using Core.Foundation.Define;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,7 +65,7 @@ using UnityEngine;
 using System.Data;
 using System.Linq;
 
-namespace AngelBeat
+namespace Core.Data
 {{
     public partial class {0} : SheetData
     {{

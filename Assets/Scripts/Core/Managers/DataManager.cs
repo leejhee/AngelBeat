@@ -22,6 +22,7 @@ public partial class DataManager : SingletonObject<DataManager>
 
     public override void Init()
     {
+        ClearCache();
         DataLoad();
         //GameManager.Inst.InitAfterDataLoad();
     }
@@ -29,7 +30,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public void DataLoad()
     {
         // 현재 어셈블리 내에서 SheetData를 상속받는 모든 타입을 찾음
-        var sheetAsm = typeof(Data.SheetData).Assembly;
+        var sheetAsm = typeof(SheetData).Assembly;
         var sheetDataTypes = sheetAsm.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(SheetData)));
 
@@ -64,7 +65,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public T GetData<T>(long Index) where T : SheetData
     {
         string key = typeof(T).ToString();
-        key = key.Replace("AngelBeat.", "");
+        key = key.Replace("Core.Data.", "");
         if (!_cache.ContainsKey(key))
         {
             Debug.LogError($"{key} 데이터 테이블은 존재하지 않습니다.");
@@ -89,7 +90,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public void SetData<T>(int id, T data) where T : SheetData
     {
         string key = typeof(T).ToString();
-        key = key.Replace("AngelBeat.", "");
+        key = key.Replace("Core.Data.", "");
 
         if (_cache.ContainsKey(key))
         {

@@ -115,7 +115,8 @@ namespace DataGenerator
             dataParse = dataParse.Replace("\n", "\n\t\t\t\t\t");
             var dataManagerText = string.Format(DataFormat.dataFormat, excelName, dataRegister, dataParse);
 
-            File.WriteAllText($"../../../Assets/Scripts/SheetData/{excelName}.cs", dataManagerText);
+            //File.WriteAllText($"../../../Assets/Scripts/SheetData/{excelName}.cs", dataManagerText);
+            File.WriteAllText($"../../../Assets/Scripts/Core/Data/{excelName}.cs", dataManagerText);
         }
 
 

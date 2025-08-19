@@ -1,11 +1,15 @@
 using Core.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
 
 namespace Core.Data
 {
-    public partial class SkillData : global::Core.Data.SheetData
+    public partial class SkillData : SheetData
     {
 public long index; // 스킬 ID
 		public string skillName; // 스킬 이름
@@ -27,9 +31,9 @@ public long index; // 스킬 ID
 		public SystemEnum.eSkillUnlock unlockCondition; // 스킬 해금 조건
 		
 
-        public override Dictionary<long, global::Core.Data.SheetData> LoadData()
+        public override Dictionary<long, SheetData> LoadData()
         {
-            var dataList = new Dictionary<long, global::Core.Data.SheetData>();
+            var dataList = new Dictionary<long, SheetData>();
 
             string ListStr = null;
 			int line = 0;
@@ -133,7 +137,7 @@ public long index; // 스킬 ID
 			catch (Exception e)
 			{
 				Debug.LogError($"{this.GetType().Name}의 {line}전후로 데이터 문제 발생");
-				return new Dictionary<long, global::Core.Data.SheetData>();
+				return new Dictionary<long, SheetData>();
 			}
         }
     }

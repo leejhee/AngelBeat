@@ -1,12 +1,15 @@
 using Core.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
 
 namespace Core.Data
 {
-    public partial class ExecutionData : Data.SheetData
+    public partial class ExecutionData : SheetData
     {
 public long index; // 효과 ID
 		
@@ -25,9 +28,9 @@ public long index; // 효과 ID
 		public List<long> nextExecutionList; // 연쇄 실행 Execution List
 		
 
-        public override Dictionary<long, Data.SheetData> LoadData()
+        public override Dictionary<long, SheetData> LoadData()
         {
-            var dataList = new Dictionary<long, Data.SheetData>();
+            var dataList = new Dictionary<long, SheetData>();
 
             string ListStr = null;
 			int line = 0;
@@ -116,7 +119,7 @@ public long index; // 효과 ID
 			catch (Exception e)
 			{
 				Debug.LogError($"{this.GetType().Name}의 {line}전후로 데이터 문제 발생");
-				return new Dictionary<long, Data.SheetData>();
+				return new Dictionary<long, SheetData>();
 			}
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,10 +14,18 @@ namespace Core.GameSave.IO
     /// </summary>
     public static class SlotIO
     {
+        private static readonly ConcurrentDictionary<string, SemaphoreSlim> Locks
+            = new(StringComparer.OrdinalIgnoreCase);
+
+        private static SemaphoreSlim GetLock(string path)
+            => Locks.GetOrAdd(path, _ => new SemaphoreSlim(1, 1));
+
+        private static string userDataRoot;
+        
         /// <summary>
         /// 정돈해주고, 추상타입 받으며, 국제표준형식 시간표현
         /// </summary>
-        private static readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
             Formatting = Formatting.Indented,
             TypeNameHandling = TypeNameHandling.Auto,
@@ -29,37 +39,141 @@ namespace Core.GameSave.IO
         /// <returns>userdata 이하의 경로 반환</returns>
         private static string GetFullPath(string pathOrFileName)
         {
+            if (string.IsNullOrEmpty(userDataRoot))
+                throw new InvalidOperationException("SlotIO.InitUserRoot가 먼저 호출되어야 합니다.");
+
             if (Path.IsPathRooted(pathOrFileName)) return pathOrFileName;
             string file = Path.HasExtension(pathOrFileName) ? pathOrFileName : pathOrFileName + ".json";
-            return Path.Combine(Application.persistentDataPath, "userdata", file);
+            return Path.Combine(userDataRoot, file);
+        }
+
+        public static void InitUserRoot(string userRoot)
+        {
+            userDataRoot = userRoot ?? throw new ArgumentNullException(nameof(userRoot));
+            Directory.CreateDirectory(userDataRoot);
         }
         
         public static async Task<GameSlotData> LoadAsync(string path, CancellationToken ct)
         {
-            return await Task.Run(() =>
+            string final = GetFullPath(path);
+            var gate = GetLock(final);
+            await gate.WaitAsync(ct).ConfigureAwait(false);
+            try
             {
-                ct.ThrowIfCancellationRequested();
-                string json = File.ReadAllText(GetFullPath(path), Encoding.UTF8);
-                return JsonConvert.DeserializeObject<GameSlotData>(json, _jsonSettings);
-            }, ct);
+                if (!File.Exists(final)) return null;
+                await using var fs = new FileStream(
+                    final, FileMode.Open, FileAccess.Read,
+                    FileShare.ReadWrite | FileShare.Delete, 4096,
+                    FileOptions.Asynchronous);
+                using var sr = new StreamReader(fs, Encoding.UTF8);
+                string json = await sr.ReadToEndAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<GameSlotData>(json, JsonSettings);
+            }
+            finally { gate.Release(); }
+            //try
+            //{
+            //    if (!File.Exists(final)) return null;
+            //    return await Task.Run(() =>
+            //    {
+            //        using var fs = new FileStream(final, FileMode.Open, FileAccess.Read,
+            //            FileShare.ReadWrite | FileShare.Delete);
+            //        using var sr = new StreamReader(fs, Encoding.UTF8);
+            //        //ct.ThrowIfCancellationRequested();
+            //        string json = sr.ReadToEnd();
+            //        return JsonConvert.DeserializeObject<GameSlotData>(json, _jsonSettings);
+            //    }, ct).ConfigureAwait(false);
+//
+            //}
+            //finally
+            //{
+            //    gate.Release();
+            //}
+
         }
 
         public static async Task SaveAsync(string path, GameSlotData slot, CancellationToken ct)
         {
-            string dir = Path.GetDirectoryName(GetFullPath(path));
+            string final = GetFullPath(path);
+            string dir = Path.GetDirectoryName(final);
             Directory.CreateDirectory(dir!);
-            string tmp = Path.Combine(dir!, "slot.tmp");
-            string json = JsonConvert.SerializeObject(slot, _jsonSettings);
+            string tmp = Path.Combine(dir!, Path.GetRandomFileName());
+            string json = JsonConvert.SerializeObject(slot, JsonSettings);
             
-            await Task.Run(() =>
+            var gate = GetLock(final);
+            await gate.WaitAsync(ct).ConfigureAwait(false);
+            try
             {
-                ct.ThrowIfCancellationRequested();
-                using FileStream fs = new (tmp, FileMode.Create, FileAccess.Write, FileShare.None);
-                using StreamWriter sw = new (fs, Encoding.UTF8);
-                sw.Write(json);
-                sw.Flush();
-                fs.Flush(true);
-            }, ct);
+                await using (var fs = new FileStream(
+                                 tmp, FileMode.Create, FileAccess.Write, FileShare.None, 4096,
+                                 FileOptions.Asynchronous | FileOptions.WriteThrough))
+                await using (var sw = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    await sw.WriteAsync(json.AsMemory(), ct).ConfigureAwait(false);
+                    await sw.FlushAsync().ConfigureAwait(false);
+                    await fs.FlushAsync(ct).ConfigureAwait(false);
+                }
+
+                const int maxTry = 5;
+                for (int i = 0; i < maxTry; i++)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    try
+                    {
+                        if (File.Exists(final)) File.Replace(tmp, final, null);
+                        else                    File.Move(tmp, final);
+                        break;
+                    }
+                    catch (IOException)
+                    {
+                        await Task.Delay(8 * (i + 1), ct).ConfigureAwait(false);
+                    }
+                }
+                //await Task.Run(() =>
+                //{
+                //    ct.ThrowIfCancellationRequested();
+                //    using (FileStream fs = new(tmp,
+                //               FileMode.Create,
+                //               FileAccess.Write,
+                //               FileShare.None,
+                //               4096,
+                //               FileOptions.Asynchronous))
+                //    using (StreamWriter sw = new(fs, Encoding.UTF8))
+                //    {
+                //        sw.Write(json);
+                //        sw.Flush();
+                //        fs.Flush(true);
+                //    }
+                //    
+                //    const int maxRetries = 10;
+                //    for (int attempt = 0; attempt < maxRetries; attempt++)
+                //    {
+                //        ct.ThrowIfCancellationRequested();
+                //        try
+                //        {
+                //            if (File.Exists(final))
+                //                File.Replace(tmp, final, null);
+                //            else
+                //                File.Move(tmp, final);
+                //            return;
+                //        }
+                //        catch (IOException)
+                //        {
+                //            Thread.Sleep(10 * (attempt + 1));
+                //        }
+                //    }
+//
+                //}, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                gate.Release();
+                TryDelete(tmp);
+            }
+        }
+        
+        static void TryDelete(string p)
+        {
+            try { if (File.Exists(p)) File.Delete(p); } catch { /* ignore */ }
         }
     }
 }

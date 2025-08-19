@@ -32,17 +32,9 @@ namespace Core.GameSave
         
         #region Gameplay Part
         
-        [JsonProperty("exploreData")]
-        public ExploreSnapshot exploreData;
-        
-        [JsonProperty("battleData")]
-        public BattleSnapshot battleData;
-        
-        [JsonProperty("villageData")]
-        public VillageSnapshot villageData;
-        
-        [JsonProperty("features")]
-        public Dictionary<string, FeatureSnapshot> features;
+        [JsonProperty("Features")]
+        //반드시 이 구조로 간다.
+        public Dictionary<string, FeatureSnapshot> Features;
         
         [JsonIgnore] public GameRandom gameRnd;
         
@@ -53,14 +45,14 @@ namespace Core.GameSave
         {
             // 새 슬롯 생성 시의 시간에 따라 난수기 결정. 
             lastSavedTime = DateTime.Now;
-            features ??= new();
+            Features ??= new();
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
         }
 
         public GameSlotData(string slotName)
         {
             lastSavedTime = DateTime.Now;
-            features ??= new();
+            Features ??= new();
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             this.slotName = slotName;
         }
@@ -76,7 +68,7 @@ namespace Core.GameSave
             this.lastSavedTime = lastSavedTime;
             this.lastGameState = lastGameState;
             this.playTimeTicks =  playTimeTicks;
-            features ??= new();
+            Features ??= new();
             gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             Debug.Log($"Game Slot Loaded : {slotName} (saved at {lastSavedTime})");
         }
@@ -91,13 +83,13 @@ namespace Core.GameSave
         public void WriteSnapshot(FeatureSnapshot snapshot)
         {
             if (snapshot == null) return;
-            features ??= new();
-            features[snapshot.Feature] = snapshot;
+            Features ??= new();
+            Features[snapshot.Feature] = snapshot;
         }
         
         public bool TryGet<T>(string featureKey, out T feature) where T : FeatureSnapshot
         {
-            if (features.TryGetValue(featureKey, out var v) && v is T t)
+            if (Features.TryGetValue(featureKey, out var v) && v is T t)
             {
                 feature = t;
                 return true;

@@ -99,7 +99,8 @@ namespace Core.Foundation.Utils
                 fileStream.Close();
             }
         }
-
+        
+        [Obsolete("영속 데이터 관리용 비동기 메소드(SlotIO)를 사용하세요.")]
         public static DataClass LoadSaveData<DataClass>(string fileName = null) where DataClass : class
         {
             if (string.IsNullOrEmpty(fileName))
@@ -149,7 +150,7 @@ namespace Core.Foundation.Utils
             }
             return gameData;
         }
-    
+        //[Obsolete("영속 데이터 관리용 비동기 메소드(SlotIO)를 사용하세요.")]
         public static void SaveJsonNewtonsoft<TSave>(TSave dataClass, string fileName = null) where TSave : class
         {
             if (string.IsNullOrEmpty(fileName))
@@ -179,7 +180,8 @@ namespace Core.Foundation.Utils
         
             Debug.Log($"Saved: {fullPath}");
         }
-
+        
+        //[Obsolete("영속 데이터 관리용 비동기 메소드(SlotIO)를 사용하세요.")]
         public static TSave LoadSaveDataNewtonsoft<TSave>(string fileName = null) where TSave : class
         {
             if (string.IsNullOrEmpty(fileName))
@@ -221,13 +223,7 @@ namespace Core.Foundation.Utils
 
         private static string GetSavePath()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE
-            return Application.dataPath;
-#elif UNITY_ANDROID
-        return Application.persistentDataPath;
-#else
-        return Application.persistentDataPath;
-#endif
+           return Application.persistentDataPath;
         }
 
     }
