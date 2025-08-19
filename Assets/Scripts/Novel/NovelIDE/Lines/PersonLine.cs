@@ -14,8 +14,9 @@ namespace novel
         {
             this.actorLine = line;
 
+            // 얘도 나중에 바꿔줘야함
             
-            this.actorName = NovelManager.Instance.GetCharacterSO(name).novelName;
+            //this.actorName = NovelManager.Instance.GetCharacterSO(name).novelName;
         }
     }
 }
