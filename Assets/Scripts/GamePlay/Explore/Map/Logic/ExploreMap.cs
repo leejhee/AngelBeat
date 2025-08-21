@@ -11,7 +11,6 @@ namespace GamePlay.Explore.Map.Logic
     [Serializable]
     public class ExploreMap
     {
-        private string _randomSeed;
         private Dictionary<Vector2Int, ExploreMapNode> _tileMap = new();
         
 

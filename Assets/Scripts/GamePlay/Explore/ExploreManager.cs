@@ -1,8 +1,11 @@
-﻿using Core.GameSave;
+﻿using Core.Foundation.Define;
+using Core.GameSave;
 using Core.GameSave.Contracts;
 using Core.Managers;
-using System;
+using GamePlay.Character;
+using GamePlay.Explore.Map.Logic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GamePlay.Explore
 {
@@ -26,6 +29,9 @@ namespace GamePlay.Explore
         }
         #endregion
         
+        public SystemEnum.eDungeon dungeon;
+        public ExploreMap mapData;
+        public Party playerParty;
         
         private void Awake()
         {
@@ -39,34 +45,32 @@ namespace GamePlay.Explore
             }
         }
 
-        private ExploreSaveData _exploreData;
-
-        public void SaveCurrentExploration()
-        {
-            
-        }
         
         private void OnEnable()
         {
             SaveLoadManager.Instance.RegisterProvider(this);
-            SaveLoadManager.Instance.SlotLoaded += OnSlotLoaded;
+            if (SaveLoadManager.Instance.CurrentSlot.TryGet("Explore", out ExploreSnapshot explore))
+            {
+                RebuildExploreState(explore);
+            }
+            else
+            {
+                
+            }
+            //SaveLoadManager.Instance.SlotLoaded += OnSlotLoaded;
         }
 
         private void OnDisable()
         {
-            SaveLoadManager.Instance.SlotLoaded -= OnSlotLoaded;
+            //SaveLoadManager.Instance.SlotLoaded -= OnSlotLoaded;
             SaveLoadManager.Instance.UnregisterProvider(this);
         }
 
-        private void OnSlotLoaded(GameSlotData data)
+        private void RebuildExploreState(ExploreSnapshot snapshot)
         {
-            if (data == null) return;
-            if (data.TryGet<ExploreSnapshot>(FeatureName, out var snap))
-            {
-               
-            }
+            
         }
-
+        
         #region IFeatureSaveProvider Members
         public string FeatureName => "Explore";
 

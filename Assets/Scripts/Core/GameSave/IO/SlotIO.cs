@@ -70,25 +70,6 @@ namespace Core.GameSave.IO
                 return JsonConvert.DeserializeObject<GameSlotData>(json, JsonSettings);
             }
             finally { gate.Release(); }
-            //try
-            //{
-            //    if (!File.Exists(final)) return null;
-            //    return await Task.Run(() =>
-            //    {
-            //        using var fs = new FileStream(final, FileMode.Open, FileAccess.Read,
-            //            FileShare.ReadWrite | FileShare.Delete);
-            //        using var sr = new StreamReader(fs, Encoding.UTF8);
-            //        //ct.ThrowIfCancellationRequested();
-            //        string json = sr.ReadToEnd();
-            //        return JsonConvert.DeserializeObject<GameSlotData>(json, _jsonSettings);
-            //    }, ct).ConfigureAwait(false);
-//
-            //}
-            //finally
-            //{
-            //    gate.Release();
-            //}
-
         }
 
         public static async Task SaveAsync(string path, GameSlotData slot, CancellationToken ct)
@@ -128,41 +109,6 @@ namespace Core.GameSave.IO
                         await Task.Delay(8 * (i + 1), ct).ConfigureAwait(false);
                     }
                 }
-                //await Task.Run(() =>
-                //{
-                //    ct.ThrowIfCancellationRequested();
-                //    using (FileStream fs = new(tmp,
-                //               FileMode.Create,
-                //               FileAccess.Write,
-                //               FileShare.None,
-                //               4096,
-                //               FileOptions.Asynchronous))
-                //    using (StreamWriter sw = new(fs, Encoding.UTF8))
-                //    {
-                //        sw.Write(json);
-                //        sw.Flush();
-                //        fs.Flush(true);
-                //    }
-                //    
-                //    const int maxRetries = 10;
-                //    for (int attempt = 0; attempt < maxRetries; attempt++)
-                //    {
-                //        ct.ThrowIfCancellationRequested();
-                //        try
-                //        {
-                //            if (File.Exists(final))
-                //                File.Replace(tmp, final, null);
-                //            else
-                //                File.Move(tmp, final);
-                //            return;
-                //        }
-                //        catch (IOException)
-                //        {
-                //            Thread.Sleep(10 * (attempt + 1));
-                //        }
-                //    }
-//
-                //}, ct).ConfigureAwait(false);
             }
             finally
             {

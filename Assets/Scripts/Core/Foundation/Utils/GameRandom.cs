@@ -70,10 +70,6 @@ namespace Core.Foundation.Utils
          #endregion
      
          #region Core Generation
-         /// <summary>
-         /// 핵심 난수 생성 메서드 - 모든 다른 메서드의 기반
-         /// System.Random.Next()보다 약 2-3배 빠름
-         /// </summary>
          public ulong NextULong()
          {
              ulong s0_local = s0;
@@ -95,9 +91,7 @@ namespace Core.Foundation.Utils
          #endregion
      
          #region Game-Optimized Methods
-         /// <summary>
-         /// System.Random.Next() 대체 - 더 빠름
-         /// </summary>
+
          public int Next()
          {
              return (int)(NextULong() >> 33);
@@ -230,7 +224,7 @@ namespace Core.Foundation.Utils
          }
          #endregion
      
-         #region Advanced Features (System.Random에 없는 기능)
+         #region Advanced Features
          /// <summary>
          /// 독립적인 서브스트림 생성 - 병렬 생성에 유용
          /// </summary>

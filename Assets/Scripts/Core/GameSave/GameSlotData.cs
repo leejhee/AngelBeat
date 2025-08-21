@@ -5,6 +5,7 @@ using UnityEngine;
 using Core.Foundation.Utils;
 using Core.GameSave.Contracts;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using static Core.Foundation.Define.SystemEnum;
 
 namespace Core.GameSave
@@ -16,17 +17,25 @@ namespace Core.GameSave
     public class GameSlotData
     {
         #region System Part
-        [JsonProperty("lastSavedTime")] public DateTime lastSavedTime;
-        [JsonProperty("lastGameState")] public GameState lastGameState;
-        [JsonProperty("playTime")]      public long playTimeTicks;
-        [JsonProperty("slotName")]      public string slotName = "New Game";
+        [JsonProperty("firstCreationTime")] public DateTime firstCreationTime; 
+        [JsonProperty("lastSavedTime")]     public DateTime lastSavedTime;
+        [JsonProperty("lastGameState")]     public GameState lastGameState;
+        [JsonProperty("playTime")]          public long playTimeTicks;
+        [JsonProperty("slotName")]          public string slotName = "New Game";
+        [JsonProperty("slotSeed")]          public ulong SlotSeed;
+        [JsonProperty("RngCounters")]       public Dictionary<string, ulong> RngCounters;
         
-        [JsonIgnore]
+        
+        [JsonIgnore] 
         public TimeSpan PlayTime
         {
             get => new(playTimeTicks);
             set => playTimeTicks = value.Ticks;
         }
+        /// <summary>
+        /// 사용할 의사난수 객체
+        /// </summary>
+        [JsonIgnore] public RngHubStateless RNG;
         
         #endregion        
         
@@ -36,27 +45,24 @@ namespace Core.GameSave
         //반드시 이 구조로 간다.
         public Dictionary<string, FeatureSnapshot> Features;
         
-        [JsonIgnore] public GameRandom gameRnd;
-        
         #endregion
         
-        #region Cosntructor
-        public GameSlotData()
-        {
-            // 새 슬롯 생성 시의 시간에 따라 난수기 결정. 
-            lastSavedTime = DateTime.Now;
-            Features ??= new();
-            gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
-        }
-
+        #region Initialization & Deserialization Event
+        
+        /// <summary>
+        /// 세이브 매니저에서 생성할 시 호출되는 생성자
+        /// </summary>
         public GameSlotData(string slotName)
         {
+            firstCreationTime = DateTime.Now;
             lastSavedTime = DateTime.Now;
             Features ??= new();
-            gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             this.slotName = slotName;
         }
         
+        /// <summary>
+        /// 역직렬화 시 호출되는 생성자.
+        /// </summary>
         [JsonConstructor]
         public GameSlotData(
             [JsonProperty("lastSavedTime")] DateTime lastSavedTime,
@@ -69,10 +75,23 @@ namespace Core.GameSave
             this.lastGameState = lastGameState;
             this.playTimeTicks =  playTimeTicks;
             Features ??= new();
-            gameRnd = new GameRandom((ulong)lastSavedTime.Ticks);
             Debug.Log($"Game Slot Loaded : {slotName} (saved at {lastSavedTime})");
         }
-        
+
+        [OnDeserialized]
+        internal void OnDeserialized(StreamingContext _)
+        {
+            RngCounters ??= new();
+            if (SlotSeed == 0)
+            {
+                Debug.LogError($"[GameSlotData] SlotSeed is 0 for slot '{slotName}'. Seed must be derived at creation.");
+                return;
+            }
+
+            RNG = new RngHubStateless(SlotSeed, RngCounters);
+        }
+
+
         #endregion
         
         #region Read and Write

@@ -200,7 +200,7 @@ namespace Core.Foundation.Utils
             if (!File.Exists(fullPath))
             {
                 Debug.Log($"No save file found: {fullPath}");
-                return default(TSave);
+                return null;
             }
 
             try
@@ -214,10 +214,10 @@ namespace Core.Foundation.Utils
             
                 return JsonConvert.DeserializeObject<TSave>(jsonData, settings);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError($"Failed to load save data: {e.Message}");
-                return default(TSave);
+                return null;
             }
         }
 

@@ -10,15 +10,15 @@ namespace GamePlay.Explore.Map.Logic
     public static class ExploreMapGenerator
     {
         #region Explore Map DB
-        private static ExploreMapConfigDB configDB;
+        private static ExploreMapConfigDB _configDB;
         
         private static ExploreMapConfigDB GetConfigDB()
         {
-            if (configDB == null)
+            if (_configDB == null)
             {
-                configDB = Resources.Load<ExploreMapConfigDB>(SystemString.MapConfigDBPath);
+                _configDB = Resources.Load<ExploreMapConfigDB>(SystemString.MapConfigDBPath);
             }
-            return configDB;
+            return _configDB;
         }
         #endregion
 
@@ -39,10 +39,6 @@ namespace GamePlay.Explore.Map.Logic
             }
             #endregion
             
-            #region Managing Seed
-            System.Random rnd = new(seed);
-            
-            #endregion
             
             var map = new ExploreMap();
             return map;

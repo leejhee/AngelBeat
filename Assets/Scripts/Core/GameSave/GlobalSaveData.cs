@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Foundation.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Core.GameSave
         public readonly string UID;
         
         [JsonProperty("FirstInstallTime")]
-        public readonly long FirstInstallTime;
+        public readonly DateTime FirstInstallTime;
         
         [JsonProperty("GameSlots")]
         public List<SlotMetaData> GameSlots;
@@ -27,6 +28,10 @@ namespace Core.GameSave
         [JsonProperty("GameSettings")]
         public GameSettings GameSettings;
 
+        [JsonProperty("MasterSeed")] 
+        public ulong MasterSeed; 
+        
+        
         #region Properties
         /// <summary>
         /// 마지막으로 플레이한 게임 데이터
@@ -60,27 +65,40 @@ namespace Core.GameSave
         public GlobalSaveData()
         {
             UID = Guid.NewGuid().ToString();
-            FirstInstallTime = DateTime.Now.Ticks;
+            FirstInstallTime = DateTime.Now;
             
             GameSlots = new List<SlotMetaData>();
             GameSettings = new GameSettings();
             LastPlayedSlotIndex = -1;
+
+            MasterSeed = RandomUtil.Mix3(
+                (ulong)FirstInstallTime.Ticks,
+                RandomUtil.StringHash64(UID),
+                1UL);
         }
 
         [JsonConstructor]
         public GlobalSaveData(
             [JsonProperty("UID")] string uid,
-            [JsonProperty("FirstInstallTime")] long firstInstallTime,
+            [JsonProperty("FirstInstallTime")] DateTime firstInstallTime,
             [JsonProperty("GameSettings")] GameSettings gameSettings,
             [JsonProperty("LastPlayedSlotIndex")] int lastPlayedSlotIndex,
-            [JsonProperty("GameSlots")] List<SlotMetaData> gameSlots)
+            [JsonProperty("GameSlots")] List<SlotMetaData> gameSlots,
+            [JsonProperty("MasterSeed")] ulong masterSeed = 0)
         {
             UID = uid ?? Guid.NewGuid().ToString();
             FirstInstallTime = firstInstallTime;
             GameSlots = gameSlots ?? new List<SlotMetaData>();
             LastPlayedSlotIndex = lastPlayedSlotIndex;
             GameSettings = gameSettings ?? new GameSettings();
+            MasterSeed = masterSeed != 0 
+                ? masterSeed 
+                : RandomUtil.Mix3(
+                (ulong)FirstInstallTime.Ticks,
+                RandomUtil.StringHash64(UID),
+                1UL);
         }
+
         #endregion
         
         #region Slot Management Methods
@@ -169,7 +187,7 @@ namespace Core.GameSave
         public string GetSummary()
         {
             return $"UID: {UID}\n" +
-                   $"Install Date: {new DateTime(FirstInstallTime):yyyy-MM-dd}\n" +
+                   $"Install Date: {FirstInstallTime : yyyy-MM-dd}\n" +
                    $"Total Slots: {GameSlots.Count}/{maxSlotCount}\n" +
                    $"Playable Slots: {PlayableSlotCount}\n" +
                    $"Last Played: {(LastPlayedSlotData?.slotName ?? "None")}";

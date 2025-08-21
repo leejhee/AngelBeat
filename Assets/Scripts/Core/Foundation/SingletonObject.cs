@@ -58,7 +58,7 @@ namespace Core.Foundation
                 ConstructorInfo[] constructorPublic = type.GetConstructors(
                     BindingFlags.Instance | BindingFlags.Public);
 
-                if (constructorPublic != null && constructorPublic.Length > 0)
+                if (constructorPublic.Length > 0)
                 {
                     Debug.LogError($"{type.FullName}의 생성자를 확인해주세요. Singleton 은 Public 생성자를 허용하지 않습니다. ");
                     return;

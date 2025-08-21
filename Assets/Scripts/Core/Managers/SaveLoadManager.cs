@@ -49,6 +49,8 @@ namespace Core.Managers
         public bool HasCurrentSlot => _cachedSlotData != null;
         public bool HasLastPlayed => _globalSave?.LastPlayedSlotData is { isEmpty: false };
         
+        
+        
         #endregion
         
         public override void Init()
@@ -95,15 +97,15 @@ namespace Core.Managers
             }
         }
         #endregion
-        
-        public void LoadGlobalData()
+
+        private void LoadGlobalData()
         {
             _globalSave = Util.LoadSaveDataNewtonsoft<GlobalSaveData>(SystemString.GlobalSaveDataPath);
             if (_globalSave == null)
             {
                 _globalSave = new GlobalSaveData();
                 SaveGlobalData();
-                Debug.Log("글로벌 데이터가 없는 관계로 하나 새로 만들겠습니다잉");
+                Debug.Log("첫 설치이므로, 로비 데이터 생성합니다.");
             }
             else
             {
@@ -111,7 +113,7 @@ namespace Core.Managers
             }
         }
 
-        public void SaveGlobalData()
+        private void SaveGlobalData()
         {
             if (_globalSave == null)
             {
@@ -149,13 +151,15 @@ namespace Core.Managers
             slotIndex = _globalSave.GetOrCreateSlot(slotName);
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
-
+            
+            newSlot.SlotSeed = RandomUtil.Mix3(
+                _globalSave.MasterSeed,
+                RandomUtil.StringHash64(slotName),
+                (ulong)slotIndex
+            );
+            newSlot.RNG = new(newSlot.SlotSeed, newSlot.RngCounters);
             _cachedSlotData = newSlot;
             
-            // 슬롯 데이터는 별도로 저장한다.
-            //string slotFileName = SystemString.GetSlotName(slotIndex);
-            //Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName);
-
             try
             {
                 string slotFileName = SystemString.GetSlotName(slotIndex) + SystemString.JsonExtension;
@@ -225,12 +229,8 @@ namespace Core.Managers
             }
             
             _cachedSlotData.WriteSnapshot(snapshot); // 쓰기
-            
-            //string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex);
-            //Util.SaveJsonNewtonsoft(_cachedSlotData, slotFileName); // IO
-            
+
             string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
-            //??
             AsyncJobQueue.EnqueueKeyed("save-slot",
                 ct => SlotIO.SaveAsync(slotFileName, _cachedSlotData, ct));
             
