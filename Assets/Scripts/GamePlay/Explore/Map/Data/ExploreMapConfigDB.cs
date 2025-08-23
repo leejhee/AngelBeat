@@ -12,7 +12,7 @@ namespace GamePlay.Explore.Map.Data
     {
         public SerializableDict<ExploreMapKey, ExploreMapConfig> mapConfigs;
 
-        public ExploreMapConfig GetConfig(SystemEnum.eDungeon dungeonName, int floorNum)
+        public ExploreMapConfig GetConfig(SystemEnum.Dungeon dungeonName, int floorNum)
         {
             var key = new ExploreMapKey(dungeonName, floorNum);
             if (!mapConfigs.ContainsKey(key))
@@ -24,19 +24,19 @@ namespace GamePlay.Explore.Map.Data
                 
         }
 
-        public bool TryGetConfig(SystemEnum.eDungeon dungeonName, int floorNum, out ExploreMapConfig config)
+        public bool TryGetConfig(SystemEnum.Dungeon dungeonName, int floorNum, out ExploreMapConfig config)
         {
             return mapConfigs.TryGetValue(new ExploreMapKey(dungeonName, floorNum), out config);
         }
         
-        public bool HasConfig(SystemEnum.eDungeon dungeonName, int floorNum)
+        public bool HasConfig(SystemEnum.Dungeon dungeonName, int floorNum)
         {
             return mapConfigs.ContainsKey(new ExploreMapKey(dungeonName, floorNum));
         }
         
         #region 디버깅 용도로??
         
-        public List<ExploreMapConfig> GetConfigsByDungeon(SystemEnum.eDungeon dungeonName)
+        public List<ExploreMapConfig> GetConfigsByDungeon(SystemEnum.Dungeon dungeonName)
         {
             var result = new List<ExploreMapConfig>();
             foreach (var pair in mapConfigs.pairs)

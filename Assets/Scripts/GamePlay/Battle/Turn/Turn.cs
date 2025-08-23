@@ -38,7 +38,7 @@ namespace AngelBeat
             TurnOwner.OnUpdate += FocusCamera;
                 
             // Control UI. TODO : 이거 이벤트버스를 써야할까? 그냥 model이 BattleCharManager인거 아닐까..?
-            EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
+            //EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
                 
             #region Control Logic
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using AngelBeat;
+using UnityEngine;
 using UnityEngine.Playables;
 
-namespace AngelBeat
+namespace GamePlay.Skill
 {
     public class SkillMarkerReceiver : MonoBehaviour, INotificationReceiver
     {

@@ -1,19 +1,18 @@
+using AngelBeat;
 using Character.Unit;
 using Core.Data;
 using Core.Foundation.Define;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
-namespace AngelBeat
+namespace GamePlay.Skill
 {
     public class SkillParameter
     {
         public CharBase Caster;
         public List<CharBase> Target;
-        public readonly SystemEnum.eSkillType SkillType;
+        public readonly SystemEnum.ESkillType SkillType;
         public readonly float DamageCalibration;     
         public readonly float Accuracy;              
         public readonly float CritMultiplier;
@@ -27,7 +26,7 @@ namespace AngelBeat
         public SkillParameter(
             CharBase caster, 
             List<CharBase> target,
-            SystemEnum.eSkillType skillType,
+            SystemEnum.ESkillType skillType,
             float damageCalibration = 1,
             float accuracy = 100,
             float critMultiplier = 1)

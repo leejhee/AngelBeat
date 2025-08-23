@@ -12,13 +12,13 @@ namespace GamePlay.Explore.Map.Data
     public class ExploreParameter
     {
         public Party PlayerParty;
-        public SystemEnum.eDungeon DungeonName;
+        public SystemEnum.Dungeon DungeonName;
         public int FloorNum;
 
-        public ExploreParameter(Party playerParty, SystemEnum.eDungeon DungeonName, int FloorNum)
+        public ExploreParameter(Party playerParty, SystemEnum.Dungeon dungeonName, int FloorNum)
         {
             PlayerParty = playerParty;
-            this.DungeonName = DungeonName;
+            this.DungeonName = dungeonName;
             this.FloorNum = FloorNum;
         }
     }
@@ -31,7 +31,7 @@ namespace GamePlay.Explore.Map.Data
     public class ExploreMapConfig : ScriptableObject
     {
         [Header("던전 이름")]
-        public SystemEnum.eDungeon dungeonName;
+        public SystemEnum.Dungeon dungeonName;
         [Header("던전 층")]
         public int floor;
         
@@ -50,6 +50,6 @@ namespace GamePlay.Explore.Map.Data
         [Header("심볼 내 아이템 후보 ID 리스트")]
         public List<int> itemCandidate;
         [Header("심볼 내 이벤트 후보 ENUM 리스트")]
-        public List<SystemEnum.eEvent> eventCandidate;
+        public List<SystemEnum.CellEventType> eventCandidate;
     }
 }

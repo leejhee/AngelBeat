@@ -3,6 +3,7 @@ using AngelBeat.Core.Battle;
 using Character;
 using Core.Foundation.Define;
 using Core.Managers;
+using GamePlay.Battle;
 using GamePlay.Character;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +28,12 @@ namespace Scene
         {
             var testXiaoModel = new CharacterModel(88888888);
             Party playerParty = new (new List<CharacterModel> { testXiaoModel });
-            _src = new DebugMockSource(SystemEnum.eDungeon.MOUNTAIN_BACK, playerParty, "TestMap");
+            _src = new DebugMockSource(SystemEnum.Dungeon.MOUNTAIN_BACK, playerParty, "TestMap");
             
             BattleController.Instance.SetStageSource(_src);
             
-            foreach(var go in battleUI)
-                UIManager.Instance.ShowUI(go);
+            //foreach(var go in battleUI)
+            //    UIManager.Instance.ShowUI(go);
         }
         
         

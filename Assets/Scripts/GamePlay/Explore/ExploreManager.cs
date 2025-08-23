@@ -29,7 +29,7 @@ namespace GamePlay.Explore
         }
         #endregion
         
-        public SystemEnum.eDungeon dungeon;
+        [FormerlySerializedAs("eDungeon")] public SystemEnum.Dungeon dungeon;
         public ExploreMap mapData;
         public Party playerParty;
         

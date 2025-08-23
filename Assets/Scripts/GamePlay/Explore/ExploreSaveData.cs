@@ -2,23 +2,24 @@
 using GamePlay.Character;
 using GamePlay.Explore.Map.Logic;
 using System;
+using UnityEngine.Serialization;
 
 namespace GamePlay.Explore
 {
     [Serializable]
     public class ExploreSaveData
     {
-        public SystemEnum.eDungeon Dungeon;
+        [FormerlySerializedAs("Dungeon")] public SystemEnum.Dungeon dungeon;
         public Party PlayerParty;
         public ExploreMap MapData;
         
         public ExploreSaveData(
             Party playerParty,
-            SystemEnum.eDungeon dungeon
+            SystemEnum.Dungeon dungeon
             //TODO : 추후 인벤토리 넣어야 한다. 레벨스케일링 데이터도!
         )
         {
-            Dungeon = dungeon;
+            this.dungeon = dungeon;
             PlayerParty = playerParty;
         }
         

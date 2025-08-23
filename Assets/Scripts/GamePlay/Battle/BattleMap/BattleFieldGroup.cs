@@ -1,13 +1,14 @@
 ﻿using Core.Foundation.Define;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AngelBeat.Core.Map
 {
     [CreateAssetMenu(fileName = "BattleFieldGroup", menuName = "ScriptableObjects/BattleFieldGroup")]
     public class BattleFieldGroup : ScriptableObject
     {
-        public SystemEnum.eDungeon dungeon;
+        [FormerlySerializedAs("eDungeon")] public SystemEnum.Dungeon dungeon;
         public List<StageField> battlefields;
 
         public StageField GetRandomBattleField()

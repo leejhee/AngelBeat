@@ -14,8 +14,8 @@ public class CharAnim
     {
         _Animator = animator;
     }
-    public void PlayAnimation(PlayerState state)
-    {
-        _Animator.CrossFade($"{state}", 1f, -1, 0);
-    }
+    //public void PlayAnimation(PlayerState state)
+    //{
+    //    _Animator.CrossFade($"{state}", 1f, -1, 0);
+    //}
 }

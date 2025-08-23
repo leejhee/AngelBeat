@@ -1,3 +1,5 @@
+using AngelBeat;
+using AngelBeat.Core.Battle;
 using AngelBeat.Core.Map;
 using AngelBeat.Core.SingletonObjects;
 using AngelBeat.Core.SingletonObjects.Managers;
@@ -5,13 +7,12 @@ using Character.Unit;
 using Core.Foundation.Define;
 using GamePlay.Character;
 using GamePlay.Skill;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using EventBus = Core.Foundation.EventBus;
+using Core.Foundation;
+using GamePlay.Skill.Preview;
 
-namespace AngelBeat.Core.Battle
+namespace GamePlay.Battle
 {
     // 잠시 싱글턴 사용한다.
     public class BattleController : MonoBehaviour
@@ -104,16 +105,16 @@ namespace AngelBeat.Core.Battle
         
         private void BindBattleEvent()
         {
-            EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
-            {
-                _turnManager.ChangeTurn();
-            });
-            EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
-            {
-                // 움직임 관련 
-                Debug.Log("Message Received : OnMoveInput");
-            }); 
-            BattleCharManager.Instance.SubscribeDeathEvents();
+            //EventBus.Instance.SubscribeEvent<OnTurnEndInput>(this, _ =>
+            //{
+            //    _turnManager.ChangeTurn();
+            //});
+            //EventBus.Instance.SubscribeEvent<OnMoveInput>(this, _ =>
+            //{
+            //    // 움직임 관련 
+            //    Debug.Log("Message Received : OnMoveInput");
+            //}); 
+            //BattleCharManager.Instance.SubscribeDeathEvents();
         }
         
         public void ShowSkillPreview(SkillModel targetSkill)
@@ -130,11 +131,11 @@ namespace AngelBeat.Core.Battle
             if (winnerType == SystemEnum.eCharType.Player)
             {
                 // 이겼을 때 보수를 주는 UI를 올린다.
-                UIManager.Instance.ShowUI(gameWinPrefab);
+                //UIManager.Instance.ShowUI(gameWinPrefab);
             }
             else
             {
-                UIManager.Instance.ShowUI(gameOverPrefab);
+                //UIManager.Instance.ShowUI(gameOverPrefab);
             }
 			// 캐릭터 모델 갱신
             

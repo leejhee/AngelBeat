@@ -14,10 +14,10 @@ namespace Core.Data
 public long index; // 스킬 ID
 		public string skillName; // 스킬 이름
 		
-		public SystemEnum.eSkillType skillType; // 스킬 종류
+		public SystemEnum.ESkillType skillType; // 스킬 종류
 		public int skillRange; // 스킬 사용 사거리
 		
-		public SystemEnum.ePivot skillPivot; // 스킬 중심
+		public SystemEnum.EPivot skillPivot; // 스킬 중심
 		public int skillPivotRange; // 스킬 중심거리
 		public int skillCritical; // 치명타 배율
 		public float damageCalibration; // 피해보정계수
@@ -28,7 +28,7 @@ public long index; // 스킬 ID
 		public string skillIconImage; // 스킬 아이콘명
 		public string skillTimeLine; // 스킬 타임라인명
 		
-		public SystemEnum.eSkillUnlock unlockCondition; // 스킬 해금 조건
+		public SystemEnum.SkillUnlock unlockCondition; // 스킬 해금 조건
 		
 
         public override Dictionary<long, SheetData> LoadData()
@@ -66,7 +66,7 @@ public long index; // 스킬 ID
 					if(values[3] == "")
 					    data.skillType = default;
 					else
-					    data.skillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[3]);
+					    data.skillType = (SystemEnum.ESkillType)Enum.Parse(typeof(SystemEnum.ESkillType), values[3]);
 					
 					if(values[4] == "")
 					    data.skillRange = default;
@@ -76,7 +76,7 @@ public long index; // 스킬 ID
 					if(values[5] == "")
 					    data.skillPivot = default;
 					else
-					    data.skillPivot = (SystemEnum.ePivot)Enum.Parse(typeof(SystemEnum.ePivot), values[5]);
+					    data.skillPivot = (SystemEnum.EPivot)Enum.Parse(typeof(SystemEnum.EPivot), values[5]);
 					
 					if(values[6] == "")
 					    data.skillPivotRange = default;
@@ -126,7 +126,7 @@ public long index; // 스킬 ID
 					if(values[15] == "")
 					    data.unlockCondition = default;
 					else
-					    data.unlockCondition = (SystemEnum.eSkillUnlock)Enum.Parse(typeof(SystemEnum.eSkillUnlock), values[15]);
+					    data.unlockCondition = (SystemEnum.SkillUnlock)Enum.Parse(typeof(SystemEnum.SkillUnlock), values[15]);
 					
 
                     dataList[data.index] = data;

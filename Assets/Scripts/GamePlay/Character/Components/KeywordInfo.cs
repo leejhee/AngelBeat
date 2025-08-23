@@ -70,10 +70,10 @@ namespace AngelBeat
                 : Enumerable.Empty<KeywordBase>();
         }
 
-        public void KeywordChange(OnKeywordChange onKeywordChange)
-        {
-            // TODO: 외부로 변화 통지하거나 UI 연동 시 여기 확장
-        }
+       //public void KeywordChange(OnKeywordChange onKeywordChange)
+       //{
+       //    // TODO: 외부로 변화 통지하거나 UI 연동 시 여기 확장
+       //}
         
         public void ExecuteByPhase(eExecutionPhase phase)
         {

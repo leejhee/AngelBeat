@@ -1,6 +1,6 @@
 ﻿{
   "name": "AngelBeat.Core.Foundation",
-  "references": [],
+  "references": ["UnityEngine.UI"],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

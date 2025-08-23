@@ -2,6 +2,7 @@ using AngelBeat.Core.Battle;
 using Character.Unit;
 using Core.Data;
 using Core.Foundation;
+using GamePlay.Battle;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -37,9 +37,9 @@ namespace Character.Unit
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
 
-        private PlayerState _currentState; // 현재 상태
+        //private PlayerState _currentState; // 현재 상태
         private bool _isAction = false;    // 행동중인가? 판별
-        private Dictionary<PlayerState, int> _indexPair = new();
+        //private Dictionary<PlayerState, int> _indexPair = new();
         
         protected long _uid;
 
@@ -106,7 +106,7 @@ namespace Character.Unit
         public ExecutionInfo ExecutionInfo => _executionInfo;
         public SkillInfo SkillInfo => _skillInfo;
         public KeywordInfo KeywordInfo => _keywordInfo;
-        public PlayerState PlayerState => _currentState;
+        //public PlayerState PlayerState => _currentState;
 
         // RULE : set은 반드시 초기화 시에 사용하고, 값 수정 필요 시 get으로만 할 것.
         public CharacterModel CharInfo
@@ -180,10 +180,10 @@ namespace Character.Unit
             {
                 _charAnim.Initialized(_Animator);
             }
-            foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
-            {
-                _indexPair[state] = 0;
-            }
+            //foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
+            //{
+            //    _indexPair[state] = 0;
+            //}
             
             CharInit();
         }
@@ -301,14 +301,14 @@ namespace Character.Unit
         #endregion
 
         #region Character Animation
-        public void SetStateAnimationIndex(PlayerState state, int index = 0)
-        {
-            _indexPair[state] = index;
-        }
-        public void PlayStateAnimation(PlayerState state)
-        {
-            _charAnim.PlayAnimation(state);
-        }
+        //public void SetStateAnimationIndex(PlayerState state, int index = 0)
+        //{
+        //    _indexPair[state] = index;
+        //}
+        //public void PlayStateAnimation(PlayerState state)
+        //{
+        //    _charAnim.PlayAnimation(state);
+        //}
         #endregion
         
         #region Character movement Control

@@ -11,6 +11,6 @@ namespace AngelBeat
         public float FinalDamage;
         public CharBase Attacker;
         public CharBase Target;
-        public SystemEnum.eSkillType SkillType;
+        public SystemEnum.ESkillType SkillType;
     }
 }
