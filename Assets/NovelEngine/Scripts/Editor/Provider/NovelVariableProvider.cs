@@ -8,7 +8,7 @@ namespace novel
     class NovelVariableProvider : SettingsProvider
     {
         private SerializedObject novelSettings;
-        private string path = NovelEditorUtils.GetNovelDataPath(NovelDataType.Variable);
+        private string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Variable);
         public NovelVariableProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
 
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)

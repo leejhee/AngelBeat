@@ -17,7 +17,7 @@ public class NovelCharacterSO : ScriptableObject
     public void Init(string name, List<Sprite> heads)
     {
         characterName = name;
-        MakeHeadDictionary(heads);
+        //MakeHeadDictionary(heads);
     }
     public Sprite GetHead(string head)
     {
@@ -30,20 +30,20 @@ public class NovelCharacterSO : ScriptableObject
 
         return sprite;
     }
-    private void MakeHeadDictionary(List<Sprite> sprites)
-    {
-        foreach (var sprite in sprites)
-        {
-            if (!faceDict.ContainsKey(sprite.name))
-            {
-                if (sprite.name == "Body")
-                    body = sprite;
-                else
-                {
-                    faceDict.Add(sprite.name, sprite);
-                }
+    //private void MakeHeadDictionary(List<Sprite> sprites)
+    //{
+    //    foreach (var sprite in sprites)
+    //    {
+    //        if (!faceDict.ContainsKey(sprite.name))
+    //        {
+    //            if (sprite.name == "Body")
+    //                body = sprite;
+    //            else
+    //            {
+    //                faceDict.Add(sprite.name, sprite);
+    //            }
                     
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 }
