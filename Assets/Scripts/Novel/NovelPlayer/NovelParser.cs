@@ -132,7 +132,7 @@ public static class NovelParser
         {
             var match = labelLine.Match(line);
             string labelName = match.Groups["name"].Value;
-            NovelPlayer.Instance.labelDict.Add(labelName, index);
+            NovelManager.novelPlayer.labelDict.Add(labelName, index);
             Debug.Log($"Label Name : {labelName}\nIndex : {index}");
             return new LabelLine(index, labelName, depth);
 

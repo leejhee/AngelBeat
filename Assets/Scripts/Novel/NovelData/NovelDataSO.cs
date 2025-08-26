@@ -1,0 +1,29 @@
+using Core.Foundation.Utils;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace novel
+{
+    public class NovelCharacterData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, NovelCharacterSO> charDict = new();
+    }
+    public class NovelAudioData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();
+        [SerializeField] private SerializableDict<string, AudioClip> sfxDict = new();
+    }
+    public class NovelVariableData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, float> novelVariableDict = new();
+    }
+    public class NovelBackgroundData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, Texture2D> novelBackgroundDict = new();
+    }
+    public class NovelScriptData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, TextAsset> scriptList = new();
+    }
+}

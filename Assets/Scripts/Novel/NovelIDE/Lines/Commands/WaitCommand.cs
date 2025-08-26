@@ -18,11 +18,11 @@ namespace novel
         {
             if (waitTime > 0)
             {
-                NovelPlayer.Instance.StartWait(waitTime);
+                NovelManager.novelPlayer.StartWait(waitTime);
             }
             else
             {
-                NovelPlayer.Instance.isWait = true;
+                NovelManager.novelPlayer.isWait = true;
             }
                 
         }

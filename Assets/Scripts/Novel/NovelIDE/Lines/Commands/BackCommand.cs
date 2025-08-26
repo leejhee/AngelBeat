@@ -32,11 +32,11 @@ namespace novel
 
 
             // 기존에 있던 배경 오브젝트 제거
-            if (NovelPlayer.Instance.currentBackgroundObject != null)
-                GameObject.Destroy(NovelPlayer.Instance.currentBackgroundObject);
+            if (NovelManager.novelPlayer.currentBackgroundObject != null)
+                GameObject.Destroy(NovelManager.novelPlayer.currentBackgroundObject);
 
             // 배경 프리팹 불러오기
-            GameObject backgroundPrefab = GameObject.Instantiate(NovelPlayer.Instance.backgroundPrefab);
+            GameObject backgroundPrefab = GameObject.Instantiate(NovelManager.novelPlayer.backgroundPrefab);
 
             // 배경 이미지 불러오기
             Sprite sprite = ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
@@ -81,14 +81,14 @@ namespace novel
                 {
                     Debug.Log("페이드아웃");
                     float fadeTime = time ?? 0f;
-                    NovelPlayer.Instance.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
+                    NovelManager.novelPlayer.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
                 }
             }
 
 
 
-            backgroundPrefab.transform.SetParent(NovelPlayer.Instance.backgroundPanel.transform, false);
-            NovelPlayer.Instance.currentBackgroundObject = backgroundPrefab;
+            backgroundPrefab.transform.SetParent(NovelManager.novelPlayer.backgroundPanel.transform, false);
+            NovelManager.novelPlayer.currentBackgroundObject = backgroundPrefab;
         }
         public override bool? IsWait()
         {

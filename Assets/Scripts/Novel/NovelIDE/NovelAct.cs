@@ -30,7 +30,7 @@ namespace novel
         // 이거 인덱스 어디로 가야할지 나중에 한번 체크해야함
         public void JumpToLabel(string label)
         {
-            int targetIndex = NovelPlayer.Instance.labelDict.GetValue(label);
+            int targetIndex = NovelManager.novelPlayer.labelDict.GetValue(label);
             Debug.Log($"{label}라벨의 인덱스 : {targetIndex}");
             currentIndex = targetIndex - 1;
         }

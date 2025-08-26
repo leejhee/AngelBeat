@@ -1,18 +1,25 @@
 #if UNITY_EDITOR
 
 using System.IO;
-using Unity.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
+using UnityEngine.AddressableAssets;
 public enum NovelDataType
 {
     Audio,
     Background,
     Character,
-    Variable
+    Variable,
+    Script
 }
 public static class NovelEditorUtils
 {
+    public const string NovelRoot = "Assets/Addressables/Novel";
+    public const string NovelResourcePath = NovelRoot + "/NovelResourceData";
+
 
     public static T GetOrCreateSettings<T> (string path) where T : ScriptableObject
     {
@@ -24,6 +31,9 @@ public static class NovelEditorUtils
 
             AssetDatabase.CreateAsset(settings, path);
             AssetDatabase.SaveAssets();
+
+            // 어드레서블로 설정 일단 해줄필요는 없는데 나중에 필요할시 수정할것
+            //AddToAddressables(path, address ?? Path.GetFileNameWithoutExtension(path));
         }
         return settings;
     }
@@ -53,13 +63,30 @@ public static class NovelEditorUtils
             current = next;
         }
     }
-    public const string NovelRoot = "Assets/Resources/Novel";
-    public const string NovelResourcePath = NovelRoot + "/NovelResourceData";
 
     public static string GetNovelDataPath(NovelDataType type)
     {
         string path = NovelResourcePath + "/Novel" + type.ToString() + "Data.asset";
         return path;
     }
+
+    //private static void AddToAddressables(string assetPath, string address)
+    //{
+    //    var settings = AddressableAssetSettingsDefaultObject.Settings;
+    //    if (settings == null)
+    //    {
+    //        Debug.LogError("AddressableAssetSettings not found. Make sure Addressables is set up.");
+    //        return;
+    //    }
+
+    //    var group = settings.DefaultGroup;
+    //    var guid = AssetDatabase.AssetPathToGUID(assetPath);
+    //    var entry = settings.CreateOrMoveEntry(guid, group);
+    //    entry.address = address;
+
+    //    EditorUtility.SetDirty(settings);
+    //    AssetDatabase.SaveAssets();
+
+    //}
 }
 #endif

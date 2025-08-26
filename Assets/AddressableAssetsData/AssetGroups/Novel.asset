@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Novel
+  m_EditorClassIdentifier: 
+  m_GroupName: Novel
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 856f43f970b47174891bbd0116a5d479
+  m_SerializeEntries:
+  - m_GUID: 5d4dc45aad65ed540b3ae33faa26a2e7
+    m_Address: NovelAudioData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e02d080a38887524b8a11898b66695be
+    m_Address: NovelBackgroundData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07af4882114a9414e82b3848611bb3e9
+    m_Address: NovelCharacterData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 831fa9de03481f144859e060cc109870
+    m_Address: NovelScriptData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a778a27d5902ef4c970005ba4f78aa2
+    m_Address: NovelVariableData
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b1b4e0a4805ff940a46c7c77e7ea440
+    m_Address: NovelPlayer
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelPlayer
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b2d427cf45449540a2223e179f72a5d
+    m_Address: BackgroundBase
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelPlayer
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e7ce356612690f4591f4d32408099f3
+    m_Address: CharacterStandingBase
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelPlayer
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 931014d0679e2b34baa6e47c376e1f9f
+    m_Address: ChoiceButtonBase
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NovelPlayer
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e5eac6b969c39454285e1fa1bec8abf2, type: 2}
+    - {fileID: 11400000, guid: 4990da241a9404042a36eaf4aff126c1, type: 2}

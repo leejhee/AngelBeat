@@ -8,12 +8,10 @@ public class NovelTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        novel = NovelManager.Instance;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+    }
+    public void OnButtonClick()
+    {
+
     }
 }
