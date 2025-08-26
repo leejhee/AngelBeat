@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class NovelTest : MonoBehaviour
 {
-    NovelManager novel;
+    [SerializeField] private UnityEngine.UI.Button button;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        NovelManager.Init();
+        button.onClick.AddListener(OnButtonClick);
     }
-    public void OnButtonClick()
+    private void OnButtonClick()
     {
-
+        NovelManager.Instance.PlayScript("test");
     }
 }

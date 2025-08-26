@@ -19,6 +19,10 @@ MonoBehaviour:
     keys: []
     values: []
   sfxDict:
-    pairs: []
+    pairs:
+    - key: 
+      value: {fileID: 0}
+    - key: 
+      value: {fileID: 0}
     keys: []
     values: []

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charDict:
     pairs:
-    - key: NewCharacter
+    - key: DonQuixote
       value: {fileID: 11400000, guid: 44fa1c4cac5e9254faa74b82e41232d1, type: 2}
     keys: []
     values: []

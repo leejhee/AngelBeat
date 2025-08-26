@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:novel:NovelScriptData
   scriptList:
     pairs:
-    - key: Test
+    - key: test
       value: {fileID: 2811297602134710623, guid: 5def8bc4108998b43bba7482dd6a7270, type: 3}
     keys: []
     values: []

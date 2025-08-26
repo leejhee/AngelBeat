@@ -1,76 +1,81 @@
-using UnityEngine;
 using novel;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+
 
 public class NovelManager : MonoBehaviour
 {
     public static NovelManager Instance { get; private set; }
-    public NovelResources Data { get; private set; } = new NovelResources();
+    public  NovelResources Data { get; private set; } = new NovelResources();
+
+
     private const string novelPlayerPrefabPath = "NovelPlayer";
     public static NovelPlayer novelPlayer { get; private set; }
+
+    private static readonly SemaphoreSlim _novelPlayerGate = new SemaphoreSlim(1, 1);
 
     public Task Initialization => _initialization;
     public bool IsReady { get; private set; }
 
     Task _initialization = Task.CompletedTask;
-
-
     bool _initStarted;
 
-    public static async Task<NovelManager> EnsureInitialized()
+    public static void Init()
     {
-        // 1) 오브젝트/컴포넌트 확보 (없으면 생성)
         if (Instance == null)
         {
-            var go = GameObject.Find("@Novel") ?? new GameObject("@Novel");
-            var mgr = go.GetComponent<NovelManager>() ?? go.AddComponent<NovelManager>();
-            Instance = mgr;
+            // NovelManager가 이미 씬에 존재하는지 확인
+            var existing = FindObjectOfType<NovelManager>();
+            // 있으면 그걸 사용, 없으면 새로 생성
+            Instance = existing ?? new GameObject("@Novel").AddComponent<NovelManager>();
         }
 
-        // 2) 초기화 1회만 실행
-        await Instance.InitializeIfNeededAsync();
-        return Instance;
+        // 메인 스레드에서 초기화 해야함
+        _ = Instance.InitializeIfNeededAsync();
+
     }
     void Awake()
     {
+        // 싱글톤 패턴
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance ??= this;
-        gameObject.name = "@Novel"; // 이름 강제
-    }
 
+        // 게임 오브젝트 이름 강제
+        gameObject.name = "@Novel";
+
+        // 씬 전환시 파괴되지 않도록 설정
+        DontDestroyOnLoad(gameObject);
+    }
     public Task InitializeIfNeededAsync()
     {
-        if (_initStarted) return _initialization;
+        // 이미 초기화가 시작되었으면 기존 Task 반환
+        if (_initStarted)
+        {
+            Debug.Log("[NovelManager] Initialization already started, returning existing task.");
+            return _initialization;
+        }
+
+
+        // 초기화 시작
         _initStarted = true;
         _initialization = InitializeAsync();
+
         return _initialization;
     }
 
+    // 여기가 진짜 초기화 코드
     private async Task InitializeAsync()
     {
         // 라벨로 SO 전체 로드
         await Data.InitByLabelAsync();
 
-        if (novelPlayer == null)
-        {
-            AsyncOperationHandle<GameObject> handle =
-                    Addressables.LoadAssetAsync<GameObject>(novelPlayerPrefabPath);
-            GameObject prefab = await handle.Task;
 
-            if (prefab != null)
-            {
-                novelPlayer = Instantiate(prefab, this.transform).GetComponent<NovelPlayer>();
-                novelPlayer.gameObject.name = "NovelPlayer";
-                DontDestroyOnLoad(novelPlayer);
-            }
-            else
-            {
-                Debug.LogError($"[NovelManager] Failed to load prefab: {novelPlayerPrefabPath}");
-            }
-        }
+
+        IsReady = true;
     }
     public static async Task ShutdownAsync()
     {
@@ -85,63 +90,78 @@ public class NovelManager : MonoBehaviour
         var go = Instance.gameObject;
         Instance = null;
         if (go != null) Destroy(go);
+
         await Task.Yield();
     }
-
-    //private SerializableDict<string, NovelCharacterSO> _characterSODict = new();
-    //private const string characterSOPath = "Novel/NovelResourceData/CharacterData/CharacterSO";
-
-    //public SerializableDict<string, NovelCharacterSO> characterSODict
-    //{
-    //    get { return _characterSODict; }
-    //    private set { _characterSODict = value; }
-    //}
-
-    //public  void CreateCharacterSOAssets()
-    //{
-    //    string[] characterNames = Enum.GetNames(typeof(CharacterName));
-    //    foreach (var characterName in characterNames)
-    //    {
-    //        Debug.Log($"{characterName}");
-    //        NovelCharacterSOFactory.CreateSpriteDataFromAtlas(characterName);
-    //    }
-    //}
-    //private void LoadCharacterSO()
-    //{
-    //    _characterSODict.Clear();
-
-    //    string[] characterNames = Enum.GetNames(typeof(CharacterName));
-    //    NovelCharacterSO[] characterSOs = ResourceManager.LoadAllAssets<NovelCharacterSO>(characterSOPath);
-    //    if (characterSOs == null || characterSOs.Length == 0)
-    //    {
-    //        Debug.LogError($"캐릭터 SO 불러오기 실패 : {characterSOPath}");
-    //    }
-    //    else
-    //    {
-    //        Debug.Log($"{characterNames.Length}명 SO 불러옴");
-    //    }
-
-    //    foreach (var character in characterSOs)
-    //    {
-    //        _characterSODict.Add(character.name, character);
-    //    }
-
-    //}
-    //public NovelCharacterSO GetCharacterSO(string name)
-    //{
-    //    NovelCharacterSO characterSO = _characterSODict.GetValue(name);
-    //    //_characterSODict.TryGetValue(name, out characterSO);
-    //    if (characterSO == null)
-    //    {
-    //        Debug.LogError($"{name} SO 불러오기 실패");
-    //        return null;
-    //    }
-    //    return characterSO;
-    //}
-    public void PlayScript(string scriptTitle)
+    public async void PlayScript(string scriptTitle)
     {
+        if (IsReady == false)
+        {
+            Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
+            return;
+        }
+        // 노벨 플레이어 인스턴스화 시켜줌
+        await InstantiateNovelPlayer();
+
+        // 원하는 스크립트 장착
+        TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
+        if (script == null)
+        {
+            Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
+            return;
+        }
+        novelPlayer.novelScript = script;
+        // 플레이 해줌
+        novelPlayer.Play();
 
     }
+    private async Task InstantiateNovelPlayer()
+    {
+        await _novelPlayerGate.WaitAsync();
+        try
+        {
+            // 가장 먼저 NovelPlayer 컴포넌트가 자식 오브젝트에 있는지 확인
+            if (novelPlayer == null)
+                novelPlayer = GetComponentInChildren<NovelPlayer>(true);
+            else
+            {
+                Debug.Log(" [NovelManager] NovelPlayer already exists.");
+                return;
+            }
 
+
+            // 없으면 Addressables에서 로드 및 인스턴스화
+            if (novelPlayer == null)
+            {
+                AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(novelPlayerPrefabPath);
+                var prefab = await handle.Task;
+
+                if (prefab != null)
+                {
+                    var go = Instantiate(prefab, transform);
+                    go.name = "NovelPlayer";
+                    novelPlayer = go.GetComponent<NovelPlayer>();
+                    DontDestroyOnLoad(novelPlayer);
+                }
+                else
+                {
+                    Debug.LogError($"[NovelManager] Failed to load prefab: {novelPlayerPrefabPath}");
+                }
+                // prefab 레퍼런스 핸들 해제
+                Addressables.Release(handle);
+
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[NovelManager] Error while checking for existing NovelPlayer: {ex.Message}");
+            return;
+        }
+        finally
+        {
+            _novelPlayerGate.Release();
+        }
+        Debug.Log(" [NovelManager] NovelPlayer instantiated.");
+    }
 
 }

@@ -21,10 +21,12 @@ namespace novel
         {
             if (_handleAll.IsValid()) return;
 
-
             _handleAll = Addressables.LoadAssetsAsync<ScriptableObject>(SettingsLabel, null);
+
+            // 데이터가 로드 될 때까지 대기
             var list = await _handleAll.Task;
 
+            // 로드가 다 되면 타입별로 분류
             foreach (var so in list)
             {
                 switch (so)
@@ -37,6 +39,13 @@ namespace novel
                 }
             }
 
+            foreach (var so in list)
+            {
+                if (so == null)
+                {
+                    Debug.LogError($"{so.name} 데이터가 로드되지 않았음.");
+                }
+            }
         }
         public void OnNovelEnd()
         {

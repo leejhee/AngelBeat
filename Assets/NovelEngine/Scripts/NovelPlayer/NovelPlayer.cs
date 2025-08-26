@@ -11,9 +11,6 @@ using System;
 
 public class NovelPlayer : MonoBehaviour
 {
-
-    //public static NovelPlayer Instance {  get; private set; }
-
     [Header("실행할 노벨 스크립트")]
     public TextAsset novelScript;
     public NovelAct currentAct = new();
@@ -67,30 +64,42 @@ public class NovelPlayer : MonoBehaviour
 
     private void Awake()
     {
-        //if (Instance != null && Instance != this)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
-        //Instance = this;
+
     }
     void Start()
     {
+        // 처음 오브젝트가 생성되었을때는 스크립트 없음
+        novelScript = null;
+
+
+
+
+
+        //var testXiaoModel = new CharacterModel(88888888);
+        //Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
+        //Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+
+
+
+    }
+    public void Play()
+    {
+        // 플레이 해주기 전에 미리 novelScript 세팅해줘야함
+
+        if (novelScript == null)
+        {
+            Debug.LogError("노벨 스크립트가 설정되지 않음");
+            return;
+        }
+
         var lines = novelScript.text.Split('\n');
         currentAct = NovelParser.Parse(lines);
         nextButton.onClick.AddListener(OnNextLineClicked);
+
+
         currentAct.ResetAct();
         _dialoguePanel.SetActive(false);
-
         OnNextLineClicked();
-
-
-        var testXiaoModel = new CharacterModel(88888888);
-        Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
-        Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
-
-
-
     }
     private IEnumerator NextLine()
     {
@@ -349,11 +358,4 @@ public class NovelPlayer : MonoBehaviour
         isWait = false;
         OnNextLineClicked();
     }
-    //[ContextMenu("캐릭터 SO 제작")]
-    //public void CreateCharacterSO()
-    //{
-    //    NovelManager.Instance.CreateCharacterSOAssets();
-    //}
-
-
 }
