@@ -16,7 +16,8 @@ namespace novel
         public bool? wait;
         public BGMCommandType commandType;
 
-        public BgmCommand(int index, string bgmName, int? volume, float? time, float? fade, bool? loop, bool? wait, int depth = 0, BGMCommandType commandType = BGMCommandType.Play) : base(index, DialogoueType.CommandLine, depth)
+        public BgmCommand(int index, string bgmName, int? volume, float? time, float? fade,bool? loop,
+                            bool? wait, BGMCommandType commandType = BGMCommandType.Play) : base(index, DialogoueType.CommandLine)
         {
             this.bgmName = bgmName;
             this.volume = volume;

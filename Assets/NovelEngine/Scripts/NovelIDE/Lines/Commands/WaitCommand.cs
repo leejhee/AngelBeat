@@ -9,7 +9,7 @@ namespace novel
     public class WaitCommand : CommandLine
     {
         float waitTime;
-        public WaitCommand(int index, float waitTime, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public WaitCommand(int index, float waitTime) : base(index, DialogoueType.CommandLine)
         {
             this.waitTime = waitTime;
         }

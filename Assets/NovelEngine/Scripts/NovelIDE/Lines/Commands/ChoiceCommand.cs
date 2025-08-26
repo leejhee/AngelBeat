@@ -12,7 +12,7 @@ namespace novel
     {
         public string argument;
         
-        public ChoiceCommand(int index, string argument, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public ChoiceCommand(int index, string argument) : base(index, DialogoueType.CommandLine)
         {
             this.argument = argument;
         }

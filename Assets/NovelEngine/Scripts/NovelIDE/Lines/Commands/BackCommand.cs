@@ -17,7 +17,8 @@ namespace novel
         public bool? wait;
 
         
-        public BackCommand(int index, string backName,  string transition, Vector2? pos, float? scale, float? time, bool? wait, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public BackCommand(int index, string backName,  string transition,
+                            Vector2? pos, float? scale, float? time, bool? wait) : base(index, DialogoueType.CommandLine)
         {
             this.backName = backName;
             this.transition = transition;

@@ -8,7 +8,7 @@ namespace novel
     public class GotoCommand : CommandLine
     {
         public string label;
-        public GotoCommand(int index, string label, int depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public GotoCommand(int index, string label) : base(index, DialogoueType.CommandLine)
         {
             this.label = label;
         }

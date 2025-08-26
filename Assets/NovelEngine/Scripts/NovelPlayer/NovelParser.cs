@@ -74,7 +74,7 @@ public static class NovelParser
         Debug.Log("파싱 끝");
         return act; 
     }
-    private static NovelLine ParseLine(NovelAct act, string line, int index, int depth = 0, NovelLine upperLine = null)
+    private static NovelLine ParseLine(NovelAct act, string line, int index, NovelLine upperLine = null)
     {
         NovelLine result = null;
         if (subLinePattern.IsMatch(line))
@@ -88,42 +88,10 @@ public static class NovelParser
             }
             else
             {
-                depth++;
-                Debug.Log($"서브라인 파싱 Depth : {depth}"); // 깊이 1 증가
-
-                // depth == 1 equals upperLine == null
-                if (depth == 1)
+                if (act.GetLineFromIndex(index - 1) is CommandLine command)
                 {
-                    if (act.GetLineFromIndex(index - 1) is CommandLine command)
-                    {
-                        command.subLines.Add(ParseLine(act, line, command.subLines.Count + 1, depth, command));
-                    }
-                    else
-                    {
-                        Debug.LogError("Error : 커맨드 라인만 서브라인을 가질수 있음");
-                    }
+                    command.subLines.Add(ParseLine(act, line, command.subLines.Count + 1, command));
                 }
-                //else if (depth > 1 && upperLine != null)
-                //{
-                //    if (upperLine is CommandLine upper)
-                //    {
-                //        if (upper.subLines.Count > 0)
-                //        {
-                //            if (upper.subLines[upper.subLines.Count - 1] is CommandLine nowSub)
-                //            {
-                //                nowSub.subLines.Add(ParseLine(act, line, nowSub.subLines.Count + 1, depth, nowSub));
-                //            }
-                //            else
-                //            {
-                //                Debug.LogError("Error : 커맨드 라인만 서브라인을 가질수 있음");
-                //            }
-                //        }
-                //        else
-                //        {
-                //            Debug.LogError("Error : 서브라인에 문제가 생김");
-                //        }
-                //    }
-                //}
 
 
             }
@@ -134,13 +102,13 @@ public static class NovelParser
             string labelName = match.Groups["name"].Value;
             NovelManager.novelPlayer.labelDict.Add(labelName, index);
             Debug.Log($"Label Name : {labelName}\nIndex : {index}");
-            return new LabelLine(index, labelName, depth);
+            return new LabelLine(index, labelName);
 
         }
         else if (commandLine.IsMatch(line))
         {
 
-            return ParseCommand(index, line, depth);
+            return ParseCommand(index, line);
         }
         else if (personLine.IsMatch(line))
         {
@@ -149,7 +117,7 @@ public static class NovelParser
             string actorLine = match.Groups["line"].Value;
 
             Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
-            return new PersonLine(index, actorName, actorLine, depth);
+            return new PersonLine(index, actorName, actorLine);
         }
         else
         {
@@ -160,7 +128,7 @@ public static class NovelParser
             }
 
             Debug.Log($"Normal : {line}\nIndex : {index}");
-            return new NormalLine(index, normalLine, depth);
+            return new NormalLine(index, normalLine);
         }
 
         if (result == null)
@@ -168,7 +136,7 @@ public static class NovelParser
         else
             return result;
     }
-    private static NovelLine ParseCommand(int index, string line, int depth)
+    private static NovelLine ParseCommand(int index, string line)
     {
         NovelLine result = null;
         if (backCommand.IsMatch(line))
@@ -210,7 +178,7 @@ public static class NovelParser
 
             Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nWait : {wait}\nIndex : {index}");
 
-            result = new BackCommand(index, backName, transition, pos, scale, time, wait, depth);
+            result = new BackCommand(index, backName, transition, pos, scale, time, wait);
 
         }
         else if (bgmCommand.IsMatch(line))
@@ -256,12 +224,12 @@ public static class NovelParser
             }
 
             Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nwait : {wait}\nIndex : {index}");
-            result = new BgmCommand(index, bgmName, volume, time, fade, loop, wait, depth);
+            result = new BgmCommand(index, bgmName, volume, time, fade, loop, wait);
             //act.novelLines.Add(new BgmCommand(index, bgmName, volume, time, fade, loop, wait));
         }
         else if (stopBGMCommand.IsMatch(line))
         {
-            result = new BgmCommand(index, null, null, null, null, null, null, depth ,BGMCommandType.Stop);
+            result = new BgmCommand(index, null, null, null, null, null, null ,BGMCommandType.Stop);
 
             //act.novelLines.Add(new BgmCommand(index, null, null, null, null, null, null, BGMCommandType.Stop));
             Debug.Log($"StopBGM\nIndex : {index}");
@@ -306,7 +274,7 @@ public static class NovelParser
                 else if (waitStr == "wait!")
                     wait = false;
             }
-            result = new CharCommand(index, name, appearance, transition, pos, scale, time, wait, depth);
+            result = new CharCommand(index, name, appearance, transition, pos, scale, time, wait);
             Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}\nIndex : {index}");
             //act.novelLines.Add(new CharCommand(index, name, appearance, transition, pos, scale, time, wait));
         }
@@ -316,7 +284,7 @@ public static class NovelParser
         }
         else if (hideAllCommand.IsMatch(line))
         {
-            result = new CharCommand(index, null, null, null, null, null, null, null, depth, CharCommandType.HideAll);
+            result = new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll);
             Debug.Log("Hide All Command\nIndex : {index}");
             //act.novelLines.Add(new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll));
         }
@@ -327,7 +295,7 @@ public static class NovelParser
             if (choiceMatch.Success)
                 choice = choiceMatch.Groups["choice"].Value;
 
-            result = new ChoiceCommand(index, choice, depth);
+            result = new ChoiceCommand(index, choice);
             //act.novelLines.Add(new ChoiceCommand(index, choice));
             Debug.Log($"Choice : {choice}\nIndex : {index}");
         }
@@ -337,7 +305,7 @@ public static class NovelParser
 
             float waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : 0f;
 
-            result = new WaitCommand(index, waitTime, depth);
+            result = new WaitCommand(index, waitTime);
             //act.novelLines.Add(new WaitCommand(index, waitTime));
             Debug.Log($"Wait \nTime : {waitTime}\nIndex : {index}");
         }
@@ -346,7 +314,7 @@ public static class NovelParser
             var gotoMatch = gotoCommand.Match(line);
             string label = gotoMatch.Groups["label"].Value;
 
-            result = new GotoCommand(index, label, depth);
+            result = new GotoCommand(index, label);
 
             //act.novelLines.Add(new GotoCommand(index, label));
             Debug.Log($"Goto \nIndex : {index}, Label : {label}");
@@ -368,7 +336,7 @@ public static class NovelParser
             };
             float value = float.Parse(ifMatch.Groups["value"].Value);
 
-            result = new IfCommand(index, IfType.If, var, op, value, depth);
+            result = new IfCommand(index, IfType.If, var, op, value);
             //act.novelLines.Add(new IfCommand(index, IfType.If, var, op, value));
             Debug.Log($"If Command : {var} {op} {value}");
         }

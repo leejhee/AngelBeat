@@ -18,7 +18,8 @@ namespace novel
         bool? wait;
 
         CharCommandType charCommandType;
-        public CharCommand(int index, string name, string appearance, string transition, Vector2? pos, float? scale, float? time, bool? wait, int depth = 0, CharCommandType charCommandType = CharCommandType.Show) : base(index, DialogoueType.CommandLine, depth)
+        public CharCommand(int index, string name, string appearance, string transition, Vector2? pos, float? scale,
+                        float? time, bool? wait, CharCommandType charCommandType = CharCommandType.Show) : base(index, DialogoueType.CommandLine)
         {
             this.charName = name;
             this.appearance = appearance;

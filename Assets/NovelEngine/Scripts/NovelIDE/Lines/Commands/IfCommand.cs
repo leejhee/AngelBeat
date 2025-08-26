@@ -30,7 +30,8 @@ namespace novel
         public float? value;
         
 
-        public IfCommand(int index, IfType typeOfIf = IfType.None, string var = null, CompOP op = CompOP.None, float? value = null, int? depth = 0) : base(index, DialogoueType.CommandLine, depth)
+        public IfCommand(int index, IfType typeOfIf = IfType.None, string var = null,
+                        CompOP op = CompOP.None, float? value = null) : base(index, DialogoueType.CommandLine)
         {
             this.typeOfIf = typeOfIf;
             this.value = value;

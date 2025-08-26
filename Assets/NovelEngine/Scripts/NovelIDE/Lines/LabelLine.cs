@@ -9,7 +9,7 @@ namespace novel
     {
         public string labelName;
 
-        public LabelLine(int index, string labelName, int depth = 0) : base(index, DialogoueType.LabelLine, depth)
+        public LabelLine(int index, string labelName) : base(index, DialogoueType.LabelLine)
         {
             this.labelName = labelName;
         }

@@ -9,7 +9,7 @@ namespace novel
     {
         [SerializeReference]
         public  List<NovelLine> subLines = new();
-        public CommandLine(int index, DialogoueType type, int? depth) : base(index, type, depth) { }
+        public CommandLine(int index, DialogoueType type) : base(index, type) { }
 
         public abstract void Execute();
         public abstract bool? IsWait();

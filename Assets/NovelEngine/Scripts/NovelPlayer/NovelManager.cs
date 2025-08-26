@@ -102,10 +102,12 @@ public class NovelManager : MonoBehaviour
             return;
         }
         // 노벨 플레이어 인스턴스화 시켜줌
-        await InstantiateNovelPlayer();
+        if (novelPlayer == null)
+            await InstantiateNovelPlayer();
 
         // 원하는 스크립트 장착
         TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
+
         if (script == null)
         {
             Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
