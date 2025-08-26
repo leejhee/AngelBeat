@@ -17,7 +17,7 @@ public enum NovelDataType
 }
 public static class NovelEditorUtils
 {
-    public const string NovelRoot = "Assets/Addressables/Novel";
+    public const string NovelRoot = "Assets/NovelEngine/Addressable";
     public const string NovelResourcePath = NovelRoot + "/NovelResourceData";
 
 
