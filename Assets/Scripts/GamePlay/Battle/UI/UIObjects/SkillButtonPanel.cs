@@ -1,4 +1,3 @@
-using AngelBeat.Core.Battle;
 using Character.Unit;
 using GamePlay.Battle;
 using GamePlay.Skill;

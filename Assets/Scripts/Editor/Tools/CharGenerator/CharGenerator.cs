@@ -2,6 +2,7 @@
 using Character.Unit;
 using Core.Data;
 using Core.Foundation.Define;
+using GamePlay.Character.Unit;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;

@@ -1,9 +1,10 @@
-﻿using Core.Foundation.Define;
+﻿using AngelBeat;
+using Core.Foundation.Define;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AngelBeat.Core.Map
+namespace GamePlay.Battle.BattleMap
 {
     [CreateAssetMenu(fileName = "BattleFieldGroup", menuName = "ScriptableObjects/BattleFieldGroup")]
     public class BattleFieldGroup : ScriptableObject

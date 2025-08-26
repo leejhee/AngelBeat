@@ -16,14 +16,18 @@ namespace Core.GameSave
     [Serializable]
     public class GameSlotData
     {
-        #region System Part
+        #region System Field Part
         [JsonProperty("firstCreationTime")] public DateTime firstCreationTime; 
         [JsonProperty("lastSavedTime")]     public DateTime lastSavedTime;
         [JsonProperty("lastGameState")]     public GameState lastGameState;
         [JsonProperty("playTime")]          public long playTimeTicks;
-        [JsonProperty("slotName")]          public string slotName = "New Game";
-        [JsonProperty("slotSeed")]          public ulong SlotSeed;
+        [JsonProperty("slotName")]          public string slotName;
+        [JsonProperty("slotSeed")]          public ulong slotSeed;
         [JsonProperty("RngCounters")]       public Dictionary<string, ulong> RngCounters;
+        
+        [JsonProperty("Features")]
+        //반드시 이 구조로 간다.
+        public Dictionary<string, FeatureSnapshot> Features;
         
         
         [JsonIgnore] 
@@ -39,13 +43,6 @@ namespace Core.GameSave
         
         #endregion        
         
-        #region Gameplay Part
-        
-        [JsonProperty("Features")]
-        //반드시 이 구조로 간다.
-        public Dictionary<string, FeatureSnapshot> Features;
-        
-        #endregion
         
         #region Initialization & Deserialization Event
         
@@ -56,7 +53,7 @@ namespace Core.GameSave
         {
             firstCreationTime = DateTime.Now;
             lastSavedTime = DateTime.Now;
-            Features ??= new();
+            Features ??= new Dictionary<string, FeatureSnapshot>();
             this.slotName = slotName;
         }
         
@@ -74,7 +71,7 @@ namespace Core.GameSave
             this.lastSavedTime = lastSavedTime;
             this.lastGameState = lastGameState;
             this.playTimeTicks =  playTimeTicks;
-            Features ??= new();
+            Features ??= new Dictionary<string, FeatureSnapshot>();
             Debug.Log($"Game Slot Loaded : {slotName} (saved at {lastSavedTime})");
         }
 
@@ -82,13 +79,13 @@ namespace Core.GameSave
         internal void OnDeserialized(StreamingContext _)
         {
             RngCounters ??= new();
-            if (SlotSeed == 0)
+            if (slotSeed == 0)
             {
                 Debug.LogError($"[GameSlotData] SlotSeed is 0 for slot '{slotName}'. Seed must be derived at creation.");
                 return;
             }
 
-            RNG = new RngHubStateless(SlotSeed, RngCounters);
+            RNG = new RngHubStateless(slotSeed, RngCounters);
         }
 
 

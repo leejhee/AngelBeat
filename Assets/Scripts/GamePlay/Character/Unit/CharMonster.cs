@@ -1,10 +1,12 @@
-using AngelBeat;
 using AngelBeat.Core.SingletonObjects.Managers;
+using Character;
+using Character.Unit;
 using Core.Foundation.Define;
 using GamePlay.Character.Components;
+
 //using Modules.BT;
 
-namespace Character.Unit
+namespace GamePlay.Character.Unit
 {
     public class CharMonster : CharBase
     {
