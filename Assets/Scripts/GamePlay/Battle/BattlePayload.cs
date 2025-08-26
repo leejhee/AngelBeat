@@ -1,10 +1,9 @@
 ﻿using Core.Foundation;
 using Core.Foundation.Define;
 using GamePlay.Character;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace AngelBeat.Core.SingletonObjects
+namespace GamePlay.Battle
 {
     public class BattlePayload : SingletonObject<BattlePayload>{
         public Party PlayerParty { get; private set; }

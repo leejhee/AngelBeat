@@ -1,7 +1,0 @@
-﻿{
-  "name": "AngelBeat.UIs",
-  "references": [
-    "UnityEngine.UI",
-    "Unity.TextMeshPro"
-  ]
-}

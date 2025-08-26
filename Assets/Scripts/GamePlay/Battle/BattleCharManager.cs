@@ -1,8 +1,8 @@
-using AngelBeat.Core.Battle;
 using Character.Unit;
 using Core.Data;
 using Core.Foundation;
 using GamePlay.Battle;
+using GamePlay.Character.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;

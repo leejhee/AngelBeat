@@ -1,15 +1,11 @@
 using AngelBeat;
-using AngelBeat.Core.Battle;
-using AngelBeat.Core.Map;
-using AngelBeat.Core.SingletonObjects;
-using AngelBeat.Core.SingletonObjects.Managers;
 using Character.Unit;
 using Core.Foundation.Define;
+using GamePlay.Battle.BattleMap;
 using GamePlay.Character;
 using GamePlay.Skill;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Foundation;
 using GamePlay.Skill.Preview;
 
 namespace GamePlay.Battle

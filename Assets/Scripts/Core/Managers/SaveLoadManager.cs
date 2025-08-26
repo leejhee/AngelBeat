@@ -152,12 +152,12 @@ namespace Core.Managers
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
             
-            newSlot.SlotSeed = RandomUtil.Mix3(
+            newSlot.slotSeed = RandomUtil.Mix3(
                 _globalSave.MasterSeed,
                 RandomUtil.StringHash64(slotName),
                 (ulong)slotIndex
             );
-            newSlot.RNG = new(newSlot.SlotSeed, newSlot.RngCounters);
+            newSlot.RNG = new(newSlot.slotSeed, newSlot.RngCounters);
             _cachedSlotData = newSlot;
             
             try

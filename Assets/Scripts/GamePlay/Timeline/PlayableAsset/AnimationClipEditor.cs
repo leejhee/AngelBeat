@@ -2,8 +2,9 @@
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
+using AnimationPlayableAsset = AngelBeat.AnimationPlayableAsset;
 
-namespace AngelBeat
+namespace GamePlay.Timeline.PlayableAsset
 {
     [CustomTimelineEditor(typeof(AnimationPlayableAsset))]
     public class AnimationClipEditor : ClipEditor

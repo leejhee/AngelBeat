@@ -2,7 +2,7 @@
 using Core.Foundation.Define;
 using GamePlay.Character;
 
-namespace AngelBeat.Core.Battle
+namespace GamePlay.Battle
 {
     public interface IBattleStageSource
     {

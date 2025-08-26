@@ -1,10 +1,9 @@
-﻿using AngelBeat.Core.Battle;
-using UnityEngine;
-using System.Collections.Generic;
-using AngelBeat.Core.SingletonObjects;
+﻿using AngelBeat;
 using Core.Foundation.Define;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace AngelBeat.Core.Map
+namespace GamePlay.Battle.BattleMap
 {
     public class StageLoader : IMapLoader
     {

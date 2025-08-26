@@ -1,5 +1,6 @@
 using AngelBeat.Core.SingletonObjects;
 using Core.Foundation.Define;
+using GamePlay.Battle;
 using GamePlay.Character;
 using Scene;
 using UnityEngine;

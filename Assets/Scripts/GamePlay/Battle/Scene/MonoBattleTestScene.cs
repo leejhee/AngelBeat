@@ -1,5 +1,4 @@
 ﻿using AngelBeat;
-using AngelBeat.Core.Battle;
 using Character;
 using Core.Foundation.Define;
 using Core.Managers;
