@@ -40,7 +40,7 @@ namespace Core.Foundation.Utils
         public int Count => pairs.Count;
 
         [NonSerialized] private Dictionary<TKey, TValue> _runtimeDict;
-    
+
         public void Add(TKey key, TValue value)
         {
             if(ContainsKey(key))

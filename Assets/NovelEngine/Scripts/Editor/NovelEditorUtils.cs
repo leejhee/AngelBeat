@@ -1,11 +1,12 @@
 #if UNITY_EDITOR
 
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
-using UnityEngine;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 public enum NovelDataType
 {
@@ -47,46 +48,55 @@ public static class NovelEditorUtils
         return AssetDatabase.LoadAssetAtPath<T>(path);
     }
 
-    public static void EnsureFolders(string assetPath)
-    {
-        var dir = Path.GetDirectoryName(assetPath)?.Replace("\\", "/");
-        if (string.IsNullOrEmpty(dir)) return;
-        if (AssetDatabase.IsValidFolder(dir)) return;
-
-        var parts = dir.Split('/');
-        string current = parts[0]; // "Assets"
-        for (int i = 1; i < parts.Length; i++)
-        {
-            string next = $"{current}/{parts[i]}";
-            if (!AssetDatabase.IsValidFolder(next))
-                AssetDatabase.CreateFolder(current, parts[i]);
-            current = next;
-        }
-    }
-
-    public static string GetNovelDataPath(NovelDataType type)
+    public static string GetNovelResourceDataPath(NovelDataType type)
     {
         string path = NovelResourcePath + "/Novel" + type.ToString() + "Data.asset";
         return path;
     }
+    /// <summary>
+    /// 에셋을 Addressables에 등록합니다.
+    /// - groupName 지정 시 해당 그룹에, 없으면 기본 그룹에 등록
+    /// - labelName 지정 시 해당 라벨을 부여(없으면 생성), 미지정이면 라벨 변경 없음
+    /// - address 미지정이면 기존 주소 유지
+    /// </summary>
+    public static void AddToAddressables(string assetPath, string address = null, string groupName = null, string labelName = null)
+    {
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        if (settings == null)
+        {
+            Debug.LogError("AddressableAssetSettings not found.");
+            return;
+        }
 
-    //private static void AddToAddressables(string assetPath, string address)
-    //{
-    //    var settings = AddressableAssetSettingsDefaultObject.Settings;
-    //    if (settings == null)
-    //    {
-    //        Debug.LogError("AddressableAssetSettings not found. Make sure Addressables is set up.");
-    //        return;
-    //    }
+        var group = string.IsNullOrEmpty(groupName) ? settings.DefaultGroup : settings.FindGroup(groupName);
+        if (group == null)
+        {
+            Debug.LogError($"Addressables group not found: '{groupName}'. (기본 그룹도 비어 있음)");
+            return;
+        }
 
-    //    var group = settings.DefaultGroup;
-    //    var guid = AssetDatabase.AssetPathToGUID(assetPath);
-    //    var entry = settings.CreateOrMoveEntry(guid, group);
-    //    entry.address = address;
+        var guid = AssetDatabase.AssetPathToGUID(assetPath);
+        if (string.IsNullOrEmpty(guid))
+        {
+            Debug.LogError($"Invalid asset path: {assetPath}");
+            return;
+        }
 
-    //    EditorUtility.SetDirty(settings);
-    //    AssetDatabase.SaveAssets();
+        var entry = settings.CreateOrMoveEntry(guid, group);
+        if (!string.IsNullOrEmpty(address))
+            entry.address = address;
 
-    //}
+        if (!string.IsNullOrEmpty(labelName))
+        {
+            var labels = settings.GetLabels();
+            if (!labels.Contains(labelName))
+                settings.AddLabel(labelName);
+
+            entry.SetLabel(labelName, true, true);
+        }
+
+        EditorUtility.SetDirty(settings);
+        AssetDatabase.SaveAssets();
+    }
 }
 #endif

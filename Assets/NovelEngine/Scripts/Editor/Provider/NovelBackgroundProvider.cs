@@ -10,8 +10,10 @@ namespace novel
     {
         private SerializedObject novelSettings;
 
-        private string path = NovelEditorUtils.GetNovelDataPath(NovelDataType.Background);
+        private string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Background);
         public NovelBackgroundProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
+
+        private bool showBG = true;
 
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
         {
@@ -25,7 +27,40 @@ namespace novel
 
             novelSettings.Update();
 
-            EditorGUILayout.PropertyField(novelSettings.FindProperty("novelBackgroundDict"), new GUIContent("Background List"));
+            EditorGUILayout.LabelField("Background List");
+            var bgProp = novelSettings.FindProperty("novelBackgroundDict").FindPropertyRelative("pairs");
+
+            if (showBG)
+            {
+                EditorGUI.indentLevel++;
+
+
+                for (int i = 0; i < bgProp.arraySize; i++)
+                {
+                    var element = bgProp.GetArrayElementAtIndex(i);
+                    var keyProp = element.FindPropertyRelative("key");
+                    var valueProp = element.FindPropertyRelative("value");
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+                    EditorGUILayout.PropertyField(valueProp, GUIContent.none);
+
+                    EditorGUILayout.EndHorizontal();
+                }
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("+", GUILayout.Width(18)))
+            {
+                bgProp.arraySize++;
+            }
+            if (GUILayout.Button("-", GUILayout.Width(18)))
+            {
+                bgProp.DeleteArrayElementAtIndex(bgProp.arraySize - 1);
+            }
+            EditorGUILayout.EndHorizontal();
 
             novelSettings.ApplyModifiedPropertiesWithoutUndo();
         }
@@ -33,7 +68,7 @@ namespace novel
         [SettingsProvider]
         public static SettingsProvider CreateProvider()
         {
-            return new NovelBackgroundProvider("Project/Novel/Background", SettingsScope.Project)
+            return new NovelBackgroundProvider("Project/Novel/Backgrounds", SettingsScope.Project)
             {
                 keywords = new System.Collections.Generic.HashSet<string>(new[] { "Number" })
             };

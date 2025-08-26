@@ -9,6 +9,7 @@ namespace novel
     {
         [SerializeField] private SerializableDict<string, NovelCharacterSO> charDict = new();
     }
+    [System.Serializable]
     public class NovelAudioData : ScriptableObject
     {
         [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();

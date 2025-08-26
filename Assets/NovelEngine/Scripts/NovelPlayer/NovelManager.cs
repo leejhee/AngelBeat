@@ -16,6 +16,8 @@ public class NovelManager : MonoBehaviour
     public bool IsReady { get; private set; }
 
     Task _initialization = Task.CompletedTask;
+
+
     bool _initStarted;
 
     public static async Task<NovelManager> EnsureInitialized()
