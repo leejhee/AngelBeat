@@ -3,12 +3,13 @@ using Core.Foundation.Define;
 using GamePlay.Character;
 using Scene;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GamePlay.Explore
 {
     public class ExploreBattleSymbol : MonoBehaviour
     {
-        [SerializeField] private SystemEnum.eDungeon dungeon;
+        [FormerlySerializedAs("eDungeon")] [SerializeField] private SystemEnum.Dungeon dungeon;
         
         private void OnTriggerEnter2D(Collider2D other)
         {

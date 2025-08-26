@@ -1,14 +1,15 @@
 ﻿using Core.Foundation.Define;
+using UnityEngine.Serialization;
 
 namespace GamePlay.Explore.Map.Data
 {
     [System.Serializable]
     public struct ExploreMapKey : System.IEquatable<ExploreMapKey>
     {
-        public SystemEnum.eDungeon dungeon;
+        public SystemEnum.Dungeon dungeon;
         public int floor;
 
-        public ExploreMapKey(SystemEnum.eDungeon dungeon, int floor)
+        public ExploreMapKey(SystemEnum.Dungeon dungeon, int floor)
         {
             this.dungeon = dungeon;
             this.floor = floor;

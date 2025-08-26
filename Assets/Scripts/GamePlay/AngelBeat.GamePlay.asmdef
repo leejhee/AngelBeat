@@ -1,0 +1,16 @@
+﻿{
+  "name": "AngelBeat.GamePlay",
+  "references": [
+    "AngelBeat.Core.Data",
+    "AngelBeat.Core.Foundation",
+    "AngelBeat.Core.GameSave",
+    "AngelBeat.Core.GameSave.Contracts",
+    "AngelBeat.Core.Managers",
+    "Unity.Timeline",
+    "Unity.Timeline.Editor",
+    "UnityEngine.UI",
+    "Unity.TextMeshPro",
+    "AngelBeat.UIs"
+  ],
+  "autoReferenced": true
+}

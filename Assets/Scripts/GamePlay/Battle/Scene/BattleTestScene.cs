@@ -8,11 +8,11 @@ namespace Scene
     {
         [SerializeField] private List<GameObject> battleUI;
     
-        void Awake()
-        {
-            foreach(var go in battleUI)
-                UIManager.Instance.ShowUI(go);
-        }
+        //void Awake()
+        //{
+        //    foreach(var go in battleUI)
+        //        UIManager.Instance.ShowUI(go);
+        //}
 
 
     }

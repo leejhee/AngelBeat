@@ -87,7 +87,8 @@ namespace Core.Foundation.Define
         }
 
         #endregion
-
+        
+        #region Gameplay Domain
         public enum eCharType
         {
             None, 
@@ -152,7 +153,7 @@ namespace Core.Foundation.Define
             eMax
         }
 
-        public enum eConditionCheckType
+        public enum EConditionCheckType
         {
             STACK_화상,
         
@@ -161,7 +162,7 @@ namespace Core.Foundation.Define
         
         }
 
-        public enum eConditionOpcode
+        public enum EConditionOpcode
         {
             None,
         
@@ -175,7 +176,7 @@ namespace Core.Foundation.Define
             eMax
         }
 
-        public enum eSkillType
+        public enum ESkillType
         {
             None,
 
@@ -188,7 +189,7 @@ namespace Core.Foundation.Define
 
         }
 
-        public enum ePivot
+        public enum EPivot
         {
             None,
         
@@ -196,7 +197,7 @@ namespace Core.Foundation.Define
             TARGET_ENEMY,
         }
     
-        public enum eDungeon
+        public enum Dungeon
         {
             None,
         
@@ -205,7 +206,7 @@ namespace Core.Foundation.Define
             eMax
         }
 
-        public enum eEvent
+        public enum CellEventType
         {
             DUMMY_1,
             DUMMY_2,
@@ -215,8 +216,22 @@ namespace Core.Foundation.Define
         
             eMax
         }
-    
-    
+        
+        [Serializable]
+        public enum MapCellType
+        {
+            None,
+            Wall,
+            Floor,
+            StartPoint,
+            EndPoint,
+            Battle,
+            BossBattle,
+            Event,
+            EMax
+        }
+        
+        
         #region Execution & Keyword
         public enum eExecutionType
         {
@@ -284,13 +299,13 @@ namespace Core.Foundation.Define
         }
     
         [Flags]
-        public enum eSkillUnlock
+        public enum SkillUnlock
         {
             EUINYEO_SKILL_1,
             EUINYEO_SKILL_2,
             EUINYEO_SKILL_3,
         }
-    
+        #endregion
         public enum NovelCommand
         {
             NormalText,

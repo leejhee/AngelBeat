@@ -1,7 +1,8 @@
 using AngelBeat;
 using AngelBeat.Core.SingletonObjects.Managers;
 using Core.Foundation.Define;
-using Modules.BT;
+using GamePlay.Character.Components;
+//using Modules.BT;
 
 namespace Character.Unit
 {
@@ -17,8 +18,8 @@ namespace Character.Unit
             BattleCharManager.Instance.SetChar(this);
             
             CharInfo = new CharacterModel(Index);
-            BTContext context = new(this);
-            _charAI = new CharAI(context);
+            //BTContext context = new(this);
+            //_charAI = new CharAI(context);
         }
         
         //private Coroutine _aiRoutine;

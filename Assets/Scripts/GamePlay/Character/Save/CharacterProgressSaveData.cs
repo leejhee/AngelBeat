@@ -9,9 +9,9 @@ namespace GamePlay.Character.Save
     {
         #region Skill Locker Part
         [JsonProperty("skillLocker")]
-        public SystemEnum.eSkillUnlock skillLocker;
+        public SystemEnum.SkillUnlock skillLocker;
         
-        public void SetSkillFlag(SystemEnum.eSkillUnlock changingLocker, bool flag)
+        public void SetSkillFlag(SystemEnum.SkillUnlock changingLocker, bool flag)
         {
             if (flag)
             {
@@ -22,7 +22,7 @@ namespace GamePlay.Character.Save
                 skillLocker &= ~changingLocker;
             }
         }
-        public bool GetSkillFlag(SystemEnum.eSkillUnlock target) => skillLocker.HasFlag(target);
+        public bool GetSkillFlag(SystemEnum.SkillUnlock target) => skillLocker.HasFlag(target);
         #endregion
     }
 }

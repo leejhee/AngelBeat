@@ -17,7 +17,7 @@ namespace AngelBeat.Core.Map
         
         public StageField GetBattleField(string stageName=null)
         {
-            SystemEnum.eDungeon dungeon = _stageSource.Dungeon;
+            SystemEnum.Dungeon dungeon = _stageSource.Dungeon;
             
             BattleFieldGroup group = Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
             if (!group)

@@ -27,7 +27,7 @@ namespace GamePlay.Explore.Map.Logic
         /// <param name="floor"> 던전의 층 </param>
         /// <param name="seed"> 맵 생성 관련 랜덤 시드 </param>
         /// <returns>생성된 던전을 반환한다.</returns>
-        public static ExploreMap GenerateMap(SystemEnum.eDungeon dungeon, int floor, int seed)
+        public static ExploreMap GenerateMap(SystemEnum.Dungeon dungeon, int floor, int seed)
         {
             #region Managing Config
             ExploreMapConfigDB db = GetConfigDB();

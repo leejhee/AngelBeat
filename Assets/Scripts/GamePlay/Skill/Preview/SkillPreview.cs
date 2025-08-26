@@ -1,11 +1,9 @@
 ﻿using Character.Unit;
 using Core.Foundation.Define;
-using GamePlay.Skill;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Skill.Preview
 {
     // TODO : outliner 모듈화할 것
     // TODO : capture 쪽 ppu 포함하여 자동화할 것
@@ -25,7 +23,7 @@ namespace AngelBeat
         private CharBase _previewFocus;
         private Vector3 _pivot;     // 무조건 시전자 중심
         private int _range;         // 시전자로부터의 범위
-        private SystemEnum.ePivot _pivotType;
+        private SystemEnum.EPivot _pivotType;
         private int _pointerRange;  // 스킬 시전될 중심으로부터의 범위
         
         public void InitPreview(CharBase focus, SkillModel skillModel)
@@ -62,8 +60,8 @@ namespace AngelBeat
             {
                 if (hitCollider.TryGetComponent(out CharBase target))
                 {
-                    if ((_pivotType == SystemEnum.ePivot.SELF && target != _previewFocus) ||
-                        (_pivotType == SystemEnum.ePivot.TARGET_ENEMY && target == _previewFocus))
+                    if ((_pivotType == SystemEnum.EPivot.SELF && target != _previewFocus) ||
+                        (_pivotType == SystemEnum.EPivot.TARGET_ENEMY && target == _previewFocus))
                     {
                         _spriteRenderer.sprite = null;
                         _spriteRenderer.material = normalMaterial;
@@ -87,7 +85,7 @@ namespace AngelBeat
                         }
                         else if (_pointerRange > 0)
                         {
-                            var center = _pivotType == SystemEnum.ePivot.SELF ?
+                            var center = _pivotType == SystemEnum.EPivot.SELF ?
                                 (Vector2)_pivot : new Vector2(target.CharTransform.position.x, target.CharTransform.position.y);
                             
                             Collider2D[] hits = Physics2D.OverlapBoxAll
