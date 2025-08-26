@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
-
+using Cysharp.Threading.Tasks;
 
 public class NovelManager : MonoBehaviour
 {
@@ -18,10 +17,10 @@ public class NovelManager : MonoBehaviour
 
     private static readonly SemaphoreSlim _novelPlayerGate = new SemaphoreSlim(1, 1);
 
-    public Task Initialization => _initialization;
+    public UniTask Initialization => _initialization;
     public bool IsReady { get; private set; }
 
-    Task _initialization = Task.CompletedTask;
+    UniTask _initialization = UniTask.CompletedTask;
     bool _initStarted;
 
     public static void Init()
@@ -35,7 +34,7 @@ public class NovelManager : MonoBehaviour
         }
 
         // 메인 스레드에서 초기화 해야함
-        _ = Instance.InitializeIfNeededAsync();
+        Instance.InitializeIfNeededAsync().Forget();
 
     }
     void Awake()
@@ -50,7 +49,7 @@ public class NovelManager : MonoBehaviour
         // 씬 전환시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
     }
-    public Task InitializeIfNeededAsync()
+    public UniTask InitializeIfNeededAsync()
     {
         // 이미 초기화가 시작되었으면 기존 Task 반환
         if (_initStarted)
@@ -68,7 +67,7 @@ public class NovelManager : MonoBehaviour
     }
 
     // 여기가 진짜 초기화 코드
-    private async Task InitializeAsync()
+    private async UniTask InitializeAsync()
     {
         // 라벨로 SO 전체 로드
         await Data.InitByLabelAsync();
@@ -77,7 +76,7 @@ public class NovelManager : MonoBehaviour
 
         IsReady = true;
     }
-    public static async Task ShutdownAsync()
+    public static async UniTask ShutdownAsync()
     {
         if (Instance == null) return;
         try { Instance.Data.OnNovelEnd(); } catch { /* ignore */ }
@@ -91,7 +90,9 @@ public class NovelManager : MonoBehaviour
         Instance = null;
         if (go != null) Destroy(go);
 
-        await Task.Yield();
+
+        // 이거 뭔지 공부할것
+        await UniTask.Yield();
     }
     public async void PlayScript(string scriptTitle)
     {
@@ -115,7 +116,7 @@ public class NovelManager : MonoBehaviour
         novelPlayer.Play();
 
     }
-    private async Task InstantiateNovelPlayer()
+    private async UniTask InstantiateNovelPlayer()
     {
         await _novelPlayerGate.WaitAsync();
         try

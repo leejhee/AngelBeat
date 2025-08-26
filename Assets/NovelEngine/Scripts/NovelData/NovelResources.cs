@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace novel
         private const string SettingsLabel = "NovelSettingData";
         private AsyncOperationHandle<IList<ScriptableObject>> _handleAll;
 
-        public async Task InitByLabelAsync()
+        public async UniTask InitByLabelAsync()
         {
             if (_handleAll.IsValid()) return;
 
@@ -43,7 +44,7 @@ namespace novel
             {
                 if (so == null)
                 {
-                    Debug.LogError($"{so.name} 데이터가 로드되지 않았음.");
+                    Debug.LogError("[NovelResources] A null ScriptableObject was loaded by label.");
                 }
             }
         }

@@ -71,16 +71,9 @@ public class NovelPlayer : MonoBehaviour
         // 처음 오브젝트가 생성되었을때는 스크립트 없음
         novelScript = null;
 
-
-
-
-
         //var testXiaoModel = new CharacterModel(88888888);
         //Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
         //Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
-
-
-
     }
     public void Play()
     {
