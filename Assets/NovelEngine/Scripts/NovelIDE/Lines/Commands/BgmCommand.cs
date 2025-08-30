@@ -1,4 +1,5 @@
-using Core.Foundation.Define;
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
