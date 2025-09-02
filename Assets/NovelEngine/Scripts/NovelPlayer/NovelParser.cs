@@ -157,6 +157,25 @@ public static class NovelParser
         else
             return result;
     }
+    private static CommandType GetCommandType(string line)
+    {
+        if (backCommand.IsMatch(line))
+            return CommandType.Background;
+        else if (bgmCommand.IsMatch(line))
+            return CommandType.BGM;
+        else if (sfxCommand.IsMatch(line))
+            return CommandType.SFX;
+        else if (charCommand.IsMatch(line))
+            return CommandType.ShowCharacter;
+        else if (hideCommand.IsMatch(line) || hideAllCommand.IsMatch(line))
+            return CommandType.HideCharacter;
+        else if (choiceCommand.IsMatch(line))
+            return CommandType.Choice;
+        else if (gotoCommand.IsMatch(line))
+            return CommandType.Goto;
+        else
+            return CommandType.None;
+    }
     private static NovelLine ParseCommand(int index, string line)
     {
         NovelLine result = null;
@@ -259,7 +278,7 @@ public static class NovelParser
         {
             var charMatch = charCommand.Match(line);
             string name = charMatch.Groups["name"].Value;
-            string appearance = charMatch.Groups["appearance"].Value;
+            string appearance = charMatch.Groups["appearance"].Value.ToLower();
 
             Vector2? pos = null;
             var PosMatch = posPattern.Match(line);
@@ -278,7 +297,7 @@ public static class NovelParser
             string transition = null;
             var transitionMatch = transitionPattern.Match(line);
             if (transitionMatch.Success)
-                transition = transitionMatch.Groups["transition"].Value;
+                transition = transitionMatch.Groups["transition"].Value.ToLower();
 
             float? time = null;
             var timeMatch = timePattern.Match(line);
@@ -295,13 +314,22 @@ public static class NovelParser
                 else if (waitStr == "wait!")
                     wait = false;
             }
-            result = new CharCommand(index, name, appearance, transition, pos, scale, time, wait);
-            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\ntime : {time}\nwait : {wait}\nIndex : {index}");
-            //act.novelLines.Add(new CharCommand(index, name, appearance, transition, pos, scale, time, wait));
+            CharCommandType charCommandType = CharCommandType.Show;
+            if (transition == "fadeout")
+            {
+                charCommandType = CharCommandType.Hide;
+            }
+
+            result = new CharCommand(index, name, appearance, transition, pos, scale, time, wait, charCommandType);
+            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\nType : {charCommandType}\ntime : {time}\nwait : {wait}\nIndex : {index}");
         }
         else if (hideCommand.IsMatch(line))
         {
-            Debug.Log("hide command\nIndex : {index}");
+            var hideMatch = hideCommand.Match(line);
+            string name = hideMatch.Groups["name"].Value;
+
+            result = new CharCommand(index, name, null, null, null, null, null, null, CharCommandType.Hide);
+            Debug.Log($"hide command\nCharacter : {name}\nIndex : {index}");
         }
         else if (hideAllCommand.IsMatch(line))
         {

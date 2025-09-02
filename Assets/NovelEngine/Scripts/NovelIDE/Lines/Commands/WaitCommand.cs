@@ -19,7 +19,7 @@ namespace novel
         {
             if (waitTime > 0)
             {
-                NovelManager.Player.StartWait(waitTime);
+                NovelManager.Player.StartWaitForseconds(waitTime);
             }
             else
             {

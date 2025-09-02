@@ -20,8 +20,11 @@ namespace novel
 
         public override async UniTask Execute()
         {
+
+
             // 선택지 프리팹 불러오기
-            GameObject choicePrefab = GameObject.Instantiate(NovelManager.Player.choiceButtonPrefab);
+            //GameObject choicePrefab = GameObject.Instantiate(NovelManager.Player.choiceButtonPrefab);
+            GameObject choicePrefab = null;
             choicePrefab.transform.SetParent(NovelManager.Player.choicePanel.transform);
             choicePrefab.GetComponentInChildren<TextMeshProUGUI>().text = argument;
             Button choiceButton = choicePrefab.GetComponent<Button>();

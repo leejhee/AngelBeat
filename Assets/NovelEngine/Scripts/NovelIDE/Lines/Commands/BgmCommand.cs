@@ -1,4 +1,4 @@
-using Core.Scripts.Foundation.Define;
+
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using System.Collections;
@@ -32,14 +32,16 @@ namespace novel
 
         public override async UniTask Execute()
         {
-            if (commandType == BGMCommandType.Stop)
-            {
-                Debug.Log("BGM 중단");
-                SoundManager.Instance.StopBGM();
-                return;
-            }
-            string path = $"Novel/NovelResourceData/SoundData/BGMData/{bgmName}";
-            SoundManager.Instance.Play(path, SystemEnum.Sound.Bgm);
+            // 새로운 노벨엔진 전용 믹서, 사운드 매니저(필요한가?) 사용해서 만들기
+
+            //if (commandType == BGMCommandType.Stop)
+            //{
+            //    Debug.Log("BGM 중단");
+            //    SoundManager.Instance.StopBGM();
+            //    return;
+            //}
+            //string path = $"Novel/NovelResourceData/SoundData/BGMData/{bgmName}";
+            //SoundManager.Instance.Play(path, SystemEnum.Sound.Bgm);
         }
         public override bool? IsWait()
         {

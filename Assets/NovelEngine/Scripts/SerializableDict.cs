@@ -44,7 +44,6 @@ namespace NovelEngine.Scripts
 
         public void Add(TKey key, TValue value)
         {
-            Debug.Log(key);
             if(ContainsKey(key))
                 throw new ArgumentException($"key already exists: {key}");
         

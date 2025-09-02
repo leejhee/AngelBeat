@@ -38,10 +38,14 @@ namespace novel
                 GameObject.Destroy(NovelManager.Player.currentBackgroundObject);
 
             // 배경 프리팹 불러오기
-            GameObject backgroundPrefab = GameObject.Instantiate(NovelManager.Player.backgroundPrefab);
+            //GameObject backgroundPrefab = GameObject.Instantiate(NovelManager.Player.backgroundPrefab);
+            GameObject backgroundPrefab = null;
 
+            // TODO
+            // 리소스 매니저에서 어드레서블로 교체 필요
             // 배경 이미지 불러오기
-            Sprite sprite = Core.Scripts.Managers.ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
+            //Sprite sprite = Core.Scripts.Managers.ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
+            Sprite sprite = null;
             if (sprite == null)
             {
                 Debug.LogError("배경 이미지 불러오기 실패" + backName);
@@ -83,7 +87,7 @@ namespace novel
                 {
                     Debug.Log("페이드아웃");
                     float fadeTime = time ?? 0f;
-                    NovelManager.Player.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
+                    //NovelManager.Player.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
                 }
             }
 

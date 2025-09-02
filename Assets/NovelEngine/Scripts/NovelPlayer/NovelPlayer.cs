@@ -47,25 +47,18 @@ public class NovelPlayer : MonoBehaviour
     public NovelEngine.Scripts.SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
 
-
-    [Header("프리팹")]
-    public GameObject backgroundPrefab;
-    public GameObject standingPrefab;
-    public GameObject choiceButtonPrefab;
-
-
+    // 이거 나중에 설정 가능하도록 바꾸기
     public float typingSpeed = 0.03f;
-    private Coroutine typingCoroutine;
-    public Coroutine currentCommandCoroutine;
 
     private bool isTyping = false;
     private bool isSubLinePlaying = false;
     public bool isWait = false;
-
+    private bool isCommandRunning = false;  // 얘는 wait와는 다르게 진짜 명령어가 실행중이면 cancel 막기 위해서 필요
 
 
     private CancellationTokenSource _typingCts;
     private CancellationToken _destroyToken;
+    private CancellationTokenSource _commandCts;
 
     private void Awake()
     {
@@ -76,9 +69,6 @@ public class NovelPlayer : MonoBehaviour
         // 초기화 작업
         Init();
 
-        //var testXiaoModel = new CharacterModel(88888888);
-        //Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
-        //Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
     }
     private void Init()
     {
@@ -147,7 +137,12 @@ public class NovelPlayer : MonoBehaviour
     }
     private void OnNextLineClicked()
     {
-        
+        if (isCommandRunning)
+        {
+            _commandCts?.Cancel();
+            return;
+        }
+
         // Act가 끝났으면 리턴
         if (isFinished) return;
         // wait 실행중
@@ -225,98 +220,7 @@ public class NovelPlayer : MonoBehaviour
         currentSubline = line;
     }
 
-
-    // 연출관련 함수들은 나중에 모듈로 뺄거임
-    #region 연출 관련
-    public void FadeOut(Image image, float duration, NovelCharacterSO charSO, bool isFadeOut = true )
-    {
-        if (image != null)
-        {
-            NovelManager.Player.currentCommandCoroutine =  StartCoroutine(CharacterFadeOutCoroutine(image, duration, isFadeOut, charSO));
-        }
-    }
-    private IEnumerator CharacterFadeOutCoroutine(Image image, float duration, bool isFadeOut, NovelCharacterSO charSO )
-    {
-        float counter = 0f;
-        Color originalColor = image.color;
-
-        if (isFadeOut)
-        {
-            while(counter < duration)
-            {
-                float alpha = Mathf.Lerp(1f, 0f, counter / duration);
-                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                counter += Time.deltaTime;
-                yield return null;
-
-            }
-            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
-
-            if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))
-            {
-                GameObject destroyObject = null;
-                NovelManager.Player.currentCharacterDict.TryGetValue(charSO, out destroyObject);
-                GameObject.Destroy(destroyObject);
-                NovelManager.Player.currentCharacterDict.Remove(charSO);
-            }
-        }
-        else
-        {
-            //페이드 인 정의
-            while (counter < duration)
-            {
-                float alpha = Mathf.Lerp(0f, 1f, counter/ duration);
-                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                counter += Time.deltaTime;
-                yield return null;
-            }
-            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
-        }
-    }
-    public void BackgroundFadeOut(Image image, float duration, GameObject backObject, bool isFadeOut = true, bool isWait = false)
-    {
-        if (image != null)
-        {
-            StartCoroutine(BackgroundFadeOutCoroutine(image, duration, backObject, isFadeOut, isWait));
-        }
-    }
-    private IEnumerator BackgroundFadeOutCoroutine(Image image, float duration, GameObject backObject, bool isFadeOut, bool isWait)
-    {
-
-        float counter = 0f;
-        Color originalColor = image.color;
-
-        if (isFadeOut)
-        {
-            while (counter < duration)
-            {
-                float alpha = Mathf.Lerp(1f, 0f, counter / duration);
-                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                counter += Time.deltaTime;
-                yield return null;
-            }
-            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
-
-            if (NovelManager.Player.currentBackgroundObject != null)
-            {
-                currentBackgroundObject = null;
-                GameObject.Destroy(backObject);
-            }
-        }
-        else
-        {
-            //페이드 인 정의
-            while (counter < duration)
-            {
-                float alpha = Mathf.Lerp(0f, 1f, counter / duration);
-                image.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                counter += Time.deltaTime;
-                yield return null;
-            }
-            image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f);
-        }
-    }
-    public void StartWait(float time)
+    public void StartWaitForseconds(float time)
     {
         StartCoroutine(WaitCoroutine(time));
     }
@@ -335,14 +239,28 @@ public class NovelPlayer : MonoBehaviour
         isWait = false;
         OnNextLineClicked();
     }
-    #endregion
-
 
     public void Resume()
     {
         isWait = false;
         OnNextLineClicked();
     }
+    public void OnCommandStart()
+    {
+        isCommandRunning = true;
+        _commandCts?.Cancel();
+        _commandCts?.Dispose();
+        _commandCts = new CancellationTokenSource();
+    }
+    public void OnCommandEnd()
+    {
+        isCommandRunning = false;
+        _commandCts?.Cancel();
+        _commandCts?.Dispose();
+        _commandCts = null;
+    }
+    public CancellationToken CommandToken => _commandCts != null ? _commandCts.Token : CancellationToken.None;
+
     private void OnDestroy()
     {
         _typingCts?.Cancel();

@@ -1,11 +1,12 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
 
 namespace novel
 {
@@ -35,17 +36,23 @@ namespace novel
         }
         public override async UniTask Execute()
         {
+            var player = NovelManager.Player;
             try
             {
+                
+                player.OnCommandStart();
+
                 if (charCommandType == CharCommandType.HideAll)
                 {
                     Debug.Log("Hide All 커맨드 실행");
 
                     foreach (var charObject in NovelManager.Player.currentCharacterDict.Values)
                     {
-                        GameObject.Destroy(charObject);
+                        charObject.SetActive(false);
+                        Addressables.ReleaseInstance(charObject);
                     }
                     NovelManager.Player.currentCharacterDict.Clear();
+                    player.OnCommandEnd();
                     return;
                 }
 
@@ -54,80 +61,184 @@ namespace novel
                 if (!charSO)
                 {
                     Debug.LogError($"{charName} 캐릭터 불러오기 실패");
+                    player.OnCommandEnd();
                     return;
                 }
-                            switch (charCommandType)
-            {
-                case CharCommandType.Show:
-                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
-                    {
-
-                    }
-                    else  // 현재 캐릭터가 띄워져 있지 않은 경우
-                    {
-                        GameObject standingObject = null;
-                        Addressables.InstantiateAsync("CharacterStandingBase").Completed += handle =>
+                switch (charCommandType)
+                {
+                    case CharCommandType.Show:
+                        if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우(표정 바꾸기)
                         {
-                            if (handle.Status == AsyncOperationStatus.Succeeded)
+                            NovelManager.Player.currentCharacterDict.TryGetValue(charSO, out GameObject standingObject);
+                            if (standingObject == null)
                             {
-                                standingObject = handle.Result;
-                                Debug.Log("Prefab Loaded: " + standingObject.name);
-
-                                standingObject.name = charSO.name;
-
-
-                                standingObject.transform.SetParent(NovelManager.Player.standingPanel.transform, false);
-                                GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
-                                GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+                                Debug.LogError("현재 캐릭터 딕셔너리에 캐릭터가 있는데 스탠딩 오브젝트가 널임");
+                                break;
+                            }
+                            // 표정 변화
+                            // appearance가 널이면 기본 표정으로 - 머리오브젝트 끄기
+                            if (string.IsNullOrEmpty(appearance))
+                            {
+                                standingObject.transform.GetChild(1).gameObject.SetActive(false);
                             }
                             else
                             {
-                                Debug.LogError("Failed to load prefab.");
+                                // 머리 스프라이트 조정
+                                var headObject = standingObject.transform.GetChild(1).gameObject;
+                                headObject.SetActive(true);
+
+                                var headSprite = charSO.GetHead(appearance);
+
+                                if (headSprite == null)
+                                {
+                                    Debug.LogError($"{charName}의 {appearance} 표정 존재하지 않음");
+                                    break;
+                                }
+                                var headImage = headObject.GetComponent<Image>();
+                                headImage.sprite = headSprite;
+
+                                var headTransform = headObject.GetComponent<RectTransform>();
+                                headTransform.localPosition = charSO.headOffset;
+                                headTransform.sizeDelta = new Vector2(headSprite.rect.width, headSprite.rect.height);
                             }
-                        };
-                    }
-                    break;
-                case CharCommandType.Hide:
-                    Debug.Log($"Hide Character : {charName}");
-                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
-                    {
+                            //if (transition)
+                            //{
+                            //     이미 떠 있는 스탠딩에 대한 페이드 인은 취급하지 않음
+                            //}
+                        }
+                        else  // 현재 캐릭터가 띄워져 있지 않은 경우
+                        {
+                            GameObject standingObject = null;
+                            try
+                            {
+                                var handle = Addressables.InstantiateAsync("CharacterStandingBase",
+                                            NovelManager.Player.standingPanel.transform);
+                                standingObject = await handle.Task;
+                                if (standingObject == null)
+                                {
+                                    Debug.LogError("프리팹 인스턴스화 실패");
+                                    break;
+                                }
+                            }
+                            catch (System.Exception e)
+                            {
+                                Debug.LogError(e);
+                                break;
+                            }
 
-                    }
-                    break;
-                case CharCommandType.Fade:
-                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
-                    {
 
-                    }
-                    break;
-                case CharCommandType.Effect:
-                    // 아직 고려 x
-                    break;
-                default:
-                    Debug.LogError("할당되지 않은 Character 커맨드");
-                    break;
-            }
+                            GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
+                            GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+
+                            standingObject.SetActive(false);
+
+                            var bodySprite = charSO.body;
+                            var bodyImage = bodyObject.GetComponent<Image>();
+                            bodyImage.sprite = bodySprite;
+
+                            var bodyTransform = bodyObject.GetComponent<RectTransform>();
+                            bodyTransform.sizeDelta = new Vector2(bodySprite.rect.width, bodySprite.rect.height);
+
+                            if (string.IsNullOrEmpty(appearance))
+                            {
+                                standingObject.transform.GetChild(1).gameObject.SetActive(false);
+                            }
+                            else
+                            {
+                                headObject.SetActive(true);
+                                var headSprite = charSO.GetHead(appearance);
+                                if (headSprite == null)
+                                {
+                                    Debug.LogError($"{charName}의 {appearance} 표정 존재하지 않음");
+                                    break;
+                                }
+                                var headImage = headObject.GetComponent<Image>();
+                                headImage.sprite = headSprite;
+                                var headTransform = headObject.GetComponent<RectTransform>();
+                                headTransform.localPosition = charSO.headOffset;
+                                headTransform.sizeDelta = new Vector2(headSprite.rect.width, headSprite.rect.height);
+                            }
+
+                            // 위치/스케일 (옵션)
+                            {
+                                var rt = standingObject.GetComponent<RectTransform>();
+                                Vector2 percentPos = pos ?? new Vector2(50, 50);
+                                Vector2 anchor = percentPos / 100f;
+
+                                rt.anchorMin = anchor;
+                                rt.anchorMax = anchor;
+                                rt.pivot = new Vector2(0.5f, 0.5f);
+                                rt.anchoredPosition = Vector2.zero;
+
+                                if (scale.HasValue)
+                                {
+                                    rt.localScale = Vector3.one * scale.Value;
+                                }
+                            }
+
+
+                            bool doFadeIn = transition == "fadein";
+
+                            // CanvasGroup 준비
+                            var cg = standingObject.GetComponent<CanvasGroup>() ?? standingObject.AddComponent<CanvasGroup>();
+
+                            cg.alpha = doFadeIn ? 0f : 1f;  // fadein일 경우 0으로 시작
+
+                            standingObject.SetActive(true);
+
+                            // 페이드 인 연출
+                            if (doFadeIn)
+                            {
+                                float time = this.time ?? 0f;
+                                await NovelUtils.Fade(standingObject.gameObject, time, true, player.CommandToken);
+                            }
+                            NovelManager.Player.currentCharacterDict.Add(charSO, standingObject);
+                        }
+                        break;
+                    case CharCommandType.Hide:
+                        Debug.Log($"Hide Character : {charName}");
+                        if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
+                        {
+                            NovelManager.Player.currentCharacterDict.TryGetValue(charSO, out GameObject standingObject);
+                            if (standingObject == null)
+                            {
+                                Debug.LogError("현재 캐릭터 딕셔너리에 캐릭터가 있는데 스탠딩 오브젝트가 널임");
+                                NovelManager.Player.currentCharacterDict.Remove(charSO);
+                                break;
+                            }
+                            try
+                            {
+                                // 일단은 transition은 페이드 인/아웃만 고려
+                                if (!string.IsNullOrEmpty(transition))
+                                {
+                                    float time = this.time ?? 0f;
+                                    await NovelUtils.Fade(standingObject.gameObject, time, false, player.CommandToken);
+                                }
+                            }
+                            finally
+                            {
+                                standingObject.SetActive(false);
+                                Addressables.ReleaseInstance(standingObject);
+                                NovelManager.Player.currentCharacterDict.Remove(charSO);
+                            }
+                        }
+                        break;
+                    case CharCommandType.Effect:
+                        // 아직 고려 x
+                        break;
+                    default:
+                        Debug.LogError("할당되지 않은 Character 커맨드");
+                        break;
+                }
+                player.OnCommandEnd();
             }
             catch (System.Exception e)
             {
+                player.OnCommandEnd();
                 Debug.LogError(e);
             }
 
-
-
-
-            
-
-
-
-
-
-            // 목표료 하는 스탠딩의 게임오브젝트
-            //GameObject standingObject = null;
-
-
-
-
+        }
             //bool isWait = wait ?? false;
             //if (NovelPlayer.Instance.currentCharacterDict.ContainsKey(charSO))
             //{
@@ -277,8 +388,6 @@ namespace novel
             //    NovelPlayer.Instance.currentCharacterDict.Add(charSO, standingObject);
             //}
 
-
-        }
         public override bool? IsWait()
         {
             return this.wait;

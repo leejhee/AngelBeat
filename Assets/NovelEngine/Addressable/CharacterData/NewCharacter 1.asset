@@ -15,8 +15,18 @@ MonoBehaviour:
   characterName: DonQuixote
   body: {fileID: 420220554, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
   faceDict:
-    pairs: []
-    keys: []
-    values: []
+    pairs:
+    - _key: annoing
+      value: {fileID: -864729973, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
+    - _key: smile
+      value: {fileID: 312581987, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
+    - _key: closeeye
+      value: {fileID: -2042814917, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
+    - _key: 
+      value: {fileID: 0}
+    keys:
+    - smile
+    values:
+    - {fileID: -2042814917, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
   headOffset: {x: -72.4, y: 247.8}
   novelName: "\uB3C8\uD0A4\uD638\uD14C"
