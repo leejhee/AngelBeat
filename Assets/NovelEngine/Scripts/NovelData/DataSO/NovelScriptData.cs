@@ -1,0 +1,23 @@
+using Core.Scripts.Foundation.Utils;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace novel
+{
+
+    public class NovelScriptData : ScriptableObject
+    {
+        [SerializeField] private SerializableDict<string, TextAsset> scriptList = new();
+
+        public TextAsset GetScriptByTitle(string title)
+        {
+            if (scriptList.TryGetValue(title, out var script))
+            {
+                return script;
+            }
+            Debug.LogError($"스크립트 {title} 을(를) 찾을 수 없음.");
+            return null;
+        }
+    }
+}
