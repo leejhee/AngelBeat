@@ -29,13 +29,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - NovelSettingData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 07af4882114a9414e82b3848611bb3e9
+  - m_GUID: e603c56af2769f74f82d79833121f093
     m_Address: NovelCharacterData
     m_ReadOnly: 0
     m_SerializedLabels:
     - NovelSettingData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 831fa9de03481f144859e060cc109870
+  - m_GUID: 0456013cb81a47e4b8181503851ee357
     m_Address: NovelScriptData
     m_ReadOnly: 0
     m_SerializedLabels:

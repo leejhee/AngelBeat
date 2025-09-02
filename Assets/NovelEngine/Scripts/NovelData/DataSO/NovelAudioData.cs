@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace novel
 {
-    //[CreateAssetMenu(fileName = "NovelAudioData", menuName = "Novel/NovelAudioData", order = 0)]
+    [CreateAssetMenu(fileName = "NovelAudioData", menuName = "Novel/NovelAudioData", order = 0)]
     public class NovelAudioData : ScriptableObject
     {
         [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();

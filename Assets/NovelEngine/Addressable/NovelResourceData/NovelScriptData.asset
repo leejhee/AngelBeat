@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 94210b8997639d74cb0805c7a27e83ad, type: 3}
   m_Name: NovelScriptData
-  m_EditorClassIdentifier: Assembly-CSharp:novel:NovelScriptData
+  m_EditorClassIdentifier: 
   scriptList:
     pairs:
     - _key: test

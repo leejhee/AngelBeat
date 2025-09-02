@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace novel
 {
-
+    [CreateAssetMenu(fileName = "NovelScriptData", menuName = "Novel/NovelScriptData", order = 0)]
     public class NovelScriptData : ScriptableObject
     {
         [SerializeField] private NovelEngine.Scripts.SerializableDict<string, TextAsset> scriptList = new();

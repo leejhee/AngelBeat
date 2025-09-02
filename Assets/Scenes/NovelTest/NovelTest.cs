@@ -6,7 +6,6 @@ using UnityEngine;
 public class NovelTest : MonoBehaviour
 {
     [SerializeField] private UnityEngine.UI.Button button;
-
     // Start is called before the first frame update
     void Start()
     {

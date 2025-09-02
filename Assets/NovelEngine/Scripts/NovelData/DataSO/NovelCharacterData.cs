@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace novel
 {
-    //[CreateAssetMenu(fileName = "NovelCharacterData", menuName = "Novel/NovelCharacterData", order = 0)]
+    [CreateAssetMenu(fileName = "NovelCharacterData", menuName = "Novel/NovelCharacterData", order = 0)]
     public class NovelCharacterData : ScriptableObject
     {
         [SerializeField] private SerializableDict<string, NovelCharacterSO> charDict = new();

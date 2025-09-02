@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace novel
 {
+    [CreateAssetMenu(fileName = "NovelBackgroundData", menuName = "Novel/NovelBackgroundData", order = 0)]
     public class NovelBackgroundData : ScriptableObject
     {
 
