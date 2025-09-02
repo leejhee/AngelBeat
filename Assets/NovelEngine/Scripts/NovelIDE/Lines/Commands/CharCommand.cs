@@ -47,8 +47,10 @@ namespace novel
             }
 
 
-            NovelCharacterSO charSO = NovelManager.Data.character.GetCharacterSO(charName);
+            //NovelCharacterSO charSO = NovelManager.Data.character.GetCharacterSO(charName);
 
+            // 이부분 일단 오류때문에 주석처리함
+            NovelCharacterSO charSO = null;
             // SO가 널이면 캐릭터 불러오기 실패
             if (!charSO)
             {
