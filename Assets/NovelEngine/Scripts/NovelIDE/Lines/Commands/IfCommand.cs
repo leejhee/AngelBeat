@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +42,7 @@ namespace novel
         }
 
         // 변수끼리 비교하는 기능 추가할수도 있음
-        public override void Execute()
+        public override async UniTask Execute()
         {
             // 데이터에서 변수값 받아오기
             float realVar = 0;

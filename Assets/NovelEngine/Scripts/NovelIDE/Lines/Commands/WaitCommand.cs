@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,7 @@ namespace novel
             this.waitTime = waitTime;
         }
 
-        public override void Execute()
+        public override async UniTask Execute()
         {
             if (waitTime > 0)
             {

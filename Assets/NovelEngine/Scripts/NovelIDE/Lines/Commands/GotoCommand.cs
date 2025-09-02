@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace novel
             this.label = label;
         }
 
-        public override void Execute()
+        public override async UniTask Execute()
         {
             Debug.Log($"goto 실행 : {label}");
 

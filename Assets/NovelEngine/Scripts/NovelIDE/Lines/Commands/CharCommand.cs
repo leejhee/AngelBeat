@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Cysharp.Threading.Tasks;
 
 namespace novel
 {
@@ -32,57 +33,58 @@ namespace novel
             this.wait = wait;
             this.charCommandType = charCommandType;   
         }
-        public override void Execute()
+        public override async UniTask Execute()
         {
-            if (charCommandType == CharCommandType.HideAll)
+            try
             {
-                Debug.Log("Hide All 커맨드 실행");
-
-                foreach (var charObject in NovelManager.Player.currentCharacterDict.Values)
+                if (charCommandType == CharCommandType.HideAll)
                 {
-                    GameObject.Destroy(charObject);
+                    Debug.Log("Hide All 커맨드 실행");
+
+                    foreach (var charObject in NovelManager.Player.currentCharacterDict.Values)
+                    {
+                        GameObject.Destroy(charObject);
+                    }
+                    NovelManager.Player.currentCharacterDict.Clear();
+                    return;
                 }
-                NovelManager.Player.currentCharacterDict.Clear();
-                return;
-            }
 
-
-            //NovelCharacterSO charSO = NovelManager.Data.character.GetCharacterSO(charName);
-
-            // 이부분 일단 오류때문에 주석처리함
-            NovelCharacterSO charSO = null;
-            // SO가 널이면 캐릭터 불러오기 실패
-            if (!charSO)
-            {
-                Debug.LogError($"{charName} 캐릭터 불러오기 실패");
-                return;
-            }
-
-            switch (charCommandType)
+                NovelCharacterSO charSO = NovelManager.Data.character.GetCharacterByName(charName);
+                // SO가 널이면 캐릭터 불러오기 실패
+                if (!charSO)
+                {
+                    Debug.LogError($"{charName} 캐릭터 불러오기 실패");
+                    return;
+                }
+                            switch (charCommandType)
             {
                 case CharCommandType.Show:
                     if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
                     {
 
+                    }
+                    else  // 현재 캐릭터가 띄워져 있지 않은 경우
+                    {
+                        GameObject standingObject = null;
                         Addressables.InstantiateAsync("CharacterStandingBase").Completed += handle =>
                         {
                             if (handle.Status == AsyncOperationStatus.Succeeded)
                             {
-                                GameObject standingObject = handle.Result;
+                                standingObject = handle.Result;
                                 Debug.Log("Prefab Loaded: " + standingObject.name);
 
                                 standingObject.name = charSO.name;
+
+
+                                standingObject.transform.SetParent(NovelManager.Player.standingPanel.transform, false);
+                                GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
+                                GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+                            }
+                            else
+                            {
+                                Debug.LogError("Failed to load prefab.");
                             }
                         };
-                        
-
-
-                        //GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
-                        //GameObject headObject = standingObject.transform.GetChild(1).gameObject;
-                    }
-                    else  // 캐릭터를 새로 띄워줌
-                    {
-
                     }
                     break;
                 case CharCommandType.Hide:
@@ -105,6 +107,20 @@ namespace novel
                     Debug.LogError("할당되지 않은 Character 커맨드");
                     break;
             }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+            }
+
+
+
+
+            
+
+
+
+
 
             // 목표료 하는 스탠딩의 게임오브젝트
             //GameObject standingObject = null;

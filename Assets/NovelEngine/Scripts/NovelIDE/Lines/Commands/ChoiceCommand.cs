@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.U2D;
+using Cysharp.Threading.Tasks;
 
 namespace novel
 {
@@ -11,13 +12,13 @@ namespace novel
     public class ChoiceCommand : CommandLine
     {
         public string argument;
-        
+
         public ChoiceCommand(int index, string argument) : base(index, DialogoueType.CommandLine)
         {
             this.argument = argument;
         }
 
-        public override void Execute()
+        public override async UniTask Execute()
         {
             // 선택지 프리팹 불러오기
             GameObject choicePrefab = GameObject.Instantiate(NovelManager.Player.choiceButtonPrefab);
@@ -33,7 +34,7 @@ namespace novel
         private void OnClickChoiceButton()
         {
             Debug.Log($"선택지 {argument} 클릭");
-            NovelManager.Player.SetSublinePlaying(subLines);
+            NovelManager.Player.SetSublinePlaying(subLine);
 
 
             // 선택지 오브젝트 제거

@@ -5,7 +5,9 @@ namespace novel
         CommandLine,
         NormalLine,
         PersonLine,
-        LabelLine
+        LabelLine,
+        CommentLine,
+        None
     }
     public enum CommandType
     {

@@ -51,9 +51,11 @@ public static class NovelParser
     private static Regex subLinePattern = new Regex("^ {4}(?<argument>.*)", RegexOptions.Compiled);
     #endregion
     #endregion
-
+    static int parseCound = 0;
     public static NovelAct Parse(string[] lines)
     {
+        Debug.Log($"파싱 시작 {++parseCound}"); 
+
         NovelAct act = new();
         act.novelLines = new();
         List<NovelLine> novelLines = new();
@@ -74,6 +76,19 @@ public static class NovelParser
         Debug.Log("파싱 끝");
         return act; 
     }
+    private static DialogoueType LineType(string line)
+    {
+        if (commentLine.IsMatch(line))
+            return DialogoueType.CommentLine;
+        else if (labelLine.IsMatch(line))
+            return DialogoueType.LabelLine;
+        else if (commandLine.IsMatch(line))
+            return DialogoueType.CommandLine;
+        else if (personLine.IsMatch(line))
+            return DialogoueType.PersonLine;
+        else
+            return DialogoueType.NormalLine;
+    }
     private static NovelLine ParseLine(NovelAct act, string line, int index, NovelLine upperLine = null)
     {
         NovelLine result = null;
@@ -90,49 +105,55 @@ public static class NovelParser
             {
                 if (act.GetLineFromIndex(index - 1) is CommandLine command)
                 {
-                    command.subLines.Add(ParseLine(act, line, command.subLines.Count + 1, command));
+                    command.subLine = ParseLine(act, line, index - 1, command);
                 }
-
-
             }
-        }
-        else if (labelLine.IsMatch(line))
-        {
-            var match = labelLine.Match(line);
-            string labelName = match.Groups["name"].Value;
-            NovelManager.Player.labelDict.Add(labelName, index);
-            Debug.Log($"Label Name : {labelName}\nIndex : {index}");
-            return new LabelLine(index, labelName);
-
-        }
-        else if (commandLine.IsMatch(line))
-        {
-
-            return ParseCommand(index, line);
-        }
-        else if (personLine.IsMatch(line))
-        {
-            var match = personLine.Match(line);
-            string actorName = match.Groups["name"].Value;
-            string actorLine = match.Groups["line"].Value;
-
-            Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
-            return new PersonLine(index, actorName, actorLine);
         }
         else
         {
-            string normalLine = line.Trim();
-            if (normalLine == null || normalLine == "")
+            DialogoueType type = LineType(line);
+            switch (type)
             {
-                return null;
+                case DialogoueType.CommandLine:
+                    result = ParseCommand(index, line);
+                    break;
+                case DialogoueType.NormalLine:
+                    string normalLine = line.Trim();
+                    if (normalLine == null || normalLine == "")
+                    {
+                        return null;
+                    }
+                    Debug.Log($"Normal : {line}\nIndex : {index}");
+
+                    result = new NormalLine(index, normalLine);
+                    break;
+                case DialogoueType.PersonLine:
+                    var personMatch = personLine.Match(line);
+                    string actorName = personMatch.Groups["name"].Value;
+                    string actorLine = personMatch.Groups["line"].Value;
+
+                    Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
+                    result = new PersonLine(index, actorName, actorLine);
+                    break;
+                case DialogoueType.LabelLine:
+                    var labelMatch = labelLine.Match(line);
+                    string labelName = labelMatch.Groups["name"].Value;
+
+                    NovelManager.Player.labelDict.Add(labelName, index);
+                    Debug.Log($"Label Name : {labelName}\nIndex : {index}");
+                    result = new LabelLine(index, labelName);
+                    break;
+                case DialogoueType.CommentLine:
+                    break;
+                case DialogoueType.None:
+                    break;
             }
-
-            Debug.Log($"Normal : {line}\nIndex : {index}");
-            return new NormalLine(index, normalLine);
         }
-
         if (result == null)
+        {
+            Debug.LogWarning($"파싱 실패 : {line} at {index} line" );
             return null;
+        }
         else
             return result;
     }

@@ -1,14 +1,13 @@
-
-using Core.Scripts.Foundation.Utils;
- 
+using Cysharp.Threading.Tasks;
 using novel;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using System;
-using UnityEngine.AddressableAssets;
+using System.Text;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class NovelPlayer : MonoBehaviour
     public NovelAct currentAct = new();
     public NovelEngine.Scripts.SerializableDict<string, int> labelDict = new NovelEngine.Scripts.SerializableDict<string, int>();
     // 현재 실행중인 서브라인
-    public List<NovelLine> currentSublines = new();
+    public NovelLine currentSubline;
 
 
     private bool isFinished = false;
@@ -63,9 +62,14 @@ public class NovelPlayer : MonoBehaviour
     private bool isSubLinePlaying = false;
     public bool isWait = false;
 
+
+
+    private CancellationTokenSource _typingCts;
+    private CancellationToken _destroyToken;
+
     private void Awake()
     {
-
+        _destroyToken = this.GetCancellationTokenOnDestroy();
     }
     void Start()
     {
@@ -92,150 +96,133 @@ public class NovelPlayer : MonoBehaviour
 
         var lines = novelScript.text.Split('\n');
         currentAct = NovelParser.Parse(lines);
-        nextButton.onClick.AddListener(OnNextLineClicked);
 
+        nextButton.onClick.AddListener(OnNextLineClicked);
 
         currentAct.ResetAct();
         _dialoguePanel.SetActive(false);
+        // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
     }
-    private IEnumerator NextLine()
+    private enum LineResult { Continue, Stop, Finished }
+    private async UniTask NextLine()
     {
-        while (true)
+        var result = await ProcessLine();
+        if (result == LineResult.Continue)
         {
-            // wait 실행중
-            if (isWait)
-            {
-                yield break;
-            }
-
-            if (isSubLinePlaying)
-            {
-                if (currentSublines.Count > 0)
-                {
-                    NovelLine subline = currentSublines[0];
-
-                    if (subline is IExecutable execSub)
-                    {
-                        // 커맨드일 경우
-                        execSub.Execute();
-                        currentSublines.RemoveAt(0);
-                        continue;
-                    }
-
-                    // 대사나 나래이션
-                    PlayLine(subline);
-
-                    currentSublines.RemoveAt(0);
-                    yield break;
-                }
-                else
-                {
-                    isSubLinePlaying = false;
-                    continue;
-                }
-            }
-
-
-            var line = currentAct.GetNextLine();
-
-            if (line == null)
-            {
-                isFinished = true;
-                _dialoguePanel.SetActive(false);
-                Debug.Log("스크립트 끝까지 플레이");
-                yield break;
-            }
-            // 라벨일 경우
-            if (line is LabelLine)
-                continue;
-
-            if (line is IExecutable exec)
-            {
-                // 커맨드일 경우
-                exec.Execute();
-                continue;
-            }
-            // 대사나 나래이션
-            PlayLine(line);
-            yield break;
+            await NextLine();
         }
     }
+    private async UniTask<LineResult> ProcessLine()
+    {
+        if (isWait) return LineResult.Stop;
 
+        if (isSubLinePlaying && currentSubline is CommandLine subCommand)
+        {
+            await subCommand.Execute();
+            isSubLinePlaying = false;
+            return LineResult.Continue;
+        }
+
+        var line = currentAct.GetNextLine();
+
+        if (line == null)
+        {
+            isFinished = true;
+            _dialoguePanel.SetActive(false);
+            Debug.Log("스크립트 끝까지 플레이");
+            return LineResult.Finished;
+        }
+
+        switch (line)
+        {
+            case LabelLine label:
+                return LineResult.Continue;
+            case CommandLine command:
+                await command.Execute(); // 반드시 UniTask여야 함
+                return LineResult.Continue;
+        }
+        PlayLine(line);
+        return LineResult.Stop;
+    }
     private void OnNextLineClicked()
     {
         
         // Act가 끝났으면 리턴
         if (isFinished) return;
-
         // wait 실행중
-        if(isWait)
-        {
-            return;
-        }
+        if(isWait) return;
 
         // 텍스트 타이핑 중이면 바로 전체 출력
         if (isTyping)
         {
-            isTyping = false;
+            _typingCts?.Cancel();
             return;
         }
-
-
-        StartCoroutine(NextLine());
+        NextLine().Forget();
     }
 
     private void PlayLine(NovelLine line)
     {
-        if (typingCoroutine != null)
-        {
-            StopCoroutine(typingCoroutine);
-            typingCoroutine = null;
-        }
-
         _dialoguePanel.SetActive(true);
+
+        _typingCts?.Cancel();
+        _typingCts?.Dispose();
+        _typingCts = CancellationTokenSource.CreateLinkedTokenSource(_destroyToken);
 
         switch (line)
         {
             case NormalLine normal:
                 namePanel.SetActive(false);
-                typingCoroutine = StartCoroutine(TypeText(normal.line));
+                _ = TypeTextAsync(normal.line, _typingCts.Token);
                 Debug.Log($"Play Normal Line :  {normal.line} \nIndex : {normal.index}");
                 break;
             case PersonLine person:
                 namePanel.SetActive(true);
                 nameText.text = person.actorName;
-                typingCoroutine = StartCoroutine(TypeText(person.actorLine));
+                _ = TypeTextAsync(person.actorLine, _typingCts.Token);
                 Debug.Log($"Play Person Line :  {person.actorLine} \nIndex : {person.index}");
                 break;
         }
     }
-
-
-    private IEnumerator TypeText(string fullText)
+    private async UniTask TypeTextAsync(string fullText, CancellationToken token)
     {
         isTyping = true;
         novelText.text = "";
-
-        foreach (char c in fullText)
+        if (typingSpeed <= 0f)
         {
-            novelText.text += c;
-            yield return new WaitForSeconds(typingSpeed);
+            novelText.text = fullText;
+            isTyping = false;
+            return;
+        }
+        var stringBuilder = new StringBuilder(fullText.Length);
 
-            if (!isTyping)
+        for (int i = 0; i < fullText.Length; i++)
+        {
+            if (token.IsCancellationRequested) break;
+
+            stringBuilder.Append(fullText[i]);
+            novelText.text = stringBuilder.ToString();
+
+            try
             {
-                novelText.text = fullText;
-                yield break;
+                await UniTask.Delay(TimeSpan.FromSeconds(typingSpeed), cancellationToken: token);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
             }
         }
 
+        // 스킵/완료 모두 최종 전체 출력 보장
+        novelText.text = fullText;
         isTyping = false;
     }
 
-    public void SetSublinePlaying(List<NovelLine> lines)
+    public void SetSublinePlaying(NovelLine line)
     {
         isSubLinePlaying = true;
-        currentSublines = lines;
+        currentSubline = line;
     }
 
 
@@ -355,5 +342,10 @@ public class NovelPlayer : MonoBehaviour
     {
         isWait = false;
         OnNextLineClicked();
+    }
+    private void OnDestroy()
+    {
+        _typingCts?.Cancel();
+        _typingCts?.Dispose();
     }
 }

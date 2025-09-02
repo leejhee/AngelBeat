@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,7 @@ namespace novel
             this.wait = wait;
         }
 
-        public override void Execute()
+        public override async UniTask Execute()
         {
 
 

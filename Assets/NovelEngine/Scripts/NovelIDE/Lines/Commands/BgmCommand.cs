@@ -1,5 +1,6 @@
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace novel
             this.commandType = commandType;
         }
 
-        public override void Execute()
+        public override async UniTask Execute()
         {
             if (commandType == BGMCommandType.Stop)
             {

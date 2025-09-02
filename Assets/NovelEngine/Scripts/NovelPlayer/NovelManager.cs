@@ -72,6 +72,7 @@ public class NovelManager : MonoBehaviour
         // 라벨로 SO 전체 로드
         await Data.InitByLabelAsync();
 
+        //await InstantiateNovelPlayerAsync();
 
 
         IsReady = true;
@@ -103,7 +104,7 @@ public class NovelManager : MonoBehaviour
         }
         // 노벨 플레이어 인스턴스화 시켜줌
         if (Player == null)
-            await InstantiateNovelPlayer();
+            await InstantiateNovelPlayerAsync();
 
         // 원하는 스크립트 장착
         TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
@@ -118,8 +119,9 @@ public class NovelManager : MonoBehaviour
         Player.Play();
 
     }
-    private async UniTask InstantiateNovelPlayer()
+    private async UniTask InstantiateNovelPlayerAsync()
     {
+
         await _novelPlayerGate.WaitAsync();
         try
         {
@@ -154,6 +156,7 @@ public class NovelManager : MonoBehaviour
                 Addressables.Release(handle);
 
             }
+
         }
         catch (System.Exception ex)
         {
