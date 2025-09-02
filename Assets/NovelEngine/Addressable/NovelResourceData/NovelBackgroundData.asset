@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:novel:NovelBackgroundData
   novelBackgroundDict:
     pairs:
-    - key: "\uCC9C\uC218\uAC01"
+    - _key: "\uCC9C\uC218\uAC01"
       value: {fileID: 2800000, guid: 04b8d0f3adbac6046b0fc07c72f811ef, type: 3}
     keys: []
     values: []

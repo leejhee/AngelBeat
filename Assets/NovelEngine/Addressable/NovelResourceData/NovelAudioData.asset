@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:novel:NovelAudioData
   bgmDict:
     pairs:
-    - key: ereb
+    - _key: ereb
       value: {fileID: 8300000, guid: 13bc02fb179a05d47b0b6dd2b4be10dc, type: 3}
     keys: []
     values: []

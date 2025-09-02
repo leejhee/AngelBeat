@@ -9,16 +9,16 @@ using Cysharp.Threading.Tasks;
 public class NovelManager : MonoBehaviour
 {
     public static NovelManager Instance { get; private set; }
-    public  NovelResources Data { get; private set; } = new NovelResources();
+    public static NovelResources Data { get; private set; } = new NovelResources();
 
 
     private const string novelPlayerPrefabPath = "NovelPlayer";
-    public static NovelPlayer novelPlayer { get; private set; }
+    public static NovelPlayer Player { get; private set; }
 
     private static readonly SemaphoreSlim _novelPlayerGate = new SemaphoreSlim(1, 1);
 
     public UniTask Initialization => _initialization;
-    public bool IsReady { get; private set; }
+    public static bool IsReady { get; private set; }
 
     UniTask _initialization = UniTask.CompletedTask;
     bool _initStarted;
@@ -79,12 +79,12 @@ public class NovelManager : MonoBehaviour
     public static async UniTask ShutdownAsync()
     {
         if (Instance == null) return;
-        try { Instance.Data.OnNovelEnd(); } catch { /* ignore */ }
+        try { Data.OnNovelEnd(); } catch { /* ignore */ }
 
-        if (novelPlayer != null)
+        if (Player != null)
         {
-            Destroy(novelPlayer.gameObject);
-            novelPlayer = null;
+            Destroy(Player.gameObject);
+            Player = null;
         }
         var go = Instance.gameObject;
         Instance = null;
@@ -102,7 +102,7 @@ public class NovelManager : MonoBehaviour
             return;
         }
         // 노벨 플레이어 인스턴스화 시켜줌
-        if (novelPlayer == null)
+        if (Player == null)
             await InstantiateNovelPlayer();
 
         // 원하는 스크립트 장착
@@ -113,9 +113,9 @@ public class NovelManager : MonoBehaviour
             Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
             return;
         }
-        novelPlayer.novelScript = script;
+        Player.novelScript = script;
         // 플레이 해줌
-        novelPlayer.Play();
+        Player.Play();
 
     }
     private async UniTask InstantiateNovelPlayer()
@@ -124,8 +124,8 @@ public class NovelManager : MonoBehaviour
         try
         {
             // 가장 먼저 NovelPlayer 컴포넌트가 자식 오브젝트에 있는지 확인
-            if (novelPlayer == null)
-                novelPlayer = GetComponentInChildren<NovelPlayer>(true);
+            if (Player == null)
+                Player = GetComponentInChildren<NovelPlayer>(true);
             else
             {
                 Debug.Log(" [NovelManager] NovelPlayer already exists.");
@@ -134,7 +134,7 @@ public class NovelManager : MonoBehaviour
 
 
             // 없으면 Addressables에서 로드 및 인스턴스화
-            if (novelPlayer == null)
+            if (Player == null)
             {
                 AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(novelPlayerPrefabPath);
                 var prefab = await handle.Task;
@@ -143,8 +143,8 @@ public class NovelManager : MonoBehaviour
                 {
                     var go = Instantiate(prefab, transform);
                     go.name = "NovelPlayer";
-                    novelPlayer = go.GetComponent<NovelPlayer>();
-                    DontDestroyOnLoad(novelPlayer);
+                    Player = go.GetComponent<NovelPlayer>();
+                    DontDestroyOnLoad(Player);
                 }
                 else
                 {

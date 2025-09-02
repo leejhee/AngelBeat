@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d79c3e5668ef76845badeed1bbb93a99, type: 3}
-  m_Name: NewCharacter
+  m_Name: NewCharacter 1
   m_EditorClassIdentifier: 
-  characterName: 
-  body: {fileID: 0}
+  characterName: DonQuixote
+  body: {fileID: 420220554, guid: 9ddc87e44a4d3cd4bb832e036230faaa, type: 3}
   faceDict:
     pairs: []
     keys: []
     values: []
-  headOffset: {x: 0, y: 0}
-  novelName: 
+  headOffset: {x: -72.4, y: 247.8}
+  novelName: "\uB3C8\uD0A4\uD638\uD14C"

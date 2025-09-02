@@ -100,7 +100,7 @@ public static class NovelParser
         {
             var match = labelLine.Match(line);
             string labelName = match.Groups["name"].Value;
-            NovelManager.novelPlayer.labelDict.Add(labelName, index);
+            NovelManager.Player.labelDict.Add(labelName, index);
             Debug.Log($"Label Name : {labelName}\nIndex : {index}");
             return new LabelLine(index, labelName);
 

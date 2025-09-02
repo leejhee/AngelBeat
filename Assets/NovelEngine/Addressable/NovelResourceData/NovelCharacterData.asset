@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7274dc380c393341ac0f6fcbd1ec360, type: 3}
+  m_Script: {fileID: 0}
   m_Name: NovelCharacterData
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp:novel:NovelCharacterData
   charDict:
     pairs:
-    - key: DonQuixote
+    - _key: DonQuixote
+      value: {fileID: 11400000, guid: 0b8eb5c9a5892784abe4f4376a9a7d8f, type: 2}
+    - _key: 
       value: {fileID: 11400000, guid: 44fa1c4cac5e9254faa74b82e41232d1, type: 2}
     keys: []
     values: []

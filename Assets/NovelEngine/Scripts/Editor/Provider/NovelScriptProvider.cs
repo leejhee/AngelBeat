@@ -10,7 +10,6 @@ public class NovelScriptProvider : SettingsProvider
 
     public NovelScriptProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
 
-    private bool showScript = true;
     public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
     {
         novelScript = NovelEditorUtils.GetSerializedSettings<NovelScriptData>(path);
@@ -22,35 +21,37 @@ public class NovelScriptProvider : SettingsProvider
             novelScript = NovelEditorUtils.GetSerializedSettings<NovelScriptData>(path);
 
         novelScript.Update();
+        EditorGUI.BeginChangeCheck();
 
         EditorGUILayout.LabelField("Script List");
         var scriptProp = novelScript.FindProperty("scriptList").FindPropertyRelative("pairs");
 
-        if (showScript)
+        EditorGUI.indentLevel++;
+
+
+        for (int i = 0; i < scriptProp.arraySize; i++)
         {
-            EditorGUI.indentLevel++;
+            var element = scriptProp.GetArrayElementAtIndex(i);
+            var keyProp = element.FindPropertyRelative("_key");
+            var valueProp = element.FindPropertyRelative("value");
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+            EditorGUILayout.PropertyField(valueProp, GUIContent.none);
 
-            for (int i = 0; i < scriptProp.arraySize; i++)
-            {
-                var element = scriptProp.GetArrayElementAtIndex(i);
-                var keyProp = element.FindPropertyRelative("key");
-                var valueProp = element.FindPropertyRelative("value");
-
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(keyProp, GUIContent.none);
-                EditorGUILayout.PropertyField(valueProp, GUIContent.none);
-
-                EditorGUILayout.EndHorizontal();
-            }
-            EditorGUI.indentLevel--;
+            EditorGUILayout.EndHorizontal();
         }
+        EditorGUI.indentLevel--;
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
+
         if (GUILayout.Button("+", GUILayout.Width(18)))
         {
             scriptProp.arraySize++;
+            var elem = scriptProp.GetArrayElementAtIndex(scriptProp.arraySize - 1);
+            elem.FindPropertyRelative("_key").stringValue = "";
+            elem.FindPropertyRelative("value").objectReferenceValue = null;
         }
         if (GUILayout.Button("-", GUILayout.Width(18)))
         {
@@ -58,7 +59,12 @@ public class NovelScriptProvider : SettingsProvider
         }
         EditorGUILayout.EndHorizontal();
 
-        novelScript.ApplyModifiedPropertiesWithoutUndo();
+        if (EditorGUI.EndChangeCheck())
+        {
+            novelScript.ApplyModifiedProperties();                  // Undo 지원 버전 권장
+            EditorUtility.SetDirty(novelScript.targetObject);       // Dirty 마킹
+            AssetDatabase.SaveAssets();                               // 디스크에 즉시 flush
+        }
     }
 
     [SettingsProvider]

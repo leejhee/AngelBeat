@@ -8,14 +8,12 @@ using UnityEngine.UIElements;
 
 namespace novel
 {
+
     class NovelAudioProvider : SettingsProvider
     {
         private SerializedObject novelSettings;
         private string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Audio);
         public NovelAudioProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
-
-        private bool showBGM = true;
-        private bool showSFX = true;
 
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
         {
@@ -28,39 +26,42 @@ namespace novel
                 novelSettings = NovelEditorUtils.GetSerializedSettings<NovelAudioData>(path);
 
             novelSettings.Update();
+            EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.LabelField("Audio Resources", EditorStyles.boldLabel);
 
-            //showBGM = EditorGUILayout.Foldout(showBGM, "BGM List");
 
             EditorGUILayout.LabelField("BGM List");
             var bgmProp = novelSettings.FindProperty("bgmDict").FindPropertyRelative("pairs");
 
-            if (showBGM)
+            EditorGUI.indentLevel++;
+
+            for (int i = 0; i < bgmProp.arraySize; i++)
             {
-                EditorGUI.indentLevel++;
+                var element = bgmProp.GetArrayElementAtIndex(i);
 
+                
+                var keyProp = element.FindPropertyRelative("_key");
+                var valueProp = element.FindPropertyRelative("value");
 
-                for (int i = 0 ; i < bgmProp.arraySize; i++)
-                {
-                    var element = bgmProp.GetArrayElementAtIndex(i);
-                    var keyProp = element.FindPropertyRelative("key");
-                    var valueProp = element.FindPropertyRelative("value");
+                EditorGUILayout.BeginHorizontal();
 
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.PropertyField(keyProp, GUIContent.none);
-                    EditorGUILayout.PropertyField(valueProp, GUIContent.none);
+                EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+                EditorGUILayout.PropertyField(valueProp, GUIContent.none);
 
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUI.indentLevel--;
+                EditorGUILayout.EndHorizontal();
             }
+
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("+", GUILayout.Width(18)))
             {
                 bgmProp.arraySize++;
+                var elem = bgmProp.GetArrayElementAtIndex(bgmProp.arraySize - 1);
+                elem.FindPropertyRelative("_key").stringValue = ""; // 초기화(권장)
+                elem.FindPropertyRelative("value").objectReferenceValue = null;
             }
             if (GUILayout.Button("-", GUILayout.Width(18)))
             {
@@ -75,31 +76,31 @@ namespace novel
             EditorGUILayout.LabelField("SFX List");
             var sfxProp = novelSettings.FindProperty("sfxDict").FindPropertyRelative("pairs");
 
-            if (showSFX)
+            EditorGUI.indentLevel++;
+
+
+            for (int i = 0; i < sfxProp.arraySize; i++)
             {
-                EditorGUI.indentLevel++;
+                var element = sfxProp.GetArrayElementAtIndex(i);
+                var keyProp = element.FindPropertyRelative("key");
+                var valueProp = element.FindPropertyRelative("value");
 
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+                EditorGUILayout.PropertyField(valueProp, GUIContent.none);
 
-                for (int i = 0; i < sfxProp.arraySize; i++)
-                {
-                    var element = sfxProp.GetArrayElementAtIndex(i);
-                    var keyProp = element.FindPropertyRelative("key");
-                    var valueProp = element.FindPropertyRelative("value");
-
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.PropertyField(keyProp, GUIContent.none);
-                    EditorGUILayout.PropertyField(valueProp, GUIContent.none);
-
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUI.indentLevel--;
+                EditorGUILayout.EndHorizontal();
             }
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("+", GUILayout.Width(18)))
             {
                 sfxProp.arraySize++;
+                var elem = sfxProp.GetArrayElementAtIndex(sfxProp.arraySize - 1);
+                elem.FindPropertyRelative("key").stringValue = "";
+                elem.FindPropertyRelative("value").objectReferenceValue = null;
             }
             if (GUILayout.Button("-", GUILayout.Width(18)))
             {
@@ -107,7 +108,14 @@ namespace novel
             }
             EditorGUILayout.EndHorizontal();
 
-            novelSettings.ApplyModifiedPropertiesWithoutUndo();
+            if (EditorGUI.EndChangeCheck())
+            {
+                novelSettings.ApplyModifiedProperties();                  // Undo 지원 버전 권장
+                EditorUtility.SetDirty(novelSettings.targetObject);       // Dirty 마킹
+                AssetDatabase.SaveAssets();                               // 디스크에 즉시 flush
+                                                                          // AssetDatabase.Refresh();                               // 보통 불필요
+            }
+
         }
 
         [SettingsProvider]

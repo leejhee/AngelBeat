@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Foundation.Utils
 {
@@ -43,6 +44,7 @@ namespace Core.Foundation.Utils
 
         public void Add(TKey key, TValue value)
         {
+            Debug.Log(key);
             if(ContainsKey(key))
                 throw new ArgumentException($"key already exists: {key}");
         
@@ -121,6 +123,24 @@ namespace Core.Foundation.Utils
             return false;
         }
     
+        public void ChangeKey(TKey originKey, TKey newKey)
+        {
+            if (EqualityComparer<TKey>.Default.Equals(originKey, newKey))
+                return;
+
+
+            TryGetValue(originKey, out var value);
+
+            if (value != null)
+            {
+                Add(newKey, value);
+                Remove(originKey);
+            }
+            else
+            {
+                Debug.LogError($"키 {originKey}가 존재하지 않음");
+            }
+        }
         public void Clear()
         {
             pairs.Clear();
@@ -164,14 +184,15 @@ namespace Core.Foundation.Utils
     [Serializable]
     public class SerializableKeyValuePair<TKey, TValue>
     {
-        public TKey key;
+        [FormerlySerializedAs("key")]
+        [SerializeField] private TKey _key;
         public TValue value;
-    
+        public TKey key => _key;
         public SerializableKeyValuePair() { }
     
         public SerializableKeyValuePair(TKey key, TValue value)
         {
-            this.key = key;
+            this._key = key;
             this.value = value;
         }
     }

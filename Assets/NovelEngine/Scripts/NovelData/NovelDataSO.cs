@@ -1,40 +1,43 @@
 using Core.Foundation.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace novel
 {
+    [Serializable] public class StringAudioClipDict : SerializableDict<string, AudioClip> { }
+    [Serializable] public class StringTextAssetDict : SerializableDict<string, TextAsset> { }
+    [Serializable] public class StringTexture2DDict : SerializableDict<string, Texture2D> { }
+    [Serializable] public class StringFloatDict : SerializableDict<string, float> { }
+    [Serializable] public class StringCharacterSoDict : SerializableDict<string, NovelCharacterSO> { }
+
+
     public class NovelCharacterData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, NovelCharacterSO> charDict = new();
+        [SerializeField] StringCharacterSoDict charDict = new();
+        public NovelCharacterSO GetCharacterSO(string name)
+            => charDict.TryGetValue(name, out var character) ? character : null;
     }
+
     [System.Serializable]
     public class NovelAudioData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();
-        [SerializeField] private SerializableDict<string, AudioClip> sfxDict = new();
+        [SerializeField] private StringAudioClipDict bgmDict = new();
+        [SerializeField] private StringAudioClipDict sfxDict = new();
     }
     public class NovelVariableData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, float> novelVariableDict = new();
+        [SerializeField] private StringFloatDict novelVariableDict = new();
     }
     public class NovelBackgroundData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, Texture2D> novelBackgroundDict = new();
+        [SerializeField] private StringTexture2DDict novelBackgroundDict = new();
     }
     public class NovelScriptData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, TextAsset> scriptList = new();
-
+        [SerializeField] private StringTextAssetDict scriptList = new();
         public TextAsset GetScriptByTitle(string title)
-        {
-            if (scriptList.TryGetValue(title, out var script))
-            {
-                return script;
-            }
-            Debug.LogError($"스크립트 {title} 을(를) 찾을 수 없음.");
-            return null;
-        }
+            => scriptList.TryGetValue(title, out var script) ? script : null;
     }
 }

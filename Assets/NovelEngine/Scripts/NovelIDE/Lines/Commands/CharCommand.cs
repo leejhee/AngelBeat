@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace novel
 {
@@ -32,50 +34,81 @@ namespace novel
         }
         public override void Execute()
         {
-            // 노벨매니저 모노비헤이비어 넣으면서 많이 바뀜 수정 필요함
+            if (charCommandType == CharCommandType.HideAll)
+            {
+                Debug.Log("Hide All 커맨드 실행");
 
-            
-            //if (charCommandType == CharCommandType.HideAll)
-            //{
-            //    Debug.Log("Hide All 커맨드 실행");
-
-            //    foreach (var charObject in NovelPlayer.Instance.currentCharacterDict.Values)
-            //    {
-            //        GameObject.Destroy(charObject.gameObject);
-            //    }
-            //    NovelPlayer.Instance.currentCharacterDict.Clear();
-            //    return;
-            //}
+                foreach (var charObject in NovelManager.Player.currentCharacterDict.Values)
+                {
+                    GameObject.Destroy(charObject);
+                }
+                NovelManager.Player.currentCharacterDict.Clear();
+                return;
+            }
 
 
+            NovelCharacterSO charSO = NovelManager.Data.character.GetCharacterSO(charName);
 
-            //// 해당하는 이름이 존재하지 않으면 리턴
-            //if (!NovelManager.Instance.characterSODict.ContainsKey(charName))
-            //{
-            //    //string name = charName.ToLower();
-            //    Debug.LogError($"{charName} 캐릭터 존재하지 않음");
-            //    return;
-            //}
+            // SO가 널이면 캐릭터 불러오기 실패
+            if (!charSO)
+            {
+                Debug.LogError($"{charName} 캐릭터 불러오기 실패");
+                return;
+            }
+
+            switch (charCommandType)
+            {
+                case CharCommandType.Show:
+                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
+                    {
+
+                        Addressables.InstantiateAsync("CharacterStandingBase").Completed += handle =>
+                        {
+                            if (handle.Status == AsyncOperationStatus.Succeeded)
+                            {
+                                GameObject standingObject = handle.Result;
+                                Debug.Log("Prefab Loaded: " + standingObject.name);
+
+                                standingObject.name = charSO.name;
+                            }
+                        };
+                        
 
 
-            ////노벨 매니저에 캐싱해둔 캐릭터 SO 불러오기
-            //NovelCharacterSO charSO = NovelManager.Instance.GetCharacterSO(charName);
-            ////NovelManager.Instance.characterSODict.TryGetValue(charName, out charSO);
-            //if (charSO == null)
-            //{
-            //    Debug.LogError($"{charName} 캐릭터 SO 불러오기 실패");
-            //    return;
-            //}
-            //// 목표료 하는 스탠딩의 게임오브젝트
+                        //GameObject bodyObject = standingObject.transform.GetChild(0).gameObject;
+                        //GameObject headObject = standingObject.transform.GetChild(1).gameObject;
+                    }
+                    else  // 캐릭터를 새로 띄워줌
+                    {
+
+                    }
+                    break;
+                case CharCommandType.Hide:
+                    Debug.Log($"Hide Character : {charName}");
+                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
+                    {
+
+                    }
+                    break;
+                case CharCommandType.Fade:
+                    if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))   // 현재 캐릭터가 이미 띄워져 있는 경우
+                    {
+
+                    }
+                    break;
+                case CharCommandType.Effect:
+                    // 아직 고려 x
+                    break;
+                default:
+                    Debug.LogError("할당되지 않은 Character 커맨드");
+                    break;
+            }
+
+            // 목표료 하는 스탠딩의 게임오브젝트
             //GameObject standingObject = null;
 
 
-            //// 캐릭터 숨기기
-            //if (charCommandType == CharCommandType.Hide)
-            //{
-            //    Debug.Log($"Hide Character : {charName}");
-            //    return;
-            //}
+
 
             //bool isWait = wait ?? false;
             //if (NovelPlayer.Instance.currentCharacterDict.ContainsKey(charSO))
@@ -96,7 +129,7 @@ namespace novel
             //        }
 
 
-                    
+
             //    }
             //    else if (time != null)
             //    {
@@ -176,7 +209,7 @@ namespace novel
             //    else
             //    {
             //        // 머리 스프라이트 조정
-                    
+
             //        headObject.SetActive(true);
             //        Sprite headSprite = charSO.GetHead(appearance);
             //        if (headSprite == null)

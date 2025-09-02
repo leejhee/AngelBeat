@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.AddressableAssets;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -68,12 +69,16 @@ public class NovelPlayer : MonoBehaviour
     }
     void Start()
     {
-        // 처음 오브젝트가 생성되었을때는 스크립트 없음
-        novelScript = null;
+        // 초기화 작업
+        Init();
 
         //var testXiaoModel = new CharacterModel(88888888);
         //Party playerParty = new Party(new List<CharacterModel> { testXiaoModel });
         //Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+    }
+    private void Init()
+    {
+        novelScript = null;
     }
     public void Play()
     {
@@ -240,7 +245,7 @@ public class NovelPlayer : MonoBehaviour
     {
         if (image != null)
         {
-            NovelManager.novelPlayer.currentCommandCoroutine =  StartCoroutine(CharacterFadeOutCoroutine(image, duration, isFadeOut, charSO));
+            NovelManager.Player.currentCommandCoroutine =  StartCoroutine(CharacterFadeOutCoroutine(image, duration, isFadeOut, charSO));
         }
     }
     private IEnumerator CharacterFadeOutCoroutine(Image image, float duration, bool isFadeOut, NovelCharacterSO charSO )
@@ -260,12 +265,12 @@ public class NovelPlayer : MonoBehaviour
             }
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-            if (NovelManager.novelPlayer.currentCharacterDict.ContainsKey(charSO))
+            if (NovelManager.Player.currentCharacterDict.ContainsKey(charSO))
             {
                 GameObject destroyObject = null;
-                NovelManager.novelPlayer.currentCharacterDict.TryGetValue(charSO, out destroyObject);
+                NovelManager.Player.currentCharacterDict.TryGetValue(charSO, out destroyObject);
                 GameObject.Destroy(destroyObject);
-                NovelManager.novelPlayer.currentCharacterDict.Remove(charSO);
+                NovelManager.Player.currentCharacterDict.Remove(charSO);
             }
         }
         else
@@ -305,7 +310,7 @@ public class NovelPlayer : MonoBehaviour
             }
             image.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
 
-            if (NovelManager.novelPlayer.currentBackgroundObject != null)
+            if (NovelManager.Player.currentBackgroundObject != null)
             {
                 currentBackgroundObject = null;
                 GameObject.Destroy(backObject);

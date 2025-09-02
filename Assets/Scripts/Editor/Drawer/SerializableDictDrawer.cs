@@ -5,7 +5,9 @@ using Core.Foundation.Utils; // SerializableDict, SerializableKeyValuePair
 public static class SerializableDictDrawer
 {
     public static SerializableDict<TKey, TValue> DrawSerializableDict<TKey, TValue>(
-        SerializableDict<TKey, TValue> dict, string label)
+        UnityEngine.Object hostObject,
+        SerializableDict<TKey, TValue> dict,
+        string label)
     {
         if (dict == null)
             return new SerializableDict<TKey, TValue>();
@@ -24,11 +26,25 @@ public static class SerializableDictDrawer
             // 키 처리
             if (typeof(TKey) == typeof(string))
             {
-                pair.key = (TKey)(object)EditorGUILayout.TextField(pair.key as string);
+                string oldKey = (string)(object)pair.key;
+                EditorGUI.BeginChangeCheck();
+                string newKey = EditorGUILayout.DelayedTextField(oldKey);
+
+                if (EditorGUI.EndChangeCheck() && newKey != oldKey)
+                {
+                    // Undo & Dirty & Save
+                    Undo.RecordObject(hostObject, "Change Dict Key");
+
+                    dict.ChangeKey((TKey)(object)oldKey, (TKey)(object)newKey);
+                    EditorUtility.SetDirty(hostObject);
+                    AssetDatabase.SaveAssets();
+                }
+
+
             }
             else
             {
-                EditorGUILayout.LabelField(pair.key.ToString());
+                //EditorGUILayout.LabelField(pair.key.ToString());
             }
 
             // 값 처리

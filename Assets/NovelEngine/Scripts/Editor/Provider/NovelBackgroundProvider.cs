@@ -13,8 +13,6 @@ namespace novel
         private string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Background);
         public NovelBackgroundProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
 
-        private bool showBG = true;
-
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
         {
             novelSettings = NovelEditorUtils.GetSerializedSettings<NovelBackgroundData>(path);
@@ -26,35 +24,36 @@ namespace novel
                 novelSettings = NovelEditorUtils.GetSerializedSettings<NovelBackgroundData>(path);
 
             novelSettings.Update();
+            EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.LabelField("Background List");
             var bgProp = novelSettings.FindProperty("novelBackgroundDict").FindPropertyRelative("pairs");
 
-            if (showBG)
+            EditorGUI.indentLevel++;
+
+
+            for (int i = 0; i < bgProp.arraySize; i++)
             {
-                EditorGUI.indentLevel++;
+                var element = bgProp.GetArrayElementAtIndex(i);
+                var keyProp = element.FindPropertyRelative("_key");
+                var valueProp = element.FindPropertyRelative("value");
 
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(keyProp, GUIContent.none);
+                EditorGUILayout.PropertyField(valueProp, GUIContent.none);
 
-                for (int i = 0; i < bgProp.arraySize; i++)
-                {
-                    var element = bgProp.GetArrayElementAtIndex(i);
-                    var keyProp = element.FindPropertyRelative("key");
-                    var valueProp = element.FindPropertyRelative("value");
-
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.PropertyField(keyProp, GUIContent.none);
-                    EditorGUILayout.PropertyField(valueProp, GUIContent.none);
-
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUI.indentLevel--;
+                EditorGUILayout.EndHorizontal();
             }
+            EditorGUI.indentLevel--;
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("+", GUILayout.Width(18)))
             {
                 bgProp.arraySize++;
+                var elem = bgProp.GetArrayElementAtIndex(bgProp.arraySize - 1);
+                elem.FindPropertyRelative("_key").stringValue = ""; // 초기화(권장)
+                elem.FindPropertyRelative("value").objectReferenceValue = null;
             }
             if (GUILayout.Button("-", GUILayout.Width(18)))
             {
@@ -62,7 +61,12 @@ namespace novel
             }
             EditorGUILayout.EndHorizontal();
 
-            novelSettings.ApplyModifiedPropertiesWithoutUndo();
+            if (EditorGUI.EndChangeCheck())
+            {
+                novelSettings.ApplyModifiedProperties();                  // Undo 지원 버전 권장
+                EditorUtility.SetDirty(novelSettings.targetObject);       // Dirty 마킹
+                AssetDatabase.SaveAssets();                               // 디스크에 즉시 flush
+            }
         }
 
         [SettingsProvider]

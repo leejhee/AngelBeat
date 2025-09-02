@@ -1,4 +1,4 @@
-﻿using Modules.BT.Nodes;
+using Modules.BT.Nodes;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;

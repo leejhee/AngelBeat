@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 
 namespace novel
@@ -16,21 +17,24 @@ namespace novel
         //private string currentCharacter = "";
         private NovelCharacterSO currentCharacterData = null;
 
+        Texture icon;
+
         public NovelCharacterProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
 
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
         {
             novelChar = NovelEditorUtils.GetSerializedSettings<NovelCharacterData>(path);
+            novelChar = NovelEditorUtils.GetSerializedSettings<NovelCharacterData>(path);
+            icon = EditorGUIUtility.FindTexture("d_UnityEditor.AnimationWindow");
         }
 
         public override void OnGUI(string searchContext)
         {
             if (novelChar == null)
                 novelChar = NovelEditorUtils.GetSerializedSettings<NovelCharacterData>(path);
-            Texture icon = EditorGUIUtility.FindTexture("d_UnityEditor.AnimationWindow");
 
             novelChar.Update();
-
+            EditorGUI.BeginChangeCheck();
 
             if (!showCharacter)
             {
@@ -40,25 +44,31 @@ namespace novel
                 for (int i = 0; i < charProp.arraySize; i++)
                 {
                     var element = charProp.GetArrayElementAtIndex(i);
-                    var keyProp = element.FindPropertyRelative("key");
+                    var keyProp = element.FindPropertyRelative("_key");
                     var valueProp = element.FindPropertyRelative("value");
 
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Space(5);
 
+
+
+                    EditorGUI.BeginChangeCheck();
                     EditorGUILayout.PropertyField(keyProp, GUIContent.none);
-                    // 캐릭터 이름 바뀌면 연동된 ScriptableObject 이름도 변경
-                    if (GUI.changed)
+                    if (EditorGUI.EndChangeCheck())
                     {
                         if (valueProp.objectReferenceValue != null)
                         {
                             var charSO = valueProp.objectReferenceValue as NovelCharacterSO;
+
                             if (charSO != null && charSO.characterName != keyProp.stringValue)
                             {
+                                Undo.RecordObject(charSO, "Rename Character");
                                 charSO.characterName = keyProp.stringValue;
+
+
+
                                 EditorUtility.SetDirty(charSO);
                                 AssetDatabase.SaveAssets();
-                                AssetDatabase.Refresh();
                             }
                         }
                     }
@@ -90,7 +100,6 @@ namespace novel
                                     assetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
                                     AssetDatabase.CreateAsset(newChar, assetPath);
                                     AssetDatabase.SaveAssets();
-                                    AssetDatabase.Refresh();
 
                                     currentCharacterData = newChar;
                                     valueProp.objectReferenceValue = currentCharacterData;
@@ -136,7 +145,8 @@ namespace novel
                         for (int i = 0; i < charProp.arraySize; i++)
                         {
                             var element = charProp.GetArrayElementAtIndex(i);
-                            var keyProp = element.FindPropertyRelative("key");
+                            var keyProp = element.FindPropertyRelative("_key");
+
                             if (keyProp.stringValue == newCharName)
                             {
                                 keyExists = true;
@@ -153,7 +163,7 @@ namespace novel
 
                     charProp.arraySize++;
                     var newElement = charProp.GetArrayElementAtIndex(charProp.arraySize - 1);
-                    newElement.FindPropertyRelative("key").stringValue = newCharName;
+                    newElement.FindPropertyRelative("_key").stringValue = newCharName;
 
                     string assetPath = $"Assets/NovelEngine/Addressable/CharacterData/{newCharName}.asset";
                     assetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
@@ -164,11 +174,12 @@ namespace novel
 
                     AssetDatabase.CreateAsset(newCharSO, assetPath);
                     AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
 
                     newElement.FindPropertyRelative("value").objectReferenceValue = newCharSO;
 
                     novelChar.ApplyModifiedPropertiesWithoutUndo();
+                    EditorUtility.SetDirty(novelChar.targetObject);
+                    AssetDatabase.SaveAssets();
                 }
 
                 GUILayout.Space(5);
@@ -192,12 +203,22 @@ namespace novel
                 boldLargeLabel.normal.textColor = Color.white; // 글자색 (옵션)
                 GUILayout.Space(10);
                 EditorGUILayout.LabelField(currentCharacterData.characterName, boldLargeLabel);
-
+                GUILayout.Space(10);
+                var beforeName = currentCharacterData.novelName;
                 currentCharacterData.novelName = EditorGUILayout.TextField("Display Name", currentCharacterData.novelName);
-                currentCharacterData.body = (Sprite)EditorGUILayout.ObjectField("Body Sprite", currentCharacterData.body, typeof(Sprite), false);
-                currentCharacterData.headOffset = EditorGUILayout.Vector2Field("Head Offset", currentCharacterData.headOffset);
-                currentCharacterData.faceDict = SerializableDictDrawer.DrawSerializableDict(currentCharacterData.faceDict, "Face Expressions");
+                if (beforeName != currentCharacterData.novelName) EditorUtility.SetDirty(currentCharacterData);
 
+                var beforeBody = currentCharacterData.body;
+                currentCharacterData.body = (Sprite)EditorGUILayout.ObjectField("Body Sprite", currentCharacterData.body, typeof(Sprite), false);
+                if (beforeBody != currentCharacterData.body) EditorUtility.SetDirty(currentCharacterData);
+
+                var beforeHead = currentCharacterData.headOffset;
+                currentCharacterData.headOffset = EditorGUILayout.Vector2Field("Head Offset", currentCharacterData.headOffset);
+                if (beforeHead != currentCharacterData.headOffset) EditorUtility.SetDirty(currentCharacterData);
+
+                var beforeFace = currentCharacterData.faceDict;
+                currentCharacterData.faceDict = SerializableDictDrawer.DrawSerializableDict(currentCharacterData, currentCharacterData.faceDict, "Face Expressions");
+                if (beforeFace != currentCharacterData.faceDict) EditorUtility.SetDirty(currentCharacterData);
 
                 // 캐릭터 삭제
                 GUILayout.Space(10);
@@ -213,10 +234,10 @@ namespace novel
                     for (int i = 0; i < charDictProp.arraySize; i++)
                     {
                         var element = charDictProp.GetArrayElementAtIndex(i);
-                        var keyProp = element.FindPropertyRelative("key");
+                        var keyProp = element.FindPropertyRelative("_key");
                         var valueProp = element.FindPropertyRelative("value");
 
-                        if (keyProp.stringValue == currentCharacterData.characterName)
+                        if (valueProp.objectReferenceValue == currentCharacterData)
                         {
                             // 에셋 삭제
                             var charSO = valueProp.objectReferenceValue as NovelCharacterSO;    // 현재 참조된 ScriptableObject
@@ -233,7 +254,6 @@ namespace novel
                                 {
                                     AssetDatabase.DeleteAsset(assetPath);
                                     AssetDatabase.SaveAssets();
-                                    AssetDatabase.Refresh();
                                 }
                             }
 
@@ -254,7 +274,12 @@ namespace novel
                 EditorGUILayout.EndHorizontal();
             }
 
-                novelChar.ApplyModifiedPropertiesWithoutUndo();
+            if (EditorGUI.EndChangeCheck())
+            {
+                novelChar.ApplyModifiedProperties();                  // Undo 지원 버전 권장
+                EditorUtility.SetDirty(novelChar.targetObject);       // Dirty 마킹
+                AssetDatabase.SaveAssets();                               // 디스크에 즉시 flush                             // 보통 불필요
+            }
         }
 
         [SettingsProvider]

@@ -53,6 +53,8 @@ public static class NovelEditorUtils
         string path = NovelResourcePath + "/Novel" + type.ToString() + "Data.asset";
         return path;
     }
+
+
     /// <summary>
     /// 에셋을 Addressables에 등록합니다.
     /// - groupName 지정 시 해당 그룹에, 없으면 기본 그룹에 등록

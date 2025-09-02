@@ -17,7 +17,7 @@ namespace novel
         {
             Debug.Log($"goto 실행 : {label}");
 
-            NovelManager.novelPlayer.currentAct.JumpToLabel(label);
+            NovelManager.Player.currentAct.JumpToLabel(label);
         }
 
         public override bool? IsWait()
