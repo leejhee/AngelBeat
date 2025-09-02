@@ -1,3 +1,4 @@
+using NovelEngine.Scripts;
 using UnityEngine;
 
 namespace novel
@@ -5,7 +6,7 @@ namespace novel
     //[CreateAssetMenu(fileName = "NovelCharacterData", menuName = "Novel/NovelCharacterData", order = 0)]
     public class NovelCharacterData : ScriptableObject
     {
-        [SerializeField] private Core.Scripts.Foundation.Utils.SerializableDict<string, NovelCharacterSO> charDict = new();
+        [SerializeField] private SerializableDict<string, NovelCharacterSO> charDict = new();
         public NovelCharacterSO GetCharacterByName(string name)
         {
             if (charDict.TryGetValue(name, out var character))

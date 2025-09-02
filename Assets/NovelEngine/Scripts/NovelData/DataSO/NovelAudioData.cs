@@ -1,3 +1,4 @@
+using NovelEngine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,8 @@ namespace novel
     //[CreateAssetMenu(fileName = "NovelAudioData", menuName = "Novel/NovelAudioData", order = 0)]
     public class NovelAudioData : ScriptableObject
     {
-        [SerializeField] private Core.Scripts.Foundation.Utils.SerializableDict<string, AudioClip> bgmDict = new();
-        [SerializeField] private Core.Scripts.Foundation.Utils.SerializableDict<string, AudioClip> sfxDict = new();
+        [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();
+        [SerializeField] private SerializableDict<string, AudioClip> sfxDict = new();
         public AudioClip GetBGMByName(string name)
         {
             if (bgmDict.TryGetValue(name, out var bgm))

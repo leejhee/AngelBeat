@@ -7,7 +7,7 @@ public class NovelCharacterSO : ScriptableObject
 {
     public string characterName;
     public Sprite body;
-    public SerializableDict<string, Sprite> faceDict = new();
+    public NovelEngine.Scripts.SerializableDict<string, Sprite> faceDict = new();
     public Vector2 headOffset;
     public string novelName;
 

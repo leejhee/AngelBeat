@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using GamePlay.Features.Scripts.Explore.Map.Data;
 using UnityEditor;
 using UnityEngine;
 

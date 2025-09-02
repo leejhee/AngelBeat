@@ -1,6 +1,6 @@
+using NovelEngine.Scripts;
 using UnityEngine;
 using UnityEditor;
-using Core.Scripts.Foundation.Utils; // SerializableDict, SerializableKeyValuePair
 
 public static class SerializableDictDrawer
 {

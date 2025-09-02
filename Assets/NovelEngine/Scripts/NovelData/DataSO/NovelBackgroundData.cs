@@ -8,7 +8,7 @@ namespace novel
     public class NovelBackgroundData : ScriptableObject
     {
 
-        [SerializeField] private SerializableDict<string, Texture2D> novelBackgroundDict = new();
+        [SerializeField] private NovelEngine.Scripts.SerializableDict<string, Texture2D> novelBackgroundDict = new();
         
     }
 }

@@ -8,7 +8,7 @@ namespace novel
 
     public class NovelScriptData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, TextAsset> scriptList = new();
+        [SerializeField] private NovelEngine.Scripts.SerializableDict<string, TextAsset> scriptList = new();
 
         public TextAsset GetScriptByTitle(string title)
         {

@@ -15,7 +15,7 @@ public class NovelPlayer : MonoBehaviour
     [Header("실행할 노벨 스크립트")]
     public TextAsset novelScript;
     public NovelAct currentAct = new();
-    public SerializableDict<string, int> labelDict = new SerializableDict<string, int>();
+    public NovelEngine.Scripts.SerializableDict<string, int> labelDict = new NovelEngine.Scripts.SerializableDict<string, int>();
     // 현재 실행중인 서브라인
     public List<NovelLine> currentSublines = new();
 
@@ -45,7 +45,7 @@ public class NovelPlayer : MonoBehaviour
     // 현재 스탠딩 나와 있는 캐릭터들
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
     //  현재 선택지
-    public SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
+    public NovelEngine.Scripts.SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
 
 

@@ -13,7 +13,7 @@ namespace novel
     //}
     public class NovelVariableData : ScriptableObject
     {
-        [SerializeField] private SerializableDict<string, float> novelVariableDict = new();
+        [SerializeField] private NovelEngine.Scripts.SerializableDict<string, float> novelVariableDict = new();
     }
     //public class NovelBackgroundData : ScriptableObject
     //{

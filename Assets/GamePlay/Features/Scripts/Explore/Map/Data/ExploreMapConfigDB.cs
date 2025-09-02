@@ -1,11 +1,12 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
+using GamePlay.Explore.Map.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace GamePlay.Explore.Map.Data
+namespace GamePlay.Features.Scripts.Explore.Map.Data
 {
     [Serializable, CreateAssetMenu(fileName = "ExploreMapConfigDB", menuName = "ScriptableObject/ExploreMapConfigDB")]
     public class ExploreMapConfigDB : ScriptableObject
