@@ -40,7 +40,7 @@ namespace novel
             GameObject backgroundPrefab = GameObject.Instantiate(NovelManager.Player.backgroundPrefab);
 
             // 배경 이미지 불러오기
-            Sprite sprite = ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
+            Sprite sprite = Core.Scripts.Managers.ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
             if (sprite == null)
             {
                 Debug.LogError("배경 이미지 불러오기 실패" + backName);

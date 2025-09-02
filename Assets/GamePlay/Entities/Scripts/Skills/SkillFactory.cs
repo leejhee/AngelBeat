@@ -1,0 +1,47 @@
+using AngelBeat;
+using Core.Scripts.Data;
+using GamePlay.Features.Scripts.Skill;
+using UnityEngine;
+
+namespace GamePlay.Skill
+{
+    public static class SkillFactory
+    {
+        
+        public static SkillBase CreateSkill(string skillName)
+        {
+            SkillBase skillBase = null;
+            skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillName}");
+            return skillBase;
+        }
+        public static SkillBase CreateSkill(long skillIndex)
+        {
+            SkillBase skillBase = null;
+            var _skillData = global::Core.Scripts.Managers.DataManager.Instance.GetData<SkillData>(skillIndex);
+
+            if (_skillData == null)
+            {
+                Debug.LogWarning($"CreateSkill : {skillIndex} 스킬 생성 실패.");
+                return null;
+            }
+
+            skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
+            skillBase.Init(_skillData);
+
+            return skillBase;
+        }
+        
+        // GetData를 많이 하는 것보다 나을 거 같아서 사용
+        public static SkillBase CreateSkill(SkillData skillData)
+        {
+            if (skillData == null)
+            {
+                Debug.LogError("왜 매개변수로 null 넣으세요? : CreateSkill(SkillData)");
+                return null;
+            }
+            SkillBase skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillData.skillTimeLine}");
+            skillBase.Init(skillData);
+            return skillBase;
+        }
+    }
+}
