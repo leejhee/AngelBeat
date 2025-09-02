@@ -10,9 +10,9 @@ namespace GamePlay.Explore
     [Serializable]
     public class ExploreSaveData
     {
-        [FormerlySerializedAs("Dungeon")] public SystemEnum.Dungeon dungeon;
-        public Party PlayerParty;
-        public ExploreMap MapData;
+        public SystemEnum.Dungeon dungeon;
+        public Party playerParty;
+        public ExploreMap mapData;
         
         public ExploreSaveData(
             Party playerParty,
@@ -21,13 +21,13 @@ namespace GamePlay.Explore
         )
         {
             this.dungeon = dungeon;
-            PlayerParty = playerParty;
+            this.playerParty = playerParty;
         }
         
         // TODO : 탐사에서의 저장 포인트를 알아올 것. 호출 타이밍을 정해야 한다.
         public void WriteMap(ExploreMap map)
         {
-            MapData = map;
+            mapData = map;
         }
     }
 }

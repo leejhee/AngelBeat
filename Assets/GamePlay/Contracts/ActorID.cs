@@ -1,5 +1,8 @@
 ﻿namespace GamePlay.Contracts
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public readonly struct ActorID
     {
         public readonly int Value;

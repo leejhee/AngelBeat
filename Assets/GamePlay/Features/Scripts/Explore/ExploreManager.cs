@@ -1,15 +1,12 @@
-﻿using Core.GameSave;
-using Core.GameSave.Contracts;
+﻿using Core.GameSave.Contracts;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.GameSave;
 using Core.Scripts.Managers;
-using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Explore.Map.Logic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace GamePlay.Explore
+namespace GamePlay.Features.Scripts.Explore
 {
     /// <summary>
     /// 탐사 관리
@@ -31,7 +28,7 @@ namespace GamePlay.Explore
         }
         #endregion
         
-        [FormerlySerializedAs("eDungeon")] public SystemEnum.Dungeon dungeon;
+        public SystemEnum.Dungeon dungeon;
         public ExploreMap mapData;
         public Party playerParty;
         
@@ -75,7 +72,7 @@ namespace GamePlay.Explore
         
         #region IFeatureSaveProvider Members
         public string FeatureName => "Explore";
-
+        
         public FeatureSnapshot Capture()
         {
             return new ExploreSnapshot();

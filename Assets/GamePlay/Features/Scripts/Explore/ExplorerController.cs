@@ -1,11 +1,10 @@
 using Character;
 using Core.Scripts.Managers;
-using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.Explore
+namespace GamePlay.Features.Scripts.Explore
 {
     public class ExploreController : MonoBehaviour
     {
