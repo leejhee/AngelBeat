@@ -1,4 +1,5 @@
 using Core.Scripts.Foundation;
+using Core.Scripts.Foundation.Singleton;
 using System.Collections.Generic;
 using UnityEngine;
 

@@ -64,6 +64,9 @@ namespace UIs.Runtime
             }
         }
         
+        /// <summary>
+        /// 뒤로 간다.
+        /// </summary>
         public async UniTask<bool> BackAsync(CancellationToken ct=default) {
             if (_presenterStack.Count==0) 
                 return false; 
@@ -74,6 +77,9 @@ namespace UIs.Runtime
             return true;
         }
         
+        /// <summary>
+        /// 모두 닫는다
+        /// </summary>
         public async UniTask CloseAllAsync(CancellationToken ct = default)
         {
             while(_presenterStack.Count>0) 

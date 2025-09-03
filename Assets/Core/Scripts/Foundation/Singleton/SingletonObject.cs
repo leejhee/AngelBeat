@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace Core.Scripts.Foundation
+namespace Core.Scripts.Foundation.Singleton
 {
     /// <summary>
     /// Singleton 객체를 위한 베이스 클래스 

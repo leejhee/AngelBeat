@@ -1,0 +1,11 @@
+﻿## 싱글톤 사용 설명
+
+1. SingletonMono
+MonoBehaviour을 상속받는 싱글톤 오브젝트이다.
+특정 씬에서만 유효하게 작동해야 할 경우 이 추상 클래스를 상속한다.
+
+2. SingletonObject
+static 클래스이다.
+프로세스 생애 동안 유효하게 작동해야 할 경우 이 추상 클래스를 상속한다.
+
+* SingletonMono의 경우, GameState에 따라서 활성화되어야 하는 싱글톤 오브젝트를 다르게 가진다.
