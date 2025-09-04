@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using novel;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
@@ -8,39 +7,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Text;
-using Cysharp.Threading.Tasks.CompilerServices;
 
 public class NovelPlayer : MonoBehaviour
 {
-    [Header("실행할 노벨 스크립트")]
-    public TextAsset novelScript;
-    public NovelAct currentAct = new();
-    public NovelEngine.Scripts.SerializableDict<string, int> labelDict = new NovelEngine.Scripts.SerializableDict<string, int>();
-    // 현재 실행중인 서브라인
-    public NovelLine currentSubline;
-
-
+    private TextAsset novelScript;
+    private NovelAct currentAct = new();
+    public NovelEngine.Scripts.SerializableDict<string, int> labelDict { get; private set; }
     private bool isFinished = false;
 
-    [Header("노벨 플레이어 UI 패널")]
-    [SerializeField]
-    private GameObject _dialoguePanel;
-    public GameObject backgroundPanel;
-    public GameObject namePanel;
-    public GameObject standingPanel;
-    public GameObject choicePanel;
+    // 자식 오브젝트들
+    public GameObject dialoguePanel { get; private set; }
+    public GameObject backgroundPanel { get; private set; }
+    public GameObject namePanel { get; private set; }
+    public GameObject standingPanel { get; private set; }
+    public GameObject choicePanel { get; private set; }
+    public GameObject blurPanel { get; private set; }
+    public TextMeshProUGUI novelText { get; private set; }
+    public TextMeshProUGUI nameText { get; private set; }
+    public Button nextButton { get; private set; }
 
-    [Header("노벨 플레이어 UI 기타 오브젝트")]
-    [SerializeField]
-    private TextMeshProUGUI novelText;
-    [SerializeField]
-    private TextMeshProUGUI nameText;
-    [SerializeField]
-    private Button nextButton;
+
+
+
+    // 나중에 private로 돌릴것들
 
     // 현재 배경화면
-    public GameObject currentBackgroundObject;
-
+    public GameObject currentBackgroundObject { get; private set; }
 
     // 현재 스탠딩 나와 있는 캐릭터들
     public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
@@ -48,12 +40,21 @@ public class NovelPlayer : MonoBehaviour
     public NovelEngine.Scripts.SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
 
+
     // 이거 나중에 설정 가능하도록 바꾸기
     public float typingSpeed = 0.03f;
-
     private bool isTyping = false;
+
+    // 실행시킬 서브라인
+    public NovelLine currentSubline;
     private bool isSubLinePlaying = false;
-    public bool isWait = false;
+
+    // 일정 시간동안 멈추는 기능
+    private bool _isWaitForTime = false;
+    // @wait 커맨드로 완전히 멈추기
+    private bool _isHardWait = false;
+
+
     private bool isCommandRunning = false;  // 얘는 wait와는 다르게 진짜 명령어가 실행중이면 cancel 막기 위해서 필요
 
 
@@ -69,16 +70,54 @@ public class NovelPlayer : MonoBehaviour
     private void Awake()
     {
         _destroyToken = this.GetCancellationTokenOnDestroy();
-    }
-    void Start()
-    {
-        // 초기화 작업
         Init();
-
     }
     private void Init()
     {
         novelScript = null;
+        FindObjectsByType();
+        labelDict = new();
+    }
+    private void FindObjectsByType()
+    {
+        var NovelObjects = GetComponentsInChildren<NovelObjects>(true);
+        foreach (var obj in NovelObjects)
+        {
+            switch (obj.GetNovelObjectType())
+            {
+                case NovelObjectType.Blur:
+                    blurPanel = obj.gameObject;
+                    break;
+                case NovelObjectType.BackgroundPanel:
+                    backgroundPanel = obj.gameObject;
+                    break;
+                case NovelObjectType.StandingPanel:
+                    standingPanel = obj.gameObject;
+                    break;
+                case NovelObjectType.DialogPanel:
+                    dialoguePanel = obj.gameObject;
+                    break;
+                case NovelObjectType.NovelText:
+                    novelText = obj.GetComponent<TextMeshProUGUI>();
+                    break;
+                case NovelObjectType.NamePanel:
+                    namePanel = obj.gameObject;
+                    break;
+                case NovelObjectType.NameText:
+                    nameText = obj.GetComponent<TextMeshProUGUI>();
+                    break;
+                case NovelObjectType.NextButton:
+                    nextButton = obj.GetComponent<Button>();
+                    break;
+                case NovelObjectType.ChoicePanel:
+                    choicePanel = obj.gameObject;
+                    break;
+            }
+        }
+    }
+    public void SetScript(TextAsset text)
+    {
+        novelScript = text;
     }
     public void Play()
     {
@@ -93,33 +132,40 @@ public class NovelPlayer : MonoBehaviour
         var lines = novelScript.text.Split('\n');
         currentAct = NovelParser.Parse(lines);
 
-        nextButton.onClick.AddListener(OnNextLineClicked);
+        if (nextButton != null)
+        {
+            nextButton.onClick.RemoveAllListeners();
+            nextButton.onClick.AddListener(OnNextLineClicked);
+        }
+
 
         currentAct.ResetAct();
-        _dialoguePanel.SetActive(false);
+        dialoguePanel.SetActive(false);
         // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
     }
     private void OnNextLineClicked()
     {
+        // Act가 끝났으면 리턴
+        if (isFinished) return;
+
+        // @wait 커맨드로 멈춤
+        if (_isHardWait) return;
+
         if (isCommandRunning)
         {
             _commandCts?.Cancel();
         }
 
+        // 시간이 정해진 @wait 커맨드
+        if (_isWaitForTime) return;
+
         // 텍스트 타이핑 중이면 바로 전체 출력
         if (isTyping)
         {
             _typingCts?.Cancel();
+            return;
         }
-
-        // Act가 끝났으면 리턴
-        if (isFinished) return;
-
-        // @wait 커맨드로 멈춤
-        if (isWait) return;
-
-
 
         if (!_isPumping)
         {
@@ -151,7 +197,7 @@ public class NovelPlayer : MonoBehaviour
 
     private async UniTask<LineResult> ProcessLine()
     {
-        if (isWait) return LineResult.Stop;
+        if (_isHardWait) return LineResult.Stop;
 
         if (isSubLinePlaying && currentSubline is CommandLine subCommand)
         {
@@ -165,7 +211,7 @@ public class NovelPlayer : MonoBehaviour
         if (line == null)
         {
             isFinished = true;
-            _dialoguePanel.SetActive(false);
+            dialoguePanel.SetActive(false);
             Debug.Log("스크립트 끝까지 플레이");
             return LineResult.Finished;
         }
@@ -175,6 +221,11 @@ public class NovelPlayer : MonoBehaviour
             case LabelLine label:
                 return LineResult.Continue;
             case CommandLine command:
+                if (command is WaitCommand wait)
+                {
+                    RunCommandLine(command);
+                    return LineResult.Stop;
+                }
                 RunCommandLine(command);
                 return LineResult.Continue;
         }
@@ -206,10 +257,10 @@ public class NovelPlayer : MonoBehaviour
         }
     }
 
-
+    // 텍스트 패널에 있는 텍스트들 플레이 해주는 함수
     private void PlayLine(NovelLine line)
     {
-        _dialoguePanel.SetActive(true);
+        dialoguePanel.SetActive(true);
 
         _typingCts?.Cancel();
         _typingCts?.Dispose();
@@ -230,6 +281,7 @@ public class NovelPlayer : MonoBehaviour
                 break;
         }
     }
+    // 타이핑 하는 연출
     private async UniTask TypeTextAsync(string fullText, CancellationToken token)
     {
         isTyping = true;
@@ -269,30 +321,19 @@ public class NovelPlayer : MonoBehaviour
         isSubLinePlaying = true;
         currentSubline = line;
     }
-
-    public void StartWaitForseconds(float time)
+    public void SetHardWait (bool value)
     {
-        StartCoroutine(WaitCoroutine(time));
+        _isHardWait = value;
     }
-    private IEnumerator WaitCoroutine(float time)
+    public void SetWaitForTime(bool value)
     {
-        isWait = true;
-
-        float counter = 0f;
-        while (counter < time)
-        {
-            Debug.Log($"{counter}초째 기다리는중");
-            counter += Time.deltaTime;
-            yield return null;
-        }
-
-        isWait = false;
-        OnNextLineClicked();
+        _isWaitForTime = value;
     }
-
+    public void ContinueFromWait() => OnNextLineClicked();
     public void Resume()
     {
-        isWait = false;
+        _isWaitForTime = false;
+        _isHardWait = false;
         OnNextLineClicked();
     }
     public void OnCommandStart()
@@ -318,6 +359,11 @@ public class NovelPlayer : MonoBehaviour
             _commandCts?.Dispose();
             _commandCts = null;
         }
+    }
+
+    public void SetBackground(GameObject background)
+    {
+        currentBackgroundObject = background;
     }
     public CancellationToken CommandToken => _commandCts != null ? _commandCts.Token : CancellationToken.None;
 

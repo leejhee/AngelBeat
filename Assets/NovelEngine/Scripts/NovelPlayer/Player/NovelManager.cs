@@ -76,6 +76,7 @@ public class NovelManager : MonoBehaviour
 
 
         IsReady = true;
+        Debug.Log("Novel Engine 초기화 완료");
     }
     public static async UniTask ShutdownAsync()
     {
@@ -114,7 +115,7 @@ public class NovelManager : MonoBehaviour
             Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
             return;
         }
-        Player.novelScript = script;
+        Player.SetScript(script);
         // 플레이 해줌
         Player.Play();
 

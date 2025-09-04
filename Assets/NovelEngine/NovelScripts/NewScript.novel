@@ -1,9 +1,12 @@
 #start
 시이이이이이자아아아아아아아아앙아ㅏ아아아아아앙아아아ㅏ아악ㄹ
+@back 천수각
 @char DonQuixote transition:Fadein time:2 pos:20, 50
 @char Jururu transition:Fadein time:2 pos: 70, 50
+@wait 2
+???: 안녕
 DonQuixote : 안녕
-안녕
+Jururu : 안녕
 @hide DonQuixote
 중간                     
 

@@ -319,7 +319,7 @@ public static class NovelParser
         {
             var waitMatch = waitCommand.Match(line);
 
-            float waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : 0f;
+            float? waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : null;
 
             result = new WaitCommand(index, waitTime);
             //act.novelLines.Add(new WaitCommand(index, waitTime));

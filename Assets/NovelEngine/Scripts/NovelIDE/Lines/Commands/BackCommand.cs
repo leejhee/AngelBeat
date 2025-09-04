@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
+using GamePlay.Features.Scripts.Battle.Unit;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+
 
 namespace novel
 {
@@ -28,26 +30,53 @@ namespace novel
 
         public override async UniTask Execute()
         {
-
+            var player = NovelManager.Player;
 
             // 기존에 있던 배경 오브젝트 제거
-            if (NovelManager.Player.currentBackgroundObject != null)
-                GameObject.Destroy(NovelManager.Player.currentBackgroundObject);
+            if (player.currentBackgroundObject != null)
+            {
+                var backgroundObject = player.currentBackgroundObject;
+                backgroundObject.SetActive(false);
+                Addressables.ReleaseInstance(backgroundObject);
+            }
 
             // 배경 프리팹 불러오기
-            //GameObject backgroundPrefab = GameObject.Instantiate(NovelManager.Player.backgroundPrefab);
             GameObject backgroundPrefab = null;
-
-            // TODO
-            // 리소스 매니저에서 어드레서블로 교체 필요
-            // 배경 이미지 불러오기
-            //Sprite sprite = Core.Scripts.Managers.ResourceManager.LoadImageFromResources("Novel/NovelResourceData/GraphicData/BackgroundData/" + backName);
-            Sprite sprite = null;
-            if (sprite == null)
+            try
             {
-                Debug.LogError("배경 이미지 불러오기 실패" + backName);
+                var handle = Addressables.InstantiateAsync("BackgroundBase",
+                            player.backgroundPanel.transform);
+                backgroundPrefab = await handle.Task;
+                if (backgroundPrefab == null)
+                {
+                    Debug.LogError("배경화면 프리팹 인스턴스화 실패");
+                    return;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
                 return;
             }
+
+            // 데이터에서 배경화면 불러오기
+            Texture2D backgroundTexture = NovelManager.Data.background.GetTexture2DByName(backName);
+            if (backgroundTexture == null)
+            {
+                Debug.LogError($"{backName} 배경화면 불러오기 실패");
+                return;
+            }
+            Sprite sprite = Sprite.Create(backgroundTexture,
+                                          new Rect(0, 0, backgroundTexture.width, backgroundTexture.height),
+                                          new Vector2(0.5f, 0.5f));
+
+
+            if (sprite == null)
+            {
+                Debug.LogError("스프라이트 Create 실패 " + backName);
+                return;
+            }
+
             Image image = backgroundPrefab.GetComponent<Image>();
             if (image != null)
             {
@@ -88,8 +117,8 @@ namespace novel
 
 
 
-            backgroundPrefab.transform.SetParent(NovelManager.Player.backgroundPanel.transform, false);
-            NovelManager.Player.currentBackgroundObject = backgroundPrefab;
+            //backgroundPrefab.transform.SetParent(NovelManager.Player.backgroundPanel.transform, false);
+            NovelManager.Player.SetBackground(backgroundPrefab);
         }
     }
 }

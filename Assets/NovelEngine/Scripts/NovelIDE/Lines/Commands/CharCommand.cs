@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 namespace novel
 {
@@ -117,7 +116,7 @@ namespace novel
                                 newStanding = await handle.Task;
                                 if (newStanding == null)
                                 {
-                                    Debug.LogError("프리팹 인스턴스화 실패");
+                                    Debug.LogError("스탠딩 프리팹 인스턴스화 실패");
                                     break;
                                 }
                             }

@@ -1,0 +1,52 @@
+{
+    "version": 1,
+    "name": "NovelEngineInputs",
+    "maps": [
+        {
+            "name": "NovelEngine",
+            "id": "a62d4c71-b911-4d7a-be8e-f431d00b1607",
+            "actions": [
+                {
+                    "name": "OnClickNext",
+                    "type": "Button",
+                    "id": "35fa1a15-70ca-4079-a087-94a9a29b0dce",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fb76417c-10c6-4b52-bae4-96ad6b5c922b",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";PC",
+                    "action": "OnClickNext",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

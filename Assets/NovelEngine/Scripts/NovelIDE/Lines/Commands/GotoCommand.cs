@@ -18,7 +18,7 @@ namespace novel
         {
             Debug.Log($"goto 실행 : {label}");
 
-            NovelManager.Player.currentAct.JumpToLabel(label);
+            //NovelManager.Player.currentAct.JumpToLabel(label);
         }
     }
 }

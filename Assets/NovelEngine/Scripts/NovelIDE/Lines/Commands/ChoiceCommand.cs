@@ -25,7 +25,7 @@ namespace novel
             // 선택지 프리팹 불러오기
             //GameObject choicePrefab = GameObject.Instantiate(NovelManager.Player.choiceButtonPrefab);
             GameObject choicePrefab = null;
-            choicePrefab.transform.SetParent(NovelManager.Player.choicePanel.transform);
+            //choicePrefab.transform.SetParent(NovelManager.Player.choicePanel.transform);
             choicePrefab.GetComponentInChildren<TextMeshProUGUI>().text = argument;
             Button choiceButton = choicePrefab.GetComponent<Button>();
             choiceButton.onClick.AddListener(() => OnClickChoiceButton());
@@ -40,12 +40,12 @@ namespace novel
             NovelManager.Player.SetSublinePlaying(subLine);
 
 
-            // 선택지 오브젝트 제거
-            foreach (Transform child in NovelManager.Player.choicePanel.transform)
-            {
-                GameObject.Destroy(child.gameObject);
+            //// 선택지 오브젝트 제거
+            //foreach (Transform child in NovelManager.Player.choicePanel.transform)
+            //{
+            //    GameObject.Destroy(child.gameObject);
             
-            }
+            //}
 
             
             
