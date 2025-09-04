@@ -20,11 +20,5 @@ namespace novel
 
             NovelManager.Player.currentAct.JumpToLabel(label);
         }
-
-        public override bool? IsWait()
-        {
-            return null;
-        }
     }
-
 }

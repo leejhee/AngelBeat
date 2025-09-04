@@ -40,7 +40,6 @@ public static class NovelParser
     private static Regex posPattern = new Regex(@"pos\s*:\s*(?<posX>[\d.]+)\s*,\s*(?<posY>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex scalePattern = new Regex(@"scale\s*:\s*(?<scale>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex timePattern = new Regex(@"time\s*:\s*(?<time>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static Regex waitPattern = new Regex(@"(?<wait>!wait|wait!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static Regex volumePattern = new Regex(@"volume\s*:\s*(?<volume>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex loopPattern = new Regex(@"(?<loop>!loop|loop!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -205,20 +204,9 @@ public static class NovelParser
             if (timeMatch.Success)
                 time = float.Parse(timeMatch.Groups["time"].Value);
 
-            bool? wait = null;
-            var waitMatch = waitPattern.Match(line);
-            if (waitMatch.Success)
-            {
-                var waitStr = waitMatch.Groups["wait"].Value;
-                if (waitStr == "!wait")
-                    wait = true;
-                else if (waitStr == "wait!")
-                    wait = false;
-            }
+            Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nIndex : {index}");
 
-            Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nWait : {wait}\nIndex : {index}");
-
-            result = new BackCommand(index, backName, transition, pos, scale, time, wait);
+            result = new BackCommand(index, backName, transition, pos, scale, time);
 
         }
         else if (bgmCommand.IsMatch(line))
@@ -252,24 +240,14 @@ public static class NovelParser
             if (fadeMatch.Success)
                 fade = float.Parse(fadeMatch.Groups["fade"].Value);
 
-            bool? wait = null;
-            var waitMatch = waitPattern.Match(line);
-            if (waitMatch.Success)
-            {
-                var waitStr = waitMatch.Groups["wait"].Value;
-                if (waitStr == "!wait")
-                    wait = true;
-                else if (waitStr == "wait!")
-                    wait = false;
-            }
 
-            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nwait : {wait}\nIndex : {index}");
-            result = new BgmCommand(index, bgmName, volume, time, fade, loop, wait);
+            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nIndex : {index}");
+            result = new BgmCommand(index, bgmName, volume, time, fade, loop);
             //act.novelLines.Add(new BgmCommand(index, bgmName, volume, time, fade, loop, wait));
         }
         else if (stopBGMCommand.IsMatch(line))
         {
-            result = new BgmCommand(index, null, null, null, null, null, null ,BGMCommandType.Stop);
+            result = new BgmCommand(index, null, null, null, null, null ,BGMCommandType.Stop);
 
             //act.novelLines.Add(new BgmCommand(index, null, null, null, null, null, null, BGMCommandType.Stop));
             Debug.Log($"StopBGM\nIndex : {index}");
@@ -304,38 +282,27 @@ public static class NovelParser
             if (timeMatch.Success)
                 time = float.Parse(timeMatch.Groups["time"].Value);
 
-            bool? wait = null;
-            var waitMatch = waitPattern.Match(line);
-            if (waitMatch.Success)
-            {
-                var waitStr = waitMatch.Groups["wait"].Value;
-                if (waitStr == "!wait")
-                    wait = true;
-                else if (waitStr == "wait!")
-                    wait = false;
-            }
             CharCommandType charCommandType = CharCommandType.Show;
             if (transition == "fadeout")
             {
                 charCommandType = CharCommandType.Hide;
             }
 
-            result = new CharCommand(index, name, appearance, transition, pos, scale, time, wait, charCommandType);
-            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\nType : {charCommandType}\ntime : {time}\nwait : {wait}\nIndex : {index}");
+            result = new CharCommand(index, name, appearance, transition, pos, scale, time, charCommandType);
+            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\nType : {charCommandType}\ntime : {time}\nIndex : {index}");
         }
         else if (hideCommand.IsMatch(line))
         {
             var hideMatch = hideCommand.Match(line);
             string name = hideMatch.Groups["name"].Value;
 
-            result = new CharCommand(index, name, null, null, null, null, null, null, CharCommandType.Hide);
+            result = new CharCommand(index, name, null, null, null, null, null, CharCommandType.Hide);
             Debug.Log($"hide command\nCharacter : {name}\nIndex : {index}");
         }
         else if (hideAllCommand.IsMatch(line))
         {
-            result = new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll);
+            result = new CharCommand(index, null, null, null, null, null, null, CharCommandType.HideAll);
             Debug.Log("Hide All Command\nIndex : {index}");
-            //act.novelLines.Add(new CharCommand(index, null, null, null, null, null, null, null, CharCommandType.HideAll));
         }
         else if (choiceCommand.IsMatch(line))
         {

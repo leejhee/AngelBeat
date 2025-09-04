@@ -15,18 +15,15 @@ namespace novel
         public Vector2? pos;
         public float? scale;
         public float? time;
-        public bool? wait;
-
         
         public BackCommand(int index, string backName,  string transition,
-                            Vector2? pos, float? scale, float? time, bool? wait) : base(index, DialogoueType.CommandLine)
+                            Vector2? pos, float? scale, float? time ) : base(index, DialogoueType.CommandLine)
         {
             this.backName = backName;
             this.transition = transition;
             this.pos = pos;
             this.scale = scale;
             this.time = time;
-            this.wait = wait;
         }
 
         public override async UniTask Execute()
@@ -51,8 +48,6 @@ namespace novel
                 Debug.LogError("배경 이미지 불러오기 실패" + backName);
                 return;
             }
-            bool isWait = wait ?? false;
-
             Image image = backgroundPrefab.GetComponent<Image>();
             if (image != null)
             {
@@ -95,10 +90,6 @@ namespace novel
 
             backgroundPrefab.transform.SetParent(NovelManager.Player.backgroundPanel.transform, false);
             NovelManager.Player.currentBackgroundObject = backgroundPrefab;
-        }
-        public override bool? IsWait()
-        {
-            return this.wait;
         }
     }
 }

@@ -7,13 +7,12 @@ using UnityEngine.AddressableAssets;
 namespace novel
 {
     [System.Serializable]
-    public abstract class CommandLine : NovelLine, IExecutable
+    public abstract class CommandLine : NovelLine
     {
         [SerializeReference]
         public NovelLine subLine;
         public CommandLine(int index, DialogoueType type) : base(index, type) { }
 
         public abstract UniTask Execute();
-        public abstract bool? IsWait();
     }
 }

@@ -49,11 +49,6 @@ namespace novel
             float realValue = value ?? 0;
             bool returnBool = NovelUtils.ConditinalStateMent(realVar, op, realValue);
         }
-
-        public override bool? IsWait()
-        {
-            return null;
-        }
     }
 
 }

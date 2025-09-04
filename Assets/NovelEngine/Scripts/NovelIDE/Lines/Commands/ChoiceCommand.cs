@@ -54,10 +54,6 @@ namespace novel
             NovelManager.Player.Resume();
 
         }
-        public override bool? IsWait()
-        {
-            return null;
-        }
     }
 
 }

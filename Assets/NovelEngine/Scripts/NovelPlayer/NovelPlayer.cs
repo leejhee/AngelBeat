@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Text;
+using Cysharp.Threading.Tasks.CompilerServices;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -58,7 +59,12 @@ public class NovelPlayer : MonoBehaviour
 
     private CancellationTokenSource _typingCts;
     private CancellationToken _destroyToken;
+
     private CancellationTokenSource _commandCts;
+    private int _runningCommandCount = 0; // 동시 커맨드 수
+
+
+    private bool _isPumping;
 
     private void Awake()
     {
@@ -94,22 +100,62 @@ public class NovelPlayer : MonoBehaviour
         // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
     }
-    private enum LineResult { Continue, Stop, Finished }
-    private async UniTask NextLine()
+    private void OnNextLineClicked()
     {
-        var result = await ProcessLine();
-        if (result == LineResult.Continue)
+        if (isCommandRunning)
         {
-            await NextLine();
+            _commandCts?.Cancel();
+        }
+
+        // 텍스트 타이핑 중이면 바로 전체 출력
+        if (isTyping)
+        {
+            _typingCts?.Cancel();
+        }
+
+        // Act가 끝났으면 리턴
+        if (isFinished) return;
+
+        // @wait 커맨드로 멈춤
+        if (isWait) return;
+
+
+
+        if (!_isPumping)
+        {
+            _isPumping = true;
+            NextLine().Forget();
         }
     }
+
+    private async UniTask NextLine()
+    {
+        bool keepPumping = false;
+        try
+        {
+            var result = await ProcessLine();
+            if (result == LineResult.Continue)
+            {
+                keepPumping = true;
+                NextLine().Forget();
+                return;
+            }
+        }
+        finally
+        {
+            if (!keepPumping)
+                _isPumping = false;
+        }
+    }
+    private enum LineResult { Continue, Stop, Finished }
+
     private async UniTask<LineResult> ProcessLine()
     {
         if (isWait) return LineResult.Stop;
 
         if (isSubLinePlaying && currentSubline is CommandLine subCommand)
         {
-            await subCommand.Execute();
+            RunCommandLine(subCommand);
             isSubLinePlaying = false;
             return LineResult.Continue;
         }
@@ -129,33 +175,37 @@ public class NovelPlayer : MonoBehaviour
             case LabelLine label:
                 return LineResult.Continue;
             case CommandLine command:
-                await command.Execute(); // 반드시 UniTask여야 함
+                RunCommandLine(command);
                 return LineResult.Continue;
         }
         PlayLine(line);
         return LineResult.Stop;
     }
-    private void OnNextLineClicked()
+    private void RunCommandLine(CommandLine command)
     {
-        if (isCommandRunning)
-        {
-            _commandCts?.Cancel();
-            return;
-        }
-
-        // Act가 끝났으면 리턴
-        if (isFinished) return;
-        // wait 실행중
-        if(isWait) return;
-
-        // 텍스트 타이핑 중이면 바로 전체 출력
-        if (isTyping)
-        {
-            _typingCts?.Cancel();
-            return;
-        }
-        NextLine().Forget();
+        OnCommandStart();
+        RunCommandLineAsync(command).Forget();
     }
+    private async UniTaskVoid RunCommandLineAsync(CommandLine command)
+    {
+        try
+        {
+            await command.Execute().AttachExternalCancellation(CommandToken);   // 현재 실행되고 있는 모든 커맨드에 대한 공유 토큰
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("Command Cancelled");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Command Execution Error: {ex.Message}");
+        }
+        finally
+        {
+            OnCommandEnd();
+        }
+    }
+
 
     private void PlayLine(NovelLine line)
     {
@@ -247,17 +297,27 @@ public class NovelPlayer : MonoBehaviour
     }
     public void OnCommandStart()
     {
-        isCommandRunning = true;
-        _commandCts?.Cancel();
-        _commandCts?.Dispose();
-        _commandCts = new CancellationTokenSource();
+        _runningCommandCount++;
+        
+        // 가장 처음 실행되는 커맨드에 대해서만 취소 토큰 생성
+        if (_runningCommandCount == 1)
+        {
+            isCommandRunning = true;
+            _commandCts?.Cancel();
+            _commandCts?.Dispose();
+            _commandCts = new CancellationTokenSource();
+        }
     }
     public void OnCommandEnd()
     {
-        isCommandRunning = false;
-        _commandCts?.Cancel();
-        _commandCts?.Dispose();
-        _commandCts = null;
+        _runningCommandCount = Math.Max(0, _runningCommandCount - 1);
+        if (_runningCommandCount == 0)
+        {
+            isCommandRunning = false;
+            _commandCts?.Cancel();   // 모두 끝났을 때 정리 겸 cancel
+            _commandCts?.Dispose();
+            _commandCts = null;
+        }
     }
     public CancellationToken CommandToken => _commandCts != null ? _commandCts.Token : CancellationToken.None;
 
