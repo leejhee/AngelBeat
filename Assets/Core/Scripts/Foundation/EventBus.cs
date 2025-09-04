@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Scripts.Foundation.Singleton;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Scripts.Foundation

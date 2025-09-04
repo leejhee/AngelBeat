@@ -1,5 +1,9 @@
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.Singleton;
+using Core.Scripts.Foundation.Utils;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core.Scripts.Managers
@@ -21,6 +25,7 @@ namespace Core.Scripts.Managers
         #endregion
         
         #region Game State Management
+      
         private SystemEnum.GameState _state;
         public SystemEnum.GameState GameState
         {
@@ -35,7 +40,21 @@ namespace Core.Scripts.Managers
         
         public event Action<SystemEnum.GameState> BeforeGameStateChange;
         public event Action<SystemEnum.GameState> OnGameStateChanged;
+        
         #endregion
+        
+        #region Singleton Objects Management
+        [Serializable]
+        public class ManagerDictionary : SerializableDict<SystemEnum.ManagerType, ManagerBehaviour> {}
+        
+        [SerializeField, Header("상태에 따른 관리")]
+        private ManagerDictionary managerDict = new();
+
+        
+        
+        
+        #endregion
+        
         
         private void Start()
         {
@@ -55,7 +74,7 @@ namespace Core.Scripts.Managers
 
             //산하에 SingletonObject<T> 상속받는 매니저들 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
             //나머지는 전부 런타임에 게임플레이 어딘가(씬 등)에서 호출합니다.
-            Scripts.Managers.DataManager.Instance.Init();
+            DataManager.Instance.Init();
             SaveLoadManager.Instance.Init();
             SoundManager.Instance.Init();
             InputManager.Instance.Init();
@@ -68,11 +87,13 @@ namespace Core.Scripts.Managers
 
         private void OnApplicationQuit()
         {
+            //강종 대비
             SaveLoadManager.Instance.OnApplicationQuit();
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
+            //모바일 사례 : 갑자기 내린다면
             SaveLoadManager.Instance.OnApplicationPause(pauseStatus);
         }
     }

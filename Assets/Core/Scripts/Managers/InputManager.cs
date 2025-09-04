@@ -1,19 +1,30 @@
 using Core.Scripts.Foundation;
+using Core.Scripts.Foundation.Singleton;
 using System;
 using UnityEngine;
 
 namespace Core.Scripts.Managers
 {
     /// <summary>
-    /// 업데이트문에 항상 키를 감지하게 하려면 너무 부하가 커지기 때문에,
-    /// 인풋을 체크해서 이벤트로 쫙 퍼트려주는 식으로(리스너 패턴) 매니저를 구현한다.
+    /// Unity Input System 사용
     /// </summary>
     public class InputManager : SingletonObject<InputManager>
     {
         #region 생성자
         private InputManager() {}
         #endregion
+        
+        #region Input Action Enum
 
+        public enum EInputAction
+        {
+            None = 0,
+            
+        }
+        #endregion
+        
+        //private Dictionary<
+        
         public override void Init()
         {
             base.Init();

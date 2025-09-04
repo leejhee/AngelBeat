@@ -1,5 +1,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation;
+using Core.Scripts.Foundation.Singleton;
 using System;
 using System.Collections.Generic;
 using System.Linq;

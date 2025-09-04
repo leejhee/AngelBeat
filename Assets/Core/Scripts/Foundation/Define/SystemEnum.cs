@@ -14,7 +14,15 @@ namespace Core.Scripts.Foundation.Define
             Battle,
             EMax
         }
-    
+        
+        public enum ManagerType
+        {
+            Party,
+            Inventory,
+            Explore,
+            Battle,
+        }
+        
         public enum UIEvent
         {
             Click,
