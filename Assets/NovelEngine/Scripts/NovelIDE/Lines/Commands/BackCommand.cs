@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using System.Collections.Generic;
@@ -31,14 +32,9 @@ namespace novel
         public override async UniTask Execute()
         {
             var player = NovelManager.Player;
-
+            var token = player.CommandToken;
             // 기존에 있던 배경 오브젝트 제거
-            if (player.currentBackgroundObject != null)
-            {
-                var backgroundObject = player.currentBackgroundObject;
-                backgroundObject.SetActive(false);
-                Addressables.ReleaseInstance(backgroundObject);
-            }
+
 
             // 배경 프리팹 불러오기
             GameObject backgroundPrefab = null;
@@ -97,6 +93,7 @@ namespace novel
                 // 크기 조정
                 
                 //나중에 화면 크기 필요할수도 있을거 같아서 일단 가져옴
+
                 //Vector2 canvasSize = new Vector2(Screen.width, Screen.height);
 
                 if (scale.HasValue)
@@ -104,20 +101,33 @@ namespace novel
 
             }
 
+
             // 전환효과가 있을 경우
-            if (transition != null && transition != "")
+            if (!string.IsNullOrEmpty(transition))
             {
-                if (transition.ToLower() == "fadeout")
+                // TODO
+                // 나중에 스위치문으로 바꿀것
+                if (transition.ToLower() == "fadein")
                 {
-                    Debug.Log("페이드아웃");
+
+                    if (!backgroundPrefab.TryGetComponent<CanvasGroup>(out var cg))
+                        cg = backgroundPrefab.AddComponent<CanvasGroup>();
+                    cg.alpha = 0f;
                     float fadeTime = time ?? 0f;
-                    //NovelManager.Player.BackgroundFadeOut(image, fadeTime, backgroundPrefab, true, isWait);
+                    if (time > 0f)
+                        await NovelUtils.Fade(backgroundPrefab, fadeTime, true, token);
                 }
             }
 
+            // 연출이 끝난 후 기존 배경화면 삭제
+            if (player.currentBackgroundObject != null)
+            {
+                var beforeBackground = player.currentBackgroundObject;
+                beforeBackground.SetActive(false);
+                Addressables.ReleaseInstance(beforeBackground);
+            }
 
-
-            //backgroundPrefab.transform.SetParent(NovelManager.Player.backgroundPanel.transform, false);
+            // 새로 생성한 배경화면을 현재 배경화면으로 설정
             NovelManager.Player.SetBackground(backgroundPrefab);
         }
     }

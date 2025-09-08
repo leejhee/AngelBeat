@@ -1,7 +1,10 @@
 #start
-시이이이이이자아아아아아아아아앙아ㅏ아아아아아앙아아아ㅏ아악ㄹ
-@back 천수각
+시이이이이이자아아아아아아아아앙아악
+@back 노드크라이
+@back 천수각.fadein time:2
+@wait 10
 @char DonQuixote transition:Fadein time:2 pos:20, 50
+@wait 2
 @char Jururu transition:Fadein time:2 pos: 70, 50
 @wait 2
 ???: 안녕

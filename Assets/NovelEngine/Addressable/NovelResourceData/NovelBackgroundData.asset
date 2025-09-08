@@ -16,5 +16,7 @@ MonoBehaviour:
     pairs:
     - _key: "\uCC9C\uC218\uAC01"
       value: {fileID: 2800000, guid: 04b8d0f3adbac6046b0fc07c72f811ef, type: 3}
+    - _key: "\uB178\uB4DC\uD06C\uB77C\uC774"
+      value: {fileID: 2800000, guid: fa28524ce197b714bac818bc23c6345a, type: 3}
     keys: []
     values: []

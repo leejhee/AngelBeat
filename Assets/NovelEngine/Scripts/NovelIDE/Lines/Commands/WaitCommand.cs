@@ -24,6 +24,9 @@ namespace novel
                 return;
             }
 
+
+            // 일정 시간동안 멈춰두기 (취소 가능)
+
             float realTime = Mathf.Max(0f, waitTime.Value);
             player.SetHardWait(false);
             player.SetWaitForTime(true);
@@ -31,21 +34,21 @@ namespace novel
             try
             {
                 await UniTask
-                    .Delay(TimeSpan.FromSeconds(realTime), DelayType.DeltaTime, PlayerLoopTiming.Update, player.CommandToken)
-                    .AttachExternalCancellation(player.CommandToken);
+                    .Delay(TimeSpan.FromSeconds(realTime),
+                    DelayType.DeltaTime,
+                    PlayerLoopTiming.Update,
+                    player.waitToken);
+
             }
             catch (OperationCanceledException)
             {
                 // 클릭으로 취소됨
+                Debug.Log("Wait cancelled by click");
+
             }
             catch (Exception e)
             {
                 Debug.LogException(e);
-            }
-            finally
-            {
-                player.SetWaitForTime(false);
-                player.ContinueFromWait();
             }
 
         }

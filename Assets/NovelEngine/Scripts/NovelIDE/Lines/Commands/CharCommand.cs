@@ -125,15 +125,7 @@ namespace novel
                                 Debug.LogError(e);
                                 break;
                             }
-                            // 이부분 필요한지 고민
-                            //// 클릭으로 이미 취소되었으면 즉시 엔드 스냅
-                            //if (token.IsCancellationRequested)
-                            //{
-                            //    // 즉시 정리(엔드 상태 스냅): 보여줄 필요 없으면 바로 제거
-                            //    newStanding.SetActive(false);
-                            //    Addressables.ReleaseInstance(newStanding);
-                            //    break;
-                            //}
+
                             var bodyObject = newStanding.transform.GetChild(BODY_CHILD_INDEX).gameObject;
                             var headObject = newStanding.transform.GetChild(HEAD_CHILD_INDEX).gameObject;
 
@@ -210,7 +202,6 @@ namespace novel
 
                             dict[charSO] = newStanding;
                             break;
-                            //NovelManager.Player.currentCharacterDict.Add(charSO, standingObject);
                         }
 
                     case CharCommandType.Hide:
