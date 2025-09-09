@@ -1,14 +1,12 @@
-﻿using Core.Scripts.GameSave;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
-namespace Core.GameSave.IO
+namespace Core.Scripts.GameSave.IO
 {
     /// <summary>
     /// 슬롯 데이터 저장 및 로드 시의 비동기 작업을 담당하는 정적 클래스
@@ -120,7 +118,7 @@ namespace Core.GameSave.IO
         
         static void TryDelete(string p)
         {
-            try { if (File.Exists(p)) File.Delete(p); } catch { /* ignore */ }
+            try { if (File.Exists(p)) File.Delete(p); } catch { /* Silence */ }
         }
     }
 }

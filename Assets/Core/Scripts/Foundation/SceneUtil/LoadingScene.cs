@@ -31,21 +31,13 @@ namespace Core.Scripts.Foundation.SceneUtil
             {
                 float post = 0f;
                 Progress<float> progress = new(p => {
-                    progressBar.fillAmount = loadingBoundary + (0.1f * Mathf.Clamp01(p));
+                    progressBar.fillAmount = loadingBoundary + ((1 - loadingBoundary) * Mathf.Clamp01(p));
                     post = p;
                 });
                 yield return SceneLoader.InitCallbackAsync(cts.Token).ToCoroutine();
             }
             SceneLoader.Clear();
             
-            //float elapsed = 0f;
-            //while (elapsed < fakeLoadingTime)
-            //{
-            //    elapsed += Time.deltaTime;
-            //    float t = Mathf.Clamp01(elapsed / fakeLoadingTime);
-            //    progressBar.fillAmount = 0.9f + 0.1f * t;
-            //    yield return null;
-            //}
 
             op.allowSceneActivation = true;
             yield return op;

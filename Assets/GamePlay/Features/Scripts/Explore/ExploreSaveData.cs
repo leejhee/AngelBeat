@@ -2,6 +2,7 @@
 using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Explore.Map.Logic;
+using GamePlay.Features.Scripts.Explore.Map.Logic;
 using System;
 using UnityEngine.Serialization;
 

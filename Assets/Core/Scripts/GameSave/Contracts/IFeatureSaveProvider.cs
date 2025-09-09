@@ -1,4 +1,4 @@
-﻿namespace Core.GameSave.Contracts
+﻿namespace Core.Scripts.GameSave.Contracts
 {
     public interface IFeatureSaveProvider
     {

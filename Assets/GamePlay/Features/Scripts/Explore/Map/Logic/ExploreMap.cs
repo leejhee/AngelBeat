@@ -1,9 +1,9 @@
-﻿using Core.GameSave;
+﻿using GamePlay.Explore.Map.Logic;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.Explore.Map.Logic
+namespace GamePlay.Features.Scripts.Explore.Map.Logic
 {
     /// <summary>
     /// 맵의 기본 구조를 나타내는 클래스

@@ -1,4 +1,4 @@
-﻿using Core.GameSave.Contracts;
+﻿using Core.Scripts.GameSave.Contracts;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 

@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Core.GameSave.Contracts
+namespace Core.Scripts.GameSave.Contracts
 {
     [Serializable]
     public abstract class FeatureSnapshot

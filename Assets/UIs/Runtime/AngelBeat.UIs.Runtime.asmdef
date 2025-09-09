@@ -5,6 +5,7 @@
     "UniTask",
     "UniTask.Addressables",
     "UniTask.TextMeshPro",
-    "UniTask.DOTween"
+    "UniTask.DOTween",
+    "GUID:d8708c7a53ae494e8fdf5a058dac8833"
   ]
 }

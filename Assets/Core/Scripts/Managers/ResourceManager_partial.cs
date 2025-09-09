@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core.Scripts.Managers
 {
-    public partial class ResourceManager : SingletonObject<Core.Scripts.Managers.ResourceManager>
+    public partial class ResourceManager
     {
         public static Sprite LoadImageFromResources(string basePath)
         {

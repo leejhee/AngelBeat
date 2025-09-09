@@ -1,8 +1,5 @@
-﻿using Core.Scripts.UIAbstraction;
-using Cysharp.Threading.Tasks;
+﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace UIs.Runtime
 {
@@ -11,82 +8,92 @@ namespace UIs.Runtime
         void SetRoute(string route);
     }
     
-    public abstract class PresenterBase<TVM> : MonoBehaviour,
-        IUniPresenter, IPresenter, IView<TVM>, IRouteReceiver
+    public abstract class PresenterBase<TModel> : IPresenter, IRouteReceiver where TModel : IUIModel
     {
-        [SerializeField] protected CanvasGroup canvasGroup;
-        [SerializeField] protected float fadeIn = 0.1f;
-        [SerializeField] protected float fadeOut = 0.1f;
-        [SerializeField] protected int layer = 0; // 0:Screen, 10:Modal, 20:Toast
+        protected IView<TModel> View;       // Presenter은 View를 참조한다.
+        protected TModel        Model;      // Presenter은 Model을 참조한다.
+        protected int           Layer = 0;  // 0:Screen, 10:Modal, 20:Toast
+
+        private CancellationTokenSource _cts;
+        protected CancellationToken ViewToken => _cts?.Token ?? CancellationToken.None;
+        private bool _disposed = false;
         
-        public string Route { get; private set; }
-        public bool IsVisible { get; private set; }
-        public int Layer => layer;
-        protected TVM VM { get; private set; }
-        
-        public void SetRoute(string route) => Route = route;
-        
-        public void BindObject(TVM vm)
+        /// <summary>
+        /// UIManager에서 Presenter 생성 시 참조하는 View
+        /// </summary>
+        /// <param name="view"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void AttachView(IView<TModel> view)
         {
-            VM = vm; Render(vm);
+            View = view ?? throw new ArgumentNullException(nameof(view));
+            View.OnBackRequested += OnBackRequested;
+        }
+        
+        public void Show(TModel model)
+        {
+            RestartCTS();
+            Model = model;
+            View.BindObject(model);
+            View.Show();
+        }
+        
+        /// <summary>
+        /// 보이는 상태에서 Model만 바뀌는 경우에 사용(보통 입력에 의해 바뀜)
+        /// </summary>
+        /// <param name="model">새로이 갱신되어 반영될 모델</param>
+        public void Refresh(TModel model)
+        {
+            Model = model;
+            View.BindObject(model);
+        }
+        
+        public void Hide()
+        {
+            _cts?.Cancel();
+            View?.Hide();
+        }
+        
+        public virtual void OnBackRequested()
+        {
+            Hide();
         }
 
-        public void BindObject(object vm) => BindObject(vm is TVM t ? t : default);
-        protected abstract void Render(TVM vm);
-
-
-        public virtual async UniTask ShowUniAsync(CancellationToken ct = default)
+        public virtual void Dispose()
         {
-            gameObject.SetActive(true);
-            if (canvasGroup)
+            if (_disposed) return;
+            _disposed = true;
+
+            try
             {
-                canvasGroup.blocksRaycasts = true;
-                float t = 0f;
-                while (t < fadeIn)
-                {
-                    ct.ThrowIfCancellationRequested();
-                    t += Time.unscaledDeltaTime;
-                    canvasGroup.alpha = fadeIn <= 0 ? 1f : Mathf.Clamp01(t / fadeIn);
-                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                }
-
-                canvasGroup.alpha = 1f;
+                if(View != null)
+                    View.OnBackRequested -= OnBackRequested;
             }
+            catch { /*TODO : Destroying Order Concern*/}
+            
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
 
-            IsVisible = true;
-            OnAfterShow();
-        }
-
-        public virtual async UniTask HideUniAsync(CancellationToken ct = default)
-        {
-            if (canvasGroup)
+            try
             {
-                canvasGroup.blocksRaycasts = false;
-                float t = fadeOut;
-                while (t > 0f)
-                {
-                    ct.ThrowIfCancellationRequested();
-                    t -= Time.unscaledDeltaTime;
-                    canvasGroup.alpha = fadeOut <= 0 ? 0f : Mathf.Clamp01(t / fadeOut);
-                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
-                }
+                View?.Close();
             }
-
-            IsVisible = false;
-            OnAfterHide();
-            gameObject.SetActive(false);
+            catch { /*TODO : Already Destroyed*/ }
+            
+            View  = null; // 연결 해제
+            Model = default!;
         }
 
+        public void SetRoute(string route)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        public Task ShowAsync(CancellationToken ct) => ShowUniAsync(ct).AsTask();
-        public Task HideAsync(CancellationToken ct) => HideUniAsync(ct).AsTask();
-
-
-        public virtual void OnFocusGained() { }
-        public virtual void OnFocusLost() { }
-        public virtual bool OnBackRequested() => false;
-        
-        protected virtual void OnAfterShow() { }
-        protected virtual void OnAfterHide() { }
+        private void RestartCTS()
+        {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = new CancellationTokenSource();
+        }
     }
 }

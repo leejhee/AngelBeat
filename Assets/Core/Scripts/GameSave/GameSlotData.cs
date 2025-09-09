@@ -1,5 +1,5 @@
-﻿using Core.GameSave.Contracts;
-using Core.Scripts.Foundation.Utils;
+﻿using Core.Scripts.Foundation.Utils;
+using Core.Scripts.GameSave.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
