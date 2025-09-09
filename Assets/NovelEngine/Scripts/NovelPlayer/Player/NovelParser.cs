@@ -62,7 +62,7 @@ public static class NovelParser
 
         foreach(string raw in lines)
         {
-            NovelLine line = ParseLine(act, raw, index);
+            NovelLine line = ParseLine(act, raw, index, novelLines);
             if (line != null)
             {
                 novelLines.Add(line);
@@ -88,23 +88,24 @@ public static class NovelParser
         else
             return DialogoueType.NormalLine;
     }
-    private static NovelLine ParseLine(NovelAct act, string line, int index, NovelLine upperLine = null)
+    private static NovelLine ParseLine(NovelAct act, string line, int index, List<NovelLine> lineList = null)
     {
         NovelLine result = null;
         if (subLinePattern.IsMatch(line))
         {
             // 공백4개 제거
             line = line.Substring(4);
-            if (line == null || line.Length == 0)
+            if (line == null || line.Length == 0)  
             {
                 //빈 라인
                 return null;
             }
             else
             {
-                if (act.GetLineFromIndex(index - 1) is CommandLine command)
+                if (lineList[index - 2] is CommandLine command)
                 {
-                    command.subLine = ParseLine(act, line, index - 1, command);
+                    command.subLine = ParseLine(act, line, index - 1);
+                    Debug.Log($"Subline of {command.GetType().Name} at index {index - 1} parsed.");
                 }
             }
         }

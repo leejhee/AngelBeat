@@ -12,7 +12,7 @@ using Cysharp.Threading.Tasks.CompilerServices;
 public class NovelPlayer : MonoBehaviour
 {
     private TextAsset novelScript;
-    private NovelAct currentAct = new();
+    public NovelAct currentAct { get; private set; }
     public NovelEngine.Scripts.SerializableDict<string, int> labelDict { get; private set; }
     private bool isFinished = false;
 
@@ -77,6 +77,7 @@ public class NovelPlayer : MonoBehaviour
     }
     private void Init()
     {
+        currentAct = new();
         novelScript = null;
         FindObjectsByType();
         labelDict = new();

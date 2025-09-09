@@ -1,24 +1,12 @@
 #start
-시이이이이이자아아아아아아아아앙아악
-@back 노드크라이
-@back 천수각.fadein time:2
-@wait 10
-@char DonQuixote transition:Fadein time:2 pos:20, 50
-@wait 2
-@char Jururu transition:Fadein time:2 pos: 70, 50
-@wait 2
-???: 안녕
-DonQuixote : 안녕
-Jururu : 안녕
-@hide DonQuixote
-중간                     
+시이이이이이자아아아아아아아아앙아악          
 
 @choice 선택지1
     @goto label_1
 @choice 선택지2
     @goto label_2
 @wait
-
+이거 뜨면 안됨
 
 #label_1
 1번 선택지 선택함
