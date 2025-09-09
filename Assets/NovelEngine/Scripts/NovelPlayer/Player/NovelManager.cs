@@ -81,13 +81,15 @@ public class NovelManager : MonoBehaviour
     public static async UniTask ShutdownAsync()
     {
         if (Instance == null) return;
+
         try { Data.OnNovelEnd(); } catch { /* ignore */ }
 
         if (Player != null)
         {
-            Destroy(Player.gameObject);
+            Addressables.ReleaseInstance(Player.gameObject);
             Player = null;
         }
+
         var go = Instance.gameObject;
         Instance = null;
         if (go != null) Destroy(go);
@@ -139,23 +141,18 @@ public class NovelManager : MonoBehaviour
             // 없으면 Addressables에서 로드 및 인스턴스화
             if (Player == null)
             {
-                AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(novelPlayerPrefabPath);
-                var prefab = await handle.Task;
+                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(novelPlayerPrefabPath, transform);
+                var go = await handle.Task;
 
-                if (prefab != null)
+                if (go != null)
                 {
-                    var go = Instantiate(prefab, transform);
                     go.name = "NovelPlayer";
                     Player = go.GetComponent<NovelPlayer>();
-                    DontDestroyOnLoad(Player);
                 }
                 else
                 {
                     Debug.LogError($"[NovelManager] Failed to load prefab: {novelPlayerPrefabPath}");
                 }
-                // prefab 레퍼런스 핸들 해제
-                Addressables.Release(handle);
-
             }
 
         }

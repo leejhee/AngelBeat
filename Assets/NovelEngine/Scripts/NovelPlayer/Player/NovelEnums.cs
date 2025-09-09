@@ -14,13 +14,18 @@ namespace novel
         None,
         Background,
         BGM,
+        StopBGM,
         SFX,
         Effect,
         ShowCharacter,
         HideCharacter,
+        HideAll,
         Clearall,
         Choice,
-        Goto
+        Goto,
+        Wait,
+        If,
+        Else
     }
     public enum CharacterName
     {
@@ -40,5 +45,15 @@ namespace novel
     {
         Play,
         Stop
+    }
+    public enum CompOP
+    {
+        GreaterThan,       // >
+        LessThan,          // <
+        GreaterThanOrEqual, // >=
+        LessThanOrEqual,    // <=
+        Equal,             // ==
+        NotEqual,           // !=,
+        None
     }
 }

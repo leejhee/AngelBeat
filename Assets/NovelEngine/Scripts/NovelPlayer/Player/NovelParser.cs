@@ -40,6 +40,7 @@ public static class NovelParser
     private static Regex posPattern = new Regex(@"pos\s*:\s*(?<posX>[\d.]+)\s*,\s*(?<posY>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex scalePattern = new Regex(@"scale\s*:\s*(?<scale>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex timePattern = new Regex(@"time\s*:\s*(?<time>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex ifPattern = new Regex(@"if\s*:\s*(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static Regex volumePattern = new Regex(@"volume\s*:\s*(?<volume>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex loopPattern = new Regex(@"(?<loop>!loop|loop!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -95,19 +96,18 @@ public static class NovelParser
         {
             // 공백4개 제거
             line = line.Substring(4);
-            if (line == null || line.Length == 0)  
+
+            if (lineList[index - 2] is CommandLine command)
             {
-                //빈 라인
-                return null;
-            }
-            else
-            {
-                if (lineList[index - 2] is CommandLine command)
+                var subLine = ParseLine(act, line, index - 1);
+                if (subLine != null)
                 {
-                    command.subLine = ParseLine(act, line, index - 1);
+                    command.subLine = subLine;
                     Debug.Log($"Subline of {command.GetType().Name} at index {index - 1} parsed.");
                 }
             }
+            // 서브라인 파싱은 직접 넣어주고 아무것도 리턴하지 않음
+            return null;
         }
         else
         {
@@ -143,10 +143,6 @@ public static class NovelParser
                     Debug.Log($"Label Name : {labelName}\nIndex : {index}");
                     result = new LabelLine(index, labelName);
                     break;
-                case DialogoueType.CommentLine:
-                    break;
-                case DialogoueType.None:
-                    break;
             }
         }
         if (result == null)
@@ -159,205 +155,339 @@ public static class NovelParser
     }
     private static CommandType GetCommandType(string line)
     {
-        if (backCommand.IsMatch(line))
+        if (charCommand.IsMatch(line))
+            return CommandType.ShowCharacter;
+        else if (hideCommand.IsMatch(line))
+            return CommandType.HideCharacter;
+        else if (hideAllCommand.IsMatch(line))
+            return CommandType.HideAll;
+
+        else if (choiceCommand.IsMatch(line))
+            return CommandType.Choice;
+        else if (gotoCommand.IsMatch(line))
+            return CommandType.Goto;
+        else if (ifCommand.IsMatch(line))
+            return CommandType.If;
+        else if (elseCommand.IsMatch(line))
+            return CommandType.Else;
+        else if (waitCommand.IsMatch(line))
+            return CommandType.Wait;
+
+        else if (backCommand.IsMatch(line))
             return CommandType.Background;
         else if (bgmCommand.IsMatch(line))
             return CommandType.BGM;
         else if (sfxCommand.IsMatch(line))
             return CommandType.SFX;
-        else if (charCommand.IsMatch(line))
-            return CommandType.ShowCharacter;
-        else if (hideCommand.IsMatch(line) || hideAllCommand.IsMatch(line))
-            return CommandType.HideCharacter;
-        else if (choiceCommand.IsMatch(line))
-            return CommandType.Choice;
-        else if (gotoCommand.IsMatch(line))
-            return CommandType.Goto;
+
+
+        else if (stopBGMCommand.IsMatch(line))
+            return CommandType.StopBGM;
         else
             return CommandType.None;
     }
+    private static CompOP ParseCompOP(string opStr)
+    {
+        return opStr switch
+        {
+            ">" => CompOP.GreaterThan,
+            "<" => CompOP.LessThan,
+            ">=" => CompOP.GreaterThanOrEqual,
+            "<=" => CompOP.LessThanOrEqual,
+            "==" => CompOP.Equal,
+            "!=" => CompOP.NotEqual,
+            _ => throw new ArgumentException($"Invalid operator: {opStr}")
+        };
+    }
+    private static IfParameter parseIfParameter(string line)
+    {
+        var ifMatch = ifPattern.Match(line);
+        IfParameter ifParameter = new();
+        if (ifMatch.Success)
+        {
+            ifParameter = new IfParameter(
+                ifMatch.Groups["var"].Value,
+                ParseCompOP(ifMatch.Groups["op"].Value),
+                float.Parse(ifMatch.Groups["value"].Value));
+        }
+        return ifParameter;
+    }
     private static NovelLine ParseCommand(int index, string line)
     {
+        CommandType commandType = GetCommandType(line);
         NovelLine result = null;
-        if (backCommand.IsMatch(line))
+
+        switch (commandType)
         {
-            var match = backCommand.Match(line);
+            case CommandType.None:
+                Debug.LogWarning($"Unknown command at line {index}: {line}");
+                break;
+            case CommandType.ShowCharacter:
+                {
+                    var charMatch = charCommand.Match(line);
+                    string charName = charMatch.Groups["name"].Value;
+                    string charAppearance = charMatch.Groups["appearance"].Value.ToLower();
 
-            string backName = match.Groups["name"].Value;
-            string transition = match.Groups["transition"].Value;
+                    Vector2? charPos = null;
+                    var charPosMatch = posPattern.Match(line);
+                    if (charPosMatch.Success)
+                    {
+                        float x = float.Parse(charPosMatch.Groups["posX"].Value);
+                        float y = float.Parse(charPosMatch.Groups["posY"].Value);
+                        charPos = new Vector2(x, y);
+                    }
 
-            Vector2? pos = null;
-            var PosMatch = posPattern.Match(line);
-            if (PosMatch.Success)
-            {
-                float x = float.Parse(PosMatch.Groups["posX"].Value);
-                float y = float.Parse(PosMatch.Groups["posY"].Value);
-                pos = new Vector2(x, y);
-            }
+                    float? charScale = null;
+                    var charScaleMatch = scalePattern.Match(line);
+                    if (charScaleMatch.Success)
+                        charScale = float.Parse(charScaleMatch.Groups["scale"].Value);
 
-            float? scale = null;
-            var scaleMatch = scalePattern.Match(line);
-            if (scaleMatch.Success)
-                scale = float.Parse(scaleMatch.Groups["scale"].Value);
+                    string charTransition = null;
+                    var charTransitionMatch = transitionPattern.Match(line);
+                    if (charTransitionMatch.Success)
+                        charTransition = charTransitionMatch.Groups["transition"].Value.ToLower();
 
-            float? time = null;
-            var timeMatch = timePattern.Match(line);
-            if (timeMatch.Success)
-                time = float.Parse(timeMatch.Groups["time"].Value);
+                    float? charTime = null;
+                    var charTimeMatch = timePattern.Match(line);
+                    if (charTimeMatch.Success)
+                        charTime = float.Parse(charTimeMatch.Groups["time"].Value);
 
-            Debug.Log($"BackName : {backName}\nTransition : {transition}\npos : {pos}\nscale : {scale}\nTime : {time}\nIndex : {index}");
+                    CharCommandType charCommandType = CharCommandType.Show;
+                    if (charTransition == "fadeout")
+                    {
+                        charCommandType = CharCommandType.Hide;
+                    }
 
-            result = new BackCommand(index, backName, transition, pos, scale, time);
+                    IfParameter ifParameter = parseIfParameter(line);
 
+                    result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, charCommandType, ifParameter);
+                    Debug.Log(
+                        $"Character : {charName}\n" +
+                        $"Pos : {charPos}\n" +
+                        $"Appearance : {charAppearance}\n" +
+                        $"Scale : {charScale}\n" +
+                        $"transition : {charTransition}\n" +
+                        $"Type : {charCommandType}\n" +
+                        $"time : {charTime}\n" +
+                        $"Index : {index}\n"+
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.HideCharacter:
+                {
+                    var hideMatch = hideCommand.Match(line);
+                    string name = hideMatch.Groups["name"].Value;
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new CharCommand(index, name, null, null, null, null, null, CharCommandType.Hide, ifParameter);
+                    Debug.Log(
+                        $"hide command\nCharacter : {name}\n" +
+                        $"Index : {index}\n" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.HideAll:
+                {
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new CharCommand(index, null, null, null, null, null, null, CharCommandType.HideAll, ifParameter);
+                    Debug.Log($"Hide All Command\n" +
+                        $"Index : {index}\n" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.Clearall:
+                break;
+            case CommandType.Choice:
+                {
+                    string choice = null;
+                    var choiceMatch = choiceCommand.Match(line);
+                    if (choiceMatch.Success)
+                        choice = choiceMatch.Groups["choice"].Value;
+
+                    var ifMatch = ifPattern.Match(line);
+                    if (ifMatch.Success)
+                    {
+                        var ifString = ifMatch.Value;
+                        choice = choice.Replace(ifString, "").Trim();
+                    }
+
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new ChoiceCommand(index, choice, ifParameter);
+
+
+                    Debug.Log(
+                        $"Choice : {choice}\n" +
+                        $"Index : {index}\n" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.Goto:
+                {
+                    var gotoMatch = gotoCommand.Match(line);
+                    string label = gotoMatch.Groups["label"].Value;
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new GotoCommand(index, label, ifParameter);
+                    Debug.Log(
+                        $"Goto : {label}\n" +
+                        $"Index : {index}\n" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.If:
+                {
+                    var ifMatch = ifCommand.Match(line);
+                    string var = ifMatch.Groups["var"].Value;
+                    CompOP op = ParseCompOP(ifMatch.Groups["op"].Value);
+                    float value = float.Parse(ifMatch.Groups["value"].Value);
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new IfCommand(index, IfType.If, var, op, value);
+                    Debug.Log($"If Command : {var} {op} {value}");
+                }
+                break;
+            case CommandType.Else:
+                {
+                    IfParameter ifParameter = parseIfParameter(line);
+                    result = new IfCommand(index, IfType.Else);
+                    Debug.Log($"Else Command :");
+                }
+                break;
+            case CommandType.Wait:
+                {
+                    var waitMatch = waitCommand.Match(line);
+
+                    float? waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : null;
+                    
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new WaitCommand(index, waitTime, ifParameter);
+                    Debug.Log(
+                        $"Wait \n" +
+                        $"Time : {waitTime}\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.Background:
+                {
+                    var match = backCommand.Match(line);
+
+                    string backName = match.Groups["name"].Value;
+                    string backgroundTransition = match.Groups["transition"].Value;
+
+                    Vector2? backgroundPos = null;
+                    var backgroundPosMatch = posPattern.Match(line);
+                    if (backgroundPosMatch.Success)
+                    {
+                        float x = float.Parse(backgroundPosMatch.Groups["posX"].Value);
+                        float y = float.Parse(backgroundPosMatch.Groups["posY"].Value);
+                        backgroundPos = new Vector2(x, y);
+                    }
+
+                    float? backgroundScale = null;
+                    var backgroundScaleMatch = scalePattern.Match(line);
+                    if (backgroundScaleMatch.Success)
+                        backgroundScale = float.Parse(backgroundScaleMatch.Groups["scale"].Value);
+
+                    float? backgroundTime = null;
+                    var backgroundTimeMatch = timePattern.Match(line);
+                    if (backgroundTimeMatch.Success)
+                        backgroundTime = float.Parse(backgroundTimeMatch.Groups["time"].Value);
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new BackCommand(
+                        index, 
+                        backName, 
+                        backgroundTransition, 
+                        backgroundPos,
+                        backgroundScale, 
+                        backgroundTime,
+                        ifParameter);
+
+
+                    Debug.Log(
+                        $"BackName : {backName}\n" +
+                        $"Transition : {backgroundTransition}\n" +
+                        $"pos : {backgroundPos}\n" +
+                        $"scale : {backgroundScale}\n" +
+                        $"Time : {backgroundTime}\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+
+                }
+
+                break;
+            case CommandType.BGM:
+                {
+                    var bgmMatch = bgmCommand.Match(line);
+                    string bgmName = bgmMatch.Groups["name"].Value;
+
+                    int? volume = null;
+                    var volumeMatch = volumePattern.Match(line);
+                    if (volumeMatch.Success)
+                        volume = int.Parse(volumeMatch.Groups["volume"].Value);
+
+                    bool? loop = null;
+                    var loopMatch = loopPattern.Match(line);
+                    if (loopMatch.Success)
+                    {
+                        var loopStr = loopMatch.Groups["loop"].Value;
+                        if (loopStr == "!loop")
+                            loop = true;
+                        else if (loopStr == "loop!")
+                            loop = false;
+                    }
+
+                    float? bgmTime = null;
+                    var bgmTimeMatch = timePattern.Match(line);
+                    if (bgmTimeMatch.Success)
+                        bgmTime = float.Parse(bgmTimeMatch.Groups["time"].Value);
+
+                    float? bgmFade = null;
+                    var bgmFadeMatch = fadePattern.Match(line);
+                    if (bgmFadeMatch.Success)
+                        bgmFade = float.Parse(bgmFadeMatch.Groups["fade"].Value);
+
+                    IfParameter ifParameter = parseIfParameter(line);
+
+                    result = new BgmCommand(index, bgmName, volume, bgmTime, bgmFade, loop, BGMCommandType.Play, ifParameter);
+                    Debug.Log(
+                        $"BGM : {bgmName}\n" +
+                        $"volume : {volume}\n" +
+                        $"loop : {loop}\n" +
+                        $"time : {bgmTime}\n" +
+                        $"fade : {bgmFade}\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+
+                }
+
+                break;
+            case CommandType.SFX:
+                break;
+            case CommandType.StopBGM:
+
+                {
+                    IfParameter ifParameter = parseIfParameter(line);
+                    result = new BgmCommand(index, null, null, null, null, null, BGMCommandType.Stop, ifParameter);
+                    Debug.Log(
+                        $"StopBGM\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+
+                break;
+            case CommandType.Effect:
+                break;
         }
-        else if (bgmCommand.IsMatch(line))
-        {
-            var bgmMatch = bgmCommand.Match(line);
-            string bgmName = bgmMatch.Groups["name"].Value;
-
-            int? volume = null;
-            var volumeMatch = volumePattern.Match(line);
-            if (volumeMatch.Success)
-                volume = int.Parse(volumeMatch.Groups["volume"].Value);
-
-            bool? loop = null;
-            var loopMatch = loopPattern.Match(line);
-            if (loopMatch.Success)
-            {
-                var loopStr = loopMatch.Groups["loop"].Value;
-                if (loopStr == "!loop")
-                    loop = true;
-                else if (loopStr == "loop!")
-                    loop = false;
-            }
-
-            float? time = null;
-            var timeMatch = timePattern.Match(line);
-            if (timeMatch.Success)
-                time = float.Parse(timeMatch.Groups["time"].Value);
-
-            float? fade = null;
-            var fadeMatch = fadePattern.Match(line);
-            if (fadeMatch.Success)
-                fade = float.Parse(fadeMatch.Groups["fade"].Value);
-
-
-            Debug.Log($"BGM : {bgmName}\nvolume : {volume}\nloop : {loop}\ntime : {time}\nfade : {fade}\nIndex : {index}");
-            result = new BgmCommand(index, bgmName, volume, time, fade, loop);
-            //act.novelLines.Add(new BgmCommand(index, bgmName, volume, time, fade, loop, wait));
-        }
-        else if (stopBGMCommand.IsMatch(line))
-        {
-            result = new BgmCommand(index, null, null, null, null, null ,BGMCommandType.Stop);
-
-            //act.novelLines.Add(new BgmCommand(index, null, null, null, null, null, null, BGMCommandType.Stop));
-            Debug.Log($"StopBGM\nIndex : {index}");
-        }
-        else if (charCommand.IsMatch(line))
-        {
-            var charMatch = charCommand.Match(line);
-            string name = charMatch.Groups["name"].Value;
-            string appearance = charMatch.Groups["appearance"].Value.ToLower();
-
-            Vector2? pos = null;
-            var PosMatch = posPattern.Match(line);
-            if (PosMatch.Success)
-            {
-                float x = float.Parse(PosMatch.Groups["posX"].Value);
-                float y = float.Parse(PosMatch.Groups["posY"].Value);
-                pos = new Vector2(x, y);
-            }
-
-            float? scale = null;
-            var scaleMatch = scalePattern.Match(line);
-            if (scaleMatch.Success)
-                scale = float.Parse(scaleMatch.Groups["scale"].Value);
-
-            string transition = null;
-            var transitionMatch = transitionPattern.Match(line);
-            if (transitionMatch.Success)
-                transition = transitionMatch.Groups["transition"].Value.ToLower();
-
-            float? time = null;
-            var timeMatch = timePattern.Match(line);
-            if (timeMatch.Success)
-                time = float.Parse(timeMatch.Groups["time"].Value);
-
-            CharCommandType charCommandType = CharCommandType.Show;
-            if (transition == "fadeout")
-            {
-                charCommandType = CharCommandType.Hide;
-            }
-
-            result = new CharCommand(index, name, appearance, transition, pos, scale, time, charCommandType);
-            Debug.Log($"Character : {name}\nPos : {pos}\nAppearance : {appearance}\nScale : {scale}\ntransition : {transition}\nType : {charCommandType}\ntime : {time}\nIndex : {index}");
-        }
-        else if (hideCommand.IsMatch(line))
-        {
-            var hideMatch = hideCommand.Match(line);
-            string name = hideMatch.Groups["name"].Value;
-
-            result = new CharCommand(index, name, null, null, null, null, null, CharCommandType.Hide);
-            Debug.Log($"hide command\nCharacter : {name}\nIndex : {index}");
-        }
-        else if (hideAllCommand.IsMatch(line))
-        {
-            result = new CharCommand(index, null, null, null, null, null, null, CharCommandType.HideAll);
-            Debug.Log("Hide All Command\nIndex : {index}");
-        }
-        else if (choiceCommand.IsMatch(line))
-        {
-            string choice = null;
-            var choiceMatch = choiceCommand.Match(line);
-            if (choiceMatch.Success)
-                choice = choiceMatch.Groups["choice"].Value;
-
-            result = new ChoiceCommand(index, choice);
-            //act.novelLines.Add(new ChoiceCommand(index, choice));
-            Debug.Log($"Choice : {choice}\nIndex : {index}");
-        }
-        else if (waitCommand.IsMatch(line))
-        {
-            var waitMatch = waitCommand.Match(line);
-
-            float? waitTime = waitMatch.Groups["time"].Success ? float.Parse(waitMatch.Groups["time"].Value) : null;
-
-            result = new WaitCommand(index, waitTime);
-            //act.novelLines.Add(new WaitCommand(index, waitTime));
-            Debug.Log($"Wait \nTime : {waitTime}\nIndex : {index}");
-        }
-        else if (gotoCommand.IsMatch (line))
-        {
-            var gotoMatch = gotoCommand.Match(line);
-            string label = gotoMatch.Groups["label"].Value;
-
-            result = new GotoCommand(index, label);
-
-            //act.novelLines.Add(new GotoCommand(index, label));
-            Debug.Log($"Goto \nIndex : {index}, Label : {label}");
-        }
-        else if (ifCommand.IsMatch(line))
-        {
-            var ifMatch = ifCommand.Match(line);
-            string var = ifMatch.Groups["var"].Value;
-            CompOP op = ifMatch.Groups["op"].Value switch
-            {
-                ">" => CompOP.GreaterThan,
-                "<" => CompOP.LessThan,
-                ">=" => CompOP.GreaterThanOrEqual,
-                "<=" => CompOP.LessThanOrEqual,
-                "==" => CompOP.Equal,
-                "!=" => CompOP.NotEqual,
-                _ => throw new Exception("Invalid operator")
-
-            };
-            float value = float.Parse(ifMatch.Groups["value"].Value);
-
-            result = new IfCommand(index, IfType.If, var, op, value);
-            //act.novelLines.Add(new IfCommand(index, IfType.If, var, op, value));
-            Debug.Log($"If Command : {var} {op} {value}");
-        }
-
 
         if (result == null)
         {
@@ -365,46 +495,25 @@ public static class NovelParser
         }
         else
             return result;
- 
-        ////나중에 switch문으로 리팩토링 해볼것
-        //string trimmed = line.Trim();
-        //string commandType = null;
-        //if (trimmed.StartsWith("@"))
-        //{
-        //    int spaceIndex = trimmed.IndexOf(' ');
-        //    if (spaceIndex > 0)
-        //        commandType = trimmed.Substring(1, spaceIndex - 1).ToLower();  // 예: "back", "bgm"
-        //    else
-        //        commandType = trimmed.Substring(1).ToLower(); // 단일 커맨드 (@hideall 등)
-        //}
-        //switch (commandType)
-        //{
-        //    case "back":
-        //        {
-        //            Debug.Log("back Command");
-        //            break;
-        //        }
-        //    case "bgm":
-        //        {
-        //            Debug.Log("bgm Command");
-        //            break;
-        //        }
-        //    case "wait":
-        //        {
-        //            Debug.Log("wait Command");
-        //            break;
-        //        }
-        //    case "choice":
-        //        {
-        //            Debug.Log("choice Command");
-        //            break;
-        //        }
-        //    case "goto":
-        //        {
-        //            Debug.Log("goto Command");
-        //            break;
-        //        }
-        //}
+
+    }
+    public class IfParameter
+    {
+        public string var;
+        public CompOP op;
+        public float? value;
+        public IfParameter()
+        {
+            this.var = null;
+            this.op = CompOP.None;
+            this.value = null;
+        }
+        public IfParameter(string var, CompOP op, float value)
+        {
+            this.var = var;
+            this.op = op;
+            this.value = value;
+        }
 
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static NovelParser;
 
 namespace novel
 {
@@ -31,7 +32,8 @@ namespace novel
             Vector2? pos,
             float? scale,
             float? time,
-            CharCommandType charCommandType = CharCommandType.Show
+            CharCommandType charCommandType = CharCommandType.Show,
+            IfParameter ifParameter = null
         ) : base(index, DialogoueType.CommandLine)
         {
             this.charName = name;
@@ -40,10 +42,13 @@ namespace novel
             this.pos = pos;
             this.scale = scale;
             this.time = time;
-            this.charCommandType = charCommandType;   
+            this.charCommandType = charCommandType;
+            this.ifParameter = ifParameter;
         }
         public override async UniTask Execute()
         {
+            //if (!ifParameter)
+            //    return;
             var player = NovelManager.Player;
             var dict = player.currentCharacterDict;
             var token = player.CommandToken;

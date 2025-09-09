@@ -187,11 +187,18 @@ public class NovelPlayer : MonoBehaviour
         try
         {
             var result = await ProcessLine();
-            if (result == LineResult.Continue)
+            switch (result)
             {
-                keepPumping = true;
-                NextLine().Forget();
-                return;
+                case LineResult.Finished:
+                    break;
+                case LineResult.Stop:
+                    return;
+                case LineResult.Continue:
+                    {
+                        keepPumping = true;
+                        NextLine().Forget();
+                        break;
+                    }
             }
         }
         finally
@@ -217,8 +224,6 @@ public class NovelPlayer : MonoBehaviour
 
         if (line == null)
         {
-            isFinished = true;
-            dialoguePanel.SetActive(false);
             Debug.Log("스크립트 끝까지 플레이");
             return LineResult.Finished;
         }
@@ -286,7 +291,6 @@ public class NovelPlayer : MonoBehaviour
         {
             Debug.Log("wait 종료");
             OnWaitEnd();
-
         }
     }
     private void OnCommandStart()

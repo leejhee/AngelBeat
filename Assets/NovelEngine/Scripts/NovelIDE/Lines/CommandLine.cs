@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static NovelParser;
 
 namespace novel
 {
@@ -11,6 +12,7 @@ namespace novel
     {
         [SerializeReference]
         public NovelLine subLine;
+        public IfParameter ifParameter;
         public CommandLine(int index, DialogoueType type) : base(index, type) { }
 
         public abstract UniTask Execute();

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine;
+using static NovelParser;
 
 namespace novel
 {
@@ -8,13 +9,21 @@ namespace novel
     public class WaitCommand : CommandLine
     {
         float? waitTime;
-        public WaitCommand(int index, float? waitTime) : base(index, DialogoueType.CommandLine)
+        public WaitCommand(
+            int index,
+            float? waitTime, 
+            IfParameter ifParameter = null) 
+            : base(index, DialogoueType.CommandLine)
         {
             this.waitTime = waitTime;
+            this.ifParameter = ifParameter;
         }
 
         public override async UniTask Execute()
         {
+            //if (!ifParameter)
+            //    return;
+
             var player = NovelManager.Player;
 
             if (waitTime == null)

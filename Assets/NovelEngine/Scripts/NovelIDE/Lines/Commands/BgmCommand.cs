@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static NovelParser;
 
 namespace novel
 {
@@ -17,8 +18,16 @@ namespace novel
         public bool? loop;
         public BGMCommandType commandType;
 
-        public BgmCommand(int index, string bgmName, int? volume, float? time, float? fade,bool? loop,
-                             BGMCommandType commandType = BGMCommandType.Play) : base(index, DialogoueType.CommandLine)
+        public BgmCommand(
+            int index,
+            string bgmName,
+            int? volume, 
+            float? time, 
+            float? fade,
+            bool? loop,         
+            BGMCommandType commandType = BGMCommandType.Play,
+            IfParameter ifParameter = null)
+            : base(index, DialogoueType.CommandLine)
         {
             this.bgmName = bgmName;
             this.volume = volume;
@@ -26,10 +35,15 @@ namespace novel
             this.fade = fade;
             this.loop = loop;
             this.commandType = commandType;
+            this.ifParameter = ifParameter;
         }
 
         public override async UniTask Execute()
         {
+            //if (!ifParameter)
+            //    return;
+
+            Debug.Log($"BGM 명령어 실행 : {commandType} {bgmName}");
             // 새로운 노벨엔진 전용 믹서, 사운드 매니저(필요한가?) 사용해서 만들기
 
             //if (commandType == BGMCommandType.Stop)

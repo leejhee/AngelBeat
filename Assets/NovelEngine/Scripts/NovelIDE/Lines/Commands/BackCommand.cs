@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static NovelParser;
 
 
 namespace novel
@@ -18,19 +19,31 @@ namespace novel
         public Vector2? pos;
         public float? scale;
         public float? time;
-        
-        public BackCommand(int index, string backName,  string transition,
-                            Vector2? pos, float? scale, float? time ) : base(index, DialogoueType.CommandLine)
+
+        public BackCommand(
+            int index, 
+            string backName, 
+            string transition,              
+            Vector2? pos, 
+            float? scale, 
+            float? time, 
+            IfParameter ifParameter = null)
+            : base(index, DialogoueType.CommandLine)
         {
             this.backName = backName;
             this.transition = transition;
             this.pos = pos;
             this.scale = scale;
             this.time = time;
+            this.ifParameter = ifParameter;
         }
 
         public override async UniTask Execute()
         {
+            // TODO: IF문 처리
+            //if ()
+            //    return;
+
             var player = NovelManager.Player;
             var token = player.CommandToken;
             // 기존에 있던 배경 오브젝트 제거

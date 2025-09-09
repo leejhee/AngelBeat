@@ -1,7 +1,12 @@
 #start
-시이이이이이자아아아아아아아아앙아악          
+시이이이이이자아아아아아아아아앙아악   
+@char DonQuixote
+Jururu: 하이
+@char DonQuixote.smile
 
-@choice 선택지1
+@back 노드크라이
+@bgm ereb
+@choice 선택지1 if:변수>15
     @goto label_1
 @choice 선택지2
     @goto label_2

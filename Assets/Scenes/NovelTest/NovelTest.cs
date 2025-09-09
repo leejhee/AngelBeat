@@ -15,7 +15,6 @@ public class NovelTest : MonoBehaviour
     private void OnButtonClick()
     {
         button.gameObject.SetActive(false);
-        Debug.Log("버튼 눌림");
         NovelManager.Instance.PlayScript("test");
     }
 }
