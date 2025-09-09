@@ -16,6 +16,7 @@ namespace novel
         BGM,
         StopBGM,
         SFX,
+        StopSFX,
         Effect,
         ShowCharacter,
         HideCharacter,
@@ -41,11 +42,6 @@ namespace novel
         Fade,
         Effect
     }
-    public enum BGMCommandType
-    {
-        Play,
-        Stop
-    }
     public enum CompOP
     {
         GreaterThan,       // >
@@ -55,5 +51,10 @@ namespace novel
         Equal,             // ==
         NotEqual,           // !=,
         None
+    }
+    public enum SoundType
+    {
+        BGM,
+        SFX
     }
 }

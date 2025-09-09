@@ -48,7 +48,7 @@ namespace novel
             var player = NovelManager.Player;
             
             // 데이터에서 변수값 받아오기
-            float realVar = 10;
+            float realVar = 10; // 임시 데이터
 
             float realValue = value ?? 0;
             bool returnBool = NovelUtils.ConditinalStateMent(realVar, op, realValue);

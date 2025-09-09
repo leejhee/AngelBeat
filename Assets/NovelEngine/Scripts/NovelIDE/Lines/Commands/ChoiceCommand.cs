@@ -58,7 +58,8 @@ namespace novel
             if (!(ifParameter.op == CompOP.None))
             {
                 // if 패러미터가 false이면 버튼 비활성화
-                if (NovelUtils.ConditinalStateMent(10, ifParameter.op, (float)ifParameter.value))
+                // 임시 데이터 10 들어감 이거 데이터에서 변수값 받아오도록 수정해야함
+                if (NovelUtils.ConditinalStateMent(10, ifParameter.op, (float)ifParameter.value))   
                 {
                     Debug.Log("선택지 활성화");
                     choiceButton.interactable = true;
@@ -69,8 +70,6 @@ namespace novel
                     choiceButton.interactable = false;
                 }
             }
-
-
             Debug.Log($"선택지 프리팹 생성 : {argument}");
         }
         private void OnClickChoiceButton()

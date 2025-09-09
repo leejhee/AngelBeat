@@ -9,32 +9,29 @@ using static NovelParser;
 namespace novel
 {
     [System.Serializable]
-    public class BgmCommand : CommandLine
+    public class SoundCommand : CommandLine
     {
         public string bgmName;
         public int? volume;
-        public float? time;
-        public float? fade;
-        public bool? loop;
-        public BGMCommandType commandType;
+        public bool loop;
+        public bool isPlay;
+        public SoundType soundType;
 
-        public BgmCommand(
+        public SoundCommand(
             int index,
             string bgmName,
             int? volume, 
-            float? time, 
-            float? fade,
-            bool? loop,         
-            BGMCommandType commandType = BGMCommandType.Play,
+            bool loop,
+            bool isPlay,
+            SoundType soundType,
             IfParameter ifParameter = null)
             : base(index, DialogoueType.CommandLine)
         {
             this.bgmName = bgmName;
             this.volume = volume;
-            this.time = time;
-            this.fade = fade;
             this.loop = loop;
-            this.commandType = commandType;
+            this.isPlay = isPlay;
+            this.soundType = soundType;
             this.ifParameter = ifParameter;
         }
 
@@ -43,17 +40,35 @@ namespace novel
             //if (!ifParameter)
             //    return;
 
-            Debug.Log($"BGM 명령어 실행 : {commandType} {bgmName}");
-            // 새로운 노벨엔진 전용 믹서, 사운드 매니저(필요한가?) 사용해서 만들기
+            // 따로 사운드 관리하는거 만들기
+            switch (soundType)
+            {
+                case SoundType.BGM:
+                    if (isPlay)
+                    {
+                        // BGM 재생
+                        //SoundManager.Instance.PlayBGM(bgmName, volume ?? 100, loop, fade ?? 0f);
+                    }
+                    else
+                    {
+                        // BGM 중단
+                        //SoundManager.Instance.StopBGM(fade ?? 0f);
+                    }
+                    break;
+                case SoundType.SFX:
+                    if (isPlay)
+                    {
+                        // SFX 재생
+                        //SoundManager.Instance.PlaySFX(bgmName, volume ?? 100, loop);
+                    }
+                    else
+                    {
+                        // SFX 중단
+                        //SoundManager.Instance.StopSFX(bgmName);
+                    }
+                    break;
+            }
 
-            //if (commandType == BGMCommandType.Stop)
-            //{
-            //    Debug.Log("BGM 중단");
-            //    SoundManager.Instance.StopBGM();
-            //    return;
-            //}
-            //string path = $"Novel/NovelResourceData/SoundData/BGMData/{bgmName}";
-            //SoundManager.Instance.Play(path, SystemEnum.Sound.Bgm);
         }
     }
 

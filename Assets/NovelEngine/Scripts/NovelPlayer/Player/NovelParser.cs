@@ -175,14 +175,13 @@ public static class NovelParser
 
         else if (backCommand.IsMatch(line))
             return CommandType.Background;
+
         else if (bgmCommand.IsMatch(line))
             return CommandType.BGM;
-        else if (sfxCommand.IsMatch(line))
-            return CommandType.SFX;
-
-
         else if (stopBGMCommand.IsMatch(line))
             return CommandType.StopBGM;
+        else if (sfxCommand.IsMatch(line))
+            return CommandType.SFX;
         else
             return CommandType.None;
     }
@@ -435,55 +434,80 @@ public static class NovelParser
                     if (volumeMatch.Success)
                         volume = int.Parse(volumeMatch.Groups["volume"].Value);
 
-                    bool? loop = null;
+                    bool loop = false;
                     var loopMatch = loopPattern.Match(line);
                     if (loopMatch.Success)
                     {
                         var loopStr = loopMatch.Groups["loop"].Value;
                         if (loopStr == "!loop")
                             loop = true;
-                        else if (loopStr == "loop!")
-                            loop = false;
                     }
 
-                    float? bgmTime = null;
-                    var bgmTimeMatch = timePattern.Match(line);
-                    if (bgmTimeMatch.Success)
-                        bgmTime = float.Parse(bgmTimeMatch.Groups["time"].Value);
-
-                    float? bgmFade = null;
-                    var bgmFadeMatch = fadePattern.Match(line);
-                    if (bgmFadeMatch.Success)
-                        bgmFade = float.Parse(bgmFadeMatch.Groups["fade"].Value);
 
                     IfParameter ifParameter = parseIfParameter(line);
 
-                    result = new BgmCommand(index, bgmName, volume, bgmTime, bgmFade, loop, BGMCommandType.Play, ifParameter);
+                    result = new SoundCommand(index, bgmName, volume, loop, true, SoundType.BGM ,ifParameter);
                     Debug.Log(
                         $"BGM : {bgmName}\n" +
                         $"volume : {volume}\n" +
                         $"loop : {loop}\n" +
-                        $"time : {bgmTime}\n" +
-                        $"fade : {bgmFade}\n" +
                         $"Index : {index}" +
                         $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
 
                 }
 
                 break;
-            case CommandType.SFX:
-                break;
             case CommandType.StopBGM:
 
                 {
                     IfParameter ifParameter = parseIfParameter(line);
-                    result = new BgmCommand(index, null, null, null, null, null, BGMCommandType.Stop, ifParameter);
+                    result = new SoundCommand(index, null, null, false, false, SoundType.BGM,ifParameter);
                     Debug.Log(
                         $"StopBGM\n" +
                         $"Index : {index}" +
                         $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
                 }
 
+                break;
+            case CommandType.SFX:
+                {
+                    var sfxMatch = bgmCommand.Match(line);
+                    string sfxName = sfxMatch.Groups["name"].Value;
+
+                    int? volume = null;
+                    var volumeMatch = volumePattern.Match(line);
+                    if (volumeMatch.Success)
+                        volume = int.Parse(volumeMatch.Groups["volume"].Value);
+
+
+                    bool loop = false;
+                    var loopMatch = loopPattern.Match(line);
+                    if (loopMatch.Success)
+                    {
+                        var loopStr = loopMatch.Groups["loop"].Value;
+                        if (loopStr == "!loop")
+                            loop = true;
+                    }
+
+                    IfParameter ifParameter = parseIfParameter(line);
+                    result = new SoundCommand(index, sfxName, volume, loop, true, SoundType.SFX, ifParameter);
+                    Debug.Log(
+                        $"SFX : {sfxName}\n" +
+                        $"volume : {volume}\n" +
+                        $"loop : {loop}\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
+                break;
+            case CommandType.StopSFX:
+                {
+                    IfParameter ifParameter = parseIfParameter(line);
+                    result = new SoundCommand(index, null, null, false, false, SoundType.SFX, ifParameter);
+                    Debug.Log(
+                        $"StopSFX\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
+                }
                 break;
             case CommandType.Effect:
                 break;
