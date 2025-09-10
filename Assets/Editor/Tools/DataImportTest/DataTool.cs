@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 #if UNITY_EDITOR
+using Core.Scripts.Managers;
 using UnityEditor;
 
 namespace AngelBeat
@@ -10,11 +11,10 @@ namespace AngelBeat
     public class DataTool
     {
         [MenuItem("Data/데이터검증")]
-        public static void DataVerification()
+        public static async void DataVerification()
         {
-            global::Core.Scripts.Managers.DataManager.Instance.ClearCache();
-            global::Core.Scripts.Managers.DataManager.Instance.DataLoad();
-
+            await DataManager.Instance.InitAsync();
+            DataManager.Instance.ClearCache();
             Debug.Log("데이터 검증 끝.");
         }
 

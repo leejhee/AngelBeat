@@ -1,9 +1,11 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Singleton;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace Core.Scripts.Managers
@@ -23,40 +25,57 @@ public partial class DataManager : SingletonObject<DataManager>
     public override void Init()
     {
         ClearCache();
-        DataLoad();
-        //GameManager.Inst.InitAfterDataLoad();
+        //DataLoad();
+        InitAsync().Forget();
     }
 
-    public void DataLoad()
+    public async UniTask InitAsync()
     {
-        // 현재 어셈블리 내에서 SheetData를 상속받는 모든 타입을 찾음
+        ClearCache();
+        await DataLoadAsync();
+    }
+    
+    // TODO : SemaphoreSlim(4)는 현재 magic number이므로 근거를 찾아 재설정할 것
+    public async UniTask DataLoadAsync(CancellationToken ct = default)
+    {
+        await ResourceManager.Instance.InitAsync();
+        
         var sheetAsm = typeof(SheetData).Assembly;
         var sheetDataTypes = sheetAsm.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(SheetData)));
-
-        List<SheetData> instances = new List<SheetData>();
-
+            .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(SheetData))).ToArray();
+        var sem = new System.Threading.SemaphoreSlim(4);
+        var parallelTasks = new List<UniTask<(string name, Dictionary<long, SheetData> sheet)>>();
+        
         foreach (var type in sheetDataTypes)
         {
-
-            // 각 타입에 대해 인스턴스 생성
-            SheetData instance = (SheetData)Activator.CreateInstance(type);
-            if (instance == null)
+            var instance = (SheetData)Activator.CreateInstance(type);
+            
+            parallelTasks.Add(UniTask.Create(async () =>
             {
-                continue;
-            }
-            Debug.Log(type.Name);
-            Dictionary<long, SheetData> sheet = instance.LoadData();
-
-            if (_cache.ContainsKey(type.Name) == false)
-            {
-                _cache.Add(type.Name, sheet);
-            }
-            SetTypeData(type.Name);
-
+                await sem.WaitAsync(ct);
+                try
+                {
+                    // 의존을 줄이기 위한 상위에서의 로드
+                    var key = $"CSV/MEMCSV/{type.Name}";
+                    var textAsset = await ResourceManager.Instance.LoadAsync<TextAsset>(key);
+                    var text = textAsset.text;
+                    ResourceManager.Instance.Release(key);
+                    
+                    var dict = await instance.ParseAsync(text, ct);
+                    return (type.Name, dict);
+                }
+                finally { sem.Release(); }
+            }));
+        }
+        
+        var results = await UniTask.WhenAll(parallelTasks);
+        foreach (var (name, dict) in results)
+        {
+            _cache.Add(name, dict);
+            SetTypeData(name);
         }
     }
-
+    
     private void SetTypeData(string typeName)
     {
         if(typeof(KeywordData).ToString().Contains(typeName)) {SetKeywordDataMap(); return; }
@@ -123,7 +142,12 @@ public partial class DataManager : SingletonObject<DataManager>
 
         return _cache[typeName].Values.ToList();
     }
-
+    
+    public void ClearCache()
+    {
+        _cache.Clear();
+    }
+    
 #if UNITY_EDITOR
     // 데이터 검증용(에디터에서만 사용)
     public Dictionary<long, SheetData> GetDictionary(string typeName)
@@ -134,11 +158,6 @@ public partial class DataManager : SingletonObject<DataManager>
             return null;
         }
         return _cache[typeName];
-    }
-    public void ClearCache()
-    {
-        _cache.Clear();
-
     }
 #endif
 

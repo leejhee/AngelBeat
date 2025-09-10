@@ -56,7 +56,7 @@ else
         // {1} : 자료형들 (ex: int a)
         // {2} : 파싱
         public static string dataFormat =
-@"using Core.Foundation.Define;
+@"using Core.Scripts.Foundation.Define;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,24 +64,25 @@ using System.IO;
 using UnityEngine;
 using System.Data;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
-namespace Core.Data
+namespace Core.Scripts.Data
 {{
     public partial class {0} : SheetData
     {{
 {1}
-
-        public override Dictionary<long, SheetData> LoadData()
+        /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
+        public override async UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
         {{
             var dataList = new Dictionary<long, SheetData>();
-
             string ListStr = null;
-			int line = 0;
-            TextAsset csvFile = Resources.Load<TextAsset>($""CSV/MEMCSV/{{this.GetType().Name}}"");
+            int line = 0;
+
             try
-			{{            
-                string csvContent = csvFile.text;
-                string[] lines = csvContent.Split('\n');
+            {{ 
+                string[] lines = csv.Split('\n');
+
                 for (int i = 3; i < lines.Length; i++)
                 {{
                     if (string.IsNullOrWhiteSpace(lines[i]))
@@ -99,12 +100,13 @@ namespace Core.Data
 
                 return dataList;
             }}
-			catch (Exception e)
-			{{
-				Debug.LogError($""{{this.GetType().Name}}의 {{line}}전후로 데이터 문제 발생"");
-				return new Dictionary<long, SheetData>();
-			}}
-        }}
+            catch (Exception e)
+            {{
+                Debug.LogError($""{{this.GetType().Name}}의 {{line}} 전후로 데이터 문제 발생: {{e}}"");
+                return new Dictionary<long, SheetData>();
+            }}
+        }}       
+       
     }}
 }}";
     }

@@ -184,7 +184,7 @@ namespace Core.Scripts.Foundation.Define
             eMax
         }
 
-        public enum ESkillType
+        public enum eSkillType
         {
             None,
 
@@ -197,7 +197,7 @@ namespace Core.Scripts.Foundation.Define
 
         }
 
-        public enum EPivot
+        public enum ePivot
         {
             None,
         
@@ -307,7 +307,7 @@ namespace Core.Scripts.Foundation.Define
         }
     
         [Flags]
-        public enum SkillUnlock
+        public enum eSkillUnlock
         {
             EUINYEO_SKILL_1,
             EUINYEO_SKILL_2,

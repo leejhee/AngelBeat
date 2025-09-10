@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2388a2e990d74676844dd4503b28ca2b, type: 3}
   m_Name: "\uB4B7\uC0B0_1"
   m_EditorClassIdentifier: 
-  dungeonName: 0
+  dungeonName: 1
   floor: 0
   xCapacity: 0
   yCapacity: 0

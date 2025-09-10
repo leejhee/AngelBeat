@@ -1,7 +1,13 @@
 using Core.Scripts.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Core.Scripts.Data
 {
@@ -17,18 +23,17 @@ public long index; // 키워드 ID
 		public long keywordExecution; // 키워드 효과(삭제예정)
 		public bool iconIsVisible; // 아이콘이 보이는지
 		
-
-        public override Dictionary<long, SheetData> LoadData()
+        /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
+        public override async UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
         {
             var dataList = new Dictionary<long, SheetData>();
-
             string ListStr = null;
-			int line = 0;
-            TextAsset csvFile = Resources.Load<TextAsset>($"CSV/MEMCSV/{this.GetType().Name}");
+            int line = 0;
+
             try
-			{            
-                string csvContent = csvFile.text;
-                string[] lines = csvContent.Split('\n');
+            { 
+                string[] lines = csv.Split('\n');
+
                 for (int i = 3; i < lines.Length; i++)
                 {
                     if (string.IsNullOrWhiteSpace(lines[i]))
@@ -81,11 +86,12 @@ public long index; // 키워드 ID
 
                 return dataList;
             }
-			catch (Exception e)
-			{
-				Debug.LogError($"{this.GetType().Name}의 {line}전후로 데이터 문제 발생");
-				return new Dictionary<long, SheetData>();
-			}
-        }
+            catch (Exception e)
+            {
+                Debug.LogError($"{this.GetType().Name}의 {line} 전후로 데이터 문제 발생: {e}");
+                return new Dictionary<long, SheetData>();
+            }
+        }       
+       
     }
 }

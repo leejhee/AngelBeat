@@ -18,8 +18,8 @@ namespace GamePlay.Skill
         public int                      SkillRange;
         public int                      SkillHitRange;
         public Sprite                   Icon;
-        public SystemEnum.EPivot        SkillPivot;
-        public SystemEnum.ESkillType    SkillType;
+        public SystemEnum.ePivot        SkillPivot;
+        public SystemEnum.eSkillType    SkillType;
         public float                    DamageCalibration;
         public int                      Accuracy;
         public int                      CritMultiplier;

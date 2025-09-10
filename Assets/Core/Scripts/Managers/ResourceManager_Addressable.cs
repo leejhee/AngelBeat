@@ -78,11 +78,12 @@ namespace Core.Scripts.Managers
             
             // 로드
             var handle = Addressables.LoadAssetAsync<T>(key);
-            while (!handle.IsDone)
-            {
-                ct.ThrowIfCancellationRequested();
-                await UniTask.Yield(ct);
-            }
+            //while (!handle.IsDone)
+            //{
+            //    ct.ThrowIfCancellationRequested();
+            //    await UniTask.Yield(ct);
+            //}
+            await handle.Task.AsUniTask().AttachExternalCancellation(ct);
 
             if (handle.Status != AsyncOperationStatus.Succeeded)
             {
@@ -172,11 +173,12 @@ namespace Core.Scripts.Managers
             }
             
             var h = Addressables.LoadAssetsAsync<T>(label, null);
-            while (!h.IsDone)
-            {
-                ct.ThrowIfCancellationRequested();
-                await UniTask.Yield(ct);
-            }
+            //while (!h.IsDone)
+            //{
+            //    ct.ThrowIfCancellationRequested();
+            //    await UniTask.Yield(ct);
+            //}
+            await h.Task.AsUniTask().AttachExternalCancellation(ct);
 
             if (h.Status != AsyncOperationStatus.Succeeded)
             {

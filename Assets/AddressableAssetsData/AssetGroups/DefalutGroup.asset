@@ -16,7 +16,47 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: d38806e631f20004fb2eb15fd517529a
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 8233300a5f03ca74ab39d994b38edcc2
+    m_Address: Assets/GamePlay/Common/CommonResources/Keymaps/PlayerInput.inputactions
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72ef082c38ddf944f81649734b652aa4
+    m_Address: CSV/MEMCSV/CharData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe6b82145012d3041b2a5d3e7e601a48
+    m_Address: CSV/MEMCSV/CharStatData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9679cf1f308838c4484d0a6daf7015bf
+    m_Address: CSV/MEMCSV/ExecutionData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df47c49273aefa74d83c7a7fe7ad5c50
+    m_Address: CSV/MEMCSV/ExploreMapData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5826be2c137b21e439b06b73bc1db066
+    m_Address: CSV/MEMCSV/ImportDescription
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8991bcc0538e9e14eb6b4878dab877be
+    m_Address: CSV/MEMCSV/KeywordData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f7304fe818ae8d488aa226bc763bf77
+    m_Address: CSV/MEMCSV/SkillData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:

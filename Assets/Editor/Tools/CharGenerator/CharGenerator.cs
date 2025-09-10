@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System.Collections.Generic;
 using System.IO;
@@ -28,10 +29,12 @@ namespace AngelBeat
         EditorWindow.GetWindow(typeof(CharGenerator), false, "Character Generator");
     }
 
-    void OnEnable()
+    private async void OnEnable()
     {
-        global::Core.Scripts.Managers.DataManager.Instance.DataLoad();
-        CharDict = global::Core.Scripts.Managers.DataManager.Instance.GetDictionary("CharData");
+        await ResourceManager.Instance.InitAsync();
+        await DataManager.Instance.InitAsync();
+        //DataManager.Instance.DataLoad();
+        CharDict = DataManager.Instance.GetDictionary("CharData");
         List<string> options = new();
         foreach(var value in CharDict.Values)
         {
@@ -44,7 +47,7 @@ namespace AngelBeat
     void OnDisable()
     {
         AssetDatabase.SaveAssets();
-        global::Core.Scripts.Managers.DataManager.Instance.ClearCache();
+        DataManager.Instance.ClearCache();
     }
 
     void OnGUI()

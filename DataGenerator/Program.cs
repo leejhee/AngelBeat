@@ -30,7 +30,8 @@ namespace DataGenerator
                 Worksheet sheet = workbook.Worksheets[0];
 
                 // 워크시트를 CSV로 저장
-                sheet.SaveToFile($"../../../Assets/Resources/CSV/MEMCSV/{Path.GetFileNameWithoutExtension(Path.GetFileName(file))}.csv", ",", Encoding.UTF8);
+                //sheet.SaveToFile($"../../../Assets/Resources/CSV/MEMCSV/{Path.GetFileNameWithoutExtension(Path.GetFileName(file))}.csv", ",", Encoding.UTF8);
+                sheet.SaveToFile($"../../../Assets/GamePlay/Common/CommonResources/CSV/MEMCSV/{Path.GetFileNameWithoutExtension(Path.GetFileName(file))}.csv", ",", Encoding.UTF8);
             }
 
             Console.WriteLine("CSV파일 생성 & 코드 생성 완료");
@@ -116,7 +117,7 @@ namespace DataGenerator
             var dataManagerText = string.Format(DataFormat.dataFormat, excelName, dataRegister, dataParse);
 
             //File.WriteAllText($"../../../Assets/Scripts/SheetData/{excelName}.cs", dataManagerText);
-            File.WriteAllText($"../../../Assets/Scripts/Core/Data/{excelName}.cs", dataManagerText);
+            File.WriteAllText($"../../../Assets/Core/Scripts/Data/{excelName}.cs", dataManagerText);
         }
 
 

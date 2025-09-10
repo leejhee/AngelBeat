@@ -24,7 +24,7 @@ namespace GamePlay.Features.Scripts.Skill.Preview
         private CharBase _previewFocus;
         private Vector3 _pivot;     // 무조건 시전자 중심
         private int _range;         // 시전자로부터의 범위
-        private SystemEnum.EPivot _pivotType;
+        private SystemEnum.ePivot _pivotType;
         private int _pointerRange;  // 스킬 시전될 중심으로부터의 범위
         
         public void InitPreview(CharBase focus, SkillModel skillModel)
@@ -61,8 +61,8 @@ namespace GamePlay.Features.Scripts.Skill.Preview
             {
                 if (hitCollider.TryGetComponent(out CharBase target))
                 {
-                    if ((_pivotType == SystemEnum.EPivot.SELF && target != _previewFocus) ||
-                        (_pivotType == SystemEnum.EPivot.TARGET_ENEMY && target == _previewFocus))
+                    if ((_pivotType == SystemEnum.ePivot.SELF && target != _previewFocus) ||
+                        (_pivotType == SystemEnum.ePivot.TARGET_ENEMY && target == _previewFocus))
                     {
                         _spriteRenderer.sprite = null;
                         _spriteRenderer.material = normalMaterial;
@@ -86,7 +86,7 @@ namespace GamePlay.Features.Scripts.Skill.Preview
                         }
                         else if (_pointerRange > 0)
                         {
-                            var center = _pivotType == SystemEnum.EPivot.SELF ?
+                            var center = _pivotType == SystemEnum.ePivot.SELF ?
                                 (Vector2)_pivot : new Vector2(target.CharTransform.position.x, target.CharTransform.position.y);
                             
                             Collider2D[] hits = Physics2D.OverlapBoxAll

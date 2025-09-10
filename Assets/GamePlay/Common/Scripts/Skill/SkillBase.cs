@@ -12,7 +12,7 @@ namespace GamePlay.Features.Scripts.Skill
     {
         public CharBase Caster;
         public List<CharBase> Target;
-        public readonly SystemEnum.ESkillType SkillType;
+        public readonly SystemEnum.eSkillType SkillType;
         public readonly float DamageCalibration;     
         public readonly float Accuracy;              
         public readonly float CritMultiplier;
@@ -26,7 +26,7 @@ namespace GamePlay.Features.Scripts.Skill
         public SkillParameter(
             CharBase caster, 
             List<CharBase> target,
-            SystemEnum.ESkillType skillType,
+            SystemEnum.eSkillType skillType,
             float damageCalibration = 1,
             float accuracy = 100,
             float critMultiplier = 1)
