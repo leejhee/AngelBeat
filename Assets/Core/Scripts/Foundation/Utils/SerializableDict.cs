@@ -19,7 +19,7 @@ namespace Core.Scripts.Foundation.Utils
             {
                 var result = new List<TKey>(pairs.Count);
                 foreach(var pair in pairs)
-                    result.Add(pair.key);
+                    result.Add(pair.Key);
                 keys = result;
                 return result;
             }
@@ -57,7 +57,7 @@ namespace Core.Scripts.Foundation.Utils
         {
             foreach (var pair in pairs)
             {
-                if (EqualityComparer<TKey>.Default.Equals(pair.key, key))
+                if (EqualityComparer<TKey>.Default.Equals(pair.Key, key))
                     return pair.value;
             }
             return default;
@@ -70,7 +70,7 @@ namespace Core.Scripts.Foundation.Utils
             {
                 for (int i = 0; i < pairs.Count; i++)
                 {
-                    if (EqualityComparer<TKey>.Default.Equals(pairs[i].key, key))
+                    if (EqualityComparer<TKey>.Default.Equals(pairs[i].Key, key))
                     {
                         pairs[i].value = value;
                         values[i] = value;
@@ -86,7 +86,7 @@ namespace Core.Scripts.Foundation.Utils
         {
             foreach (var pair in pairs)
             {
-                if (EqualityComparer<TKey>.Default.Equals(pair.key, key))
+                if (EqualityComparer<TKey>.Default.Equals(pair.Key, key))
                 {
                     value = pair.value;
                     return true;
@@ -101,7 +101,7 @@ namespace Core.Scripts.Foundation.Utils
         {
             foreach (var pair in pairs)
             {
-                if (EqualityComparer<TKey>.Default.Equals(pair.key, key))
+                if (EqualityComparer<TKey>.Default.Equals(pair.Key, key))
                     return true;
             }
             return false;
@@ -111,7 +111,7 @@ namespace Core.Scripts.Foundation.Utils
         {
             for (int i = 0; i < pairs.Count; i++)
             {
-                if (EqualityComparer<TKey>.Default.Equals(pairs[i].key, key))
+                if (EqualityComparer<TKey>.Default.Equals(pairs[i].Key, key))
                 {
                     pairs.RemoveAt(i);
                     keys.RemoveAt(i);
@@ -157,7 +157,7 @@ namespace Core.Scripts.Foundation.Utils
             _runtimeDict = new Dictionary<TKey, TValue>();
             foreach (var pair in pairs)
             {
-                _runtimeDict[pair.key] = pair.value;
+                _runtimeDict[pair.Key] = pair.value;
             }
         }
 
@@ -184,15 +184,14 @@ namespace Core.Scripts.Foundation.Utils
     [Serializable]
     public class SerializableKeyValuePair<TKey, TValue>
     {
-        [FormerlySerializedAs("key")]
-        [SerializeField] private TKey _key;
+        [SerializeField] private TKey key;
         public TValue value;
-        public TKey key => _key;
+        public TKey Key => key;
         public SerializableKeyValuePair() { }
     
         public SerializableKeyValuePair(TKey key, TValue value)
         {
-            this._key = key;
+            this.key = key;
             this.value = value;
         }
     }

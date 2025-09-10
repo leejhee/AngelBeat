@@ -12,7 +12,7 @@ namespace UIs.Runtime
     {
         protected IView<TModel> View;       // Presenter은 View를 참조한다.
         protected TModel        Model;      // Presenter은 Model을 참조한다.
-        protected int           Layer = 0;  // 0:Screen, 10:Modal, 20:Toast
+        protected UILayer       Layer;      // 어느 레이어에 존재?
 
         private CancellationTokenSource _cts;
         protected CancellationToken ViewToken => _cts?.Token ?? CancellationToken.None;

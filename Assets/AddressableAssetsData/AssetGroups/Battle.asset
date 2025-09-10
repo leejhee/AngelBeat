@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle
+  m_Data:
+    m_SerializedData: []
+  m_GUID: fe6dff6f70f89c54996d2e815a3dbbe6
+  m_SerializeEntries:
+  - m_GUID: 6fa0e34ec38ca0047855810299d9a526
+    m_Address: testMendeul
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 799efd7b4d7a55e4088f267002c6f2cb
+    m_Address: testXiao
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 814e17bd2b6736a4b93e89c4c0153936
+    m_Address: SpawnIndicatorMaterial
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 857a28624daa3a248a3991d6fca07449
+    m_Address: SpriteOutlineMaterial
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e3cec4c0464df448b1af62f951a319d
+    m_Address: SkillPreview
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 363a0fd39fc92f14fa5183c9c9cedd36, type: 2}
+    - {fileID: 11400000, guid: 27c8c2a71091c244c9955eb801f8a354, type: 2}

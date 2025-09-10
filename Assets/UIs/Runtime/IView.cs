@@ -8,7 +8,7 @@ namespace UIs.Runtime
     /// </summary>
     public interface IUIModel {}
     
-    public interface IView<in TModel> : IUIModel
+    public interface IView<in TModel> where TModel : IUIModel
     {
         void BindObject(TModel vm); // 모델에 대한 이벤트를 프레젠터에 구독.
 

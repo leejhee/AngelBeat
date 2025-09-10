@@ -93,7 +93,7 @@ namespace Core.Scripts.Managers
             lock(_handleGate) _assetHandles.Add(key, handle);
             return handle.Result;
         }
-
+        
         public bool TryGet<T>(object key, out T asset) where T : UnityEngine.Object
         {
             lock (_handleGate)
@@ -109,7 +109,7 @@ namespace Core.Scripts.Managers
             asset = null;
             return false;
         }
-
+        
         public void Release(object key)
         {
             if (key == null) return;
@@ -136,6 +136,89 @@ namespace Core.Scripts.Managers
                 _assetHandles.Clear();
             }
         }
+        
+        #region Load & Release By Label - SO
+        
+        /// <summary>
+        /// 이게 왜 있냐면... 다른 에셋의 캐시와 충돌하게 하고 싶지 않아서 만든거다.
+        /// </summary>
+        private readonly struct LabelKey : IEquatable<LabelKey>
+        {
+            private readonly object _label;
+            private readonly Type _type;
+            public LabelKey(object label, Type type) { _label = label; _type = type; }
+            public static LabelKey Of<T>(object label) where T : UnityEngine.Object => new LabelKey(label, typeof(T));
+            public bool Equals(LabelKey other) => Equals(_label, other._label) && _type == other._type;
+            public override bool Equals(object obj) => obj is LabelKey other && Equals(other);
+            public override int GetHashCode()
+            {
+                unchecked { return ((_label?.GetHashCode() ?? 0) * 397) ^ _type.GetHashCode(); }
+            }
+            public override string ToString() => $"{_type.Name}@{_label}";
+        }
+
+        public async UniTask<IReadOnlyList<T>> LoadSOByLabelAsync<T>(object label, CancellationToken ct = default)
+            where T : ScriptableObject
+        {
+            if(label == null) throw new ArgumentNullException(nameof(label));
+            await EnsureInitializationAsync();
+            
+            var labelKey = LabelKey.Of<T>(label);
+
+            lock (_handleGate)
+            {
+                if(_assetHandles.TryGetValue(labelKey, out var existing) && existing.IsValid())
+                    return existing.Result as IReadOnlyList<T>;
+            }
+            
+            var h = Addressables.LoadAssetsAsync<T>(label, null);
+            while (!h.IsDone)
+            {
+                ct.ThrowIfCancellationRequested();
+                await UniTask.Yield(ct);
+            }
+
+            if (h.Status != AsyncOperationStatus.Succeeded)
+            {
+                Addressables.Release(h);
+                throw new InvalidOperationException(
+                    $"[Addressable] LoadAssets(SO) failed: label={label}, type={typeof(T).Name}");
+            }
+            
+            lock(_handleGate) _assetHandles.Add(labelKey, h);
+            return h.Result as IReadOnlyList<T>;
+        }
+
+        public bool TryGetSOList<T>(object label, out IReadOnlyList<T> list) where T : ScriptableObject
+        {
+            var labelKey = LabelKey.Of<T>(label);
+            lock (_handleGate)
+            {
+                if (_assetHandles.TryGetValue(labelKey, out var existing) && existing.IsValid())
+                {
+                    list = existing.Result as IReadOnlyList<T>;
+                    return list != null;
+
+                }
+            }
+            list = null;
+            return false;
+        }
+
+        public void ReleaseLabelSO<T>(object label) where T : ScriptableObject
+        {
+            var labelKey = LabelKey.Of<T>(label);
+            lock (_handleGate)
+            {
+                if (_assetHandles.TryGetValue(labelKey, out var existing) && existing.IsValid())
+                {
+                    Addressables.Release(existing);
+                    _assetHandles.Remove(labelKey);
+                }
+            }
+        }
+        
+        #endregion
         
         #endregion
 
