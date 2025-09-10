@@ -78,6 +78,7 @@ namespace Core.Scripts.Managers
             SaveLoadManager.Instance.Init();
             SoundManager.Instance.Init();
             InputManager.Instance.Init();
+            ResourceManager.Instance.Init();
         }
 
         private void Update()

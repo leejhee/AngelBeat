@@ -1,4 +1,3 @@
-using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Singleton;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace Core.Scripts.Managers
         #region 생성자
         ResourceManager () { }
         #endregion
-
+        
         private string GetPrefabPath(string path) => $"Prefabs/{path}";
 
         public T Load<T>(string path) where T : Object

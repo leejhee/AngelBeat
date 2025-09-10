@@ -21,7 +21,10 @@ namespace Core.Scripts.Foundation.Singleton
             }
         }
 
-        public virtual void Init() { }
+        public virtual void Init()
+        {
+            Debug.Log($"Static Singleton Initializing : {typeof(T)}");
+        }
         #region 생성자
         /// <summary>
         /// Singleton 생성자
