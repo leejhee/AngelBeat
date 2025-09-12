@@ -23,11 +23,11 @@ namespace Core.Scripts.Managers
         
         #region Initialization
         
-        public override void Init()
-        {
-            base.Init();
-            InitAsync().Forget();
-        }
+        //public override void Init()
+        //{
+        //    base.Init();
+        //    InitAsync().Forget();
+        //}
         
         private async Task DoInitAsync()
         {

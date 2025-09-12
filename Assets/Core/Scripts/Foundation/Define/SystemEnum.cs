@@ -72,12 +72,12 @@ namespace Core.Scripts.Foundation.Define
         {
             None,
         
-            Hospital,
-            Resistance,
-            Treasure,
-            Inn,
-            Hazard,
+            Floor,
+            Event,
+            Item,
             Combat,
+            Boss,
+            Bound,
 
             MaxValue
         }
@@ -222,7 +222,7 @@ namespace Core.Scripts.Foundation.Define
             DUMMY_4,
             DUMMY_5,
         
-            eMax
+            eMax,
         }
         
         [Serializable]
@@ -236,7 +236,8 @@ namespace Core.Scripts.Foundation.Define
             Battle,
             BossBattle,
             Event,
-            EMax
+            EMax,
+            Item
         }
         
         

@@ -20,6 +20,11 @@ namespace GamePlay.Features.Explore.Scripts.Map.Data
         public int xCapacity;
         [Header("던전 Y방향 타일")]
         public int yCapacity;
+
+        [Header("지나갈 수 있는 땅")] 
+        public GameObject floorPrefab;
+        [Header("경계 역할의 땅")] 
+        public GameObject boundPrefab;
         
         [Header("던전 내 이벤트 심볼 개수")]
         public int eventSymbolCount;

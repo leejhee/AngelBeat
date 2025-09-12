@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f85df3dd48a43609fed5d9fb98741e9, type: 3}
+  m_Name: ExploreSymbolDB
+  m_EditorClassIdentifier: 
+  entries:
+  - cellType: 3
+    prefab: {fileID: 2260281530952314823, guid: 48b7c9e1131c2e545b4a896727209ca3, type: 3}
+  - cellType: 5
+    prefab: {fileID: 8209083761072202776, guid: d43821497b9526846bb6757927f7e6f2, type: 3}
+  - cellType: 6
+    prefab: {fileID: 3109987336858753890, guid: a32e27e492a89424a845c85207f0444a, type: 3}
+  - cellType: 9
+    prefab: {fileID: 7562736470856318426, guid: 08925cc452808fe49a642bf79ce679a8, type: 3}

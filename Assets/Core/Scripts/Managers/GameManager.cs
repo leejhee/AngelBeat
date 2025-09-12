@@ -1,6 +1,7 @@
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
 using Core.Scripts.Foundation.Utils;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,9 +57,23 @@ namespace Core.Scripts.Managers
         #endregion
         
         
-        private void Start()
+        private async void Start()
         {
-            Init();
+            try
+            {
+                var ct = this.GetCancellationTokenOnDestroy();
+                await ResourceManager.Instance.InitAsync().AttachExternalCancellation(ct);
+                await DataManager.Instance.InitAsync().AttachExternalCancellation(ct);
+                
+                Init();
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            } 
+           
+
         }
         private static void Init()
         {
@@ -72,13 +87,11 @@ namespace Core.Scripts.Managers
             instance = go.GetComponent<GameManager>();
             DontDestroyOnLoad(go);
 
-            //산하에 SingletonObject<T> 상속받는 매니저들 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
+            //산하에 SingletonObject<T> 상속받는 매니저들 동기 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
             //나머지는 전부 런타임에 게임플레이 어딘가(씬 등)에서 호출합니다.
-            DataManager.Instance.Init();
             SaveLoadManager.Instance.Init();
             SoundManager.Instance.Init();
             InputManager.Instance.Init();
-            ResourceManager.Instance.Init();
         }
 
         private void Update()

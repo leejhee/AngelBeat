@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: "\uB4B7\uC0B0_1"
   m_EditorClassIdentifier: 
   dungeonName: 1
-  floor: 0
-  xCapacity: 0
-  yCapacity: 0
-  eventSymbolCount: 0
-  itemSymbolCount: 0
-  battleSymbolCount: 0
-  itemCandidate: 
+  floor: 1
+  xCapacity: 15
+  yCapacity: 15
+  floorPrefab: {fileID: 8271769597311064957, guid: 2fa5192e166cde240a8ab327c4c736b3, type: 3}
+  boundPrefab: {fileID: 897307508555944082, guid: 0edc819af4405c34ea7dcc73ab784abf, type: 3}
+  eventSymbolCount: 4
+  itemSymbolCount: 4
+  battleSymbolCount: 3
+  itemCandidate: 6f000000de000000
   eventCandidate: 000000000100000002000000

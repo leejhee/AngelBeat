@@ -22,12 +22,12 @@ public partial class DataManager : SingletonObject<DataManager>
     DataManager() { }
     #endregion
 
-    public override void Init()
-    {
-        ClearCache();
-        //DataLoad();
-        InitAsync().Forget();
-    }
+    //public override void Init()
+    //{
+    //    ClearCache();
+    //    //DataLoad();
+    //    InitAsync().Forget();
+    //}
 
     public async UniTask InitAsync()
     {
