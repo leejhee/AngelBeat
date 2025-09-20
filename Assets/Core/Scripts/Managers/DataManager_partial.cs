@@ -11,7 +11,7 @@ namespace Core.Scripts.Managers
         public Dictionary<eKeyword, KeywordData> KeywordMap => _keywordMap;
         public void SetKeywordDataMap()
         {
-            string key = typeof(KeywordData).Name;
+            string key = nameof(KeywordData);
             if (_cache.ContainsKey(key) == false)
                 return;
             Dictionary<long, SheetData> keywordDict = _cache[key];

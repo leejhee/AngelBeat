@@ -5,6 +5,7 @@ using Core.Scripts.Managers;
 using GamePlay.Battle;
 using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
+using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Scripts.Battle;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,8 +26,10 @@ namespace Scene
             GameManager instance = GameManager.Instance;
         }
         
-        void Start()
+        async void Start()
         {
+            await DataManager.Instance.WhenReady();
+            
             var testXiaoModel = new CharacterModel(88888888);
             Party playerParty = new (new List<CharacterModel> { testXiaoModel });
             _src = new DebugMockSource(SystemEnum.Dungeon.MOUNTAIN_BACK, playerParty, "TestMap");

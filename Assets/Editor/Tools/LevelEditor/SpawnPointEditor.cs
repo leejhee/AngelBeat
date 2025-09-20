@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using System.Collections.Generic;
 using System;
 using System.Linq;

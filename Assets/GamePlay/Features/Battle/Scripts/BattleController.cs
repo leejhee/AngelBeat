@@ -1,14 +1,16 @@
 using AngelBeat;
 using Core.Scripts.Foundation.Define;
-using GamePlay.Battle.BattleMap;
+using Cysharp.Threading.Tasks;
 using GamePlay.Entities.Scripts.Character;
+using GamePlay.Features.Battle.Scripts.BattleMap;
+using GamePlay.Features.Scripts.Battle;
 using GamePlay.Features.Scripts.Battle.Unit;
 using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Skill;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Battle
+namespace GamePlay.Features.Battle.Scripts
 {
     // 잠시 싱글턴 사용한다.
     public class BattleController : MonoBehaviour
@@ -47,14 +49,15 @@ namespace GamePlay.Features.Scripts.Battle
         
         private SkillPreview _preview;
         #endregion
-        
+
+        [SerializeField] private BattleFieldDB battleFieldDB;
         private IBattleStageSource _stageSource;
         private IMapLoader _mapLoader;
         
         private TurnController _turnManager;
         private CharBase FocusChar => _turnManager.TurnOwner;
         
-        private void Start()
+        private async void Start()
         {
             Debug.Log("Starting Battle...");
             if (_stageSource == null)
@@ -62,9 +65,9 @@ namespace GamePlay.Features.Scripts.Battle
                 Debug.Log("Stage source not set : Using Battle Payload");
                 _stageSource = new BattlePayloadSource();
             }
-            _mapLoader = new StageLoader(_stageSource);
+            _mapLoader = new StageLoader(_stageSource, battleFieldDB);
             
-            BattleInitialize();
+            await BattleInitialize();
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
@@ -74,26 +77,20 @@ namespace GamePlay.Features.Scripts.Battle
         /// <summary>
         /// 역할 : 전투 진입 시의 최초 동작 메서드. 전투 환경을 초기화한다.
         /// </summary>
-        private void BattleInitialize()
+        private async UniTask BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
-            // try
-            // {
-                string stageName = _stageSource.StageName;
-                Party playerParty = _stageSource.PlayerParty;
-                
-                StageField battleField = Instantiate(_mapLoader.GetBattleField(stageName));
-            
-                List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
-                _turnManager = new TurnController(battleMembers); 
-                _turnManager.ChangeTurn();
-            
-                BindBattleEvent();
-            //}
-            // catch (Exception e)
-            // {
-            //     Debug.LogError($"[에러 발생] : {e.Message}\n{e.StackTrace}");
-            // }
+
+            string stageName = _stageSource.StageName;
+            Party playerParty = _stageSource.PlayerParty;
+
+            StageField battleField = await _mapLoader.InstantiateBattleFieldAsync(stageName);
+        
+            List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
+            _turnManager = new TurnController(battleMembers); 
+            _turnManager.ChangeTurn();
+        
+            BindBattleEvent();
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();

@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using AngelBeat;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;

@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

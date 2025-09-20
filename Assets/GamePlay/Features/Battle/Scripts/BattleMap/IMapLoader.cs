@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AngelBeat;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     public interface IMapLoader
     {
-        public StageField GetBattleField(string stageName=null);
+        UniTask<StageField> InstantiateBattleFieldAsync(
+            string stageName=null, Transform parent=null, CancellationToken ct = default);
     }
     
 }

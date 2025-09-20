@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96dd8082d14946dab68a06de4717d8e7, type: 3}
-  m_Name: MOUNTAIN_BACK
+  m_Script: {fileID: 11500000, guid: e0eedd57e54546e1bdb8e2103571ca88, type: 3}
+  m_Name: BattleFieldDB
   m_EditorClassIdentifier: 
-  dungeon: 1
-  battlefields:
-  - {fileID: 3157864091758515823, guid: 76012417a12a620448b173e60a9bb482, type: 3}
+  db:
+  - dungeon: 1
+    group: {fileID: 11400000, guid: e330b58f6eb03b9408a90bc51d01fa36, type: 2}

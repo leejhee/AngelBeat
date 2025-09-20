@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: d38806e631f20004fb2eb15fd517529a
   m_SerializeEntries:
   - m_GUID: 8233300a5f03ca74ab39d994b38edcc2
-    m_Address: Assets/GamePlay/Common/CommonResources/Keymaps/PlayerInput.inputactions
+    m_Address: KEYMAP
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

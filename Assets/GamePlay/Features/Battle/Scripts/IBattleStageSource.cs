@@ -1,8 +1,8 @@
 ﻿using Core.Scripts.Foundation.Define;
-using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
+using GamePlay.Features.Scripts.Battle;
 
-namespace GamePlay.Features.Scripts.Battle
+namespace GamePlay.Features.Battle.Scripts
 {
     public interface IBattleStageSource
     {

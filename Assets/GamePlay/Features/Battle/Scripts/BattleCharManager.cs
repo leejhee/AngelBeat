@@ -2,6 +2,7 @@ using Core.Scripts.Data;
 using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
+using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using System.Collections.Generic;

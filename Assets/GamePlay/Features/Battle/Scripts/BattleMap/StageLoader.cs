@@ -1,48 +1,42 @@
-﻿using AngelBeat;
-using Core.Scripts.Foundation.Define;
-using GamePlay.Features.Scripts.Battle;
-using System.Collections.Generic;
+﻿using Core.Scripts.Managers;
+using Cysharp.Threading.Tasks;
+using System;
+using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Battle.BattleMap
+namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     public class StageLoader : IMapLoader
     {
-        private readonly Dictionary<string, StageField> _cache = new();
         private readonly IBattleStageSource _stageSource;
-        public StageLoader(IBattleStageSource source)
+        private readonly BattleFieldDB _db;
+        
+        public StageLoader(IBattleStageSource source, BattleFieldDB db)
         {
             _stageSource = source;
+            _db = db;
         }
-        
-        public StageField GetBattleField(string stageName=null)
+
+        /// <summary>
+        /// Load에서 바로 instantiate로 변경 : Load만 하고 들고만 있진 않을 것 같아서.
+        /// </summary>
+        public async UniTask<StageField> InstantiateBattleFieldAsync(
+            string stageName = null, Transform parent = null, CancellationToken ct = default)
         {
-            SystemEnum.Dungeon dungeon = _stageSource.Dungeon;
-            
-            BattleFieldGroup group = Resources.Load<BattleFieldGroup>($"ScriptableObjects/BattleFieldGroup/{dungeon}");
+            BattleFieldGroup group = _db.Resolve(_stageSource.Dungeon);
             if (!group)
             {
-                Debug.Log("Group Not Found. Check your enum data");
-                return null;
+                throw new System.Exception($"BattleFieldGroup not found for {_stageSource.Dungeon}");
             }
 
-            StageField result;
-            if (string.IsNullOrEmpty(stageName))
-                result = group.GetRandomBattleField();
-            else if(_cache.TryGetValue(stageName, out StageField cachedStage))
-                result = cachedStage;
-            else
-            {
-                result = group.GetBattleField(stageName);
-                _cache.Add(stageName, result);
-            }
-            
-            if (!result)
-            {
-                Debug.Log("Stage Not Found. Check your stage name");
-                return null;
-            }
-            return result;
+            var stageRef = group.GetStageRef(stageName);
+            if (stageRef == null) throw new Exception($"Stage not found : {stageName}");
+
+            var go = await ResourceManager.Instance.InstantiateAsync(stageRef, parent, false, ct);
+            var field = go.GetComponent<StageField>();
+            if (!field) throw new Exception($"Stage Component Missing : {stageName}");
+            return field;
+
         }
     }
 }

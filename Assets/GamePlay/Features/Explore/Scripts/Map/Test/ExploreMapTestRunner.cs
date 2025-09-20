@@ -29,7 +29,6 @@ public class ExploreMapTestRunner : MonoBehaviour
 
     [Header("Visual")]
     [SerializeField] private bool spawnFloorUnderSymbols = true;
-    [SerializeField] private bool setSortingOrder = true;
     [SerializeField] private int sortingBase = 100000;
     [SerializeField] private int sortingStep = 10;
 
@@ -85,21 +84,21 @@ public class ExploreMapTestRunner : MonoBehaviour
             var tp  = kv.Value;
             var w   = CellToWorld(pos);
 
-            if (tp == SystemEnum.MapCellType.Wall) { Inst(cfg.boundPrefab, w, pos.y); continue; }
-            if (spawnFloorUnderSymbols)             Inst(cfg.floorPrefab, w, pos.y);
+            if (tp == SystemEnum.MapCellType.Wall) { Inst(cfg.boundPrefab, w); continue; }
+            if (spawnFloorUnderSymbols)             Inst(cfg.floorPrefab, w);
 
             if (tp == SystemEnum.MapCellType.StartPoint && TryGetSymbol(SystemEnum.MapCellType.StartPoint, out var sp))
-                Inst(sp, w + new Vector3(0, 0, -1f), pos.y); // ★ StartPoint만 z = -1
+                Inst(sp, w + new Vector3(0, 0, -1f)); // ★ StartPoint만 z = -1
             else if (tp == SystemEnum.MapCellType.BossBattle && TryGetSymbol(SystemEnum.MapCellType.BossBattle, out var bp))
-                Inst(bp, w, pos.y);
+                Inst(bp, w);
             else if (tp == SystemEnum.MapCellType.Battle && TryGetSymbol(SystemEnum.MapCellType.Battle, out var bat))
-                Inst(bat, w, pos.y);
+                Inst(bat, w);
             else if (tp == SystemEnum.MapCellType.Item && TryGetSymbol(SystemEnum.MapCellType.Item, out var it))
-                Inst(it, w, pos.y);
+                Inst(it, w);
             else if (tp == SystemEnum.MapCellType.Event &&
                      r.EventAt.TryGetValue(pos, out var ev) &&
                      eventPrefab.TryGetValue(ev, out var ep) && ep)
-                Inst(ep, w, pos.y);
+                Inst(ep, w);
         }
     }
 
@@ -128,7 +127,7 @@ public class ExploreMapTestRunner : MonoBehaviour
 
     Vector3 CellToWorld(Vector2Int c) => grid.CellToWorld(new Vector3Int(c.x, c.y, 0));
 
-    void Inst(GameObject prefab, Vector3 pos, int cellY)
+    void Inst(GameObject prefab, Vector3 pos)
     {
         if (!prefab) return;
 #if UNITY_EDITOR
@@ -137,11 +136,11 @@ public class ExploreMapTestRunner : MonoBehaviour
 #else
         var go = Instantiate(prefab, pos, Quaternion.identity, mapRoot);
 #endif
-        if (setSortingOrder && prefab)
-        {
-            var sr = (prefab ? prefab.GetComponentInChildren<SpriteRenderer>() : null);
-            sr = sr ?? (mapRoot.GetChild(mapRoot.childCount - 1)?.GetComponentInChildren<SpriteRenderer>());
-            if (sr) sr.sortingOrder = sortingBase - (cellY * sortingStep);
-        }
+        // if (setSortingOrder && prefab)
+        // {
+        //     var sr = (prefab ? prefab.GetComponentInChildren<SpriteRenderer>() : null);
+        //     sr = sr ?? (mapRoot.GetChild(mapRoot.childCount - 1)?.GetComponentInChildren<SpriteRenderer>());
+        //     //if (sr) sr.sortingOrder = sortingBase - (cellY * sortingStep);
+        // }
     }
 }

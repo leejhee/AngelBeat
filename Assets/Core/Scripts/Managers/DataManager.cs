@@ -22,17 +22,17 @@ public partial class DataManager : SingletonObject<DataManager>
     DataManager() { }
     #endregion
 
-    //public override void Init()
-    //{
-    //    ClearCache();
-    //    //DataLoad();
-    //    InitAsync().Forget();
-    //}
-
+    private UniTaskCompletionSource _readyTCS = new();
+    public bool Ready {get; private set;}
+    public UniTask WhenReady() => _readyTCS.Task;
+    
+    
     public async UniTask InitAsync()
     {
         ClearCache();
         await DataLoadAsync();
+        Ready = true;
+        _readyTCS.TrySetResult();
     }
     
     // TODO : SemaphoreSlim(4)는 현재 magic number이므로 근거를 찾아 재설정할 것
@@ -84,7 +84,7 @@ public partial class DataManager : SingletonObject<DataManager>
     public T GetData<T>(long Index) where T : SheetData
     {
         string key = typeof(T).ToString();
-        key = key.Replace("Core.Data.", "");
+        key = key.Replace("Core.Scripts.Data.", "");
         if (!_cache.ContainsKey(key))
         {
             Debug.LogError($"{key} 데이터 테이블은 존재하지 않습니다.");

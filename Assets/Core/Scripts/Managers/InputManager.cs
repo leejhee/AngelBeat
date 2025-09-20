@@ -40,7 +40,7 @@ namespace Core.Scripts.Managers
         public void OnUpdate()
         {
             // 키 입력이 아무것도 없었다면
-            if (Input.anyKey == false) { return; }
+            //if (Input.anyKey == false) { return; }
 
             // 키 액션이 있었다면 
             if (KeyAction != null)

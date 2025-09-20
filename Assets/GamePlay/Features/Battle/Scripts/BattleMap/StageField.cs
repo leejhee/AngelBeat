@@ -1,17 +1,14 @@
 using Character;
 using Core.Attributes;
 using Core.Scripts.Foundation.Define;
-using GamePlay.Character;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Scripts.Battle;
 using GamePlay.Features.Scripts.Battle.Unit;
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     // 전투 시작시 생성될 맵 오브젝트
 [RequireComponent(typeof(Grid)), System.Serializable]

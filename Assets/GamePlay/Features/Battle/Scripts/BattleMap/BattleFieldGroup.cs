@@ -1,33 +1,28 @@
-﻿using AngelBeat;
-using Core.Scripts.Foundation.Define;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.AddressableAssets;
 
-namespace GamePlay.Battle.BattleMap
+namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     [CreateAssetMenu(fileName = "BattleFieldGroup", menuName = "ScriptableObjects/BattleFieldGroup")]
     public class BattleFieldGroup : ScriptableObject
     {
-        [FormerlySerializedAs("eDungeon")] public SystemEnum.Dungeon dungeon;
-        public List<StageField> battlefields;
-
-        public StageField GetRandomBattleField()
+        [Serializable]
+        public struct StageFieldEntry
         {
-            if(battlefields == null || battlefields.Count == 0) return null;
-            return battlefields[Random.Range(0, battlefields.Count)];
+            public string stageName;
+            public AssetReferenceT<GameObject> stageField;
         }
-
-        public StageField GetBattleField(string fieldName)
+        public List<StageFieldEntry> stages = new();
+        
+        public AssetReferenceT<GameObject> GetStageRef(string stageName)
         {
-            if(battlefields == null || battlefields.Count == 0) return null;
-            var targetField = battlefields.Find(x => x.name == fieldName);
-            if (!targetField)
-            {
-                Debug.Log($"{fieldName}의 stage를 찾지 못함. 이름이 제대로 되어있는지 확인바람.");
-                return null;
-            }
-            return targetField;
+            if (string.IsNullOrEmpty(stageName))
+                return stages.Count > 0 ? stages[UnityEngine.Random.Range(0, stages.Count)].stageField : null;
+
+            int i = stages.FindIndex(s => s.stageName == stageName);
+            return i >= 0 ? stages[i].stageField : null;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Core.Scripts.Managers
             get
             {
                 if(!instance) Init(); 
-                return instance ;
+                return instance;
             }
         }
         GameManager() { }
@@ -65,7 +65,7 @@ namespace Core.Scripts.Managers
                 await ResourceManager.Instance.InitAsync().AttachExternalCancellation(ct);
                 await DataManager.Instance.InitAsync().AttachExternalCancellation(ct);
                 
-                Init();
+                if(instance == null) Init();
             }
             catch (OperationCanceledException) { }
             catch (Exception e)
