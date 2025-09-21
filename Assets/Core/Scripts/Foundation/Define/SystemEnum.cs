@@ -46,13 +46,12 @@ namespace Core.Scripts.Foundation.Define
         {
             None,
         
-            Title,
-            Lobby,
-        
+            LobbyScene,
             LoadingScene,
             ExploreScene,
             BattleTestScene,
-        
+            VillageScene,
+            
             MaxCount
         }
 

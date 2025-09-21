@@ -1,6 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Core.Scripts.Foundation.Define;
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,9 +13,23 @@ namespace Core.Scripts.Foundation.SceneUtil
         [SerializeField] private Image progressBar;
         [SerializeField] private float fakeLoadingTime;
         [SerializeField] private float loadingBoundary = 0.5f;
-        private IEnumerator Start()
+        
+        private CancellationTokenSource _cts;
+        private async void Start()
         {
+            var ct = this.GetCancellationTokenOnDestroy();
+            
+            #region Validating Destination
             string destination = SceneLoader.DestinationScene.ToString();
+            if (string.IsNullOrEmpty(destination) || destination == nameof(SystemEnum.eScene.None))
+            {
+                Debug.LogError("Invalid Destination");
+            }
+            
+            #endregion
+            
+            #region Scene Loading
+            if(progressBar) progressBar.fillAmount = 0; 
             AsyncOperation op = SceneManager.LoadSceneAsync(destination, LoadSceneMode.Single);
             op.allowSceneActivation = false;
 
@@ -23,24 +37,42 @@ namespace Core.Scripts.Foundation.SceneUtil
             {
                 float p = Mathf.Clamp01(op.progress / loadingBoundary);
                 progressBar.fillAmount = p * loadingBoundary;
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
             }
-
-            CancellationTokenSource cts = new();
-            if (SceneLoader.InitCallbackAsync != null)
-            {
-                float post = 0f;
-                Progress<float> progress = new(p => {
-                    progressBar.fillAmount = loadingBoundary + ((1 - loadingBoundary) * Mathf.Clamp01(p));
-                    post = p;
-                });
-                yield return SceneLoader.InitCallbackAsync(cts.Token).ToCoroutine();
-            }
-            SceneLoader.Clear();
+            #endregion
             
-
+            #region Loading Pipeline - After Scene Loading
+            _cts = new CancellationTokenSource();
+            try
+            {
+                if (SceneLoader.InitCallbackAsync != null)
+                {
+                    var progress = new Progress<float>(p => {
+                        progressBar.fillAmount = loadingBoundary + ((1 - loadingBoundary) * Mathf.Clamp01(p));
+                    });
+                
+                    await SceneLoader.InitCallbackAsync(_cts.Token, progress);
+                }
+                else
+                {
+                    if (progressBar) progressBar.fillAmount = 1f;
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                }
+            }
+            catch (OperationCanceledException){}
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
+            }
+            finally
+            {
+                SceneLoader.Clear(); 
+            }
+            
+            #endregion
+                
             op.allowSceneActivation = true;
-            yield return op;
+            await op.ToUniTask(cancellationToken: ct);
         }
     }
 }
