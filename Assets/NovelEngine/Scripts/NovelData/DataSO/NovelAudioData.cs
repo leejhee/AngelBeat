@@ -2,6 +2,7 @@ using NovelEngine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace novel
 {
@@ -10,6 +11,16 @@ namespace novel
     {
         [SerializeField] private SerializableDict<string, AudioClip> bgmDict = new();
         [SerializeField] private SerializableDict<string, AudioClip> sfxDict = new();
+        [SerializeField] private AudioMixer mixer;
+        public AudioMixer GetMixer()
+        { 
+            if  (mixer == null)
+            {
+                Debug.LogError("오디오 믹서가 지정되지 않았습니다.");
+                return null;
+            }
+            return mixer; 
+        }
         public AudioClip GetBGMByName(string name)
         {
             if (bgmDict.TryGetValue(name, out var bgm))

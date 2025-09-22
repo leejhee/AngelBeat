@@ -11,6 +11,7 @@ public class NovelManager : MonoBehaviour
     public static NovelManager Instance { get; private set; }
     public static NovelResources Data { get; private set; } = new NovelResources();
 
+    public NovelAudioManager Audio { get; private set; } = new();
 
     private const string novelPlayerPrefabPath = "NovelPlayer";
     public static NovelPlayer Player { get; private set; }
@@ -71,9 +72,9 @@ public class NovelManager : MonoBehaviour
     {
         // 라벨로 SO 전체 로드
         await Data.InitByLabelAsync();
-
-        //await InstantiateNovelPlayerAsync();
-
+  
+        // 오디오매니저 초기화
+        await Audio.AudioManagerInitAsync();
 
         IsReady = true;
         Debug.Log("Novel Engine 초기화 완료");

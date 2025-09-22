@@ -1,9 +1,8 @@
-
-using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using static NovelParser;
 
 namespace novel
@@ -11,11 +10,11 @@ namespace novel
     [System.Serializable]
     public class SoundCommand : CommandLine
     {
-        public string bgmName;
+        public string soundName;
         public int? volume;
         public bool loop;
         public bool isPlay;
-        public SoundType soundType;
+        public NovelSound soundType;
 
         public SoundCommand(
             int index,
@@ -23,11 +22,11 @@ namespace novel
             int? volume, 
             bool loop,
             bool isPlay,
-            SoundType soundType,
+            NovelSound soundType,
             IfParameter ifParameter = null)
             : base(index, DialogoueType.CommandLine)
         {
-            this.bgmName = bgmName;
+            this.soundName = bgmName;
             this.volume = volume;
             this.loop = loop;
             this.isPlay = isPlay;
@@ -39,27 +38,32 @@ namespace novel
         {
             //if (!ifParameter)
             //    return;
+            Debug.Log("재생");
 
+            var audio = NovelManager.Instance.Audio;
+            float volumeFloat = (volume ?? 100f) / 100f;
             // 따로 사운드 관리하는거 만들기
             switch (soundType)
             {
-                case SoundType.BGM:
+                case NovelSound.Bgm:
                     if (isPlay)
                     {
                         // BGM 재생
-                        //SoundManager.Instance.PlayBGM(bgmName, volume ?? 100, loop, fade ?? 0f);
+                        
+                        audio.Play(soundName, volumeFloat, soundType);
                     }
                     else
                     {
                         // BGM 중단
-                        //SoundManager.Instance.StopBGM(fade ?? 0f);
+                        audio.StopBGM();
                     }
                     break;
-                case SoundType.SFX:
+                case NovelSound.Effect:
                     if (isPlay)
                     {
                         // SFX 재생
-                        //SoundManager.Instance.PlaySFX(bgmName, volume ?? 100, loop);
+                        audio.Play(soundName, volumeFloat, NovelSound.Effect);
+                       
                     }
                     else
                     {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-
 namespace novel
 {
     public class NovelResources
@@ -46,6 +45,7 @@ namespace novel
                     Debug.LogError("[NovelResources] A null ScriptableObject was loaded by label.");
                 }
             }
+            Debug.Log("데이터 불러오기 완료");
         }
         public void OnNovelEnd()
         {

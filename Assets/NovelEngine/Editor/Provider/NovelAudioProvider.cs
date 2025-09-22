@@ -31,6 +31,12 @@ namespace novel
             EditorGUILayout.LabelField("Audio Resources", EditorStyles.boldLabel);
 
 
+            EditorGUILayout.LabelField("Audio Mixer");
+            var mixerProp = novelSettings.FindProperty("mixer");
+
+            EditorGUILayout.PropertyField(mixerProp, new GUIContent("Mixer"), true);
+            EditorGUILayout.Space();
+
             EditorGUILayout.LabelField("BGM List");
             var bgmProp = novelSettings.FindProperty("bgmDict").FindPropertyRelative("pairs");
 

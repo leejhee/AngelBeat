@@ -446,7 +446,7 @@ public static class NovelParser
 
                     IfParameter ifParameter = parseIfParameter(line);
 
-                    result = new SoundCommand(index, bgmName, volume, loop, true, SoundType.BGM ,ifParameter);
+                    result = new SoundCommand(index, bgmName, volume, loop, true, NovelSound.Bgm ,ifParameter);
                     Debug.Log(
                         $"BGM : {bgmName}\n" +
                         $"volume : {volume}\n" +
@@ -461,7 +461,7 @@ public static class NovelParser
 
                 {
                     IfParameter ifParameter = parseIfParameter(line);
-                    result = new SoundCommand(index, null, null, false, false, SoundType.BGM,ifParameter);
+                    result = new SoundCommand(index, null, null, false, false, NovelSound.Bgm,ifParameter);
                     Debug.Log(
                         $"StopBGM\n" +
                         $"Index : {index}" +
@@ -490,7 +490,7 @@ public static class NovelParser
                     }
 
                     IfParameter ifParameter = parseIfParameter(line);
-                    result = new SoundCommand(index, sfxName, volume, loop, true, SoundType.SFX, ifParameter);
+                    result = new SoundCommand(index, sfxName, volume, loop, true, NovelSound.Effect, ifParameter);
                     Debug.Log(
                         $"SFX : {sfxName}\n" +
                         $"volume : {volume}\n" +
@@ -502,7 +502,7 @@ public static class NovelParser
             case CommandType.StopSFX:
                 {
                     IfParameter ifParameter = parseIfParameter(line);
-                    result = new SoundCommand(index, null, null, false, false, SoundType.SFX, ifParameter);
+                    result = new SoundCommand(index, null, null, false, false, NovelSound.Effect, ifParameter);
                     Debug.Log(
                         $"StopSFX\n" +
                         $"Index : {index}" +

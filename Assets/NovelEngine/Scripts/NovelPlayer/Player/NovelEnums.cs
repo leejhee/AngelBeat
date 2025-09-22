@@ -52,9 +52,10 @@ namespace novel
         NotEqual,           // !=,
         None
     }
-    public enum SoundType
+    public enum NovelSound
     {
-        BGM,
-        SFX
+        Bgm,
+        Effect,
+        MaxCount
     }
 }

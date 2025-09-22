@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Triggers;
-using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
