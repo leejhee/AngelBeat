@@ -6,7 +6,7 @@ using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Explore
+namespace GamePlay.Features.Explore.Scripts
 {
     /// <summary>
     /// 탐사 관리

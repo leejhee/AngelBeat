@@ -1,10 +1,5 @@
 using Core.Scripts.Foundation.Define;
-using Core.Scripts.Foundation.Singleton;
-using Core.Scripts.Foundation.Utils;
-using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core.Scripts.Managers
@@ -26,7 +21,8 @@ namespace Core.Scripts.Managers
         #endregion
         
         #region Game State Management
-      
+        
+        // 필요하다! - 저장 구조를 위해서 필요함.
         private SystemEnum.GameState _state;
         public SystemEnum.GameState GameState
         {
@@ -44,37 +40,6 @@ namespace Core.Scripts.Managers
         
         #endregion
         
-        #region Singleton Objects Management
-        [Serializable]
-        public class ManagerDictionary : SerializableDict<SystemEnum.ManagerType, ManagerBehaviour> {}
-        
-        [SerializeField, Header("상태에 따른 관리")]
-        private ManagerDictionary managerDict = new();
-
-        
-        
-        
-        #endregion
-        
-        
-        private async void Start()
-        {
-            try
-            {
-                var ct = this.GetCancellationTokenOnDestroy();
-                await ResourceManager.Instance.InitAsync().AttachExternalCancellation(ct);
-                await DataManager.Instance.InitAsync().AttachExternalCancellation(ct);
-                
-                if(instance == null) Init();
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            } 
-           
-
-        }
         private static void Init()
         {
             GameObject go = GameObject.Find("@GameManager");
@@ -86,30 +51,38 @@ namespace Core.Scripts.Managers
 
             instance = go.GetComponent<GameManager>();
             DontDestroyOnLoad(go);
-
-            //산하에 SingletonObject<T> 상속받는 매니저들 동기 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
-            //나머지는 전부 런타임에 게임플레이 어딘가(씬 등)에서 호출합니다.
-            SaveLoadManager.Instance.Init();
-            SoundManager.Instance.Init();
-            InputManager.Instance.Init();
         }
-
+        
+        #region Events responsible with GameManager
+        
+        public event Action<QuitParam> OnQuit;
+        public event Action<PauseParam> OnPause;
+        public event Action OnUpdate;
+        
+        #endregion
+        
         private void Update()
         {
+            OnUpdate?.Invoke();
             InputManager.Instance.OnUpdate();
         }
 
         private void OnApplicationQuit()
         {
+            OnQuit?.Invoke(new QuitParam());
             //강종 대비
             SaveLoadManager.Instance.OnApplicationQuit();
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
+            OnPause?.Invoke(new PauseParam());
             //모바일 사례 : 갑자기 내린다면
             SaveLoadManager.Instance.OnApplicationPause(pauseStatus);
         }
     }
+    
+    public class QuitParam {}
+    public class PauseParam{}
 }
 
