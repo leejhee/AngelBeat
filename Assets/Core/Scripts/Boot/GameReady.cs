@@ -6,7 +6,7 @@ namespace Core.Scripts.Boot
 {
     public static class GameReady
     {
-        private static bool isReady = false;
+        private static bool isReady;
 
         public static async UniTask InitializeOnceAsync()
         {

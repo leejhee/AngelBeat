@@ -30,6 +30,8 @@ namespace Core.Scripts.Managers
         private SaveLoadManager() { }
         #endregion
         
+        #region Fields
+        
         private GlobalSaveData _globalSave;
         private GameSlotData _cachedSlotData;
         public event Action<GameSlotData> SlotLoaded;
@@ -44,13 +46,13 @@ namespace Core.Scripts.Managers
         private DateTime _lastAutoSave = DateTime.MinValue;
         private const double AutoSaveIntervalSec = 5d;
         
+        #endregion
+        
         #region Properties
         public GlobalSaveData GlobalSave => _globalSave;
         public GameSlotData CurrentSlot => _cachedSlotData;
         public bool HasCurrentSlot => _cachedSlotData != null;
         public bool HasLastPlayed => _globalSave?.LastPlayedSlotData is { isEmpty: false };
-        
-        
         
         #endregion
         

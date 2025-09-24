@@ -22,13 +22,7 @@ namespace Core.Scripts.Managers
         private readonly Dictionary<GameObject, AsyncOperationHandle<GameObject>> _instanceHandles = new();
         
         #region Initialization
-        
-        //public override void Init()
-        //{
-        //    base.Init();
-        //    InitAsync().Forget();
-        //}
-        
+
         private async Task DoInitAsync()
         {
             var h = Addressables.InitializeAsync();

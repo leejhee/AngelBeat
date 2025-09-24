@@ -35,8 +35,8 @@ namespace Core.Scripts.Foundation.SceneUtil
 
             while (op.progress < loadingBoundary)
             {
-                float p = Mathf.Clamp01(op.progress / loadingBoundary);
-                progressBar.fillAmount = p * loadingBoundary;
+                if(progressBar)
+                    progressBar.fillAmount = Mathf.Clamp01(op.progress / loadingBoundary) * loadingBoundary;
                 await UniTask.Yield(PlayerLoopTiming.Update, ct);
             }
             #endregion
@@ -48,7 +48,8 @@ namespace Core.Scripts.Foundation.SceneUtil
                 if (SceneLoader.InitCallbackAsync != null)
                 {
                     var progress = new Progress<float>(p => {
-                        progressBar.fillAmount = loadingBoundary + ((1 - loadingBoundary) * Mathf.Clamp01(p));
+                        if(progressBar)
+                            progressBar.fillAmount = loadingBoundary + ((1 - loadingBoundary) * Mathf.Clamp01(p));
                     });
                 
                     await SceneLoader.InitCallbackAsync(_cts.Token, progress);
@@ -72,7 +73,13 @@ namespace Core.Scripts.Foundation.SceneUtil
             #endregion
                 
             op.allowSceneActivation = true;
-            await op.ToUniTask(cancellationToken: ct);
+            await op.ToUniTask();
+        }
+
+        private void OnDestroy()
+        {
+            _cts?.Dispose();
+            _cts = null;
         }
     }
 }
