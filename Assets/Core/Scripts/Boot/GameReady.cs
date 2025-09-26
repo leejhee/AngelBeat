@@ -13,8 +13,6 @@ namespace Core.Scripts.Boot
             if (isReady) return;
             await ResourceManager.Instance.InitAsync();
             await DataManager.Instance.InitAsync();
-
-            _ = GameManager.Instance;
             
             //산하에 SingletonObject<T> 상속받는 매니저들 동기 초기화. Managers 어셈블리 내의 매니저들만 Init하자.
             SaveLoadManager.Instance.Init();

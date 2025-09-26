@@ -44,7 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96a20fbcc88480d83bfaeafd28cb755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catalogDict:
-    pairs: []
-    keys: 
-    values: []
+  entries:
+  - keyState: 3
+    catalog: {fileID: 11400000, guid: ea1e649e996ebba4dab28560756c0734, type: 2}
+  - keyState: 4
+    catalog: {fileID: 11400000, guid: b9b77fb9e461de44f8edec4943e5eaea, type: 2}
+  - keyState: 5
+    catalog: {fileID: 11400000, guid: d6fdbba9599ef4248b8f2c86a87ba7ee, type: 2}
+  - keyState: 1
+    catalog: {fileID: 11400000, guid: fd8e54080da944b44bf69b2e0949fada, type: 2}

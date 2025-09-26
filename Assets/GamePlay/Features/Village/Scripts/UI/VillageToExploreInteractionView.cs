@@ -5,11 +5,8 @@ using UnityEngine;
 
 namespace GamePlay.Features.Village.Scripts.UI
 {
-    // 가이드 관련 string도 데이터화하는게 맞나? 추후 결정 예정.
-    // 데이터화되면, 이제 데이터로부터 symbol의 '이름'에 따라 가져올 예정.
-    
     /// <summary>
-    /// 저장 X. 탐사 내 상호작용 오브젝트일 경우, 범위 내에 접근 시 뜨는 팝업
+    /// Village UI : 탐사로 이어지는 팝업을 띄우기 위한 상호작용 팝업
     /// </summary>
     public class VillageToExploreInteractionView : MonoBehaviour, IView
     {
@@ -23,7 +20,7 @@ namespace GamePlay.Features.Village.Scripts.UI
 
         public async UniTask ShowExploreGuideOnClick()
         {
-            await UIManager.Instance.어싱크로띄우기(ViewID.VillageToExploreView);
+            await UIManager.Instance.ShowViewAsync(ViewID.VillageToExploreView);
         }
     }
     

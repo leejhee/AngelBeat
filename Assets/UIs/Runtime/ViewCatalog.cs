@@ -11,14 +11,16 @@ namespace UIs.Runtime
     /// 생성할 수 있는 UI 프리팹들의 풀을 key - value로 표현한 형태
     /// </summary>
     [CreateAssetMenu(menuName = "ScriptableObject/ViewCatalog")]
-    public class ViewCatalog : ScriptableObject, ISerializationCallbackReceiver
+    public class ViewCatalog : ScriptableObject//, ISerializationCallbackReceiver
     {
+        #region Entry struct
         [Serializable]
-        public struct ViewEntry
+        public class ViewEntry
         {
             public ViewID viewID;
             public AssetReferenceGameObject viewReference;
         }
+        #endregion
         
         [SerializeField] private List<ViewEntry> viewTable = new();
 
@@ -26,38 +28,62 @@ namespace UIs.Runtime
         
         public IReadOnlyList<ViewEntry> ViewTable => viewTable;
 
-        private Dictionary<ViewID, ViewEntry> _map;
+        [NonSerialized] private Dictionary<ViewID, ViewEntry> _map;
+        [NonSerialized] private bool _cacheDirty = true;
+
+        private void OnEnable()
+        {
+            _cacheDirty = true;
+        }
 
         public bool TryGet(ViewID id, out ViewEntry entry)
         {
-            _map ??= BuildMap();
+            EnsureCache();
             return _map.TryGetValue(id, out entry);
         }
 
-        private Dictionary<ViewID, ViewEntry> BuildMap()
+        public IPresenter GetPresenter(ViewID id, IView view)
         {
-            var d = new Dictionary<ViewID, ViewEntry>(viewTable.Count);
-            foreach (var e in viewTable) d[e.viewID] = e;
-            return d;
+            return presenterFactory.Create(id, view);
         }
+        
+        private void EnsureCache()
+        {
+            if (_map != null && !_cacheDirty) return;
 
-        void ISerializationCallbackReceiver.OnAfterDeserialize() => _map = null;
-        void ISerializationCallbackReceiver.OnBeforeSerialize() { }
+            Dictionary<ViewID, ViewEntry> d = new(viewTable.Count);
+            foreach (ViewEntry e in viewTable)
+            {
+                d[e.viewID] = e;
+            }
+            _map = d;
+            _cacheDirty = false;
+        }
+        
+        //void ISerializationCallbackReceiver.OnBeforeSerialize() { }
+        //void ISerializationCallbackReceiver.OnAfterDeserialize() {_cacheDirty = true;}
+        
 
 #if UNITY_EDITOR
-        // 에디터 전용 디버깅용도이므로 외부 사용으로 인한 빌드 오류 주의.
-        private void OnValidate()
-        {
-            var seen = new HashSet<ViewID>();
-            foreach (var e in viewTable)
-            {
-                if (e.viewReference.RuntimeKeyIsValid() == false)
-                    Debug.LogWarning($"[Catalog] '{name}' has null Addressable for {e.viewID}", this);
-                if (!seen.Add(e.viewID))
-                    Debug.LogWarning($"[Catalog] '{name}' duplicated ViewID: {e.viewID}", this);
-            }
-        }
-#endif
-        
+        //private static bool validating;
+        //
+        //// 에디터 전용 디버깅용도이므로 외부 사용으로 인한 빌드 오류 주의.
+        //private void OnValidate()
+        //{
+        //    _cacheDirty = true;
+//
+        //    UnityEditor.EditorApplication.delayCall += () =>
+        //    {
+        //        if (!this) return; 
+        //        var seen = new HashSet<ViewID>();
+        //        foreach (var e in viewTable)
+        //        {
+        //            if (e.viewReference == null) continue;
+        //            if (!seen.Add(e.viewID))
+        //                Debug.LogWarning($"[ViewCatalog] Duplicate ViewID: {e.viewID}", this);
+        //        }
+        //    };
+        //}
+#endif//
     }
 }
