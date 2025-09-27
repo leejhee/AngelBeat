@@ -1,6 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -60,19 +59,8 @@ namespace UIs.Runtime
         UniTask PlayEnterAsync(CancellationToken ct);
         UniTask PlayExitAsync(CancellationToken ct);
     }
-    
-    /// <summary>
-    /// Model - Presenter, Presenter - View의 구독을 담당할 소형 이벤트 버스
-    /// </summary>
-    public sealed class PresenterEventBus : IDisposable
-    {
-        private readonly List<IDisposable> _bus = new();
-        public void Add(IDisposable d) { if (d != null) _bus.Add(d); }
-        public void Clear() { foreach (var d in _bus) d.Dispose(); _bus.Clear(); }
-        public void Dispose() => Clear();
-    } 
-    
-    
+
+
     /// <summary>
     /// Presenter 기능 구현이 필요 없을 시 사용 가능한 디폴트 Presenter
     /// </summary>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace UIs.Runtime
 {
@@ -21,6 +22,7 @@ namespace UIs.Runtime
         
         #endregion
         
+        #region DB
         #region Temporary Entry
         
         /// <summary>
@@ -44,6 +46,8 @@ namespace UIs.Runtime
         
         private readonly Dictionary<SystemEnum.GameState, ViewCatalog> _catalogDict = new();
         
+        #endregion
+        
         
         /// <summary>
         /// Presenter을 관리하는 스택
@@ -55,6 +59,9 @@ namespace UIs.Runtime
         /// UI 전용 CTS
         /// </summary>
         private CancellationTokenSource uiCts = new();
+
+
+        [SerializeField] private AssetReferenceGameObject rootPrefabReference;
         
         /// <summary>
         /// 모든 UI의 Root 위치
@@ -76,16 +83,16 @@ namespace UIs.Runtime
         
         private void Awake()
         {
-            // 프리팹화로 인해 여기서 초기화
             if (instance != null && instance != this) { Destroy(gameObject); return; }
             instance = this;
             DontDestroyOnLoad(this);
-
+            
             GameManager.Instance.OnGameStateChanged += ChangeCatalog;
             foreach (CatalogEntry pair in entries)
             {
                 _catalogDict[pair.keyState] = pair.catalog; //빠른 인덱싱을 위해
             }
+            _focusingCatalog = _catalogDict[SystemEnum.GameState.Lobby]; // 초기 포커싱 설정
         }
 
         public async UniTask ShowViewAsync(ViewID viewID)
@@ -99,7 +106,7 @@ namespace UIs.Runtime
                     var presenter = _focusingCatalog.GetPresenter(viewID, view);
                     presenterStack.Push(presenter);
                     await presenter.OnEnterAsync(uiCts.Token);
-                    await view.PlayEnterAsync(uiCts.Token);
+                    //await view.PlayEnterAsync(uiCts.Token);
                 }
             }
         }
@@ -109,7 +116,8 @@ namespace UIs.Runtime
             if (presenterStack.Count == 0) return;
             IPresenter current = presenterStack.Peek();
             await current.OnExitAsync(uiCts.Token);
-            presenterStack.Pop();
+            presenterStack.Pop().Dispose();
+            
         }
 
         private void OnDestroy()

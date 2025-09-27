@@ -29,7 +29,7 @@ namespace UIs.Runtime
         public IReadOnlyList<ViewEntry> ViewTable => viewTable;
 
         [NonSerialized] private Dictionary<ViewID, ViewEntry> _map;
-        [NonSerialized] private bool _cacheDirty = true;
+        [NonSerialized] private bool _cacheDirty = true; // validate 용도였으나, 인스펙터 오류때문에 잠시 미사용. 무시 권장
 
         private void OnEnable()
         {
@@ -59,31 +59,5 @@ namespace UIs.Runtime
             _map = d;
             _cacheDirty = false;
         }
-        
-        //void ISerializationCallbackReceiver.OnBeforeSerialize() { }
-        //void ISerializationCallbackReceiver.OnAfterDeserialize() {_cacheDirty = true;}
-        
-
-#if UNITY_EDITOR
-        //private static bool validating;
-        //
-        //// 에디터 전용 디버깅용도이므로 외부 사용으로 인한 빌드 오류 주의.
-        //private void OnValidate()
-        //{
-        //    _cacheDirty = true;
-//
-        //    UnityEditor.EditorApplication.delayCall += () =>
-        //    {
-        //        if (!this) return; 
-        //        var seen = new HashSet<ViewID>();
-        //        foreach (var e in viewTable)
-        //        {
-        //            if (e.viewReference == null) continue;
-        //            if (!seen.Add(e.viewID))
-        //                Debug.LogWarning($"[ViewCatalog] Duplicate ViewID: {e.viewID}", this);
-        //        }
-        //    };
-        //}
-#endif//
     }
 }

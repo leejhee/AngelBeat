@@ -1,7 +1,6 @@
 ﻿{
   "name": "AngelBeat.UIs.Runtime",
   "references": [
-    "GUID:af5d74f076714a9d89865754e92b7d67",
     "GUID:f51ebe6a0ceec4240a699833d6309b23",
     "GUID:593a5b492d29ac6448b1ebf7f035ef33",
     "GUID:dc47925d1a5fa2946bdd37746b2b5d48",

@@ -64,7 +64,7 @@ namespace Core.Scripts.Managers
         private void Update()
         {
             OnUpdate?.Invoke();
-            InputManager.Instance.OnUpdate();
+            //InputManager.Instance.OnUpdate();
         }
 
         private void OnApplicationQuit()

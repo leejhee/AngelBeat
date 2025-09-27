@@ -8,10 +8,12 @@
      public abstract class PresenterBase<TView> : IPresenter where TView : class, IView
      {
          protected readonly TView View;
-         protected readonly PresenterEventBus ViewEvents = new();
-         protected readonly PresenterEventBus ModelEvents = new();
+         protected readonly PresenterEventBag ViewEvents = new();
+         protected readonly PresenterEventBag ModelEvents = new();
          protected CancellationTokenSource Cts;
 
+         private bool _entered;
+         
          protected PresenterBase(IView view)
          {
              View = view as TView??
@@ -26,18 +28,38 @@
 
          public virtual async UniTask OnEnterAsync(CancellationToken token)
          {
+             if (_entered) return;
+             _entered = true;
+             
+             Cts?.Dispose();
              Cts = new CancellationTokenSource();
+             
              await EnterAction(token);
+             
+             View.Show();
+             await View.PlayEnterAsync(Cts.Token);
          }
 
          public virtual async UniTask OnExitAsync(CancellationToken token)
          {
-             Cts?.Cancel();
-             Cts?.Dispose();
-             Cts = null;
-             ViewEvents.Clear();
-             ModelEvents.Clear();
-             await ExitAction(token);
+             if(!_entered) return;
+             _entered = false;
+
+             try
+             {
+                 await View.PlayExitAsync(token);
+                 View.Hide();
+                 
+                 await ExitAction(token);
+             }
+             finally
+             {
+                 ViewEvents.Clear();
+                 ModelEvents.Clear();
+                 Cts?.Cancel();
+                 Cts?.Dispose();
+                 Cts = null;
+             }
          }
 
          public virtual void Dispose()
@@ -48,7 +70,7 @@
 
          #endregion
 
-         public abstract UniTask EnterAction(CancellationToken token);
-         public abstract UniTask ExitAction(CancellationToken token);
+         public virtual UniTask EnterAction(CancellationToken token) => UniTask.CompletedTask;
+         public virtual UniTask ExitAction(CancellationToken token) => UniTask.CompletedTask;
      }
  }
