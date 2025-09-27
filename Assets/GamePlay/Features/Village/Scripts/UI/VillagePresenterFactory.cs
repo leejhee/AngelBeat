@@ -13,7 +13,7 @@ namespace GamePlay.Features.Village.Scripts.UI
                 case ViewID.VillageToExploreInteractionView:
                     return new VillageToExploreInteractionPresenter(view);
                 default:
-                    return new NullPresenter();
+                    return new NullPresenter(view);
             }
             
         }

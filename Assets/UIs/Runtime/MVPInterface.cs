@@ -64,9 +64,22 @@ namespace UIs.Runtime
     /// <summary>
     /// Presenter 기능 구현이 필요 없을 시 사용 가능한 디폴트 Presenter
     /// </summary>
-    public sealed class NullPresenter : IPresenter {
-        public UniTask OnEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
-        public UniTask OnExitAsync(CancellationToken ct) => UniTask.CompletedTask;
+    public sealed class NullPresenter : IPresenter
+    {
+        private readonly IView _view;
+        public NullPresenter(IView view) { _view = view; }
+
+        public async UniTask OnEnterAsync(CancellationToken ct)
+        {
+            _view.Show();
+            await _view.PlayEnterAsync(ct);
+        }
+
+        public async UniTask OnExitAsync(CancellationToken ct)
+        {
+            await _view.PlayExitAsync(ct);
+            _view.Hide();
+        }
         public void OnPause() { } public void OnResume() { } public void Dispose() { }
     }
 }

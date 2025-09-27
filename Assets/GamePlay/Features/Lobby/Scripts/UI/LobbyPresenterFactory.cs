@@ -11,7 +11,7 @@ namespace GamePlay.Features.Lobby.Scripts.UI
             switch (id)
             {
                 default:
-                    return new NullPresenter();
+                    return new NullPresenter(view);
             }
         }
     }

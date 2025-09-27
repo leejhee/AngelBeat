@@ -1,76 +1,75 @@
-﻿ using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
  using System;
  using System.Threading;
 
- namespace UIs.Runtime
- {
+namespace UIs.Runtime 
+{
+    public abstract class PresenterBase<TView> : IPresenter where TView : class, IView
+    {
+        protected readonly TView View;
+        protected readonly PresenterEventBag ViewEvents = new();
+        protected readonly PresenterEventBag ModelEvents = new();
+        protected CancellationTokenSource Cts;
 
-     public abstract class PresenterBase<TView> : IPresenter where TView : class, IView
-     {
-         protected readonly TView View;
-         protected readonly PresenterEventBag ViewEvents = new();
-         protected readonly PresenterEventBag ModelEvents = new();
-         protected CancellationTokenSource Cts;
+        private bool _entered;
 
-         private bool _entered;
-         
-         protected PresenterBase(IView view)
-         {
-             View = view as TView??
-                    throw new ArgumentException(
-                        $"Presenter expects view {typeof(TView).Name} but got null");
-         }
+        protected PresenterBase(IView view)
+        {
+            View = view as TView ??
+                   throw new ArgumentException(
+                       $"Presenter expects view {typeof(TView).Name} but got null");
+        }
 
-         #region IPresenter Implementation
+        #region IPresenter Implementation
 
-         public virtual void OnPause() { }
-         public virtual void OnResume() { }
+        public virtual void OnPause() { }
+        public virtual void OnResume() { }
 
-         public virtual async UniTask OnEnterAsync(CancellationToken token)
-         {
-             if (_entered) return;
-             _entered = true;
-             
-             Cts?.Dispose();
-             Cts = new CancellationTokenSource();
-             
-             await EnterAction(token);
-             
-             View.Show();
-             await View.PlayEnterAsync(Cts.Token);
-         }
+        public virtual async UniTask OnEnterAsync(CancellationToken token)
+        {
+            if (_entered) return;
+            _entered = true;
 
-         public virtual async UniTask OnExitAsync(CancellationToken token)
-         {
-             if(!_entered) return;
-             _entered = false;
+            Cts?.Dispose();
+            Cts = new CancellationTokenSource();
 
-             try
-             {
-                 await View.PlayExitAsync(token);
-                 View.Hide();
-                 
-                 await ExitAction(token);
-             }
-             finally
-             {
-                 ViewEvents.Clear();
-                 ModelEvents.Clear();
-                 Cts?.Cancel();
-                 Cts?.Dispose();
-                 Cts = null;
-             }
-         }
+            await EnterAction(token);
 
-         public virtual void Dispose()
-         {
-             ViewEvents.Dispose();
-             ModelEvents.Dispose();
-         }
+            View.Show();
+            await View.PlayEnterAsync(Cts.Token);
+        }
 
-         #endregion
+        public virtual async UniTask OnExitAsync(CancellationToken token)
+        {
+            if (!_entered) return;
+            _entered = false;
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(Cts?.Token ?? token, token);
+            try
+            {
+                await View.PlayExitAsync(linked.Token);
+                View.Hide();
 
-         public virtual UniTask EnterAction(CancellationToken token) => UniTask.CompletedTask;
-         public virtual UniTask ExitAction(CancellationToken token) => UniTask.CompletedTask;
-     }
- }
+                await ExitAction(linked.Token);
+            }
+            finally
+            {
+                ViewEvents.Clear();
+                ModelEvents.Clear();
+                Cts?.Cancel();
+                Cts?.Dispose();
+                Cts = null;
+            }
+        }
+
+        public virtual void Dispose()
+        {
+            ViewEvents.Dispose();
+            ModelEvents.Dispose();
+        }
+
+        #endregion
+
+        public virtual UniTask EnterAction(CancellationToken token) => UniTask.CompletedTask;
+        public virtual UniTask ExitAction(CancellationToken token) => UniTask.CompletedTask;
+    }
+}
