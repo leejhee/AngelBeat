@@ -24,6 +24,7 @@ namespace Core.Scripts.GameSave
         [JsonProperty("slotName")]          public string slotName;
         [JsonProperty("slotSeed")]          public ulong slotSeed;
         [JsonProperty("RngCounters")]       public Dictionary<string, ulong> RngCounters;
+        [JsonProperty("slotProgress")]      public SlotProgressData slotProgress;
         
         [JsonProperty("Features")]
         //반드시 이 구조로 간다.
@@ -55,6 +56,7 @@ namespace Core.Scripts.GameSave
             lastSavedTime = DateTime.Now;
             Features ??= new Dictionary<string, FeatureSnapshot>();
             this.slotName = slotName;
+            slotProgress ??= new SlotProgressData();
         }
         
         /// <summary>
@@ -86,6 +88,7 @@ namespace Core.Scripts.GameSave
             }
 
             RNG = new RngHubStateless(slotSeed, RngCounters);
+            slotProgress ??= new SlotProgressData();
         }
 
 

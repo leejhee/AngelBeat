@@ -1,9 +1,11 @@
 using System;
+// ReSharper disable InconsistentNaming
 
 namespace Core.Scripts.Foundation.Define
 {
-    public class SystemEnum
+    public static class SystemEnum
     {
+        #region System Domain
         public enum GameState
         {
             None,
@@ -54,7 +56,9 @@ namespace Core.Scripts.Foundation.Define
             
             MaxCount
         }
-
+        
+        #endregion
+        
         #region SO 관련 데이터 enum
         /// <summary>
         /// 엑셀 데이터로 받아올 예정
@@ -169,6 +173,16 @@ namespace Core.Scripts.Foundation.Define
         
         }
 
+        public enum NarrativeStatType
+        {
+            Charming,
+            Luck,
+            Wisdom,
+            Empathy,
+            
+            Length
+        }
+        
         public enum EConditionOpcode
         {
             None,
@@ -314,17 +328,6 @@ namespace Core.Scripts.Foundation.Define
             EUINYEO_SKILL_3,
         }
         #endregion
-        public enum NovelCommand
-        {
-            NormalText,
-            PersonText,
-            BackGround,
-            Stand,
-            BGM,
-            SFX,
-            Choice,
-            Effect,
-            End
-        }
+
     }
 }
