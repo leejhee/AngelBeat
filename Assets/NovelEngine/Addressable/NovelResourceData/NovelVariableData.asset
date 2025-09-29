@@ -9,10 +9,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7274dc380c393341ac0f6fcbd1ec360, type: 3}
+  m_Script: {fileID: 11500000, guid: d544c3bbc4d0df648b589f8f1ea32b34, type: 3}
   m_Name: NovelVariableData
   m_EditorClassIdentifier: 
   novelVariableDict:
-    pairs: []
+    pairs:
+    - _key: "\uC2A4\uD14C\uC774\uD130\uC2A4"
+      value:
+        parameter:
+          rid: 33037699724345364
+    - _key: a
+      value:
+        parameter:
+          rid: 33037701104795648
+    - _key: b
+      value:
+        parameter:
+          rid: 33037701104795648
     keys: []
     values: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 33037699724345364
+      type: {class: NovelCustomParameters/CharacterStateParameter, ns: novel, asm: NovelEngine}
+      data:
+        state:
+          state1: 1
+          state2: 32
+          state3: 2
+    - rid: 33037701104795648
+      type: {class: IntParameter, ns: novel, asm: NovelEngine}
+      data:
+        value: 6

@@ -36,7 +36,7 @@ public class NovelPlayer : MonoBehaviour
     public GameObject currentBackgroundObject { get; private set; }
 
     // 현재 스탠딩 나와 있는 캐릭터들
-    public Dictionary<NovelCharacterSO, GameObject> currentCharacterDict = new();
+    public NovelEngine.Scripts.SerializableDict<NovelCharacterSO, GameObject> currentCharacterDict = new();
     //  현재 선택지
     public NovelEngine.Scripts.SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
@@ -132,9 +132,11 @@ public class NovelPlayer : MonoBehaviour
             Debug.LogError("노벨 스크립트가 설정되지 않음");
             return;
         }
-
+        float t0 = Time.realtimeSinceStartup;
         var lines = novelScript.text.Split('\n');
         currentAct = NovelParser.Parse(lines);
+        float ms = (Time.realtimeSinceStartup - t0) * 1000f;
+        Debug.Log($"{ms:F3} ms 걸림");
 
         if (nextButton != null)
         {

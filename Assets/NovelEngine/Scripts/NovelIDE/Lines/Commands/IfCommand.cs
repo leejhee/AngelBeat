@@ -20,7 +20,7 @@ namespace novel
         public string entity;
         public string var;
         public CompOP op;
-        public float? value;
+        public string value;
         
 
         public IfCommand(
@@ -28,7 +28,7 @@ namespace novel
             IfType typeOfIf = IfType.None, 
             string var = null,       
             CompOP op = CompOP.None, 
-            float? value = null, 
+            string value = null, 
             IfParameter ifParameter = null) 
             : base(index, DialogoueType.CommandLine)
         {
@@ -50,7 +50,7 @@ namespace novel
             // 데이터에서 변수값 받아오기
             float realVar = 10; // 임시 데이터
 
-            float realValue = value ?? 0;
+            float realValue = 0;
             bool returnBool = NovelUtils.ConditinalStateMent(realVar, op, realValue);
 
 

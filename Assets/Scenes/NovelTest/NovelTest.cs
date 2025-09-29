@@ -1,7 +1,10 @@
+using novel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+
 
 public class NovelTest : MonoBehaviour
 {
@@ -11,6 +14,8 @@ public class NovelTest : MonoBehaviour
     {
         NovelManager.Init();
         button.onClick.AddListener(OnButtonClick);
+
+
     }
     private void OnButtonClick()
     {

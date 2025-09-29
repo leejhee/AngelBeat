@@ -119,7 +119,6 @@ namespace novel
                 novelSettings.ApplyModifiedProperties();                  // Undo 지원 버전 권장
                 EditorUtility.SetDirty(novelSettings.targetObject);       // Dirty 마킹
                 AssetDatabase.SaveAssets();                               // 디스크에 즉시 flush
-                                                                          // AssetDatabase.Refresh();                               // 보통 불필요
             }
 
         }

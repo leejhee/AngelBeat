@@ -41,7 +41,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - NovelSettingData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a778a27d5902ef4c970005ba4f78aa2
+  - m_GUID: a27599c3b42f52647a4286a28d180d36
     m_Address: NovelVariableData
     m_ReadOnly: 0
     m_SerializedLabels:
