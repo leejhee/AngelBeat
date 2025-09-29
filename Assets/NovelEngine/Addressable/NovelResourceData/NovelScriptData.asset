@@ -15,6 +15,6 @@ MonoBehaviour:
   scriptList:
     pairs:
     - _key: test
-      value: {fileID: 2811297602134710623, guid: 5def8bc4108998b43bba7482dd6a7270, type: 3}
+      value: {fileID: 2811297602134710623, guid: 68e8153a11f78844dab95fe1d7ceda06, type: 3}
     keys: []
     values: []

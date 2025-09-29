@@ -19,7 +19,7 @@ public static class NovelParser
     private static Regex charCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex gotoCommand = new Regex(@"^@goto\s+(?<label>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex choiceCommand = new Regex(@"^@choice\s+(?<choice>.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static Regex ifCommand = new Regex(@"^@if\s+(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex ifCommand = new Regex(@"^@if\s+(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex elseCommand = new Regex(@"^@else", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static Regex hideCommand = new Regex(@"^@hide\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -54,7 +54,6 @@ public static class NovelParser
     static int parseCound = 0;
     public static NovelAct Parse(string[] lines)
     {
-        Debug.Log($"파싱 시작 {++parseCound}"); 
 
         NovelAct act = new();
         act.novelLines = new();
@@ -207,7 +206,7 @@ public static class NovelParser
             ifParameter = new IfParameter(
                 ifMatch.Groups["var"].Value,
                 ParseCompOP(ifMatch.Groups["op"].Value),
-                float.Parse(ifMatch.Groups["value"].Value));
+                ifMatch.Groups["value"].Value);
         }
         return ifParameter;
     }
@@ -343,7 +342,7 @@ public static class NovelParser
                     var ifMatch = ifCommand.Match(line);
                     string var = ifMatch.Groups["var"].Value;
                     CompOP op = ParseCompOP(ifMatch.Groups["op"].Value);
-                    float value = float.Parse(ifMatch.Groups["value"].Value);
+                    string value = ifMatch.Groups["value"].Value;
 
                     IfParameter ifParameter = parseIfParameter(line);
 
@@ -451,7 +450,7 @@ public static class NovelParser
                         $"BGM : {bgmName}\n" +
                         $"volume : {volume}\n" +
                         $"loop : {loop}\n" +
-                        $"Index : {index}" +
+                        $"Index : {index}\n" +
                         $"If : {ifParameter.var} {ifParameter.op} {ifParameter.value}");
 
                 }
@@ -525,14 +524,14 @@ public static class NovelParser
     {
         public string var;
         public CompOP op;
-        public float? value;
+        public string value;
         public IfParameter()
         {
             this.var = null;
             this.op = CompOP.None;
             this.value = null;
         }
-        public IfParameter(string var, CompOP op, float value)
+        public IfParameter(string var, CompOP op, string value)
         {
             this.var = var;
             this.op = op;
