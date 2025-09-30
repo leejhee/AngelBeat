@@ -34,7 +34,7 @@ namespace novel
             try
             {
                 var handle = Addressables.InstantiateAsync("ChoiceButtonBase",
-                            player.choicePanel.transform);
+                            player.ChoicePanel.transform);
                 choicePrefab = await handle.Task;
                 if (choicePrefab == null)
                 {
@@ -55,7 +55,7 @@ namespace novel
             player.currentChoices.Add(this, choicePrefab);
 
             // if 패러미터가 설정되어 있으면 조건 검사
-            if (!(ifParameter.op == CompOP.None))
+            if (!(ifParameter.Op == CompOp.None))
             {
                 // if 패러미터가 false이면 버튼 비활성화
                 // 임시 데이터 10 들어감 이거 데이터에서 변수값 받아오도록 수정해야함
@@ -63,7 +63,7 @@ namespace novel
                 float left;
 
 
-                if (NovelUtils.ConditinalStateMent(10, ifParameter.op, 10))   
+                if (NovelUtils.ConditinalStateMent(10, ifParameter.Op, 10))   
                 {
                     Debug.Log("선택지 활성화");
                     choiceButton.interactable = true;
@@ -88,7 +88,7 @@ namespace novel
                 NovelManager.Player.SetSublinePlaying(subLine);
 
             // 선택지 오브젝트 제거
-            foreach (Transform child in NovelManager.Player.choicePanel.transform)
+            foreach (Transform child in NovelManager.Player.ChoicePanel.transform)
             {
                 child.gameObject.SetActive(false);
                 Addressables.ReleaseInstance(child.gameObject);

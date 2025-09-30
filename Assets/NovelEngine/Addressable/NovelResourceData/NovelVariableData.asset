@@ -17,11 +17,11 @@ MonoBehaviour:
     - _key: "\uC2A4\uD14C\uC774\uD130\uC2A4"
       value:
         parameter:
-          rid: 33037699724345364
+          rid: 347304520984821767
     - _key: a
       value:
         parameter:
-          rid: 33037701104795648
+          rid: 347304520984821763
     - _key: b
       value:
         parameter:
@@ -31,14 +31,18 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 33037699724345364
-      type: {class: NovelCustomParameters/CharacterStateParameter, ns: novel, asm: NovelEngine}
-      data:
-        state:
-          state1: 1
-          state2: 32
-          state3: 2
     - rid: 33037701104795648
       type: {class: IntParameter, ns: novel, asm: NovelEngine}
       data:
         value: 6
+    - rid: 347304520984821763
+      type: {class: IntParameter, ns: novel, asm: NovelEngine}
+      data:
+        value: 0
+    - rid: 347304520984821767
+      type: {class: NovelCustomParameters/CharacterStateParameter, ns: novel, asm: NovelEngine}
+      data:
+        state:
+          state1: 0
+          state2: 0
+          state3: 0

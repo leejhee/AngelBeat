@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d38806e631f20004fb2eb15fd517529a
   m_currentHash:
     serializedVersion: 2
-    Hash: 3d443b426f743f785a8cfe545b09920f
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
     - NovelScript
     - NovelPlayer
     - NovelCharacter
+    - BattleObject
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d8607e6f76cbd7a41931521c7af063be, type: 2}

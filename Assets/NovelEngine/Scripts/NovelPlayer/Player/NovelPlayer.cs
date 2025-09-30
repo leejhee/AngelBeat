@@ -1,31 +1,31 @@
 using Cysharp.Threading.Tasks;
 using novel;
-using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using System.Text;
-using Cysharp.Threading.Tasks.CompilerServices;
 
 public class NovelPlayer : MonoBehaviour
 {
     private TextAsset novelScript;
-    public NovelAct currentAct { get; private set; }
-    public NovelEngine.Scripts.SerializableDict<string, int> labelDict { get; private set; }
-    private bool isFinished = false;
+    public NovelAct CurrentAct { get; private set; }
+    public NovelEngine.Scripts.SerializableDict<string, int> LabelDict { get; private set; }
+    [SerializeField] private bool isFinished = false;
 
     // 자식 오브젝트들
-    public GameObject dialoguePanel { get; private set; }
-    public GameObject backgroundPanel { get; private set; }
-    public GameObject namePanel { get; private set; }
-    public GameObject standingPanel { get; private set; }
-    public GameObject choicePanel { get; private set; }
-    public GameObject blurPanel { get; private set; }
-    public TextMeshProUGUI novelText { get; private set; }
-    public TextMeshProUGUI nameText { get; private set; }
-    public Button nextButton { get; private set; }
+    private GameObject dialoguePanel;
+    private GameObject namePanel;
+    private GameObject blurPanel;
+    private TextMeshProUGUI novelText;
+    private TextMeshProUGUI nameText;
+    private Button nextButton;
+    public GameObject BackgroundPanel { get; private set; }
+    public GameObject StandingPanel { get; private set; }
+    public GameObject ChoicePanel { get; private set; }
+
 
 
 
@@ -33,7 +33,7 @@ public class NovelPlayer : MonoBehaviour
     // 나중에 private로 돌릴것들
 
     // 현재 배경화면
-    public GameObject currentBackgroundObject { get; private set; }
+    public GameObject CurrentBackgroundObject { get; private set; }
 
     // 현재 스탠딩 나와 있는 캐릭터들
     public NovelEngine.Scripts.SerializableDict<NovelCharacterSO, GameObject> currentCharacterDict = new();
@@ -44,26 +44,26 @@ public class NovelPlayer : MonoBehaviour
 
     // 이거 나중에 설정 가능하도록 바꾸기
     public float typingSpeed = 0.03f;
-    private bool isTyping = false;
+    private bool isTyping;
 
     // 실행시킬 서브라인
-    public NovelLine currentSubline;
-    private bool isSubLinePlaying = false;
+    private NovelLine currentSubline;
+    private bool isSubLinePlaying;
 
     // 일정 시간동안 멈추는 기능
-    private bool _isWaitForTime = false;
+    private bool _isWaitForTime;
     // @wait 커맨드로 완전히 멈추기
-    private bool _isHardWait = false;
+    private bool _isHardWait;
 
 
-    private bool isCommandRunning = false;  // 얘는 wait와는 다르게 진짜 명령어가 실행중이면 cancel 막기 위해서 필요
+    private bool isCommandRunning;  // 얘는 wait와는 다르게 진짜 명령어가 실행중이면 cancel 막기 위해서 필요
 
 
     private CancellationTokenSource _typingCts;
     private CancellationToken _destroyToken;
 
     private CancellationTokenSource _commandCts;
-    private int _runningCommandCount = 0; // 동시 커맨드 수
+    private int _runningCommandCount; // 동시 커맨드 수
 
     private CancellationTokenSource _waitCts;
     //private bool _isWaitCmdRunning = false;
@@ -77,15 +77,15 @@ public class NovelPlayer : MonoBehaviour
     }
     private void Init()
     {
-        currentAct = new();
+        CurrentAct = new();
         novelScript = null;
         FindObjectsByType();
-        labelDict = new();
+        LabelDict = new();
     }
     private void FindObjectsByType()
     {
-        var NovelObjects = GetComponentsInChildren<NovelObjects>(true);
-        foreach (var obj in NovelObjects)
+        var novelObjects = GetComponentsInChildren<NovelObjects>(true);
+        foreach (var obj in novelObjects)
         {
             switch (obj.GetNovelObjectType())
             {
@@ -93,10 +93,10 @@ public class NovelPlayer : MonoBehaviour
                     blurPanel = obj.gameObject;
                     break;
                 case NovelObjectType.BackgroundPanel:
-                    backgroundPanel = obj.gameObject;
+                    BackgroundPanel = obj.gameObject;
                     break;
                 case NovelObjectType.StandingPanel:
-                    standingPanel = obj.gameObject;
+                    StandingPanel = obj.gameObject;
                     break;
                 case NovelObjectType.DialogPanel:
                     dialoguePanel = obj.gameObject;
@@ -114,7 +114,7 @@ public class NovelPlayer : MonoBehaviour
                     nextButton = obj.GetComponent<Button>();
                     break;
                 case NovelObjectType.ChoicePanel:
-                    choicePanel = obj.gameObject;
+                    ChoicePanel = obj.gameObject;
                     break;
             }
         }
@@ -134,7 +134,7 @@ public class NovelPlayer : MonoBehaviour
         }
         float t0 = Time.realtimeSinceStartup;
         var lines = novelScript.text.Split('\n');
-        currentAct = NovelParser.Parse(lines);
+        CurrentAct = NovelParser.Parse(lines);
         float ms = (Time.realtimeSinceStartup - t0) * 1000f;
         Debug.Log($"{ms:F3} ms 걸림");
 
@@ -145,7 +145,7 @@ public class NovelPlayer : MonoBehaviour
         }
 
 
-        currentAct.ResetAct();
+        CurrentAct.ResetAct();
         dialoguePanel.SetActive(false);
         // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
@@ -222,7 +222,7 @@ public class NovelPlayer : MonoBehaviour
             return LineResult.Continue;
         }
 
-        var line = currentAct.GetNextLine();
+        var line = CurrentAct.GetNextLine();
 
         if (line == null)
         {
@@ -232,7 +232,7 @@ public class NovelPlayer : MonoBehaviour
 
         switch (line)
         {
-            case LabelLine label:
+            case LabelLine:
                 return LineResult.Continue;
             case CommandLine command:
                 if (command is WaitCommand wait)
@@ -318,15 +318,17 @@ public class NovelPlayer : MonoBehaviour
             _commandCts = null;
         }
     }
-    public void OnWaitStart()
+
+    private void OnWaitStart()
     {
         _waitCts?.Cancel();
         _waitCts?.Dispose();
         _waitCts = new();
     }
-    public async void OnWaitEnd()
+
+    private async void OnWaitEnd()
     {
-        await UniTask.WaitUntil(() => _runningCommandCount == 0);
+        await UniTask.WaitUntil(() => _runningCommandCount == 0, cancellationToken: _destroyToken);
         _waitCts?.Dispose();
         _waitCts = null;
         _isWaitForTime = false;
@@ -362,12 +364,12 @@ public class NovelPlayer : MonoBehaviour
 
     public void SetBackground(GameObject background)
     {
-        currentBackgroundObject = background;
+        CurrentBackgroundObject = background;
     }
     public CancellationToken CommandToken
-        =>_commandCts != null ? _commandCts.Token : CancellationToken.None;
-    public CancellationToken waitToken
-        => _waitCts != null ? _waitCts.Token : CancellationToken.None;
+        =>_commandCts?.Token ?? CancellationToken.None;
+    public CancellationToken WaitToken
+        => _waitCts?.Token ?? CancellationToken.None;
 
 
     // 텍스트 패널에 있는 텍스트들 플레이 해주는 함수
@@ -405,13 +407,11 @@ public class NovelPlayer : MonoBehaviour
             isTyping = false;
             return;
         }
-        var stringBuilder = new StringBuilder(fullText.Length);
+        StringBuilder stringBuilder = new StringBuilder(fullText.Length);
 
-        for (int i = 0; i < fullText.Length; i++)
+        foreach (char t in fullText.TakeWhile(t => !token.IsCancellationRequested))
         {
-            if (token.IsCancellationRequested) break;
-
-            stringBuilder.Append(fullText[i]);
+            stringBuilder.Append(t);
             novelText.text = stringBuilder.ToString();
 
             try

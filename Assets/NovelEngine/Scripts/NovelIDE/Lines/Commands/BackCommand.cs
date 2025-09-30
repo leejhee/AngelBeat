@@ -53,7 +53,7 @@ namespace novel
             try
             {
                 var handle = Addressables.InstantiateAsync("BackgroundBase",
-                            player.backgroundPanel.transform);
+                            player.BackgroundPanel.transform);
                 backgroundPrefab = await handle.Task;
                 if (backgroundPrefab == null)
                 {
@@ -132,9 +132,9 @@ namespace novel
             }
 
             // 연출이 끝난 후 기존 배경화면 삭제
-            if (player.currentBackgroundObject != null)
+            if (player.CurrentBackgroundObject != null)
             {
-                var beforeBackground = player.currentBackgroundObject;
+                var beforeBackground = player.CurrentBackgroundObject;
                 beforeBackground.SetActive(false);
                 Addressables.ReleaseInstance(beforeBackground);
             }

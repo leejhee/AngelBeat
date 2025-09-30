@@ -1,4 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -11,6 +11,7 @@ namespace GamePlay.Features.Village.Scripts.UI
     public class VillageToExploreInteractionView : MonoBehaviour, IView
     {
         public GameObject Root { get; }
+
         
         public void Show() => gameObject.SetActive(true);
         public void Hide() => gameObject.SetActive(false);

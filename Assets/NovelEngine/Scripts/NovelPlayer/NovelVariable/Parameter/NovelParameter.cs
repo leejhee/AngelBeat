@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 namespace novel
 {
@@ -13,10 +10,10 @@ namespace novel
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class NovelParameterAliasAttribute : Attribute
     {
-        public string alias { get; private set; }
+        public string Alias { get; private set; }
         public NovelParameterAliasAttribute(string alias)
         {
-            this.alias = alias;
+            this.Alias = alias;
         }
     }
     [AttributeUsage(AttributeTargets.Class)]

@@ -117,7 +117,7 @@ namespace novel
                             try
                             {
                                 var handle = Addressables.InstantiateAsync("CharacterStandingBase",
-                                            player.standingPanel.transform);
+                                            player.StandingPanel.transform);
                                 newStanding = await handle.Task;
                                 if (newStanding == null)
                                 {

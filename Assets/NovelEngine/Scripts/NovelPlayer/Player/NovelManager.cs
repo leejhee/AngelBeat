@@ -1,6 +1,5 @@
 using novel;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -13,13 +12,13 @@ public class NovelManager : MonoBehaviour
 
     public NovelAudioManager Audio { get; private set; } = new();
 
-    private const string novelPlayerPrefabPath = "NovelPlayer";
+    private const string NovelPlayerPrefabPath = "NovelPlayer";
     public static NovelPlayer Player { get; private set; }
 
-    private static readonly SemaphoreSlim _novelPlayerGate = new SemaphoreSlim(1, 1);
+    private static readonly SemaphoreSlim NovelPlayerGate = new SemaphoreSlim(1, 1);
 
     public UniTask Initialization => _initialization;
-    public static bool IsReady { get; private set; }
+    private static bool isReady;
 
     UniTask _initialization = UniTask.CompletedTask;
     bool _initStarted;
@@ -50,7 +49,7 @@ public class NovelManager : MonoBehaviour
         // 씬 전환시 파괴되지 않도록 설정
         DontDestroyOnLoad(gameObject);
     }
-    public UniTask InitializeIfNeededAsync()
+    private UniTask InitializeIfNeededAsync()
     {
         // 이미 초기화가 시작되었으면 기존 Task 반환
         if (_initStarted)
@@ -76,7 +75,7 @@ public class NovelManager : MonoBehaviour
         // 오디오매니저 초기화
         await Audio.AudioManagerInitAsync();
 
-        IsReady = true;
+        isReady = true;
         Debug.Log("Novel Engine 초기화 완료");
     }
     public static async UniTask ShutdownAsync()
@@ -101,7 +100,7 @@ public class NovelManager : MonoBehaviour
     }
     public async void PlayScript(string scriptTitle)
     {
-        if (IsReady == false)
+        if (!isReady)
         {
             Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
             return;
@@ -126,7 +125,7 @@ public class NovelManager : MonoBehaviour
     private async UniTask InstantiateNovelPlayerAsync()
     {
 
-        await _novelPlayerGate.WaitAsync();
+        await NovelPlayerGate.WaitAsync();
         try
         {
             // 가장 먼저 NovelPlayer 컴포넌트가 자식 오브젝트에 있는지 확인
@@ -139,10 +138,10 @@ public class NovelManager : MonoBehaviour
             }
 
 
-            // 없으면 Addressables에서 로드 및 인스턴스화
+            // 없으면 Addressable에서 로드 및 인스턴스화
             if (Player == null)
             {
-                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(novelPlayerPrefabPath, transform);
+                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(NovelPlayerPrefabPath, transform);
                 var go = await handle.Task;
 
                 if (go != null)
@@ -152,7 +151,7 @@ public class NovelManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError($"[NovelManager] Failed to load prefab: {novelPlayerPrefabPath}");
+                    Debug.LogError($"[NovelManager] Failed to load prefab: {NovelPlayerPrefabPath}");
                 }
             }
 
@@ -164,7 +163,7 @@ public class NovelManager : MonoBehaviour
         }
         finally
         {
-            _novelPlayerGate.Release();
+            NovelPlayerGate.Release();
         }
         Debug.Log(" [NovelManager] NovelPlayer instantiated.");
     }

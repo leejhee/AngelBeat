@@ -1,4 +1,5 @@
 using Core.Scripts.Data;
+using GamePlay.Features.Battle.Scripts.UI;
 using System;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
@@ -104,7 +105,15 @@ namespace AngelBeat
             _charStat[(int)realStat] += valueDelta;
             OnStatChanged?.Invoke(realStat, _charStat[(int)realStat]);
         }
-    
+
+        public event Action<HPModel> OnHPChanged;
+
+        public void ChangeHP(int delta)
+        {
+            Debug.Log("HP 바뀜 아무튼 바뀜");
+            OnHPChanged.Invoke(new HPModel(delta));
+        }
+        
         #region Damage Part
         
         public void ReceiveDamage(float damage)

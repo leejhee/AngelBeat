@@ -15,8 +15,8 @@ namespace novel
         Background,
         BGM,
         StopBGM,
-        SFX,
-        StopSFX,
+        Sfx,
+        StopSfx,
         Effect,
         ShowCharacter,
         HideCharacter,
@@ -42,7 +42,7 @@ namespace novel
         Fade,
         Effect
     }
-    public enum CompOP
+    public enum CompOp
     {
         GreaterThan,       // >
         LessThan,          // <

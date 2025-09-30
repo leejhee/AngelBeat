@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static novel.NovelCustomParameters.CharacterStateParameter;
 
 namespace novel
 {
-    public class NovelCustomParameters
+    public static class NovelCustomParameters
     {
         [System.Serializable]
         [NovelParameterAlias("CharacterState")]

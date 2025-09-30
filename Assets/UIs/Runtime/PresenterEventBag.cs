@@ -89,6 +89,12 @@ namespace UIs.Runtime
             return new Subscription<T>(remove, handler).AddTo(bag);
         }
         
+        public static IDisposable Subscribe(this PresenterEventBag bag, UnityEvent evt, UnityAction ua)
+        {
+            evt.AddListener(ua);
+            return DisposableEvent.Create(() => evt.RemoveListener(ua)).AddTo(bag);
+        }
+        
         /// <summary>
         /// UnityEvent 전용
         /// </summary>

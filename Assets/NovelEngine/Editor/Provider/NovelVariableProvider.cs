@@ -4,25 +4,22 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using Unity.VisualScripting;
 
 namespace novel
 {
     class NovelVariableProvider : SettingsProvider
     {
         private SerializedObject novelSettings;
-        private string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Variable);
+        private readonly string path = NovelEditorUtils.GetNovelResourceDataPath(NovelDataType.Variable);
         private List<Type> parameterTypes;
         private string[] typeNames;
-        private bool showParameter = false;
-        
-        Texture icon;
-        public NovelVariableProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
+        private readonly bool showParameter = false;
+
+        private NovelVariableProvider(string path, SettingsScope scope = SettingsScope.Project) : base(path, scope) { }
 
         public override void OnActivate(string searchContext, UnityEngine.UIElements.VisualElement rootElement)
         {
             novelSettings = NovelEditorUtils.GetSerializedSettings<NovelVariableData>(path);
-            string[] priority = { "IntParameter", "FloatParameter", "BooleanParameter", "StringParameter" };
             if (parameterTypes == null)
             {
                 Type baseType = typeof(NovelParameter);
@@ -34,18 +31,17 @@ namespace novel
                     .ToList();
 
             }
-            typeNames = parameterTypes.Select(t => GetAlias(t)).ToArray();
-            icon = EditorGUIUtility.FindTexture("d_UnityEditor.AnimationWindow");
+            typeNames = parameterTypes.Select(GetAlias).ToArray();
+            EditorGUIUtility.FindTexture("d_UnityEditor.AnimationWindow");
         }
         private static string GetAlias(Type type)
         {
             var attr = type.GetCustomAttribute<NovelParameterAliasAttribute>();
-            return attr != null ? attr.alias : type.Name;
+            return attr != null ? attr.Alias : type.Name;
         }
         public override void OnGUI(string searchContext)
         {
-            if (novelSettings == null)
-                novelSettings = NovelEditorUtils.GetSerializedSettings<NovelVariableData>(path);
+            novelSettings ??= NovelEditorUtils.GetSerializedSettings<NovelVariableData>(path);
 
 
             novelSettings.Update();
@@ -90,8 +86,7 @@ namespace novel
                     }
 
                     int currentParameterIndex = 0;
-                    var currentParam = paramProp.managedReferenceValue as NovelParameter;
-                    if (currentParam != null)
+                    if (paramProp.managedReferenceValue is NovelParameter currentParam)
                     {
                         int index = parameterTypes.FindIndex(t => t == currentParam.GetType());
                         if (index >= 0) currentParameterIndex = index;
@@ -116,7 +111,6 @@ namespace novel
                             var newType = parameterTypes[selected];
                             paramProp.managedReferenceValue =
                                 Activator.CreateInstance(newType) as NovelParameter;
-                            currentParameterIndex = selected;
                         }
                     }
 
@@ -140,7 +134,7 @@ namespace novel
 
                         if (newKey != null) newKey.stringValue = string.Empty;
 
-                        if (newParam != null && newParam.managedReferenceValue == null)
+                        if (newParam is { managedReferenceValue: null })
                         {
                             newParam.managedReferenceValue =
                                 Activator.CreateInstance(parameterTypes[0]) as NovelParameter;
@@ -175,9 +169,9 @@ namespace novel
         [SettingsProvider]
         public static SettingsProvider CreateProvider()
         {
-            return new NovelVariableProvider("Project/Novel/Variable", SettingsScope.Project)
+            return new NovelVariableProvider("Project/Novel/Variable")
             {
-                keywords = new System.Collections.Generic.HashSet<string>(new[] { "Number" })
+                keywords = new HashSet<string>(new[] { "Number" })
             };
         }
     }

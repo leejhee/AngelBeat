@@ -9,42 +9,42 @@ namespace novel
 {
     public static class NovelUtils
     {
-        public static bool ConditinalStateMent(float left, CompOP op, float right)
+        public static bool ConditinalStateMent(float left, CompOp op, float right)
         {
 
             switch (op)
             {
-                case CompOP.GreaterThan:
+                case CompOp.GreaterThan:
                     if (left > right)
                     {
                         return true;
                     }
                     break;
-                case CompOP.LessThan:
+                case CompOp.LessThan:
                     if (left < right)
                     {
                         return true;
                     }
                     break;
-                case CompOP.GreaterThanOrEqual:
+                case CompOp.GreaterThanOrEqual:
                     if (left >= right)
                     {
                         return true;
                     }
                     break;
-                case CompOP.LessThanOrEqual:
+                case CompOp.LessThanOrEqual:
                     if (left <= right)
                     {
                         return true;
                     }
                     break;
-                case CompOP.Equal:
+                case CompOp.Equal:
                     if (left == right)
                     {
                         return true;
                     }
                     break;
-                case CompOP.NotEqual:
+                case CompOp.NotEqual:
                     if (left != right)
                     {
                         return true;

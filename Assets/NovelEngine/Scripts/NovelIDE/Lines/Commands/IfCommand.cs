@@ -19,7 +19,7 @@ namespace novel
         public IfType typeOfIf;
         public string entity;
         public string var;
-        public CompOP op;
+        public CompOp op;
         public string value;
         
 
@@ -27,7 +27,7 @@ namespace novel
             int index, 
             IfType typeOfIf = IfType.None, 
             string var = null,       
-            CompOP op = CompOP.None, 
+            CompOp op = CompOp.None, 
             string value = null, 
             IfParameter ifParameter = null) 
             : base(index, DialogoueType.CommandLine)
@@ -38,7 +38,10 @@ namespace novel
             this.op = op;
             this.ifParameter = ifParameter;
         }
-
+        private void FindRealValue(string strValue)
+        {
+            //NovelManager.
+        }
         // 변수끼리 비교하는 기능 추가할수도 있음
         public override async UniTask Execute()
         {

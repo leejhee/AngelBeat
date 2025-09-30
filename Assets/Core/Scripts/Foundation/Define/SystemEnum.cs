@@ -148,6 +148,7 @@ namespace Core.Scripts.Foundation.Define
         
             ACTION_POINT,
             NACTION_POINT,
+            NMACTION_POINT,
         
             MOVE_POINT,
         

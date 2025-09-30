@@ -46,7 +46,7 @@ namespace novel
                     .Delay(TimeSpan.FromSeconds(realTime),
                     DelayType.DeltaTime,
                     PlayerLoopTiming.Update,
-                    player.waitToken);
+                    player.WaitToken);
 
             }
             catch (OperationCanceledException)

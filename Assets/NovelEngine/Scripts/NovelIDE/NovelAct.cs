@@ -29,7 +29,7 @@ namespace novel
         }
         public void JumpToLabel(string label)
         {
-            int targetIndex = NovelManager.Player.labelDict.GetValue(label);
+            int targetIndex = NovelManager.Player.LabelDict.GetValue(label);
             Debug.Log($"{label}라벨의 인덱스 : {targetIndex}");
             currentIndex = targetIndex - 1;
         }

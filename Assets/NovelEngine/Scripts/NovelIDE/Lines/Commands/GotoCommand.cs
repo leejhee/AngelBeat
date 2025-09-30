@@ -24,7 +24,7 @@ namespace novel
             //if (!ifParameter)
             //    return;
             Debug.Log($"goto 실행 : {label}");
-            NovelManager.Player.currentAct.JumpToLabel(label);
+            NovelManager.Player.CurrentAct.JumpToLabel(label);
         }
     }
 }

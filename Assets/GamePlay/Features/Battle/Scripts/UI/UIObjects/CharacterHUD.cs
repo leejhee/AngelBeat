@@ -1,0 +1,79 @@
+using AngelBeat;
+using Core.Scripts.Foundation.Define;
+using GamePlay.Features.Battle.Scripts.Unit;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+
+namespace GamePlay.Features.Battle.Scripts.UI
+{
+    public class CharacterHUD : MonoBehaviour
+    {
+        #region Objects
+        [SerializeField] private Button characterPortraitButton;
+        [SerializeField] private Image characterPortraitImage;
+        [SerializeField] private TextMeshProUGUI characterName;
+        
+        [SerializeField] private SkillButtonPanel skillPanel;
+        
+        #region Bar
+        [SerializeField] private Image hpBarFill;
+        [SerializeField] private TextMeshProUGUI hpText;
+        [SerializeField] private Image actionBarFill;
+        [SerializeField] private TextMeshProUGUI actionText;
+        #endregion
+
+        #region ExtraAction
+        [SerializeField] private Button jumpButton;
+        [SerializeField] private Button pushButton;
+        [SerializeField] private Button invenButton;
+        #endregion
+        #endregion
+        
+        public void ShowCharacterHUD()
+        {
+            CharBase focus = BattleController.Instance.FocusChar;
+            // 초상화 변경
+            //characterPortraitImage.sprite = curCharacter.
+            // 현재 체력
+            hpText.text = 
+                $"{(SystemEnum.eStats.NHP)}" + "/" + 
+                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMHP)}";
+            // 현재 액션포인트
+            actionText.text = 
+                $"{(SystemEnum.eStats.NACTION_POINT)}" + "/" + 
+                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMACTION_POINT)}";
+            // 스킬 버튼 생성
+            skillPanel.SetSkillButtons(focus, focus.CharInfo.Skills);
+        }
+
+        public void ReduceHpUI(int reducedHp)
+        {
+            CharBase focus = BattleController.Instance.FocusChar;
+            string newHpText = 
+                $"{(SystemEnum.eStats.NHP)}" + "/" + 
+                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMHP)}";
+            hpText.text = newHpText;
+            // hpBarFill 변경해주기
+        }
+
+        public void ReduceActionUI(int reducedActionPoint)
+        {
+            CharBase focus = BattleController.Instance.FocusChar;
+            string newActionText =
+                $"{(SystemEnum.eStats.NACTION_POINT)}" + "/" + 
+                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMACTION_POINT)}";
+            actionText.text = newActionText;
+            // actionBarFill 변경해주기
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            ShowCharacterHUD();
+        }
+        public void Hide() => gameObject.SetActive(false);
+    }
+}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Cysharp.Threading.Tasks;
@@ -9,7 +7,7 @@ namespace novel
     public class NovelAudioManager
     {
         private AudioMixer audioMixer;
-        private AudioSource[] _audioSources = new AudioSource[(int)NovelSound.MaxCount];
+        private readonly AudioSource[] _audioSources = new AudioSource[(int)NovelSound.MaxCount];
 
         public async UniTask AudioManagerInitAsync()
         {
@@ -57,7 +55,7 @@ namespace novel
                     PlayBGM(clip, volume);
                     break;
                 case NovelSound.Effect:
-                    PlaySFX(clip, volume);
+                    PlaySfx(clip, volume);
                     break;
             }
         }
@@ -70,7 +68,7 @@ namespace novel
             audioSource.volume = volume;
             audioSource.Play();
         }
-        private void PlaySFX(AudioClip clip, float volume)
+        private void PlaySfx(AudioClip clip, float volume)
         {
             AudioSource audioSource = _audioSources[(int)NovelSound.Effect];
             audioSource.volume = volume;

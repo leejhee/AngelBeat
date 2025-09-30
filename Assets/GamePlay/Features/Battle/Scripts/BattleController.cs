@@ -54,7 +54,7 @@ namespace GamePlay.Features.Battle.Scripts
         private IMapLoader _mapLoader;
         
         private TurnController _turnManager;
-        private CharBase FocusChar => _turnManager.TurnOwner;
+        public CharBase FocusChar => _turnManager.TurnOwner;
         
         #region UI Model
 
