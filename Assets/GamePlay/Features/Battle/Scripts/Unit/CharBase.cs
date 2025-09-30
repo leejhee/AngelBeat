@@ -10,7 +10,7 @@ using System.Collections;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
 
-namespace GamePlay.Features.Scripts.Battle.Unit
+namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public abstract class CharBase : MonoBehaviour
     {

@@ -2,6 +2,7 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System.Collections.Generic;
 using System.IO;

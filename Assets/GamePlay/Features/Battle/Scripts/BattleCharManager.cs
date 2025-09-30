@@ -1,8 +1,7 @@
 using Core.Scripts.Data;
-using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
-using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 
-namespace GamePlay.Features.Scripts.Battle
+namespace GamePlay.Features.Battle.Scripts
 {
     /// <summary>
     /// 전투 씬 내에서의 캐릭터를 관리하도록 함.

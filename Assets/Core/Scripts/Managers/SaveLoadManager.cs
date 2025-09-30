@@ -1,4 +1,3 @@
-using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
 using Core.Scripts.Foundation.Utils;
@@ -45,6 +44,8 @@ namespace Core.Scripts.Managers
         };
         private DateTime _lastAutoSave = DateTime.MinValue;
         private const double AutoSaveIntervalSec = 5d;
+        
+        
         
         #endregion
         

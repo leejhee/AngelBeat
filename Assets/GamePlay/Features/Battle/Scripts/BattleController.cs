@@ -1,11 +1,10 @@
-using AngelBeat;
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.BattleMap;
-using GamePlay.Features.Scripts.Battle;
-using GamePlay.Features.Scripts.Battle.Unit;
+using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Scripts.Skill.Preview;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +56,17 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         private CharBase FocusChar => _turnManager.TurnOwner;
         
+        #region UI Model
+
+        public class TurnModel
+        {
+            public IReadOnlyCollection<Turn> TurnCollection;
+            
+            public TurnModel(IReadOnlyCollection<Turn> turnCollection) =>  TurnCollection = turnCollection;
+        }
+        public TurnModel GetChangedTurnModel => new(_turnManager.TurnCollection);
+        
+        #endregion
         private async void Start()
         {
             Debug.Log("Starting Battle...");

@@ -1,10 +1,9 @@
-﻿using Core.Scripts.Foundation;
-using Core.Scripts.Foundation.Define;
+﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
 using GamePlay.Entities.Scripts.Character;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Battle
+namespace GamePlay.Features.Battle.Scripts
 {
     public class BattlePayload : SingletonObject<BattlePayload>{
         public Party PlayerParty { get; private set; }

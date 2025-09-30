@@ -1,12 +1,11 @@
-using GamePlay.Features.Scripts.Battle;
-using GamePlay.Features.Scripts.Battle.Turn;
-using GamePlay.Features.Scripts.Battle.Unit;
+using AngelBeat;
+using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static AngelBeat.TurnComparisonMethods;
+using static GamePlay.Features.Battle.Scripts.BattleTurn.TurnComparisonMethods;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.BattleTurn
 {
     /// <summary>
     /// 전투 내 턴 관리 클래스
@@ -14,12 +13,13 @@ namespace AngelBeat
     public class TurnController
     {
         private int _round = 1;
-        private Queue<Turn> _turnQueue = new();
-        private List<Turn> _turnBuffer = new();
-
-        public Turn CurrentTurn { get; private set; }
+        private Queue<BattleTurn.Turn> _turnQueue = new();
+        private List<BattleTurn.Turn> _turnBuffer = new();
+        
+        public BattleTurn.Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public event Action OnRoundProceeds;
+        public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();
         
         public TurnController(List<CharBase> battleMembers)
         {
@@ -30,7 +30,7 @@ namespace AngelBeat
         {
             foreach (var character in battleMembers)
             {
-                _turnBuffer.Add(new Turn(character));
+                _turnBuffer.Add(new BattleTurn.Turn(character));
             }
             _turnBuffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in _turnBuffer)
@@ -39,7 +39,7 @@ namespace AngelBeat
             }
         }
 
-        private void InitializeTurnQueue(List<Turn> buffer)
+        private void InitializeTurnQueue(List<BattleTurn.Turn> buffer)
         {
             buffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in buffer)
@@ -75,11 +75,11 @@ namespace AngelBeat
             CurrentTurn.Begin();
         }
         
-        public void ChangeTurn(Turn targetTurn)
+        public void ChangeTurn(BattleTurn.Turn targetTurn)
         {
             CurrentTurn?.End();
             if (_turnQueue.Contains(targetTurn))
-                _turnQueue = new Queue<Turn>(_turnQueue.Where(t => t != targetTurn));
+                _turnQueue = new Queue<BattleTurn.Turn>(_turnQueue.Where(t => t != targetTurn));
             CurrentTurn = targetTurn;
             CurrentTurn.Begin();
 

@@ -1,4 +1,6 @@
 using Core.Scripts.Foundation.Define;
+using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using UnityEngine;
 
 namespace GamePlay.Features.Scripts.Battle.Unit

@@ -1,10 +1,11 @@
 using Core.Scripts.Foundation.Define;
 using GamePlay.Contracts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Battle.Turn
+namespace GamePlay.Features.Battle.Scripts.BattleTurn
 {
     public class Turn
     {

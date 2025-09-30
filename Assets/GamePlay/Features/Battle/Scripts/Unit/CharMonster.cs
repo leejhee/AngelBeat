@@ -1,6 +1,8 @@
 using Character;
 using Core.Scripts.Foundation.Define;
 using GamePlay.Character.Components;
+using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.Unit;
 
 //using Modules.BT;
 

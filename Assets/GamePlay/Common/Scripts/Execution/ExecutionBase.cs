@@ -1,5 +1,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using UnityEngine;
 

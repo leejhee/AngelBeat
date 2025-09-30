@@ -1,9 +1,8 @@
 using Core.Scripts.Foundation.Define;
-using GamePlay.Features.Scripts.Battle.Turn;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.BattleTurn
 {
     public class TurnComparer : IComparer<Turn>
     {

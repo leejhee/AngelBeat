@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
 
+using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System.Collections.Generic;
