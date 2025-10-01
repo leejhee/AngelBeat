@@ -1,4 +1,5 @@
 using Core.Scripts.Data;
+using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI;
 using System;
 using UnityEngine;

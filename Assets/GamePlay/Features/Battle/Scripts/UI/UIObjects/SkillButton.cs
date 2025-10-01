@@ -14,9 +14,7 @@ namespace AngelBeat
         
         public void SetButton(SkillModel model)
         {
-            icon.sprite = global::Core.Scripts.Managers.ResourceManager.Instance.Load<Sprite>(new StringBuilder(SkillIconPath)
-                .Append(model.Icon)
-                .ToString());
+            icon.sprite = model.Icon;
             skillName.SetText(model.SkillName);
         }
     }

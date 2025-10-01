@@ -18,6 +18,9 @@ namespace GamePlay.Features.Battle.Scripts.UI
         
         [SerializeField] private SkillButtonPanel skillPanel;
         
+        public Button CharacterPortraitButton => characterPortraitButton;
+        public SkillButtonPanel SkillPanel => skillPanel;
+        
         #region Bar
         [SerializeField] private Image hpBarFill;
         [SerializeField] private TextMeshProUGUI hpText;
@@ -29,24 +32,29 @@ namespace GamePlay.Features.Battle.Scripts.UI
         [SerializeField] private Button jumpButton;
         [SerializeField] private Button pushButton;
         [SerializeField] private Button invenButton;
+        
+        public Button  JumpButton => jumpButton;
+        public Button  PushButton => pushButton;
+        public Button  InvenButton => invenButton;
+        
         #endregion
         #endregion
         
-        public void ShowCharacterHUD()
+        public void ShowCharacterHUD(
+            long curHp,
+            long maxHp,
+            long curAp,
+            long maxAp,
+            Sprite portrait = null)
         {
-            CharBase focus = BattleController.Instance.FocusChar;
             // 초상화 변경
             //characterPortraitImage.sprite = curCharacter.
             // 현재 체력
             hpText.text = 
-                $"{(SystemEnum.eStats.NHP)}" + "/" + 
-                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMHP)}";
+                $"{curAp}/{maxHp}";
             // 현재 액션포인트
             actionText.text = 
-                $"{(SystemEnum.eStats.NACTION_POINT)}" + "/" + 
-                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMACTION_POINT)}";
-            // 스킬 버튼 생성
-            skillPanel.SetSkillButtons(focus, focus.CharInfo.Skills);
+                $"{curAp}/{maxAp}";
         }
 
         public void ReduceHpUI(int reducedHp)
@@ -72,7 +80,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
         public void Show()
         {
             gameObject.SetActive(true);
-            ShowCharacterHUD();
         }
         public void Hide() => gameObject.SetActive(false);
     }

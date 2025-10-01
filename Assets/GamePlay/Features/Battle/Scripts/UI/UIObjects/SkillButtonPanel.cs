@@ -14,8 +14,8 @@ namespace AngelBeat
     public class SkillButtonPanel : MonoBehaviour
     {
         [SerializeField] private List<SkillButton> skillButtons;
-    
-        public void SetSkillButtons(CharBase focus, IReadOnlyList<SkillModel> skillList)
+        public List<SkillButton> SkillButtons => skillButtons;
+        public void SetSkillButtons(IReadOnlyList<SkillModel> skillList)
         {
             int skillCount = skillList.Count;
             for (int i = 0; i < skillButtons.Count; i++)
