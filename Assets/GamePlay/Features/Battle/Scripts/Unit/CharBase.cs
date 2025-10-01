@@ -23,7 +23,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
-        
+        [SerializeField] private Sprite _characterSprite;
+            
         //TODO : 현 CharBase와 겹치는 사항 관리하기
         private CharacterModel  _charInfo;
         
@@ -62,6 +63,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public CharAnim CharAnim => _charAnim;
         public Rigidbody2D Rigid => _rigid;
         public Camera MainCamera => _mainCamera;
+        
+        public Sprite CharacterSprite => _characterSprite;
         
         public CharStat CharStat
         {
