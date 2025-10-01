@@ -16,12 +16,12 @@ public static class DamageCalculator
         List<SystemEnum.eKeyword> inputKeywords, 
         CharBase client)
     {
-        List<float> statInputs = inputStats.Select(stat => client.CharStat.GetStat(stat)).ToList();
+        List<long> statInputs = inputStats.Select(stat => client.CharStat.GetStat(stat)).ToList();
         List<float> keywordInputs = inputKeywords.Select(kw => (float)client.KeywordInfo.GetKeywordCount(kw)).ToList();
         return Evaluate(formula, statInputs, keywordInputs);
     }
 
-    public static float Evaluate(string formula, List<float> inputStats, List<float> inputKeywords)
+    public static float Evaluate(string formula, List<long> inputStats, List<float> inputKeywords)
     {
         if(string.IsNullOrWhiteSpace(formula)) return 0f;
         

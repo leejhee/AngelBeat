@@ -92,7 +92,7 @@ namespace AngelBeat
         }
         #endregion
         
-        public float GetStat(eStats stat)
+        public long GetStat(eStats stat)
         {
             return _charStat[(int)GetProperStatAttribute(stat)];
         }
