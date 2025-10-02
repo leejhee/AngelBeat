@@ -3,14 +3,17 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using static Core.Scripts.Foundation.Define.SystemString;
 
 namespace AngelBeat
 {
-    public class SkillButton : Button
+    public class SkillButton : MonoBehaviour
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
+        
+        
         
         public void SetButton(SkillModel model)
         {

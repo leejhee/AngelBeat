@@ -85,8 +85,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         #region Stat Properties for Utility
         public float CurrentHP => _charStat.GetStat(SystemEnum.eStats.NHP);
         public float MaxHP => _charStat.GetStat(SystemEnum.eStats.NMHP);
-        public float Armor => _charStat.GetStat(SystemEnum.eStats.ARMOR);
-        public float Dodge => _charStat.GetStat(SystemEnum.eStats.DODGE);
+        public float Armor => _charStat.GetStat(SystemEnum.eStats.DEFENSE);
+        public float Dodge => _charStat.GetStat(SystemEnum.eStats.EVATION);
         public float BonusAccuracy => _charStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
         public float DamageIncrease => _charStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
         public float MovePoint => _movePoint;
@@ -196,7 +196,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         protected virtual void CharInit()
         {
-            _currentMovePoint = _movePoint = _charStat.GetStat(SystemEnum.eStats.MOVE_POINT);
+            //_currentMovePoint = _movePoint = _charStat.GetStat(SystemEnum.eStats.MOVE_POINT);
         }
         #endregion
         

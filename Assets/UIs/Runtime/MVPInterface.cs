@@ -22,7 +22,7 @@ namespace UIs.Runtime
         ExploreSceneView,
         
         BattleSceneView,
-        
+        BattleCharacterInfoPopUpView,
     }
 
     public enum ViewLayer

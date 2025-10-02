@@ -14,7 +14,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         #region Objects
         [SerializeField] private Button characterPortraitButton;
         [SerializeField] private Image characterPortraitImage;
-        [SerializeField] private TextMeshProUGUI characterName;
+        [SerializeField] private TMP_Text characterName;
         [SerializeField] private SkillButtonPanel skillPanel;
         
         public Button CharacterPortraitButton => characterPortraitButton;
@@ -22,10 +22,10 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         
         #region Bar
         [SerializeField] private Image hpBarFill;
-        [SerializeField] private TextMeshProUGUI hpText;
+        [SerializeField] private TMP_Text hpText;
         [SerializeField] private Slider hpSlider;
         [SerializeField] private Image actionBarFill;
-        [SerializeField] private TextMeshProUGUI actionText;
+        [SerializeField] private TMP_Text actionText;
         [SerializeField] private Slider actionSlider;
         #endregion
 
@@ -83,8 +83,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                     button.SetButton(skillList[idx]);
                     
                     // 여기 부분 프리젠트로 옮기기
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(() =>
+                    button.GetComponent<Button>().onClick.RemoveAllListeners();
+                    button.GetComponent<Button>().onClick.AddListener(() =>
                     {
                         BattleController.Instance.ShowSkillPreview(skillList[idx]);
                         Debug.Log($"Skill {skillList[idx].SkillName} Selected");

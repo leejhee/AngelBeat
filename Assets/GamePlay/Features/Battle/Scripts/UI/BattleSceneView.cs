@@ -179,6 +179,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
         private void OnClickPortraitButton()
         {
             Debug.Log("캐릭터 정보창 띄우기");
+            // 캐릭터 정보 팝업 뷰 생성
+            _ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
         }
 
         #region ExtraActions

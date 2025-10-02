@@ -1,0 +1,13 @@
+using Character;
+using UnityEngine;
+
+namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
+{
+    public class EssencePanel : MonoBehaviour
+    {
+        public void SetEssence(CharacterModel model)
+        {
+            
+        }
+    }
+}

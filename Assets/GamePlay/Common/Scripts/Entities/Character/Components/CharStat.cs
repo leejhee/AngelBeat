@@ -34,20 +34,20 @@ namespace AngelBeat
             _charStat[(int)eStats.NHP] = charStat.HP;
             _charStat[(int)eStats.NMHP] = charStat.HP;
 
-            _charStat[(int)eStats.ARMOR] = charStat.armor;
-            _charStat[(int)eStats.NARMOR] = charStat.armor;
+            _charStat[(int)eStats.DEFENSE] = charStat.armor;
+            _charStat[(int)eStats.NDEFENSE] = charStat.armor;
             
             _charStat[(int)eStats.MAGIC_RESIST] = charStat.magicResist;
             _charStat[(int)eStats.NMAGIC_RESIST] = charStat.magicResist;
 
-            _charStat[(int)eStats.MELEE_ATTACK] = charStat.meleeAttack;
-            _charStat[(int)eStats.NMELEE_ATTACK] = charStat.meleeAttack;
+            _charStat[(int)eStats.PHYSICAL_ATTACK] = charStat.meleeAttack;
+            _charStat[(int)eStats.NPHYSICAL_ATTACK] = charStat.meleeAttack;
             
-            _charStat[(int)eStats.MAGICAL_ATTACK] = charStat.magicalAttack;
-            _charStat[(int)eStats.NMAGICAL_ATTACK] = charStat.magicalAttack;
+            _charStat[(int)eStats.MAGIC_ATTACK] = charStat.magicalAttack;
+            _charStat[(int)eStats.NMAGIC_ATTACK] = charStat.magicalAttack;
             
-            _charStat[(int)eStats.CRIT_CHANCE] = charStat.critChance;
-            _charStat[(int)eStats.NCRIT_CHANCE] = charStat.critChance;
+            _charStat[(int)eStats.CRIT_RATE] = charStat.critChance;
+            _charStat[(int)eStats.NCRIT_RATE] = charStat.critChance;
             
             _charStat[(int)eStats.SPEED] = charStat.speed;
             _charStat[(int)eStats.NSPEED] = charStat.speed;
@@ -55,10 +55,10 @@ namespace AngelBeat
             _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint;
             _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint;
 
-            _charStat[(int)eStats.MOVE_POINT] = charStat.movePoint;
+            //_charStat[(int)eStats.MOVE_POINT] = charStat.movePoint;
             
-            _charStat[(int)eStats.DODGE] = charStat.actionPoint;
-            _charStat[(int)eStats.NDODGE] = charStat.actionPoint;
+            _charStat[(int)eStats.EVATION] = charStat.actionPoint;
+            _charStat[(int)eStats.NEVATION] = charStat.actionPoint;
             
             _charStat[(int)eStats.RESISTANCE] = charStat.resistance;
             _charStat[(int)eStats.NRESISTANCE] = charStat.resistance;
@@ -79,14 +79,14 @@ namespace AngelBeat
                 case eStats.WHITE:          return eStats.N_WHITE;
                 case eStats.BLACK:          return eStats.N_BLACK;
                 case eStats.HP:             return eStats.NHP;
-                case eStats.ARMOR:          return eStats.NARMOR;
+                case eStats.DEFENSE:          return eStats.NDEFENSE;
                 case eStats.MAGIC_RESIST:   return eStats.NMAGIC_RESIST;
-                case eStats.MELEE_ATTACK:   return eStats.NMELEE_ATTACK;
-                case eStats.MAGICAL_ATTACK: return eStats.NMAGICAL_ATTACK;
-                case eStats.CRIT_CHANCE:    return eStats.NCRIT_CHANCE;
+                case eStats.PHYSICAL_ATTACK:   return eStats.NPHYSICAL_ATTACK;
+                case eStats.MAGIC_ATTACK: return eStats.NMAGIC_ATTACK;
+                case eStats.CRIT_RATE:    return eStats.NCRIT_RATE;
                 case eStats.SPEED:          return eStats.NSPEED;
                 case eStats.ACTION_POINT:   return eStats.NACTION_POINT;
-                case eStats.DODGE:          return eStats.NDODGE;
+                case eStats.EVATION:          return eStats.NEVATION;
                 case eStats.RESISTANCE:     return eStats.NRESISTANCE;
             }
             return stat;

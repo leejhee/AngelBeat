@@ -2526,8 +2526,10 @@ MonoBehaviour:
   skillPanel: {fileID: 1064516577201542494}
   hpBarFill: {fileID: 8938798019199581281}
   hpText: {fileID: 8596095373625168009}
+  hpSlider: {fileID: 4721410327747292692}
   actionBarFill: {fileID: 7317079356862527363}
   actionText: {fileID: 4284912716877239510}
+  actionSlider: {fileID: 9084344797290444260}
   jumpButton: {fileID: 13637373034519449}
   pushButton: {fileID: 7330597243006506272}
   invenButton: {fileID: 4360439598842352463}

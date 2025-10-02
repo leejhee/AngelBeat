@@ -131,18 +131,23 @@ namespace Core.Scripts.Foundation.Define
             NHP,
             NMHP,
         
-            ARMOR,
-            NARMOR,
+            DEFENSE,
+            NDEFENSE,
             MAGIC_RESIST,
             NMAGIC_RESIST,
         
-            MELEE_ATTACK,
-            NMELEE_ATTACK,
-            MAGICAL_ATTACK,
-            NMAGICAL_ATTACK,
+            PHYSICAL_ATTACK,
+            NPHYSICAL_ATTACK,
+            MAGIC_ATTACK,
+            NMAGIC_ATTACK,
+            
+            AILMENT_INFLICT,
+            NAILMENT_INFLICT,
+            ACCURACY,
+            NACCURACY,
         
-            CRIT_CHANCE,
-            NCRIT_CHANCE,
+            CRIT_RATE,
+            NCRIT_RATE,
         
             SPEED, 
             NSPEED,
@@ -151,13 +156,16 @@ namespace Core.Scripts.Foundation.Define
             NACTION_POINT,
             NMACTION_POINT,
         
-            MOVE_POINT,
+            MOVEMENT,
+            NMOVEMENT,
         
-            DODGE,
-            NDODGE,
+            EVATION,
+            NEVATION,
         
             RESISTANCE,
             NRESISTANCE,
+            AILMENT_RESISTANCE,
+            NAILMENT_RESISTANCE,
         
             RANGE_INCREASE,
             DAMAGE_INCREASE,
