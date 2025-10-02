@@ -15,6 +15,8 @@ namespace AngelBeat
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         [SerializeField] private SkillDescription skillDescription;
+        [SerializeField] private Sprite selectedFrame;
+        [SerializeField] private Sprite nonSelectedFrame;
         public void SetButton(SkillModel model)
         {
             icon.sprite = model.Icon;

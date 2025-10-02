@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6b7e6c761fb1ce44f923d442bce0b2e0
+guid: f3865be3cde25674193de23ff3bac718
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skill_notselected_0
+      name: turn_now_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 5
-        width: 140
-        height: 170
+        x: 2
+        y: 2
+        width: 146
+        height: 146
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8dc9b0642c548684ca510b989f81492e
-      internalID: -1675522497
+      spriteID: 728e87af4ff0e9443979cd485791f769
+      internalID: 108077669
       vertices: []
       indices: 
       edges: []
@@ -154,7 +154,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      skill_notselected_0: -1675522497
+      turn_now_0: 108077669
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

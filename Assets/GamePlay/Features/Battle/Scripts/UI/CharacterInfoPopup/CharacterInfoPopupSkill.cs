@@ -9,7 +9,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
     {
         [SerializeField] private Image skillImage;
         [SerializeField] private SkillDescription skillDescription;
-        
+        [SerializeField] private Sprite skillIcon;
+        [SerializeField] private Sprite selectedFrame;
+        [SerializeField] private Sprite nonSelectedFrame;
         
         public void SetSkillImage(SkillModel model)
         {

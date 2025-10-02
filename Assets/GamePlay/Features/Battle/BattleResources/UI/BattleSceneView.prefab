@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7056544759861976404}
   - component: {fileID: 7944391138431004040}
   - component: {fileID: 4360439598842352463}
+  - component: {fileID: 888585677640883666}
   m_Layer: 5
   m_Name: InvenInputButton
   m_TagString: Untagged
@@ -120,6 +121,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &888585677640883666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41063165673890122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFrame: {fileID: 21300000, guid: adb89a387fb1fb14bbd8283c3e65b670, type: 3}
+  nonSelectedFrame: {fileID: 21300000, guid: c032df366cca73d4bb81b1b7377eb266, type: 3}
 --- !u!1 &308374333627825960
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +310,7 @@ GameObject:
   - component: {fileID: 8884082226674906353}
   - component: {fileID: 4653730906238037150}
   - component: {fileID: 7330597243006506272}
+  - component: {fileID: 2578373764342122692}
   m_Layer: 5
   m_Name: PushInputButton
   m_TagString: Untagged
@@ -403,6 +419,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2578373764342122692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650910813746087649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFrame: {fileID: 21300000, guid: d0b1de84982905a41a73fbf8775c6e86, type: 3}
+  nonSelectedFrame: {fileID: 21300000, guid: 0ea0ddecc40a6df468cdec36bb025cc1, type: 3}
 --- !u!1 &1177245264033284150
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +579,7 @@ GameObject:
   - component: {fileID: 838605197987703610}
   - component: {fileID: 8407312318720239474}
   - component: {fileID: 13637373034519449}
+  - component: {fileID: 1434355046594534228}
   m_Layer: 5
   m_Name: JumpInputButton
   m_TagString: Untagged
@@ -657,6 +688,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1434355046594534228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061107887161323260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFrame: {fileID: 21300000, guid: 45dc133095fb5834fbe848ca71f6f4db, type: 3}
+  nonSelectedFrame: {fileID: 21300000, guid: 0ac59b3cdaad0b644a74989c9dc8a3d8, type: 3}
 --- !u!1 &2255768716526657494
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,11 +2099,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8747588958163720040}
-  - {fileID: 1864282989136172736}
   - {fileID: 2448257529078819603}
   - {fileID: 1294652188795032206}
   - {fileID: 8737726922196560388}
   - {fileID: 4628101023111246938}
+  - {fileID: 1864282989136172736}
   m_Father: {fileID: 8632419890963316826}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
