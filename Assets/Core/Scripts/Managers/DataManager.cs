@@ -82,6 +82,12 @@ public partial class DataManager : SingletonObject<DataManager>
             SetKeywordDataMap();
             return;
         }
+
+        if (typeof(DokkaebiSkillData).ToString().Contains(typeName))
+        {
+            await InitCharacterSpriteMapWithYeon();
+            return;
+        }
         if (typeof(CompanionData).ToString().Contains(typeName))
         {
             await SetCharacterSpriteMap();

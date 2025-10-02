@@ -12,11 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: BattleSprites
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: BattleSprites
   m_Data:
     m_SerializedData: []
   m_GUID: 6c0caac0de4e2c44a82f4d2f25ff464e
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 494ee01f68d76b948837de5b3ab43a78
+    m_Address: skillicon_MiasmaSpread
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b559791ec6db75d49ada8e8b34fcee18
+    m_Address: skillicon_MungeCloud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6f1ad3764268af4f804da81b65f5558
+    m_Address: skillicon_PhantomReprisal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e6e2628fc60ae449aa87c03d4817c86
+    m_Address: LD_Yeon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:

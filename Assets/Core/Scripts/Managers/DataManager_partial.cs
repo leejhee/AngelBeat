@@ -53,6 +53,26 @@ namespace Core.Scripts.Managers
             }
         }
 
+        public async UniTask InitCharacterSpriteMapWithYeon()
+        {
+            string key = nameof(DokkaebiData);
+            if (_cache.ContainsKey(key) == false)
+                return;
+            Dictionary<long, SheetData> dokkaebi = _cache[key];
+            if (dokkaebi == null)
+            {
+                Debug.LogError($"Map not included in parsing : {key}");
+                return;
+            }
+
+            foreach (var _dokkaebi  in dokkaebi.Values)
+            {
+                if (_dokkaebi is not DokkaebiData dok) continue;
+                Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteIconRoute);
+                Sprite ldTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteLDRoute);
+            }
+        }
+        
         public async UniTask SetCharacterSpriteMap()
         {
             string key = nameof(CompanionData);
@@ -73,8 +93,6 @@ namespace Core.Scripts.Managers
                 characterIconSpriteMap.TryAdd(companion.charImage, iconTarget);
                 characterLDSpriteMap.TryAdd(companion.charLDRoute, ldTarget);
             }
-            
-            
         }
         
         public async UniTask SetSkillIconSpriteMap()
