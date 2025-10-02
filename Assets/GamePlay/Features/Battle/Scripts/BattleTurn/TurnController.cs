@@ -13,10 +13,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
     public class TurnController
     {
         private int _round = 1;
-        private Queue<BattleTurn.Turn> _turnQueue = new();
-        private List<BattleTurn.Turn> _turnBuffer = new();
+        private Queue<Turn> _turnQueue = new();
+        private List<Turn> _turnBuffer = new();
         
-        public BattleTurn.Turn CurrentTurn { get; private set; }
+        public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public event Action OnRoundProceeds;
         public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();

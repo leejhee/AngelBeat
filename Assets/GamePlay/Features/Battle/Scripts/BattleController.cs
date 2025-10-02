@@ -1,3 +1,4 @@
+using Character;
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Entities.Scripts.Character;
@@ -6,6 +7,7 @@ using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,16 +57,20 @@ namespace GamePlay.Features.Battle.Scripts
         
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
+        public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
         
         #region UI Model
-
-        public class TurnModel
+        
+        public class TurnStructureModel
         {
             public IReadOnlyCollection<Turn> TurnCollection;
             
-            public TurnModel(IReadOnlyCollection<Turn> turnCollection) =>  TurnCollection = turnCollection;
+            public TurnStructureModel(IReadOnlyCollection<Turn> turnCollection) =>  TurnCollection = turnCollection;
         }
-        public TurnModel GetChangedTurnModel => new(_turnManager.TurnCollection);
+        public TurnStructureModel GetChangedTurnStructureModel => new(_turnManager.TurnCollection);
+        
+        //temporary
+        public TurnController TurnController => _turnManager;
         
         #endregion
         private async void Start()
@@ -93,7 +99,8 @@ namespace GamePlay.Features.Battle.Scripts
 
             string stageName = _stageSource.StageName;
             Party playerParty = _stageSource.PlayerParty;
-
+            
+            // 맵 띄우기
             StageField battleField = await _mapLoader.InstantiateBattleFieldAsync(stageName);
         
             List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);

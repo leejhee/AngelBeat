@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
@@ -26,17 +27,15 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             BattleFieldGroup group = _db.Resolve(_stageSource.Dungeon);
             if (!group)
             {
-                throw new System.Exception($"BattleFieldGroup not found for {_stageSource.Dungeon}");
+                throw new Exception($"BattleFieldGroup not found for {_stageSource.Dungeon}");
             }
 
-            var stageRef = group.GetStageRef(stageName);
+            AssetReferenceT<GameObject> stageRef = group.GetStageRef(stageName);
             if (stageRef == null) throw new Exception($"Stage not found : {stageName}");
 
-            var go = await ResourceManager.Instance.InstantiateAsync(stageRef, parent, false, ct);
-            var field = go.GetComponent<StageField>();
-            if (!field) throw new Exception($"Stage Component Missing : {stageName}");
-            return field;
-
+            GameObject go = await ResourceManager.Instance.InstantiateAsync(stageRef, parent, false, ct);
+            StageField field = go.GetComponent<StageField>();
+            return !field ? throw new Exception($"Stage Component Missing : {stageName}") : field;
         }
     }
 }

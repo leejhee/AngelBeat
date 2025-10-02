@@ -126,7 +126,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             
         }
-        public void OnTurnChanged(BattleController.TurnModel model)
+        public void OnTurnChanged(BattleController.TurnStructureModel structureModel)
         {
             
             // 턴 HUD 초상화 생성
