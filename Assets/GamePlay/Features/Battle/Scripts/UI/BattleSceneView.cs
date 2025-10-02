@@ -2,8 +2,11 @@ using Character;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
+using GamePlay.Features.Battle.Scripts.Unit;
+using GamePlay.Skill;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -19,12 +22,12 @@ namespace GamePlay.Features.Battle.Scripts.UI
         [SerializeField] private Button turnEndButton;
         [SerializeField] private Button menuButton;
         [SerializeField] private CharacterHUD characterHUD;
-        [SerializeField] private GameObject turnObjectParent;
+        [SerializeField] private TurnHUD turnHUD;
 
         public Button TurnEndButton => turnEndButton;
         public Button MenuButton => menuButton;
         public CharacterHUD CharacterHUD => characterHUD;
-        public GameObject TurnObjectParent => turnObjectParent;
+        public TurnHUD TurnHUD => turnHUD;
         public void Show() => gameObject.SetActive(true);
         public void Hide() => gameObject.SetActive(false);
 
@@ -56,11 +59,27 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => BattleController.Instance.FocusChar.CharStat.OnHPChanged -= act,
                 OnHPChanged);
             // 턴 바뀜 이벤트 구독
-            // ModelEvents.Subscribe<CharacterModel>(
-            //     action => BattleController.
-            //     action =>
-            //     OnTurnChanged
-            //         );
+            ModelEvents.Subscribe<TurnController.TurnModel>(
+                act => BattleController.Instance.TurnController.OnTurnChanged += act,
+                act => BattleController.Instance.TurnController.OnTurnChanged -= act,
+                OnTurnChanged
+                    );
+
+            ModelEvents.Subscribe(
+                act => BattleController.Instance.TurnController.OnRoundProceeds += act,
+                act => BattleController.Instance.TurnController.OnRoundProceeds -= act,
+                OnRoundStart
+                );
+
+            ModelEvents.Subscribe(
+                act => BattleController.Instance.TurnController.OnRoundEnd += act,
+                act => BattleController.Instance.TurnController.OnRoundEnd -= act,
+                OnRoundEnd
+                );
+
+            // ModelEvents.Subscribe(
+            //     act => BattleCharManager.Instance.
+            //     );
             #endregion
 
             #region View Events
@@ -102,14 +121,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickInvenButton
                 );
             
-            // for (int i = 0; i < 4; i++)
-            // {
-            //     ViewEvents.Subscribe(
-            //         act => View.CharacterHUD.SkillPanel.SkillButtons[i].GetComponent<Button>().onClick.AddListener(new UnityAction(act)),
-            //         act=> View.CharacterHUD.SkillPanel.SkillButtons[i].GetComponent<Button>().onClick.RemoveAllListeners(),
-            //         BattleController.Instance.ShowSkillPreview()
-            //     );
-            // }
+
             #endregion
             return UniTask.CompletedTask;
         }
@@ -126,15 +138,47 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             
         }
-        public void OnTurnChanged(BattleController.TurnStructureModel structureModel)
+
+        private void OnRoundStart()
         {
-            
             // 턴 HUD 초상화 생성
-            async UniTask InstantiatePortrait(Sprite sprite)
+            GameObject InstantiatePortrait(CharBase charBase)
             {
-                GameObject go = await ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnObjectParent.transform);
-                go.GetComponent<Image>().sprite = sprite;
+                // TODO: 나중에 바꿀것
+                GameObject go = ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnHUD.gameObject.transform).GetAwaiter().GetResult();
+                // 캐릭터 초상화 설정
+                //go.GetComponent<TurnPortrait>().SetPortraitImage(charBase., charBase.GetID());
+                return go;
             }
+
+            foreach (Turn turn in BattleController.Instance.TurnController.TurnCollection)
+            {
+                GameObject turnObject = InstantiatePortrait(turn.TurnOwner);
+                // 턴 초상화 오브젝트 만들어서 리스트에 넣기
+                View.TurnHUD.AddToTurnList(turnObject.GetComponent<TurnPortrait>());
+            }
+            View.TurnHUD.OnRoundStart(); 
+        }
+
+        private void OnRoundEnd()
+        {
+            View.TurnHUD.ClearList();
+        }
+
+        private void OnTurnChanged(TurnController.TurnModel turnModel)
+        {
+            // 현재 턴 표시자 옮기기
+            View.TurnHUD.MoveToNextTurn();
+            // 아군 턴이면 캐릭터 HDU 오픈
+            CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
+             if (charModel.characterType == SystemEnum.eCharType.Player)
+             {
+                 OnCharacterHUDOpen(charModel);
+             }
+             else
+             {
+                 View.CharacterHUD.Hide();
+             }
         }
 
         private void OnCharacterHUDOpen(CharacterModel model)
@@ -161,6 +205,19 @@ namespace GamePlay.Features.Battle.Scripts.UI
             // 스킬 버튼 생성
             View.CharacterHUD.SetSkillButtons(model.Skills);
             
+            // 스킬 버튼마다 이벤트 구독
+            for (int i = 0; i < model.Skills.Count; i++)
+            {
+                int idx = i;
+                Button curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<Button>();
+                curSkillButton.onClick.RemoveAllListeners();
+                
+                ViewEvents.Subscribe<SkillModel>(
+                    act => curSkillButton.GetComponent<Button>().onClick.AddListener(new UnityAction(() => act(model.Skills[idx]))),
+                    act=> curSkillButton.GetComponent<Button>().onClick.RemoveAllListeners(),
+                    skill => BattleController.Instance.ShowSkillPreview(skill)
+                );
+            }
         }
         #endregion
 
@@ -168,7 +225,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnClickTurnEndButton()
         {
-            Debug.Log("턴 종료");
+            BattleController.Instance.TurnController.ChangeTurn();
         }
 
         private void OnClickMenuButton()

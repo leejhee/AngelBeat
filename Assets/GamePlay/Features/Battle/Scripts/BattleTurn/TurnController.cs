@@ -19,7 +19,18 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public event Action OnRoundProceeds;
+        public event Action OnRoundEnd;
         public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();
+
+        #region UI Model
+
+        public class TurnModel
+        {
+            public readonly Turn Turn;
+            public TurnModel(Turn turn) =>  Turn = turn;
+        }
+
+        #endregion        
         
         public TurnController(List<CharBase> battleMembers)
         {
@@ -56,16 +67,18 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         }
         
         public void RefreshTurn() => RebuildTurnQueue();
-        
+        public event Action<TurnModel> OnTurnChanged;
         public void ChangeTurn()
         {
             CurrentTurn?.End();
-
+            
+            
             if (_turnQueue.Count == 0)
             {
+                OnRoundEnd?.Invoke();
                 _round++;
-                OnRoundProceeds?.Invoke();
                 RebuildTurnQueue();
+                OnRoundProceeds?.Invoke();
             }
             
             CurrentTurn = _turnQueue.Dequeue();
@@ -73,6 +86,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 CurrentTurn = _turnQueue.Dequeue();
             
             CurrentTurn.Begin();
+            OnTurnChanged?.Invoke(new TurnModel(CurrentTurn));
         }
         
         public void ChangeTurn(BattleTurn.Turn targetTurn)

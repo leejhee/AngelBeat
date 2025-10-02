@@ -1,5 +1,6 @@
 ﻿using AngelBeat;
 using Core.Scripts.Data;
+using Core.Scripts.Foundation.Define;
 using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,14 @@ namespace Character
         private long index;
         private CharData _data;
         private CharStat _stat;
-        
+        private SystemEnum.eCharType _type;
         private List<SkillModel> _skillModels = new();
         
         public long Index => index;
         public string Name => _data.charName;
         public CharStat Stat => _stat;
         public IReadOnlyList<SkillModel> Skills => _skillModels.AsReadOnly();
-        
+        public SystemEnum.eCharType characterType => _type;
         // 탐사 중 영입 시 등록
         public CharacterModel(long index)
         {
@@ -35,7 +36,8 @@ namespace Character
                 Debug.LogError("생성자 중 포함되지 않은 캐릭터데이터에 의한 오류");
                 return;
             }
-            
+
+            _type = _data.defaultCharType;
             CharStatData stat = DataManager.Instance.GetData<CharStatData>(_data.charStat);
             _stat = new CharStat(stat);
 

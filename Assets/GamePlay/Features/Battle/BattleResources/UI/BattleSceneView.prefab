@@ -1074,7 +1074,7 @@ MonoBehaviour:
   turnEndButton: {fileID: 1446659154983511049}
   menuButton: {fileID: 7741800884123592972}
   characterHUD: {fileID: 5501930045663456319}
-  turnObjectParent: {fileID: 6277389708883505950}
+  turnHUD: {fileID: 942023071053044357}
 --- !u!1 &2266587348939557274
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,6 +2217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5779572284882338403}
   - component: {fileID: 1878623568965088653}
+  - component: {fileID: 942023071053044357}
   m_Layer: 5
   m_Name: TurnHUD
   m_TagString: Untagged
@@ -2267,6 +2268,20 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &942023071053044357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6277389708883505950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90f11783e7f699418dda82205601a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turns: []
+  currentIndex: 0
 --- !u!1 &6461053486635446298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3498,10 +3513,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillButton (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1426549491906104609, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3582,10 +3593,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 9030916075298538901}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3607,17 +3614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5830480521c9f344194d634dce3c518b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9030916075298538901 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-  m_PrefabInstance: {fileID: 1074787959349908483}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8289115277679783787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3629,10 +3625,6 @@ PrefabInstance:
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1426549491906104609, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Pivot.x
@@ -3714,26 +3706,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 51494302781423357}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
---- !u!114 &51494302781423357 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-  m_PrefabInstance: {fileID: 8289115277679783787}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4149255212506200474 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
@@ -3762,10 +3739,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillButton
       objectReference: {fileID: 0}
-    - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1426549491906104609, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3846,26 +3819,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 752969603447324688}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
---- !u!114 &752969603447324688 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-  m_PrefabInstance: {fileID: 8776739949656854918}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3697729858626226039 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
@@ -3894,10 +3852,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillButton (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1426549491906104609, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3978,26 +3932,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 981122177753796354}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
---- !u!114 &981122177753796354 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-  m_PrefabInstance: {fileID: 9089265475009257108}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3800555426750482533 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}

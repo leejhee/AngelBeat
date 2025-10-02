@@ -13,12 +13,11 @@ namespace AngelBeat
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         
-        
-        
         public void SetButton(SkillModel model)
         {
             icon.sprite = model.Icon;
             skillName.SetText(model.SkillName);
+            
         }
     }
 }
