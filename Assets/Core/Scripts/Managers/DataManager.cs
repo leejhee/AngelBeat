@@ -1,5 +1,4 @@
 using Core.Scripts.Data;
-using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Singleton;
 using Cysharp.Threading.Tasks;
 using System;
@@ -72,13 +71,27 @@ public partial class DataManager : SingletonObject<DataManager>
         foreach (var (name, dict) in results)
         {
             _cache.Add(name, dict);
-            SetTypeData(name);
+            await SetTypeData(name);
         }
     }
-    
-    private void SetTypeData(string typeName)
+
+    private async UniTask SetTypeData(string typeName)
     {
-        if(typeof(KeywordData).ToString().Contains(typeName)) {SetKeywordDataMap(); return; }
+        if (typeof(KeywordData).ToString().Contains(typeName))
+        {
+            SetKeywordDataMap();
+            return;
+        }
+        if (typeof(CompanionData).ToString().Contains(typeName))
+        {
+            await SetCharacterSpriteMap();
+            return;
+        }
+        if (typeof(DokkaebiSkillData).ToString().Contains(typeName))
+        {
+            await SetSkillIconSpriteMap();
+            return;
+        }
     }
 
     public T GetData<T>(long Index) where T : SheetData

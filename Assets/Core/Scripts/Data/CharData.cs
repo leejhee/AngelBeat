@@ -24,7 +24,7 @@ public long index; // 캐릭터 ID
 		public List<long> defaultExecutionList; // 초기 패시브 리스트
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
-        public override async UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
+        public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
         {
             var dataList = new Dictionary<long, SheetData>();
             string ListStr = null;
@@ -89,12 +89,12 @@ public long index; // 캐릭터 ID
                     dataList[data.index] = data;
                 }
 
-                return dataList;
+                return UniTask.FromResult(dataList);
             }
             catch (Exception e)
             {
                 Debug.LogError($"{this.GetType().Name}의 {line} 전후로 데이터 문제 발생: {e}");
-                return new Dictionary<long, SheetData>();
+                return UniTask.FromResult(new Dictionary<long, SheetData>());
             }
         }       
        

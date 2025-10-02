@@ -32,18 +32,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9679cf1f308838c4484d0a6daf7015bf
-    m_Address: CSV/MEMCSV/ExecutionData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: df47c49273aefa74d83c7a7fe7ad5c50
     m_Address: CSV/MEMCSV/ExploreMapData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5826be2c137b21e439b06b73bc1db066
-    m_Address: CSV/MEMCSV/ImportDescription
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -64,6 +54,26 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 966bcd43b4ffd3f4386ded17a200626b
     m_Address: '@MainRoot'
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d25f6867170dca74a9b60ee8fc3fd583
+    m_Address: CSV/MEMCSV/CompanionData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27b89fd5a57fb5948b928c969801f824
+    m_Address: CSV/MEMCSV/DokkaebiData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0319bc85b55ad0b43a8c6cc7abafce6a
+    m_Address: CSV/MEMCSV/DokkaebiSkillData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 856b156f73d10bf488bf943dc2e25015
+    m_Address: CSV/MEMCSV/SkillRangeData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

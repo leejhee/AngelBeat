@@ -112,6 +112,15 @@ namespace Core.Scripts.Foundation.Define
             eMax
         }
 
+        public enum eObang
+        {
+            Red,
+            Blue,
+            Yellow,
+            Black,
+            White
+        }
+        
         public enum eStats
         {
             None,
@@ -206,7 +215,7 @@ namespace Core.Scripts.Foundation.Define
         
             eMax
         }
-
+    
         public enum eSkillType
         {
             None,
@@ -224,10 +233,16 @@ namespace Core.Scripts.Foundation.Define
         {
             None,
         
-            SELF,
+            TARGET_SELF,
             TARGET_ENEMY,
         }
-    
+
+        public enum eUpgradeLevel
+        {
+            None,
+            
+        }
+        
         public enum Dungeon
         {
             None,
@@ -331,8 +346,15 @@ namespace Core.Scripts.Foundation.Define
         }
     
         [Flags]
+        public enum eUnlockCondition
+        {
+            Default = 0,
+
+        }
+
         public enum eSkillUnlock
         {
+            None,
             EUINYEO_SKILL_1,
             EUINYEO_SKILL_2,
             EUINYEO_SKILL_3,

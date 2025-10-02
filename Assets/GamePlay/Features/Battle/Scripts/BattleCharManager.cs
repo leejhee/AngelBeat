@@ -1,6 +1,7 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
+using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using System;
@@ -86,6 +87,7 @@ namespace GamePlay.Features.Battle.Scripts
                 return false;
             }
             _cache[myType].Remove(id);
+            OnCharDead?.Invoke(new DeadCharModel(id, GetEnumTypeByType(myType)));
             return true;
         }
 
@@ -205,6 +207,8 @@ namespace GamePlay.Features.Battle.Scripts
             }
         }
 
+        public event Action<DeadCharModel> OnCharDead;
+        
         public void CheckDeathEvents(eCharType type)
         {
             if (!_cache.ContainsKey(GetTypeByEnum(type)) ||
@@ -220,6 +224,19 @@ namespace GamePlay.Features.Battle.Scripts
                 case eCharType.Enemy : return typeof(CharMonster);
             }
             return null;
+        }
+
+        private static eCharType GetEnumTypeByType(Type type)
+        {
+            switch (type.Name)
+            {
+                case nameof(CharPlayer) :
+                    return eCharType.Player;
+                case nameof(CharMonster):
+                    return eCharType.Enemy;
+                default:
+                    return eCharType.None;
+            }
         }
 
         private static eCharType GetEnemyType(eCharType type)

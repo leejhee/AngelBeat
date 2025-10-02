@@ -8,7 +8,6 @@ using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
-using System;
 using System.Collections.Generic;
 using UIs.Runtime;
 using UnityEngine;
@@ -108,11 +107,15 @@ namespace GamePlay.Features.Battle.Scripts
             
             // 맵 띄우기
             StageField battleField = await _mapLoader.InstantiateBattleFieldAsync(stageName);
-        
+            
+            // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
             List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
+            
+            // 턴 관리기 초기화
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
-        
+            
+            // 전투 공통 이벤트 처리
             BindBattleEvent();
             
             Debug.Log("Battle Initialization Complete");

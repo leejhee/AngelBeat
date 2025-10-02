@@ -32,7 +32,7 @@ namespace GamePlay.Features.Scripts.Skill.Preview
         {
             _previewFocus = focus;
             _previewSkill = skillModel;
-            _range = _previewSkill.SkillRange;
+            _range = 3;//_previewSkill.SkillRange;
             _pivot = focus.CharTransform.position;
             _rangeCircle.transform.localScale = new Vector3(_range * 2f, _range * 2f, 1);
             _pivotType = _previewSkill.SkillPivot;
@@ -62,7 +62,7 @@ namespace GamePlay.Features.Scripts.Skill.Preview
             {
                 if (hitCollider.TryGetComponent(out CharBase target))
                 {
-                    if ((_pivotType == SystemEnum.ePivot.SELF && target != _previewFocus) ||
+                    if ((_pivotType == SystemEnum.ePivot.TARGET_SELF && target != _previewFocus) ||
                         (_pivotType == SystemEnum.ePivot.TARGET_ENEMY && target == _previewFocus))
                     {
                         _spriteRenderer.sprite = null;
@@ -87,7 +87,7 @@ namespace GamePlay.Features.Scripts.Skill.Preview
                         }
                         else if (_pointerRange > 0)
                         {
-                            var center = _pivotType == SystemEnum.ePivot.SELF ?
+                            var center = _pivotType == SystemEnum.ePivot.TARGET_SELF ?
                                 (Vector2)_pivot : new Vector2(target.CharTransform.position.x, target.CharTransform.position.y);
                             
                             Collider2D[] hits = Physics2D.OverlapBoxAll

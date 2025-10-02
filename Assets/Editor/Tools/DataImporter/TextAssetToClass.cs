@@ -68,10 +68,10 @@ namespace AngelBeat.Tools.DataImporter
                 if(isSheetData)
                 {
                     var dataScript = string.Format(DataClassFormat.classDataFormat, dataType, fieldDeclaration.ToString(), fieldParsing.ToString());
-                    File.WriteAllText($"{Application.dataPath}/Scripts/SheetData/{dataType}.cs", dataScript);
+                    File.WriteAllText($"{Application.dataPath}/Core/Scripts/Data/{dataType}.cs", dataScript);
                     Debug.Log($"코드 작성 완료. {dataType}.cs");
 
-                    File.WriteAllText($"{Application.dataPath}/Resources/CSV/MEMCSV/{dataType}.csv", csv);
+                    File.WriteAllText($"{Application.dataPath}/Gameplay/Common/CommonResources/CSV/MEMCSV/{dataType}.csv", csv);
                     Debug.Log($"CSV 저장 완료. {dataType}.csv");
                 }
                 else

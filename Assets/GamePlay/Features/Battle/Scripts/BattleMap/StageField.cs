@@ -15,10 +15,12 @@ public class StageField : MonoBehaviour
 {
     private Dictionary<eCharType, List<SpawnData>> _spawnDict = new();
     
-
     [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
-
+    
+    
+    private BattleGridProvider gridProvider;
+    
     public Transform ObjectRoot { 
         get
         {
@@ -29,15 +31,20 @@ public class StageField : MonoBehaviour
                 root.transform.SetParent(transform);
             }
             return root.transform;
-        } }
+        } 
+    }
 
     private void Awake()
     {
         Debug.Log("Initializing Spawn Data...");
         _spawnDict = battleSpawnerData.Convert2Dict();
-    }
 
-    // 이거는 CharManager에서 해줘야 하는 일이다.
+        gridProvider = GetComponentInChildren<BattleGridProvider>();
+    }
+    
+    
+    
+    #region Spawning Units for Initialization
     public void SpawnUnit(CharBase charBase, int squadOrder)
     {
         eCharType type = charBase.GetCharType();
@@ -112,6 +119,8 @@ public class StageField : MonoBehaviour
 
         return battleMembers;
     }
+    
+    #endregion
     
     #region 에디터 툴용
 #if UNITY_EDITOR

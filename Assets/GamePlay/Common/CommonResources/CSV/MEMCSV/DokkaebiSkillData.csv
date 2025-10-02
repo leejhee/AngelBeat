@@ -1,0 +1,9 @@
+﻿도깨비 스킬 ID,스킬 이름,#스킬 설명,오방색,가중치,스킬 종류,스킬 범위,스킬 데미지,치명타 배율,명중율,스킬 효과,스킬 아이콘명,스킬 타임라인명,,,,,
+index,skillName,#skillDescription,ObangTag,Weight,skillType,skillRange,skillDamage,skillCritical,skillAccuracy,executionIndex,skillIconImage,skillTimeLine,,,,,
+long,string,#,eObang,float,eSkillType,long,long,int,int,long,string,string,,,,,
+10111001,뭉게구름,"#근접 광역, 스택 쌓기",Red,1,PhysicalAttack,,10111001,3,85,,skillicon_MungeCloud,timeline_MungeCloud,,,,,
+10121001,눈속임,"#근접 광역, 스택 의존",Blue,1,Buff,,10121001,6,95,,skillicon_PhantomReprisal,timeline_PhantomReprisal,,,,,
+10131001,퍼뜨리기기,"#디버프, 화상 뿌리기",Black,1,MagicAttack,,10131001,-1000,100,,skillicon_MiasmaSpread,timeline_MiasmaSpread,,,,,
+
+
+

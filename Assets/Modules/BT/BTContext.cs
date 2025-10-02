@@ -23,7 +23,7 @@ namespace Modules.BT
         public float MovePoint => Agent.MovePoint;
         
         public SkillInfo        SkillInfo => Agent.SkillInfo;
-        public ExecutionInfo    ExecutionInfo => Agent.ExecutionInfo;
+        //public ExecutionInfo    ExecutionInfo => Agent.ExecutionInfo;
         public KeywordInfo      KeywordInfo => Agent.KeywordInfo;
         
         #endregion

@@ -27,6 +27,8 @@ namespace Core.Scripts.Managers
         {
             var h = Addressables.InitializeAsync();
             await h.Task; // 실패하면 여기서 예외전파 해야할거같은데...?
+            
+            
         }
         
         // UniTask로 사용할 용도의 래퍼

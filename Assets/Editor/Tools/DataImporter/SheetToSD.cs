@@ -31,7 +31,7 @@ namespace AngelBeat.Tools.DataImporter
         {
             #region Init Dictionary of SheetData Type with GID Pair
             typeBringer = new Dictionary<string, string>();
-            string filePath = Application.dataPath + "/Resources/CSV/MEMCSV/ImportDescription.txt";
+            string filePath = Application.dataPath + "/GamePlay/Common/CommonResources/CSV/MEMCSV/ImportDescription.txt";
             if (File.Exists(filePath))
             {
                 string description = File.ReadAllText(filePath);

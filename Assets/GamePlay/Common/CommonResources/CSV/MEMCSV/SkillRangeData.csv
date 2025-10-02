@@ -1,0 +1,9 @@
+﻿스킬 범위 ID,스킬ID,#스킬 이름,스킬 종류,스킬 중심,스킬 중심거리,자기 자리,앞,뒤,위,위앞,위뒤,아래,아래앞,아래뒤,,,,
+index,skillIndex,#,skillType,skillPivot,skillPivotRange,Origin,Forward,Backward,Up,UpForward,UpBackward,Down,DownForward,DownBackward,,,,
+long,long,#,eSkillType,ePivot,int,bool,int,int,bool,int,int,bool,int,int,,,,
+10111001,,#뭉게구름,PhysicalAttack,TARGET_ENEMY,0,FALSE,2,2,FALSE,0,0,FALSE,0,0,,,,
+10121001,,#눈속임,PhysicalAttack,TARGET_SELF,0,TRUE,0,0,FALSE,0,0,FALSE,0,0,,,,
+10131001,,#퍼뜨리기,Debuff,TARGET_ENEMY,1,FALSE,2,2,TRUE,1,1,TRUE,1,1,,,,
+
+
+

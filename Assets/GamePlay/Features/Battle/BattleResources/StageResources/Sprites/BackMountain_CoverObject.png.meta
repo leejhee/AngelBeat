@@ -126,19 +126,19 @@ TextureImporter:
       name: BackMountain_CoverObject_0
       rect:
         serializedVersion: 2
-        x: 458
-        y: 619
-        width: 274
-        height: 177
-      alignment: 9
-      pivot: {x: 0.49777177, y: 0.5129512}
+        x: 161
+        y: 215
+        width: 94
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44549c535cf2ce14db42c186b6a98a37
-      internalID: -156045653
+      spriteID: ed31ef0aa37392348b9b9b9d46124009
+      internalID: -349092352
       vertices: []
       indices: 
       edges: []
@@ -147,14 +147,14 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BackMountain_CoverObject_0: -156045653
+      BackMountain_CoverObject_0: -349092352
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

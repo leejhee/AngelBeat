@@ -99,7 +99,12 @@ namespace DataGenerator
                             {
                                 // 기본 자료형
                                 dataRegister += string.Format(DataFormat.dataRegisterFormat, dataType, dataName, dataDesc) + Environment.NewLine;
-                                dataParse += string.Format(DataFormat.dataParseFomat, columnIndex.ToString(), dataName, toMemberType) + Environment.NewLine;
+                                //dataParse += string.Format(DataFormat.dataParseFomat, columnIndex.ToString(), dataName, toMemberType) + Environment.NewLine;
+                                
+                                if (string.Equals(dataType, "bool", StringComparison.OrdinalIgnoreCase))
+                                    dataParse += string.Format(DataFormat.dataParseBoolFormat, columnIndex.ToString(), dataName) + Environment.NewLine;
+                                else
+                                    dataParse += string.Format(DataFormat.dataParseFomat, columnIndex.ToString(), dataName, toMemberType) + Environment.NewLine;
                             }
                         }
                         else

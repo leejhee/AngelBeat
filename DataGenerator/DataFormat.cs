@@ -28,6 +28,13 @@ if(values[{0}] == """")
 else
     data.{1} = Convert.{2}(values[{0}]);";
 
+        public static string dataParseBoolFormat =
+            @"
+if(values[{0}] == """")
+    data.{1} = default;
+else
+    data.{1} = Convert.ToBoolean(values[{0}].ToLowerInvariant());";
+        
         // {0} : row index
         // {1} : 자료형 이름
         // {2} : 자료형 변환
@@ -73,7 +80,7 @@ namespace Core.Scripts.Data
     {{
 {1}
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
-        public override async UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
+        public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
         {{
             var dataList = new Dictionary<long, SheetData>();
             string ListStr = null;
@@ -98,12 +105,12 @@ namespace Core.Scripts.Data
                     dataList[data.index] = data;
                 }}
 
-                return dataList;
+                return UniTask.FromResult(dataList);
             }}
             catch (Exception e)
             {{
                 Debug.LogError($""{{this.GetType().Name}}의 {{line}} 전후로 데이터 문제 발생: {{e}}"");
-                return new Dictionary<long, SheetData>();
+                return UniTask.FromResult(new Dictionary<long, SheetData>());
             }}
         }}       
        

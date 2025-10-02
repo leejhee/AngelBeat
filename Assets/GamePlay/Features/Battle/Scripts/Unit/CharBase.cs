@@ -35,7 +35,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private CharStat        _charStat;
         private CharAnim        _charAnim = null;
         
-        private ExecutionInfo   _executionInfo;
+        //private ExecutionInfo   _executionInfo;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
 
@@ -107,7 +107,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
         }
         
-        public ExecutionInfo ExecutionInfo => _executionInfo;
+        //public ExecutionInfo ExecutionInfo => _executionInfo;
         public SkillInfo SkillInfo => _skillInfo;
         public KeywordInfo KeywordInfo => _keywordInfo;
         //public PlayerState PlayerState => _currentState;
@@ -128,7 +128,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
                 _skillInfo = new SkillInfo(this);
                 _skillInfo?.Init(_charData.charSkillList);
-                _executionInfo = new();
+                //_executionInfo = new();
                 //_keywordInfo = new(this);
                 _charStat = value.Stat;
                 
@@ -292,8 +292,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             OnCharDead?.Invoke();
             OnUpdate = null;
             CharStat.ClearChangeEvent();
-            
-            Destroy(gameObject);
+                gameObject.SetActive(false);
+           //Destroy(gameObject);
         }
         
         public virtual void CharDestroy()

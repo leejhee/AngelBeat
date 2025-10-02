@@ -24,7 +24,7 @@ public long index; // 키워드 ID
 		public bool iconIsVisible; // 아이콘이 보이는지
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
-        public override async UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
+        public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
         {
             var dataList = new Dictionary<long, SheetData>();
             string ListStr = null;
@@ -78,18 +78,18 @@ public long index; // 키워드 ID
 					if(values[7] == "")
 					    data.iconIsVisible = default;
 					else
-					    data.iconIsVisible = Convert.ToBoolean(values[7]);
+					    data.iconIsVisible = Convert.ToBoolean(values[7].ToLowerInvariant());
 					
 
                     dataList[data.index] = data;
                 }
 
-                return dataList;
+                return UniTask.FromResult(dataList);
             }
             catch (Exception e)
             {
                 Debug.LogError($"{this.GetType().Name}의 {line} 전후로 데이터 문제 발생: {e}");
-                return new Dictionary<long, SheetData>();
+                return UniTask.FromResult(new Dictionary<long, SheetData>());
             }
         }       
        

@@ -15,7 +15,7 @@ namespace GamePlay.Skill
 
         // 가변
         public bool                     IsSkillActive;
-        public int                      SkillRange;
+        public long                      SkillRange;
         public int                      SkillHitRange;
         public Sprite                   Icon;
         public SystemEnum.ePivot        SkillPivot;
@@ -27,11 +27,11 @@ namespace GamePlay.Skill
         {
             _skillData = skillData;
             
-            SkillRange = skillData.skillRange;
+            SkillRange = skillData.skillRangeID;
             SkillPivot = skillData.skillPivot;
             SkillHitRange = skillData.skillPivotRange;
             SkillType = skillData.skillType;
-            DamageCalibration = skillData.damageCalibration;
+            //DamageCalibration = skillData;
             Accuracy = skillData.skillAccuracy;
             CritMultiplier = skillData.skillCritical;
             
