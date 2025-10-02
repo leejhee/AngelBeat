@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedFrame: {fileID: 21300000, guid: adb89a387fb1fb14bbd8283c3e65b670, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: c032df366cca73d4bb81b1b7377eb266, type: 3}
+  actionButton: {fileID: 4360439598842352463}
 --- !u!1 &308374333627825960
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedFrame: {fileID: 21300000, guid: d0b1de84982905a41a73fbf8775c6e86, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: 0ea0ddecc40a6df468cdec36bb025cc1, type: 3}
+  actionButton: {fileID: 7330597243006506272}
 --- !u!1 &1177245264033284150
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,6 +704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedFrame: {fileID: 21300000, guid: 45dc133095fb5834fbe848ca71f6f4db, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: 0ac59b3cdaad0b644a74989c9dc8a3d8, type: 3}
+  actionButton: {fileID: 13637373034519449}
 --- !u!1 &2255768716526657494
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,9 +734,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5186670575737923844}
   - {fileID: 939080733426168252}
   - {fileID: 6063159333537817128}
+  - {fileID: 5186670575737923844}
   - {fileID: 5779572284882338403}
   - {fileID: 3021602467073411245}
   m_Father: {fileID: 0}
@@ -2171,9 +2174,9 @@ MonoBehaviour:
   actionBarFill: {fileID: 7317079356862527363}
   actionText: {fileID: 4284912716877239510}
   actionSlider: {fileID: 9084344797290444260}
-  jumpButton: {fileID: 13637373034519449}
-  pushButton: {fileID: 7330597243006506272}
-  invenButton: {fileID: 4360439598842352463}
+  jumpButton: {fileID: 0}
+  pushButton: {fileID: 0}
+  invenButton: {fileID: 0}
 --- !u!1 &7080088609454815075
 GameObject:
   m_ObjectHideFlags: 0

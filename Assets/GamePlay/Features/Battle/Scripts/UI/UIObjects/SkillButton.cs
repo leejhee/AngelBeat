@@ -12,6 +12,7 @@ namespace AngelBeat
 {
     public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        [SerializeField] private Image frame;
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         [SerializeField] private SkillDescription skillDescription;
@@ -34,8 +35,19 @@ namespace AngelBeat
 
         public void OnClickSkillButton()
         {
-            // 스킬 버튼 누를시 아웃라인 생성
-            
+            SelectSkillButton(true);
+        }
+        
+        public void SelectSkillButton(bool selected)
+        {
+            if (selected)
+            {
+                frame.sprite = selectedFrame;
+            }
+            else
+            {
+                frame.sprite = nonSelectedFrame;
+            }
         }
     }
 }

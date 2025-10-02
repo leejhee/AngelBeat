@@ -32,13 +32,13 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         #endregion
 
         #region ExtraAction
-        [SerializeField] private Button jumpButton;
-        [SerializeField] private Button pushButton;
-        [SerializeField] private Button invenButton;
+        [SerializeField] private ExtraActionButton jumpButton;
+        [SerializeField] private ExtraActionButton pushButton;
+        [SerializeField] private ExtraActionButton invenButton;
         
-        public Button  JumpButton => jumpButton;
-        public Button  PushButton => pushButton;
-        public Button  InvenButton => invenButton;
+        public ExtraActionButton  JumpButton => jumpButton;
+        public ExtraActionButton  PushButton => pushButton;
+        public ExtraActionButton  InvenButton => invenButton;
         
         #endregion
         #endregion

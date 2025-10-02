@@ -1,9 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ExtraActionButton : MonoBehaviour
+namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
-    [SerializeField] private Sprite selectedFrame;
-    [SerializeField] private Sprite nonSelectedFrame;
+    public class ExtraActionButton : MonoBehaviour
+    {
+        [SerializeField] private Sprite selectedFrame;
+        [SerializeField] private Sprite nonSelectedFrame;
+        [SerializeField] private Button actionButton;
+        public Button ActionButton => actionButton;
+
+        public void SelectExtraActionButton(bool isSelected)
+        {
+            if (isSelected)
+            {
+                actionButton.image.sprite = selectedFrame;
+            }
+            else
+            {
+                actionButton.image.sprite = nonSelectedFrame;
+            }
+        }
+
+    }
 }
