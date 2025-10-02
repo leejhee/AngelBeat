@@ -55,6 +55,9 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
 
         [SerializeField] private BattleFieldDB battleFieldDB;
+
+        [SerializeField] private SystemEnum.Dungeon DebugDungeon;
+        
         private IBattleStageSource _stageSource;
         private IMapLoader _mapLoader;
         
@@ -88,7 +91,6 @@ namespace GamePlay.Features.Battle.Scripts
             await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             await BattleInitialize();
             
-
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>

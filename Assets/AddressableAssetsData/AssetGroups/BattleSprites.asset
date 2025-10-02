@@ -37,6 +37,31 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1adb5ba404a108149892cc5f67e8fb06
+    m_Address: Yeon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3190e8dea7abe9e42b60f41b8e0bbd2a
+    m_Address: LDGaon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3736d8b92891a51469f7c56e8be72130
+    m_Address: Gaon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a224a1db72e38fc4988e8d850e5a49be
+    m_Address: LDSeol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce7aab3dfd7f2984b89fabf8037171b6
+    m_Address: Seol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:
