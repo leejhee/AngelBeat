@@ -3,8 +3,6 @@ using Core.Attributes;
 using Core.Scripts.Foundation.Define;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle;
-using GamePlay.Features.Scripts.Battle.Unit;
 using System.Collections.Generic;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
