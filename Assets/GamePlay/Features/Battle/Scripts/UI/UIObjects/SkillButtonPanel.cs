@@ -15,29 +15,6 @@ namespace AngelBeat
     {
         [SerializeField] private List<SkillButton> skillButtons;
         public List<SkillButton> SkillButtons => skillButtons;
-        public void SetSkillButtons(IReadOnlyList<SkillModel> skillList)
-        {
-            int skillCount = skillList.Count;
-            for (int i = 0; i < skillButtons.Count; i++)
-            {
-                bool isSkill = i < skillCount;
-                skillButtons[i].gameObject.SetActive(isSkill);
-                if (isSkill)
-                {
-                    int idx = i;
-                    SkillButton button = skillButtons[idx];
-                    button.SetButton(skillList[idx]);
-                    
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(() =>
-                    {
-                        BattleController.Instance.ShowSkillPreview(skillList[idx]);
-                        Debug.Log($"Skill {skillList[idx].SkillName} Selected");
-                    });
-                    
-                }
-            }
-        }
     } 
 }
 

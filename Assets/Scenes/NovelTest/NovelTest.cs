@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-
+using Cysharp.Threading.Tasks;
+using UIs.Runtime;
 
 public class NovelTest : MonoBehaviour
 {
@@ -16,10 +17,14 @@ public class NovelTest : MonoBehaviour
         button.onClick.AddListener(OnButtonClick);
 
 
+
     }
     private void OnButtonClick()
     {
+        
         button.gameObject.SetActive(false);
         NovelManager.Instance.PlayScript("test");
     }
+
+
 }

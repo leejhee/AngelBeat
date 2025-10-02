@@ -48,10 +48,15 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e655065696571044288b085ba2544c29
-    m_Address: CharacterPortrait
+    m_Address: TurnPortrait
     m_ReadOnly: 0
     m_SerializedLabels:
     - BattleObject
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d900f8b4784cd042a7570b41af024c1
+    m_Address: BattleSceneView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}

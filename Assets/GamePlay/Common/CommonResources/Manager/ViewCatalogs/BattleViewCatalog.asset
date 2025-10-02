@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5768bfa0bf724484fb112afa321b63e5, type: 3}
   m_Name: BattleViewCatalog
   m_EditorClassIdentifier: 
-  viewTable: []
+  viewTable:
+  - viewID: 6
+    viewReference:
+      m_AssetGUID: 7d900f8b4784cd042a7570b41af024c1
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   presenterFactory: {fileID: 11400000, guid: 4fc7d8ea5420b5b4baddd84f19b06d3d, type: 2}
