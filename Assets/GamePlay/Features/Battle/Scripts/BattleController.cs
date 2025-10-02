@@ -1,5 +1,6 @@
 using Character;
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.BattleMap;
@@ -9,6 +10,7 @@ using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
+using UIs.Runtime;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
@@ -40,6 +42,8 @@ namespace GamePlay.Features.Battle.Scripts
                 Instance = this;
             else
                 Destroy(gameObject);
+
+            GameManager.Instance.GameState = SystemEnum.GameState.Battle;
         }
         #endregion
         
@@ -82,8 +86,10 @@ namespace GamePlay.Features.Battle.Scripts
                 _stageSource = new BattlePayloadSource();
             }
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
-            
+            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             await BattleInitialize();
+            
+
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>

@@ -17,7 +17,7 @@ TagManager:
   - Character
   - Snapshot Target
   - Ignore Collision
-  - 
+  - HoverUI
   - 
   - 
   - 
@@ -40,4 +40,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: HoveLayer
+    uniqueID: 2393706855
     locked: 0

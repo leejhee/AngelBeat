@@ -114,7 +114,6 @@ namespace UIs.Runtime
         private async UniTask EnsureRoot(CancellationToken token)
         {
             if (_uiRoot) return;
-            Debug.Log("엄");
 
             var go = await ResourceManager.Instance.InstantiateAsync(rootPrefabReference, null, false, token);
             _uiRoot = go.transform;
@@ -132,6 +131,7 @@ namespace UIs.Runtime
             Canvas c = g.AddComponent<Canvas>();
             c.overrideSorting = true; c.sortingOrder = order;
             g.AddComponent<GraphicRaycaster>();
+            c.renderMode = RenderMode.ScreenSpaceOverlay;
             return g.transform;
         }
 

@@ -1,15 +1,31 @@
+using GamePlay.Skill;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 {
-    public class CharacterInfoPopupSkill : MonoBehaviour
+    public class CharacterInfoPopupSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image skillImage;
-
-        public void SetSkillImage(Sprite sprite)
+        [SerializeField] private SkillDescription skillDescription;
+        
+        
+        public void SetSkillImage(SkillModel model)
         {
-            skillImage.sprite = sprite;
+            skillImage.sprite = model.Icon;
+            skillDescription.SetSkillDescription(model);
+            // 스킬 설명 추가
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            skillDescription.gameObject.SetActive(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            skillDescription.gameObject.SetActive(false);
         }
     }
 }

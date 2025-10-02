@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using GamePlay.Features.Battle.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIs.Runtime;
@@ -6,7 +8,13 @@ using UnityEngine;
 
 public class ViewTest : MonoBehaviour
 {
+    
     // Start is called before the first frame update
+    private void Awake()
+    {
+        
+    }
+
     void Start()
     {
         ShowBattleView().Forget();

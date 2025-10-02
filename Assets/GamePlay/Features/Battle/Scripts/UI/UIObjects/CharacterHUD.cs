@@ -12,12 +12,14 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
     public class CharacterHUD : MonoBehaviour
     {
         #region Objects
-        [SerializeField] private Button characterPortraitButton;
+        //[SerializeField] private Button characterPortraitButton;
         [SerializeField] private Image characterPortraitImage;
         [SerializeField] private TMP_Text characterName;
         [SerializeField] private SkillButtonPanel skillPanel;
-        
-        public Button CharacterPortraitButton => characterPortraitButton;
+        [SerializeField] private CharacterPortrait characterPortrait;
+
+        public CharacterPortrait CharacterPortrait => characterPortrait;
+        //public Button CharacterPortraitButton => characterPortraitButton;
         public SkillButtonPanel SkillPanel => skillPanel;
         
         #region Bar

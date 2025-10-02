@@ -98,10 +98,9 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickMenuButton
             );
             // 캐릭터 초상화 꾹 누르기
-            // TODO: 나중에 꾹 누르기로 바꾸기 일단은 한번 클릭으로 설정
             ViewEvents.Subscribe(
-                act => View.CharacterHUD.CharacterPortraitButton.onClick.AddListener(new UnityAction(act)),
-                act => View.CharacterHUD.CharacterPortraitButton.onClick.RemoveAllListeners(),
+                act => View.CharacterHUD.CharacterPortrait.CharacterInfoPopup += act,
+                act => View.CharacterHUD.CharacterPortrait.CharacterInfoPopup -= act,
                 OnClickPortraitButton
             );
 
@@ -120,7 +119,15 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => View.CharacterHUD.InvenButton.onClick.RemoveAllListeners(),
                 OnClickInvenButton
                 );
-            
+            foreach (var skill in View.CharacterHUD.SkillPanel.SkillButtons)
+            {
+                Button skillButton = skill.GetComponent<Button>();
+                ViewEvents.Subscribe(
+                    act => skillButton.onClick.AddListener(new UnityAction(act)),
+                    act => skillButton.onClick.RemoveAllListeners(),
+                    skill.OnClickSkillButton
+                );
+            }
 
             #endregion
             return UniTask.CompletedTask;
@@ -212,9 +219,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 Button curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<Button>();
                 curSkillButton.onClick.RemoveAllListeners();
                 
+                
                 ViewEvents.Subscribe<SkillModel>(
-                    act => curSkillButton.GetComponent<Button>().onClick.AddListener(new UnityAction(() => act(model.Skills[idx]))),
-                    act=> curSkillButton.GetComponent<Button>().onClick.RemoveAllListeners(),
+                    act => curSkillButton.onClick.AddListener(new UnityAction(() => act(model.Skills[idx]))),
+                    act=> curSkillButton.onClick.RemoveAllListeners(),
                     skill => BattleController.Instance.ShowSkillPreview(skill)
                 );
             }

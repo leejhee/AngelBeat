@@ -55,7 +55,7 @@ MonoBehaviour:
     catalog: {fileID: 11400000, guid: fd8e54080da944b44bf69b2e0949fada, type: 2}
   cacheCapacity: 5
   rootPrefabReference:
-    m_AssetGUID: 
+    m_AssetGUID: 966bcd43b4ffd3f4386ded17a200626b
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
