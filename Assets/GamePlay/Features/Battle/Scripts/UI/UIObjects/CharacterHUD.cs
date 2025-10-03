@@ -125,10 +125,10 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             
             // 현재 체력
             hpText.text = 
-                $"{curAp}/{maxHp}";
+                $"{curHp}/{maxHp}";
             //체력바 슬라이더 설정
             hpSlider.maxValue = maxHp;
-            hpSlider.value = curAp;
+            hpSlider.value = curHp;
             
             // 현재 액션포인트
             actionText.text = 

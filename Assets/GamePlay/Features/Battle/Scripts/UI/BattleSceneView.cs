@@ -246,6 +246,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             long curAp = model.Stat.GetStat(SystemEnum.eStats.NACTION_POINT);
             long maxAp = model.Stat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             
+
             
             
             // HUD 패널 오픈
