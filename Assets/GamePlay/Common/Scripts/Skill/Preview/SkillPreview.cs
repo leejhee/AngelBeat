@@ -103,17 +103,13 @@ namespace GamePlay.Features.Scripts.Skill.Preview
                             }
                         }
                         #region 스킬 사용부
-                        if (_previewFocus.CharStat.UseActionPoint())
-                        {
-                            _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
+                        _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
                                 new SkillParameter(
                                     _previewFocus, 
-                                    targets
-                                    //_previewSkill.SkillType,
-                                    //_previewSkill.Accuracy, 
-                                    /*_previewSkill.CritMultiplier*/));
+                                    targets,
+                                    _previewSkill));
                             Debug.Log($"Skill Used : {_previewSkill.SkillName}");
-                        }
+                        
                         gameObject.SetActive(false);
                         #endregion
                     }

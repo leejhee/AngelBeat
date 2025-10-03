@@ -4,11 +4,14 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Scripts.Keyword;
+using GamePlay.Features.Scripts.Skill;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
 
@@ -39,6 +42,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private CharAnim        _charAnim;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
+
+        private List<SkillBase> _skills = new();
         
         private bool _isAction = false;    // 행동중인가? 판별
         protected long _uid;
@@ -120,7 +125,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     return;
                 }
             
-                _skillInfo = new SkillInfo(this);
+                //_skillInfo = new SkillInfo(this);
                 //_skillInfo?.Init(_charData.charSkillList);
                 //_executionInfo = new();
                 _keywordInfo = new(this);
@@ -167,15 +172,28 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
         }
 
-        public virtual void CharInit(CharacterModel charModel)
+        public virtual async UniTask CharInit(CharacterModel charModel)
         {
             _charInfo = charModel; //모델
             _charStat = charModel.Stat; // 스탯 복사
             
             //스킬 초기화
-            //var skillModels = 
+            var skillModels = charModel.Skills;
+            foreach (var model in skillModels)
+            {
+                var skillBase = await SkillFactory.CreateSkill(model);
+                skillBase.SetCharBase(this);
+                skillBase.transform.SetParent(_SkillRoot.transform);
+                _skills.Add(skillBase);
+                
+            }
         }
         #endregion
+
+        public void PlaySkill(int i, SkillParameter param)
+        {
+            _skills[i].SkillPlay(param);
+        }
         
         
         

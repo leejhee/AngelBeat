@@ -118,6 +118,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3461385620420172154}
+  - {fileID: 3816205916301902550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1981804264776526793
@@ -133,12 +134,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _index: 0
-  _SkillRoot: {fileID: 0}
-  _Animator: {fileID: 0}
-  _battleCollider: {fileID: 0}
+  _SkillRoot: {fileID: 5772427888404262633}
+  _Animator: {fileID: 7812219678058373009}
+  _battleCollider: {fileID: 7717259853931674838}
   _CharCameraPos: {fileID: 0}
   _charSnapShot: {fileID: 0}
-  _rigid: {fileID: 0}
+  _rigid: {fileID: 2027328795377672482}
   moveSpeed: 5
   _characterSprite: {fileID: 0}
   UnitName: 
@@ -235,3 +236,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 5}
   m_EdgeRadius: 0
+--- !u!1 &5772427888404262633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3816205916301902550}
+  m_Layer: 0
+  m_Name: SkillRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3816205916301902550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5772427888404262633}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.65, y: -0.19000006, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4019867881592677849}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -17,7 +17,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         public readonly long executionIndex;
         public readonly int critCalibration;
         public readonly int skillAccuracy;
-        
+        public readonly string prefabName;
         
         public SkillRangeData           skillRange;
         public SkillDamageData          skillDamage;
@@ -32,7 +32,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             skillType = skillData.skillType;
             //pivot = skillData.skillPivot;
 
-            icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
+            //icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
             executionIndex  = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;
@@ -40,6 +40,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             skillRange = DataManager.Instance.GetData<SkillRangeData>(skillData.skillRangeID);
             skillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
             unlock = skillData.unlockCondition;
+            prefabName = skillData.skillTimeLine;
         }
 
         public SkillModel(DokkaebiSkillData skillData)
@@ -59,6 +60,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             skillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
             unlock = SystemEnum.eSkillUnlock.None;
             locked = false;
+            prefabName = skillData.skillTimeLine;
         }
         
     }

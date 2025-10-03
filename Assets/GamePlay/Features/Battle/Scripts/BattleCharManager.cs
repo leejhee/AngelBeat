@@ -138,7 +138,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
             CharBase charBase = go.GetComponent<CharBase>();
             charBase.transform.position = param.GeneratePos;
-            charBase.CharInit(param.model);
+            await charBase.CharInit(param.model);
             return charBase;
         }
         

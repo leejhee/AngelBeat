@@ -1,5 +1,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Utils;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Skill;
 using GamePlay.Skill;

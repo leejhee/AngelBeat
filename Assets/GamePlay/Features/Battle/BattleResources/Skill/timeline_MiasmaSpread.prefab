@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6680750655515163047}
   - component: {fileID: 9046148588927248092}
   m_Layer: 0
-  m_Name: Yeon_MiazmaSpread
+  m_Name: timeline_MiasmaSpread
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

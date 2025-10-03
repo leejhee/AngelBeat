@@ -1,5 +1,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
@@ -94,7 +95,8 @@ namespace GamePlay.Features.Battle.Scripts
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
             await BattleInitialize();
             await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
-
+            
+            _turnManager.ChangeTurn();
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
@@ -119,7 +121,6 @@ namespace GamePlay.Features.Battle.Scripts
             
             // 턴 관리기 초기화
             _turnManager = new TurnController(battleMembers); 
-            _turnManager.ChangeTurn();
             
             // 전투 공통 이벤트 처리
             BindBattleEvent();
@@ -230,7 +231,7 @@ namespace GamePlay.Features.Battle.Scripts
 			// 캐릭터 모델 갱신
             
             // 탐사로 비동기 로딩. 
-            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
         }
         
     }

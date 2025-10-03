@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2185201316311343309}
   - component: {fileID: 7078553528338530975}
   m_Layer: 0
-  m_Name: Yeon_PhantomReprisal
+  m_Name: timeline_PhantomReprisal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -77,26 +77,30 @@ public partial class DataManager : SingletonObject<DataManager>
 
     private async UniTask SetTypeData(string typeName)
     {
-        if (typeof(KeywordData).ToString().Contains(typeName))
+        switch (typeName)
         {
-            SetKeywordDataMap();
-            return;
+            case nameof(KeywordData): 
+                SetKeywordDataMap(); 
+                return;
+            case nameof(DokkaebiData):
+                await InitCharacterSpriteMapWithYeon();
+                return;
+            case nameof(CompanionData):
+                await SetCharacterSpriteMap(); 
+                return;
+            case nameof(DokkaebiSkillData):
+                await SetDokkaebiSkillIconSpriteMap();
+                return;
+            case nameof(SkillData):
+                SetCharacterSkillMap();
+                //await SetNormalSkillIconSpriteMap();
+                return;
+            case nameof(SkillRangeData):
+                SetSkillRangeMap();
+                return;
         }
-        if (typeof(DokkaebiSkillData).ToString().Contains(typeName))
-        {
-            await InitCharacterSpriteMapWithYeon();
-            return;
-        }
-        if (typeof(CompanionData).ToString().Contains(typeName))
-        {
-            await SetCharacterSpriteMap();
-            return;
-        }
-        if (typeof(DokkaebiSkillData).ToString().Contains(typeName))
-        {
-            await SetSkillIconSpriteMap();
-            return;
-        }
+        
+        
     }
 
     public T GetData<T>(long Index) where T : SheetData

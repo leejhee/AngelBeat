@@ -106,7 +106,7 @@ namespace Core.Scripts.Managers
             }
         }
         
-        public async UniTask SetSkillIconSpriteMap()
+        public async UniTask SetDokkaebiSkillIconSpriteMap()
         {
             string key = nameof(DokkaebiSkillData);
             if (_cache.ContainsKey(key) == false)
@@ -118,14 +118,61 @@ namespace Core.Scripts.Managers
                 return;
             }
             
-            foreach (var _skillData in skillDict.Values)
+            foreach (SheetData _skillData in skillDict.Values)
             {
                 if (_skillData is not DokkaebiSkillData doskill) continue;
                 Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(doskill.skillIconImage);
-                characterIconSpriteMap.TryAdd(doskill.skillIconImage, iconTarget);
+                skillIconSpriteMap.TryAdd(doskill.skillIconImage, iconTarget);
             }
         }
-
+        
+        public async UniTask SetNormalSkillIconSpriteMap()
+        {
+            string key = nameof(SkillData);
+            if (_cache.ContainsKey(key) == false)
+                return;
+            Dictionary<long, SheetData> skillDict = _cache[key];
+            if (skillDict == null)
+            {
+                Debug.LogError($"Map not included in parsing : {key}");
+                return;
+            }
+            
+            foreach (SheetData _skillData in skillDict.Values)
+            {
+                if (_skillData is not SkillData skill) continue;
+                Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(skill.skillIconImage);
+                skillIconSpriteMap.TryAdd(skill.skillIconImage, iconTarget);
+            }
+        }
+        
+        public void SetCharacterSkillMap()
+        {
+            string key = nameof(SkillData);
+            if (_cache.ContainsKey(key) == false)
+                return;
+            Dictionary<long, SheetData> skillDict = _cache[key];
+            
+            if (skillDict == null)
+            {
+                Debug.LogError($"Map not included in parsing : {key}");
+                return;
+            }
+            
+            foreach (var _skillData in skillDict.Values)
+            {
+                if (_skillData is not SkillData skill) continue;
+                if (!characterSkillMap.ContainsKey(skill.characterID))
+                {
+                    CharacterSkillMap.Add(skill.characterID, new List<SkillData>{ skill });
+                }
+                else
+                {
+                    CharacterSkillMap[skill.characterID].Add(skill);
+                }
+            }
+        }
+        
         public void SetSkillRangeMap()
         {
             string key = nameof(SkillRangeData);

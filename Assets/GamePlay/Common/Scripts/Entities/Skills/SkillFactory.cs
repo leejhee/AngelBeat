@@ -1,9 +1,10 @@
-using AngelBeat;
 using Core.Scripts.Data;
+using Core.Scripts.Managers;
+using Cysharp.Threading.Tasks;
 using GamePlay.Features.Scripts.Skill;
 using UnityEngine;
 
-namespace GamePlay.Skill
+namespace GamePlay.Common.Scripts.Entities.Skills
 {
     public static class SkillFactory
     {
@@ -14,6 +15,15 @@ namespace GamePlay.Skill
             skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillName}");
             return skillBase;
         }
+
+        public static async UniTask<SkillBase> CreateSkill(SkillModel model)
+        {
+            GameObject go = await ResourceManager.Instance.InstantiateAsync(model.prefabName);
+            SkillBase skillBase = go.GetComponent<SkillBase>();
+            skillBase.Init(model);
+            return skillBase;
+        } 
+        
         public static SkillBase CreateSkill(long skillIndex)
         {
             SkillBase skillBase = null;
@@ -26,7 +36,7 @@ namespace GamePlay.Skill
             }
 
             skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
-            skillBase.Init(_skillData);
+            skillBase.Init(new SkillModel(_skillData));
 
             return skillBase;
         }
@@ -40,7 +50,7 @@ namespace GamePlay.Skill
                 return null;
             }
             SkillBase skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillData.skillTimeLine}");
-            skillBase.Init(skillData);
+            skillBase.Init(new SkillModel(skillData));
             return skillBase;
         }
     }

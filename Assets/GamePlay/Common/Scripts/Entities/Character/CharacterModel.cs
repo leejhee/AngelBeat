@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
 
-
-
 namespace GamePlay.Common.Scripts.Entities.Character
 {
     /// <summary> 파티에는 이 정보가 저장됩니다. </summary>
@@ -56,7 +54,8 @@ namespace GamePlay.Common.Scripts.Entities.Character
             }
             _stat = new CharStat(statData);
 
-            //스킬
+            //스킬 - 동료 나중
+            
         }
 
         public CharacterModel(MonsterData monster)
@@ -76,7 +75,10 @@ namespace GamePlay.Common.Scripts.Entities.Character
                 return;
             }
             _stat = new CharStat(statData);
-            //스킬
+
+            var skills = DataManager.Instance.CharacterSkillMap[index];
+            foreach(var sk in skills)
+                _skillModels.Add(new SkillModel(sk));
         }
         
         /// <summary>
@@ -95,6 +97,11 @@ namespace GamePlay.Common.Scripts.Entities.Character
             _stat = new CharStat(dok);
             
             //스킬
+            var dokSkills = DataManager.Instance.GetDataList<DokkaebiSkillData>();
+            foreach (var doSkill in dokSkills)
+            {
+                _skillModels.Add(new SkillModel(doSkill as DokkaebiSkillData));
+            }
         }
         
         // 기존의 데이터로 등록

@@ -1,5 +1,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
 using System.Collections.Generic;
@@ -12,35 +13,27 @@ namespace GamePlay.Features.Scripts.Skill
     {
         public CharBase Caster;
         public List<CharBase> Target;
+        public SkillModel model;
         public readonly SystemEnum.eSkillType SkillType;
         public readonly float Accuracy;              
         public readonly float CritMultiplier;
-
-        /// <param name="caster">시전자</param>
-        /// <param name="target">타겟 캐릭터</param>
-        /// <param name="skillType">스킬 타입</param>
-        /// <param name="accuracy">스킬 명중률</param>
-        /// <param name="critMultiplier">스킬 치명타율</param>
+        
         public SkillParameter(
             CharBase caster, 
-            List<CharBase> target
-            //SystemEnum.eSkillType skillType,
-            //float accuracy = 100,
-            //float critMultiplier = 1
+            List<CharBase> target,
+            SkillModel model
             )
         {
             Caster = caster;
             Target = target;
-            //SkillType = skillType;
-            //Accuracy = accuracy;
-            //CritMultiplier = critMultiplier;
+            model = model;
         }
     }
     
     [RequireComponent(typeof(SkillMarkerReceiver))]
     public class SkillBase : MonoBehaviour
     {
-        private SkillData _skillData;
+        private SkillModel _model;
         private PlayableDirector _director;
         public CharBase CharPlayer { get; private set; }
         public SkillParameter SkillParameter;
@@ -57,9 +50,9 @@ namespace GamePlay.Features.Scripts.Skill
             CharPlayer = charBase;
         }
 
-        public void Init(SkillData skillData)
+        public void Init(SkillModel skillModel)
         {
-            _skillData = skillData;
+            _model = skillModel;
         }
 
         public void SkillPlay(SkillParameter param)
