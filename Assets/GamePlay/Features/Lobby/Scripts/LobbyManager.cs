@@ -56,8 +56,11 @@ namespace GamePlay.Features.Lobby.Scripts
         {
             
         }
-        
-        
+
+        public void NewGameStart()
+        {
+            
+        }
         
     }
 }

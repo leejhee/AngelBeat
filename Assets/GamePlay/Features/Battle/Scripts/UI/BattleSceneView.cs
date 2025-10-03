@@ -87,10 +87,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => BattleController.Instance.TurnController.OnRoundEnd -= act,
                 OnRoundEnd
                 );
-
-            // ModelEvents.Subscribe(
-            //     act => BattleCharManager.Instance.
-            //     );
             #endregion
 
             #region View Events

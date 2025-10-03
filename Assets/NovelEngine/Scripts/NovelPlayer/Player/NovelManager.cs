@@ -7,7 +7,19 @@ using Cysharp.Threading.Tasks;
 
 public class NovelManager : MonoBehaviour
 {
-    public static NovelManager Instance { get; private set; }
+    public static NovelManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                Init();
+            }
+            return instance;
+        }
+        private set =>  instance = value;
+    }
+    private static NovelManager instance;
     public static NovelResources Data { get; private set; } = new NovelResources();
 
     public NovelAudioManager Audio { get; private set; } = new();
@@ -23,9 +35,9 @@ public class NovelManager : MonoBehaviour
     UniTask _initialization = UniTask.CompletedTask;
     bool _initStarted;
 
-    public static void Init()
+    public static async void Init()
     {
-        if (Instance == null)
+        if (instance == null)
         {
             // NovelManager가 이미 씬에 존재하는지 확인
             var existing = FindObjectOfType<NovelManager>();
@@ -34,8 +46,21 @@ public class NovelManager : MonoBehaviour
         }
 
         // 메인 스레드에서 초기화 해야함
-        Instance.InitializeIfNeededAsync().Forget();
+        await Instance.InitializeIfNeededAsync();
 
+    }
+
+    public static async UniTask<NovelManager> InitAsync()
+    {
+        if (instance == null)
+        {
+            // NovelManager가 이미 씬에 존재하는지 확인
+            var existing = FindObjectOfType<NovelManager>();
+            // 있으면 그걸 사용, 없으면 새로 생성
+            Instance = existing ?? new GameObject("@Novel").AddComponent<NovelManager>();
+        }
+        await Instance.InitializeIfNeededAsync();
+        return Instance;
     }
     void Awake()
     {
@@ -61,7 +86,7 @@ public class NovelManager : MonoBehaviour
 
         // 초기화 시작
         _initStarted = true;
-        _initialization = InitializeAsync();
+          _initialization = InitializeAsync();
 
         return _initialization;
     }
@@ -94,12 +119,18 @@ public class NovelManager : MonoBehaviour
         Instance = null;
         if (go != null) Destroy(go);
 
-
-        // 이거 뭔지 공부할것
+        
         await UniTask.Yield();
     }
+
     public async void PlayScript(string scriptTitle)
     {
+        (await NovelManager.InitAsync()).PlayScriptAsync(scriptTitle);
+    }
+    private async void PlayScriptAsync(string scriptTitle)
+    {
+        await Initialization;
+        
         if (!isReady)
         {
             Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
