@@ -98,18 +98,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1852dc648fa94d5b9a7061978ba39c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 0}
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  outlineSize: 1.5
-  outlineSortingOffset: 1
   probeSize: {x: 0.9, y: 0.9}
   autoProbeFromScale: 1
   preferPhysicsOverlap: 1
   characterMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   outlineEvenIfBlocked: 1
-  debugLog: 0
+  hoverSrChildName: SR
+  outlineMaterialOverride: {fileID: 2100000, guid: 857a28624daa3a248a3991d6fca07449, type: 2}
+  outlineColorProp: _OutlineColor
+  outlineSizeProp: _OutlineSize
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineSize: 1.5
+  outlineSortingOffset: 1
+  followBaseSpriteWhileHover: 1
   hoverBrightnessMul: 0.9
   hoverAlphaAdd: 0.05
   clickCastsSkill: 0
@@ -142,7 +145,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

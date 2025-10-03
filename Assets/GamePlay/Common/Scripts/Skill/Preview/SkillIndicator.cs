@@ -3,25 +3,25 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-// === 프로젝트 네임스페이스 (필요시 네 프로젝트에 맞게 수정) ===
+// === 프로젝트 네임스페이스(필요시 수정) ===
 using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills; // SystemEnum.ePivot
 using GamePlay.Features.Battle.Scripts;               // BattleController
 using GamePlay.Features.Battle.Scripts.Unit;          // CharBase
-using GamePlay.Common.Scripts.Skill;                  // SkillModel, SkillParameter (있는 경우)
+using GamePlay.Common.Scripts.Skill;                  // SkillModel, SkillParameter
 
 namespace GamePlay.Common.Scripts.Skill.Preview
 {
     /// <summary>
-    /// - 셀(Indicator) 위에 커서가 올라가기만 하면, 셀 영역 안의 '유효 타겟' 캐릭터에 아웃라인을 입혀 강조한다.
-    /// - 포인터를 빼면 아웃라인 해제.
-    /// - 클릭 시 실제 시전은 옵션(clickCastsSkill)로 둠. (기본 꺼짐 = 호버 전용)
-    /// - 캐릭터에 Collider2D가 없어도 SpriteRenderer.bounds로 폴백 탐색한다.
-    /// - 아웃라인은 캐릭터의 자식으로 'OutlineOverlay' SpriteRenderer를 만들어 그린다(머티리얼 스왑 X).
-    /// 사용 준비물:
-    ///   1) 메인 카메라: Physics2DRaycaster, 씬에 EventSystem(InputSystemUIInputModule)
-    ///   2) Indicator 프리팹: SpriteRenderer + Collider2D(isTrigger OK) + 본 스크립트
-    ///   3) 캐릭터: CharBase + 자식에 SpriteRenderer(아웃라인 표시 대상)
+    /// - 셀 위에 커서가 올라가기만 하면, 셀 영역 안의 '유효 타겟' 캐릭터의 hoverSR(오버레이 SR)을 켜서 외곽선 표시
+    /// - 포인터가 빠지면 외곽선 끔
+    /// - 캐릭터에 Collider 없어도 Renderer.bounds로 폴백 탐색
+    /// - hoverSR은 미리 붙어있고(Material=Outline, Sprite=None)라고 가정
+    /// - 클릭 시 실제 시전은 옵션(clickCastsSkill)
+    /// 준비물:
+    ///   1) 카메라: Physics2DRaycaster + EventSystem(InputSystemUIInputModule)
+    ///   2) Indicator 프리팹: SpriteRenderer + Collider2D(isTrigger 권장) + 본 스크립트
+    ///   3) 캐릭터: CharBase + UnitRoot(기본 SR) + 그 자식에 hoverSR(Outline 머티, Sprite=None)
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D))]
@@ -29,61 +29,60 @@ namespace GamePlay.Common.Scripts.Skill.Preview
     public sealed class SkillIndicator : MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler
     {
-        // ---------------- Outline Overlay ----------------
-        [Header("Outline (Overlay Renderer)")]
-        [Tooltip("외곽선에 사용할 머티리얼 (SpriteOutline.shader 등)")]
-        [SerializeField] private Material outlineMaterial;
-        [Tooltip("아웃라인 색 (셰이더에 _OutlineColor가 있을 때 적용)")]
-        [SerializeField] private Color outlineColor = Color.yellow;
-        [Tooltip("아웃라인 두께 (셰이더에 _OutlineSize가 있을 때 적용)")]
-        [SerializeField] private float outlineSize = 1.5f;
-        [Tooltip("본체 SpriteRenderer보다 몇 단계 위에 그릴지(+면 앞)")]
-        [SerializeField] private int outlineSortingOffset = +1;
-
-        // ---------------- Detect Targets ----------------
+        // ---------------- Target Detection ----------------
         [Header("Target Detection")]
-        [Tooltip("셀 영역 탐색 크기(월드 유닛). autoProbeFromScale= true면 무시되고 자동으로 설정됨")]
-        [SerializeField] private Vector2 probeSize = new(0.9f, 0.9f);
-        [Tooltip("프리팹/셀 스케일로부터 probeSize 자동 계산")]
+        [Tooltip("셀 영역 탐색 크기(월드). autoProbeFromScale=true면 자동 계산")]
+        [SerializeField] private Vector2 probeSize = new(0.98f, 0.98f);
         [SerializeField] private bool autoProbeFromScale = true;
-        [Tooltip("Collider 기반 물리 탐색을 우선 사용")]
+        [Tooltip("콜라이더 기반 오버랩 먼저 시도, 실패시 렌더러 바운즈 폴백")]
         [SerializeField] private bool preferPhysicsOverlap = true;
-        [Tooltip("캐릭터 탐색 레이어(비워두면 전 레이어)")]
+        [Tooltip("캐릭터 탐색 레이어(비우면 전 레이어)")]
         [SerializeField] private LayerMask characterMask = 0;
-        [Tooltip("막힌 셀이라도 호버하면 아웃라인은 보여줄지")]
+        [Tooltip("막힌 셀이어도 '보여주기용'으로 외곽선 노출할지")]
         [SerializeField] private bool outlineEvenIfBlocked = true;
-        [Tooltip("디버그 로그")]
-        [SerializeField] private bool debugLog = false;
+
+        // ---------------- Overlay(hOver SR) ----------------
+        [Header("Existing Overlay (hoverSR)")]
+        [Tooltip("UnitRoot 하위에서 hoverSR을 찾을 때 우선 사용할 이름(없어도 됨)")]
+        [SerializeField] private string hoverSrChildName = "hoverSR";
+        [Tooltip("hoverSR의 머티리얼(아웃라인). null이면 현재 할당된 걸 그대로 사용")]
+        [SerializeField] private Material outlineMaterialOverride;
+        [Tooltip("Outline 셰이더 파라미터명")]
+        [SerializeField] private string outlineColorProp = "_OutlineColor";
+        [SerializeField] private string outlineSizeProp  = "_OutlineSize";
+        [SerializeField] private Color  outlineColor     = Color.yellow;
+        [SerializeField] private float  outlineSize      = 1.5f;
+        [Tooltip("기본 SR보다 몇 단계 위/아래에 그릴지")]
+        [SerializeField] private int outlineSortingOffset = +1;
+        [Tooltip("애니메이션 스프라이트를 따라가도록 호버 중 매 프레임 동기화")]
+        [SerializeField] private bool followBaseSpriteWhileHover = true;
 
         // ---------------- Hover Tint ----------------
-        [Header("Hover Tint (Indicator 자체색 보정)")]
-        [Tooltip("호버 시 밝기 배율(1 보다 작으면 진해짐)")]
+        [Header("Hover Tint (Indicator cell tint)")]
         [SerializeField] private float hoverBrightnessMul = 0.90f;
-        [Tooltip("호버 시 알파 추가량")]
-        [SerializeField] private float hoverAlphaAdd = 0.05f;
+        [SerializeField] private float hoverAlphaAdd      = 0.05f;
 
-        // ---------------- Optional Cast ----------------
+        // ---------------- Cast (Optional) ----------------
         [Header("Cast (Optional)")]
-        [Tooltip("클릭 시 실제 스킬 시전할지 여부 (기본:false)")]
         [SerializeField] private bool clickCastsSkill = false;
 
-        // --------------- Runtime Injection ---------------
-        private CharBase _caster;
-        private SkillModel _skill;
-        private bool _isBlocked;
+        // ---------------- Runtime Injection ----------------
+        private CharBase     _caster;
+        private SkillModel   _skill;
+        private bool         _isBlocked;
         private SystemEnum.ePivot _pivotType = SystemEnum.ePivot.TARGET_ENEMY;
-        private int _pointerRange = 0; // 0=단일
+        private int          _pointerRange = 0; // 0=단일
 
-        // --------------- State ---------------
-        private CharBase _hoverTarget;
-        private SpriteRenderer _hoverSR;        // 대상 캐릭터의 SR
-        private SpriteRenderer _outlineOverlay; // 외곽선 전용 SR
-        private SpriteRenderer _cellSR;         // 내 칸 SR
-        private Color _baseColor;
-        private bool _hovered;
+        // ---------------- State ----------------
+        private CharBase       _hoverTarget;
+        private SpriteRenderer _baseSR;        // UnitRoot의 기본 SR
+        private SpriteRenderer _hoverSR;       // UnitRoot의 자식 hoverSR(오버레이 SR)
+        private SpriteRenderer _cellSR;        // 인디케이터 칸 SR
+        private Color          _baseCellColor;
+        private bool           _hovered;
+        private Sprite         _lastBaseSprite; // 동기화용 캐시
 
-        // ---------------- Public API ----------------
-        /// <summary>BattleController에서 instantiate 직후 호출</summary>
+        // ---------------- API ----------------
         public void Init(CharBase caster, SkillModel skill, bool isBlocked,
                          SystemEnum.ePivot pivotType = SystemEnum.ePivot.TARGET_ENEMY,
                          int pointerRange = 0)
@@ -99,12 +98,12 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         private void Awake()
         {
             _cellSR = GetComponent<SpriteRenderer>();
-            if (_cellSR != null) _baseColor = _cellSR.color;
+            if (_cellSR != null) _baseCellColor = _cellSR.color;
 
             if (autoProbeFromScale)
             {
                 var s = transform.lossyScale;
-                probeSize = new Vector2(Mathf.Abs(s.x), Mathf.Abs(s.y)) * 0.98f; // 모서리 여유
+                probeSize = new Vector2(Mathf.Abs(s.x), Mathf.Abs(s.y)) * 0.98f;
             }
 
             if (characterMask == 0)
@@ -116,21 +115,36 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
         private void OnEnable()
         {
-            // 프리뷰가 켜진 프레임에 이미 커서가 위라면 즉시 반응
             if (IsPointerCurrentlyOverThis())
             {
-                ApplyHoverTint(true);
+                ApplyCellHoverTint(true);
                 TryOutlineTargetInCell();
             }
         }
 
-        private void OnDisable()  { ClearOutline(); ApplyHoverTint(false); }
-        private void OnDestroy()  { ClearOutline(); }
+        private void Update()
+        {
+            // 호버 중에만 기본 SR의 스프라이트 변화(애니메이션)를 따라감
+            if (followBaseSpriteWhileHover && _hoverSR != null && _baseSR != null && _hoverSR.enabled)
+            {
+                var cur = _baseSR.sprite;
+                if (cur != _lastBaseSprite)
+                {
+                    _hoverSR.sprite = cur;
+                    _hoverSR.flipX  = _baseSR.flipX;
+                    _hoverSR.flipY  = _baseSR.flipY;
+                    _lastBaseSprite = cur;
+                }
+            }
+        }
 
-        // ---------------- Event Interfaces ----------------
+        private void OnDisable() { ClearOutline(); ApplyCellHoverTint(false); }
+        private void OnDestroy() { ClearOutline(); }
+
+        // ---------------- EventSystem ----------------
         public void OnPointerEnter(PointerEventData eventData)
         {
-            ApplyHoverTint(true);
+            ApplyCellHoverTint(true);
             if (_isBlocked && !outlineEvenIfBlocked) return;
             TryOutlineTargetInCell();
         }
@@ -144,7 +158,7 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         public void OnPointerExit(PointerEventData eventData)
         {
             ClearOutline();
-            ApplyHoverTint(false);
+            ApplyCellHoverTint(false);
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -152,12 +166,10 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             if (!clickCastsSkill) return;
             if (_isBlocked) return;
 
-            // 클릭 시 다시 타겟 확인
             if (!TryOutlineTargetInCell()) return;
             if (!IsValidTarget(_hoverTarget)) return;
 
             var targets = new List<CharBase> { _hoverTarget };
-            // 범위 타겟팅(필요 시)
             if (_pointerRange > 0)
             {
                 targets.Clear();
@@ -174,49 +186,69 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
             if (targets.Count == 0) return;
 
-            // 실제 시전 (네 프로젝트 시그니처에 맞게 조절)
-            if (_caster != null && _skill != null)
-            {
-                _caster.SkillInfo?.PlaySkill(
-                    _skill.SkillIndex,
-                    new SkillParameter(_caster, targets, _skill)
-                );
-            }
+            _caster?.SkillInfo?.PlaySkill(
+                _skill.SkillIndex,
+                new SkillParameter(_caster, targets, _skill)
+            );
 
             BattleController.Instance?.HideSkillPreview();
             ClearOutline();
         }
 
-        // ---------------- Core Logic ----------------
+        // ---------------- Core ----------------
         private bool TryOutlineTargetInCell()
         {
             ClearOutline();
 
             CharBase best = FindBestTargetInCell();
-            if (best == null) return false;
-            if (!IsValidTarget(best)) return false;
+            if (best == null || !IsValidTarget(best)) return false;
 
             _hoverTarget = best;
 
-            // 대상의 SpriteRenderer 가져오기
-            var root = _hoverTarget.CharUnitRoot;
-            if (!root || !root.TryGetComponent(out _hoverSR))
-                _hoverSR = _hoverTarget.GetComponentInChildren<SpriteRenderer>();
+            // UnitRoot의 기본 SR, 그리고 그 자식 hoverSR(오버레이) 찾기
+            var unitRoot = _hoverTarget.CharUnitRoot ? _hoverTarget.CharUnitRoot : _hoverTarget.transform;
+            _baseSR = unitRoot.GetComponent<SpriteRenderer>();
+            if (_baseSR == null) return false;
 
-            if (_hoverSR == null || outlineMaterial == null) return false;
+            _hoverSR = FindHoverSR(unitRoot, _baseSR);
+            if (_hoverSR == null) return false;
 
-            EnsureOverlay(_hoverSR);
-            _outlineOverlay.sprite = _hoverSR.sprite;
-            _outlineOverlay.enabled = true;
+            // 머티리얼 오버라이드(선택)
+            if (outlineMaterialOverride != null && _hoverSR.sharedMaterial != outlineMaterialOverride)
+                _hoverSR.material = outlineMaterialOverride;
+
+            // 셰이더 파라미터 적용(있을 때만)
+            if (_hoverSR.material != null)
+            {
+                if (_hoverSR.material.HasProperty(outlineColorProp)) _hoverSR.material.SetColor(outlineColorProp, outlineColor);
+                if (_hoverSR.material.HasProperty(outlineSizeProp))  _hoverSR.material.SetFloat(outlineSizeProp, outlineSize);
+            }
+
+            // 정렬을 기본 SR 기준으로 보정
+            _hoverSR.sortingLayerID = _baseSR.sortingLayerID;
+            _hoverSR.sortingOrder   = _baseSR.sortingOrder + outlineSortingOffset;
+
+            // 스프라이트/플립 동기화 후 켜기
+            _hoverSR.sprite = _baseSR.sprite;
+            _hoverSR.flipX  = _baseSR.flipX;
+            _hoverSR.flipY  = _baseSR.flipY;
+            _hoverSR.enabled = true;
+            _lastBaseSprite = _baseSR.sprite;
 
             return true;
         }
 
         private void ClearOutline()
         {
-            if (_outlineOverlay != null) _outlineOverlay.enabled = false;
-            _hoverSR = null;
+            if (_hoverSR != null)
+            {
+                _hoverSR.enabled = false;
+                _hoverSR.sprite  = null;      // 깔끔히 끊기(선택)
+            }
             _hoverTarget = null;
+            _baseSR = null;
+            _hoverSR = null;
+            _lastBaseSprite = null;
         }
 
         private CharBase FindBestTargetInCell()
@@ -228,7 +260,6 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             {
                 int mask = (characterMask.value == 0) ? ~0 : characterMask.value;
                 var cols = Physics2D.OverlapBoxAll(cell.center, new Vector2(cell.size.x, cell.size.y), 0f, mask);
-                if (debugLog) Debug.Log($"[Indicator] physics hits={cols.Length}");
                 foreach (var c in cols)
                 {
                     if (!c) continue;
@@ -241,9 +272,8 @@ namespace GamePlay.Common.Scripts.Skill.Preview
                 if (best != null) return best;
             }
 
-            // 폴백: CharBase 전체 스캔 + Renderer.bounds 교차
+            // 폴백: 씬의 CharBase 전수 스캔 + Renderer.bounds 교차
             var all = FindObjectsOfType<CharBase>();
-            if (debugLog) Debug.Log($"[Indicator] fallback scan count={all.Length}");
             foreach (var cb in all)
             {
                 var sr = cb.GetComponentInChildren<SpriteRenderer>();
@@ -258,56 +288,57 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         private bool IsValidTarget(CharBase target)
         {
             if (target == null) return false;
-
             switch (_pivotType)
             {
                 case SystemEnum.ePivot.TARGET_SELF:   return target == _caster;
-                case SystemEnum.ePivot.TARGET_ENEMY:  return target != _caster; // 필요 시 팀/진영 비교 로직으로 교체
+                case SystemEnum.ePivot.TARGET_ENEMY:  return target != _caster; // 필요시 팀판정으로 교체
                 default:                              return true;
             }
         }
 
-        // ---------------- Helpers ----------------
-        private void EnsureOverlay(SpriteRenderer target)
+        private SpriteRenderer FindHoverSR(Transform unitRoot, SpriteRenderer baseSr)
         {
-            // 이미 같은 타겟에 연결되어 있으면 재사용
-            if (_outlineOverlay != null && _outlineOverlay.transform.parent == target.transform)
+            // 1) 이름 우선
+            if (!string.IsNullOrEmpty(hoverSrChildName))
             {
-                ApplyOutlineMaterialProps(_outlineOverlay);
-                _outlineOverlay.sortingLayerID = target.sortingLayerID;
-                _outlineOverlay.sortingOrder = target.sortingOrder + outlineSortingOffset;
-                return;
+                var t = unitRoot.Find(hoverSrChildName);
+                if (t && t.TryGetComponent(out SpriteRenderer srByName) && srByName != baseSr)
+                    return srByName;
             }
 
-            // 기존 것 끄기
-            if (_outlineOverlay != null) _outlineOverlay.enabled = false;
-
-            // 새 오버레이 생성
-            var go = new GameObject("OutlineOverlay");
-            go.transform.SetParent(target.transform, false);
-            _outlineOverlay = go.AddComponent<SpriteRenderer>();
-            _outlineOverlay.material = outlineMaterial;
-            ApplyOutlineMaterialProps(_outlineOverlay);
-            _outlineOverlay.sortingLayerID = target.sortingLayerID;
-            _outlineOverlay.sortingOrder = target.sortingOrder + outlineSortingOffset;
-            _outlineOverlay.color = Color.white;
-            _outlineOverlay.enabled = false;
+            // 2) 머티리얼(Outline)로 추정
+            var all = unitRoot.GetComponentsInChildren<SpriteRenderer>(true);
+            foreach (var sr in all)
+            {
+                if (sr == baseSr) continue;
+                if (outlineMaterialOverride != null)
+                {
+                    if (sr.sharedMaterial == outlineMaterialOverride || sr.material == outlineMaterialOverride)
+                        return sr;
+                    if (sr.sharedMaterial != null && sr.sharedMaterial.shader == outlineMaterialOverride.shader)
+                        return sr;
+                }
+                else
+                {
+                    // 이름이 hoverSR이거나, 스프라이트가 None이고 머티에 Outline 키워드가 있으면 후보
+                    if (sr.name.ToLower().Contains("hover")) return sr;
+                    if (sr.sprite == null && sr.sharedMaterial != null &&
+                        sr.sharedMaterial.shader != null &&
+                        sr.sharedMaterial.shader.name.ToLower().Contains("outline"))
+                        return sr;
+                }
+            }
+            return null;
         }
 
-        private void ApplyOutlineMaterialProps(SpriteRenderer sr)
-        {
-            if (sr == null || sr.material == null) return;
-            if (sr.material.HasProperty("_OutlineColor")) sr.material.SetColor("_OutlineColor", outlineColor);
-            if (sr.material.HasProperty("_OutlineSize"))  sr.material.SetFloat("_OutlineSize", outlineSize);
-        }
-
-        private void ApplyHoverTint(bool on)
+        // ---------------- UI Helpers ----------------
+        private void ApplyCellHoverTint(bool on)
         {
             if (_cellSR == null) return;
             if (on)
             {
-                if (!_hovered) { _baseColor = _cellSR.color; _hovered = true; }
-                var c = _baseColor;
+                if (!_hovered) { _baseCellColor = _cellSR.color; _hovered = true; }
+                var c = _baseCellColor;
                 c.r = Mathf.Clamp01(c.r * hoverBrightnessMul);
                 c.g = Mathf.Clamp01(c.g * hoverBrightnessMul);
                 c.b = Mathf.Clamp01(c.b * hoverBrightnessMul);
@@ -316,23 +347,19 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             }
             else
             {
-                if (_hovered) { _cellSR.color = _baseColor; _hovered = false; }
+                if (_hovered) { _cellSR.color = _baseCellColor; _hovered = false; }
             }
         }
 
         private bool IsPointerCurrentlyOverThis()
         {
             if (EventSystem.current == null) return false;
-
-            Vector2 pos;
-            if (Mouse.current != null) pos = Mouse.current.position.ReadValue();
-            else pos = Input.mousePosition;
-
+            Vector2 pos = Mouse.current != null ? Mouse.current.position.ReadValue()
+                                                : (Vector2)Input.mousePosition;
             var ed = new PointerEventData(EventSystem.current) { position = pos };
             var results = new List<RaycastResult>(8);
             EventSystem.current.RaycastAll(ed, results);
-            foreach (var r in results)
-                if (r.gameObject == gameObject) return true;
+            foreach (var r in results) if (r.gameObject == gameObject) return true;
             return false;
         }
 
