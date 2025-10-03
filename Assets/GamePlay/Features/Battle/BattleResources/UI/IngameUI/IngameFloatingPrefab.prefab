@@ -291,6 +291,7 @@ MonoBehaviour:
   keywordPanel: {fileID: 6139943333075721567}
   _keywords: []
   hpFill: {fileID: 6749079412900051510}
+  keywordButton: {fileID: 0}
 --- !u!1 &6350320999416045866
 GameObject:
   m_ObjectHideFlags: 0

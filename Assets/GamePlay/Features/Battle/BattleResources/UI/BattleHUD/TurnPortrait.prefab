@@ -166,7 +166,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 551149561038947280}
   background: {fileID: 9115990952396328466}
-  currentTurnIndicator: {fileID: 0}
   charUID: 0
   selectedFrame: {fileID: 108077669, guid: f3865be3cde25674193de23ff3bac718, type: 3}
   nonSelectedFrame: {fileID: -316769512, guid: d15b48348494d714fb9f5ffb70ee5379, type: 3}

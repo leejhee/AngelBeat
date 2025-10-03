@@ -1,4 +1,5 @@
 using AngelBeat;
+using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         
         public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
-        public Action OnRoundProceeds;
+        public Func<UniTask> OnRoundProceeds;
         public event Action OnRoundEnd;
         public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();
 

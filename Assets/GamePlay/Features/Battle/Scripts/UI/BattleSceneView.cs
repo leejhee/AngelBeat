@@ -10,6 +10,7 @@ using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
 using System.Threading;
 using UIs.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -76,10 +77,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnTurnChanged
                     );
 
-            ModelEvents.Subscribe(
+            ModelEvents.SubscribeAsync(
                 act => BattleController.Instance.TurnController.OnRoundProceeds += act,
                 act => BattleController.Instance.TurnController.OnRoundProceeds -= act,
-                OnRoundStart
+                InstantiateTurnPortrait
                 );
 
             ModelEvents.Subscribe(
@@ -189,6 +190,21 @@ namespace GamePlay.Features.Battle.Scripts.UI
             View.TurnHUD.OnRoundStart(); 
         }
 
+        private async UniTask InstantiateTurnPortrait()
+        {
+            foreach (Turn turn in BattleController.Instance.TurnController.TurnCollection)
+            {
+                UniTask<GameObject> task = ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnHUD.transform);
+                TurnPortrait turnPortrait = (await task).GetComponent<TurnPortrait>();
+                string root = turn.TurnOwner.CharInfo.IconSpriteRoot;
+                Sprite sprite = DataManager.Instance.CharacterIconSpriteMap[root];
+                turnPortrait.SetPortraitImage(sprite, turn.TurnOwner.GetID());
+                
+                View.TurnHUD.AddToTurnList(turnPortrait);
+            }
+            View.TurnHUD.OnRoundStart();
+        }
+        
         private void OnRoundEnd()
         {
             View.TurnHUD.ClearList();
