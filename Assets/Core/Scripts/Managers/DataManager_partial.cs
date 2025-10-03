@@ -81,10 +81,12 @@ namespace Core.Scripts.Managers
                 if (_dokkaebi is not DokkaebiData dok) continue;
                 Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteIconRoute);
                 Sprite ldTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteLDRoute);
+                CharacterIconSpriteMap.Add(dok.SpriteIconRoute, iconTarget);
+                CharacterLDSpriteMap.Add(dok.SpriteLDRoute, ldTarget);
             }
         }
         
-        public async UniTask SetCharacterSpriteMap()
+        public async UniTask SetCompanionSpriteMap()
         {
             string key = nameof(CompanionData);
             if (_cache.ContainsKey(key) == false)
@@ -103,6 +105,26 @@ namespace Core.Scripts.Managers
                 Sprite ldTarget = await ResourceManager.Instance.LoadAsync<Sprite>(companion.charLDRoute);
                 characterIconSpriteMap.TryAdd(companion.charImage, iconTarget);
                 characterLDSpriteMap.TryAdd(companion.charLDRoute, ldTarget);
+            }
+        }
+        
+        public async UniTask SetMonsterSpriteMap()
+        {
+            string key = nameof(MonsterData);
+            if (_cache.ContainsKey(key) == false)
+                return;
+            Dictionary<long, SheetData> monsterDict = _cache[key];
+            if (monsterDict == null)
+            {
+                Debug.LogError($"Map not included in parsing : {key}");
+                return;
+            }
+            
+            foreach (var _monster in monsterDict.Values)
+            {
+                if (_monster is not MonsterData monster) continue;
+                Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(monster.charImage);
+                characterIconSpriteMap.TryAdd(monster.charImage, iconTarget);
             }
         }
         

@@ -165,7 +165,7 @@ namespace GamePlay.Features.Battle.Scripts
 
             _battleStage.ShowGridOverlay(true);
             List<Vector2Int> rangeVector = new();
-            ;
+            
             List<Vector2Int> blockedVector = new();
             SkillRangeData data = targetSkill.skillRange;
 

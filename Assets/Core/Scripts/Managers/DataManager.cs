@@ -86,7 +86,10 @@ public partial class DataManager : SingletonObject<DataManager>
                 await InitCharacterSpriteMapWithYeon();
                 return;
             case nameof(CompanionData):
-                await SetCharacterSpriteMap(); 
+                await SetCompanionSpriteMap(); 
+                return;
+            case nameof(MonsterData):
+                await SetMonsterSpriteMap();
                 return;
             case nameof(DokkaebiSkillData):
                 await SetDokkaebiSkillIconSpriteMap();

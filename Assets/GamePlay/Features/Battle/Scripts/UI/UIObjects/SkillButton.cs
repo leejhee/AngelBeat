@@ -50,10 +50,10 @@ namespace AngelBeat
         /// <param name="idx"></param>
         public void OnClickSkillButton(int idx)
         {
-            var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
-            if (idx >= skills.Count) return;
-            SkillModel model = skills[idx];
-            BattleController.Instance.ShowSkillPreview(model);
+            //var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
+            //if (idx >= skills.Count) return;
+            //SkillModel model = skills[idx];
+            //BattleController.Instance.ShowSkillPreview(model);
 
         }
         public override void OnSelect()
