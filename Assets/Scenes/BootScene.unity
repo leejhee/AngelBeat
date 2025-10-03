@@ -304,15 +304,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4d5942854dd404cb8c54b5e8860d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 1
+  nextScene: 4
   UIManagerReference:
     m_AssetGUID: 551dd4b2baee1fd469f5152625c40476
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+--- !u!1001 &1391634174344912468
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019867881592677849, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612062671971412147, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
+      propertyPath: m_Name
+      value: Jerky
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 733ad39a32b5fcf43860d306e48813e3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 48755163}
   - {fileID: 1922278013}
+  - {fileID: 1391634174344912468}
