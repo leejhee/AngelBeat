@@ -1,7 +1,9 @@
 using AngelBeat;
 using Core.Scripts.Foundation.Define;
+using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -85,35 +87,43 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                     button.SetButton(skillList[idx]);
                     
                     // 여기 부분 프리젠트로 옮기기
-                    button.GetComponent<Button>().onClick.RemoveAllListeners();
-                    button.GetComponent<Button>().onClick.AddListener(() =>
-                    {
-                        BattleController.Instance.ShowSkillPreview(skillList[idx]);
-                        Debug.Log($"Skill {skillList[idx].SkillName} Selected");
-                    });
+                    // button.GetComponent<Button>().onClick.RemoveAllListeners();
+                    // button.GetComponent<Button>().onClick.AddListener(() =>
+                    // {
+                    //     BattleController.Instance.ShowSkillPreview(skillList[idx]);
+                    //     Debug.Log($"Skill {skillList[idx].SkillName} Selected");
+                    // });
                     // 여기까지
                 }
             }
             
         }
-        public void ReduceHpUI(int reducedHp)
-        {
-            CharBase focus = BattleController.Instance.FocusChar;
-            string newHpText = 
-                $"{(SystemEnum.eStats.NHP)}" + "/" + 
-                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMHP)}";
-            hpText.text = newHpText;
-            // hpBarFill 변경해주기
-        }
 
-        public void ReduceActionUI(int reducedActionPoint)
+        private async UniTask HpOrApBarChanged(long delta, Slider slider, TMP_Text text)
         {
-            CharBase focus = BattleController.Instance.FocusChar;
-            string newActionText =
-                $"{(SystemEnum.eStats.NACTION_POINT)}" + "/" + 
-                $"{focus.CharStat.GetStat(SystemEnum.eStats.NMACTION_POINT)}";
-            actionText.text = newActionText;
-            // actionBarFill 변경해주기
+            const float TIME_TO_END = 0.5f;
+            float counter = 0f;
+            float startValue = slider.value;
+            float targetValue = startValue + delta;
+            while (counter < TIME_TO_END)
+            {
+                counter += Time.deltaTime;
+                float t = counter/TIME_TO_END;
+                float curValue = Mathf.Lerp(startValue, targetValue, t);
+                slider.value = curValue;
+                text.text = $"{(int)curValue}/{(int)slider.maxValue}";
+                await  UniTask.Yield();
+            }
+            slider.value = targetValue;
+            text.text = $"{(int)targetValue}/{(int)slider.maxValue}";
+        }
+        public async void ChangeHpUI(long delta)
+        {
+            await HpOrApBarChanged(delta, hpSlider, hpText);
+        }
+        public async void ChangeApUI(long delta)
+        {
+            await HpOrApBarChanged(delta, actionSlider, actionText);
         }
 
         public void Show()
@@ -122,4 +132,5 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         }
         public void Hide() => gameObject.SetActive(false);
     }
+    
 }

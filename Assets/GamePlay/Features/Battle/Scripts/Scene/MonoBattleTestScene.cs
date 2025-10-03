@@ -8,6 +8,7 @@ using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Scripts.Battle;
 using System.Collections.Generic;
+using UIs.Runtime;
 using UnityEngine;
 
 namespace Scene
@@ -17,29 +18,11 @@ namespace Scene
     /// </summary>
     public class MonoBattleTestScene : MonoBehaviour
     {
-        [SerializeField] 
-        private List<GameObject> battleUI;
-        
-        private DebugMockSource _src;
-        void Awake()
+
+        public void TestButton()
         {
-            GameManager instance = GameManager.Instance;
+            //UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
         }
-        
-        async void Start()
-        {
-            await DataManager.Instance.WhenReady();
-            
-            var testXiaoModel = new CharacterModel(88888888);
-            Party playerParty = new (new List<CharacterModel> { testXiaoModel });
-            _src = new DebugMockSource(SystemEnum.Dungeon.MOUNTAIN_BACK, playerParty, "TestMap");
-            
-            BattleController.Instance.SetStageSource(_src);
-            
-            //foreach(var go in battleUI)
-            //    UIManager.Instance.ShowUI(go);
-        }
-        
         
     }
 }

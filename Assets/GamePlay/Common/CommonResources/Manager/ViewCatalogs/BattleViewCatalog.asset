@@ -37,4 +37,10 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  - viewID: 10
+    viewReference:
+      m_AssetGUID: 286f3f6e3baeaee49afadb3f2d8eb6d3
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   presenterFactory: {fileID: 11400000, guid: 4fc7d8ea5420b5b4baddd84f19b06d3d, type: 2}

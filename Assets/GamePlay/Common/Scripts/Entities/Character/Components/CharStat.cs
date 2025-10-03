@@ -106,13 +106,20 @@ namespace AngelBeat
             _charStat[(int)realStat] += valueDelta;
             OnStatChanged?.Invoke(realStat, _charStat[(int)realStat]);
         }
-
-        public event Action<HPModel> OnHPChanged;
-
+        
+        // 얘네는 현재 Focus된 놈 체력 깎일때
+        public event Action<HPModel> OnFocusedCharHpChanged;
+        public event Action<ApModel> OnFocusedCharApChanged;
         public void ChangeHP(int delta)
         {
             Debug.Log("HP 바뀜 아무튼 바뀜");
-            OnHPChanged.Invoke(new HPModel(delta));
+            OnFocusedCharHpChanged.Invoke(new HPModel(delta));
+        }
+
+        public void ChangeAP(int delta)
+        {
+            Debug.Log("AP 바뀜 일단 바꼈음");
+            OnFocusedCharApChanged.Invoke(new ApModel(delta));
         }
         
         #region Damage Part

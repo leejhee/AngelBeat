@@ -26,6 +26,8 @@ namespace UIs.Runtime
         
         GameWinView,
         GameOverView,
+        
+        CharacterView,
     }
 
     public enum ViewLayer

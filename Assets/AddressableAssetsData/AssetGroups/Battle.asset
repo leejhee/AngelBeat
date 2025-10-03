@@ -77,6 +77,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - View
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31a6031f5d615a8489cc582d4476a1e6
+    m_Address: KeywordFloatingObject
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BattleObject
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 286f3f6e3baeaee49afadb3f2d8eb6d3
+    m_Address: IngameFloatingPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:

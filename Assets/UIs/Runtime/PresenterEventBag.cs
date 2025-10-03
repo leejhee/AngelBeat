@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
@@ -62,7 +63,66 @@ namespace UIs.Runtime
             _handler = null; _remove = null;
         }
     }
-    
+
+    public sealed class AsyncSubscription : IDisposable
+    {
+        private Action<Func<UniTask>> _remove;
+        private Func<UniTask> _handler;
+
+        public AsyncSubscription(Action<Func<UniTask>> remove, Func<UniTask> handler)
+        {
+            _remove = remove;
+            _handler = handler;
+        }
+
+        public void Dispose()
+        {
+            if (_remove != null && _handler != null) _remove(_handler);
+            _handler = null; _remove = null;
+        }
+    }
+
+    public sealed class AsyncSubscription<T> : IDisposable
+    {
+        private Action<Func<T,UniTask>> _remove;
+        private Func<T,UniTask> _handler;
+
+        public AsyncSubscription(Action<Func<T,UniTask>> remove, Func<T,UniTask> handler)
+        {
+            _remove = remove;
+            _handler = handler;
+        }
+
+        public void Dispose()
+        {
+            if (_remove != null && _handler != null)
+                _remove(_handler);
+
+            _handler = null;
+            _remove = null;
+        }
+    }
+
+    public sealed class AsyncSubscription<TValue, TResult> : IDisposable
+    {
+        private Action<Func<TValue,UniTask<TResult>>> _remove;
+        private Func<TValue,UniTask<TResult>> _handler;
+
+        public AsyncSubscription(Action<Func<TValue,UniTask<TResult>>> remove, Func<TValue,UniTask<TResult>> handler)
+        {
+            _remove = remove;
+            _handler = handler;
+        }
+
+        public void Dispose()
+        {
+            if (_remove != null && _handler != null)
+                _remove(_handler);
+
+            _handler = null;
+            _remove = null;
+        }
+    }
     /// <summary>
     /// 구독할 핸들러에 대해서 편리하게 등록하게 하기 위한 익스텐션. Model, View에 대한 bag에다가 등록해주면 된다.
     /// Model은 Presenter 구현에서 알아서 사용할 수 있도록 제약을 안걸었기 때문에 자유롭게 사용하자.
@@ -81,7 +141,12 @@ namespace UIs.Runtime
             add(handler);
             return new Subscription(remove, handler).AddTo(bag);
         }
-        
+        public static IDisposable SubscribeAsync(this PresenterEventBag bag, Action<Func<UniTask>> add,
+            Action<Func<UniTask>> remove, Func<UniTask> handler)
+        {
+            add(handler);
+            return new AsyncSubscription(remove, handler).AddTo(bag);
+        }
         public static IDisposable Subscribe<T>(this PresenterEventBag bag,
             Action<Action<T>> add, Action<Action<T>> remove, Action<T> handler)
         {
@@ -89,6 +154,22 @@ namespace UIs.Runtime
             return new Subscription<T>(remove, handler).AddTo(bag);
         }
         
+        // T는 이벤트로 뿌리는 자료형
+        // handler의 자료형은 UniTask
+        public static IDisposable SubscribeAsync<T>(this PresenterEventBag bag,
+            Action<Func<T,UniTask>> add, Action<Func<T,UniTask>> remove, Func<T, UniTask> handler)
+        {
+            add(handler);
+            return new AsyncSubscription<T>(remove, handler).AddTo(bag);
+        }
+
+        public static IDisposable SubscribeAsync<TValue, TResult>(this PresenterEventBag bag,
+            Action<Func<TValue, UniTask<TResult>>> add, Action<Func<TValue, UniTask<TResult>>> remove,
+            Func<TValue, UniTask<TResult>> handler)
+        {
+            add(handler);
+            return new AsyncSubscription<TValue, TResult>(remove, handler).AddTo(bag);
+        }
         public static IDisposable Subscribe(this PresenterEventBag bag, UnityEvent evt, UnityAction ua)
         {
             evt.AddListener(ua);
@@ -103,5 +184,6 @@ namespace UIs.Runtime
             evt.AddListener(ua);
             return DisposableEvent.Create(() => evt.RemoveListener(ua)).AddTo(bag);
         }
+
     }
 }

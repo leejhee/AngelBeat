@@ -52,30 +52,24 @@ namespace AngelBeat.UI
         }
 
         public GameObject Root { get; }
-        public void Show()
-        {
-            throw new NotImplementedException();
-        }
+        public void Show() => gameObject.SetActive(true);
+        public void Hide() => gameObject.SetActive(false);
 
-        public void Hide()
-        {
-            throw new NotImplementedException();
-        }
-
-        public UniTask PlayEnterAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UniTask PlayExitAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
+        public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
+        public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
     }
     public class BattleWinPresenter : PresenterBase<BattleWinView>
     {
         public BattleWinPresenter(IView view) : base(view)
         {
+            
+        }
+
+        public override UniTask EnterAction(CancellationToken token)
+        {
+            
+            
+            return UniTask.CompletedTask;
         }
     }
 }

@@ -35,9 +35,14 @@ namespace GamePlay.Features.Battle.Scripts.UI
         public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
         
 
-        public void ChangeHp(int delta)
+        public void ChangeHp(long delta)
         {
-            characterHUD.ReduceHpUI(delta);
+            characterHUD.ChangeHpUI(delta);
+        }
+
+        public void ChangeAp(long delta)
+        {
+            characterHUD.ChangeApUI(delta);
         }
     }
 
@@ -55,9 +60,14 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
             //hp 구독
             ModelEvents.Subscribe<HPModel>(
-                act => BattleController.Instance.FocusChar.CharStat.OnHPChanged += act,
-                act => BattleController.Instance.FocusChar.CharStat.OnHPChanged -= act,
+                act => BattleController.Instance.FocusChar.CharStat.OnFocusedCharHpChanged += act,
+                act => BattleController.Instance.FocusChar.CharStat.OnFocusedCharHpChanged -= act,
                 OnHPChanged);
+            ModelEvents.Subscribe<ApModel>(
+                action =>   BattleController.Instance.FocusChar.CharStat.OnFocusedCharApChanged += action,
+                action => BattleController.Instance.FocusChar.CharStat.OnFocusedCharApChanged -= action,
+                OnAPChanged
+                );
             // 턴 바뀜 이벤트 구독
             ModelEvents.Subscribe<TurnController.TurnModel>(
                 act => BattleController.Instance.TurnController.OnTurnChanged += act,
@@ -137,13 +147,14 @@ namespace GamePlay.Features.Battle.Scripts.UI
         #region Model To View
         private void OnHPChanged(HPModel model)
         {
-            int delta = model.Delta;
+            long delta = model.Delta;
             View.ChangeHp(delta);
         }
 
-        private void OnAPChanged(int delta)
+        private void OnAPChanged(ApModel model)
         {
-            
+            int delta = model.Delta;
+            View.ChangeAp(delta);
         }
 
         private void OnRoundStart()

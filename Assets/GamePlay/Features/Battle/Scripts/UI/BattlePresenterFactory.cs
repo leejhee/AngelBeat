@@ -1,4 +1,7 @@
-﻿using UIs.Runtime;
+﻿using AngelBeat.UI;
+using GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup;
+using GamePlay.Features.Battle.Scripts.UI.IngameUI;
+using UIs.Runtime;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.UI
@@ -10,6 +13,16 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             switch (id)
             {
+                case ViewID.BattleSceneView:
+                    return new BattleHUDPresenter(view);
+                case ViewID.BattleCharacterInfoPopUpView:
+                    return new CharacterInfoPresenter(view);
+                case ViewID.GameWinView:
+                    return new BattleWinPresenter(view);
+                case ViewID.GameOverView:
+                    return new GameOverPresenter(view);
+                case ViewID.CharacterView:
+                    return new IngameCharacterPresenter(view);
                 default:
                     return new NullPresenter(view);
             }
