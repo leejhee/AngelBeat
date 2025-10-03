@@ -332,6 +332,8 @@ MonoBehaviour:
     rid: 4918594393638961153
   gridSize: {x: 11, y: 2}
   gridProvider: {fileID: 5644157376870120970}
+  platformGridCells: []
+  obstacleGridCells: []
   references:
     version: 2
     RefIds:

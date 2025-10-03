@@ -54,7 +54,7 @@ namespace Core.Scripts.Foundation.Define
             BattleTestScene,
             VillageScene,
             ViewTestScene,
-            
+            NovelTestScene,
             MaxCount
         }
         

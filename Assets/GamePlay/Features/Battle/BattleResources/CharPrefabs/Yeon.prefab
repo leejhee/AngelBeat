@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2821619371975844126}
   - component: {fileID: -1711375296147896922}
   - component: {fileID: 6604672686628628585}
+  - component: {fileID: 8329274003362239100}
   m_Layer: 0
   m_Name: Yeon
   m_TagString: Untagged
@@ -151,6 +152,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.6281352, y: 4.772296}
   m_EdgeRadius: 0
+--- !u!320 &8329274003362239100
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717310159286373163}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 6ef713803875e864db051bf6c87039d2, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &6020758775045425114
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

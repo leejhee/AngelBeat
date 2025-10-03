@@ -1,4 +1,6 @@
-﻿using Core.Scripts.GameSave;
+﻿using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
+using Core.Scripts.GameSave;
 using Core.Scripts.Managers;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +61,7 @@ namespace GamePlay.Features.Lobby.Scripts
 
         public void NewGameStart()
         {
-            
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene);
         }
         
     }
