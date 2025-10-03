@@ -14,9 +14,9 @@ namespace Core.Scripts.Managers
         #region 생성자
         private InputManager() {}
         #endregion
-
+        
         [SerializeField] private PlayerInput input;
-
+        
         
     }
 }

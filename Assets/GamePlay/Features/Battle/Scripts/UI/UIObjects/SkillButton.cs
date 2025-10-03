@@ -1,4 +1,5 @@
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Battle.Scripts;
 using GamePlay.Skill;
 using System.Text;
 using UnityEngine;
@@ -39,8 +40,12 @@ namespace AngelBeat
                 skillDescription.gameObject.SetActive(false);
         }
 
-        public void OnClickSkillButton()
+        public void OnClickSkillButton(int idx)
         {
+            var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
+            if (idx >= skills.Count) return;
+            SkillModel model = skills[idx];
+            BattleController.Instance.ShowSkillPreview(model);
             SelectSkillButton(true);
         }
         

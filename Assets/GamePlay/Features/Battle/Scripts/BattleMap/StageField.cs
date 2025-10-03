@@ -32,10 +32,12 @@ public class StageField : MonoBehaviour
     [SerializeField] private BattleGridProvider gridProvider;
 
     private Grid _grid;
-
+    public Grid Grid => _grid;
     private Vector2 _cellWorld;
     private Vector2 _originWorld;
-    
+
+    [SerializeField] private List<Vector2Int> platformGridCells;
+    [SerializeField] private List<Vector2Int> obstacleGridCells;
     
     public Transform ObjectRoot { 
         get

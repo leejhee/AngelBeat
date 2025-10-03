@@ -13,11 +13,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             base.CharInit(charModel);
             BattleCharManager.Instance.SetChar(this);
         }
-
-        public void CharMove(Vector3 Destination)
-        {
-            
-        }
+        
         
     }
 }

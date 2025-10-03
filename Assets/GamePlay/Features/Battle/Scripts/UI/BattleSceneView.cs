@@ -126,15 +126,29 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => View.CharacterHUD.InvenButton.ActionButton.onClick.RemoveAllListeners(),
                 OnClickInvenButton
                 );
-            foreach (var skill in View.CharacterHUD.SkillPanel.SkillButtons)
+
+            for (int i = 0; i < View.CharacterHUD.SkillPanel.SkillButtons.Count; i++)
             {
+                int temp = i;
+                var skill =  View.CharacterHUD.SkillPanel.SkillButtons[temp];
                 Button skillButton = skill.GetComponent<Button>();
-                ViewEvents.Subscribe(
-                    act => skillButton.onClick.AddListener(new UnityAction(act)),
-                    act => skillButton.onClick.RemoveAllListeners(),
-                    skill.OnClickSkillButton
+                UnityAction wrapper = null;
+                ViewEvents.Subscribe<int>(
+                    add: h => { wrapper = () => h(temp); skillButton.onClick.AddListener(wrapper); },
+                    remove: h => { if (wrapper != null) skillButton.onClick.RemoveListener(wrapper); },
+                    handler: skill.OnClickSkillButton 
                 );
             }
+            
+            //foreach (var skill in View.CharacterHUD.SkillPanel.SkillButtons)
+            //{
+            //    Button skillButton = skill.GetComponent<Button>();
+            //    ViewEvents.Subscribe(
+            //        act => skillButton.onClick.AddListener(new UnityAction(act)),
+            //        act => skillButton.onClick.RemoveAllListeners(),
+            //        skill.OnClickSkillButton
+            //    );
+            //}
 
             #endregion
             return UniTask.CompletedTask;
@@ -268,12 +282,13 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             Debug.Log("밀기");
             View.CharacterHUD.PushButton.SelectExtraActionButton(true);
+            BattleController.Instance.ShowPushPreview();
         }
 
         private void OnClickInvenButton()
         {
             Debug.Log("인벤토리 오픈");
-            View.CharacterHUD.InvenButton.SelectExtraActionButton(true);
+            //View.CharacterHUD.InvenButton.SelectExtraActionButton(true);
         }
         #endregion
         

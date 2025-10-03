@@ -1,3 +1,4 @@
+using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
@@ -9,6 +10,7 @@ using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UIs.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
@@ -18,7 +20,7 @@ namespace GamePlay.Features.Battle.Scripts
     {
         #region singleton
         private static BattleController instance;
-
+        
         public static BattleController Instance
         {
             get
@@ -142,22 +144,77 @@ namespace GamePlay.Features.Battle.Scripts
             //}); 
             //BattleCharManager.Instance.SubscribeDeathEvents();
         }
-        
+
+        public void ShowPushPreview()
+        {
+            _battleStage.ShowGridOverlay(true);
+            List<Vector2Int> aroundOne = new List<Vector2Int>() { };
+        }
+
         public void ShowSkillPreview(SkillModel targetSkill)
         {
-            //if (!_preview)
-            //    _preview = Instantiate(previewPrefab.GetComponent<SkillPreview>(), FocusChar.CharTransform);
-            //_preview.gameObject.SetActive(true);
-            //_preview.InitPreview(FocusChar, targetSkill);
-
             if (!_battleStage)
             {
                 Debug.LogError("[BattleController] : Battle Stage not set");
                 return;
             }
-            //List<SkillRangeData> ranges = DataManager.Instance.
+
+            _battleStage.ShowGridOverlay(true);
+            List<Vector2Int> rangeVector = new();
+            ;
+            List<Vector2Int> blockedVector = new();
+            SkillRangeData data = targetSkill.skillRange;
+
+            Vector3Int nowPosVec3 = _battleStage.Grid.WorldToCell(FocusChar.transform.position);
+            int nowX = nowPosVec3.x;
+            int nowY = nowPosVec3.y;
+            if (data.Origin)
+            {
+                // 각 방향의 셀들에 따라서 도중에 장애물 있으면 그 너머는 불가한거로.
+
+                for (int i = 1; i <= data.Forward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX + i, nowY));
+                }
+
+                for (int i = 1; i <= data.Backward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX - i, nowY));
+                }
+            }
+
+            if (data.Down)
+            {
+                for (int i = 1; i <= data.DownForward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX + i, nowY - 1));
+                }
+
+                for (int i = 1; i <= data.DownBackward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX - i, nowY - 1));
+
+                }
+            }
+
+            if (data.Up)
+            {
+                for (int i = 1; i <= data.UpForward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX + i, nowY + 1));
+
+                }
+
+                for (int i = 1; i <= data.UpBackward; i++)
+                {
+                    rangeVector.Add(new Vector2Int(nowX - i, nowY + 1));
+
+                }
+            }
+
+            //_battleStage.PaintRange(rangeVector, blockedVector);
         }
-        
+
         public void EndBattle(SystemEnum.eCharType winnerType)
         {
             // 결과 내보내기(onBattleEnd 필요)
