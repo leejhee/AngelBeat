@@ -35,6 +35,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public TurnController(List<CharBase> battleMembers)
         {
             InitializeTurnQueue(battleMembers);
+            //ChangeTurn();
         }
 
         private void InitializeTurnQueue(List<CharBase> battleMembers)
@@ -50,7 +51,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             }
         }
 
-        private void InitializeTurnQueue(List<BattleTurn.Turn> buffer)
+        private void InitializeTurnQueue(List<Turn> buffer)
         {
             buffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in buffer)
@@ -67,7 +68,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         }
         
         public void RefreshTurn() => RebuildTurnQueue();
-        public event Action<TurnModel> OnTurnChanged;
+        
+        public Action<TurnModel> OnTurnChanged;
         public void ChangeTurn()
         {
             CurrentTurn?.End();
