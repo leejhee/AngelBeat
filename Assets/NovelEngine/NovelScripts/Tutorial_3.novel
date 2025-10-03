@@ -1,76 +1,71 @@
 #1
-@back 3_1
+@back 24
 @choice 
     @goto 2
 @wait
 #2
-@back 3_2
+@back 25
 @choice 
     @goto 3
 @wait
 #3
-@back 3_3
+@back 26
 @choice 
     @goto 4
 @wait
 #4
-@back 3_4
+@back 27
 @choice 
     @goto 5
 @wait
 #5
-@back 3_5
+@back 28
 @choice 
     @goto 6
 @wait
 #6
-@back 3_6
+@back 29
 @choice 
     @goto 7
 @wait
 #7
-@back 3_7
+@back 30
 @choice 
     @goto 8
 @wait
 #8
-@back 3_8
+@back 31
 @choice 
     @goto 9
 @wait
 #9
-@back 3_9
+@back 32
 @choice 
     @goto 10
 @wait
 #10
-@back 3_10
+@back 33
 @choice 
     @goto 11
 @wait
 #11
-@back 3_11
+@back 34
 @choice 
     @goto 12
 @wait
 #12
-@back 3_12
+@back 35
 @choice 
     @goto 13
 @wait
 #13
-@back 3_13
+@back 36
 @choice 
     @goto 14
 @wait
 #14
-@back 3_14
+@back 37
 @choice 
     @goto 15
 @wait
 #15
-@back 3_15
-@choice 
-    @goto 16
-@wait
-#16

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 48995296d0feece48bd40cd796fb3466
+guid: f17a332aba63f9e4bb05d3873bfa9088
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - JS Arirang HON
+  - Yeongwol
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
