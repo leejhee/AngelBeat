@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +8,8 @@ using System.Threading;
 using UIs.Runtime;
 using UIs.UIObjects;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace AngelBeat.UI
 {
@@ -23,6 +27,9 @@ namespace AngelBeat.UI
         [SerializeField] private Transform rewardPanel;
         
         private List<RewardObject> rewardObjects = new();
+
+        [SerializeField] private Button toLobby;
+        public Button TOLobby => toLobby;
         void Start()
         {
             List<rewardTable> list = new() { rewardList[0] };
@@ -67,9 +74,18 @@ namespace AngelBeat.UI
 
         public override UniTask EnterAction(CancellationToken token)
         {
-            
+            ViewEvents.Subscribe(
+                act => View.TOLobby.onClick.AddListener(new UnityAction(act)),
+                act => View.TOLobby.onClick.RemoveAllListeners(),
+                ToLobbyScene
+            );
             
             return UniTask.CompletedTask;
+        }
+
+        private void ToLobbyScene()
+        {
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
         }
     }
 }

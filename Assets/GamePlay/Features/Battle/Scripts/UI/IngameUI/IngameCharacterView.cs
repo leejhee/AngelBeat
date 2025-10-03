@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using ResourceManager = Core.Scripts.Managers.ResourceManager;
 
@@ -18,10 +19,12 @@ namespace GamePlay.Features.Battle.Scripts.UI.IngameUI
 
         [SerializeField] private Transform keywordPanel;
         [SerializeField] private List<FloatingKeyword> _keywords = new List<FloatingKeyword>();
+        [SerializeField] private Image hpFill;
+        [SerializeField] private Button keywordButton;
         public Transform KeywordPanelTransform => keywordPanel;
         public List<FloatingKeyword> Keywords => _keywords;
-        [SerializeField] private Image hpFill;
-        public Image HPFill => hpFill;
+        //public Image HPFill => hpFill;
+        public Button KeywordButton => keywordButton;
         
         
         public void Show() => gameObject.SetActive(true);
@@ -85,7 +88,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.IngameUI
                 act => View.OnKeywordGet -= act,
                 InstantiateNewKeword
                 );
-            
+            ViewEvents.Subscribe(
+                act => View.KeywordButton.onClick.AddListener(new UnityAction(act)),
+                act => View.KeywordButton.onClick.RemoveAllListeners(),
+                OnClickKeyWordButton
+            );
             
             return UniTask.CompletedTask;
         }
@@ -102,6 +109,12 @@ namespace GamePlay.Features.Battle.Scripts.UI.IngameUI
             FloatingKeyword keyword = (await task).GetComponent<FloatingKeyword>();
             keyword.OnInstantiated(model);
             View.Keywords.Add(keyword);
+        }
+        
+        
+        private void OnClickKeyWordButton()
+        {
+            UIManager.Instance.ShowViewAsync(ViewID.KeywordPopUpView);
         }
     }
 } 

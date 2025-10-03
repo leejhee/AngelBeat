@@ -22,16 +22,20 @@ namespace AngelBeat
         public void SetButton(SkillModel model)
         {
             icon.sprite = model.Icon;
-            ///skillName.SetText(model.SkillName);
+            //skillName.SetText(model.SkillName);
+            
+            
             skillDescription.SetSkillDescription(model);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            skillDescription.gameObject.SetActive(true);
+            if (skillDescription != null)
+                skillDescription.gameObject.SetActive(true);
         }
         public void OnPointerExit(PointerEventData eventData)
         {
-            skillDescription.gameObject.SetActive(false);
+            if (skillDescription != null)
+                skillDescription.gameObject.SetActive(false);
         }
 
         public void OnClickSkillButton()

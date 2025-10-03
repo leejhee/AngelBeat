@@ -50,9 +50,10 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             long maxAp,
             Sprite portrait = null)
         {
-            // 초상화 변경
+            // TODO : 튜토
             //characterPortraitImage.sprite = curCharacter.
             // 이름 변경
+            
             characterName.text = charName;
             
             // 현재 체력
@@ -81,7 +82,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                 {
                     int idx = i;
                     SkillButton button = skillPanel.SkillButtons[idx];
-                    button.SetButton(skillList[idx]);
+                    
+                    // TODO : 튜토
+                    //button.SetButton(skillList[idx]);
                     
                     // 여기 부분 프리젠트로 옮기기
                     // button.GetComponent<Button>().onClick.RemoveAllListeners();

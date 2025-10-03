@@ -18,7 +18,10 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
                 // 해금 했고, 선택한 스킬일 경우
                 // 해금 했지만 선택하지 않은 스킬일 경우
                 // 해금되지 않은 스킬일 경우
-                skillList[idx].SetSkillImage(skill);
+                
+                
+                // TODO: 일단 튜토리얼을 위해 주석처리
+                //skillList[idx].SetSkillImage(skill);
                 idx++;
             }
         }

@@ -1,8 +1,11 @@
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI
@@ -41,15 +44,15 @@ namespace GamePlay.Features.Battle.Scripts.UI
             ViewEvents.Subscribe(
                 act => View.ToLobbyButton.onClick.AddListener(new UnityAction(act)),
                 act => View.ToLobbyButton.onClick.RemoveAllListeners(),
-                ToLobby
+                ToLobbyScene
             );
             
             return UniTask.CompletedTask;
         }
 
-        private void ToLobby()
+        private void ToLobbyScene()
         {
-            Debug.Log("로비로");
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
         }
     }
 }

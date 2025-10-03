@@ -23,12 +23,14 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            skillDescription.gameObject.SetActive(true);
+            if (skillDescription != null)
+                skillDescription.gameObject.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
-        {
-            skillDescription.gameObject.SetActive(false);
+        {            
+            if (skillDescription != null)
+                skillDescription.gameObject.SetActive(false);
         }
     }
 }

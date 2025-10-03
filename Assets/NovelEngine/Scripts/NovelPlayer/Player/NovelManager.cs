@@ -123,14 +123,13 @@ public class NovelManager : MonoBehaviour
         await UniTask.Yield();
     }
 
-    public async void PlayScript(string scriptTitle)
+    public async UniTask PlayScript(string scriptTitle)
     {
-        (await NovelManager.InitAsync()).PlayScriptAsync(scriptTitle);
+        await NovelManager.InitAsync();
+        Instance.PlayScriptAsync(scriptTitle);
     }
-    private async void PlayScriptAsync(string scriptTitle)
+    private async UniTask PlayScriptAsync(string scriptTitle)
     {
-        await Initialization;
-        
         if (!isReady)
         {
             Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
