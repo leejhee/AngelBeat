@@ -1,6 +1,8 @@
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Skill;
+using System;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,14 +14,17 @@ using static Core.Scripts.Foundation.Define.SystemString;
 
 namespace AngelBeat
 {
-    public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class SkillButton : ToggleButton, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private Image frame;
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         [SerializeField] private SkillDescription skillDescription;
-        [SerializeField] private Sprite selectedFrame;
-        [SerializeField] private Sprite nonSelectedFrame;
+
+        private void Start()
+        {
+            isSelected = false;
+        }
+
         public void SetButton(SkillModel model)
         {
             // TODO: 튜토
@@ -42,24 +47,26 @@ namespace AngelBeat
 
         public void OnClickSkillButton(int idx)
         {
+            // if (!isSelected)
+            // {
+            //     frame.sprite = selectedFrame;
+            //     isSelected = true;
+            // }
+            // else
+            // {
+            //     frame.sprite = nonSelectedFrame;
+            //     isSelected = false;
+            // }
+
+            
             var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
             if (idx >= skills.Count) return;
             SkillModel model = skills[idx];
             BattleController.Instance.ShowSkillPreview(model);
-            SelectSkillButton(true);
+            
+
         }
         
-        public void SelectSkillButton(bool selected)
-        {
-            if (selected)
-            {
-                frame.sprite = selectedFrame;
-            }
-            else
-            {
-                frame.sprite = nonSelectedFrame;
-            }
-        }
     }
 }
 

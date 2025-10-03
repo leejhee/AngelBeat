@@ -18,7 +18,6 @@ public class CharacterPortrait : MonoBehaviour, IPointerDownHandler, IPointerUpH
             _pointingTime += Time.deltaTime;
             if (_pointingTime >= TIME_TO_POPUP)
             {
-                Debug.Log("캐릭터 정보창 팝업");
                 OnCharacterInfoPopup();
                 _isHolding = false;
             }
@@ -41,6 +40,6 @@ public class CharacterPortrait : MonoBehaviour, IPointerDownHandler, IPointerUpH
         CharacterInfoPopup?.Invoke();
         
         // UI 팝업시키기 위한 임시코드
-        _ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
+        //_ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
     }
 }

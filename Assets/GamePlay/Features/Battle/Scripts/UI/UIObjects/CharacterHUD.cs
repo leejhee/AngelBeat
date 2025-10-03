@@ -1,6 +1,7 @@
 using AngelBeat;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,16 @@ using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
+    public class ToggleButton : MonoBehaviour
+    {
+        public bool isSelected;
+        [SerializeField] protected Image frame;
+        [SerializeField] protected Sprite selectedFrame;
+        [SerializeField] protected Sprite nonSelectedFrame;
+        public Image Frame => frame;
+        public Sprite SelectedFrame => selectedFrame;
+        public Sprite NonSelectedFrame => nonSelectedFrame;
+    }
     public class CharacterHUD : MonoBehaviour
     {
         #region Objects
@@ -41,6 +52,44 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         
         #endregion
         #endregion
+        
+        
+        [SerializeField] private List<ToggleButton> buttons = new List<ToggleButton>();
+
+        private void Start()
+        {
+            foreach (var button in buttons)
+            {
+                button.GetComponent<Button>().onClick.AddListener(() => Toggling(button));
+            }
+        }
+
+        public void Toggling(ToggleButton selectedButton)
+        {
+            // 이미 선택된 버튼을 클릭시
+            if (selectedButton.isSelected)
+            {
+                selectedButton.isSelected = false;
+                selectedButton.Frame.sprite = selectedButton.NonSelectedFrame;
+            }
+            else
+            {
+                foreach (var button in buttons)
+                {
+                    if (button.isSelected)
+                    {
+                        button.isSelected = false;
+                        button.Frame.sprite = button.NonSelectedFrame;
+                    }
+
+                }
+                selectedButton.isSelected = true;
+                selectedButton.Frame.sprite = selectedButton.SelectedFrame;
+            }
+
+            
+        }
+
         
         public void ShowCharacterHUD(
             string charName,
@@ -132,5 +181,5 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         }
         public void Hide() => gameObject.SetActive(false);
     }
-    
+
 }

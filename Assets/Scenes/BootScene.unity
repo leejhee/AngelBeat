@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4d5942854dd404cb8c54b5e8860d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 1
+  nextScene: 4
   UIManagerReference:
     m_AssetGUID: 551dd4b2baee1fd469f5152625c40476
     m_SubObjectName: 

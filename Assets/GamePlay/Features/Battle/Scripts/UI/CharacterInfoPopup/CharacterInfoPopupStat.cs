@@ -12,7 +12,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         
         public void SetStatText(CharacterModel model)
         {
-            statText.text = model.Stat.GetStat(statType).ToString();
+            statText.text = $"{model.Stat.GetStat(statType)}";
         }
     }
 }

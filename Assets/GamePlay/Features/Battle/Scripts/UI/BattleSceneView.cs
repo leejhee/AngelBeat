@@ -111,11 +111,11 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickPortraitButton
             );
 
-            //ViewEvents.Subscribe(
-            //    act => View.CharacterHUD.JumpButton.ActionButton.onClick.AddListener(new UnityAction(act)),
-            //    act => View.CharacterHUD.JumpButton.ActionButton.onClick.RemoveAllListeners(),
-            //    OnClickJumpButton
-            //);
+            ViewEvents.Subscribe(
+                act => View.CharacterHUD.JumpButton.ActionButton.onClick.AddListener(new UnityAction(act)),
+                act => View.CharacterHUD.JumpButton.ActionButton.onClick.RemoveAllListeners(),
+                OnClickJumpButton
+            );
             ViewEvents.Subscribe(
                 act => View.CharacterHUD.PushButton.ActionButton.onClick.AddListener(new UnityAction(act)),
                 act => View.CharacterHUD.PushButton.ActionButton.onClick.RemoveAllListeners(),
@@ -127,18 +127,18 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickInvenButton
                 );
 
-            for (int i = 0; i < View.CharacterHUD.SkillPanel.SkillButtons.Count; i++)
-            {
-                int temp = i;
-                var skill =  View.CharacterHUD.SkillPanel.SkillButtons[temp];
-                Button skillButton = skill.GetComponent<Button>();
-                UnityAction wrapper = null;
-                ViewEvents.Subscribe<int>(
-                    add: h => { wrapper = () => h(temp); skillButton.onClick.AddListener(wrapper); },
-                    remove: h => { if (wrapper != null) skillButton.onClick.RemoveListener(wrapper); },
-                    handler: skill.OnClickSkillButton 
-                );
-            }
+            // for (int i = 0; i < View.CharacterHUD.SkillPanel.SkillButtons.Count; i++)
+            // {
+            //     int temp = i;
+            //     var skill =  View.CharacterHUD.SkillPanel.SkillButtons[temp];
+            //     Button skillButton = skill.GetComponent<Button>();
+            //     UnityAction wrapper = null;
+            //     ViewEvents.Subscribe<int>(
+            //         add: h => { wrapper = () => h(temp); skillButton.onClick.AddListener(wrapper); },
+            //         remove: h => { if (wrapper != null) skillButton.onClick.RemoveListener(wrapper); },
+            //         handler: skill.OnClickSkillButton 
+            //     );
+            // }
             
             //foreach (var skill in View.CharacterHUD.SkillPanel.SkillButtons)
             //{
@@ -196,6 +196,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnTurnChanged(TurnController.TurnModel turnModel)
         {
+            Debug.Log("이거");
+            
             // 현재 턴 표시자 옮기기
             View.TurnHUD.MoveToNextTurn();
             // 아군 턴이면 캐릭터 HDU 오픈
@@ -265,7 +267,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnClickPortraitButton()
         {
-            Debug.Log("캐릭터 정보창 띄우기");
             // 캐릭터 정보 팝업 뷰 생성
             _ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
         }
@@ -275,20 +276,17 @@ namespace GamePlay.Features.Battle.Scripts.UI
         private void OnClickJumpButton()
         {
             Debug.Log("점프");
-            View.CharacterHUD.JumpButton.SelectExtraActionButton(true);
         }
 
         private void OnClickPushButton()
         {
             Debug.Log("밀기");
-            View.CharacterHUD.PushButton.SelectExtraActionButton(true);
             BattleController.Instance.ShowPushPreview();
         }
 
         private void OnClickInvenButton()
         {
             Debug.Log("인벤토리 오픈");
-            //View.CharacterHUD.InvenButton.SelectExtraActionButton(true);
         }
         #endregion
         

@@ -197,8 +197,9 @@ namespace UIs.Runtime
 
                 go = null;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.LogException(e);
                 if (go) ResourceManager.Instance.ReleaseInstance(go);
                 throw;
             }

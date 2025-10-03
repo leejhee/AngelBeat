@@ -1,3 +1,6 @@
+using Codice.Client.BaseCommands;
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
 using novel;
 using System.Threading;
@@ -27,8 +30,18 @@ public class NovelPlayer : MonoBehaviour
     public GameObject StandingPanel { get; private set; }
     public GameObject ChoicePanel { get; private set; }
 
-
-
+    /// <summary>
+    /// 빌드용 임시 코드
+    /// </summary>
+    private bool isStoryStarted = false;
+    private void OnDisable()
+    {
+        if (isStoryStarted)
+        {
+            NovelManager.act++;
+            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene);
+        }
+    }
 
 
     // 나중에 private로 돌릴것들
@@ -150,6 +163,7 @@ public class NovelPlayer : MonoBehaviour
         dialoguePanel.SetActive(false);
         // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
+        isStoryStarted = true;
     }
     private void OnNextLineClicked()
     {

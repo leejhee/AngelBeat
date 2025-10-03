@@ -1,26 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
-    public class ExtraActionButton : MonoBehaviour
+    public class ExtraActionButton : ToggleButton
     {
-        [SerializeField] private Sprite selectedFrame;
-        [SerializeField] private Sprite nonSelectedFrame;
         [SerializeField] private Button actionButton;
         public Button ActionButton => actionButton;
-
-        public void SelectExtraActionButton(bool isSelected)
+        
+        private void Start()
         {
-            if (isSelected)
-            {
-                actionButton.image.sprite = selectedFrame;
-            }
-            else
-            {
-                actionButton.image.sprite = nonSelectedFrame;
-            }
+            isSelected = false;
         }
+        
 
+        public bool isSelected { get; set; }
     }
 }

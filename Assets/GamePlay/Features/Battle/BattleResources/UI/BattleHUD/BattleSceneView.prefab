@@ -116,7 +116,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 7944391138431004040}
   m_OnClick:
     m_PersistentCalls:
@@ -133,6 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelected: 0
+  frame: {fileID: 7944391138431004040}
   selectedFrame: {fileID: 21300000, guid: adb89a387fb1fb14bbd8283c3e65b670, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: c032df366cca73d4bb81b1b7377eb266, type: 3}
   actionButton: {fileID: 4360439598842352463}
@@ -447,6 +449,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelected: 0
+  frame: {fileID: 4653730906238037150}
   selectedFrame: {fileID: 21300000, guid: d0b1de84982905a41a73fbf8775c6e86, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: 0ea0ddecc40a6df468cdec36bb025cc1, type: 3}
   actionButton: {fileID: 7330597243006506272}
@@ -717,6 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSelected: 0
+  frame: {fileID: 8407312318720239474}
   selectedFrame: {fileID: 21300000, guid: 45dc133095fb5834fbe848ca71f6f4db, type: 3}
   nonSelectedFrame: {fileID: 21300000, guid: 0ac59b3cdaad0b644a74989c9dc8a3d8, type: 3}
   actionButton: {fileID: 13637373034519449}
@@ -2192,6 +2198,14 @@ MonoBehaviour:
   jumpButton: {fileID: 1434355046594534228}
   pushButton: {fileID: 2578373764342122692}
   invenButton: {fileID: 888585677640883666}
+  buttons:
+  - {fileID: 3697729858626226039}
+  - {fileID: 3800555426750482533}
+  - {fileID: 4149255212506200474}
+  - {fileID: 4933603476617315058}
+  - {fileID: 1434355046594534228}
+  - {fileID: 2578373764342122692}
+  - {fileID: 888585677640883666}
 --- !u!1 &7080088609454815075
 GameObject:
   m_ObjectHideFlags: 0
@@ -3232,6 +3246,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_Transition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (3)
@@ -3320,6 +3342,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: buttonType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: skillDescription
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6261978835859496843, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3357,6 +3387,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4149255212506200474}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickSkillButton
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AngelBeat.SkillButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (2)
@@ -3461,6 +3523,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b4fca7bd164c3ce459a6a9f84fde928b, type: 3}
+    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: buttonType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3490,6 +3556,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3697729858626226039}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickSkillButton
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AngelBeat.SkillButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton
@@ -3715,6 +3809,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3800555426750482533}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickSkillButton
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AngelBeat.SkillButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (1)
@@ -3823,6 +3949,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 47c2ae55f6cb9da4ca3571b7b6a4560e, type: 3}
+    - target: {fileID: 5376673211880789745, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: buttonType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8442910324350844216, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: skillDescriptionSprite
       value: 
