@@ -23,6 +23,9 @@ namespace UIs.Runtime
         
         BattleSceneView,
         BattleCharacterInfoPopUpView,
+        
+        GameWinView,
+        GameOverView,
     }
 
     public enum ViewLayer

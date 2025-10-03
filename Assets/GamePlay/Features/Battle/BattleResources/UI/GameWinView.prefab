@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 1436974793128897088}
   - component: {fileID: 7584141639433142138}
   m_Layer: 5
-  m_Name: GameWinUI
+  m_Name: GameWinView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

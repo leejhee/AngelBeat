@@ -67,7 +67,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &98613064079617839
 RectTransform:
   m_ObjectHideFlags: 0
@@ -346,24 +346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98905f991744f4341915da459a29b518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  novelScript: {fileID: 2811297602134710623, guid: 5def8bc4108998b43bba7482dd6a7270, type: 3}
-  currentAct:
-    novelLines: []
-    currentIndex: 0
-  labelDict:
+  isFinished: 0
+  currentCharacterDict:
     pairs: []
     keys: []
-    values: 
-  dialoguePanel: {fileID: 0}
-  backgroundPanel: {fileID: 0}
-  namePanel: {fileID: 0}
-  standingPanel: {fileID: 0}
-  choicePanel: {fileID: 0}
-  blurPanel: {fileID: 0}
-  novelText: {fileID: 0}
-  nameText: {fileID: 0}
-  nextButton: {fileID: 0}
-  currentBackgroundObject: {fileID: 0}
+    values: []
   currentChoices:
     pairs: []
     keys: []

@@ -56,12 +56,26 @@ MonoBehaviour:
   - m_GUID: 7d900f8b4784cd042a7570b41af024c1
     m_Address: BattleSceneView
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - View
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 459afaa99bf66d8479f3fe36d88dc537
     m_Address: BattleCharacterInfoPopUp
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c90e4088b2c6834d93e97a2bfa35d1f
+    m_Address: GameOverView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d94ea6fac8cf3d149887ce915f01ad5a
+    m_Address: GameWinView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}

@@ -239,6 +239,9 @@ namespace Core.Scripts.Managers
             }
 
             GameObject go = h.Result; // 인스턴스화의 결과니까 게임오브젝트다.
+            string goName = go.name;
+            goName = goName.Replace("(Clone)", "");
+            go.name = goName;
             lock (_handleGate) _instanceHandles[go] = h;
             return go;
         }

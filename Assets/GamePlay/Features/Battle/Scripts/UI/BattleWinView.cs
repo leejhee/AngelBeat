@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using UIs.Runtime;
 using UIs.UIObjects;
 using UnityEngine;
 
 namespace AngelBeat.UI
 {
-    public class BattleWinUI : MonoBehaviour
+    public class BattleWinView : MonoBehaviour, IView
     {
         [Serializable]
         public struct rewardTable
@@ -46,6 +49,33 @@ namespace AngelBeat.UI
         {
             yield return new WaitForSeconds(3);
             Application.Quit();
+        }
+
+        public GameObject Root { get; }
+        public void Show()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Hide()
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask PlayEnterAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UniTask PlayExitAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class BattleWinPresenter : PresenterBase<BattleWinView>
+    {
+        public BattleWinPresenter(IView view) : base(view)
+        {
         }
     }
 }

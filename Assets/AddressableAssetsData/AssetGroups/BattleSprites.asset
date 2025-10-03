@@ -32,11 +32,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e6e2628fc60ae449aa87c03d4817c86
-    m_Address: LD_Yeon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1adb5ba404a108149892cc5f67e8fb06
     m_Address: Yeon
     m_ReadOnly: 0
@@ -59,6 +54,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ce7aab3dfd7f2984b89fabf8037171b6
     m_Address: Seol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c6716709f32f934a9927085b5e8a467
+    m_Address: LD_Yeon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
