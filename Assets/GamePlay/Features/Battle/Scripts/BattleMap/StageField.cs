@@ -39,6 +39,9 @@ public class StageField : MonoBehaviour
     [SerializeField] private List<Vector2Int> platformGridCells;
     [SerializeField] private List<Vector2Int> obstacleGridCells;
     
+    public List<Vector2Int> PlatformGridCells => platformGridCells;
+    public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
+    
     public Transform ObjectRoot { 
         get
         {

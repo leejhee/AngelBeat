@@ -30,13 +30,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private Sprite _characterSprite;
-
+        [SerializeField] private Transform _charUnitRoot;
         private SpriteRenderer _spriteRenderer;
         
         private CharacterModel  _charInfo;
         
         private Transform       _charTransform;
-        private Transform       _charUnitRoot;
+        
         
         private CharStat        _charStat;
         

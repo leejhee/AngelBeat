@@ -199,14 +199,21 @@ MonoBehaviour:
   gameOverPrefab: {fileID: 7529872561760963752, guid: 2c90e4088b2c6834d93e97a2bfa35d1f, type: 3}
   gameWinPrefab: {fileID: 5464895019958645753, guid: d94ea6fac8cf3d149887ce915f01ad5a, type: 3}
   previewPrefab: {fileID: 4849087280689241070, guid: 7e3cec4c0464df448b1af62f951a319d, type: 3}
-  indicatorPrefab: {fileID: 0}
+  indicatorPrefab: {fileID: 5673408793896508206, guid: 40313ca4d7436d446a43b9fa5daf23e6, type: 3}
   indicatorLists: []
-  possibleColor: {r: 0, g: 0, b: 0, a: 0}
-  blockedColor: {r: 0, g: 0, b: 0, a: 0}
+  possibleColor: {r: 0, g: 1, b: 0, a: 0.5686275}
+  blockedColor: {r: 1, g: 0.2028302, b: 0.2028302, a: 0.64705884}
   battleFieldDB: {fileID: 11400000, guid: 7d085e60757bd6b429d8a0dce77253be, type: 2}
   DebugDungeon: 1
   DebugMapName: 
   cameraSize: 11
+  TutorialPlayerMove1: 0
+  TutorialEnemyMove1: 0
+  TutorialPlayerMove2: 0
+  TutorialEnemyMove2: 0
+  TutorialPlayerPush: 0
+  TutorialEnemyDead: 0
+  IsModal: 0
 --- !u!4 &881014747
 Transform:
   m_ObjectHideFlags: 0

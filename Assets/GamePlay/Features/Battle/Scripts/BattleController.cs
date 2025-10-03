@@ -5,6 +5,7 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Common.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Scripts.Skill.Preview;
@@ -58,9 +59,9 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private List<GameObject> indicatorLists = new();
         [SerializeField] private Color possibleColor;
         [SerializeField] private Color blockedColor;
-
+        
         #endregion
-
+        
         [SerializeField] private BattleFieldDB battleFieldDB;
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
         [SerializeField] private string DebugMapName;
@@ -73,6 +74,21 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
+        
+        #region 튜토부울
+
+        public bool TutorialPlayerMove1;
+        public bool TutorialEnemyMove1;
+        //노벨2번 실행
+        public bool TutorialPlayerMove2;
+        public bool TutorialEnemyMove2;
+        //노벨3번 실행
+        public bool TutorialPlayerPush;
+        public bool TutorialEnemyDead;
+        //노벨4번 실행
+        
+        #endregion
+        
         
         #region UI Model
         
@@ -129,7 +145,6 @@ namespace GamePlay.Features.Battle.Scripts
             _turnManager = new TurnController(battleMembers); 
             _turnManager.ChangeTurn();
             
-            
             // 전투 공통 이벤트 처리
             BindBattleEvent();
             
@@ -154,12 +169,34 @@ namespace GamePlay.Features.Battle.Scripts
             //BattleCharManager.Instance.SubscribeDeathEvents();
         }
 
+        public bool IsModal;
+        
         public void ShowPushPreview()
         {
             _battleStage.ShowGridOverlay(true);
             List<Vector2Int> aroundOne = new List<Vector2Int>() { };
         }
 
+        public void ShowJumpPreview()
+        {
+            
+        }
+        
+        // 이걸 토글용으로 사용 가능할듯함.
+        public void TogglePreview(SkillModel target)
+        {
+            if (IsModal)
+            {
+                HideSkillPreview();
+                IsModal = false;
+            }
+            else
+            {
+                ShowSkillPreview(target);
+                IsModal = true;
+            }
+        }
+        
         public void ShowSkillPreview(SkillModel targetSkill)
         {
             if (!_battleStage)
@@ -177,51 +214,185 @@ namespace GamePlay.Features.Battle.Scripts
             Debug.Log(nowPosVec3);
             int nowX = nowPosVec3.x;
             int nowY = nowPosVec3.y;
+            
+            bool blocked = false;
             if (data.Origin)
             {
+                Vector2Int nowPos = new Vector2Int(nowX, nowY);
+                if (_battleStage.ObstacleGridCells.Contains(nowPos) ||
+                    !_battleStage.PlatformGridCells.Contains(nowPos))
+                    blockedVector.Add(nowPos);
+                else
+                    rangeVector.Add(nowPos);
+            }
+            {
                 // 각 방향의 셀들에 따라서 도중에 장애물 있으면 그 너머는 불가한거로.
-
+                
                 for (int i = 1; i <= data.Forward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX + i, nowY));
+                    int newX = nowX + i;
+                    Vector2Int newPos = new(newX, nowY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
+                    if(blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
 
+                blocked = false;
                 for (int i = 1; i <= data.Backward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX - i, nowY));
+                    int newX = nowX - i;
+                    Vector2Int newPos = new(newX, nowY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
+                    if(blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
             }
-
+            blocked = false;
             if (data.Down)
             {
+                int newY = nowY - 1;
+                Vector2Int newPos = new(nowX, newY);
+                if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                    !_battleStage.PlatformGridCells.Contains(newPos))
+                    blockedVector.Add(newPos);
+                else
+                    rangeVector.Add(newPos);
+            }
+
+            {
+                int newY = nowY - 1;
                 for (int i = 1; i <= data.DownForward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX + i, nowY - 1));
+                    int newX = nowX + i;
+                    
+                    Vector2Int newPos = new(newX, newY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
+
+                    if (blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
 
+                blocked = false;
                 for (int i = 1; i <= data.DownBackward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX - i, nowY - 1));
+                    int newX = nowX - i;
+                    Vector2Int newPos = new(newX, nowY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
 
+                    if (blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
             }
-
+            blocked = false;
             if (data.Up)
             {
+                int newY = nowY + 1;
+                Vector2Int newPos = new(nowX, newY);
+                if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                    !_battleStage.PlatformGridCells.Contains(newPos))
+                    blockedVector.Add(newPos);
+                else
+                    rangeVector.Add(newPos);
+            }
+
+            {
+                int newY = nowY + 1;
                 for (int i = 1; i <= data.UpForward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX + i, nowY + 1));
+                    int newX = nowX + i;
+                    Vector2Int newPos = new(newX, newY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
 
+                    if (blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
 
+                blocked = false;
                 for (int i = 1; i <= data.UpBackward; i++)
                 {
-                    rangeVector.Add(new Vector2Int(nowX - i, nowY + 1));
+                    int newX = nowX - i;
+                    Vector2Int newPos = new(newX, newY);
+                    if (_battleStage.ObstacleGridCells.Contains(newPos) ||
+                        !_battleStage.PlatformGridCells.Contains(newPos))
+                    {
+                        blocked = true;
+                    }
 
+                    if (blocked)
+                        blockedVector.Add(newPos);
+                    else
+                        rangeVector.Add(newPos);
                 }
             }
+
+            blocked = false;
             
-            //_battleStage.PaintRange(rangeVector, blockedVector);
+            foreach (Vector2Int vector in rangeVector)
+            {
+                Vector3 pos = _battleStage.Grid.GetCellCenterWorld(new Vector3Int(vector.x, vector.y, 0));
+                GameObject go = Instantiate(indicatorPrefab, pos, Quaternion.identity, _battleStage.Grid.transform);
+                SpriteRenderer sprite = go.GetComponent<SpriteRenderer>();
+                go.transform.localScale = new Vector3(_battleStage.Grid.cellSize.x, _battleStage.Grid.cellSize.y, 1);
+                sprite.color = possibleColor;
+                SkillIndicator indi = go.GetComponent<SkillIndicator>();
+                indi.Init(FocusChar, targetSkill, false, targetSkill.skillRange.skillPivot);
+                
+                indicatorLists.Add(go);
+            }
+            foreach (Vector2Int vector in blockedVector)
+            {
+                Vector3 pos = _battleStage.Grid.GetCellCenterWorld(new Vector3Int(vector.x, vector.y, 0));
+                GameObject go = Instantiate(indicatorPrefab, pos, Quaternion.identity, _battleStage.Grid.transform);
+                go.transform.localScale = new Vector3(_battleStage.Grid.cellSize.x, _battleStage.Grid.cellSize.y, 1);
+                SpriteRenderer sprite = go.GetComponent<SpriteRenderer>();
+                sprite.color = blockedColor;
+                SkillIndicator indi = go.GetComponent<SkillIndicator>();
+                indi.Init(FocusChar, targetSkill, true, targetSkill.skillRange.skillPivot);
+                
+                indicatorLists.Add(go);
+            }
+            
+            
+        }
+        
+        public void HideSkillPreview()
+        {
+            foreach (GameObject go in indicatorLists)
+            {
+                Destroy(go);
+            }
+            indicatorLists.Clear();
+            _battleStage.ShowGridOverlay(false);
         }
 
         public void EndBattle(SystemEnum.eCharType winnerType)
