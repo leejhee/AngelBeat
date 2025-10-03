@@ -13,6 +13,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         
         public void MoveToNextTurn()
         {
+            Debug.Log("턴 넘어옴");
             if (currentIndex >= 0)
             {
                 turns[currentIndex++].SetCurrentTurn(false);

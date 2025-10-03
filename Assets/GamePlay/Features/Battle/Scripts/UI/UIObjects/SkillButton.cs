@@ -44,29 +44,28 @@ namespace AngelBeat
             if (skillDescription != null)
                 skillDescription.gameObject.SetActive(false);
         }
-
+        /// <summary>
+        /// 얘 지금 버튼에 직접 달려있어서 수정하기 힘듬
+        /// </summary>
+        /// <param name="idx"></param>
         public void OnClickSkillButton(int idx)
         {
-            // if (!isSelected)
-            // {
-            //     frame.sprite = selectedFrame;
-            //     isSelected = true;
-            // }
-            // else
-            // {
-            //     frame.sprite = nonSelectedFrame;
-            //     isSelected = false;
-            // }
-
-            
             var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
             if (idx >= skills.Count) return;
             SkillModel model = skills[idx];
             BattleController.Instance.ShowSkillPreview(model);
-            
 
         }
-        
+        public override void OnSelect()
+        {
+            // 스킬 선택시 해야하는 메서드
+        }
+
+        public override void OnDeselect()
+        {
+            // 여기서 스킬 해제 일단 해줌
+            Debug.Log("스킬 해제");
+        }
     }
 }
 

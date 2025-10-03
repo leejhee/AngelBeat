@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
-    public class ToggleButton : MonoBehaviour
+    public abstract class ToggleButton : MonoBehaviour
     {
         public bool isSelected;
         [SerializeField] protected Image frame;
@@ -18,6 +18,10 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         public Image Frame => frame;
         public Sprite SelectedFrame => selectedFrame;
         public Sprite NonSelectedFrame => nonSelectedFrame;
+
+        public abstract void OnSelect();
+
+        public abstract void OnDeselect();
     }
     public class CharacterHUD : MonoBehaviour
     {
@@ -71,6 +75,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             {
                 selectedButton.isSelected = false;
                 selectedButton.Frame.sprite = selectedButton.NonSelectedFrame;
+                selectedButton.OnDeselect();
             }
             else
             {
@@ -80,16 +85,29 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                     {
                         button.isSelected = false;
                         button.Frame.sprite = button.NonSelectedFrame;
+                        button.OnDeselect();
                     }
 
                 }
                 selectedButton.isSelected = true;
                 selectedButton.Frame.sprite = selectedButton.SelectedFrame;
+                selectedButton.OnSelect();
             }
-
-            
         }
-
+        
+        // 스킬이나 행동이 사용되었을 경우
+        public void DeselectAllToggleButton()
+        {
+            foreach (var button in buttons)
+            {
+                if (button.isSelected)
+                {
+                    button.isSelected = false;
+                    button.Frame.sprite = button.NonSelectedFrame;
+                    return;
+                }
+            }
+        }
         
         public void ShowCharacterHUD(
             string charName,

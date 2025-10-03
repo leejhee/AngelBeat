@@ -39,9 +39,15 @@ public class NovelManager : MonoBehaviour
 
     UniTask _initialization = UniTask.CompletedTask;
     static bool initStarted;
-
-
-    public static int act;
+    
+    /// <summary>
+    /// 튜토리얼용 임시 함수
+    /// </summary>
+    /// <param name="index"></param>
+    public void PlayTutorial(int index)
+    {
+        PlayScript($"Tutorial_{index}");
+    }
     
     public static async void Init()
     {
@@ -115,7 +121,6 @@ public class NovelManager : MonoBehaviour
     // 여기가 진짜 초기화 코드
     private async UniTask InitializeAsync()
     {
-        act = 1;
         // 라벨로 SO 전체 로드
         await Data.InitByLabelAsync();
   

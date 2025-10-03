@@ -58,7 +58,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
         public override UniTask EnterAction(CancellationToken token)
         {
             #region Model Events
-
+            
             //hp 구독
             ModelEvents.Subscribe<HPModel>(
                 act => BattleController.Instance.FocusChar.CharStat.OnFocusedCharHpChanged += act,
@@ -275,18 +275,27 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnClickJumpButton()
         {
-            Debug.Log("점프");
+            if (View.CharacterHUD.JumpButton.GetComponent<ToggleButton>().isSelected)
+            {
+                Debug.Log("점프");
+            }
         }
 
         private void OnClickPushButton()
         {
-            Debug.Log("밀기");
-            BattleController.Instance.ShowPushPreview();
+            if (View.CharacterHUD.PushButton.GetComponent<ToggleButton>().isSelected)
+            {
+                Debug.Log("밀기");
+                BattleController.Instance.ShowPushPreview();
+            }
         }
 
         private void OnClickInvenButton()
         {
-            Debug.Log("인벤토리 오픈");
+            if (View.CharacterHUD.InvenButton.GetComponent<ToggleButton>().isSelected)
+            {
+                Debug.Log("인벤토리 오픈");
+            }
         }
         #endregion
         

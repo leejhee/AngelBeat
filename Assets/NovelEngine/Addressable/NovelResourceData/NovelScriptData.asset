@@ -18,9 +18,9 @@ MonoBehaviour:
       value: {fileID: 2811297602134710623, guid: 68e8153a11f78844dab95fe1d7ceda06, type: 3}
     - _key: Tutorial_2
       value: {fileID: 2811297602134710623, guid: 8a1340ac51e959c438306985a1effc2d, type: 3}
-    - _key: Tutorial_3
+    - _key: Tutorial_4
       value: {fileID: 2811297602134710623, guid: 0b1db115c64743a428996d0c1aaa815d, type: 3}
-    - _key: BattleBGM
-      value: {fileID: 2811297602134710623, guid: 972c16fb745c7f645b79950002d167ea, type: 3}
+    - _key: Tutorial_3
+      value: {fileID: 2811297602134710623, guid: 598279c7e69a73841a615eadb3315418, type: 3}
     keys: []
     values: []

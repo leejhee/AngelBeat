@@ -12,33 +12,20 @@ public class NovelTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayScript();
+        PlayTutorial_1();
     }
 
-    private async void PlayScript()
+    private async void PlayTutorial_1()
     {
         await NovelManager.InitAsync();
-        if (NovelManager.act == 1)
-        {
-            NovelManager.Instance.PlayScript("Tutorial_1");
-        }
-        else if (NovelManager.act == 2)
-        {
-            NovelManager.Instance.PlayScript("Tutorial_2");
-
-        }
-        else if (NovelManager.act == 3)
-        {
-            NovelManager.Instance.PlayScript("Tutorial_3");
-
-        }
+        NovelManager.Instance.PlayTutorial(1);
 
     }
-    public void OnButtonClick()
-    {
-        
-        NovelManager.Instance.PlayScript("Tutorial_2");
-    }
+    // public void OnButtonClick()
+    // {
+    //     
+    //     NovelManager.Instance.PlayScript("Tutorial_2");
+    // }
 
 
 }

@@ -34,14 +34,6 @@ public class NovelPlayer : MonoBehaviour
     /// 빌드용 임시 코드
     /// </summary>
     private bool isStoryStarted = false;
-    private void OnDisable()
-    {
-        if (isStoryStarted)
-        {
-            NovelManager.act++;
-            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene);
-        }
-    }
 
 
     // 나중에 private로 돌릴것들
