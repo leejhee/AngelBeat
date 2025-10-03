@@ -36,6 +36,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _CellMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,10 +60,16 @@ Material:
     m_Floats:
     - _Thickness: 0.026
     m_Colors:
+    - _BlockedColor: {r: 1, g: 0, b: 0, a: 0.4745098}
     - _CellSize: {r: 5, g: 6, b: 0, a: 0}
+    - _Cells: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DefaultScale: {r: 1, g: 1, b: 0, a: 0}
     - _FillColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HoverCell: {r: 0, g: 0, b: 0, a: 0}
+    - _HoverColor: {r: 0.99178314, g: 1, b: 0, a: 0.42745098}
     - _LineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Origin: {r: 0, g: 0, b: 0, a: 0}
+    - _PossibleColor: {r: 0, g: 1, b: 0.09281945, a: 0.49019608}
+    - _SelectedColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
