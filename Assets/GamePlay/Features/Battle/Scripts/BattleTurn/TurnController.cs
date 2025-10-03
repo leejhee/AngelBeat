@@ -18,7 +18,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         
         public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
-        public event Action OnRoundProceeds;
+        public Action OnRoundProceeds;
         public event Action OnRoundEnd;
         public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();
 

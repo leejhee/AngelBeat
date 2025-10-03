@@ -1,6 +1,7 @@
 using Core.Scripts.Data;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Scripts.Skill;
 using UnityEngine;
 

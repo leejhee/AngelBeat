@@ -95,7 +95,9 @@ namespace GamePlay.Features.Battle.Scripts
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
             await BattleInitialize();
             await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
+            _turnManager.OnRoundProceeds.Invoke();
             _turnManager.OnTurnChanged.Invoke(new TurnController.TurnModel(_turnManager.CurrentTurn));
+            
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>

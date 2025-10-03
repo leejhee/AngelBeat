@@ -1,4 +1,5 @@
 using AngelBeat;
+using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Skill;
 using GamePlay.Skill;

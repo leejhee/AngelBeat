@@ -1,4 +1,3 @@
-using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GamePlay.Features.Scripts.Skill
+namespace GamePlay.Common.Scripts.Skill
 {
     public class SkillParameter
     {
