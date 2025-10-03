@@ -1,9 +1,9 @@
-﻿스킬 ID,스킬 사용자 ID,#스킬 설명,스킬 이름,스킬 종류,스킬 사용 사거리,스킬 중심,스킬 중심거리,치명타 배율,명중율,스킬 데미지,스킬 효과,스킬 아이콘명,스킬 타임라인명,스킬 해금 조건,#SkillData 시트 관련 설명,,,
-index,characterID,#,skillName,skillType,skillRangeID,skillPivot,skillPivotRange,skillCritical,skillAccuracy,skillDamage,executionIndex,skillIconImage,skillTimeLine,unlockCondition,#스킬 효과의 경우 스킬 발동 시 어떤 효과를 가지게 할지(데미지나 디버프 및 버프 등)에 대한 인덱스 리스트,,,
-long,long,#,string,eSkillType,long,ePivot,int,int,int,long,long,string,string,eSkillUnlock,#기본적으로 스킬 하나당 타임라인을 사용해서 연출을 사용할 예정임,,,
-10111001,,"#근접 광역, 스택 쌓기",화무,PhysicalAttack,,TARGET_ENEMY,1,3,85,11111001,,,,,,,,
-10121001,,"#근접 광역, 스택 의존",화룡정점,PhysicalAttack,,TARGET_ENEMY,2,6,95,11110001,,,,,,,,
-10131001,,"#디버프, 화상 뿌리기",타올라라,Debuff,,TARGET_ENEMY,0,-1000,100,11000000,,,,,,,,
-10010001,,#근접 단일,일반 타격,PhysicalAttack,,TARGET_ENEMY,0,4,90,11010001,,,,,,,,
-10030001,,"#버프, 스택 쌓기",맨들맨들,Buff,,TARGET_SELF,0,8,1000,11000000,,,,,,,,
-10021001,,"#원거리 광역, 스택의존",태양권,MagicAttack,,TARGET_ENEMY,3,-1000,1000,11021001,,,,,,,,
+﻿스킬 ID,스킬 사용 캐릭 ID,#스킬 설명,스킬 이름,스킬 종류,스킬 중심,스킬 데미지,스킬 사용 사거리,스킬 효과,치명타 보정치,명중율,스킬 아이콘명,스킬 타임라인명,스킬 해금 조건,,,,,
+index,characterID,#,skillName,skillType,skillPivot,skillDamage,skillRangeID,executionIndex,skillCritical,skillAccuracy,skillIconImage,skillTimeLine,unlockCondition,,,,,
+long,long,#,string,eSkillType,ePivot,long,long,long,int,int,string,string,eSkillUnlock,,,,,
+30020001,30010001,"#근접 단일, 밀기",탐식,PhysicalAttack,TARGET_ENEMY,30030001,30040001,,3,90,,gluttony,,,,,,
+30020001,30010002,"#근접 단일, 밀기",탐식,PhysicalAttack,TARGET_ENEMY,30030001,30040001,,3,90,,gluttony,,,,,,
+10050001,10010001,#반격,반격,PhysicalAttack,Caster,10060001,10070001,,3,100,,counterattack,,,,,,
+
+
+

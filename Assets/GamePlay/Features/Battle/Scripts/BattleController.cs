@@ -1,7 +1,8 @@
-using Character;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -64,6 +65,8 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
+
+        private StageField _battleStage;
         
         #region UI Model
         
@@ -108,10 +111,10 @@ namespace GamePlay.Features.Battle.Scripts
             Party playerParty = _stageSource.PlayerParty;
             
             // 맵 띄우기
-            StageField battleField = await _mapLoader.InstantiateBattleFieldAsync(stageName);
+            _battleStage = await _mapLoader.InstantiateBattleFieldAsync(stageName);
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
-            List<CharBase> battleMembers = battleField.SpawnAllUnits(playerParty);
+            List<CharBase> battleMembers = _battleStage.SpawnAllUnits(playerParty);
             
             // 턴 관리기 초기화
             _turnManager = new TurnController(battleMembers); 
@@ -140,10 +143,17 @@ namespace GamePlay.Features.Battle.Scripts
         
         public void ShowSkillPreview(SkillModel targetSkill)
         {
-            if (!_preview)
-                _preview = Instantiate(previewPrefab.GetComponent<SkillPreview>(), FocusChar.CharTransform);
-            _preview.gameObject.SetActive(true);
-            _preview.InitPreview(FocusChar, targetSkill);
+            //if (!_preview)
+            //    _preview = Instantiate(previewPrefab.GetComponent<SkillPreview>(), FocusChar.CharTransform);
+            //_preview.gameObject.SetActive(true);
+            //_preview.InitPreview(FocusChar, targetSkill);
+
+            if (!_battleStage)
+            {
+                Debug.LogError("[BattleController] : Battle Stage not set");
+                return;
+            }
+            //List<SkillRangeData> ranges = DataManager.Instance.
         }
         
         public void EndBattle(SystemEnum.eCharType winnerType)

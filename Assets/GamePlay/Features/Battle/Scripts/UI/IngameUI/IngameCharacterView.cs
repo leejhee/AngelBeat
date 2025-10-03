@@ -1,12 +1,10 @@
-using Character;
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts.Models;
 using System;
 using System.Collections.Generic;
-using System.Resources;
 using System.Threading;
-using System.Threading.Tasks;
 using UIs.Runtime;
 using UnityEngine;
 using UnityEngine.UI;

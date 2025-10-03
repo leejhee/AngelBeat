@@ -1,4 +1,4 @@
-using Character;
+using GamePlay.Common.Scripts.Entities.Character;
 using UnityEngine;
 using UnityEngine.UI;
 

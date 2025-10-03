@@ -235,11 +235,66 @@ namespace Core.Scripts.Foundation.Define
         
             TARGET_SELF,
             TARGET_ENEMY,
+            Caster,
         }
 
         public enum eUpgradeLevel
         {
             None,
+            
+        }
+
+        public enum eSkillOwner
+        {
+            Dokkaebi,
+            Normal,
+        }
+        
+        public enum eRefreshPolicy
+        {
+            None,
+            Refresh,
+            Stack,
+        }
+
+        public enum eRemovePolicy
+        {
+            ByDuration,
+            ByStackEmpty,
+        }
+
+        public enum eEffectType
+        {
+            ControlMove,
+            TriggerSkill,
+            Debuff,
+        }
+
+        public enum eTriggerCondition
+        {
+            OnUse,
+            OnHit,
+        }
+        
+        
+        
+        public enum eSourceType
+        {
+            None,
+            Skill,
+        }
+
+        public enum eApplyTarget
+        {
+            None,
+            TARGET_SELF,
+            TARGET_ENEMY,
+        }
+
+        public enum eStackBehavior
+        {
+            Refresh,
+            Cumulative,
             
         }
         
@@ -294,10 +349,11 @@ namespace Core.Scripts.Foundation.Define
             None,
         
             Burn,
-            Ember,
-            BurningHeart,
-            MendeulMendeul,
-        
+            PhantomReprisal,
+            DefenseDecrease,
+            Smoke,
+
+            
             eMax
         }
 

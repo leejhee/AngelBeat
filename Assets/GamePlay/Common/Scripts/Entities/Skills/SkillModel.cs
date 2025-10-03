@@ -3,35 +3,30 @@ using Core.Scripts.Foundation.Define;
 using System;
 using UnityEngine;
 
-namespace GamePlay.Skill
+namespace GamePlay.Common.Scripts.Entities.Skills
 {
     [Serializable]
     public class SkillModel
     {
-        private SkillData _skillData;
         public readonly string      SkillName;
         
-        public long                SkillIndex => _skillData.index;
+        public long                SkillIndex;
 
         // 가변
         public bool                     IsSkillActive;
-        public long                      SkillRange;
+        public long                     SkillRange;
         public int                      SkillHitRange;
         public Sprite                   Icon;
         public SystemEnum.ePivot        SkillPivot;
         public SystemEnum.eSkillType    SkillType;
-        public float                    DamageCalibration;
         public int                      Accuracy;
         public int                      CritMultiplier;
         public SkillModel(SkillData skillData)
         {
-            _skillData = skillData;
-            
+            SkillIndex = skillData.index;
             SkillRange = skillData.skillRangeID;
             SkillPivot = skillData.skillPivot;
-            SkillHitRange = skillData.skillPivotRange;
             SkillType = skillData.skillType;
-            //DamageCalibration = skillData;
             Accuracy = skillData.skillAccuracy;
             CritMultiplier = skillData.skillCritical;
             

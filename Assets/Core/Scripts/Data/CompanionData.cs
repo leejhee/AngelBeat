@@ -18,13 +18,13 @@ public long index; // 동료 ID
 		public long charStatID; // 캐릭터 스탯 ID
 		public long PassiveD1; // 첫 번째 패시브
 		public long PassiveD2; // 두 번째 패시브
-		public long Skill1ID; // 첫 번째 스킬 
-		public long Skill2ID; // 두 번째 스킬 
-		public long Skill3ID; // 세 번째 스킬 
-		public long Skill4ID; // 네 번째 스킬 
-		public long Skill5ID; // 다섯 번째 스킬 
-		public long Skill6ID; // 여섯 번째 스킬 
-		public long Skill7ID; // 일곱 번째 스킬 
+		public long Skill1ID; // 첫 번째 스킬
+		public long Skill2ID; // 두 번째 스킬
+		public long Skill3ID; // 세 번째 스킬
+		public long Skill4ID; // 네 번째 스킬
+		public long Skill5ID; // 다섯 번째 스킬
+		public long Skill6ID; // 여섯 번째 스킬
+		public long Skill7ID; // 일곱 번째 스킬
 		
 		public SystemEnum.eUnlockCondition UnlockCondition; // 해금조건
 		

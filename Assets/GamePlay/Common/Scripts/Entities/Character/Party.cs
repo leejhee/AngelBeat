@@ -1,5 +1,5 @@
-using Character;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Character;
 using System;
 using System.Collections.Generic;
 using System.Text;

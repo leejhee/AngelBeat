@@ -1,8 +1,9 @@
-using Character;
 using Core.Attributes;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.Unit;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
@@ -17,9 +18,22 @@ public class StageField : MonoBehaviour
     
     [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
+
+    /// <summary>
+    /// 현재 맵에 존재하는 좌표의 총 사이즈(GridProvider의 초기화에 사용)
+    /// </summary>
+    [SerializeField] private Vector2Int gridSize;
     
+    /// <summary>
+    /// 미리보기 전용 그리드 제공자
+    /// </summary>
+    [SerializeField] private BattleGridProvider gridProvider;
+
+    private Grid _grid;
+
+    private Vector2 _cellWorld;
+    private Vector2 _originWorld;
     
-    private BattleGridProvider gridProvider;
     
     public Transform ObjectRoot { 
         get
@@ -38,12 +52,26 @@ public class StageField : MonoBehaviour
     {
         Debug.Log("Initializing Spawn Data...");
         _spawnDict = battleSpawnerData.Convert2Dict();
+        _grid = GetComponent<Grid>();
+        if(!gridProvider)
+            gridProvider = GetComponentInChildren<BattleGridProvider>();
+    }
 
-        gridProvider = GetComponentInChildren<BattleGridProvider>();
+    private void Start()
+    {
+        _cellWorld = new Vector2(
+            _grid.cellSize.x * transform.lossyScale.x,
+            _grid.cellSize.y * transform.lossyScale.y
+        );
+        var c00 = _grid.GetCellCenterWorld(Vector3Int.zero);
+        _originWorld = (Vector2)c00 - 0.5f * _cellWorld;
+
+        gridProvider.ApplySpec(gridSize, _cellWorld, _originWorld, lineWidthPixels: 2);
+        gridProvider.InitMask();
+        gridProvider.Show(false);
     }
     
-    
-    
+
     #region Spawning Units for Initialization
     public void SpawnUnit(CharBase charBase, int squadOrder)
     {
@@ -121,6 +149,44 @@ public class StageField : MonoBehaviour
     }
     
     #endregion
+    
+    #region Grid Provider Util
+    
+    public void ShowGridOverlay(bool on)
+    {
+        gridProvider.Show(on);
+        if (!on) { gridProvider.ClearHighlights(); gridProvider.ClearHover(); }
+    }
+
+// 범위 칠하기(“가능 중 불가”만 빨강으로)
+    public void PaintRange(IEnumerable<Vector2Int> possible, IEnumerable<Vector2Int> blocked, Vector2Int? selected = null)
+    {
+        gridProvider.SetHighlights(possible, blocked, selected);
+    }
+
+// 호버 업데이트(좌표 변환 포함 예시)
+    public void UpdateHoverFromWorld(Vector2 worldPos)
+    {
+        var cell = WorldToCell(worldPos);
+        if (InBounds(cell)) gridProvider.SetHoverCell(cell);
+        else                gridProvider.ClearHover();
+    }
+
+// 좌표 유틸
+    public bool InBounds(Vector2Int c) =>
+        c.x >= 0 && c.y >= 0 && c.x < gridSize.x && c.y < gridSize.y;
+
+    public Vector2Int WorldToCell(Vector2 world)
+    {
+        var p = new Vector2((world.x - _originWorld.x) / _cellWorld.x,
+            (world.y - _originWorld.y) / _cellWorld.y);
+        return new Vector2Int(Mathf.FloorToInt(p.x), Mathf.FloorToInt(p.y));
+    }
+
+    public Vector2 CellToWorldCenter(Vector2Int cell) =>
+        _originWorld + (Vector2)(cell + Vector2.one * 0.5f) * _cellWorld;
+    #endregion
+    
     
     #region 에디터 툴용
 #if UNITY_EDITOR

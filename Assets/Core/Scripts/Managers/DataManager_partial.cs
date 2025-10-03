@@ -29,8 +29,9 @@ namespace Core.Scripts.Managers
         private Dictionary<string, Sprite> skillIconSpriteMap = new();
         public Dictionary<string, Sprite> SkillIconSpriteMap =>  skillIconSpriteMap;
 
-        
-        
+
+        private Dictionary<long, List<SkillRangeData>> skillRangeDataMap = new();
+        public Dictionary<long, List<SkillRangeData>> SkillRangeDataMap => skillRangeDataMap;
         
         
         public void SetKeywordDataMap()

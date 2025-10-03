@@ -20,8 +20,8 @@ public long index; // 도깨비 스킬 ID
 		public float Weight; // 가중치
 		
 		public SystemEnum.eSkillType skillType; // 스킬 종류
-		public long skillRange; // 스킬 범위
 		public long skillDamage; // 스킬 데미지
+		public long skillRange; // 스킬 범위
 		public int skillCritical; // 치명타 배율
 		public int skillAccuracy; // 명중율
 		public long executionIndex; // 스킬 효과
@@ -76,14 +76,14 @@ public long index; // 도깨비 스킬 ID
 					    data.skillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[5]);
 					
 					if(values[6] == "")
-					    data.skillRange = default;
-					else
-					    data.skillRange = Convert.ToInt64(values[6]);
-					
-					if(values[7] == "")
 					    data.skillDamage = default;
 					else
-					    data.skillDamage = Convert.ToInt64(values[7]);
+					    data.skillDamage = Convert.ToInt64(values[6]);
+					
+					if(values[7] == "")
+					    data.skillRange = default;
+					else
+					    data.skillRange = Convert.ToInt64(values[7]);
 					
 					if(values[8] == "")
 					    data.skillCritical = default;

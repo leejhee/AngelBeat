@@ -1,7 +1,8 @@
-using Character;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;

@@ -1,44 +1,9 @@
-﻿키워드 ID,#키워드 설명,키워드 enum,키워드 이름,긍정/중립/부정,키워드 아이콘,키워드 효과(삭제예정),아이콘이 보이는지,,,,,,,,,
-index,#,keywordType,keywordName,InfluenceType,keywordIcon,keywordExecution,iconIsVisible,,,,,,,,,
-long,#,eKeyword,string,eInfluenceType,string,long,bool,,,,,,,,,
-20010001,#화상,Burn,Burn,Negative,Burn,30030001,true,,,,,,,,,
-20010002,#잔불,Ember,Ember,Neutral,Ember,30030002,true,,,,,,,,,
-20010003,#타들어가는 마음은 꺼질 줄 모르고,BurningHeart,BurningHeart,Positive,BurningHeart,30030003,true,,,,,,,,,
-20010004,# 맨들맨들,MendeulMendeul,MendeulMendeul,Positive,Mendeulmendeul,30030004,true,,,,,,,,,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+﻿키워드 ID,키워드 이름,#키워드 설명,긍정/부정/중립,중첩 가능,최대 중첩,Refresh / Stack / Extend,ByDuration / ByCondition / Permanent,진화 후 키워드 ID,아이콘이 보이는지,키워드 enum,키워드 아이콘,프리팹 경로,,,,,,
+index,KeywordName,#,InfluenceType,Stackable,MaxStack,RefreshPolicy,RemovePolicy,EvolvedKeywordID,iconIsVisible,keywordType,keywordIcon,PrefabPath,,,,,,
+long,string,#,eInfluenceType,bool,int,eRefreshPolicy,eRemovePolicy,long,bool,eKeyword,string,,,,,,,
+60010001,Phantom,#은신,Positive,FALSE,1,Refresh,ByDuration,,TRUE,PhantomReprisal,PhantomReprisal,,,,,,,
+60010002,DefenseDecrease,#방어력 감소,Negative,TRUE,9,Stack,ByDuration,,TRUE,DefenseDecrease,DefenseDecrease,,,,,,,
+60010003,Smog,#연기,Negative,TRUE,9,Stack,ByStackEmpty,,TRUE,Smoke,Smoke,,,,,,,
 
 
 

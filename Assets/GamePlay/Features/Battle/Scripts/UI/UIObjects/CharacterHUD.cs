@@ -1,9 +1,6 @@
 using AngelBeat;
-using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
-using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Skill;
-using System;
+using GamePlay.Common.Scripts.Entities.Skills;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;

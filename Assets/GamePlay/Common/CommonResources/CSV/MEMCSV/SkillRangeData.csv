@@ -1,9 +1,9 @@
-﻿스킬 범위 ID,스킬ID,#스킬 이름,스킬 종류,스킬 중심,스킬 중심거리,자기 자리,앞,뒤,위,위앞,위뒤,아래,아래앞,아래뒤,,,,
-index,skillIndex,#,skillType,skillPivot,skillPivotRange,Origin,Forward,Backward,Up,UpForward,UpBackward,Down,DownForward,DownBackward,,,,
-long,long,#,eSkillType,ePivot,int,bool,int,int,bool,int,int,bool,int,int,,,,
-10111001,,#뭉게구름,PhysicalAttack,TARGET_ENEMY,0,FALSE,2,2,FALSE,0,0,FALSE,0,0,,,,
-10121001,,#눈속임,PhysicalAttack,TARGET_SELF,0,TRUE,0,0,FALSE,0,0,FALSE,0,0,,,,
-10131001,,#퍼뜨리기,Debuff,TARGET_ENEMY,1,FALSE,2,2,TRUE,1,1,TRUE,1,1,,,,
-
-
+﻿스킬 범위 ID,스킬 주체,스킬ID,#스킬 이름,스킬 종류,스킬 중심,스킬 중심거리,자기 자리,앞,뒤,위,위앞,위뒤,아래,아래앞,아래뒤,,,
+index,skillOwner,skillIndex,#,skillType,skillPivot,skillPivotRange,Origin,Forward,Backward,Up,UpForward,UpBackward,Down,DownForward,DownBackward,,,
+long,eSkillOwner,long,#,eSkillType,ePivot,int,bool,int,int,bool,int,int,bool,int,int,,,
+10040001,Dokkaebi,10020001,#뭉게구름,PhysicalAttack,TARGET_ENEMY,0,FALSE,2,2,FALSE,0,0,FALSE,0,0,,,
+10040002,Dokkaebi,10020002,#눈속임,PhysicalAttack,TARGET_SELF,0,TRUE,0,0,FALSE,0,0,FALSE,0,0,,,
+10040003,Dokkaebi,10020003,#퍼뜨리기,Debuff,TARGET_ENEMY,1,FALSE,2,2,TRUE,1,1,TRUE,1,1,,,
+30040001,Normal,30020001,#탐식,PhysicalAttack,TARGET_ENEMY,0,FALSE,2,0,FALSE,0,0,FALSE,0,0,,,
+10070001,Normal,10050001,#반격,PhysicalAttack,TARGET_SELF,0,FALSE,1,0,FALSE,0,0,FALSE,0,0,,,
 

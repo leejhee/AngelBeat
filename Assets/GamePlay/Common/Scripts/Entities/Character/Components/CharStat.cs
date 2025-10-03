@@ -15,21 +15,6 @@ namespace AngelBeat
         public CharStat(CharStatData charStat)
         {
             #region Init Stat Array
-            _charStat[(int)eStats.BLUE] = charStat.blue;
-            _charStat[(int)eStats.N_BLUE] = charStat.blue;
-            
-            _charStat[(int)eStats.RED] = charStat.red;
-            _charStat[(int)eStats.N_RED] = charStat.red;
-            
-            _charStat[(int)eStats.YELLOW] = charStat.yellow;
-            _charStat[(int)eStats.N_YELLOW] = charStat.yellow;
-            
-            _charStat[(int)eStats.WHITE] = charStat.white;
-            _charStat[(int)eStats.N_WHITE] = charStat.white;
-            
-            _charStat[(int)eStats.BLACK] = charStat.black;
-            _charStat[(int)eStats.N_BLACK] = charStat.black;
-            
             _charStat[(int)eStats.HP] = charStat.HP;
             _charStat[(int)eStats.NHP] = charStat.HP;
             _charStat[(int)eStats.NMHP] = charStat.HP;
@@ -68,6 +53,28 @@ namespace AngelBeat
             _charStat[(int)eStats.ACCURACY_INCREASE] = 0;
             #endregion
         }
+
+        public CharStat(DokkaebiData dokkaebiData)
+        {
+            _charStat[((int)eStats.RED)] = dokkaebiData.ObangRed;
+            _charStat[((int)eStats.N_RED)] = dokkaebiData.ObangRed;
+
+            _charStat[((int)eStats.BLUE)] = dokkaebiData.ObangBlue;
+            _charStat[((int)eStats.N_BLUE)] = dokkaebiData.ObangBlue;
+
+            _charStat[((int)eStats.YELLOW)] = dokkaebiData.ObangYellow;
+            _charStat[((int)eStats.N_YELLOW)] = dokkaebiData.ObangYellow;
+            
+            _charStat[((int)eStats.BLACK)] = dokkaebiData.ObangBlack;
+            _charStat[((int)eStats.N_BLACK)] = dokkaebiData.ObangBlack;
+
+            _charStat[((int)eStats.WHITE)] = dokkaebiData.ObangWhite;
+            _charStat[((int)eStats.N_WHITE)] = dokkaebiData.ObangWhite;
+            
+            // 나머지 스탯 초기화 방식...
+        }
+        
+        
         #region Stat Helper
         private eStats GetProperStatAttribute(eStats stat)
         {
@@ -106,6 +113,8 @@ namespace AngelBeat
             _charStat[(int)realStat] += valueDelta;
             OnStatChanged?.Invoke(realStat, _charStat[(int)realStat]);
         }
+
+        public event Action<HPModel> OnHPChanged;
         
         // 얘네는 현재 Focus된 놈 체력 깎일때
         public event Action<HPModel> OnFocusedCharHpChanged;

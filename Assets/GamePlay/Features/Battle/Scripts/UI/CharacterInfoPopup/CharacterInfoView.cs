@@ -1,5 +1,5 @@
-using Character;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;

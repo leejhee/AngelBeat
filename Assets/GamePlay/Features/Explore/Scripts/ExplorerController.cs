@@ -1,5 +1,5 @@
-using Character;
 using Core.Scripts.Managers;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
 using GamePlay.Entities.Scripts.Character;
 using System;

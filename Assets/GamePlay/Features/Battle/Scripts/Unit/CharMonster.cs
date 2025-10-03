@@ -1,6 +1,6 @@
-using Character;
 using Core.Scripts.Foundation.Define;
 using GamePlay.Character.Components;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.Unit;
 

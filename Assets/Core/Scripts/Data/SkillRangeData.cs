@@ -14,6 +14,8 @@ namespace Core.Scripts.Data
     public partial class SkillRangeData : SheetData
     {
 public long index; // 스킬 범위 ID
+		
+		public SystemEnum.eSkillOwner skillOwner; // 스킬 주체
 		public long skillIndex; // 스킬ID
 		
 		public SystemEnum.eSkillType skillType; // 스킬 종류
@@ -58,69 +60,74 @@ public long index; // 스킬 범위 ID
 					    data.index = Convert.ToInt64(values[0]);
 					
 					if(values[1] == "")
+					    data.skillOwner = default;
+					else
+					    data.skillOwner = (SystemEnum.eSkillOwner)Enum.Parse(typeof(SystemEnum.eSkillOwner), values[1]);
+					
+					if(values[2] == "")
 					    data.skillIndex = default;
 					else
-					    data.skillIndex = Convert.ToInt64(values[1]);
-					
-					if(values[3] == "")
-					    data.skillType = default;
-					else
-					    data.skillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[3]);
+					    data.skillIndex = Convert.ToInt64(values[2]);
 					
 					if(values[4] == "")
-					    data.skillPivot = default;
+					    data.skillType = default;
 					else
-					    data.skillPivot = (SystemEnum.ePivot)Enum.Parse(typeof(SystemEnum.ePivot), values[4]);
+					    data.skillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[4]);
 					
 					if(values[5] == "")
-					    data.skillPivotRange = default;
+					    data.skillPivot = default;
 					else
-					    data.skillPivotRange = Convert.ToInt32(values[5]);
+					    data.skillPivot = (SystemEnum.ePivot)Enum.Parse(typeof(SystemEnum.ePivot), values[5]);
 					
 					if(values[6] == "")
-					    data.Origin = default;
+					    data.skillPivotRange = default;
 					else
-					    data.Origin = Convert.ToBoolean(values[6].ToLowerInvariant());
+					    data.skillPivotRange = Convert.ToInt32(values[6]);
 					
 					if(values[7] == "")
-					    data.Forward = default;
+					    data.Origin = default;
 					else
-					    data.Forward = Convert.ToInt32(values[7]);
+					    data.Origin = Convert.ToBoolean(values[7].ToLowerInvariant());
 					
 					if(values[8] == "")
-					    data.Backward = default;
+					    data.Forward = default;
 					else
-					    data.Backward = Convert.ToInt32(values[8]);
+					    data.Forward = Convert.ToInt32(values[8]);
 					
 					if(values[9] == "")
-					    data.Up = default;
+					    data.Backward = default;
 					else
-					    data.Up = Convert.ToBoolean(values[9].ToLowerInvariant());
+					    data.Backward = Convert.ToInt32(values[9]);
 					
 					if(values[10] == "")
-					    data.UpForward = default;
+					    data.Up = default;
 					else
-					    data.UpForward = Convert.ToInt32(values[10]);
+					    data.Up = Convert.ToBoolean(values[10].ToLowerInvariant());
 					
 					if(values[11] == "")
-					    data.UpBackward = default;
+					    data.UpForward = default;
 					else
-					    data.UpBackward = Convert.ToInt32(values[11]);
+					    data.UpForward = Convert.ToInt32(values[11]);
 					
 					if(values[12] == "")
-					    data.Down = default;
+					    data.UpBackward = default;
 					else
-					    data.Down = Convert.ToBoolean(values[12].ToLowerInvariant());
+					    data.UpBackward = Convert.ToInt32(values[12]);
 					
 					if(values[13] == "")
-					    data.DownForward = default;
+					    data.Down = default;
 					else
-					    data.DownForward = Convert.ToInt32(values[13]);
+					    data.Down = Convert.ToBoolean(values[13].ToLowerInvariant());
 					
 					if(values[14] == "")
+					    data.DownForward = default;
+					else
+					    data.DownForward = Convert.ToInt32(values[14]);
+					
+					if(values[15] == "")
 					    data.DownBackward = default;
 					else
-					    data.DownBackward = Convert.ToInt32(values[14]);
+					    data.DownBackward = Convert.ToInt32(values[15]);
 					
 
                     dataList[data.index] = data;

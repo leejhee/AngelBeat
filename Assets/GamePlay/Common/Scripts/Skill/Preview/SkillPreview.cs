@@ -1,4 +1,5 @@
 ﻿using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
 using GamePlay.Skill;
@@ -110,7 +111,6 @@ namespace GamePlay.Features.Scripts.Skill.Preview
                                     _previewFocus, 
                                     targets, 
                                     _previewSkill.SkillType,
-                                    _previewSkill.DamageCalibration, 
                                     _previewSkill.Accuracy, 
                                     _previewSkill.CritMultiplier));
                             Debug.Log($"Skill Used : {_previewSkill.SkillName}");

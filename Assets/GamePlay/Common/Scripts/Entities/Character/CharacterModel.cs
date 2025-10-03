@@ -1,6 +1,7 @@
 ﻿using AngelBeat;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Skill;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
 
-namespace Character
+namespace GamePlay.Common.Scripts.Entities.Character
 {
     /// <summary> 파티에는 이 정보가 저장됩니다. </summary>
     [Serializable]
@@ -57,6 +58,29 @@ namespace Character
             _skillModels = skills.ToList();
         }
         
+    }
+    
+    /// <summary>
+    /// 전역적인 도깨비 모델. party의 초기화 시 자동으로 생성됩니다.
+    /// </summary>
+    [Serializable]
+    public class DokkaebiModel
+    {
+        private const int DokkaebiIndex = 58776974;
+        private readonly DokkaebiData _data;
+        private readonly CharStat _stat;
+        private readonly SystemEnum.eCharType _type = SystemEnum.eCharType.Player;
+        
+        public DokkaebiModel()
+        {
+            _data = DataManager.Instance.GetData<DokkaebiData>(DokkaebiIndex);
+            _stat = new CharStat(_data);
+        }
+
+        public CharacterModel GetDokkaebiToChar()
+        {
+            throw new NotImplementedException("GetDokkaebiToChar");
+        }
     }
     
 }

@@ -1,0 +1,9 @@
+﻿캐릭터 ID,#캐릭터 설명,캐릭터 이름(추후 stringcode로 교체할 것),캐릭터 프리팹 루트,캐릭터 아이콘 루트,캐릭터 스탯 ID,초기 패시브 리스트,,,,,,,,,,,,
+index,#,charName,charPrefabName,charImage,charStatID,defaultPassiveListID,,,,,,,,,,,,
+long,#,string,string,string,long,long,,,,,,,,,,,,
+30010001,#튜토1적,잡귀,testLesser_Spirit,Lesser_Spirit,30020001,,,,,,,,,,,,,
+30010002,#튜토2적,잡귀,testLesser_Spirit,Lesser_Spirit,30020002,,,,,,,,,,,,,
+
+
+
+

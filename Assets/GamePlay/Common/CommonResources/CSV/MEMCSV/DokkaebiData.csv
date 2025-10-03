@@ -1,7 +1,7 @@
 ﻿도깨비 ID,캐릭터 이름,청,적,황,백,흑,첫 번째 패시브,두 번째 패시브,Sprite_LD,Sprite_TurnIcon,,,,,,,,
 index,DokkaebiName,ObangBlue,ObangRed,ObangYellow,ObangWhite,ObangBlack,PassiveD1,PassiveD2,SpriteLDRoute,SpriteIconRoute,,,,,,,,
 long,string,int,int,int,int,int,long,long,string,string,,,,,,,,
-58776974,연,1,1,1,1,1,,,LD_Yeon,Yeon,,,,,,,,
+10010001,연,1,1,1,1,1,,,LD_Yeon,Yeon,,,,,,,,
 
 
 

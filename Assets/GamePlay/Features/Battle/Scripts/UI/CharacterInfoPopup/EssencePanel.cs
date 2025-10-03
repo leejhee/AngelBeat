@@ -1,4 +1,4 @@
-using Character;
+using GamePlay.Common.Scripts.Entities.Character;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup

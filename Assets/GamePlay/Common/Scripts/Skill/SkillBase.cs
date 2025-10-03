@@ -14,28 +14,24 @@ namespace GamePlay.Features.Scripts.Skill
         public CharBase Caster;
         public List<CharBase> Target;
         public readonly SystemEnum.eSkillType SkillType;
-        public readonly float DamageCalibration;     
         public readonly float Accuracy;              
         public readonly float CritMultiplier;
 
         /// <param name="caster">시전자</param>
         /// <param name="target">타겟 캐릭터</param>
         /// <param name="skillType">스킬 타입</param>
-        /// <param name="damageCalibration">스킬 대미지 보정계수</param>
         /// <param name="accuracy">스킬 명중률</param>
         /// <param name="critMultiplier">스킬 치명타율</param>
         public SkillParameter(
             CharBase caster, 
             List<CharBase> target,
             SystemEnum.eSkillType skillType,
-            float damageCalibration = 1,
             float accuracy = 100,
             float critMultiplier = 1)
         {
             Caster = caster;
             Target = target;
             SkillType = skillType;
-            DamageCalibration = damageCalibration;
             Accuracy = accuracy;
             CritMultiplier = critMultiplier;
         }

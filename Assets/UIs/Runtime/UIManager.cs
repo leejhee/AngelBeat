@@ -221,7 +221,6 @@ namespace UIs.Runtime
                 current.Presenter.Dispose();
                 ReturnViewToCache(current.ID, current.Go);
             }
-            
         }
         
         /// <summary>
@@ -256,7 +255,6 @@ namespace UIs.Runtime
                 ResourceManager.Instance.ReleaseInstance(_uiRoot.gameObject);
                 _uiRoot = null;
             }
-            
             
             _uiCts.Cancel();
             _uiCts.Dispose();

@@ -1,8 +1,8 @@
 using AngelBeat;
-using Character;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Scripts.Keyword;
 using System;

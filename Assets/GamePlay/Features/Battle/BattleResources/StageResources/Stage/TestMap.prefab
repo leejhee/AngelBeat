@@ -330,6 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleSpawnerData:
     rid: 4918594393638961153
+  gridSize: {x: 11, y: 2}
+  gridProvider: {fileID: 5644157376870120970}
   references:
     version: 2
     RefIds:
@@ -2505,6 +2507,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1912784666360247039, guid: 9f343c01247ed94409861335606b6c25, type: 3}
   m_PrefabInstance: {fileID: 6910672201934656033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5644157376870120970 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1275557707998637099, guid: 9f343c01247ed94409861335606b6c25, type: 3}
+  m_PrefabInstance: {fileID: 6910672201934656033}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6067082a3f3f4d02ac95974a055e8de8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6933627568701645762
 PrefabInstance:
   m_ObjectHideFlags: 0
