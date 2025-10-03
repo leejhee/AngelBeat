@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: f50436699d44eb24990f161db8998b60
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ExploreScene.unity
     guid: e083064a829f48047802a098288934b8
   - enabled: 1
@@ -20,8 +20,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 5f478c4b84317f941a8c878d88da1d1d
-  - enabled: 1
-    path: Assets/Scenes/ViewTestScene.unity
-    guid: c64454f0526d9df4ca8bd234d520ec1e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1154e0fb5c8b86542ad0ac8942359f07, type: 2}

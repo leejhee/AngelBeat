@@ -2525,7 +2525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC00\uC628"
+  m_text: "\uC5F0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 496f21946c0ca374e858e36b89214489, type: 2}
   m_sharedMaterial: {fileID: -6686378174649178682, guid: 496f21946c0ca374e858e36b89214489, type: 2}
@@ -3324,6 +3324,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bdb9ee2c671bdbd4d870839247af0e16, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
