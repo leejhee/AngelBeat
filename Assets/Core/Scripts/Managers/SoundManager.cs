@@ -1,8 +1,11 @@
 using Core.Scripts.Foundation;
 using Core.Scripts.Foundation.Singleton;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 
 namespace Core.Scripts.Managers
@@ -61,6 +64,16 @@ namespace Core.Scripts.Managers
             _audioClips.Clear();
         }
 
+        public async UniTask PlayByAddresables(string address)
+        {
+            
+        }
+        public async UniTask<AudioClip> LoadAudioClipByAddressables(string address)
+        {
+            AsyncOperationHandle<AudioClip> handle = Addressables.LoadAssetAsync<AudioClip>(address);
+            return await handle.Task;
+        }
+        
         public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f)
         {
             if (audioClip == null)
@@ -83,7 +96,7 @@ namespace Core.Scripts.Managers
                 audioSource.PlayOneShot(audioClip);
             }
         }
-
+        
         public void Play(string path, Sound type = Sound.Effect, float pitch = 1.0f)
         {
             AudioClip audioClip = GetOrAddAudioClip(path, type);

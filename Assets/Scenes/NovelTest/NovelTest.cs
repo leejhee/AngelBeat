@@ -1,11 +1,7 @@
-using novel;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
-using UIs.Runtime;
+using UnityEngine.AddressableAssets;
 
 public class NovelTest : MonoBehaviour
 {
@@ -17,10 +13,14 @@ public class NovelTest : MonoBehaviour
 
     private async void PlayTutorial_1()
     {
-        await NovelManager.InitAsync();
-        NovelManager.Instance.PlayTutorial(1);
+        // await NovelManager.InitAsync();
+        // NovelManager.Instance.PlayTutorial(1);
+
+        var bgm = await SoundManager.Instance.LoadAudioClipByAddressables("BattleBGM");
+        SoundManager.Instance.Play(bgm, SystemEnum.Sound.Bgm);
 
     }
+    
     // public void OnButtonClick()
     // {
     //     
