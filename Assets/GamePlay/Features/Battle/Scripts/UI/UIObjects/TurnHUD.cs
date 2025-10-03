@@ -16,8 +16,13 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             if (currentIndex >= 0)
             {
                 turns[currentIndex++].SetCurrentTurn(false);
+                turns[currentIndex].SetCurrentTurn(true);
             }
-            turns[currentIndex].SetCurrentTurn(true);
+            else
+            {
+                // index = -1 이었을때
+                turns[++currentIndex].SetCurrentTurn(true);
+            }
         }
 
         public void OnRoundStart()

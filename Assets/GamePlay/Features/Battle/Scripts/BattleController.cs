@@ -96,7 +96,7 @@ namespace GamePlay.Features.Battle.Scripts
             await BattleInitialize();
             await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             _turnManager.OnRoundProceeds.Invoke();
-            _turnManager.OnTurnChanged.Invoke(new TurnController.TurnModel(_turnManager.CurrentTurn));
+            // _turnManager.OnTurnChanged.Invoke(new TurnController.TurnModel(_turnManager.CurrentTurn));
             
         }
         

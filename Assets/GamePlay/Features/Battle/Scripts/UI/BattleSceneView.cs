@@ -8,6 +8,7 @@ using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
+using System.Linq;
 using System.Threading;
 using UIs.Runtime;
 using Unity.VisualScripting;
@@ -198,11 +199,15 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 TurnPortrait turnPortrait = (await task).GetComponent<TurnPortrait>();
                 string root = turn.TurnOwner.CharInfo.IconSpriteRoot;
                 Sprite sprite = DataManager.Instance.CharacterIconSpriteMap[root];
+                Debug.Log(sprite);
                 turnPortrait.SetPortraitImage(sprite, turn.TurnOwner.GetID());
                 
                 View.TurnHUD.AddToTurnList(turnPortrait);
             }
             View.TurnHUD.OnRoundStart();
+
+            OnTurnChanged(new TurnController.TurnModel(BattleController.Instance.TurnController.TurnCollection.First()));
+
         }
         
         private void OnRoundEnd()
@@ -212,8 +217,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnTurnChanged(TurnController.TurnModel turnModel)
         {
-            Debug.Log("이거");
-            
             // 현재 턴 표시자 옮기기
             View.TurnHUD.MoveToNextTurn();
             // 아군 턴이면 캐릭터 HDU 오픈
