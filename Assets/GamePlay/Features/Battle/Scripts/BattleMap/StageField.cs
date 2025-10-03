@@ -1,7 +1,9 @@
 using Core.Attributes;
+using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
+using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,7 @@ public class StageField : MonoBehaviour
 {
     private Dictionary<eCharType, List<SpawnData>> _spawnDict = new();
     
-    [SerializeReference, CustomDisable] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
+    [SerializeReference/*, CustomDisable*/] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
 
     /// <summary>
@@ -112,7 +114,7 @@ public class StageField : MonoBehaviour
     /// </summary>
     /// <param name="playerParty"> 플레이어 측의 파티 </param>
     /// <returns> 스폰된 모든 캐릭터를 반환합니다. </returns>
-    public List<CharBase> SpawnAllUnits(Party playerParty)
+    public async UniTask<List<CharBase>> SpawnAllUnits(Party playerParty)
     {
         Debug.Log("Spawning All Units...");
         List<CharBase> battleMembers = new();
@@ -123,12 +125,8 @@ public class StageField : MonoBehaviour
         {
             CharacterModel character = partyInfo[i];
             SpawnData data = _spawnDict[eCharType.Player][i];
-            CharBase battlePrefab = BattleCharManager.Instance.CharGenerate(new CharParameter
-            {
-                CharIndex = character.Index,
-                GeneratePos = data.SpawnPosition,
-                Scene = eScene.BattleTestScene
-            });
+            CharBase battlePrefab =
+                await BattleCharManager.Instance.CharGenerate(new CharBattleParameter(character, data.SpawnPosition));
             battlePrefab.UpdateCharacterInfo(character);
             battleMembers.Add(battlePrefab);
         }
@@ -136,12 +134,11 @@ public class StageField : MonoBehaviour
         //EnemySide
         foreach (var spawnData in _spawnDict[eCharType.Enemy])
         {
-            CharBase battlePrefab = BattleCharManager.Instance.CharGenerate(new CharParameter()
-            {
-                CharIndex = spawnData.SpawnCharacterIndex,
-                GeneratePos = spawnData.SpawnPosition,
-                Scene = eScene.BattleTestScene
-            });
+            long idx = spawnData.SpawnCharacterIndex;
+            MonsterData data = DataManager.Instance.GetData<MonsterData>(idx);
+            CharacterModel model = new CharacterModel(data);
+            CharBase battlePrefab =
+                await BattleCharManager.Instance.CharGenerate(new CharBattleParameter(model, spawnData.SpawnPosition));
             battleMembers.Add(battlePrefab);
         }
 

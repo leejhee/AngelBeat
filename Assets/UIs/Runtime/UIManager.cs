@@ -256,8 +256,8 @@ namespace UIs.Runtime
                 _uiRoot = null;
             }
             
-            _uiCts.Cancel();
-            _uiCts.Dispose();
+            _uiCts?.Cancel();
+            _uiCts?.Dispose();
         }
     }
 }

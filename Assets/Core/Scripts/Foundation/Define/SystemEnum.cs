@@ -170,9 +170,7 @@ namespace Core.Scripts.Foundation.Define
         
             EVATION,
             NEVATION,
-        
-            RESISTANCE,
-            NRESISTANCE,
+            
             AILMENT_RESISTANCE,
             NAILMENT_RESISTANCE,
         
@@ -248,6 +246,14 @@ namespace Core.Scripts.Foundation.Define
         {
             Dokkaebi,
             Normal,
+        }
+
+        public enum eRound
+        {
+            None,
+            ceil,
+            round,
+            floor
         }
         
         public enum eRefreshPolicy

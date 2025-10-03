@@ -1,6 +1,8 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
+using Core.Scripts.Managers;
+using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Battle.Unit;
@@ -29,6 +31,22 @@ namespace GamePlay.Features.Battle.Scripts
         // 고유 ID 생성
         public long GetNextID() => _nextID++;
 
+        private Transform _unitRoot;
+        private Transform UnitRoot
+        {
+            get
+            {
+                GameObject unitRoot = GameObject.Find("UnitRoot");
+                if (!unitRoot)
+                {
+                    unitRoot = new GameObject("UnitRoot");
+                    _unitRoot = unitRoot.transform;
+                }
+
+                return _unitRoot;
+            }
+        }
+        
         public T GetChar<T>(long ID) where T : CharBase
         {
             var key = typeof(T);
@@ -108,7 +126,22 @@ namespace GamePlay.Features.Battle.Scripts
 
             return true;
         }
-
+        
+        
+        public async UniTask<CharBase> CharGenerate(CharBattleParameter param)
+        {
+            string key = param.model.PrefabRoot;
+            GameObject go = await ResourceManager.Instance.InstantiateAsync(key, UnitRoot);
+            if (!go)
+            {
+                Debug.LogWarning($"CharFactory : {key} 캐릭터 프리팹 루트의 charPrefab을 찾을 수 없음");
+                return null;
+            }
+            CharBase charBase = go.GetComponent<CharBase>();
+            return charBase;
+        }
+        
+        
         public CharBase CharGenerate(CharParameter charParam)
         {
             CharBase charBase = Instance.CharGenerate(charParam.CharIndex);
@@ -118,7 +151,7 @@ namespace GamePlay.Features.Battle.Scripts
        
         public CharBase CharGenerate(long charIndex)
         {
-            CharData charData = global::Core.Scripts.Managers.DataManager.Instance.GetData<CharData>(charIndex);
+            CharData charData = DataManager.Instance.GetData<CharData>(charIndex);
             if (charData == null)
             {
                 Debug.LogWarning($"CharFactory : {charIndex} 의 CharIndex를 찾을 수 없음");

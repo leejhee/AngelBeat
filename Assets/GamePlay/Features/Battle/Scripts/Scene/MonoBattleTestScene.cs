@@ -4,7 +4,6 @@ using Core.Scripts.Managers;
 using GamePlay.Battle;
 using GamePlay.Character;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Scripts.Battle;
 using System.Collections.Generic;

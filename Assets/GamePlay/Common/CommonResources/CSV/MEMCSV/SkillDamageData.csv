@@ -1,0 +1,9 @@
+﻿스킬 데미지ID,스킬ID,#설명,공격 스탯,방어 스탯,대미지 계수,난수 MIM 데미지,난수 MAX 데미지,일반 데미지 처리,최종 데미지 처리,치명타계수,조건부 데미지식,0번 스탯,1번 스탯,2번 스탯,3번 스탯,,,
+index,,#,AttackStat,DefenseStat,DamageCoefficient,RandMin,RandMax,RoundNormal,RoundFinal,CritMultiplier,ConditionalDamageFormula,input1,input2,input3,input4,,,
+long,,#,eStats,eStats,float,float,float,eRound,eRound,float,string,eStats,eStats,eStats,eStats,,,
+10030001,10020001,#뭉게 구름,PHYSICAL_ATTACK,DEFENSE,1,0.9,1.2,ceil,round,1.5,,,,,,,,
+10060001,10050001,#반격,PHYSICAL_ATTACK,DEFENSE,0.8,0.9,1.2,round,round,1.5,,,,,,,,
+10030003,10020003,#퍼뜨리기,MAGIC_ATTACK,MAGIC_RESIST,0.8,1,1,round,ceil,1,,,,,,,,
+30030001,30020001,#탐식,PHYSICAL_ATTACK,DEFENSE,0.6,0.8,1,floor,floor,1.5,,,,,,,,
+
+

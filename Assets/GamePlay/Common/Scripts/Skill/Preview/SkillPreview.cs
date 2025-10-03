@@ -36,8 +36,8 @@ namespace GamePlay.Features.Scripts.Skill.Preview
             _range = 3;//_previewSkill.SkillRange;
             _pivot = focus.CharTransform.position;
             _rangeCircle.transform.localScale = new Vector3(_range * 2f, _range * 2f, 1);
-            _pivotType = _previewSkill.SkillPivot;
-            _pointerRange = _previewSkill.SkillHitRange;
+            //_pivotType = _previewSkill.SkillPivot;
+            //_pointerRange = _previewSkill.SkillHitRange;
         }
         
         private void Update()
@@ -109,10 +109,10 @@ namespace GamePlay.Features.Scripts.Skill.Preview
                             _previewFocus.SkillInfo.PlaySkill(_previewSkill.SkillIndex,
                                 new SkillParameter(
                                     _previewFocus, 
-                                    targets, 
-                                    _previewSkill.SkillType,
-                                    _previewSkill.Accuracy, 
-                                    _previewSkill.CritMultiplier));
+                                    targets
+                                    //_previewSkill.SkillType,
+                                    //_previewSkill.Accuracy, 
+                                    /*_previewSkill.CritMultiplier*/));
                             Debug.Log($"Skill Used : {_previewSkill.SkillName}");
                         }
                         gameObject.SetActive(false);

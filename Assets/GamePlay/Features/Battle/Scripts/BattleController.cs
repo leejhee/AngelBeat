@@ -3,12 +3,10 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Entities.Scripts.Character;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Skill;
 using System.Collections.Generic;
 using UIs.Runtime;
 using UnityEngine;
@@ -58,6 +56,7 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private BattleFieldDB battleFieldDB;
 
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
+        [SerializeField] private string DebugMapName;
         
         private IBattleStageSource _stageSource;
         private IMapLoader _mapLoader;
@@ -87,13 +86,14 @@ namespace GamePlay.Features.Battle.Scripts
             Debug.Log("Starting Battle...");
             if (_stageSource == null)
             {
+                BattlePayload.Instance.SetBattleData(new Party(), DebugDungeon, DebugMapName);
                 Debug.Log("Stage source not set : Using Battle Payload");
                 _stageSource = new BattlePayloadSource();
             }
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
-            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             await BattleInitialize();
-            
+            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
+
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
@@ -114,7 +114,7 @@ namespace GamePlay.Features.Battle.Scripts
             _battleStage = await _mapLoader.InstantiateBattleFieldAsync(stageName);
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
-            List<CharBase> battleMembers = _battleStage.SpawnAllUnits(playerParty);
+            List<CharBase> battleMembers = await _battleStage.SpawnAllUnits(playerParty);
             
             // 턴 관리기 초기화
             _turnManager = new TurnController(battleMembers); 

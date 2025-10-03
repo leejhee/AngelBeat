@@ -1,7 +1,6 @@
 using Core.Scripts.Managers;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
-using GamePlay.Entities.Scripts.Character;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -23,8 +22,7 @@ namespace GamePlay.Features.Scripts.Explore
         
         private void Start()
         {
-            var testXiaoModel = new CharacterModel(88888888);
-            playerParty = new Party(new List<CharacterModel> { testXiaoModel });
+            playerParty = new Party();
             Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
         }
         

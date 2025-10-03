@@ -1,6 +1,6 @@
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
-using GamePlay.Entities.Scripts.Character;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Scripts.Battle;
 using UnityEngine;

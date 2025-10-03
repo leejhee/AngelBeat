@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 7383525726373122950}
   - component: {fileID: 5310836943903905345}
   - component: {fileID: 2821619371975844126}
+  - component: {fileID: -1711375296147896922}
+  - component: {fileID: 6604672686628628585}
   m_Layer: 0
-  m_Name: CharPrefab
+  m_Name: Yeon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,15 +48,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a040e2eb89d56547913fef1f6fd001d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _index: 0
+  _index: 10010001
   _SkillRoot: {fileID: 0}
   _Animator: {fileID: 0}
   _battleCollider: {fileID: 0}
   _CharCameraPos: {fileID: 0}
   _charSnapShot: {fileID: 0}
-  _rigid: {fileID: 0}
+  _rigid: {fileID: -1711375296147896922}
   moveSpeed: 5
   _characterSprite: {fileID: 0}
+  UnitName: 
 --- !u!95 &2821619371975844126
 Animator:
   serializedVersion: 5
@@ -65,7 +68,7 @@ Animator:
   m_GameObject: {fileID: 3717310159286373163}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a56679e38d205b24d8625d5cf5b7a7d2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -76,6 +79,78 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!50 &-1711375296147896922
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717310159286373163}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &6604672686628628585
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717310159286373163}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.65, y: -0.19}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 5}
+  m_EdgeRadius: 0
 --- !u!1 &6020758775045425114
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +162,7 @@ GameObject:
   - component: {fileID: 294029816145623234}
   - component: {fileID: 8887805802511848494}
   m_Layer: 0
-  m_Name: Square
+  m_Name: UnitRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +223,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 8f7cfc5f6c6c4ff47ae2af5c9e9b823d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -29,9 +29,19 @@ namespace Core.Scripts.Managers
         private Dictionary<string, Sprite> skillIconSpriteMap = new();
         public Dictionary<string, Sprite> SkillIconSpriteMap =>  skillIconSpriteMap;
 
-
-        private Dictionary<long, List<SkillRangeData>> skillRangeDataMap = new();
-        public Dictionary<long, List<SkillRangeData>> SkillRangeDataMap => skillRangeDataMap;
+        
+        /// <summary>
+        /// 캐릭터별 스킬 데이터 맵
+        /// </summary>
+        private Dictionary<long, List<SkillData>> characterSkillMap = new();
+        public Dictionary<long, List<SkillData>> CharacterSkillMap => characterSkillMap;
+        
+        
+        /// <summary>
+        /// 스킬별 대미지 데이터 맵
+        /// </summary>
+        private Dictionary<long, SkillRangeData> skillRangeMap = new();
+        public Dictionary<long, SkillRangeData> SkillRangeMap => skillRangeMap;
         
         
         public void SetKeywordDataMap()
@@ -113,6 +123,25 @@ namespace Core.Scripts.Managers
                 if (_skillData is not DokkaebiSkillData doskill) continue;
                 Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(doskill.skillIconImage);
                 characterIconSpriteMap.TryAdd(doskill.skillIconImage, iconTarget);
+            }
+        }
+
+        public void SetSkillRangeMap()
+        {
+            string key = nameof(SkillRangeData);
+            if (_cache.ContainsKey(key) == false)
+                return;
+            Dictionary<long, SheetData> skillDict = _cache[key];
+            if (skillDict == null)
+            {
+                Debug.LogError($"Map not included in parsing : {key}");
+                return;
+            }
+
+            foreach (var _rangeData in skillDict.Values)
+            {
+                if (_rangeData is not SkillRangeData range) continue;
+                skillRangeMap.TryAdd(range.skillIndex, range);
             }
         }
     }
