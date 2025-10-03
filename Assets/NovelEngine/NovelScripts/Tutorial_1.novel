@@ -6,7 +6,7 @@
 #2
 @back 2
 @choice 
-    @goto 3
+    @goto 16
 @wait
 #3
 @back 3
@@ -73,3 +73,4 @@
 @choice 
     @goto 16
 @wait
+#16

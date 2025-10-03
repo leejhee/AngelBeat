@@ -57,6 +57,7 @@ MonoBehaviour:
   _rigid: {fileID: -1711375296147896922}
   moveSpeed: 5
   _characterSprite: {fileID: 0}
+  UnitName: 
 --- !u!95 &2821619371975844126
 Animator:
   serializedVersion: 5
@@ -137,7 +138,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.65, y: -0.19}
+  m_Offset: {x: -0.16768187, y: -0.07614803}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -148,7 +149,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 5}
+  m_Size: {x: 2.6281352, y: 4.772296}
   m_EdgeRadius: 0
 --- !u!1 &6020758775045425114
 GameObject:

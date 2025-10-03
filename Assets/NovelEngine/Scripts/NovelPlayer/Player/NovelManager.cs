@@ -9,16 +9,21 @@ public class NovelManager : MonoBehaviour
 {
     public static NovelManager Instance
     {
-        get
-        {
-            if (instance == null)
-            {
-                Init();
-            }
-            return instance;
-        }
-        private set =>  instance = value;
+        get => instance;
+        set => instance = value;
     }
+
+    // {
+    //     get
+    //     {
+    //         if (instance == null)
+    //         {
+    //             Init();
+    //         }
+    //         return instance;
+    //     }
+    //     private set =>  instance = value;
+    // }
     private static NovelManager instance;
     public static NovelResources Data { get; private set; } = new NovelResources();
 
@@ -33,10 +38,11 @@ public class NovelManager : MonoBehaviour
     private static bool isReady;
 
     UniTask _initialization = UniTask.CompletedTask;
-    bool _initStarted;
+    static bool initStarted;
 
     public static async void Init()
     {
+        Debug.Log("Init");
         if (instance == null)
         {
             // NovelManager가 이미 씬에 존재하는지 확인
@@ -52,6 +58,7 @@ public class NovelManager : MonoBehaviour
 
     public static async UniTask<NovelManager> InitAsync()
     {
+        Debug.Log("Init Async");
         if (instance == null)
         {
             // NovelManager가 이미 씬에 존재하는지 확인
@@ -60,6 +67,17 @@ public class NovelManager : MonoBehaviour
             Instance = existing ?? new GameObject("@Novel").AddComponent<NovelManager>();
         }
         await Instance.InitializeIfNeededAsync();
+
+        if (initStarted)
+        {
+            // 초기화가 시작되었을 경우
+            while (!isReady)
+            {
+                // 완료될때까지 대기
+                await UniTask.Yield();
+            }
+        }
+        
         return Instance;
     }
     void Awake()
@@ -77,7 +95,7 @@ public class NovelManager : MonoBehaviour
     private UniTask InitializeIfNeededAsync()
     {
         // 이미 초기화가 시작되었으면 기존 Task 반환
-        if (_initStarted)
+        if (initStarted)
         {
             Debug.Log("[NovelManager] Initialization already started, returning existing task.");
             return _initialization;
@@ -85,7 +103,7 @@ public class NovelManager : MonoBehaviour
 
 
         // 초기화 시작
-        _initStarted = true;
+        initStarted = true;
           _initialization = InitializeAsync();
 
         return _initialization;
@@ -125,11 +143,15 @@ public class NovelManager : MonoBehaviour
 
     public async UniTask PlayScript(string scriptTitle)
     {
-        await NovelManager.InitAsync();
+        if (instance == null)
+        {
+            await NovelManager.InitAsync();
+        }
         Instance.PlayScriptAsync(scriptTitle);
     }
     private async UniTask PlayScriptAsync(string scriptTitle)
     {
+
         if (!isReady)
         {
             Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
@@ -154,7 +176,7 @@ public class NovelManager : MonoBehaviour
     }
     private async UniTask InstantiateNovelPlayerAsync()
     {
-
+        Debug.Log("이거 떠야함");
         await NovelPlayerGate.WaitAsync();
         try
         {
@@ -198,4 +220,8 @@ public class NovelManager : MonoBehaviour
         Debug.Log(" [NovelManager] NovelPlayer instantiated.");
     }
 
+    public void ReleaseNovelPlayer()
+    {
+        Addressables.ReleaseInstance(Player.gameObject);
+    }
 }

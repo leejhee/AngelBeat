@@ -13,18 +13,20 @@ public class NovelTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // NovelManager.Init();
-        // button.onClick.AddListener(OnButtonClick);
-        NovelManager.Instance.PlayScript("test");
-        
-        //NovelManager.Instance.InitManagerAndPlayScript("test");
-
+        PlayScript();
     }
-    private void OnButtonClick()
+
+    private async void PlayScript()
     {
         
-        button.gameObject.SetActive(false);
-        NovelManager.Instance.PlayScript("test");
+        await NovelManager.InitAsync();
+        NovelManager.Instance.PlayScript("Tutorial_1");
+
+    }
+    public void OnButtonClick()
+    {
+        
+        NovelManager.Instance.PlayScript("Tutorial_2");
     }
 
 

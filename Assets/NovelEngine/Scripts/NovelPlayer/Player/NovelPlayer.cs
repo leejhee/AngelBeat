@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Text;
+using UnityEngine.AddressableAssets;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -192,7 +193,8 @@ public class NovelPlayer : MonoBehaviour
             switch (result)
             {
                 case LineResult.Finished:
-                    break;
+                    Addressables.ReleaseInstance(gameObject);
+                    return;
                 case LineResult.Stop:
                     return;
                 case LineResult.Continue:
