@@ -1,5 +1,4 @@
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using UnityEngine;
 
 namespace AngelBeat

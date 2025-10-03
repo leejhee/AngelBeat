@@ -111,11 +111,11 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickPortraitButton
             );
 
-            ViewEvents.Subscribe(
-                act => View.CharacterHUD.JumpButton.ActionButton.onClick.AddListener(new UnityAction(act)),
-                act => View.CharacterHUD.JumpButton.ActionButton.onClick.RemoveAllListeners(),
-                OnClickJumpButton
-            );
+            //ViewEvents.Subscribe(
+            //    act => View.CharacterHUD.JumpButton.ActionButton.onClick.AddListener(new UnityAction(act)),
+            //    act => View.CharacterHUD.JumpButton.ActionButton.onClick.RemoveAllListeners(),
+            //    OnClickJumpButton
+            //);
             ViewEvents.Subscribe(
                 act => View.CharacterHUD.PushButton.ActionButton.onClick.AddListener(new UnityAction(act)),
                 act => View.CharacterHUD.PushButton.ActionButton.onClick.RemoveAllListeners(),

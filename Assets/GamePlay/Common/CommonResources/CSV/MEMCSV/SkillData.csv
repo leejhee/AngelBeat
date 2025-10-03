@@ -2,7 +2,6 @@
 index,characterID,#,skillName,skillType,skillPivot,skillDamage,skillRangeID,executionIndex,skillCritical,skillAccuracy,skillIconImage,skillTimeLine,unlockCondition,,,,,
 long,long,#,string,eSkillType,ePivot,long,long,long,int,int,string,string,eSkillUnlock,,,,,
 30020001,30010001,"#근접 단일, 밀기",탐식,PhysicalAttack,TARGET_ENEMY,30030001,30040001,,3,90,,gluttony,,,,,,
-30020001,30010002,"#근접 단일, 밀기",탐식,PhysicalAttack,TARGET_ENEMY,30030001,30040001,,3,90,,gluttony,,,,,,
 10050001,10010001,#반격,반격,PhysicalAttack,Caster,10060001,10070001,,3,100,,counterattack,,,,,,
 
 

@@ -1,7 +1,7 @@
 ﻿using AngelBeat;
+using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using GamePlay.Features.Scripts.Keyword;
 
 namespace Modules.BT

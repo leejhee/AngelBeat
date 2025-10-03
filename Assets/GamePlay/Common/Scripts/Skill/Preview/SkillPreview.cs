@@ -1,7 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using GamePlay.Skill;
 using System.Collections.Generic;
 using UnityEngine;

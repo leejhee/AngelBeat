@@ -13,13 +13,12 @@ namespace GamePlay.Features.Scripts.Keyword
         protected KeywordBase(KeywordData data) { _data = data; }
 
         // 핵심: 도메인 행동은 Port로, 잔여/스택은 runtime로
-        public abstract void OnTrigger(in KeywordTriggerContext ctx, ref KeywordRuntime runtime, IKeywordEffectPort port);
+        //public abstract void OnTrigger(in KeywordTriggerContext ctx, ref KeywordRuntime runtime, IKeywordEffectPort port);
 
-        // 네 기존 API 호환용(선택): EffectValue/Count를 runtime에 매핑
-        public int EffectValue { get; protected set; }
-        public int EffectCount { get; protected set; }
-        protected internal void SyncFrom(ref KeywordRuntime rt) { EffectCount = rt.Duration; EffectValue = rt.Value; }
-        protected internal void SyncTo(ref KeywordRuntime rt)   { rt.Duration = EffectCount; rt.Value = EffectValue; }
+        public int EffectValue { get; set; }
+        public int EffectCount { get; set; }
+        //protected internal void SyncFrom(ref KeywordRuntime rt) { EffectCount = rt.Duration; EffectValue = rt.Value; }
+        //protected internal void SyncTo(ref KeywordRuntime rt)   { rt.Duration = EffectCount; rt.Value = EffectValue; }
 
     }
 }

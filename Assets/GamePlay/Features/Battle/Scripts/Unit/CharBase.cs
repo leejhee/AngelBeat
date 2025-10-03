@@ -2,7 +2,9 @@ using AngelBeat;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
+using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Scripts.Keyword;
 using System;
@@ -24,7 +26,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private Sprite _characterSprite;
-            
+
+        private SpriteRenderer _spriteRenderer;
+        
         private CharacterModel  _charInfo;
         
         private Transform       _charTransform;
@@ -35,7 +39,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private CharAnim        _charAnim;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
-
+        
         private bool _isAction = false;    // 행동중인가? 판별
         protected long _uid;
 
@@ -119,7 +123,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 _skillInfo = new SkillInfo(this);
                 //_skillInfo?.Init(_charData.charSkillList);
                 //_executionInfo = new();
-                //_keywordInfo = new(this);
+                _keywordInfo = new(this);
                 _charStat = value.Stat;
                 
             }
@@ -145,9 +149,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             _charTransform = transform;
             _charUnitRoot = Util.FindChild<Transform>(gameObject, "UnitRoot");
+            _spriteRenderer = _charUnitRoot.GetComponent<SpriteRenderer>();
             _uid = BattleCharManager.Instance.GetNextID();
             _charAnim = new();
             _mainCamera = Camera.main;
+            
         }
         
         /// <summary>
@@ -161,20 +167,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
         }
 
-        public void CharInit(CharacterModel charModel)
+        public virtual void CharInit(CharacterModel charModel)
         {
             _charInfo = charModel; //모델
             _charStat = charModel.Stat; // 스탯 복사
             
             //스킬 초기화
             //var skillModels = 
-            
-            
-        }
-
-        protected virtual void CharInit()
-        {
-            //_currentMovePoint = _movePoint = _charStat.GetStat(SystemEnum.eStats.MOVE_POINT);
         }
         #endregion
         
@@ -297,22 +296,24 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         private bool _isGrounded = true;
         public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
-
-        public void CharMove(Vector3 targetDir)
+        
+        /// <summary>
+        /// 이동력을 초과하지 않음을 전제로 함.
+        /// </summary>
+        public async UniTask CharMove(Vector3 targetPos)
         {
-            float unit = moveSpeed * Time.deltaTime;
-            if (_currentMovePoint < unit)
+            CharStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
+            _Animator.SetBool("Move", true);
+            while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
-                Debug.Log($"{name}의 이동력이 부족하여 이동 불가합니다.");
+                transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
+                if((targetPos - transform.position).x < 0)
+                    _spriteRenderer.flipX = true;
+                else
+                    _spriteRenderer.flipX = false;
+                await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            else
-            {
-                Vector3 scale = CharTransform.localScale;
-                scale.x = -targetDir.x;
-                CharTransform.localScale = scale;
-                CharTransform.position += targetDir * unit;
-                _currentMovePoint -= unit;
-            }
+            _Animator.SetBool("Move", false);
         }
         
         public IEnumerator CharJump()

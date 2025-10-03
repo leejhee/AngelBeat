@@ -2,10 +2,10 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Scripts.Battle;
+using GamePlay.Features.Scripts.Explore;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Explore
+namespace GamePlay.Features.Explore.Scripts
 {
     
     public class ExploreBattleSymbol : MonoBehaviour

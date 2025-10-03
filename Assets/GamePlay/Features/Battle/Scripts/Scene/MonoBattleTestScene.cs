@@ -1,14 +1,4 @@
-﻿using AngelBeat;
-using Core.Scripts.Foundation.Define;
-using Core.Scripts.Managers;
-using GamePlay.Battle;
-using GamePlay.Character;
-using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Scripts.Battle;
-using System.Collections.Generic;
-using UIs.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scene
 {

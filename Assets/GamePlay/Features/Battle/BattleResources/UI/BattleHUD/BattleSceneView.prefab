@@ -2189,9 +2189,9 @@ MonoBehaviour:
   actionBarFill: {fileID: 7317079356862527363}
   actionText: {fileID: 4284912716877239510}
   actionSlider: {fileID: 9084344797290444260}
-  jumpButton: {fileID: 0}
-  pushButton: {fileID: 0}
-  invenButton: {fileID: 0}
+  jumpButton: {fileID: 1434355046594534228}
+  pushButton: {fileID: 2578373764342122692}
+  invenButton: {fileID: 888585677640883666}
 --- !u!1 &7080088609454815075
 GameObject:
   m_ObjectHideFlags: 0

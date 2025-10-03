@@ -1,6 +1,5 @@
 using AngelBeat;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using GamePlay.Features.Scripts.Skill;
 using GamePlay.Skill;
 using UnityEngine;

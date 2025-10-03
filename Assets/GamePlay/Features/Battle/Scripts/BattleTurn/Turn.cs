@@ -1,7 +1,5 @@
 using Core.Scripts.Foundation.Define;
-using GamePlay.Contracts;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using UnityEngine;
 
@@ -34,42 +32,22 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private void DefaultTurnBegin()
         {
             // Control Camera.
-            TurnOwner.OnUpdate += FocusCamera;
-                
-            // Control UI. TODO : 이거 이벤트버스를 써야할까? 그냥 model이 BattleCharManager인거 아닐까..?
-            //EventBus.Instance.SendMessage(new OnTurnChanged { TurnOwner = TurnOwner });
+            FocusCamera();
                 
             #region Control Logic
-            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
-            {
-                CharPlayer player = TurnOwner as CharPlayer;
-                if (player)
-                    player.OnUpdate += player.OnPlayerMoveUpdate;
-            }
-            else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
                 Debug.Log("Monster turn : AI not implemented");
-                //CharMonster monster = TurnOwner as CharMonster;
-                //if(monster)
-                //    monster.StartAI();
             }
             
-            TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT, TriggerType.EoT);
+            //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT, TriggerType.EoT);
             #endregion
         }
 
         private void DefaultTurnEnd()
         {
-            // Release Camera Control.
-            TurnOwner.OnUpdate -= FocusCamera;
-            // Release Character Control.
-            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Player)
-            {
-                CharPlayer player = TurnOwner as CharPlayer;
-                if (player)
-                    player.OnUpdate -= player.OnPlayerMoveUpdate;
-            }
-            else if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
+            FocusCamera();
+            if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
                 Debug.Log("Monster turn ended");
                 //CharMonster monster = TurnOwner as CharMonster;
@@ -77,7 +55,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 //    monster.StopAI();
             }
             
-            TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT, TriggerType.EoT);
+            //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT, TriggerType.EoT);
         }
 
         private void FocusCamera()

@@ -94,11 +94,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e0bc4e90fdceae4479e3a0e269f49527
-    m_Address: testLesser_Spirit
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 733ad39a32b5fcf43860d306e48813e3
     m_Address: Jerky
     m_ReadOnly: 0

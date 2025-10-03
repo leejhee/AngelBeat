@@ -1,8 +1,6 @@
 ﻿using AngelBeat;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle;
-using GamePlay.Features.Scripts.Battle.Unit;
 using Modules.BT.Nodes;
 using System.Collections;
 using System.Collections.Generic;

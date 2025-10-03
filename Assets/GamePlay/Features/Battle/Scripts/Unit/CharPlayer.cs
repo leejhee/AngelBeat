@@ -1,41 +1,22 @@
 using Core.Scripts.Foundation.Define;
-using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Battle.Scripts.Unit;
+using GamePlay.Common.Scripts.Entities.Character;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Battle.Unit
+namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public class CharPlayer : CharBase
     {
         
         protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Player;
-        protected override void CharInit()
+        public override void CharInit(CharacterModel charModel)
         {
-            base.CharInit();
-            BattleCharManager.Instance.SetChar<CharPlayer>(this);
+            base.CharInit(charModel);
+            BattleCharManager.Instance.SetChar(this);
         }
-        
-        // 턴이 되면 -> _turnManager
-        // 플레이어의 입력을 Update에서 처리할 수 있게 해준다.
-        // 
-        public void OnPlayerMoveUpdate()
+
+        public void CharMove(Vector3 Destination)
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                CharMove(Vector3.left);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                CharMove(Vector3.right);
-            }
-            else if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
-            {
-                StartCoroutine(CharJump());
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && IsGrounded)
-            {
-                StartCoroutine(CharDownJump());
-            }
+            
         }
         
     }

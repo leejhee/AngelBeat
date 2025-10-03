@@ -54,18 +54,17 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
 
         [SerializeField] private BattleFieldDB battleFieldDB;
-
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
         [SerializeField] private string DebugMapName;
+        [SerializeField] private float cameraSize = 11;
         
         private IBattleStageSource _stageSource;
         private IMapLoader _mapLoader;
+        private StageField _battleStage;
         
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
-
-        private StageField _battleStage;
         
         #region UI Model
         
@@ -125,6 +124,9 @@ namespace GamePlay.Features.Battle.Scripts
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();
+            
+            //카메라 초기화
+            Camera.main.orthographicSize = cameraSize;
         }
         
         private void BindBattleEvent()

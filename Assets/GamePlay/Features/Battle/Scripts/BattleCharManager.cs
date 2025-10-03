@@ -5,7 +5,6 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Battle.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,6 +137,8 @@ namespace GamePlay.Features.Battle.Scripts
                 return null;
             }
             CharBase charBase = go.GetComponent<CharBase>();
+            charBase.transform.position = param.GeneratePos;
+            charBase.CharInit(param.model);
             return charBase;
         }
         
