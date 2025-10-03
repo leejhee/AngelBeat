@@ -82,7 +82,7 @@ namespace AngelBeat
             _charStat[(int)eStats.AILMENT_RESISTANCE] = _charStat[(int)eStats.NAILMENT_RESISTANCE] = b * 3;
 
             _charStat[(int)eStats.MAGIC_ATTACK] = _charStat[(int)eStats.NMAGIC_ATTACK] = bl * 4 + 2;
-            _charStat[(int)eStats.ACTION_POINT] =  _charStat[(int)eStats.NACTION_POINT] = bl * 2 + 4;
+            _charStat[(int)eStats.ACTION_POINT] =  _charStat[(int)eStats.NACTION_POINT] = _charStat[(int)eStats.NMACTION_POINT]= bl * 2 + 4;
             
             _charStat[(int)eStats.AILMENT_INFLICT] = _charStat[(int)eStats.NAILMENT_INFLICT] = w * 3;
             _charStat[(int)eStats.ACCURACY] = _charStat[(int)eStats.NACCURACY] = w * 3;

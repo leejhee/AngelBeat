@@ -53,7 +53,12 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private GameObject gameWinPrefab;
         [SerializeField] private GameObject previewPrefab;
         
-        private SkillPreview _preview;
+        //private SkillPreview _preview;
+        [SerializeField] private GameObject indicatorPrefab;
+        [SerializeField] private List<GameObject> indicatorLists = new();
+        [SerializeField] private Color possibleColor;
+        [SerializeField] private Color blockedColor;
+
         #endregion
 
         [SerializeField] private BattleFieldDB battleFieldDB;
@@ -162,14 +167,14 @@ namespace GamePlay.Features.Battle.Scripts
                 Debug.LogError("[BattleController] : Battle Stage not set");
                 return;
             }
-
+            
             _battleStage.ShowGridOverlay(true);
             List<Vector2Int> rangeVector = new();
-            
             List<Vector2Int> blockedVector = new();
             SkillRangeData data = targetSkill.skillRange;
 
             Vector3Int nowPosVec3 = _battleStage.Grid.WorldToCell(FocusChar.transform.position);
+            Debug.Log(nowPosVec3);
             int nowX = nowPosVec3.x;
             int nowY = nowPosVec3.y;
             if (data.Origin)
@@ -215,7 +220,7 @@ namespace GamePlay.Features.Battle.Scripts
 
                 }
             }
-
+            
             //_battleStage.PaintRange(rangeVector, blockedVector);
         }
 

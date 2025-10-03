@@ -64,6 +64,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private void RebuildTurnQueue()
         {
             _turnQueue.Clear();
+            _turnBuffer.Clear();
             List<CharBase> newRoundMembers = BattleCharManager.Instance.GetBattleMembers();
             InitializeTurnQueue(newRoundMembers);
         }
