@@ -24,16 +24,17 @@ namespace GamePlay.Features.Scripts.Skill
         /// <param name="critMultiplier">스킬 치명타율</param>
         public SkillParameter(
             CharBase caster, 
-            List<CharBase> target,
-            SystemEnum.eSkillType skillType,
-            float accuracy = 100,
-            float critMultiplier = 1)
+            List<CharBase> target
+            //SystemEnum.eSkillType skillType,
+            //float accuracy = 100,
+            //float critMultiplier = 1
+            )
         {
             Caster = caster;
             Target = target;
-            SkillType = skillType;
-            Accuracy = accuracy;
-            CritMultiplier = critMultiplier;
+            //SkillType = skillType;
+            //Accuracy = accuracy;
+            //CritMultiplier = critMultiplier;
         }
     }
     

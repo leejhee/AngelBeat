@@ -345,8 +345,8 @@ MonoBehaviour:
             SpawnPosition: {x: -22.74967, y: -4.277596, z: 0}
         - spawnType: 2
           unitSpawnList:
-          - SpawnCharacterIndex: 0
-            SpawnPosition: {x: 27.533552, y: -3.8178186, z: 0}
+          - SpawnCharacterIndex: 30010001
+            SpawnPosition: {x: 27.53355, y: -3.817819, z: 0}
         fieldObjectInfos: []
 --- !u!1 &4934528557023620504
 GameObject:
@@ -2489,14 +2489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GridProvider
       objectReference: {fileID: 0}
-    - target: {fileID: 7687237806038579263, guid: 9f343c01247ed94409861335606b6c25, type: 3}
-      propertyPath: m_Color.a
-      value: 0.5019608
+    - target: {fileID: 4321968938302432962, guid: 9f343c01247ed94409861335606b6c25, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7687237806038579263, guid: 9f343c01247ed94409861335606b6c25, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 41f948f07f211654f885f8875402cb43, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

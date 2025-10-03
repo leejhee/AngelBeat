@@ -1,5 +1,5 @@
 ﻿using Core.Scripts.Foundation.Define;
-using GamePlay.Entities.Scripts.Character;
+using GamePlay.Common.Scripts.Entities.Character;
 
 namespace GamePlay.Features.Explore.Scripts.Map.Data
 {

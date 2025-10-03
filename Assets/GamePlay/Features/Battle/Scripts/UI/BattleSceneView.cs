@@ -186,7 +186,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             View.TurnHUD.MoveToNextTurn();
             // 아군 턴이면 캐릭터 HDU 오픈
             CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
-             if (charModel.characterType == SystemEnum.eCharType.Player)
+             if (charModel.CharacterType == SystemEnum.eCharType.Player)
              {
                  OnCharacterHUDOpen(charModel);
              }

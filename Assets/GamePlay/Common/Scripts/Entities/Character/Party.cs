@@ -1,11 +1,12 @@
+using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Entities.Character;
+using Core.Scripts.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace GamePlay.Entities.Scripts.Character
+namespace GamePlay.Common.Scripts.Entities.Character
 {
     [Serializable]
     public class Party
@@ -18,7 +19,18 @@ namespace GamePlay.Entities.Scripts.Character
 
         [Header("해당 파티 전원에 적용되는 효과를 기록합니다.")]
         public List<long> FunctionsPerParty;
-
+        
+        /// <summary>
+        /// 슬롯 생성 후 처음 파티 생성 시 호출
+        /// </summary>
+        public Party()
+        {
+            partyType = SystemEnum.eCharType.Player;
+            var dok = DataManager.Instance.GetData<DokkaebiData>(10010001);
+            var dokModel = new CharacterModel(dok);
+            partyMembers = new List<CharacterModel> { dokModel };
+        }
+        
         public Party(
             List<CharacterModel> partyMembers,
             List<long> FunctionsPerParty=null,
@@ -29,6 +41,7 @@ namespace GamePlay.Entities.Scripts.Character
             this.FunctionsPerParty = FunctionsPerParty;
             this.partyType = partyType;
         }
+        
         
         public void AddMember(CharacterModel member)
         {

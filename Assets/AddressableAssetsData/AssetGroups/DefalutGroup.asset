@@ -92,6 +92,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f232d8dcb65a9b844ba949801078a151
+    m_Address: CSV/MEMCSV/SkillDamageData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:

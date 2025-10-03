@@ -16,7 +16,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         
         public void SetSkillImage(SkillModel model)
         {
-            skillImage.sprite = model.Icon;
+            skillImage.sprite = model.icon;
             skillDescription.SetSkillDescription(model);
             // 스킬 설명 추가
         }

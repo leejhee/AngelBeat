@@ -15,63 +15,117 @@ namespace AngelBeat
         public CharStat(CharStatData charStat)
         {
             #region Init Stat Array
-            _charStat[(int)eStats.HP] = charStat.HP;
-            _charStat[(int)eStats.NHP] = charStat.HP;
-            _charStat[(int)eStats.NMHP] = charStat.HP;
+            _charStat[(int)eStats.HP] = charStat.HealthPoint;
+            _charStat[(int)eStats.NHP] = charStat.HealthPoint;
+            _charStat[(int)eStats.NMHP] = charStat.HealthPoint;
 
-            _charStat[(int)eStats.DEFENSE] = charStat.armor;
-            _charStat[(int)eStats.NDEFENSE] = charStat.armor;
+            _charStat[(int)eStats.DEFENSE] = charStat.Defense;
+            _charStat[(int)eStats.NDEFENSE] = charStat.Defense;
             
-            _charStat[(int)eStats.MAGIC_RESIST] = charStat.magicResist;
-            _charStat[(int)eStats.NMAGIC_RESIST] = charStat.magicResist;
+            _charStat[(int)eStats.MAGIC_RESIST] = charStat.MagicResist;
+            _charStat[(int)eStats.NMAGIC_RESIST] = charStat.MagicResist;
 
-            _charStat[(int)eStats.PHYSICAL_ATTACK] = charStat.meleeAttack;
-            _charStat[(int)eStats.NPHYSICAL_ATTACK] = charStat.meleeAttack;
+            _charStat[(int)eStats.PHYSICAL_ATTACK] = charStat.PhysicalAttack;
+            _charStat[(int)eStats.NPHYSICAL_ATTACK] = charStat.PhysicalAttack;
             
-            _charStat[(int)eStats.MAGIC_ATTACK] = charStat.magicalAttack;
-            _charStat[(int)eStats.NMAGIC_ATTACK] = charStat.magicalAttack;
+            _charStat[(int)eStats.MAGIC_ATTACK] = charStat.MagicAttack;
+            _charStat[(int)eStats.NMAGIC_ATTACK] = charStat.MagicAttack;
             
-            _charStat[(int)eStats.CRIT_RATE] = charStat.critChance;
-            _charStat[(int)eStats.NCRIT_RATE] = charStat.critChance;
+            _charStat[(int)eStats.CRIT_RATE] = charStat.CriticalRate;
+            _charStat[(int)eStats.NCRIT_RATE] = charStat.CriticalRate;
             
-            _charStat[(int)eStats.SPEED] = charStat.speed;
-            _charStat[(int)eStats.NSPEED] = charStat.speed;
+            _charStat[(int)eStats.SPEED] = charStat.Speed;
+            _charStat[(int)eStats.NSPEED] = charStat.Speed;
 
-            _charStat[(int)eStats.ACTION_POINT] = charStat.actionPoint;
-            _charStat[(int)eStats.NACTION_POINT] = charStat.actionPoint;
+            _charStat[(int)eStats.ACTION_POINT] = charStat.Movement;
+            _charStat[(int)eStats.NACTION_POINT] = charStat.Movement;
 
             //_charStat[(int)eStats.MOVE_POINT] = charStat.movePoint;
             
-            _charStat[(int)eStats.EVATION] = charStat.actionPoint;
-            _charStat[(int)eStats.NEVATION] = charStat.actionPoint;
-            
-            _charStat[(int)eStats.RESISTANCE] = charStat.resistance;
-            _charStat[(int)eStats.NRESISTANCE] = charStat.resistance;
+            _charStat[(int)eStats.EVATION] = charStat.Evasion;
+            _charStat[(int)eStats.NEVATION] = charStat.Evasion;
 
             _charStat[(int)eStats.RANGE_INCREASE] = 0;
             _charStat[(int)eStats.DAMAGE_INCREASE] = 0;
             _charStat[(int)eStats.ACCURACY_INCREASE] = 0;
             #endregion
         }
-
         public CharStat(DokkaebiData dokkaebiData)
         {
-            _charStat[((int)eStats.RED)] = dokkaebiData.ObangRed;
-            _charStat[((int)eStats.N_RED)] = dokkaebiData.ObangRed;
-
-            _charStat[((int)eStats.BLUE)] = dokkaebiData.ObangBlue;
-            _charStat[((int)eStats.N_BLUE)] = dokkaebiData.ObangBlue;
-
-            _charStat[((int)eStats.YELLOW)] = dokkaebiData.ObangYellow;
-            _charStat[((int)eStats.N_YELLOW)] = dokkaebiData.ObangYellow;
+            int r = dokkaebiData.ObangRed;
+            int b = dokkaebiData.ObangBlue;
+            int y = dokkaebiData.ObangYellow;
+            int bl = dokkaebiData.ObangBlack;
+            int w =  dokkaebiData.ObangWhite;
             
-            _charStat[((int)eStats.BLACK)] = dokkaebiData.ObangBlack;
-            _charStat[((int)eStats.N_BLACK)] = dokkaebiData.ObangBlack;
+            _charStat[((int)eStats.RED)] = r;
+            _charStat[((int)eStats.N_RED)] = r;
 
-            _charStat[((int)eStats.WHITE)] = dokkaebiData.ObangWhite;
-            _charStat[((int)eStats.N_WHITE)] = dokkaebiData.ObangWhite;
+            _charStat[((int)eStats.BLUE)] = b;
+            _charStat[((int)eStats.N_BLUE)] = b;
+
+            _charStat[((int)eStats.YELLOW)] = y;
+            _charStat[((int)eStats.N_YELLOW)] = y;
             
-            // 나머지 스탯 초기화 방식...
+            _charStat[((int)eStats.BLACK)] = bl;
+            _charStat[((int)eStats.N_BLACK)] = bl;
+
+            _charStat[((int)eStats.WHITE)] = w;
+            _charStat[((int)eStats.N_WHITE)] = w;
+
+            #region 파생 스탯 초기화
+            _charStat[(int)eStats.PHYSICAL_ATTACK] = _charStat[(int)eStats.NPHYSICAL_ATTACK] = r * 4 + 2;
+            _charStat[(int)eStats.CRIT_RATE] =  _charStat[(int)eStats.NCRIT_RATE] = r * 2;
+            
+            _charStat[(int)eStats.DEFENSE] =  _charStat[(int)eStats.NDEFENSE] = b * 3 + 5;
+            _charStat[(int)eStats.MAGIC_RESIST] = _charStat[(int)eStats.NMAGIC_RESIST] = b * 3 + 5;
+            _charStat[(int)eStats.AILMENT_RESISTANCE] = _charStat[(int)eStats.NAILMENT_RESISTANCE] = b * 3;
+
+            _charStat[(int)eStats.MAGIC_ATTACK] = _charStat[(int)eStats.NMAGIC_ATTACK] = bl * 4 + 2;
+            _charStat[(int)eStats.ACTION_POINT] =  _charStat[(int)eStats.NACTION_POINT] = bl * 2 + 4;
+            
+            _charStat[(int)eStats.AILMENT_INFLICT] = _charStat[(int)eStats.NAILMENT_INFLICT] = w * 3;
+            _charStat[(int)eStats.ACCURACY] = _charStat[(int)eStats.NACCURACY] = w * 3;
+            
+            _charStat[(int)eStats.HP] = y * 5 + 12;
+            _charStat[((int)eStats.NHP)] = y * 5 + 12;
+            _charStat[((int)eStats.NMHP)] = y * 5 + 12;
+            _charStat[(int)eStats.EVATION] = _charStat[(int)eStats.NEVATION] = y * 2 + 5;
+            _charStat[(int)eStats.SPEED] = _charStat[(int)eStats.NSPEED] = y * 2 + 3;
+            
+            #endregion
+            
+            #region 스탯 의존 구독
+            OnStatChanged += (stat, delta, result) =>
+            {
+                switch (stat)
+                {
+                    case eStats.N_RED:
+                        _charStat[(int)eStats.NPHYSICAL_ATTACK] += delta * 4;
+                        _charStat[(int)eStats.NCRIT_RATE] += delta * 2;
+                        break;
+                    case eStats.N_BLUE:
+                        _charStat[(int)eStats.NDEFENSE] += delta * 3;
+                        _charStat[(int)eStats.NMAGIC_RESIST] += delta * 3;
+                        _charStat[(int)eStats.NAILMENT_RESISTANCE] += delta * 3;
+                        break;
+                    case eStats.N_YELLOW:
+                        _charStat[(int)eStats.NMHP] += delta * 5;
+                        _charStat[(int)eStats.NSPEED] += delta * 2;
+                        _charStat[(int)eStats.NEVATION] += delta * 2;
+                        break;
+                    case eStats.N_BLACK:
+                        _charStat[(int)eStats.NMAGIC_ATTACK] += delta * 4;
+                        _charStat[(int)eStats.NACTION_POINT] += delta * 2;
+                        break;
+                    case eStats.N_WHITE:
+                        _charStat[(int)eStats.NAILMENT_INFLICT] += delta * 3;
+                        _charStat[(int)eStats.NACCURACY] += delta * 3;
+                        break;
+                    default: break;
+                }
+            };
+            #endregion
         }
         
         
@@ -94,7 +148,6 @@ namespace AngelBeat
                 case eStats.SPEED:          return eStats.NSPEED;
                 case eStats.ACTION_POINT:   return eStats.NACTION_POINT;
                 case eStats.EVATION:          return eStats.NEVATION;
-                case eStats.RESISTANCE:     return eStats.NRESISTANCE;
             }
             return stat;
         }
@@ -104,14 +157,18 @@ namespace AngelBeat
         {
             return _charStat[(int)GetProperStatAttribute(stat)];
         }
-
-        public event Action<eStats, long> OnStatChanged;
+        
+        /// <summary>
+        /// 바뀐 스탯, 변화량, 결과
+        /// </summary>
+        public event Action<eStats, long,  long> OnStatChanged;
+        
         public void ClearChangeEvent() => OnStatChanged = null;
         public void ChangeStat(eStats stat, long valueDelta)
         {
             eStats realStat = GetProperStatAttribute(stat);
             _charStat[(int)realStat] += valueDelta;
-            OnStatChanged?.Invoke(realStat, _charStat[(int)realStat]);
+            OnStatChanged?.Invoke(realStat, valueDelta, _charStat[(int)realStat]);
         }
 
         public event Action<HPModel> OnHPChanged;

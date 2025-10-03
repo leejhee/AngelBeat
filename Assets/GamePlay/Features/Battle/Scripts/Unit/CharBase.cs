@@ -25,24 +25,18 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private Sprite _characterSprite;
             
-        //TODO : 현 CharBase와 겹치는 사항 관리하기
         private CharacterModel  _charInfo;
         
         private Transform       _charTransform;
         private Transform       _charUnitRoot;
         
-        private CharData        _charData;  
         private CharStat        _charStat;
-        private CharAnim        _charAnim = null;
         
-        //private ExecutionInfo   _executionInfo;
+        private CharAnim        _charAnim;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
 
-        //private PlayerState _currentState; // 현재 상태
         private bool _isAction = false;    // 행동중인가? 판별
-        //private Dictionary<PlayerState, int> _indexPair = new();
-        
         protected long _uid;
 
         private float _movePoint;
@@ -53,7 +47,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         #region Properties
         public long Index => _index;
-        public string UnitName => _charData.charName;
+        public string UnitName;
         public Transform CharTransform => _charTransform;
         public Transform CharUnitRoot => _charUnitRoot;
         public GameObject SkillRoot => _SkillRoot;
@@ -73,7 +67,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             {
                 _charStat = value;
                 _charStat.ClearChangeEvent();
-                _charStat.OnStatChanged += (stat, changed) =>
+                _charStat.OnStatChanged += (stat, delta, changed) =>
                 {
                     if (stat == SystemEnum.eStats.NHP && changed <= 0)
                         CharDead();
@@ -107,12 +101,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
         }
         
-        //public ExecutionInfo ExecutionInfo => _executionInfo;
         public SkillInfo SkillInfo => _skillInfo;
         public KeywordInfo KeywordInfo => _keywordInfo;
-        //public PlayerState PlayerState => _currentState;
 
-        // RULE : set은 반드시 초기화 시에 사용하고, 값 수정 필요 시 get으로만 할 것.
         public CharacterModel CharInfo
         {
             get => _charInfo;
@@ -124,10 +115,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     Debug.LogError("인덱스 불일치. 코드 이상 혹은 데이터의 캐릭터 정보와 프리팹 차이 학인 바람");
                     return;
                 }
-                _charData = DataManager.Instance.GetData<CharData>(value.Index);
             
                 _skillInfo = new SkillInfo(this);
-                _skillInfo?.Init(_charData.charSkillList);
+                //_skillInfo?.Init(_charData.charSkillList);
                 //_executionInfo = new();
                 //_keywordInfo = new(this);
                 _charStat = value.Stat;
@@ -135,7 +125,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
         }
         
-        protected virtual SystemEnum.eCharType CharType => _charData.defaultCharType;
+        protected virtual SystemEnum.eCharType CharType => SystemEnum.eCharType.None;
         
         public long GetID() => _uid;
 
@@ -157,21 +147,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _charUnitRoot = Util.FindChild<Transform>(gameObject, "UnitRoot");
             _uid = BattleCharManager.Instance.GetNextID();
             _charAnim = new();
-            
-            _charData = DataManager.Instance.GetData<CharData>(_index);
-            if (_charData != null)
-            {
-                CharStatData charStat = DataManager.Instance.GetData<CharStatData>(_charData.charStat);
-                if (charStat == null)
-                {
-                    Debug.LogError($"캐릭터 ID : {_index} 데이터 Get 성공 charStat {_charData.charStat} 데이터 Get 실패");
-                }
-                CharStat = new CharStat(charStat);
-            }
-            else
-            {
-                Debug.LogError($"캐릭터 ID : {_index} Data 데이터 Get 실패");
-            }
             _mainCamera = Camera.main;
         }
         
@@ -184,15 +159,18 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             {
                 _charAnim.Initialized(_Animator);
             }
-            //foreach (PlayerState state in Enum.GetValues(typeof(PlayerState)))
-            //{
-            //    _indexPair[state] = 0;
-            //}
-            
-            CharInit();
         }
 
-        
+        public void CharInit(CharacterModel charModel)
+        {
+            _charInfo = charModel; //모델
+            _charStat = charModel.Stat; // 스탯 복사
+            
+            //스킬 초기화
+            //var skillModels = 
+            
+            
+        }
 
         protected virtual void CharInit()
         {
@@ -211,7 +189,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         public CharacterModel SaveCharModel()
         {
-            return new CharacterModel(_charData, _charStat, _charInfo.Skills);
+            return new CharacterModel(_charInfo);
         }
         #endregion
         

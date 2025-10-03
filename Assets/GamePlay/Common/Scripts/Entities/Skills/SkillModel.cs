@@ -1,5 +1,6 @@
 ﻿using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using System;
 using UnityEngine;
 
@@ -8,37 +9,58 @@ namespace GamePlay.Common.Scripts.Entities.Skills
     [Serializable]
     public class SkillModel
     {
-        public readonly string      SkillName;
+        public readonly long SkillIndex;
+        public readonly string SkillName;
+        public readonly long SkillOwnerID;
+        public readonly SystemEnum.eSkillType skillType;
+        public readonly Sprite icon;
+        public readonly long executionIndex;
+        public readonly int critCalibration;
+        public readonly int skillAccuracy;
         
-        public long                SkillIndex;
-
-        // 가변
-        public bool                     IsSkillActive;
-        public long                     SkillRange;
-        public int                      SkillHitRange;
-        public Sprite                   Icon;
-        public SystemEnum.ePivot        SkillPivot;
-        public SystemEnum.eSkillType    SkillType;
-        public int                      Accuracy;
-        public int                      CritMultiplier;
+        
+        public SkillRangeData           skillRange;
+        public SkillDamageData          skillDamage;
+        public readonly SystemEnum.eSkillUnlock unlock;
+        public bool locked = true;
+            
         public SkillModel(SkillData skillData)
         {
             SkillIndex = skillData.index;
-            SkillRange = skillData.skillRangeID;
-            SkillPivot = skillData.skillPivot;
-            SkillType = skillData.skillType;
-            Accuracy = skillData.skillAccuracy;
-            CritMultiplier = skillData.skillCritical;
-            
-            Icon = Core.Scripts.Managers.ResourceManager.Instance.LoadSprite("Sprites/SkillIcon" + skillData.skillIconImage);
             SkillName = skillData.skillName;
+            SkillOwnerID = skillData.characterID;
+            skillType = skillData.skillType;
+            //pivot = skillData.skillPivot;
+
+            icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
+            executionIndex  = skillData.executionIndex;
+            critCalibration = skillData.skillCritical;
+            skillAccuracy = skillData.skillAccuracy;
+
+            skillRange = DataManager.Instance.GetData<SkillRangeData>(skillData.skillRangeID);
+            skillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
+            unlock = skillData.unlockCondition;
+        }
+
+        public SkillModel(DokkaebiSkillData skillData)
+        {
+            SkillIndex = skillData.index;
+            SkillName =  skillData.skillName;
+            SkillOwnerID = SystemConst.DokkaebiID;
+            skillType = skillData.skillType;
+            //pivot = skillData.skill
             
-            IsSkillActive = false;
+            icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
+            executionIndex = skillData.executionIndex;
+            critCalibration = skillData.skillCritical;
+            skillAccuracy = skillData.skillAccuracy;
             
-            
+            skillRange = DataManager.Instance.GetData<SkillRangeData>(skillData.skillRange);
+            skillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
+            unlock = SystemEnum.eSkillUnlock.None;
+            locked = false;
         }
         
-        //active 언락의 구독.
-        
     }
+    
 }

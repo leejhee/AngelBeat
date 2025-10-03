@@ -24,6 +24,7 @@ public long index; // 도깨비 ID
 		public long PassiveD2; // 두 번째 패시브
 		public string SpriteLDRoute; // Sprite_LD
 		public string SpriteIconRoute; // Sprite_TurnIcon
+		public string PrefabRoot; // PrefabRoot
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
         public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
@@ -101,6 +102,11 @@ public long index; // 도깨비 ID
 					    data.SpriteIconRoute = default;
 					else
 					    data.SpriteIconRoute = Convert.ToString(values[10]);
+					
+					if(values[11] == "")
+					    data.PrefabRoot = default;
+					else
+					    data.PrefabRoot = Convert.ToString(values[11]);
 					
 
                     dataList[data.index] = data;

@@ -19,7 +19,7 @@ namespace GamePlay.Features.Scripts.Battle.Unit
             base.CharInit();
             BattleCharManager.Instance.SetChar(this);
             
-            CharInfo = new CharacterModel(Index);
+            //CharInfo = new CharacterModel(Index);
             //BTContext context = new(this);
             //_charAI = new CharAI(context);
         }

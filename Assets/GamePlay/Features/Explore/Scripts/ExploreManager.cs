@@ -2,7 +2,7 @@
 using Core.Scripts.GameSave;
 using Core.Scripts.GameSave.Contracts;
 using Core.Scripts.Managers;
-using GamePlay.Entities.Scripts.Character;
+using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
 using UnityEngine;
 

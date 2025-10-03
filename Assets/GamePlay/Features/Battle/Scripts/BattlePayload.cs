@@ -1,6 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
-using GamePlay.Entities.Scripts.Character;
+using GamePlay.Common.Scripts.Entities.Character;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts

@@ -14,18 +14,19 @@ namespace Core.Scripts.Data
     public partial class CharStatData : SheetData
     {
 public long index; // 캐릭터 스탯 ID
-		public int HP; // 체력
-		public int armor; // 물리방어력
-		public int magicResist; // 마법방어력
-		public int meleeAttack; // 물리공격력
-		public int magicalAttack; // 마법공격력
-		public int critChance; // 치명타율
-		public int speed; // 행동속도
-		public int actionPoint; // 행동력
-		public int movePoint; // 이동력
-		public int dodge; // 회피율
-		public int resistance; // 상태이상저항
-		public int rangeIncrease; // 사거리증가
+		public int Defense; // 방어력
+		public int MagicResist; // 항마력
+		public int AilmentResist; // 상태이상저항
+		public int PhysicalAttack; // 물리공격력
+		public int CriticalRate; // 치명타율
+		public int MagicAttack; // 마법공격력
+		public int Movement; // 이동력
+		public int Accuracy; // 명중률
+		public int AilmentInflict; // 상태이상가산치
+		public int Evasion; // 회피율
+		public int Speed; // 행동속도
+		public int HealthPoint; // 체력
+		public int MoveResist; // 변위 저항
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
         public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
@@ -55,64 +56,69 @@ public long index; // 캐릭터 스탯 ID
 					    data.index = Convert.ToInt64(values[0]);
 					
 					if(values[1] == "")
-					    data.HP = default;
+					    data.Defense = default;
 					else
-					    data.HP = Convert.ToInt32(values[1]);
+					    data.Defense = Convert.ToInt32(values[1]);
 					
 					if(values[2] == "")
-					    data.armor = default;
+					    data.MagicResist = default;
 					else
-					    data.armor = Convert.ToInt32(values[2]);
+					    data.MagicResist = Convert.ToInt32(values[2]);
 					
 					if(values[3] == "")
-					    data.magicResist = default;
+					    data.AilmentResist = default;
 					else
-					    data.magicResist = Convert.ToInt32(values[3]);
+					    data.AilmentResist = Convert.ToInt32(values[3]);
 					
 					if(values[4] == "")
-					    data.meleeAttack = default;
+					    data.PhysicalAttack = default;
 					else
-					    data.meleeAttack = Convert.ToInt32(values[4]);
+					    data.PhysicalAttack = Convert.ToInt32(values[4]);
 					
 					if(values[5] == "")
-					    data.magicalAttack = default;
+					    data.CriticalRate = default;
 					else
-					    data.magicalAttack = Convert.ToInt32(values[5]);
+					    data.CriticalRate = Convert.ToInt32(values[5]);
 					
 					if(values[6] == "")
-					    data.critChance = default;
+					    data.MagicAttack = default;
 					else
-					    data.critChance = Convert.ToInt32(values[6]);
+					    data.MagicAttack = Convert.ToInt32(values[6]);
 					
 					if(values[7] == "")
-					    data.speed = default;
+					    data.Movement = default;
 					else
-					    data.speed = Convert.ToInt32(values[7]);
+					    data.Movement = Convert.ToInt32(values[7]);
 					
 					if(values[8] == "")
-					    data.actionPoint = default;
+					    data.Accuracy = default;
 					else
-					    data.actionPoint = Convert.ToInt32(values[8]);
+					    data.Accuracy = Convert.ToInt32(values[8]);
 					
 					if(values[9] == "")
-					    data.movePoint = default;
+					    data.AilmentInflict = default;
 					else
-					    data.movePoint = Convert.ToInt32(values[9]);
+					    data.AilmentInflict = Convert.ToInt32(values[9]);
 					
 					if(values[10] == "")
-					    data.dodge = default;
+					    data.Evasion = default;
 					else
-					    data.dodge = Convert.ToInt32(values[10]);
+					    data.Evasion = Convert.ToInt32(values[10]);
 					
 					if(values[11] == "")
-					    data.resistance = default;
+					    data.Speed = default;
 					else
-					    data.resistance = Convert.ToInt32(values[11]);
+					    data.Speed = Convert.ToInt32(values[11]);
 					
 					if(values[12] == "")
-					    data.rangeIncrease = default;
+					    data.HealthPoint = default;
 					else
-					    data.rangeIncrease = Convert.ToInt32(values[12]);
+					    data.HealthPoint = Convert.ToInt32(values[12]);
+					
+					if(values[13] == "")
+					    data.MoveResist = default;
+					else
+					    data.MoveResist = Convert.ToInt32(values[13]);
 					
 
                     dataList[data.index] = data;
