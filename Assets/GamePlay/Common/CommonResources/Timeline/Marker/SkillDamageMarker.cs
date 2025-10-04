@@ -1,4 +1,7 @@
 ﻿using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Skill;
+using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,31 +16,42 @@ namespace AngelBeat
         [SerializeField] private string damageFormulaInput;
         [SerializeField] private List<SystemEnum.eStats> inputStats = new();
         [SerializeField] private List<SystemEnum.eKeyword> inputKeywords = new();
-        
+
+        // 나중에 수정
+        [SerializeField] private float Damage;
+        [SerializeField] private float CritRate;
+        [SerializeField] private float Accuracy;
         public override void MarkerAction()
         {
+            // 나중에 지워
+            InputParam = BattleController.Instance.curSkill;
             
-            //CharBase caster = InputParam.Caster;
-            //float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, inputStats, inputKeywords, caster);
-//
-            //foreach (CharBase target in InputParam.Target)
-            //{
-            //    if (target == null) continue;
-//
-            //    DamageParameter param = new()
-            //    {
-            //        Attacker = caster,
-            //        Target = target,
-            //        FinalDamage = baseDamage,
-            //        SkillType = InputParam.SkillType,
-            //    };
-//
-            //    target.SkillDamage(
-            //        param,
-            //        InputParam.Accuracy,
-            //        InputParam.CritMultiplier * InputParam.DamageCalibration
-            //        );
-            //}
+            
+            CharBase caster = InputParam.Caster;
+            float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, inputStats, inputKeywords, caster);
+            
+            
+            foreach (CharBase target in InputParam.Target)
+            {
+                Debug.Log(target.CharInfo.Name);
+                
+                if (target == null) continue;
+
+                DamageParameter param = new()
+                {
+                    Attacker = caster,
+                    Target = target,
+                    FinalDamage = Damage,
+                    SkillType = InputParam.SkillType,
+                };
+
+                // TODO: accuracy 수정할것
+                target.SkillDamage(
+                    param,
+                    100,
+                    InputParam.CritMultiplier //* InputParam.DamageCalibration
+                    );
+            }
             
         }
 

@@ -1,3 +1,4 @@
+using AngelBeat;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
@@ -5,6 +6,7 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Common.Scripts.Skill;
 using GamePlay.Common.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -14,6 +16,7 @@ using System.Collections.Generic;
 using UIs.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -77,6 +80,8 @@ namespace GamePlay.Features.Battle.Scripts
         
         #region 튜토부울
 
+        public SkillParameter curSkill;
+        
         public bool TutorialPlayerMove1;
         public bool TutorialEnemyMove1;
         //노벨2번 실행
@@ -119,6 +124,9 @@ namespace GamePlay.Features.Battle.Scripts
             _turnManager.OnRoundProceeds.Invoke();
             // _turnManager.OnTurnChanged.Invoke(new TurnController.TurnModel(_turnManager.CurrentTurn));
             
+
+            // 나중에 지워 네임스페이프 포함해서 지워
+            await Addressables.InstantiateAsync("TutorialCanvas");
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
@@ -153,6 +161,8 @@ namespace GamePlay.Features.Battle.Scripts
             
             //카메라 초기화
             Camera.main.orthographicSize = cameraSize;
+            
+
         }
         
         private void BindBattleEvent()

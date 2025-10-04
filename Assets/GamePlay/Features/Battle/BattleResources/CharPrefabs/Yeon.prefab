@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: -1711375296147896922}
   - component: {fileID: 6604672686628628585}
   - component: {fileID: 8329274003362239100}
+  - component: {fileID: 3128599838544308555}
   m_Layer: 9
   m_Name: Yeon
   m_TagString: Untagged
@@ -278,6 +279,21 @@ PlayableDirector:
   m_SceneBindings: []
   m_ExposedReferences:
     m_References: []
+--- !u!114 &3128599838544308555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717310159286373163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71249b4381b7044498fa277e54ef7a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tuto: {fileID: 0}
+  firstMoveButton: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &6020758775045425114
 GameObject:
   m_ObjectHideFlags: 0

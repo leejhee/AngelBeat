@@ -13,6 +13,7 @@ using GamePlay.Features.Scripts.Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
 
@@ -69,7 +70,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public Camera MainCamera => _mainCamera;
         
         public Sprite CharacterSprite => _characterSprite;
-        
+        public List<SkillBase> Skills => _skills;
         public CharStat CharStat
         {
             get => _charStat;
@@ -80,7 +81,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 _charStat.OnStatChanged += (stat, delta, changed) =>
                 {
                     if (stat == SystemEnum.eStats.NHP && changed <= 0)
+                    {
+                        Debug.Log("사망");
                         CharDead();
+                    }
+
                 };
                 
             }
@@ -195,7 +200,21 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             _skills[i].SkillPlay(param);
         }
-        
+
+        public int GetSKillIndexFromModel(SkillModel skillModel)
+        {
+            int index = 0;
+            foreach (var skill in _skills)
+            {
+                if (skillModel.SkillName == skill.SkillModel.SkillName)
+                {
+                    return index;
+                }
+                index++;
+            }
+
+            return -1;
+        }
         
         
         #region Initialize & Save Character Model
@@ -257,8 +276,14 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                                     skillDamageMultiplier * 
                                     (1f + attacker.DamageIncrease * 0.01f) *
                                     (1f - Armor * 0.01f);
-
-                CharStat.ReceiveDamage(finalDamage);
+                
+                
+                // 나중에 바꿔
+                CharStat.ReceiveDamage(damageInfo.FinalDamage);
+                
+                Debug.Log($"{damageInfo.FinalDamage}");
+                Debug.Log($"{finalDamage}데미지");
+                Debug.Log($"{CurrentHP} / {MaxHP}");
                 OnHit?.Invoke(damageInfo);
             }
         }
@@ -322,7 +347,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public async UniTask CharMove(Vector3 targetPos)
         {
             CharStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
-            _Animator.SetBool("Move", true);
+            _Animator.SetTrigger("Move");
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
                 transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
@@ -332,7 +357,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     _spriteRenderer.flipX = false;
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            _Animator.SetBool("Move", false);
+            _Animator.SetTrigger("Idle");
         }
         
         public IEnumerator CharJump()

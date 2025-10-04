@@ -36,6 +36,7 @@ namespace GamePlay.Common.Scripts.Skill
         private PlayableDirector _director;
         public CharBase CharPlayer { get; private set; }
         public SkillParameter SkillParameter;
+        public SkillModel SkillModel => _model;
         private void Awake()
         {
             _director = GetComponent<PlayableDirector>();
@@ -56,10 +57,13 @@ namespace GamePlay.Common.Scripts.Skill
 
         public void SkillPlay(SkillParameter param)
         {
+            // 타임라인 재생
             if (_director == null)
                 return;
             SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
             receiver.Input = param;
+            
+            
             _director.Play();
         }
 

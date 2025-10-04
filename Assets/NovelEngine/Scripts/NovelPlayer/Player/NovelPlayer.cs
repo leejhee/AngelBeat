@@ -1,4 +1,3 @@
-using Codice.Client.BaseCommands;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
@@ -35,6 +34,13 @@ public class NovelPlayer : MonoBehaviour
     /// </summary>
     private bool isStoryStarted = false;
 
+    private void OnDisable()
+    {
+        if (!NovelManager.Instance.firstTutoEnd)
+        {
+            NovelManager.Instance.firstTutoEnd = true;
+        }
+    }
 
     // 나중에 private로 돌릴것들
 
@@ -87,6 +93,7 @@ public class NovelPlayer : MonoBehaviour
         novelScript = null;
         FindObjectsByType();
         LabelDict = new();
+        Debug.Log("Novel Player Init() Finished");
     }
     private void FindObjectsByType()
     {
@@ -140,7 +147,16 @@ public class NovelPlayer : MonoBehaviour
         }
         float t0 = Time.realtimeSinceStartup;
         var lines = novelScript.text.Split('\n');
+        
+        Debug.Log("파서 언급");
+        
         CurrentAct = NovelParser.Parse(lines);
+
+        if (CurrentAct == null)
+        {
+            Debug.Log("파싱 오류");
+        }
+        
         float ms = (Time.realtimeSinceStartup - t0) * 1000f;
         Debug.Log($"{ms:F3} ms 걸림");
 

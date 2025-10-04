@@ -107,6 +107,8 @@ namespace GamePlay.Entities.Scripts.Skills
         
         public void PlaySkill(long skillIndex, SkillParameter parameter)
         {
+            Debug.Log("PlaySkill");
+            
             if (_dicSkill == null)
                 return;
 

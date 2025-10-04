@@ -11,6 +11,8 @@ namespace GamePlay.Skill
         public SkillParameter Input;
         public void OnNotify(Playable origin, INotification notification, object context)
         {
+            Debug.Log(Input.model);
+            
             if (notification is SkillTimeLineMarker skillMarker)
             {
                 skillMarker.InitInput(Input);

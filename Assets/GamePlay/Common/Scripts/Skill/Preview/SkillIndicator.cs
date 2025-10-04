@@ -8,7 +8,8 @@ using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills; // SystemEnum.ePivot
 using GamePlay.Features.Battle.Scripts;               // BattleController
 using GamePlay.Features.Battle.Scripts.Unit;          // CharBase
-using GamePlay.Common.Scripts.Skill;                  // SkillModel, SkillParameter
+using GamePlay.Common.Scripts.Skill;
+using System.Runtime.CompilerServices; // SkillModel, SkillParameter
 
 namespace GamePlay.Common.Scripts.Skill.Preview
 {
@@ -163,12 +164,20 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!clickCastsSkill) return;
+
+            
+            
+            //if (!clickCastsSkill) return;
             if (_isBlocked) return;
+            
 
             if (!TryOutlineTargetInCell()) return;
+            
             if (!IsValidTarget(_hoverTarget)) return;
-
+            
+            
+            
+            
             var targets = new List<CharBase> { _hoverTarget };
             if (_pointerRange > 0)
             {
@@ -183,13 +192,27 @@ namespace GamePlay.Common.Scripts.Skill.Preview
                     if (c && c.TryGetComponent(out CharBase cb) && cb != null && IsValidTarget(cb))
                         targets.Add(cb);
             }
-
+            
+            
             if (targets.Count == 0) return;
+            
+            
+            if (_caster == null) return;
 
-            _caster?.SkillInfo?.PlaySkill(
-                _skill.SkillIndex,
-                new SkillParameter(_caster, targets, _skill)
-            );
+            int index = _caster.GetSKillIndexFromModel(_skill);
+            
+            Debug.Log(_skill.SkillName);
+            _caster?.PlaySkill(index, new SkillParameter(_caster, targets, _skill));
+
+            
+            // 나중에 지워
+            BattleController.Instance.curSkill = new SkillParameter(_caster, targets, _skill);
+            
+            //
+            // _caster?.SkillInfo?.PlaySkill(
+            //     _skill.SkillIndex,
+            //     new SkillParameter(_caster, targets, _skill)
+            // );
 
             BattleController.Instance?.HideSkillPreview();
             ClearOutline();

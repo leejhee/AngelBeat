@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
+using System;
 
 public class NovelManager : MonoBehaviour
 {
@@ -39,15 +40,21 @@ public class NovelManager : MonoBehaviour
 
     UniTask _initialization = UniTask.CompletedTask;
     static bool initStarted;
-    
     /// <summary>
     /// 튜토리얼용 임시 함수
     /// </summary>
     /// <param name="index"></param>
     public void PlayTutorial(int index)
     {
-        PlayScript($"Tutorial_{index}");
+        string name = $"Tutorial_{index}";
+        Debug.Log($"PlayTutorial :  {name}");
+        PlayScript(name);
     }
+
+    public bool firstTutoEnd = false;
+    public bool secondTutoEnd = false;
+    public bool thirdTutoEnd = false;
+    public bool fourthTutoEnd = false;
     
     public static async void Init()
     {
@@ -156,36 +163,51 @@ public class NovelManager : MonoBehaviour
         {
             await NovelManager.InitAsync();
         }
-        Instance.PlayScriptAsync(scriptTitle);
+        PlayScriptAsync(scriptTitle);
     }
     private async UniTask PlayScriptAsync(string scriptTitle)
     {
-
-        if (!isReady)
+        try
         {
-            Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
-            return;
+            if (!isReady)
+            {
+                Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
+                return;
+            }
+            // 노벨 플레이어 인스턴스화 시켜줌
+            if (Player == null)
+                await InstantiateNovelPlayerAsync();
+
+            // 원하는 스크립트 장착
+            TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
+            
+            // 여기까진 일단 정상작동
+            if (script == null)
+            {
+                Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
+                return;
+            }
+            
+            Debug.Log(Player);
+            
+            
+            Player.SetScript(script);
+            
+            Debug.Log("플레이 함수 실행");
+            
+            // 플레이 해줌
+            Player.Play();
         }
-        // 노벨 플레이어 인스턴스화 시켜줌
-        if (Player == null)
-            await InstantiateNovelPlayerAsync();
-
-        // 원하는 스크립트 장착
-        TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
-
-        if (script == null)
+        catch (Exception e)
         {
-            Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
-            return;
+            Console.WriteLine(e);
+            throw;
         }
-        Player.SetScript(script);
-        // 플레이 해줌
-        Player.Play();
+
 
     }
     private async UniTask InstantiateNovelPlayerAsync()
     {
-        Debug.Log("이거 떠야함");
         await NovelPlayerGate.WaitAsync();
         try
         {
@@ -198,17 +220,25 @@ public class NovelManager : MonoBehaviour
                 return;
             }
 
+            Debug.Log("일단 없는거 확인했어");
 
             // 없으면 Addressable에서 로드 및 인스턴스화
             if (Player == null)
             {
-                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(NovelPlayerPrefabPath, transform);
-                var go = await handle.Task;
-
+                GameObject go = await Addressables.InstantiateAsync("NovelPlayer", transform);
+                
+                Debug.Log($"Addressable Key : {NovelPlayerPrefabPath}");
+                
+                //GameObject backObject = await Addressables.InstantiateAsync("BackgroundBase", transform);
+                
+                
+                Debug.Log(go.name);
+                //Debug.Log(backObject.name);
                 if (go != null)
                 {
                     go.name = "NovelPlayer";
                     Player = go.GetComponent<NovelPlayer>();
+                    Debug.Log($"{Player.gameObject.name} : 초기화 과정중 체크");
                 }
                 else
                 {
@@ -224,6 +254,7 @@ public class NovelManager : MonoBehaviour
         }
         finally
         {
+            
             NovelPlayerGate.Release();
         }
         Debug.Log(" [NovelManager] NovelPlayer instantiated.");

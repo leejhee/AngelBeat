@@ -13,11 +13,13 @@ public class NovelTest : MonoBehaviour
 
     private async void PlayTutorial_1()
     {
-        // await NovelManager.InitAsync();
-        // NovelManager.Instance.PlayTutorial(1);
+        await NovelManager.InitAsync();
+        NovelManager.Instance.PlayTutorial(1);
 
-        var bgm = await SoundManager.Instance.LoadAudioClipByAddressables("BattleBGM");
-        SoundManager.Instance.Play(bgm, SystemEnum.Sound.Bgm);
+        // var bgm = await SoundManager.Instance.LoadAudioClipByAddressables("BattleBGM");
+        //
+        // if (SoundManager.Instance!= null)
+        //     SoundManager.Instance.Play(bgm, SystemEnum.Sound.Bgm);
 
     }
     
