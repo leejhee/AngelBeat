@@ -37,11 +37,32 @@ namespace Core.Scripts.Managers
         public Dictionary<long, List<SkillData>> CharacterSkillMap => characterSkillMap;
         
         
-        /// <summary>
-        /// 스킬별 대미지 데이터 맵
-        /// </summary>
-        private Dictionary<long, SkillRangeData> skillRangeMap = new();
-        public Dictionary<long, SkillRangeData> SkillRangeMap => skillRangeMap;
+        private void ClearJoinedMaps()
+        {
+            //=======Clear Data - Poco Maps==========//
+            
+            _keywordMap.Clear();
+            characterSkillMap.Clear();
+            
+            //=========================================//
+            
+            
+            //=======Clear Data - Asset Maps==========//
+
+            var keys = new HashSet<string>();
+            keys.UnionWith(characterIconSpriteMap.Keys);
+            keys.UnionWith(characterLDSpriteMap.Keys);
+            keys.UnionWith(skillIconSpriteMap.Keys);
+
+            foreach (var key in keys)
+                ResourceManager.Instance.Release(key);
+            
+            characterIconSpriteMap.Clear();
+            characterLDSpriteMap.Clear();
+            skillIconSpriteMap.Clear();
+            
+            //=========================================//
+        }
         
         
         public void SetKeywordDataMap()
@@ -81,8 +102,8 @@ namespace Core.Scripts.Managers
                 if (_dokkaebi is not DokkaebiData dok) continue;
                 Sprite iconTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteIconRoute);
                 Sprite ldTarget = await ResourceManager.Instance.LoadAsync<Sprite>(dok.SpriteLDRoute);
-                CharacterIconSpriteMap.Add(dok.SpriteIconRoute, iconTarget);
-                CharacterLDSpriteMap.Add(dok.SpriteLDRoute, ldTarget);
+                CharacterIconSpriteMap.TryAdd(dok.SpriteIconRoute, iconTarget);
+                CharacterLDSpriteMap.TryAdd(dok.SpriteLDRoute, ldTarget);
             }
         }
         
@@ -147,6 +168,8 @@ namespace Core.Scripts.Managers
                 skillIconSpriteMap.TryAdd(doskill.skillIconImage, iconTarget);
             }
         }
+
+        
         
         public async UniTask SetNormalSkillIconSpriteMap()
         {
@@ -195,24 +218,6 @@ namespace Core.Scripts.Managers
             }
         }
         
-        public void SetSkillRangeMap()
-        {
-            string key = nameof(SkillRangeData);
-            if (_cache.ContainsKey(key) == false)
-                return;
-            Dictionary<long, SheetData> skillDict = _cache[key];
-            if (skillDict == null)
-            {
-                Debug.LogError($"Map not included in parsing : {key}");
-                return;
-            }
-
-            foreach (var _rangeData in skillDict.Values)
-            {
-                if (_rangeData is not SkillRangeData range) continue;
-                skillRangeMap.TryAdd(range.skillIndex, range);
-            }
-        }
     }
 
 }
