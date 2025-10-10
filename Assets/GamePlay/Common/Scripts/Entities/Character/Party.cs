@@ -26,9 +26,8 @@ namespace GamePlay.Common.Scripts.Entities.Character
         public Party()
         {
             partyType = SystemEnum.eCharType.Player;
-            var dok = DataManager.Instance.GetData<DokkaebiData>(10010001);
-            var dokModel = new CharacterModel(dok);
-            partyMembers = new List<CharacterModel> { dokModel };
+            partyMembers = new List<CharacterModel>();
+            FunctionsPerParty = new List<long>();
         }
         
         public Party(
@@ -41,7 +40,16 @@ namespace GamePlay.Common.Scripts.Entities.Character
             this.FunctionsPerParty = FunctionsPerParty;
             this.partyType = partyType;
         }
-        
+
+        /// <summary>
+        /// 파티가 생성되는 최초 시점에만 적용
+        /// </summary>
+        public void InitPartyAsync()
+        {
+            DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(10010001);
+            CharacterModel dokModel = new(dok);
+            partyMembers.Add(dokModel);
+        }
         
         public void AddMember(CharacterModel member)
         {

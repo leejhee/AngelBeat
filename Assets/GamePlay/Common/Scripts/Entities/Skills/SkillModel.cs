@@ -51,7 +51,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             skillType = skillData.skillType;
             //pivot = skillData.skill
             
-            icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
+            //icon = ResourceManager.Instance.LoadSprite();
             executionIndex = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;

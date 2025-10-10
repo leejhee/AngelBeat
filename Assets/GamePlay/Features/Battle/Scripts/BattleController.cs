@@ -114,7 +114,10 @@ namespace GamePlay.Features.Battle.Scripts
             Debug.Log("Starting Battle...");
             if (_stageSource == null)
             {
-                BattlePayload.Instance.SetBattleData(new Party(), DebugDungeon, DebugMapName);
+                Party party = new();
+                party.InitPartyAsync();
+                BattlePayload.Instance.SetBattleData(party, DebugDungeon, DebugMapName);
+                
                 Debug.Log("Stage source not set : Using Battle Payload");
                 _stageSource = new BattlePayloadSource();
             }
