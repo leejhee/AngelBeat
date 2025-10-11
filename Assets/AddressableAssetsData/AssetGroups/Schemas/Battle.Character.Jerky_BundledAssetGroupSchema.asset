@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5d17a21594effb4e9591490b009e7aa, type: 3}
-  m_Name: SkillPrefabs_BundledAssetGroupSchema
+  m_Name: Battle.Character.Jerky_BundledAssetGroupSchema
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: b961a6b1da5c3944e9808f401f21cab5, type: 2}
+  m_Group: {fileID: 11400000, guid: 7629429db494caa41a4ef0e09f90bb8d, type: 2}
   m_InternalBundleIdMode: 1
   m_Compression: 1
   m_IncludeAddressInCatalog: 1

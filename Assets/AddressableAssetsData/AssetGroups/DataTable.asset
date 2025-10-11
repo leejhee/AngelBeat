@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DataTable
+  m_EditorClassIdentifier: 
+  m_GroupName: DataTable
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 4ee11a16f857142409507afa889b0f7a
+  m_SerializeEntries:
+  - m_GUID: 0319bc85b55ad0b43a8c6cc7abafce6a
+    m_Address: CSV/MEMCSV/DokkaebiSkillData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 27b89fd5a57fb5948b928c969801f824
+    m_Address: CSV/MEMCSV/DokkaebiData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e9d140c0b6e4054f9ccf76658bcf2df
+    m_Address: CSV/MEMCSV/MonsterData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72ef082c38ddf944f81649734b652aa4
+    m_Address: CSV/MEMCSV/CharData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 730d857fb3b976d4d8cd8da221b16016
+    m_Address: CSV/MEMCSV/KeywordGrantData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 856b156f73d10bf488bf943dc2e25015
+    m_Address: CSV/MEMCSV/SkillRangeData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8991bcc0538e9e14eb6b4878dab877be
+    m_Address: CSV/MEMCSV/KeywordData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f7304fe818ae8d488aa226bc763bf77
+    m_Address: CSV/MEMCSV/SkillData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a99f016ad6baec44395d997bd5a1c7bf
+    m_Address: CSV/MEMCSV/KeywordEffectData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d25f6867170dca74a9b60ee8fc3fd583
+    m_Address: CSV/MEMCSV/CompanionData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df47c49273aefa74d83c7a7fe7ad5c50
+    m_Address: CSV/MEMCSV/ExploreMapData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f232d8dcb65a9b844ba949801078a151
+    m_Address: CSV/MEMCSV/SkillDamageData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe6b82145012d3041b2a5d3e7e601a48
+    m_Address: CSV/MEMCSV/CharStatData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a92498d0217d6324ab5595d4a840b292, type: 2}
+    - {fileID: 11400000, guid: d010632a03196cd4fac6e9a1ec1abee1, type: 2}

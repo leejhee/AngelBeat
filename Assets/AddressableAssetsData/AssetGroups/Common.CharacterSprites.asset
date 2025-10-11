@@ -10,23 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: BattleSprites
+  m_Name: Common.CharacterSprites
   m_EditorClassIdentifier: 
-  m_GroupName: BattleSprites
+  m_GroupName: Common.CharacterSprites
   m_Data:
     m_SerializedData: []
   m_GUID: 6c0caac0de4e2c44a82f4d2f25ff464e
   m_SerializeEntries:
-  - m_GUID: 494ee01f68d76b948837de5b3ab43a78
-    m_Address: skillicon_MiasmaSpread
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b6f1ad3764268af4f804da81b65f5558
-    m_Address: skillicon_PhantomReprisal
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3190e8dea7abe9e42b60f41b8e0bbd2a
     m_Address: LDGaon
     m_ReadOnly: 0
@@ -37,18 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a224a1db72e38fc4988e8d850e5a49be
-    m_Address: LDSeol
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ce7aab3dfd7f2984b89fabf8037171b6
-    m_Address: Seol
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9c6716709f32f934a9927085b5e8a467
-    m_Address: LD_Yeon
+  - m_GUID: 494ee01f68d76b948837de5b3ab43a78
+    m_Address: skillicon_MiasmaSpread
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,13 +37,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ff50f9157455e904c9587b0e64b2513f
-    m_Address: JerkyIcon
+  - m_GUID: 8a9d658c93d59ca459661004806bebc1
+    m_Address: Yeon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8a9d658c93d59ca459661004806bebc1
-    m_Address: Yeon
+  - m_GUID: 9c6716709f32f934a9927085b5e8a467
+    m_Address: LD_Yeon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a224a1db72e38fc4988e8d850e5a49be
+    m_Address: LDSeol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6f1ad3764268af4f804da81b65f5558
+    m_Address: skillicon_PhantomReprisal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce7aab3dfd7f2984b89fabf8037171b6
+    m_Address: Seol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff50f9157455e904c9587b0e64b2513f
+    m_Address: JerkyIcon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

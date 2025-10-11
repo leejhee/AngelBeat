@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Common
+  m_EditorClassIdentifier: 
+  m_GroupName: Common
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d75ad5ead67e49648819f859f82bc88a
+  m_SerializeEntries:
+  - m_GUID: 496f21946c0ca374e858e36b89214489
+    m_Address: Maplestory Light SDF
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 551dd4b2baee1fd469f5152625c40476
+    m_Address: UIManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68e6db2ebdc24f95958faec2be5558d6
+    m_Address: TMP_SDF
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8233300a5f03ca74ab39d994b38edcc2
+    m_Address: KEYMAP
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 966bcd43b4ffd3f4386ded17a200626b
+    m_Address: '@MainRoot'
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe393ace9b354375a9cb14cdbbc28be4
+    m_Address: TMP_SDF-Mobile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 24737bb7953a08440be1d71993e8e26c, type: 2}
+    - {fileID: 11400000, guid: 3c82c60c7f2d65d4fbdc674404352230, type: 2}

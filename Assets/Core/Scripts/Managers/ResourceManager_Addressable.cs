@@ -169,11 +169,7 @@ namespace Core.Scripts.Managers
             }
             
             var h = Addressables.LoadAssetsAsync<T>(label, null);
-            //while (!h.IsDone)
-            //{
-            //    ct.ThrowIfCancellationRequested();
-            //    await UniTask.Yield(ct);
-            //}
+
             await h.Task.AsUniTask().AttachExternalCancellation(ct);
 
             if (h.Status != AsyncOperationStatus.Succeeded)

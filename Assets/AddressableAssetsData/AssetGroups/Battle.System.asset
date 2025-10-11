@@ -10,20 +10,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Battle
+  m_Name: Battle.System
   m_EditorClassIdentifier: 
-  m_GroupName: Battle
+  m_GroupName: Battle.System
   m_Data:
     m_SerializedData: []
   m_GUID: fe6dff6f70f89c54996d2e815a3dbbe6
   m_SerializeEntries:
-  - m_GUID: 6fa0e34ec38ca0047855810299d9a526
-    m_Address: testMendeul
+  - m_GUID: 1fca69bdcf9d90c4ca03a0eb3de182da
+    m_Address: TutorialCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 799efd7b4d7a55e4088f267002c6f2cb
-    m_Address: testXiao
+  - m_GUID: 286f3f6e3baeaee49afadb3f2d8eb6d3
+    m_Address: IngameFloatingPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c90e4088b2c6834d93e97a2bfa35d1f
+    m_Address: GameOverView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 31a6031f5d615a8489cc582d4476a1e6
+    m_Address: KeywordFloatingObject
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BattleObject
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 459afaa99bf66d8479f3fe36d88dc537
+    m_Address: BattleCharacterInfoPopUp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76012417a12a620448b173e60a9bb482
+    m_Address: STAGE/TestMap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d900f8b4784cd042a7570b41af024c1
+    m_Address: BattleSceneView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e3cec4c0464df448b1af62f951a319d
+    m_Address: SkillPreview
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -37,39 +72,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7e3cec4c0464df448b1af62f951a319d
-    m_Address: SkillPreview
+  - m_GUID: d3a56dce98182b34f9559463c94edd88
+    m_Address: BattleBGM
     m_ReadOnly: 0
     m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 76012417a12a620448b173e60a9bb482
-    m_Address: STAGE/TestMap
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e655065696571044288b085ba2544c29
-    m_Address: TurnPortrait
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleObject
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7d900f8b4784cd042a7570b41af024c1
-    m_Address: BattleSceneView
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 459afaa99bf66d8479f3fe36d88dc537
-    m_Address: BattleCharacterInfoPopUp
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2c90e4088b2c6834d93e97a2bfa35d1f
-    m_Address: GameOverView
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d94ea6fac8cf3d149887ce915f01ad5a
     m_Address: GameWinView
@@ -77,37 +83,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - View
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 31a6031f5d615a8489cc582d4476a1e6
-    m_Address: KeywordFloatingObject
+  - m_GUID: e655065696571044288b085ba2544c29
+    m_Address: TurnPortrait
     m_ReadOnly: 0
     m_SerializedLabels:
     - BattleObject
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 286f3f6e3baeaee49afadb3f2d8eb6d3
-    m_Address: IngameFloatingPrefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 12444c1a52e2f8441b8967baea73dd8a
-    m_Address: Yeon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 733ad39a32b5fcf43860d306e48813e3
-    m_Address: Jerky
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d3a56dce98182b34f9559463c94edd88
-    m_Address: BattleBGM
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1fca69bdcf9d90c4ca03a0eb3de182da
-    m_Address: TutorialCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
