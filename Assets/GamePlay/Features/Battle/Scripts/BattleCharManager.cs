@@ -196,7 +196,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
 
             return battleParticipants
-                .OrderByDescending(x => x.CharStat.GetStat(eStats.NSPEED))
+                .OrderByDescending(x => x.RuntimeStat.GetStat(eStats.NSPEED))
                 .ThenBy(c => c.GetCharType() == eCharType.Enemy)
                 .ThenBy(c => c.GetID())
                 .ToList();

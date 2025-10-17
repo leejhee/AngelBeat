@@ -76,7 +76,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             View.PortraitPanel.SetPortraitPanel(model);
             View.PassivePanel.SetPassivePanel(model);
-            View.SkillPanel.SetSkills(model.Skills);
+            View.SkillPanel.SetSkills(model.ActiveSkills);
             View.StatPanel.SetStats(model);
             View.EssencePanel.SetEssence(model);
         }

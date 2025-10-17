@@ -1,8 +1,7 @@
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Skill;
 
-namespace GamePlay.Timeline.PlayableAsset.PlayableBehaviour
+namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 {
     public abstract class SkillTimeLinePlayableBehaviour : UnityEngine.Playables.PlayableBehaviour
     {

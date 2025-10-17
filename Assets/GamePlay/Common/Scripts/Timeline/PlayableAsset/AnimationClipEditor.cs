@@ -2,9 +2,9 @@
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Timeline;
-using AnimationPlayableAsset = GamePlay.Timeline.PlayableAsset.PlayableAsset.AnimationPlayableAsset;
+using AnimationPlayableAsset = GamePlay.Common.Scripts.Timeline.PlayableAsset.AnimationPlayableAsset;
 
-namespace GamePlay.Timeline.PlayableAsset
+namespace GamePlay.Common.Scripts.Timeline.PlayableAsset
 {
     [CustomTimelineEditor(typeof(AnimationPlayableAsset))]
     public class AnimationClipEditor : ClipEditor

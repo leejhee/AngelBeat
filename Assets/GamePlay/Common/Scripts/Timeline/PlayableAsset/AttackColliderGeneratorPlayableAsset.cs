@@ -1,6 +1,6 @@
 using AngelBeat;
 using Core.Scripts.Foundation.Define;
-using GamePlay.Timeline.PlayableAsset.PlayableBehaviour;
+using GamePlay.Common.Scripts.Timeline.PlayableBehaviour;
 using UnityEngine;
 using UnityEngine.Playables;
 using static Core.Scripts.Foundation.Define.SystemEnum;

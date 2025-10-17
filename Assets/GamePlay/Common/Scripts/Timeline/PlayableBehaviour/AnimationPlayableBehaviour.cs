@@ -1,10 +1,8 @@
-using GamePlay.Timeline.PlayableAsset.PlayableBehaviour;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Playables;
 using UnityEngine.Animations;
-namespace AngelBeat
+using UnityEngine.Playables;
+
+namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 {
     public class AnimationPlayableBehaviour: SkillTimeLinePlayableBehaviour
     {

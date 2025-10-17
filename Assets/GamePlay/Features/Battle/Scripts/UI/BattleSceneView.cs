@@ -63,12 +63,12 @@ namespace GamePlay.Features.Battle.Scripts.UI
             
             //hp 구독
             ModelEvents.Subscribe<HPModel>(
-                act => BattleController.Instance.FocusChar.CharStat.OnFocusedCharHpChanged += act,
-                act => BattleController.Instance.FocusChar.CharStat.OnFocusedCharHpChanged -= act,
+                act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged += act,
+                act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged -= act,
                 OnHPChanged);
             ModelEvents.Subscribe<ApModel>(
-                action =>   BattleController.Instance.FocusChar.CharStat.OnFocusedCharApChanged += action,
-                action => BattleController.Instance.FocusChar.CharStat.OnFocusedCharApChanged -= action,
+                action =>   BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged += action,
+                action => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged -= action,
                 OnAPChanged
                 );
             // 턴 바뀜 이벤트 구독
@@ -238,13 +238,13 @@ namespace GamePlay.Features.Battle.Scripts.UI
             // 이름
             string name = model.Name;
             // 현재 체력
-            long curHp = model.Stat.GetStat(SystemEnum.eStats.NHP);
-            long maxHp = model.Stat.GetStat(SystemEnum.eStats.NMHP);
+            long curHp = model.BaseStat.GetStat(SystemEnum.eStats.NHP);
+            long maxHp = model.BaseStat.GetStat(SystemEnum.eStats.NMHP);
             
             
             // 현재 액션포인트
-            long curAp = model.Stat.GetStat(SystemEnum.eStats.NACTION_POINT);
-            long maxAp = model.Stat.GetStat(SystemEnum.eStats.NMACTION_POINT);
+            long curAp = model.BaseStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            long maxAp = model.BaseStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             
 
             
@@ -254,10 +254,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
             // 체력, 액션포인트, 초상화 설정
             View.CharacterHUD.ShowCharacterHUD(name, curHp, maxHp, curAp, maxAp);
             // 스킬 버튼 생성
-            View.CharacterHUD.SetSkillButtons(model.Skills);
+            View.CharacterHUD.SetSkillButtons(model.ActiveSkills);
             
             // 스킬 버튼마다 이벤트 구독
-            for (int i = 0; i < model.Skills.Count; i++)
+            for (int i = 0; i < model.ActiveSkills.Count; i++)
             {
                 int idx = i;
                 Button curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<Button>();
@@ -265,7 +265,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 
                 
                 ViewEvents.Subscribe<SkillModel>(
-                    act => curSkillButton.onClick.AddListener(new UnityAction(() => act(model.Skills[idx]))),
+                    act => curSkillButton.onClick.AddListener(new UnityAction(() => act(model.ActiveSkills[idx]))),
                     act=> curSkillButton.onClick.RemoveAllListeners(),
                     skill => BattleController.Instance.TogglePreview(skill)
                 );

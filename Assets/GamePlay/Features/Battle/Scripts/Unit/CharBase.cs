@@ -30,18 +30,15 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
-        [SerializeField] private Sprite _characterSprite;
+        //[SerializeField] private Sprite _characterSprite;
         [SerializeField] private Transform _charUnitRoot;
-        private SpriteRenderer _spriteRenderer;
+
+        private SpriteRenderer  _spriteRenderer;
+        private Transform       _charTransform;
+        private CharAnim        _charAnim;
         
         private CharacterModel  _charInfo;
-        
-        private Transform       _charTransform;
-        
-        
-        private CharStat        _charStat;
-        
-        private CharAnim        _charAnim;
+        private CharStat        _runtimeStat;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
 
@@ -69,16 +66,16 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public Rigidbody2D Rigid => _rigid;
         public Camera MainCamera => _mainCamera;
         
-        public Sprite CharacterSprite => _characterSprite;
+        //public Sprite CharacterSprite => _characterSprite;
         public List<SkillBase> Skills => _skills;
-        public CharStat CharStat
+        public CharStat RuntimeStat
         {
-            get => _charStat;
+            get => _runtimeStat;
             private set
             {
-                _charStat = value;
-                _charStat.ClearChangeEvent();
-                _charStat.OnStatChanged += (stat, delta, changed) =>
+                _runtimeStat = value;
+                _runtimeStat.ClearChangeEvent();
+                _runtimeStat.OnStatChanged += (stat, delta, changed) =>
                 {
                     if (stat == SystemEnum.eStats.NHP && changed <= 0)
                     {
@@ -92,12 +89,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         }
         
         #region Stat Properties for Utility
-        public float CurrentHP => _charStat.GetStat(SystemEnum.eStats.NHP);
-        public float MaxHP => _charStat.GetStat(SystemEnum.eStats.NMHP);
-        public float Armor => _charStat.GetStat(SystemEnum.eStats.DEFENSE);
-        public float Dodge => _charStat.GetStat(SystemEnum.eStats.EVATION);
-        public float BonusAccuracy => _charStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
-        public float DamageIncrease => _charStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
+        public float CurrentHP => _runtimeStat.GetStat(SystemEnum.eStats.NHP);
+        public float MaxHP => _runtimeStat.GetStat(SystemEnum.eStats.NMHP);
+        public float Armor => _runtimeStat.GetStat(SystemEnum.eStats.DEFENSE);
+        public float Dodge => _runtimeStat.GetStat(SystemEnum.eStats.EVATION);
+        public float BonusAccuracy => _runtimeStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
+        public float DamageIncrease => _runtimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
         public float MovePoint => _movePoint;
         
         #endregion
@@ -130,12 +127,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     Debug.LogError("인덱스 불일치. 코드 이상 혹은 데이터의 캐릭터 정보와 프리팹 차이 학인 바람");
                     return;
                 }
-            
-                //_skillInfo = new SkillInfo(this);
+                
                 //_skillInfo?.Init(_charData.charSkillList);
                 //_executionInfo = new();
-                _keywordInfo = new(this);
-                _charStat = value.Stat;
+                
+                _skillInfo = new SkillInfo(this);
+                _keywordInfo = new KeywordInfo(this);
+                _runtimeStat = value.BaseStat;
                 
             }
         }
@@ -181,10 +179,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public virtual async UniTask CharInit(CharacterModel charModel)
         {
             _charInfo = charModel; //모델
-            _charStat = charModel.Stat; // 스탯 복사
+            _runtimeStat = charModel.BaseStat; // 스탯 복사
             
             //스킬 초기화
-            var skillModels = charModel.Skills;
+            var skillModels = charModel.ActiveSkills;
             foreach (var model in skillModels)
             {
                 var skillBase = await SkillFactory.CreateSkill(model);
@@ -196,6 +194,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         }
         #endregion
 
+        [Obsolete]
         public void PlaySkill(int i, SkillParameter param)
         {
             _skills[i].SkillPlay(param);
@@ -279,7 +278,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 
                 
                 // 나중에 바꿔
-                CharStat.ReceiveDamage(damageInfo.FinalDamage);
+                RuntimeStat.ReceiveDamage(damageInfo.FinalDamage);
                 
                 Debug.Log($"{damageInfo.FinalDamage}");
                 Debug.Log($"{finalDamage}데미지");
@@ -312,7 +311,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
             OnCharDead?.Invoke();
             OnUpdate = null;
-            CharStat.ClearChangeEvent();
+            RuntimeStat.ClearChangeEvent();
                 gameObject.SetActive(false);
            //Destroy(gameObject);
         }
@@ -346,7 +345,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharMove(Vector3 targetPos)
         {
-            CharStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
+            RuntimeStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
             _Animator.SetTrigger("Move");
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
@@ -362,7 +361,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         public IEnumerator CharJump()
         {
-            if (CharStat.UseActionPoint(SystemConst.fps))
+            if (RuntimeStat.UseActionPoint(SystemConst.fps))
             {
                 if (_isGrounded)
                 {

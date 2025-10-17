@@ -1,4 +1,3 @@
-using AngelBeat;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
@@ -10,13 +9,10 @@ using GamePlay.Common.Scripts.Skill;
 using GamePlay.Common.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
-using GamePlay.Features.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UIs.Runtime;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -56,18 +52,21 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private GameObject gameOverPrefab;
         [SerializeField] private GameObject gameWinPrefab;
         [SerializeField] private GameObject previewPrefab;
+        #endregion
         
-        //private SkillPreview _preview;
+        #region Action Indicator Settings
         [SerializeField] private GameObject indicatorPrefab;
         [SerializeField] private List<GameObject> indicatorLists = new();
         [SerializeField] private Color possibleColor;
         [SerializeField] private Color blockedColor;
-        
         #endregion
         
+        #region Battle Map DataBase
         [SerializeField] private BattleFieldDB battleFieldDB;
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
         [SerializeField] private string DebugMapName;
+        #endregion
+        
         [SerializeField] private float cameraSize = 11;
         
         private IBattleStageSource _stageSource;
@@ -77,22 +76,6 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
-        
-        #region 튜토부울
-
-        public SkillParameter curSkill;
-        
-        public bool TutorialPlayerMove1;
-        public bool TutorialEnemyMove1;
-        //노벨2번 실행
-        public bool TutorialPlayerMove2;
-        public bool TutorialEnemyMove2;
-        //노벨3번 실행
-        public bool TutorialPlayerPush;
-        public bool TutorialEnemyDead;
-        //노벨4번 실행
-        
-        #endregion
         
         
         #region UI Model
@@ -125,11 +108,7 @@ namespace GamePlay.Features.Battle.Scripts
             await BattleInitialize();
             await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             _turnManager.OnRoundProceeds.Invoke();
-            // _turnManager.OnTurnChanged.Invoke(new TurnController.TurnModel(_turnManager.CurrentTurn));
             
-
-            // 나중에 지워 네임스페이프 포함해서 지워
-            await Addressables.InstantiateAsync("TutorialCanvas");
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>

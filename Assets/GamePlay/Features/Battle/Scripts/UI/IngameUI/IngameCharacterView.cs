@@ -98,7 +98,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.IngameUI
         }
         private void OnHpChanged(CharacterModel charModel)
         {
-            View.SetHpFill(charModel.Stat.GetStat(SystemEnum.eStats.NHP), charModel.Stat.GetStat(SystemEnum.eStats.NMHP));
+            View.SetHpFill(charModel.BaseStat.GetStat(SystemEnum.eStats.NHP), charModel.BaseStat.GetStat(SystemEnum.eStats.NMHP));
         }
 
         private async UniTask InstantiateNewKeword(FloatingKeywordModel model)

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GamePlay.Timeline.PlayableAsset.PlayableBehaviour
+namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 {
     public class AttackColliderGeneratorPlayableBehavior : SkillTimeLinePlayableBehaviour
     {

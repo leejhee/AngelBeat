@@ -215,7 +215,11 @@ namespace Core.Scripts.Managers
         #endregion
         
         #endregion
-
+        
+        /// <summary>
+        /// 비동기 인스턴스화. 실패 시 바로 release 한다.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">키 오류로 인한 throw이므로 해당 오류 시 살펴볼 것</exception>
         public async UniTask<GameObject> InstantiateAsync(
             object key, Transform parent = null, bool worldSpace = false, CancellationToken ct = default)
         {
@@ -257,7 +261,10 @@ namespace Core.Scripts.Managers
             //Instantiate된 애를 부수고 release까지 해준다.
             Addressables.ReleaseInstance(go);
         }
-
+        
+        /// <summary>
+        /// 부모 이하 모든 게임오브젝트들을 release함
+        /// </summary>
         public void ReleaseAllInstancesUnder(Transform root)
         {
             if (!root) return;

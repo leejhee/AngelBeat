@@ -1,13 +1,13 @@
 using AngelBeat;
 using GamePlay.Common.Scripts.Skill;
+using GamePlay.Common.Scripts.Timeline.PlayableBehaviour;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Skill;
-using GamePlay.Skill;
+using GamePlay.Timeline.PlayableAsset.PlayableAsset;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 
-namespace GamePlay.Timeline.PlayableAsset.PlayableAsset
+namespace GamePlay.Common.Scripts.Timeline.PlayableAsset
 {
     public class AnimationPlayableAsset: SkillTimeLinePlayableAsset
     {

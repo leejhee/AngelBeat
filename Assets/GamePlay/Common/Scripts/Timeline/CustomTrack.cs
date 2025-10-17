@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace AngelBeat
+namespace GamePlay.Common.Scripts.Timeline
 {
     [TrackColor(0.1f, 0.6f, 0.1f)]
     [TrackBindingType(typeof(GameObject))]

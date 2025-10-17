@@ -164,19 +164,11 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
         public void OnPointerDown(PointerEventData eventData)
         {
-
-            
-            
-            //if (!clickCastsSkill) return;
             if (_isBlocked) return;
             
-
             if (!TryOutlineTargetInCell()) return;
             
             if (!IsValidTarget(_hoverTarget)) return;
-            
-            
-            
             
             var targets = new List<CharBase> { _hoverTarget };
             if (_pointerRange > 0)
@@ -203,10 +195,6 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             
             Debug.Log(_skill.SkillName);
             _caster?.PlaySkill(index, new SkillParameter(_caster, targets, _skill));
-
-            
-            // 나중에 지워
-            BattleController.Instance.curSkill = new SkillParameter(_caster, targets, _skill);
             
             //
             // _caster?.SkillInfo?.PlaySkill(

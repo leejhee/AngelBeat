@@ -15,7 +15,7 @@ public static class DamageCalculator
         List<SystemEnum.eKeyword> inputKeywords, 
         CharBase client)
     {
-        List<long> statInputs = inputStats.Select(stat => client.CharStat.GetStat(stat)).ToList();
+        List<long> statInputs = inputStats.Select(stat => client.RuntimeStat.GetStat(stat)).ToList();
         List<float> keywordInputs = inputKeywords.Select(kw => (float)client.KeywordInfo.GetKeywordCount(kw)).ToList();
         return Evaluate(formula, statInputs, keywordInputs);
     }

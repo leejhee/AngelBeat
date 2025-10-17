@@ -28,8 +28,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
     {
         public static int VanillaComparer(Turn x, Turn y)
         {
-            int xSpeed = (int)x.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSPEED);
-            int ySpeed = (int)y.TurnOwner.CharStat.GetStat(SystemEnum.eStats.NSPEED);
+            int xSpeed = (int)x.TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NSPEED);
+            int ySpeed = (int)y.TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NSPEED);
             return ySpeed - xSpeed;
         }
     }

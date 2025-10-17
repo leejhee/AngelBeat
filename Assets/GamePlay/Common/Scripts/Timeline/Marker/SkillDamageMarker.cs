@@ -23,10 +23,6 @@ namespace AngelBeat
         [SerializeField] private float Accuracy;
         public override void MarkerAction()
         {
-            // 나중에 지워
-            InputParam = BattleController.Instance.curSkill;
-            
-            
             CharBase caster = InputParam.Caster;
             float baseDamage = DamageCalculator.Evaluate(damageFormulaInput, inputStats, inputKeywords, caster);
             
