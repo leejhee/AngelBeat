@@ -1,32 +1,29 @@
-﻿namespace GamePlay.Features.Battle.Scripts.BattleAction
+﻿using Cysharp.Threading.Tasks;
+using GamePlay.Features.Battle.Scripts.BattleMap;
+using System.Threading;
+
+namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
     public abstract class BattleAction
     {
-        public abstract void BuildActionPreview();
-        public abstract void ExecuteAction(BattleActionContext context);
+        protected readonly BattleActionContext Context;
+        protected BattleAction(BattleActionContext ctx) => Context = ctx;
+
+        public abstract UniTask<BattleActionPreviewData> BuildActionPreview(CancellationToken ct);
+        public abstract UniTask<BattleActionResult> ExecuteAction(CancellationToken ct);
     }
 
-    public class MoveBattleAction : BattleAction
-    {
-        public override void BuildActionPreview()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void ExecuteAction(BattleActionContext context)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-    
     public class JumpBattleAction : BattleAction
     {
-        public override void BuildActionPreview()
+        public JumpBattleAction(BattleActionContext ctx) : base(ctx)
+        { }
+
+        public override UniTask<BattleActionPreviewData> BuildActionPreview(CancellationToken ct)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ExecuteAction(BattleActionContext context)
+        public override UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)
         {
             throw new System.NotImplementedException();
         }
@@ -35,14 +32,18 @@
     
     public class SkillBattleAction : BattleAction
     {
-        public override void BuildActionPreview()
+        public SkillBattleAction(BattleActionContext ctx) : base(ctx)
+        { }
+
+        public override UniTask<BattleActionPreviewData> BuildActionPreview(CancellationToken ct)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ExecuteAction(BattleActionContext context)
+        public override UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)
         {
             throw new System.NotImplementedException();
         }
+        
     }
 }

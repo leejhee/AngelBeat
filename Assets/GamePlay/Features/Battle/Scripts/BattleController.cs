@@ -12,6 +12,7 @@ using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UIs.Runtime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
@@ -127,9 +128,13 @@ namespace GamePlay.Features.Battle.Scripts
             
             // 맵 띄우기
             _battleStage = await _mapLoader.InstantiateBattleFieldAsync(stageName);
+            BattleStageGrid stageGrid = _battleStage.GetComponent<BattleStageGrid>() 
+                                        ?? _battleStage.AddComponent<BattleStageGrid>();
+            stageGrid.InitGrid(_battleStage);
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
             List<CharBase> battleMembers = await _battleStage.SpawnAllUnits(playerParty);
+            stageGrid.RebuildCharacterPositions(); //다 띄웠으면 캐릭터 위치도 전부 기록해주기
             
             // 턴 관리기 초기화
             _turnManager = new TurnController(battleMembers); 

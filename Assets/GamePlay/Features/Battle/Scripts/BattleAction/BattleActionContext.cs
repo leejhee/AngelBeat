@@ -21,23 +21,48 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         //=========== 전투 행동 타입 ============//
         public ActionType battleActionType;
         
-        //=========== 행동 주체 / 대상 ============//
+        //=========== 행동 주체 ============//
         public CharBase actor;
-        public List<CharBase> targets;
         
         //=========== 전투 환경 ============//
         public StageField battleField;
-        public Vector2Int targetCell;
-        public List<Vector2Int> effectRangeCells;
         
         //=========== 외부 Cancel Token ============//
         public CancellationToken ExternalToken;
     }
-
-    public readonly struct BattlePreviewData
+    
+    public readonly struct BattleActionPreviewData
     {
-        public readonly List<Vector2Int> possiblePositions;
-        public readonly List<Vector2Int> blockedPositions;
+        public readonly List<Vector2Int> PossibleCells;
+        public readonly List<Vector2Int> BlockedCells;
+
+        public BattleActionPreviewData(List<Vector2Int> possibleCells, List<Vector2Int> blockedCells)
+        {
+            PossibleCells = possibleCells;
+            BlockedCells = blockedCells;
+        }
+    }
+
+    public readonly struct BattleActionResult
+    {
+        public enum ResultReason
+        {
+            None,
+            InvalidTarget,
+        }
+
+        public BattleActionResult(bool success, ResultReason reason = ResultReason.None)
+        {
+            ActionSuccess = success;
+            Reason = reason;
+        }
+
+        public readonly bool ActionSuccess;
+        public readonly ResultReason Reason;
+
+        public static BattleActionResult Success() => new(true);
+        public static BattleActionResult Fail(ResultReason reason) => new(false, reason);
+
     }
     
 }

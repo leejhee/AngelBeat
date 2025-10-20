@@ -16,11 +16,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
 [RequireComponent(typeof(Grid)), System.Serializable]
 public class StageField : MonoBehaviour
 {
+    #region In-Editor Field
     private Dictionary<eCharType, List<SpawnData>> _spawnDict = new();
     
     [SerializeReference/*, CustomDisable*/] // 데이터 클래스에서 바로 파싱할 수 있도록 그냥 큰 단위 하나를 만듬
     private BattleFieldSpawnInfo battleSpawnerData = new();
-
+    #endregion
+    
+    #region Runtime Providing Fields
     /// <summary>
     /// 현재 맵에 존재하는 좌표의 총 사이즈(GridProvider의 초기화에 사용)
     /// </summary>
@@ -41,6 +44,8 @@ public class StageField : MonoBehaviour
     
     public List<Vector2Int> PlatformGridCells => platformGridCells;
     public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
+    
+    #endregion
     
     public Transform ObjectRoot { 
         get
