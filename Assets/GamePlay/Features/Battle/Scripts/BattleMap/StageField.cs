@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     // 전투 시작시 생성될 맵 오브젝트
@@ -75,6 +79,7 @@ public class StageField : MonoBehaviour
             _grid.cellSize.x * transform.lossyScale.x,
             _grid.cellSize.y * transform.lossyScale.y
         );
+        
         var c00 = _grid.GetCellCenterWorld(Vector3Int.zero);
         _originWorld = (Vector2)c00 - 0.5f * _cellWorld;
 
@@ -197,9 +202,80 @@ public class StageField : MonoBehaviour
     
     #region 에디터 툴용
 #if UNITY_EDITOR
+    
     public BattleFieldSpawnInfo LoadSpawnerOnlyInEditor()
     {
         return battleSpawnerData;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        var grid = GetComponent<Grid>();
+        if (!grid) return;
+        
+        var cellWorld = new Vector2(
+            grid.cellSize.x * transform.lossyScale.x, 
+            grid.cellSize.y * transform.lossyScale.y
+            );
+
+        Vector2Int halfGridSize = gridSize / 2; //버림 처리
+        var originWorld = (Vector2)grid.GetCellCenterWorld(Vector3Int.zero) - 
+                          new Vector2(halfGridSize.x + 0.5f, halfGridSize.y + 0.5f) * cellWorld;
+        var sizeWorld = new Vector2(gridSize.x * cellWorld.x,  gridSize.y * cellWorld.y);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(grid.GetCellCenterWorld(Vector3Int.zero), Mathf.Min(cellWorld.x, cellWorld.y) * 0.1f);
+        
+        // 박스
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(originWorld + 0.5f * sizeWorld, sizeWorld);
+        
+        // 원점
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(originWorld, Mathf.Min(cellWorld.x, cellWorld.y) * 0.1f);
+
+        var pad = 0.95f;
+        Gizmos.color = new Color(0, 1, 0, 0.25f);
+        foreach (var c in platformGridCells)
+        {
+            var p = originWorld + (c + Vector2.one * 0.5f) * cellWorld;
+            Gizmos.DrawCube(p, cellWorld * pad);
+        }
+        Gizmos.color = new Color(1, 0, 0, 0.25f);
+        foreach (var c in obstacleGridCells)
+        {
+            var p = originWorld + (c + Vector2.one * 0.5f) * cellWorld;
+            Gizmos.DrawCube(p, cellWorld * pad);
+        }
+    }
+
+    [ContextMenu("좌표 셀 유효성 검사(플랫폼 및 장애물)")]
+    private void ValidateGridCells()
+    {
+        bool ok = true;
+        ok &= ValidateList(platformGridCells, "platformGridCells");
+        ok &= ValidateList(obstacleGridCells, "obstacleGridCells");
+        if (ok) Debug.Log("[StageField] Grid cell lists are valid.");
+    }
+    
+    bool ValidateList(List<Vector2Int> list, string listName)
+    {
+        var set = new HashSet<Vector2Int>();
+        bool ok = true;
+        foreach (var c in list)
+        {
+            if (!(c is { x: >= 0, y: >= 0 } && c.x < gridSize.x && c.y < gridSize.y))
+            {
+                Debug.LogWarning($"[StageField] {listName}: out of bounds {c} (grid {gridSize}).");
+                ok = false;
+            }
+            if (!set.Add(c))
+            {
+                Debug.LogWarning($"[StageField] {listName}: duplicated cell {c}.");
+                ok = false;
+            }
+        }
+        return ok;
     }
 #endif
     #endregion

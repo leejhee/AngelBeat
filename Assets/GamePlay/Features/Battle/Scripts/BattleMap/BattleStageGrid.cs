@@ -11,9 +11,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         private StageField _stage;
 
         private Dictionary<Vector2Int, CharBase> _characters;
+        private Dictionary<CharBase, Vector2Int> _unitToCell;
         private HashSet<Vector2Int> _walkable;
         private HashSet<Vector2Int> _obstacles;
-        
         
         #region Public Properties
         /// <summary> 여기서 필요한 cell position 가져다 쓸 것 </summary>
@@ -29,6 +29,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             _walkable = staticField.PlatformGridCells.ToHashSet();
             _obstacles = staticField.ObstacleGridCells.ToHashSet();
             _characters = new Dictionary<Vector2Int, CharBase>();
+            _unitToCell = new Dictionary<CharBase, Vector2Int>();
         }
         
         /// <summary>
@@ -37,10 +38,12 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public void RebuildCharacterPositions()
         {
             _characters.Clear();
+            _unitToCell.Clear();
             foreach (CharBase unit in BattleCharManager.Instance.GetBattleMembers())
             {
                 Vector2Int cell = _stage.WorldToCell(unit.CharTransform.position);
                 _characters[cell] = unit;
+                _unitToCell[unit] = cell;
             }
         }
         #endregion
@@ -58,6 +61,38 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public Vector2 CellToWorldCenter(Vector2Int c) => _stage.CellToWorldCenter(c);
         
         #endregion
+
+        public CharBase GetUnitAt(Vector2Int cell) => _characters.GetValueOrDefault(cell);
         
+        /// <summary>
+        /// 등록자가 Cell을 점유하게 함
+        /// </summary>
+        /// <param name="cell">좌표 포인트</param>
+        /// <param name="registrant">등록자</param>
+        /// <returns>결과</returns>
+        public bool OccupyCell(Vector2Int cell, CharBase registrant)
+        {
+            if (!IsInBounds(cell) || !IsWalkable(cell)) return false;
+            if(_unitToCell.TryGetValue(registrant, out Vector2Int c)) _characters.Remove(c);
+            _characters[c] = registrant; _unitToCell[registrant] = cell;
+            return true;
+        }
+        
+        /// <summary>
+        /// 유닛의 위치 이동 관리
+        /// </summary>
+        /// <param name="unit">이동할 유닛</param>
+        /// <param name="to">목적지</param>
+        /// <returns>결과</returns>
+        public bool MoveUnit(CharBase unit, Vector2Int to)
+        {
+            if(!_unitToCell.TryGetValue(unit, out Vector2Int c)) return OccupyCell(to, unit);
+            if (to != c && !IsWalkable(to)) return false;
+            _characters.Remove(c);
+            _characters[to] = unit; _unitToCell[unit] = to;
+            return true;
+        }
+
+
     }
 }

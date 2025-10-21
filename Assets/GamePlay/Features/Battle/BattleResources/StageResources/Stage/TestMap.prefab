@@ -334,21 +334,20 @@ MonoBehaviour:
   gridSize: {x: 11, y: 2}
   gridProvider: {fileID: 5644157376870120970}
   platformGridCells:
-  - {x: -5, y: -1}
-  - {x: -4, y: -1}
-  - {x: -3, y: -1}
-  - {x: -2, y: -1}
-  - {x: -1, y: -1}
-  - {x: 0, y: -1}
-  - {x: 4, y: -1}
-  - {x: 5, y: -1}
-  - {x: -3, y: 0}
-  - {x: -2, y: 0}
-  - {x: -1, y: 0}
   - {x: 0, y: 0}
+  - {x: 1, y: 0}
   - {x: 2, y: 0}
   - {x: 3, y: 0}
   - {x: 4, y: 0}
+  - {x: 5, y: 0}
+  - {x: 9, y: 0}
+  - {x: 10, y: 0}
+  - {x: 3, y: 1}
+  - {x: 4, y: 1}
+  - {x: 5, y: 1}
+  - {x: 7, y: 1}
+  - {x: 8, y: 1}
+  - {x: 9, y: 1}
   obstacleGridCells: []
   references:
     version: 2
