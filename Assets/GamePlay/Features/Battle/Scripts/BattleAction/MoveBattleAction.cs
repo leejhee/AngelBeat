@@ -69,7 +69,22 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)
         {
-            await UniTask.Yield();
+            if(Context == null || Context.actor == null || Context.battleField == null)
+                return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
+            if(Context.TargetCell == null)
+                return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
+
+            StageField stage = Context.battleField;
+            BattleStageGrid grid = stage.GetComponent<BattleStageGrid>();
+            CharBase actor = Context.actor;
+            Vector2Int goal = Context.TargetCell.Value;
+            
+            // 캐릭터 프리팹 이동
+            var toWorld = stage.CellToWorldCenter(goal);
+            await actor.CharMove(toWorld);
+            
+            // 그리드 위치정보 저장
+            grid.MoveUnit(actor, goal);
             return BattleActionResult.Success();
         }
     }

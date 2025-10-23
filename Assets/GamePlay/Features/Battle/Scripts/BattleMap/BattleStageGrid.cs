@@ -74,12 +74,12 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         {
             if (!IsInBounds(cell) || !IsWalkable(cell)) return false;
             if(_unitToCell.TryGetValue(registrant, out Vector2Int c)) _characters.Remove(c);
-            _characters[c] = registrant; _unitToCell[registrant] = cell;
+            _characters[cell] = registrant; _unitToCell[registrant] = cell;
             return true;
         }
         
         /// <summary>
-        /// 유닛의 위치 이동 관리
+        /// 유닛의 위치 이동 관리. 오로지 위치 정보만 이동(구체 이동 관리 X)
         /// </summary>
         /// <param name="unit">이동할 유닛</param>
         /// <param name="to">목적지</param>
@@ -93,6 +93,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             return true;
         }
 
-
+        
     }
 }

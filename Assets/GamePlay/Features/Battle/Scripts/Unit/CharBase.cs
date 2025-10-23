@@ -13,6 +13,7 @@ using GamePlay.Features.Scripts.Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using DataManager = Core.Scripts.Managers.DataManager;
@@ -21,6 +22,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public abstract class CharBase : MonoBehaviour
     {
+        private static readonly int Move = Animator.StringToHash("Move");
+        private static readonly int Idle = Animator.StringToHash("Idle");
+        
         #region Member Field
         [SerializeField] private long _index;
         [SerializeField] private GameObject _SkillRoot;
@@ -30,9 +34,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
-        //[SerializeField] private Sprite _characterSprite;
         [SerializeField] private Transform _charUnitRoot;
-
+        
+        //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
+        [SerializeField] private static GameObject jumpOutFX;
+        [SerializeField] private static GameObject jumpInFX;
+        
         private SpriteRenderer  _spriteRenderer;
         private Transform       _charTransform;
         private CharAnim        _charAnim;
@@ -341,12 +348,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
         
         /// <summary>
-        /// 이동력을 초과하지 않음을 전제로 함.
+        /// 캐릭터 이동 연출 메서드
+        /// 외부에서 이동력을 조사하므로, 이동력을 초과하지 않음을 전제로 함.
         /// </summary>
         public async UniTask CharMove(Vector3 targetPos)
         {
             RuntimeStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
-            _Animator.SetTrigger("Move");
+            _Animator.SetTrigger(Move);
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
                 transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
@@ -356,39 +364,23 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     _spriteRenderer.flipX = false;
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            _Animator.SetTrigger("Idle");
+            _Animator.SetTrigger(Idle);
         }
         
-        public IEnumerator CharJump()
+        /// <summary>
+        /// 목적지로 점프 연출하는 메서드
+        /// </summary>
+        public async UniTask CharJump(Vector3 targetPos, CancellationToken ct)
         {
-            if (RuntimeStat.UseActionPoint(SystemConst.fps))
-            {
-                if (_isGrounded)
-                {
-                    _isGrounded = false;
-                    gameObject.layer = LayerMask.NameToLayer("Ignore Collision");
-                    _battleCollider.enabled = false;
-                    _rigid.AddForce(new Vector2(0, 12.5f), ForceMode2D.Impulse);
-                    yield return new WaitForSeconds(1f);
-                    gameObject.layer = LayerMask.NameToLayer("Character");
-                    _battleCollider.enabled = true;
-                }
-                
-            }
+            SpriteRenderer sr = _charUnitRoot.GetComponent<SpriteRenderer>();
+            if (sr) sr.enabled = false;
+            await PlayFxOnce(jumpOutFX, transform.position, ct);
+            
+            transform.position = targetPos;
+            await PlayFxOnce(jumpInFX, transform.position, ct);
+            sr.enabled = true;
         }
-
-        public IEnumerator CharDownJump()
-        {
-            if (_isGrounded)
-            {
-                gameObject.layer = LayerMask.NameToLayer("Ignore Collision");
-                IsGrounded = false;
-                _battleCollider.enabled = false;
-                yield return new WaitForSeconds(1f);
-                gameObject.layer = LayerMask.NameToLayer("Character");
-                _battleCollider.enabled = true;
-            }
-        }
+        
         #endregion
         
         #region Unity Events
@@ -405,6 +397,35 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 if(!_isGrounded)
                     _isGrounded = true;
             }
+        }
+        #endregion
+        
+        #region Util로 옮길 부분
+        
+        //TODO : Particlesystem인지 animator인지 결정되면 알아서 최적화할것
+        async UniTask PlayFxOnce(GameObject prefab, Vector3 pos, CancellationToken ct)
+        {
+            if (!prefab) return;
+            var go = Instantiate(prefab, pos, Quaternion.identity);
+
+            // ParticleSystem이면 모두 재생 후 살아있는 동안 대기
+            ParticleSystem[] ps = go.GetComponentsInChildren<ParticleSystem>(true);
+            // null 안터짐
+            if (ps.Length > 0)
+            {
+                foreach (var p in ps) p.Play();
+                while (!ct.IsCancellationRequested && System.Array.Exists(ps, p => p && p.IsAlive(true)))
+                    await Cysharp.Threading.Tasks.UniTask.Yield(PlayerLoopTiming.Update, ct);
+                Destroy(go);
+                return;
+            }
+
+            // Animator 기반 FX면 트리거나 자동 플레이를 가정, 적당한 보호 딜레이(필요시 Animation Event로 대체)
+            var anim = go.GetComponentInChildren<Animator>();
+            if (anim)
+                await Cysharp.Threading.Tasks.UniTask.Delay(System.TimeSpan.FromSeconds(0.5), cancellationToken: ct);
+
+            Destroy(go);
         }
         #endregion
         

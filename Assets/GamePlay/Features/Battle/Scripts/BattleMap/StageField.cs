@@ -27,7 +27,7 @@ public class StageField : MonoBehaviour
     private BattleFieldSpawnInfo battleSpawnerData = new();
     #endregion
     
-    #region Runtime Providing Fields
+    #region Runtime Providing Fields (편집 후 불변.)
     /// <summary>
     /// 현재 맵에 존재하는 좌표의 총 사이즈(GridProvider의 초기화에 사용)
     /// </summary>
@@ -49,7 +49,7 @@ public class StageField : MonoBehaviour
     public List<Vector2Int> PlatformGridCells => platformGridCells;
     public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
     
-    #endregion
+    
     
     public Transform ObjectRoot { 
         get
@@ -63,7 +63,10 @@ public class StageField : MonoBehaviour
             return root.transform;
         } 
     }
-
+    #endregion
+    
+    #region Initialization
+    
     private void Awake()
     {
         Debug.Log("Initializing Spawn Data...");
@@ -80,14 +83,30 @@ public class StageField : MonoBehaviour
             _grid.cellSize.y * transform.lossyScale.y
         );
         
-        var c00 = _grid.GetCellCenterWorld(Vector3Int.zero);
-        _originWorld = (Vector2)c00 - 0.5f * _cellWorld;
-
+        ComputeGridBasis(out _cellWorld, out _originWorld, out _);
         gridProvider.ApplySpec(gridSize, _cellWorld, _originWorld, lineWidthPixels: 2);
         gridProvider.InitMask();
         gridProvider.Show(false);
     }
+
+    private void ComputeGridBasis(
+        out Vector2 cellWorld,
+        out Vector2 originWorld,
+        out Vector2 sizeWorld)
+    {
+        cellWorld = new Vector2(
+            _grid.cellSize.x * transform.lossyScale.x,
+            _grid.cellSize.y * transform.lossyScale.y
+        );
+        
+        Vector2Int halfGridSize = gridSize / 2;
+        originWorld = (Vector2)_grid.GetCellCenterWorld(Vector3Int.zero) - 
+                          new Vector2(halfGridSize.x + 0.5f, halfGridSize.y + 0.5f) * cellWorld;
+        
+        sizeWorld = new Vector2(gridSize.x * cellWorld.x,  gridSize.y * cellWorld.y);
+    }
     
+    #endregion
 
     #region Spawning Units for Initialization
     public void SpawnUnit(CharBase charBase, int squadOrder)
@@ -210,42 +229,35 @@ public class StageField : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        var grid = GetComponent<Grid>();
-        if (!grid) return;
+        _grid = GetComponent<Grid>();
+        if (!_grid) return;
         
-        var cellWorld = new Vector2(
-            grid.cellSize.x * transform.lossyScale.x, 
-            grid.cellSize.y * transform.lossyScale.y
-            );
-
-        Vector2Int halfGridSize = gridSize / 2; //버림 처리
-        var originWorld = (Vector2)grid.GetCellCenterWorld(Vector3Int.zero) - 
-                          new Vector2(halfGridSize.x + 0.5f, halfGridSize.y + 0.5f) * cellWorld;
-        var sizeWorld = new Vector2(gridSize.x * cellWorld.x,  gridSize.y * cellWorld.y);
-
+        ComputeGridBasis(out Vector2 cellW, out Vector2 originW, out Vector2 sizeW);
+        
+        // Grid 컴포넌트의 원점
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(grid.GetCellCenterWorld(Vector3Int.zero), Mathf.Min(cellWorld.x, cellWorld.y) * 0.1f);
+        Gizmos.DrawSphere(_grid.GetCellCenterWorld(Vector3Int.zero), Mathf.Min(cellW.x, cellW.y) * 0.1f);
         
         // 박스
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(originWorld + 0.5f * sizeWorld, sizeWorld);
+        Gizmos.DrawWireCube(originW + 0.5f * sizeW, sizeW);
         
         // 원점
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(originWorld, Mathf.Min(cellWorld.x, cellWorld.y) * 0.1f);
+        Gizmos.DrawSphere(originW, Mathf.Min(cellW.x, cellW.y) * 0.1f);
 
         var pad = 0.95f;
         Gizmos.color = new Color(0, 1, 0, 0.25f);
         foreach (var c in platformGridCells)
         {
-            var p = originWorld + (c + Vector2.one * 0.5f) * cellWorld;
-            Gizmos.DrawCube(p, cellWorld * pad);
+            var p = originW + (c + Vector2.one * 0.5f) * cellW;
+            Gizmos.DrawCube(p, cellW * pad);
         }
         Gizmos.color = new Color(1, 0, 0, 0.25f);
         foreach (var c in obstacleGridCells)
         {
-            var p = originWorld + (c + Vector2.one * 0.5f) * cellWorld;
-            Gizmos.DrawCube(p, cellWorld * pad);
+            var p = originW + (c + Vector2.one * 0.5f) * cellW;
+            Gizmos.DrawCube(p, cellW * pad);
         }
     }
 

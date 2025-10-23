@@ -11,7 +11,6 @@ using GamePlay.Skill;
 using System.Linq;
 using System.Threading;
 using UIs.Runtime;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -306,7 +305,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
             if (View.CharacterHUD.PushButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("밀기");
-                BattleController.Instance.ShowPushPreview();
             }
         }
 

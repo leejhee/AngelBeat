@@ -1,4 +1,5 @@
-﻿using GamePlay.Features.Battle.Scripts.BattleMap;
+﻿using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         
         //=========== 전투 환경 ============//
         public StageField battleField;
+
+        public Vector2Int? TargetCell;
+        
+        //=========== Action 중 별개 필요 요소 ============//
+        public SkillModel skillModel;
         
         //=========== 외부 Cancel Token ============//
         public CancellationToken ExternalToken;
@@ -49,6 +55,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             None,
             InvalidTarget,
+            InvalidContext,
         }
 
         public BattleActionResult(bool success, ResultReason reason = ResultReason.None)
