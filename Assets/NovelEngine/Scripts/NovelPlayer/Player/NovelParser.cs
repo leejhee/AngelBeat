@@ -100,7 +100,7 @@ public static class NovelParser
                 if (subLine != null)
                 {
                     command.subLine = subLine;
-                    Debug.Log($"Subline of {command.GetType().Name} at index {index - 1} parsed.");
+                    //Debug.Log($"Subline of {command.GetType().Name} at index {index - 1} parsed.");
                 }
             }
             // 서브라인 파싱은 직접 넣어주고 아무것도 리턴하지 않음
@@ -137,7 +137,7 @@ public static class NovelParser
                     string labelName = labelMatch.Groups["name"].Value;
 
                     NovelManager.Player.LabelDict.Add(labelName, index);
-                    Debug.Log($"Label Name : {labelName}\nIndex : {index}");
+                    //Debug.Log($"Label Name : {labelName}\nIndex : {index}");
                     result = new LabelLine(index, labelName);
                     break;
             }
@@ -257,16 +257,16 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, charCommandType, ifParameter);
-                    Debug.Log(
-                        $"Character : {charName}\n" +
-                        $"Pos : {charPos}\n" +
-                        $"Appearance : {charAppearance}\n" +
-                        $"Scale : {charScale}\n" +
-                        $"transition : {charTransition}\n" +
-                        $"Type : {charCommandType}\n" +
-                        $"time : {charTime}\n" +
-                        $"Index : {index}\n"+
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Character : {charName}\n" +
+                    //     $"Pos : {charPos}\n" +
+                    //     $"Appearance : {charAppearance}\n" +
+                    //     $"Scale : {charScale}\n" +
+                    //     $"transition : {charTransition}\n" +
+                    //     $"Type : {charCommandType}\n" +
+                    //     $"time : {charTime}\n" +
+                    //     $"Index : {index}\n"+
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideCharacter:
@@ -277,10 +277,10 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, name, null, null, null, null, null, CharCommandType.Hide, ifParameter);
-                    Debug.Log(
-                        $"hide command\nCharacter : {name}\n" +
-                        $"Index : {index}\n" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"hide command\nCharacter : {name}\n" +
+                    //     $"Index : {index}\n" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideAll:
@@ -288,9 +288,9 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, null, null, null, null, null, null, CharCommandType.HideAll, ifParameter);
-                    Debug.Log($"Hide All Command\n" +
-                        $"Index : {index}\n" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log($"Hide All Command\n" +
+                    //     $"Index : {index}\n" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.Clearall:
@@ -315,10 +315,10 @@ public static class NovelParser
                     result = new ChoiceCommand(index, choice, ifParameter);
 
 
-                    Debug.Log(
-                        $"Choice : {choice}\n" +
-                        $"Index : {index}\n" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Choice : {choice}\n" +
+                    //     $"Index : {index}\n" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.Goto:
@@ -329,10 +329,10 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new GotoCommand(index, label, ifParameter);
-                    Debug.Log(
-                        $"Goto : {label}\n" +
-                        $"Index : {index}\n" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Goto : {label}\n" +
+                    //     $"Index : {index}\n" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.If:
@@ -345,14 +345,14 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new IfCommand(index, IfType.If, var, op, value);
-                    Debug.Log($"If Command : {var} {op} {value}");
+                    // Debug.Log($"If Command : {var} {op} {value}");
                 }
                 break;
             case CommandType.Else:
                 {
                     IfParameter ifParameter = ParseIfParameter(line);
                     result = new IfCommand(index, IfType.Else);
-                    Debug.Log($"Else Command :");
+                    // Debug.Log($"Else Command :");
                 }
                 break;
             case CommandType.Wait:
@@ -364,11 +364,11 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new WaitCommand(index, waitTime, ifParameter);
-                    Debug.Log(
-                        $"Wait \n" +
-                        $"Time : {waitTime}\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Wait \n" +
+                    //     $"Time : {waitTime}\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.Background:
@@ -409,14 +409,14 @@ public static class NovelParser
                         ifParameter);
 
 
-                    Debug.Log(
-                        $"BackName : {backName}\n" +
-                        $"Transition : {backgroundTransition}\n" +
-                        $"pos : {backgroundPos}\n" +
-                        $"scale : {backgroundScale}\n" +
-                        $"Time : {backgroundTime}\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"BackName : {backName}\n" +
+                    //     $"Transition : {backgroundTransition}\n" +
+                    //     $"pos : {backgroundPos}\n" +
+                    //     $"scale : {backgroundScale}\n" +
+                    //     $"Time : {backgroundTime}\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
 
                 }
 
@@ -444,12 +444,12 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new SoundCommand(index, bgmName, volume, loop, true, NovelSound.Bgm ,ifParameter);
-                    Debug.Log(
-                        $"BGM : {bgmName}\n" +
-                        $"volume : {volume}\n" +
-                        $"loop : {loop}\n" +
-                        $"Index : {index}\n" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"BGM : {bgmName}\n" +
+                    //     $"volume : {volume}\n" +
+                    //     $"loop : {loop}\n" +
+                    //     $"Index : {index}\n" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
 
                 }
 
@@ -459,10 +459,10 @@ public static class NovelParser
                 {
                     IfParameter ifParameter = ParseIfParameter(line);
                     result = new SoundCommand(index, null, null, false, false, NovelSound.Bgm,ifParameter);
-                    Debug.Log(
-                        $"StopBGM\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"StopBGM\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
 
                 break;
@@ -488,22 +488,22 @@ public static class NovelParser
 
                     IfParameter ifParameter = ParseIfParameter(line);
                     result = new SoundCommand(index, sfxName, volume, loop, true, NovelSound.Effect, ifParameter);
-                    Debug.Log(
-                        $"SFX : {sfxName}\n" +
-                        $"volume : {volume}\n" +
-                        $"loop : {loop}\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"SFX : {sfxName}\n" +
+                    //     $"volume : {volume}\n" +
+                    //     $"loop : {loop}\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.StopSfx:
                 {
                     IfParameter ifParameter = ParseIfParameter(line);
                     result = new SoundCommand(index, null, null, false, false, NovelSound.Effect, ifParameter);
-                    Debug.Log(
-                        $"StopSFX\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"StopSFX\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.Effect:

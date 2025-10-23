@@ -220,25 +220,19 @@ public class NovelManager : MonoBehaviour
                 return;
             }
 
-            Debug.Log("일단 없는거 확인했어");
 
             // 없으면 Addressable에서 로드 및 인스턴스화
             if (Player == null)
             {
                 GameObject go = await Addressables.InstantiateAsync("NovelPlayer", transform);
                 
-                Debug.Log($"Addressable Key : {NovelPlayerPrefabPath}");
+
                 
-                //GameObject backObject = await Addressables.InstantiateAsync("BackgroundBase", transform);
-                
-                
-                Debug.Log(go.name);
-                //Debug.Log(backObject.name);
                 if (go != null)
                 {
                     go.name = "NovelPlayer";
                     Player = go.GetComponent<NovelPlayer>();
-                    Debug.Log($"{Player.gameObject.name} : 초기화 과정중 체크");
+
                 }
                 else
                 {

@@ -93,7 +93,6 @@ public class NovelPlayer : MonoBehaviour
         novelScript = null;
         FindObjectsByType();
         LabelDict = new();
-        Debug.Log("Novel Player Init() Finished");
     }
     private void FindObjectsByType()
     {
@@ -148,8 +147,7 @@ public class NovelPlayer : MonoBehaviour
         float t0 = Time.realtimeSinceStartup;
         var lines = novelScript.text.Split('\n');
         
-        Debug.Log("파서 언급");
-        
+
         CurrentAct = NovelParser.Parse(lines);
 
         if (CurrentAct == null)
@@ -158,7 +156,6 @@ public class NovelPlayer : MonoBehaviour
         }
         
         float ms = (Time.realtimeSinceStartup - t0) * 1000f;
-        Debug.Log($"{ms:F3} ms 걸림");
 
         if (nextButton != null)
         {
@@ -315,7 +312,7 @@ public class NovelPlayer : MonoBehaviour
         }
         finally 
         {
-            Debug.Log("wait 종료");
+            //Debug.Log("wait 종료");
             OnWaitEnd();
         }
     }

@@ -54,14 +54,14 @@ namespace GamePlay.Features.Battle.Scripts.UI.IngameUI
 
         private async UniTask HpFillChanged(long curHp, long maxHp, Image fill)
         {
-            const float TIME_TO_END = 0.5f;
+            const float timeToEnd = 0.5f;
             float counter = 0f;
             float startValue = fill.fillAmount;
             float targetValue = (float)curHp/(float)maxHp;
-            while (counter < TIME_TO_END)
+            while (counter < timeToEnd)
             {
                 counter += Time.deltaTime;
-                float t = counter/TIME_TO_END;
+                float t = counter/timeToEnd;
                 float curValue = Mathf.Lerp(startValue, targetValue, t);
                 fill.fillAmount = curValue;
                 await UniTask.Yield();

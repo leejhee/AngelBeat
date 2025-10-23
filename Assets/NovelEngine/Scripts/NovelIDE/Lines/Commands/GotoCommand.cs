@@ -23,7 +23,7 @@ namespace novel
         {
             //if (!ifParameter)
             //    return;
-            Debug.Log($"goto 실행 : {label}");
+           // Debug.Log($"goto 실행 : {label}");
             NovelManager.Player.CurrentAct.JumpToLabel(label);
         }
     }

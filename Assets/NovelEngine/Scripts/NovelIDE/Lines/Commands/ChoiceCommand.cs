@@ -65,20 +65,20 @@ namespace novel
 
                 if (NovelUtils.ConditinalStateMent(10, ifParameter.Op, 10))   
                 {
-                    Debug.Log("선택지 활성화");
+                    //Debug.Log("선택지 활성화");
                     choiceButton.interactable = true;
                 }
                 else
                 {
-                    Debug.Log("선택지 비활성화");
+                    //Debug.Log("선택지 비활성화");
                     choiceButton.interactable = false;
                 }
             }
-            Debug.Log($"선택지 프리팹 생성 : {argument}");
+            //.Log($"선택지 프리팹 생성 : {argument}");
         }
         private void OnClickChoiceButton()
         {
-            Debug.Log($"선택지 {argument} 클릭");
+            //Debug.Log($"선택지 {argument} 클릭");
 
             if (subLine == null)
             {

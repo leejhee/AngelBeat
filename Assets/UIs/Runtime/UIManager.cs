@@ -108,7 +108,8 @@ namespace UIs.Runtime
         [SerializeField] private AssetReferenceGameObject rootPrefabReference;
 
         private Transform _uiRoot;
-        private Transform _mainRoot, _modalRoot, _systemRoot;
+        private Transform _mainRoot, _modalRoot, _systemRoot, _worldRoot;
+        private Transform _bgRoot;
         private Transform _cacheRoot;
         
         private async UniTask EnsureRoot(CancellationToken token)
@@ -122,6 +123,11 @@ namespace UIs.Runtime
             _modalRoot  = _uiRoot.Find("@ModalRoot")  ?? CreateLayer("@ModalRoot",  100);
             _systemRoot = _uiRoot.Find("@SystemRoot") ?? CreateLayer("@SystemRoot", 1000);
             _cacheRoot  = _uiRoot.Find("@UICache")    ?? CreateCache("@UICache");
+            // 이거 월드스페이스 캔버스 order 변경해줘야함
+            _worldRoot = _uiRoot.Find("@WorldRoot") ?? CreateLayer("@WorldRoot", 1000);
+            
+            // 배경화면 전용 캔버스 불필요시 나중에 제거
+            _bgRoot = _uiRoot.Find("@BGRoot") ?? CreateBackgroundUILayer("@BGRoot");
         }
 
         private Transform CreateLayer(string layerName, int order)
@@ -141,7 +147,20 @@ namespace UIs.Runtime
             g.transform.SetParent(_uiRoot, false);
             return g.transform;
         }
-        
+
+        private Transform CreateBackgroundUILayer(string layerName)
+        {
+            GameObject g = new(layerName);
+            g.layer = 13;
+            g.transform.SetParent(_uiRoot, false);
+            Canvas c = g.AddComponent<Canvas>();
+            c.renderMode = RenderMode.ScreenSpaceCamera;
+            
+            Camera uiCam = GameObject.Find("UICamera").GetComponent<Camera>();
+            c.worldCamera = uiCam;
+            
+            return g.transform;
+        }
         #endregion
         
         /// <summary>

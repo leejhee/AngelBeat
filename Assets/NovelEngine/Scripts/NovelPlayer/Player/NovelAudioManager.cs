@@ -13,7 +13,6 @@ namespace novel
         {
             try
             {
-                Debug.Log("오디오매니저 초기화 시작");
                 await UniTask.Yield();
 
                 audioMixer = NovelManager.Data.audio.GetMixer();
