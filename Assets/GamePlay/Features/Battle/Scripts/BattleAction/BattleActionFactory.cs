@@ -2,7 +2,7 @@
 {
     public static class BattleActionFactory
     {
-        public static BattleAction CreateBattleAction(BattleActionContext ctx)
+        public static BattleActionBase CreateBattleAction(BattleActionContext ctx)
         {
             return ctx.battleActionType switch
             {

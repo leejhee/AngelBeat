@@ -266,7 +266,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 ViewEvents.Subscribe<SkillModel>(
                     act => curSkillButton.onClick.AddListener(new UnityAction(() => act(model.ActiveSkills[idx]))),
                     act=> curSkillButton.onClick.RemoveAllListeners(),
-                    skill => BattleController.Instance.TogglePreview(skill)
+                    skill => BattleController.Instance.ToggleSkillPreview(skill)
                 );
             }
         }

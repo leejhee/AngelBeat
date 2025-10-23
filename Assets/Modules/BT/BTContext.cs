@@ -1,6 +1,6 @@
 ﻿using AngelBeat;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
-using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Scripts.Keyword;
 

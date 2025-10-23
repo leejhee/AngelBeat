@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
-    public class JumpBattleAction : BattleAction
+    public class JumpBattleAction : BattleActionBase
     {
         private static readonly List<Vector2Int> JumpableRange =  new()
         {

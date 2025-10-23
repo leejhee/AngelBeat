@@ -7,7 +7,6 @@ using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Common.Scripts.Skill;
-using GamePlay.Entities.Scripts.Skills;
 using GamePlay.Features.Scripts.Keyword;
 using GamePlay.Features.Scripts.Skill;
 using System;

@@ -3,13 +3,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-// === 프로젝트 네임스페이스(필요시 수정) ===
 using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Entities.Skills; // SystemEnum.ePivot
-using GamePlay.Features.Battle.Scripts;               // BattleController
-using GamePlay.Features.Battle.Scripts.Unit;          // CharBase
-using GamePlay.Common.Scripts.Skill;
-using System.Runtime.CompilerServices; // SkillModel, SkillParameter
+using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Battle.Scripts;             
+using GamePlay.Features.Battle.Scripts.Unit;
+using System;
 
 namespace GamePlay.Common.Scripts.Skill.Preview
 {
@@ -17,20 +15,15 @@ namespace GamePlay.Common.Scripts.Skill.Preview
     /// - 셀 위에 커서가 올라가기만 하면, 셀 영역 안의 '유효 타겟' 캐릭터의 hoverSR(오버레이 SR)을 켜서 외곽선 표시
     /// - 포인터가 빠지면 외곽선 끔
     /// - 캐릭터에 Collider 없어도 Renderer.bounds로 폴백 탐색
-    /// - hoverSR은 미리 붙어있고(Material=Outline, Sprite=None)라고 가정
-    /// - 클릭 시 실제 시전은 옵션(clickCastsSkill)
-    /// 준비물:
-    ///   1) 카메라: Physics2DRaycaster + EventSystem(InputSystemUIInputModule)
-    ///   2) Indicator 프리팹: SpriteRenderer + Collider2D(isTrigger 권장) + 본 스크립트
-    ///   3) 캐릭터: CharBase + UnitRoot(기본 SR) + 그 자식에 hoverSR(Outline 머티, Sprite=None)
+    /// - hoverSR은 미리 붙어있다고 하자
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(SpriteRenderer))]
-    public sealed class SkillIndicator : MonoBehaviour,
+    public sealed class BattleActionIndicator : MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerMoveHandler
     {
-        // ---------------- Target Detection ----------------
+        #region Target Detecting
         [Header("Target Detection")]
         [Tooltip("셀 영역 탐색 크기(월드). autoProbeFromScale=true면 자동 계산")]
         [SerializeField] private Vector2 probeSize = new(0.98f, 0.98f);
@@ -41,8 +34,10 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         [SerializeField] private LayerMask characterMask = 0;
         [Tooltip("막힌 셀이어도 '보여주기용'으로 외곽선 노출할지")]
         [SerializeField] private bool outlineEvenIfBlocked = true;
-
-        // ---------------- Overlay(hOver SR) ----------------
+        
+        #endregion
+        
+        #region Overlay
         [Header("Existing Overlay (hoverSR)")]
         [Tooltip("UnitRoot 하위에서 hoverSR을 찾을 때 우선 사용할 이름(없어도 됨)")]
         [SerializeField] private string hoverSrChildName = "hoverSR";
@@ -57,24 +52,29 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         [SerializeField] private int outlineSortingOffset = +1;
         [Tooltip("애니메이션 스프라이트를 따라가도록 호버 중 매 프레임 동기화")]
         [SerializeField] private bool followBaseSpriteWhileHover = true;
-
-        // ---------------- Hover Tint ----------------
+        
+        #endregion
+        
+        #region Tint - Hover
         [Header("Hover Tint (Indicator cell tint)")]
         [SerializeField] private float hoverBrightnessMul = 0.90f;
         [SerializeField] private float hoverAlphaAdd      = 0.05f;
-
-        // ---------------- Cast (Optional) ----------------
-        [Header("Cast (Optional)")]
-        [SerializeField] private bool clickCastsSkill = false;
-
-        // ---------------- Runtime Injection ----------------
+        
+        #endregion
+        
+        #region Runtime Field - Injected
         private CharBase     _caster;
         private SkillModel   _skill;
         private bool         _isBlocked;
         private SystemEnum.ePivot _pivotType = SystemEnum.ePivot.TARGET_ENEMY;
         private int          _pointerRange = 0; // 0=단일
-
-        // ---------------- State ----------------
+        private Vector2Int _cell;
+        private Action<CharBase, SkillModel, List<CharBase>, Vector2Int> _confirmAction;
+        private Action<Vector2Int> _onClickCell;
+        
+        #endregion
+        
+        #region Runtime Field - Indicator State
         private CharBase       _hoverTarget;
         private SpriteRenderer _baseSR;        // UnitRoot의 기본 SR
         private SpriteRenderer _hoverSR;       // UnitRoot의 자식 hoverSR(오버레이 SR)
@@ -82,20 +82,42 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         private Color          _baseCellColor;
         private bool           _hovered;
         private Sprite         _lastBaseSprite; // 동기화용 캐시
-
-        // ---------------- API ----------------
-        public void Init(CharBase caster, SkillModel skill, bool isBlocked,
-                         SystemEnum.ePivot pivotType = SystemEnum.ePivot.TARGET_ENEMY,
-                         int pointerRange = 0)
+        
+        #endregion
+        
+        #region Initialization
+        //TODO : pointerRange는 어떻게 처리되어야하는지 확인 필요함.
+        //TODO : 굉장히 더러워서 정리한번 하면 좋을듯하다...
+        public void Init(
+            CharBase caster,
+            SkillModel skill,
+            bool isBlocked,
+            Vector2Int cell,
+            SystemEnum.ePivot pivotType = SystemEnum.ePivot.TARGET_ENEMY,
+            int pointerRange = 0,
+            Action<CharBase, SkillModel, List<CharBase>, Vector2Int> confirmAction = null
+        )
         {
             _caster = caster;
             _skill = skill;
             _isBlocked = isBlocked;
+            _cell = cell;
             _pivotType = pivotType;
             _pointerRange = Mathf.Max(0, pointerRange);
+            _confirmAction = confirmAction;
+            
         }
-
-        // ---------------- Unity ----------------
+        
+        public void InitForSimpleCell(bool isBlocked, Vector2Int cell, Action<Vector2Int> onClickCell)
+        {
+            _isBlocked = isBlocked;
+            _cell = cell;
+            _onClickCell = onClickCell;
+        }
+        
+        #endregion
+        
+        #region Unity Events
         private void Awake()
         {
             _cellSR = GetComponent<SpriteRenderer>();
@@ -141,8 +163,11 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
         private void OnDisable() { ClearOutline(); ApplyCellHoverTint(false); }
         private void OnDestroy() { ClearOutline(); }
-
-        // ---------------- EventSystem ----------------
+        
+        #endregion
+        
+        #region Event System Implementation
+        
         public void OnPointerEnter(PointerEventData eventData)
         {
             ApplyCellHoverTint(true);
@@ -166,10 +191,20 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         {
             if (_isBlocked) return;
             
-            if (!TryOutlineTargetInCell()) return;
+            #region NON-SKILL
+            if (_skill == null && _onClickCell != null)
+            {
+                _onClickCell(_cell);
+                return;
+            }
+            #endregion
             
+            #region SKILL
+            
+            if (!TryOutlineTargetInCell()) return;
             if (!IsValidTarget(_hoverTarget)) return;
             
+            // 타겟 담기
             var targets = new List<CharBase> { _hoverTarget };
             if (_pointerRange > 0)
             {
@@ -179,34 +214,24 @@ namespace GamePlay.Common.Scripts.Skill.Preview
                     : (Vector2)transform.position;
 
                 Vector2 box = new(_pointerRange, 1f);
+                //TODO : BattleStageGrid를 참조하도록 할 수 있는지 확인할 것.
                 var cols = Physics2D.OverlapBoxAll(center, box, 0f, characterMask);
                 foreach (var c in cols)
                     if (c && c.TryGetComponent(out CharBase cb) && cb != null && IsValidTarget(cb))
                         targets.Add(cb);
             }
             
+            if (targets.Count == 0 || !_caster) return; //타겟도 없고 심지어 캐스터 없으면 괘씸해서 return
             
-            if (targets.Count == 0) return;
+            // controller callback
+            _confirmAction?.Invoke(_caster, _skill, targets, _cell);
             
-            
-            if (_caster == null) return;
-
-            int index = _caster.GetSKillIndexFromModel(_skill);
-            
-            Debug.Log(_skill.SkillName);
-            _caster?.PlaySkill(index, new SkillParameter(_caster, targets, _skill));
-            
-            //
-            // _caster?.SkillInfo?.PlaySkill(
-            //     _skill.SkillIndex,
-            //     new SkillParameter(_caster, targets, _skill)
-            // );
-
-            BattleController.Instance?.HideSkillPreview();
-            ClearOutline();
+            #endregion
         }
-
-        // ---------------- Core ----------------
+        
+        #endregion
+        
+       #region Core Implementation
         private bool TryOutlineTargetInCell()
         {
             ClearOutline();
@@ -341,8 +366,10 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             }
             return null;
         }
-
-        // ---------------- UI Helpers ----------------
+        
+        #endregion
+        
+        #region Util
         private void ApplyCellHoverTint(bool on)
         {
             if (_cellSR == null) return;
@@ -381,5 +408,6 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             Gizmos.DrawWireCube(transform.position, new Vector3(probeSize.x, probeSize.y, 0.1f));
         }
 #endif
+        #endregion
     }
 }

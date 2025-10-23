@@ -1,19 +1,17 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Utils;
-using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Skill;
-using GamePlay.Skill;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GamePlay.Entities.Scripts.Skills
+namespace GamePlay.Common.Scripts.Entities.Skills
 {
     public class SkillInfo
     {
         private Dictionary<long, SkillBase> _dicSkill = new Dictionary<long, SkillBase>(); // 스킬 리스트
+        
         private CharBase _charBase; // 스킬 시전자
         private Transform _SkillRoot; // 스킬 루트 
 

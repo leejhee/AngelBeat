@@ -13,6 +13,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         None,
         Move,
         Jump,
+        Push,
         Skill
     }
     

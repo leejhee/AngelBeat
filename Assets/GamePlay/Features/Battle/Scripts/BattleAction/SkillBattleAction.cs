@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
-    public class SkillBattleAction : BattleAction
+    public class SkillBattleAction : BattleActionBase
     {
         public SkillBattleAction(BattleActionContext ctx) : base(ctx)
         { }

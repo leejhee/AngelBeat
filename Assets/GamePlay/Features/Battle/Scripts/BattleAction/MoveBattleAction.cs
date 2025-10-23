@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
-    public class MoveBattleAction : BattleAction
+    public class MoveBattleAction : BattleActionBase
     {
         public MoveBattleAction(BattleActionContext ctx) : base(ctx)
         { }
