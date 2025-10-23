@@ -10,9 +10,9 @@ namespace GamePlay.Common.Scripts.Skill
 {
     public class SkillParameter
     {
-        public CharBase Caster;
-        public List<CharBase> Target;
-        public SkillModel model;
+        public readonly CharBase Caster;
+        public readonly List<CharBase> Target;
+        public readonly SkillModel Model;
         public readonly SystemEnum.eSkillType SkillType;
         public readonly float Accuracy;              
         public readonly float CritMultiplier;
@@ -25,7 +25,10 @@ namespace GamePlay.Common.Scripts.Skill
         {
             Caster = caster;
             Target = target;
-            model = model;
+            Model = model;
+            SkillType = model.skillType;
+            Accuracy = model.skillAccuracy;
+            CritMultiplier = model.critCalibration;
         }
     }
     
@@ -58,11 +61,9 @@ namespace GamePlay.Common.Scripts.Skill
         public void SkillPlay(SkillParameter param)
         {
             // 타임라인 재생
-            if (_director == null)
-                return;
+            if (!_director) return;
             SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
             receiver.Input = param;
-            
             
             _director.Play();
         }

@@ -1,6 +1,7 @@
 ﻿using Core.Scripts.Data;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -117,13 +118,25 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             if (Context.TargetCell == null || Context.actor == null || Context.battleField == null)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
+            if(Context.TargetCell == null)
+                return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
+            if(Context.skillModel == null)
+                return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
 
-            var stage = Context.battleField;
-            var target = Context.TargetCell.Value;
+            CharBase caster = Context.actor;
+            StageField stage = Context.battleField;
+            Vector2Int cell = Context.TargetCell.Value;
+            Vector2 targetWorld = stage.CellToWorldCenter(cell);
+            List<CharBase> targets = Context.targets ?? new List<CharBase>();
 
-
-            var targetWorld = stage.CellToWorldCenter(target);
-
+            SkillParameter parameter = new(
+                caster: caster,
+                target: targets,
+                model: Context.skillModel
+            );
+            //TODO : 타임라인 재생 완료에 대한 콜백 생각하기
+            caster.SkillInfo.PlaySkill(Context.skillModel.SkillIndex, parameter);
+            
             // 지금은 자리만 잡고 성공 처리
             await UniTask.Yield(ct);
             return BattleActionResult.Success();
