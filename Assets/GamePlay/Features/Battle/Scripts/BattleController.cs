@@ -154,8 +154,8 @@ namespace GamePlay.Features.Battle.Scripts
         private BattleActionContext _currentActionContext;
 
         private CancellationTokenSource _actionCts;
-        private ActionType _currentActionType;
-        private SkillModel _currentSkill;
+        //private ActionType _currentActionType;
+        //private SkillModel _currentSkill;
         
         #region Action Indicator Settings
         [SerializeField] private GameObject indicatorPrefab;
@@ -170,14 +170,14 @@ namespace GamePlay.Features.Battle.Scripts
         /// BattleAction 시작을 위한 Preview 제시 및 
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="skill"></param>
-        public async UniTask StartPreview(ActionType type, SkillModel skill=null)
+        /// <param name="skillSlotIndex"> 몇번 슬롯 눌렀는지 </param>
+        public async UniTask StartPreview(ActionType type, int skillSlotIndex)
         {
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
-
-            _currentActionContext = new BattleActionContext()
+            SkillModel skillModel = FocusChar.SkillInfo.SkillSlots[skillSlotIndex];
+            _currentActionContext = new BattleActionContext
             {
-                battleActionType = type, actor = FocusChar, battleField = _battleStage, skillModel = skill
+                battleActionType = type, actor = FocusChar, battleField = _battleStage, skillModel = skillModel
             };
             
             // Action을 만들어주고 state를 옮겨준다.
@@ -214,9 +214,9 @@ namespace GamePlay.Features.Battle.Scripts
             HideBattleActionPreview();
             _currentActionBase = null;
             _currentActionContext = null;
-            _currentSkill = null;
+            //_currentSkill = null;
             _currentActionState = BattleActionState.Idle;
-            _currentActionType = ActionType.None;
+            //_currentActionType = ActionType.None;
         }
         
         /// <summary>
@@ -224,20 +224,6 @@ namespace GamePlay.Features.Battle.Scripts
         /// </summary>
         /// <param name="target">입력을 제어할 스킬 모델</param>
         [Obsolete]
-        public void ToggleSkillPreview(SkillModel target)
-        {
-            if (IsModal)
-            {
-                CancelPreview();
-            }
-            else
-            {
-                StartPreview(ActionType.Skill, target)
-                    .AttachExternalCancellation(this.GetCancellationTokenOnDestroy())
-                    .Forget(); // 여기 무조건 조심할 것 일단 fire-forget패턴으로 사용
-            }
-        }
-        
         public void ToggleSkillPreview(int targetIdx)
         {
             if (IsModal)
@@ -246,8 +232,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
             else
             {
-                SkillModel target = FocusChar.SkillInfo.SkillSlots[targetIdx];
-                StartPreview(ActionType.Skill, target)
+                StartPreview(ActionType.Skill, targetIdx)
                     .AttachExternalCancellation(this.GetCancellationTokenOnDestroy())
                     .Forget(); // 여기 무조건 조심할 것 일단 fire-forget패턴으로 사용
             }

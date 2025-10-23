@@ -1,7 +1,9 @@
+using AngelBeat;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
@@ -172,7 +174,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 UniTask<GameObject> task = ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnHUD.transform);
                 TurnPortrait turnPortrait = (await task).GetComponent<TurnPortrait>();
                 string root = turn.TurnOwner.CharInfo.IconSpriteRoot;
-                Sprite sprite = DataManager.Instance.CharacterIconSpriteMap[root];
+                Sprite sprite = await ResourceManager.Instance.LoadAsync<Sprite>(root);
                 Debug.Log(sprite);
                 turnPortrait.SetPortraitImage(sprite, turn.TurnOwner.GetID());
                 
@@ -220,8 +222,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
             long curAp = model.BaseStat.GetStat(SystemEnum.eStats.NACTION_POINT);
             long maxAp = model.BaseStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             
-
-            
             
             // HUD 패널 오픈
             View.CharacterHUD.gameObject.SetActive(true);
@@ -234,14 +234,27 @@ namespace GamePlay.Features.Battle.Scripts.UI
             for (int i = 0; i < model.ActiveSkills.Count; i++)
             {
                 int idx = i;
-                Button curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<Button>();
-                curSkillButton.onClick.RemoveAllListeners();
+                SkillButton curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<SkillButton>();
                 
                 // 단순한 index만 전달하자.
-                ViewEvents.Subscribe(
-                    act => curSkillButton.onClick.AddListener(new UnityAction(act)),
-                    act=> curSkillButton.onClick.RemoveAllListeners(),
-                    () => BattleController.Instance.ToggleSkillPreview(idx)
+                ViewEvents.Subscribe<int>(
+                    act =>
+                    {
+                        curSkillButton.Selected -= act;
+                        curSkillButton.Selected += act;
+                    },
+                    act=> curSkillButton.Selected -= act,
+                    OnSkillSelected
+                );
+                
+                ViewEvents.Subscribe<int>(
+                    act =>
+                    {
+                        curSkillButton.Deselected -= act;
+                        curSkillButton.Deselected += act;
+                    },
+                    act=> curSkillButton.Deselected -= act,
+                    OnSkillDeselected
                 );
             }
         }
@@ -265,6 +278,16 @@ namespace GamePlay.Features.Battle.Scripts.UI
             _ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
         }
 
+        private void OnSkillSelected(int slot)
+        {
+            BattleController.Instance.StartPreview(ActionType.Skill, slot).Forget();
+        }
+
+        private void OnSkillDeselected(int slot)
+        {
+            BattleController.Instance.CancelPreview();
+        }
+        
         #region ExtraActions
 
         private void OnClickJumpButton()

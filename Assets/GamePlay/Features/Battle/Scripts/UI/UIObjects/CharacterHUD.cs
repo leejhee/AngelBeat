@@ -144,13 +144,12 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             for (int i = 0; i < skillPanel.SkillButtons.Count; i++)
             {
                 bool isSkill = i < skillCount;
+                SkillButton button = skillPanel.SkillButtons[i];
                 skillPanel.SkillButtons[i].gameObject.SetActive(isSkill);
-                if (isSkill)
-                {
-                    int idx = i;
-                    SkillButton button = skillPanel.SkillButtons[idx];
-                    button.SetButton(skillList[idx]);
-                }
+                if (!isSkill) continue;
+                
+                button.BindSlot(i);
+                button.SetButton(skillList[i]);
             }
         }
 

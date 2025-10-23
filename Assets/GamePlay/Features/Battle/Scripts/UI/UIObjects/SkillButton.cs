@@ -19,7 +19,13 @@ namespace AngelBeat
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         [SerializeField] private SkillDescription skillDescription;
-
+        
+        // 어떻게 하든 상관은 없을거같음.
+        public int SlotIndex { get; private set; }
+        public void BindSlot(int idx) => SlotIndex = idx;
+        public event Action<int> Selected;
+        public event Action<int> Deselected;
+        
         private void Start()
         {
             isSelected = false;
@@ -44,27 +50,17 @@ namespace AngelBeat
             if (skillDescription != null)
                 skillDescription.gameObject.SetActive(false);
         }
-        /// <summary>
-        /// 얘 지금 버튼에 직접 달려있어서 수정하기 힘듬
-        /// </summary>
-        /// <param name="idx"></param>
-        public void OnClickSkillButton(int idx)
-        {
-            //var skills = BattleController.Instance.FocusChar.CharInfo.Skills;
-            //if (idx >= skills.Count) return;
-            //SkillModel model = skills[idx];
-            //BattleController.Instance.ShowSkillPreview(model);
-
-        }
+        
         public override void OnSelect()
         {
-            // 스킬 선택시 해야하는 메서드
+            Debug.Log($"스킬 선택 - {skillName}");
+            Selected?.Invoke(SlotIndex);
         }
 
         public override void OnDeselect()
         {
-            // 여기서 스킬 해제 일단 해줌
             Debug.Log("스킬 해제");
+            Deselected?.Invoke(SlotIndex);
         }
     }
 }

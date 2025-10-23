@@ -28,6 +28,9 @@ public class StageField : MonoBehaviour
     #endregion
     
     #region Runtime Providing Fields (편집 후 불변.)
+
+    [SerializeField] private Sprite backgroundImageSprite;
+    
     /// <summary>
     /// 현재 맵에 존재하는 좌표의 총 사이즈(GridProvider의 초기화에 사용)
     /// </summary>
@@ -48,9 +51,9 @@ public class StageField : MonoBehaviour
     
     public List<Vector2Int> PlatformGridCells => platformGridCells;
     public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
-    
-    
-    
+
+    public Sprite BackgroundImageSprite => backgroundImageSprite;
+
     public Transform ObjectRoot { 
         get
         {
@@ -170,7 +173,7 @@ public class StageField : MonoBehaviour
         {
             long idx = spawnData.SpawnCharacterIndex;
             MonsterData data = DataManager.Instance.GetData<MonsterData>(idx);
-            CharacterModel model = new CharacterModel(data);
+            CharacterModel model = new(data);
             CharBase battlePrefab =
                 await BattleCharManager.Instance.CharGenerate(new CharBattleParameter(model, spawnData.SpawnPosition));
             battleMembers.Add(battlePrefab);

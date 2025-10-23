@@ -134,9 +134,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     return;
                 }
                 
-                //_skillInfo?.Init(_charData.charSkillList);
-                //_executionInfo = new();
-                
                 _skillInfo = new SkillInfo(this);
                 _keywordInfo = new KeywordInfo(this);
                 _runtimeStat = value.BaseStat;
@@ -191,24 +188,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             IReadOnlyList<SkillModel> skillModels = charModel.ActiveSkills;
             _skillInfo = new SkillInfo(this);
             await _skillInfo.InitAsync(skillModels);
-
-
-            //foreach (var model in skillModels)
-            //{
-            //    var skillBase = await SkillFactory.CreateSkill(model);
-            //    skillBase.SetCharBase(this);
-            //    skillBase.transform.SetParent(_SkillRoot.transform);
-            //    _skills.Add(skillBase);
-            //    
-            //}
+            
         }
         #endregion
-
-        [Obsolete]
-        public void PlaySkill(int i, SkillParameter param)
-        {
-            _skills[i].SkillPlay(param);
-        }
 
         public int GetSKillIndexFromModel(SkillModel skillModel)
         {
