@@ -164,7 +164,7 @@ public class StageField : MonoBehaviour
             SpawnData data = _spawnDict[eCharType.Player][i];
             CharBase battlePrefab =
                 await BattleCharManager.Instance.CharGenerate(new CharBattleParameter(character, data.SpawnPosition));
-            battlePrefab.UpdateCharacterInfo(character);
+            //battlePrefab.UpdateCharacterInfo(character);
             battleMembers.Add(battlePrefab);
         }
 

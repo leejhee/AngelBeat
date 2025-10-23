@@ -171,13 +171,16 @@ namespace GamePlay.Features.Battle.Scripts
         /// </summary>
         /// <param name="type"></param>
         /// <param name="skillSlotIndex"> 몇번 슬롯 눌렀는지 </param>
-        public async UniTask StartPreview(ActionType type, int skillSlotIndex)
+        public async UniTask StartPreview(ActionType type, int skillSlotIndex=-1)
         {
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
-            SkillModel skillModel = FocusChar.SkillInfo.SkillSlots[skillSlotIndex];
             _currentActionContext = new BattleActionContext
             {
-                battleActionType = type, actor = FocusChar, battleField = _battleStage, skillModel = skillModel
+                battleActionType = type, 
+                actor = FocusChar, 
+                battleField = _battleStage, 
+                skillModel = skillSlotIndex == -1 ? 
+                    null : FocusChar.SkillInfo.SkillSlots[skillSlotIndex]
             };
             
             // Action을 만들어주고 state를 옮겨준다.
@@ -261,6 +264,7 @@ namespace GamePlay.Features.Battle.Scripts
         {
             Vector3 pos = _battleStage.CellToWorldCenter(cell);
             GameObject go = Instantiate(indicatorPrefab, pos, Quaternion.identity, _battleStage.transform);
+            indicatorLists.Add(go);
             go.transform.localScale = new Vector3(_battleStage.Grid.cellSize.x, _battleStage.Grid.cellSize.y, 1f);
             
             var sr = go.GetComponent<SpriteRenderer>();

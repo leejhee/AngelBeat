@@ -16,7 +16,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         private List<SkillModel> _skillSlots = new();
         private CharBase _charBase; // 스킬 시전자
         private Transform _SkillRoot; // 스킬 루트 
-        public IReadOnlyList<SkillModel> SkillSlots => _skillSlots;
+        public IReadOnlyList<SkillModel> SkillSlots => _skillSlots.AsReadOnly();
         public PlayableDirector GetPlayingTimeline(long skillIndex) =>
             _dicSkill[skillIndex].GetComponent<PlayableDirector>();
         
@@ -78,8 +78,8 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             _SkillRoot = root.transform;
             
             // 런타임 할당 및 스킬 딕셔너리 초기화
-            _skillSlots = activeSkills as List<SkillModel>;
-            foreach (SkillModel t in activeSkills)
+            foreach(SkillModel skill in activeSkills) _skillSlots.Add(skill);
+            foreach (SkillModel t in _skillSlots)
             {
                 await AddSkill(t);
             }

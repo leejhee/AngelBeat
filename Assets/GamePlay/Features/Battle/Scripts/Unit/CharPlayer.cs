@@ -1,6 +1,7 @@
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Features.Battle.Scripts.BattleAction;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -16,17 +17,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             BattleCharManager.Instance.SetChar(this);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public async void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left) return;
-            if (eventData.clickCount < 2) return;
-            
-            var bc = BattleController.Instance;
-            if (bc.IsModal) return;
-            if (bc.FocusChar != this) return;
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-                return;
 
+            if (eventData.clickCount != 2) return;
+            
+            Debug.Log($"Double Clicked - {name}");
+            var bc = BattleController.Instance;
+            
+            if (bc.FocusChar != this) return;
+            if (bc.IsModal)
+                bc.CancelPreview();
+            else
+                await bc.StartPreview(ActionType.Move);
         }
         
     }

@@ -22,7 +22,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             // 이동 포인트를 가져오기
             CharBase actor = Context.actor;
             CharStat stat = actor.RuntimeStat;
-            long movePoint = stat.GetStat(SystemEnum.eStats.NMOVEMENT);
+            long movePoint = stat.GetStat(SystemEnum.eStats.NACTION_POINT);
             
             // 갈수없는곳 나올때까지 좌우로 탐색하여 반환 구조체에 담기
             
