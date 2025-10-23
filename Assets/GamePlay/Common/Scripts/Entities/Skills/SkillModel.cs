@@ -9,7 +9,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
     [Serializable]
     public class SkillModel
     {
-        public readonly long SkillIndex;
+        public readonly long SkillIndex; // 데이터상의 인덱스
         public readonly string SkillName;
         public readonly long SkillOwnerID;
         public readonly SystemEnum.eSkillType skillType;
@@ -30,13 +30,12 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             SkillName = skillData.skillName;
             SkillOwnerID = skillData.characterID;
             skillType = skillData.skillType;
-            //pivot = skillData.skillPivot;
-
-            //icon = DataManager.Instance.SkillIconSpriteMap[skillData.skillIconImage];
+            
             executionIndex  = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;
 
+            //icon = ResourceManager.Instance.LoadAsync<Sprite>(skillData.skillIconImage);
             skillRange = DataManager.Instance.GetData<SkillRangeData>(skillData.skillRangeID);
             skillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
             unlock = skillData.unlockCondition;
@@ -49,9 +48,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             SkillName =  skillData.skillName;
             SkillOwnerID = SystemConst.DokkaebiID;
             skillType = skillData.skillType;
-            //pivot = skillData.skill
             
-            //icon = ResourceManager.Instance.LoadSprite();
             executionIndex = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;

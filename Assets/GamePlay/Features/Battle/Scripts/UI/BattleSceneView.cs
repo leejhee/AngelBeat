@@ -2,12 +2,10 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Skill;
 using System.Linq;
 using System.Threading;
 using UIs.Runtime;
@@ -128,29 +126,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnClickInvenButton
                 );
 
-            // for (int i = 0; i < View.CharacterHUD.SkillPanel.SkillButtons.Count; i++)
-            // {
-            //     int temp = i;
-            //     var skill =  View.CharacterHUD.SkillPanel.SkillButtons[temp];
-            //     Button skillButton = skill.GetComponent<Button>();
-            //     UnityAction wrapper = null;
-            //     ViewEvents.Subscribe<int>(
-            //         add: h => { wrapper = () => h(temp); skillButton.onClick.AddListener(wrapper); },
-            //         remove: h => { if (wrapper != null) skillButton.onClick.RemoveListener(wrapper); },
-            //         handler: skill.OnClickSkillButton 
-            //     );
-            // }
-            
-            //foreach (var skill in View.CharacterHUD.SkillPanel.SkillButtons)
-            //{
-            //    Button skillButton = skill.GetComponent<Button>();
-            //    ViewEvents.Subscribe(
-            //        act => skillButton.onClick.AddListener(new UnityAction(act)),
-            //        act => skillButton.onClick.RemoveAllListeners(),
-            //        skill.OnClickSkillButton
-            //    );
-            //}
-
             #endregion
             return UniTask.CompletedTask;
         }
@@ -262,11 +237,11 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 Button curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<Button>();
                 curSkillButton.onClick.RemoveAllListeners();
                 
-                
-                ViewEvents.Subscribe<SkillModel>(
-                    act => curSkillButton.onClick.AddListener(new UnityAction(() => act(model.ActiveSkills[idx]))),
+                // 단순한 index만 전달하자.
+                ViewEvents.Subscribe(
+                    act => curSkillButton.onClick.AddListener(new UnityAction(act)),
                     act=> curSkillButton.onClick.RemoveAllListeners(),
-                    skill => BattleController.Instance.ToggleSkillPreview(skill)
+                    () => BattleController.Instance.ToggleSkillPreview(idx)
                 );
             }
         }

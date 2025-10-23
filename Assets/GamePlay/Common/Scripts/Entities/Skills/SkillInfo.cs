@@ -1,7 +1,9 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Utils;
+using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.Unit;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -11,10 +13,10 @@ namespace GamePlay.Common.Scripts.Entities.Skills
     public class SkillInfo
     {
         private Dictionary<long, SkillBase> _dicSkill = new Dictionary<long, SkillBase>(); // 스킬 리스트
-        
+        private List<SkillModel> _skillSlots = new();
         private CharBase _charBase; // 스킬 시전자
         private Transform _SkillRoot; // 스킬 루트 
-
+        public IReadOnlyList<SkillModel> SkillSlots => _skillSlots;
         public PlayableDirector GetPlayingTimeline(long skillIndex) =>
             _dicSkill[skillIndex].GetComponent<PlayableDirector>();
         
@@ -22,11 +24,13 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         {
             _charBase = charBase;
         }
-
+        
+        #region Initialization
         /// <summary>
         /// Char Start 시점
         /// </summary>
         /// <param name="skillArray"></param>
+        [Obsolete]
         public void Init(List<long> skillArray)
         {
             // 스킬 루트 오브젝트 제작
@@ -44,7 +48,8 @@ namespace GamePlay.Common.Scripts.Entities.Skills
                 AddSkill(skillArray[i]);
             }
         }
-
+        
+        [Obsolete]
         public void Init(List<SkillData> skills)
         {
             string SkillRoot = "SkillRoot";
@@ -60,8 +65,28 @@ namespace GamePlay.Common.Scripts.Entities.Skills
                 AddSkill(skills[i]);
             }
         }
+
+        public async UniTask InitAsync(IReadOnlyList<SkillModel> activeSkills)
+        {
+            // SkillRoot 보장하기
+            string skillRoot = "SkillRoot";
+            GameObject root = Util.FindChild(_charBase.gameObject, skillRoot, false);
+            if (root == null)
+            {
+                root = new GameObject(skillRoot);
+            }
+            _SkillRoot = root.transform;
+            
+            // 런타임 할당 및 스킬 딕셔너리 초기화
+            _skillSlots = activeSkills as List<SkillModel>;
+            foreach (SkillModel t in activeSkills)
+            {
+                await AddSkill(t);
+            }
+        }
+        #endregion
         
-        
+        #region Skill Prefab Managing
         public void DeleteSkill(long skillIndex)
         {
             if (_dicSkill == null)
@@ -101,7 +126,40 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             _dicSkill.Add(skillData.index, skillBase);
             skillBase.transform.parent = _SkillRoot;
         }
+
+        public async UniTask AddSkill(SkillModel skillModel)
+        {
+            if (_dicSkill == null) return;
+            SkillBase skillBase = await SkillFactory.CreateSkill(skillModel);
+
+            if (!skillBase) return;
+            
+            skillBase.SetCharBase(_charBase);
+            _dicSkill.Add(skillModel.SkillIndex, skillBase);
+            skillBase.transform.parent = _SkillRoot;
+        }
         
+        #endregion
+
+        public void PlaySkill(int skillSlotIndex, SkillParameter parameter)
+        {
+            Debug.Log($"[SkillInfo] Playing Skill By Slot number {skillSlotIndex}");
+            if (_dicSkill == null)
+            {
+                Debug.LogWarning($"[SkillInfo] Skill Dictionary is null");
+                return;
+            }   
+            if (skillSlotIndex < 0 || skillSlotIndex >= _dicSkill.Count)
+                throw new OperationCanceledException(
+                    $"[SkillInfo] Invalid Skill Slot Index {skillSlotIndex} in {_skillSlots.Count} Slots");
+            
+            SkillModel model = _skillSlots[skillSlotIndex];
+            if (_dicSkill.ContainsKey(model.SkillIndex))
+            {
+                Debug.Log($"Skill Played : {model.SkillIndex}");
+                _dicSkill[model.SkillIndex].SkillPlay(parameter);
+            }
+        }
         
         public void PlaySkill(long skillIndex, SkillParameter parameter)
         {

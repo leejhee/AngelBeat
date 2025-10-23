@@ -187,16 +187,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _charInfo = charModel; //모델
             _runtimeStat = charModel.BaseStat; // 스탯 복사
             
-            //스킬 초기화
-            var skillModels = charModel.ActiveSkills;
-            foreach (var model in skillModels)
-            {
-                var skillBase = await SkillFactory.CreateSkill(model);
-                skillBase.SetCharBase(this);
-                skillBase.transform.SetParent(_SkillRoot.transform);
-                _skills.Add(skillBase);
-                
-            }
+            //스킬 초기화 - 이미 ActiveSkills로 저장해놓은 애들만 뽑아줌.
+            IReadOnlyList<SkillModel> skillModels = charModel.ActiveSkills;
+            _skillInfo = new SkillInfo(this);
+            await _skillInfo.InitAsync(skillModels);
+
+
+            //foreach (var model in skillModels)
+            //{
+            //    var skillBase = await SkillFactory.CreateSkill(model);
+            //    skillBase.SetCharBase(this);
+            //    skillBase.transform.SetParent(_SkillRoot.transform);
+            //    _skills.Add(skillBase);
+            //    
+            //}
         }
         #endregion
 

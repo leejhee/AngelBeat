@@ -231,7 +231,7 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         
         #endregion
         
-       #region Core Implementation
+        #region Core Implementation
         private bool TryOutlineTargetInCell()
         {
             ClearOutline();
@@ -364,9 +364,10 @@ namespace GamePlay.Common.Scripts.Skill.Preview
                         return sr;
                 }
             }
-            return null;
+
+            return null; 
         }
-        
+
         #endregion
         
         #region Util

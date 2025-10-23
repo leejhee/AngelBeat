@@ -223,6 +223,7 @@ namespace GamePlay.Features.Battle.Scripts
         /// 스킬 버튼 토글 시 행동 상태 조작 메서드
         /// </summary>
         /// <param name="target">입력을 제어할 스킬 모델</param>
+        [Obsolete]
         public void ToggleSkillPreview(SkillModel target)
         {
             if (IsModal)
@@ -236,7 +237,21 @@ namespace GamePlay.Features.Battle.Scripts
                     .Forget(); // 여기 무조건 조심할 것 일단 fire-forget패턴으로 사용
             }
         }
-
+        
+        public void ToggleSkillPreview(int targetIdx)
+        {
+            if (IsModal)
+            {
+                CancelPreview();
+            }
+            else
+            {
+                SkillModel target = FocusChar.SkillInfo.SkillSlots[targetIdx];
+                StartPreview(ActionType.Skill, target)
+                    .AttachExternalCancellation(this.GetCancellationTokenOnDestroy())
+                    .Forget(); // 여기 무조건 조심할 것 일단 fire-forget패턴으로 사용
+            }
+        }
 
         public void HideBattleActionPreview()
         {
@@ -291,7 +306,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
         }
 
-        private void OnSkillIndicatorConfirm(
+        private async void OnSkillIndicatorConfirm(
             CharBase caster, 
             SkillModel skill, 
             List<CharBase> targets, 
@@ -299,13 +314,35 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (_currentActionState != BattleActionState.Preview) return;
             if (_currentActionBase == null || _currentActionContext == null) return;
-            
-            
+
+            _currentActionContext.TargetCell = cell;
+            _currentActionContext.targets =  targets;
+
+            _currentActionState = BattleActionState.Execute;
+            try
+            {
+                await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+            }
+            catch (OperationCanceledException) {/*Silence*/}
+            catch (Exception ex) { Debug.LogException(ex); }
+            finally { CancelPreview(); }
         }
 
-        private void OnCellClicked(Vector2Int cell)
+        private async void OnCellClicked(Vector2Int cell)
         {
+            if (_currentActionState != BattleActionState.Preview) return;
+            if (_currentActionBase == null || _currentActionContext == null) return;
             
+            _currentActionContext.TargetCell = cell;
+
+            _currentActionState = BattleActionState.Execute;
+            try
+            {
+                await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+            }
+            catch (OperationCanceledException) { /* Silence */ }
+            catch (Exception ex) { Debug.LogException(ex); }
+            finally { CancelPreview(); }
         }
         
         #endregion

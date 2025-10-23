@@ -149,21 +149,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                 {
                     int idx = i;
                     SkillButton button = skillPanel.SkillButtons[idx];
-                    
-                    // TODO : 튜토
-                    //button.SetButton(skillList[idx]);
-                    
-                    // 여기 부분 프리젠트로 옮기기
-                    // button.GetComponent<Button>().onClick.RemoveAllListeners();
-                    // button.GetComponent<Button>().onClick.AddListener(() =>
-                    // {
-                    //     BattleController.Instance.ShowSkillPreview(skillList[idx]);
-                    //     Debug.Log($"Skill {skillList[idx].SkillName} Selected");
-                    // });
-                    // 여기까지
+                    button.SetButton(skillList[idx]);
                 }
             }
-            
         }
 
         private async UniTask HpOrApBarChanged(long delta, Slider slider, TMP_Text text)

@@ -24,10 +24,10 @@ namespace AngelBeat
         {
             isSelected = false;
         }
-
+        
+        //TODO : 이 부분 필요 없나요??
         public void SetButton(SkillModel model)
         {
-            // TODO: 튜토
             //icon.sprite = model.icon;
             //skillName.SetText(model.SkillName);
             

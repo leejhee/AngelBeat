@@ -2,7 +2,6 @@ using Core.Scripts.Data;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Skill;
-using GamePlay.Features.Scripts.Skill;
 using UnityEngine;
 
 namespace GamePlay.Common.Scripts.Entities.Skills
@@ -13,7 +12,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         public static SkillBase CreateSkill(string skillName)
         {
             SkillBase skillBase = null;
-            skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillName}");
+            skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillName}");
             return skillBase;
         }
 
@@ -28,7 +27,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         public static SkillBase CreateSkill(long skillIndex)
         {
             SkillBase skillBase = null;
-            var _skillData = global::Core.Scripts.Managers.DataManager.Instance.GetData<SkillData>(skillIndex);
+            var _skillData = DataManager.Instance.GetData<SkillData>(skillIndex);
 
             if (_skillData == null)
             {
@@ -36,7 +35,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
                 return null;
             }
 
-            skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
+            skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{_skillData.skillTimeLine}");
             skillBase.Init(new SkillModel(_skillData));
 
             return skillBase;
@@ -50,9 +49,10 @@ namespace GamePlay.Common.Scripts.Entities.Skills
                 Debug.LogError("왜 매개변수로 null 넣으세요? : CreateSkill(SkillData)");
                 return null;
             }
-            SkillBase skillBase = Core.Scripts.Managers.ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillData.skillTimeLine}");
+            SkillBase skillBase = ResourceManager.Instance.Instantiate<SkillBase>($"Skill/{skillData.skillTimeLine}");
             skillBase.Init(new SkillModel(skillData));
             return skillBase;
         }
+        
     }
 }

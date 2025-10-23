@@ -33,6 +33,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         
         //=========== Action 중 별개 필요 요소 ============//
         public SkillModel skillModel;
+
+        public List<CharBase> targets;
         
         //=========== 외부 Cancel Token ============//
         public CancellationToken ExternalToken;
