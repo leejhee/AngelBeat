@@ -9,6 +9,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         
         [SerializeField] private Button actionButton;
         public Button ActionButton => actionButton;
+
+        public event Action Selected;
+        public event Action UnSelected;
         
         private void Start()
         {
@@ -19,13 +22,15 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         public bool isSelected { get; set; }
         public override void OnSelect()
         {
-            
+            Selected?.Invoke();
         }
 
         public override void OnDeselect()
         {
             // 여기서 버튼 해제 일단 해줌
             Debug.Log("추가행동 해제");
+            //isSelected = false;
+            UnSelected?.Invoke();
         }
     }
 }

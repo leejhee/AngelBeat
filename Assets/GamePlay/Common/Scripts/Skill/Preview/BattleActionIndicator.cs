@@ -86,6 +86,8 @@ namespace GamePlay.Common.Scripts.Skill.Preview
         #endregion
         
         #region Initialization
+        private bool _initialized = false;
+        
         //TODO : pointerRange는 어떻게 처리되어야하는지 확인 필요함.
         //TODO : 굉장히 더러워서 정리한번 하면 좋을듯하다...
         public void Init(
@@ -106,6 +108,13 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             _pointerRange = Mathf.Max(0, pointerRange);
             _confirmAction = confirmAction;
             
+            _cellSR ??= GetComponent<SpriteRenderer>();
+            if(_cellSR) 
+            {
+                _baseCellColor = _cellSR.color;
+                _hovered = false;
+            }
+            _initialized = true;
         }
         
         public void InitForSimpleCell(bool isBlocked, Vector2Int cell, Action<Vector2Int> onClickCell)
@@ -113,6 +122,14 @@ namespace GamePlay.Common.Scripts.Skill.Preview
             _isBlocked = isBlocked;
             _cell = cell;
             _onClickCell = onClickCell;
+            
+            _cellSR ??= GetComponent<SpriteRenderer>();
+            if(_cellSR) 
+            {
+                _baseCellColor = _cellSR.color;
+                _hovered = false;
+            }
+            _initialized = true;
         }
         
         #endregion
@@ -138,6 +155,7 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
         private void OnEnable()
         {
+            if (!_initialized) return;
             if (IsPointerCurrentlyOverThis())
             {
                 ApplyCellHoverTint(true);
@@ -215,7 +233,9 @@ namespace GamePlay.Common.Scripts.Skill.Preview
 
                 Vector2 box = new(_pointerRange, 1f);
                 //TODO : BattleStageGrid를 참조하도록 할 수 있는지 확인할 것.
-                var cols = Physics2D.OverlapBoxAll(center, box, 0f, characterMask);
+                
+                
+                Collider2D[] cols = Physics2D.OverlapBoxAll(center, box, 0f, characterMask);
                 foreach (var c in cols)
                     if (c && c.TryGetComponent(out CharBase cb) && cb != null && IsValidTarget(cb))
                         targets.Add(cb);

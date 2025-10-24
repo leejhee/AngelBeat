@@ -2,6 +2,7 @@ using Core.Scripts.Data;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI;
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 // ReSharper disable All
@@ -151,6 +152,51 @@ namespace AngelBeat
             }
             return stat;
         }
+
+        private long GetMaxOf(eStats stat)
+        {
+            return stat switch
+            {
+                eStats.NHP => _charStat[(int)eStats.NMHP],
+                eStats.NACTION_POINT => _charStat[(int)eStats.NMACTION_POINT],
+                _ => long.MaxValue
+            };
+        }
+
+        private static long ClampLong(long v, long min, long max) => v < min ? min : (v > max ? max : v);
+        
+        private long ClampStat(eStats stat, long target)
+        {
+            switch (stat)
+            {
+                case eStats.NHP:
+                case eStats.NACTION_POINT:
+                    return ClampLong(target, 0, GetMaxOf(stat));
+                
+                case eStats.NCRIT_RATE:
+                case eStats.NEVATION:
+                case eStats.NACCURACY:
+                case eStats.NAILMENT_INFLICT:
+                case eStats.NAILMENT_RESISTANCE:
+                    return ClampLong(target, 0, 100);
+                
+                case eStats.N_RED:
+                case eStats.N_BLUE:
+                case eStats.N_YELLOW:
+                case eStats.N_WHITE:
+                case eStats.N_BLACK:
+                case eStats.NPHYSICAL_ATTACK:
+                case eStats.NMAGIC_ATTACK:
+                case eStats.NDEFENSE:
+                case eStats.NMAGIC_RESIST:
+                case eStats.NSPEED:
+                    return Math.Max(0, target);
+                
+                default:
+                    return target;
+            }    
+        }
+        
         #endregion
         
         public long GetStat(eStats stat)
@@ -167,7 +213,36 @@ namespace AngelBeat
         public void ChangeStat(eStats stat, long valueDelta)
         {
             eStats realStat = GetProperStatAttribute(stat);
-            _charStat[(int)realStat] += valueDelta;
+            long before = _charStat[(int)realStat];
+            long afterUnclamped = before + valueDelta;
+            long after = ClampStat(realStat, afterUnclamped);
+            _charStat[(int)realStat] = after;
+            long appliedDelta = after - before;
+            
+            #region Special Case
+            switch (realStat)
+            {
+                case eStats.NMHP:
+                    long hpBefore = _charStat[(int)eStats.NHP];
+                    long hpAfter = ClampStat(eStats.NHP, hpBefore);
+                    if (hpAfter != hpBefore)
+                    {
+                        _charStat[(int)eStats.NHP] = hpAfter;
+                        OnStatChanged?.Invoke(eStats.NHP, hpAfter - hpBefore, hpAfter);
+                    }
+                    break;
+                case eStats.NMACTION_POINT:
+                    long apBefore = _charStat[(int)eStats.NACTION_POINT];
+                    long apAfter = ClampStat(eStats.NACTION_POINT, apBefore);
+                    if (apAfter != apBefore)
+                    {
+                        _charStat[(int)eStats.NACTION_POINT] = apAfter;
+                        OnStatChanged?.Invoke(eStats.NACTION_POINT, apAfter - apBefore, apAfter);
+                    }
+                    break;
+            }
+            #endregion
+            
             OnStatChanged?.Invoke(realStat, valueDelta, _charStat[(int)realStat]);
         }
 
@@ -181,7 +256,7 @@ namespace AngelBeat
             Debug.Log("HP 바뀜 아무튼 바뀜");
             OnFocusedCharHpChanged.Invoke(new HPModel(delta));
         }
-
+        
         public void ChangeAP(int delta)
         {
             Debug.Log("AP 바뀜 일단 바꼈음");
@@ -197,6 +272,13 @@ namespace AngelBeat
             {
                 _charStat[(int)eStats.NHP] = 0;
             }
+        }
+
+        public void ReceiveHPPercentDamage(float percent)
+        {
+            var hp = GetStat(eStats.NMHP);
+            int delta = Mathf.RoundToInt(hp * percent / 100f); 
+            ReceiveDamage(delta);
         }
         
         #endregion

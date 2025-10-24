@@ -57,6 +57,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         public enum ResultReason
         {
             None,
+            BattleActionAborted,
             InvalidTarget,
             InvalidContext,
         }

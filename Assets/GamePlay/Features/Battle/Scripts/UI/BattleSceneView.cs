@@ -88,6 +88,14 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => BattleController.Instance.TurnController.OnRoundEnd -= act,
                 OnRoundEnd
                 );
+            
+            // 행동 종료 후 토글 해제
+            ModelEvents.Subscribe<BattleActionBase, BattleActionResult>(
+                act => BattleController.Instance.ActionCompleted += act,
+                act => BattleController.Instance.ActionCompleted -= act,
+                (a, r) => { View.CharacterHUD.DeselectAllToggleButton(); }
+            );
+            
             #endregion
 
             #region View Events
@@ -111,23 +119,53 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => View.CharacterHUD.CharacterPortrait.CharacterInfoPopup -= act,
                 OnClickPortraitButton
             );
-
+            
+            // 점프 - selected 구독
             ViewEvents.Subscribe(
-                act => View.CharacterHUD.JumpButton.ActionButton.onClick.AddListener(new UnityAction(act)),
-                act => View.CharacterHUD.JumpButton.ActionButton.onClick.RemoveAllListeners(),
+                act =>
+                {
+                    View.CharacterHUD.JumpButton.Selected -= act;
+                    View.CharacterHUD.JumpButton.Selected += act;
+                },
+                act => View.CharacterHUD.JumpButton.Selected -= act,
                 OnClickJumpButton
             );
+            
+            // 점프 - unselected 구독
             ViewEvents.Subscribe(
-                act => View.CharacterHUD.PushButton.ActionButton.onClick.AddListener(new UnityAction(act)),
-                act => View.CharacterHUD.PushButton.ActionButton.onClick.RemoveAllListeners(),
+                act =>
+                {
+                    View.CharacterHUD.JumpButton.UnSelected -= act;
+                    View.CharacterHUD.JumpButton.UnSelected += act;
+                },
+                act => View.CharacterHUD.JumpButton.UnSelected -= act,
+                OnActionDeselected
+            );
+            
+            // 밀기 - selected 구독
+            ViewEvents.Subscribe(
+                act =>
+                {
+                    View.CharacterHUD.PushButton.Selected -= act;
+                    View.CharacterHUD.PushButton.Selected += act;
+                },
+                act => View.CharacterHUD.PushButton.Selected -= act,
                 OnClickPushButton
-                );
+            );
+            
+            // 밀기 - unselected 구독
             ViewEvents.Subscribe(
-                act => View.CharacterHUD.InvenButton.ActionButton.onClick.AddListener(new UnityAction(act)),
-                act => View.CharacterHUD.InvenButton.ActionButton.onClick.RemoveAllListeners(),
-                OnClickInvenButton
-                );
-
+                act =>
+                {
+                    View.CharacterHUD.PushButton.UnSelected -= act;
+                    View.CharacterHUD.PushButton.UnSelected += act;
+                },
+                act => View.CharacterHUD.PushButton.UnSelected -= act,
+                OnActionDeselected
+            );
+            
+            // TODO : 인벤 구현 후 인벤 flow 작성할 것
+            
             #endregion
             return UniTask.CompletedTask;
         }
@@ -283,7 +321,9 @@ namespace GamePlay.Features.Battle.Scripts.UI
             BattleController.Instance.StartPreview(ActionType.Skill, slot).Forget();
         }
 
-        private void OnSkillDeselected(int slot)
+        private void OnSkillDeselected(int slot) => OnActionDeselected();
+
+        private void OnActionDeselected()
         {
             BattleController.Instance.CancelPreview();
         }
@@ -295,6 +335,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             if (View.CharacterHUD.JumpButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("점프");
+                BattleController.Instance.StartPreview(ActionType.Jump).Forget();
             }
         }
 
@@ -303,6 +344,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             if (View.CharacterHUD.PushButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("밀기");
+                BattleController.Instance.StartPreview(ActionType.Push).Forget();
             }
         }
 
@@ -311,6 +353,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             if (View.CharacterHUD.InvenButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("인벤토리 오픈");
+                //인벤토리 UI 오픈합시다
             }
         }
         #endregion

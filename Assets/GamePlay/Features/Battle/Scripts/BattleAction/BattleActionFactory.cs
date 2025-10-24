@@ -8,6 +8,7 @@
             {
                 ActionType.Move => new MoveBattleAction(ctx),
                 ActionType.Jump => new JumpBattleAction(ctx),
+                ActionType.Push => new PushBattleAction(ctx),
                 ActionType.Skill => new SkillBattleAction(ctx),
                 _ => throw new System.NotImplementedException()
             };

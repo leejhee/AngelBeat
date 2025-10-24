@@ -20,7 +20,6 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
 {
-    // 잠시 싱글턴 사용한다.
     public class BattleController : MonoBehaviour
     {
         #region singleton
@@ -143,19 +142,16 @@ namespace GamePlay.Features.Battle.Scripts
             //카메라 초기화
             Camera.main.orthographicSize = cameraSize;
             
-
         }
         
         #region Battle Action Managing
-        
-        public enum BattleActionState {Idle, Preview, Execute}
+
+        private enum BattleActionState {Idle, Preview, Execute}
         private BattleActionState _currentActionState;
         private BattleActionBase _currentActionBase;
         private BattleActionContext _currentActionContext;
-
         private CancellationTokenSource _actionCts;
-        //private ActionType _currentActionType;
-        //private SkillModel _currentSkill;
+        
         
         #region Action Indicator Settings
         [SerializeField] private GameObject indicatorPrefab;
@@ -165,6 +161,7 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
         
         public bool IsModal => _currentActionState != BattleActionState.Idle;
+        public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
         
         /// <summary>
         /// BattleAction 시작을 위한 Preview 제시 및 
@@ -173,6 +170,8 @@ namespace GamePlay.Features.Battle.Scripts
         /// <param name="skillSlotIndex"> 몇번 슬롯 눌렀는지 </param>
         public async UniTask StartPreview(ActionType type, int skillSlotIndex=-1)
         {
+            if (_currentActionState != BattleActionState.Idle) return; // 기본 상태에서만 선택 가능
+            
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
             _currentActionContext = new BattleActionContext
             {
@@ -217,28 +216,7 @@ namespace GamePlay.Features.Battle.Scripts
             HideBattleActionPreview();
             _currentActionBase = null;
             _currentActionContext = null;
-            //_currentSkill = null;
             _currentActionState = BattleActionState.Idle;
-            //_currentActionType = ActionType.None;
-        }
-        
-        /// <summary>
-        /// 스킬 버튼 토글 시 행동 상태 조작 메서드
-        /// </summary>
-        /// <param name="target">입력을 제어할 스킬 모델</param>
-        [Obsolete]
-        public void ToggleSkillPreview(int targetIdx)
-        {
-            if (IsModal)
-            {
-                CancelPreview();
-            }
-            else
-            {
-                StartPreview(ActionType.Skill, targetIdx)
-                    .AttachExternalCancellation(this.GetCancellationTokenOnDestroy())
-                    .Forget(); // 여기 무조건 조심할 것 일단 fire-forget패턴으로 사용
-            }
         }
 
         public void HideBattleActionPreview()
@@ -308,13 +286,22 @@ namespace GamePlay.Features.Battle.Scripts
             _currentActionContext.targets =  targets;
 
             _currentActionState = BattleActionState.Execute;
+            
+            BattleActionBase finishedAction = _currentActionBase;
+            BattleActionResult result = BattleActionResult.Fail(BattleActionResult.ResultReason.BattleActionAborted);
             try
             {
-                await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+                HideBattleActionPreview();
+                result = await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
             }
-            catch (OperationCanceledException) {/*Silence*/}
+            catch (OperationCanceledException)
+            { /*Silence*/ }
             catch (Exception ex) { Debug.LogException(ex); }
-            finally { CancelPreview(); }
+            finally
+            {
+                CancelPreview();
+                ActionCompleted?.Invoke(finishedAction, result);
+            }
         }
 
         private async void OnCellClicked(Vector2Int cell)
@@ -323,18 +310,38 @@ namespace GamePlay.Features.Battle.Scripts
             if (_currentActionBase == null || _currentActionContext == null) return;
             
             _currentActionContext.TargetCell = cell;
-
             _currentActionState = BattleActionState.Execute;
+            
+            BattleActionBase finishedAction = _currentActionBase;
+            BattleActionResult result = BattleActionResult.Fail(BattleActionResult.ResultReason.BattleActionAborted);
+
             try
             {
-                await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+                HideBattleActionPreview();
+                result = await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
             }
-            catch (OperationCanceledException) { /* Silence */ }
+            catch (OperationCanceledException)
+            { /* Silence */ }
             catch (Exception ex) { Debug.LogException(ex); }
-            finally { CancelPreview(); }
+            finally
+            {
+                CancelPreview();
+                ActionCompleted?.Invoke(finishedAction, result);
+            }
         }
         
         #endregion
+
+        public void HandleUnitDeath(CharBase unit)
+        {
+            if(IsModal && _currentActionContext?.actor == unit)
+                CancelPreview(); // preview 중에 죽을 일은 없겠지만, 예외처리 용도
+            
+            BattleStageGrid grid = _battleStage?.GetComponent<BattleStageGrid>();
+            grid?.RemoveUnit(unit);
+            
+            // 턴 관리도 필요함
+        }
         
         public void EndBattle(SystemEnum.eCharType winnerType)
         {

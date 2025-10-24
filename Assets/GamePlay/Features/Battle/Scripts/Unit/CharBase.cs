@@ -23,6 +23,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
     {
         private static readonly int Move = Animator.StringToHash("Move");
         private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int OnAttack = Animator.StringToHash("OnAttack");
+        private static readonly int BackToIdle = Animator.StringToHash("BackToIdle");
         
         #region Member Field
         [SerializeField] private long _index;
@@ -297,6 +299,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public event Action OnCharDead;
         public virtual void CharDead()
         {
+            BattleController.Instance?.HandleUnitDeath(this);
+            
             Type myType = GetType();
             BattleCharManager.Instance.Clear(myType, _uid);
             Debug.Log($"{gameObject.name} is dead");
@@ -304,7 +308,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             OnCharDead?.Invoke();
             OnUpdate = null;
             RuntimeStat.ClearChangeEvent();
-                gameObject.SetActive(false);
+            
+            gameObject.SetActive(false);
            //Destroy(gameObject);
         }
         
@@ -338,7 +343,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharMove(Vector3 targetPos)
         {
-            RuntimeStat.ChangeAP(Mathf.CeilToInt(Mathf.Abs((targetPos - transform.position).x)));
             _Animator.SetTrigger(Move);
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
@@ -364,6 +368,21 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             transform.position = targetPos;
             await PlayFxOnce(jumpInFX, transform.position, ct);
             sr.enabled = true;
+        }
+        
+        /// <summary>
+        /// 넉백 '되는' 메서드
+        /// </summary>
+        /// <param name="targetPos">목적지. 플랫폼 없을 경우, rigidbody라서 알아서 떨어짐. 일단은..</param>
+        public async UniTask CharKnockBack(Vector3 targetPos)
+        {
+            _Animator.SetTrigger(OnAttack);
+            while ((transform.position - targetPos).sqrMagnitude > 0.05f)
+            {
+                transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+            _Animator.SetTrigger(BackToIdle);
         }
         
         #endregion

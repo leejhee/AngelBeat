@@ -52,6 +52,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public bool IsInBounds(Vector2Int cell) => _stage.InBounds(cell);
         public bool IsOccupied(Vector2Int cell) => _characters.ContainsKey(cell);
         public bool IsWalkable(Vector2Int cell) => _walkable.Contains(cell) && !_obstacles.Contains(cell) && !IsOccupied(cell);
+        public bool IsPlatform(Vector2Int cell) => _walkable.Contains(cell);
+        public bool IsMaskable(Vector2Int cell) => !IsInBounds(cell) || !IsPlatform(cell);
         
         #endregion
         
@@ -59,9 +61,25 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         
         public Vector2Int WorldToCell(Vector2 w) => _stage.WorldToCell(w);
         public Vector2 CellToWorldCenter(Vector2Int c) => _stage.CellToWorldCenter(c);
+
         
         #endregion
-
+        
+        #region Grid Helper
+        
+        public bool TryFindLandingFloor(Vector2Int from, out Vector2Int landingCell, out int fallFloors)
+        {
+            landingCell = default; fallFloors = 0;
+            if (!IsInBounds(from)) return false;
+            int y = from.y - 1; // from가 공중이라면 아래부터 탐색
+            while (y >= 0){
+                var c = new Vector2Int(from.x, y);
+                if (IsPlatform(c)){ landingCell = c; fallFloors = from.y - y; return true; }
+                y--;
+            }
+            return false; 
+        }
+        
         public CharBase GetUnitAt(Vector2Int cell) => _characters.GetValueOrDefault(cell);
         
         /// <summary>
@@ -69,12 +87,21 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         /// </summary>
         /// <param name="cell">좌표 포인트</param>
         /// <param name="registrant">등록자</param>
-        /// <returns>결과</returns>
         public bool OccupyCell(Vector2Int cell, CharBase registrant)
         {
             if (!IsInBounds(cell) || !IsWalkable(cell)) return false;
             if(_unitToCell.TryGetValue(registrant, out Vector2Int c)) _characters.Remove(c);
             _characters[cell] = registrant; _unitToCell[registrant] = cell;
+            return true;
+        }
+        
+        /// <summary>
+        /// Cell의 점유 및 등록 해제
+        /// </summary>
+        /// <param name="unit">해제하는 유닛</param>
+        public bool RemoveUnit(CharBase unit){
+            if (!_unitToCell.Remove(unit, out Vector2Int c)) return false;
+            _characters.Remove(c);
             return true;
         }
         
@@ -93,6 +120,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             return true;
         }
 
-        
+        #endregion
     }
 }

@@ -124,9 +124,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
 
             CharBase caster = Context.actor;
-            StageField stage = Context.battleField;
-            Vector2Int cell = Context.TargetCell.Value;
-            Vector2 targetWorld = stage.CellToWorldCenter(cell);
+            //StageField stage = Context.battleField;
+            //Vector2Int cell = Context.TargetCell.Value;
+            //Vector2 targetWorld = stage.CellToWorldCenter(cell);
             List<CharBase> targets = Context.targets ?? new List<CharBase>();
 
             SkillParameter parameter = new(

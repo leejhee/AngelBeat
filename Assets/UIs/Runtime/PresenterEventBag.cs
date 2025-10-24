@@ -63,7 +63,24 @@ namespace UIs.Runtime
             _handler = null; _remove = null;
         }
     }
+    
+    public sealed class Subscription<T1, T2> : IDisposable
+    {
+        private Action<Action<T1, T2>> _remove;
+        private Action<T1, T2> _handler;
 
+        public Subscription(Action<Action<T1, T2>> remove, Action<T1, T2> handler)
+        {
+            _remove = remove; _handler = handler;
+        }
+
+        public void Dispose()
+        {
+            if (_remove != null && _handler != null) _remove(_handler);
+            _handler = null; _remove = null;
+        }
+    }
+    
     public sealed class AsyncSubscription : IDisposable
     {
         private Action<Func<UniTask>> _remove;
@@ -152,6 +169,13 @@ namespace UIs.Runtime
         {
             add(handler);
             return new Subscription<T>(remove, handler).AddTo(bag);
+        }
+        
+        public static IDisposable Subscribe<T1, T2>(this PresenterEventBag bag,
+            Action<Action<T1, T2>> add, Action<Action<T1, T2>> remove, Action<T1, T2> handler)
+        {
+            add(handler);
+            return new Subscription<T1, T2>(remove, handler).AddTo(bag);
         }
         
         // T는 이벤트로 뿌리는 자료형

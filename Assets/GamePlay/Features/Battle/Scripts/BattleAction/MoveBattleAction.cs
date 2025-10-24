@@ -33,32 +33,44 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int pivot = stageGrid.WorldToCell(actor.CharTransform.position);
             
             #region Right Inspection
-            for (int offset = 1; offset < (int)movePoint; offset++)
+
+            bool blocked = false;
+            for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new Vector2Int(pivot.x + offset, pivot.y);
+                if (stageGrid.IsMaskable(candidate)) continue;
                 if (stageGrid.IsWalkable(candidate))
                 {
                     movablePoints.Add(candidate);
                 }
-                else
+                else if(blocked)
                 {
                     blockedPoints.Add(candidate);
-                    break;
+                }
+                else
+                {
+                    blocked = true;
+                    blockedPoints.Add(candidate);
                 }
             }
             #endregion
             #region Left Inspection
-            for (int offset = 1; offset < (int)movePoint; offset++)
+            for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new Vector2Int(pivot.x - offset, pivot.y);
+                if (stageGrid.IsMaskable(candidate)) continue;
                 if (stageGrid.IsWalkable(candidate))
                 {
                     movablePoints.Add(candidate);
                 }
-                else
+                else if(blocked)
                 {
                     blockedPoints.Add(candidate);
-                    break;
+                }
+                else
+                {
+                    blocked = true;
+                    blockedPoints.Add(candidate);
                 }
             }
             #endregion
@@ -78,9 +90,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             BattleStageGrid grid = stage.GetComponent<BattleStageGrid>();
             CharBase actor = Context.actor;
             Vector2Int goal = Context.TargetCell.Value;
+            Vector2Int pivot = grid.WorldToCell(actor.CharTransform.position);
             
             // 캐릭터 프리팹 이동
             var toWorld = stage.CellToWorldCenter(goal);
+            long delta = -Mathf.Abs(goal.x - pivot.x);
+            actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
+            actor.RuntimeStat.ChangeAP((int)delta);
             await actor.CharMove(toWorld);
             
             // 그리드 위치정보 저장

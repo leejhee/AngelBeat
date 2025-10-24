@@ -12,7 +12,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public CharBase TurnOwner { get; private set; }
         public Side WhoseSide { get; private set; }
         public bool IsValid => TurnOwner;
-        
+
+        private bool _isDead = false;
         private readonly Action _onBeginTurn =     delegate { };
         private readonly Action _onEndTurn =       delegate { };
 
