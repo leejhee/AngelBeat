@@ -38,6 +38,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             foreach (Vector2Int candidate in JumpableRange)
             {
                 Vector2Int sum = pivot + candidate;
+                if (stageGrid.IsMaskable(sum)) continue;
                 if (stageGrid.IsWalkable(sum))
                 {
                     jumpablePoints.Add(sum);

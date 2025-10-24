@@ -52,6 +52,8 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
         
         #region UI Member
+
+        [SerializeField] private GameObject backgroundPrefab;
         [SerializeField] private GameObject gameOverPrefab;
         [SerializeField] private GameObject gameWinPrefab;
         [SerializeField] private GameObject previewPrefab;
@@ -63,6 +65,7 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private string DebugMapName;
         #endregion
         
+        #region Core Field & Property
         [SerializeField] private float cameraSize = 11;
         
         private IBattleStageSource _stageSource;
@@ -73,6 +76,7 @@ namespace GamePlay.Features.Battle.Scripts
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
         
+        #endregion
         
         #region UI Model
         

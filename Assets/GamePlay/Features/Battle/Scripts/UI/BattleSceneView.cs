@@ -60,16 +60,17 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             #region Model Events
             
-            //hp 구독
-            ModelEvents.Subscribe<HPModel>(
-                act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged += act,
-                act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged -= act,
-                OnHPChanged);
-            ModelEvents.Subscribe<ApModel>(
-                action =>   BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged += action,
-                action => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged -= action,
-                OnAPChanged
-                );
+            //hp 구독 -> OnTurnChanged로 옮김. FocusChar을 참조하지 말 것
+            //ModelEvents.Subscribe<HPModel>(
+            //    act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged += act,
+            //    act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged -= act,
+            //    OnHPChanged);
+            //ModelEvents.Subscribe<ApModel>(
+            //    action =>   BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged += action,
+            //    action => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged -= action,
+            //    OnAPChanged
+            //    );
+            
             // 턴 바뀜 이벤트 구독
             ModelEvents.Subscribe<TurnController.TurnModel>(
                 act => BattleController.Instance.TurnController.OnTurnChanged += act,
@@ -172,18 +173,9 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
 
         #region Model To View
-        private void OnHPChanged(HPModel model)
-        {
-            long delta = model.Delta;
-            View.ChangeHp(delta);
-        }
 
-        private void OnAPChanged(ApModel model)
-        {
-            int delta = model.Delta;
-            View.ChangeAp(delta);
-        }
-
+        private readonly PresenterEventBag _focusCharacterEvents = new();
+        
         private void OnRoundStart()
         {
             // 턴 HUD 초상화 생성
@@ -233,49 +225,60 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             // 현재 턴 표시자 옮기기
             View.TurnHUD.MoveToNextTurn();
+            
             // 아군 턴이면 캐릭터 HDU 오픈
-            CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
-             if (charModel.CharacterType == SystemEnum.eCharType.Player)
+            //CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
+            CharBase character = turnModel.Turn.TurnOwner;
+             if (character.GetCharType() == SystemEnum.eCharType.Player)
              {
-                 OnCharacterHUDOpen(charModel);
+                 OnCharacterHUDOpen(character);
              }
              else
              {
+                 _focusCharacterEvents.Clear();
                  View.CharacterHUD.Hide();
              }
         }
 
-        private void OnCharacterHUDOpen(CharacterModel model)
+        private void OnCharacterHUDOpen(CharBase character)
         {
+            _focusCharacterEvents.Clear();
             // 초상화
             //Sprite charPortrait = model.
             // 이름
-            string name = model.Name;
+            string name = character.CharInfo.Name;
             // 현재 체력
-            long curHp = model.BaseStat.GetStat(SystemEnum.eStats.NHP);
-            long maxHp = model.BaseStat.GetStat(SystemEnum.eStats.NMHP);
+            long curHp = character.RuntimeStat.GetStat(SystemEnum.eStats.NHP);
+            long maxHp = character.RuntimeStat.GetStat(SystemEnum.eStats.NMHP);
             
             
             // 현재 액션포인트
-            long curAp = model.BaseStat.GetStat(SystemEnum.eStats.NACTION_POINT);
-            long maxAp = model.BaseStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
+            long curAp = character.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            long maxAp = character.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             
+            // 
+            _focusCharacterEvents.Subscribe<SystemEnum.eStats, long, long>(
+                act => character.RuntimeStat.OnStatChanged += act,
+                act => character.RuntimeStat.OnStatChanged -= act,
+                OnFocusStatChanged
+            );
             
             // HUD 패널 오픈
             View.CharacterHUD.gameObject.SetActive(true);
             // 체력, 액션포인트, 초상화 설정
             View.CharacterHUD.ShowCharacterHUD(name, curHp, maxHp, curAp, maxAp);
             // 스킬 버튼 생성
-            View.CharacterHUD.SetSkillButtons(model.ActiveSkills);
+            View.CharacterHUD.SetSkillButtons(character.SkillInfo.SkillSlots);
+
             
             // 스킬 버튼마다 이벤트 구독
-            for (int i = 0; i < model.ActiveSkills.Count; i++)
+            for (int i = 0; i < character.SkillInfo.SkillSlots.Count; i++)
             {
                 int idx = i;
                 SkillButton curSkillButton = View.CharacterHUD.SkillPanel.SkillButtons[idx].GetComponent<SkillButton>();
                 
                 // 단순한 index만 전달하자.
-                ViewEvents.Subscribe<int>(
+                _focusCharacterEvents.Subscribe<int>(
                     act =>
                     {
                         curSkillButton.Selected -= act;
@@ -285,7 +288,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                     OnSkillSelected
                 );
                 
-                ViewEvents.Subscribe<int>(
+                _focusCharacterEvents.Subscribe<int>(
                     act =>
                     {
                         curSkillButton.Deselected -= act;
@@ -296,6 +299,26 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 );
             }
         }
+
+        private void OnFocusStatChanged(SystemEnum.eStats stat, long delta, long result)
+        {
+            if (delta == 0) return;
+            if (stat == SystemEnum.eStats.NHP) View.ChangeHp(delta);
+            else if (stat == SystemEnum.eStats.NACTION_POINT) View.ChangeAp(delta);
+        }
+        
+        private void OnHPChanged(HPModel model)
+        {
+            long delta = model.Delta;
+            View.ChangeHp(delta);
+        }
+
+        private void OnAPChanged(ApModel model)
+        {
+            int delta = model.Delta;
+            View.ChangeAp(delta);
+        }
+        
         #endregion
 
         #region View To Model

@@ -29,7 +29,7 @@ public class StageField : MonoBehaviour
     
     #region Runtime Providing Fields (편집 후 불변.)
 
-    [SerializeField] private Sprite backgroundImageSprite;
+    [SerializeField] private GameObject backgroundImage;
     
     /// <summary>
     /// 현재 맵에 존재하는 좌표의 총 사이즈(GridProvider의 초기화에 사용)
@@ -52,7 +52,7 @@ public class StageField : MonoBehaviour
     public List<Vector2Int> PlatformGridCells => platformGridCells;
     public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
 
-    public Sprite BackgroundImageSprite => backgroundImageSprite;
+    public GameObject BackgroundImageSprite => backgroundImage;
 
     public Transform ObjectRoot { 
         get

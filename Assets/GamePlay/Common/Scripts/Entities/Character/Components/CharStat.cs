@@ -203,11 +203,11 @@ namespace AngelBeat
         {
             return _charStat[(int)GetProperStatAttribute(stat)];
         }
-        
+
         /// <summary>
         /// 바뀐 스탯, 변화량, 결과
         /// </summary>
-        public event Action<eStats, long,  long> OnStatChanged;
+        public event Action<eStats, long, long> OnStatChanged;
         
         public void ClearChangeEvent() => OnStatChanged = null;
         public void ChangeStat(eStats stat, long valueDelta)
@@ -245,33 +245,33 @@ namespace AngelBeat
             
             OnStatChanged?.Invoke(realStat, valueDelta, _charStat[(int)realStat]);
         }
-
-        public event Action<HPModel> OnHPChanged;
         
+        #region API - UI Model
         // 얘네는 현재 Focus된 놈 체력 깎일때
         public event Action<HPModel> OnFocusedCharHpChanged;
         public event Action<ApModel> OnFocusedCharApChanged;
+        
+        [Obsolete]
         public void ChangeHP(int delta)
         {
             Debug.Log("HP 바뀜 아무튼 바뀜");
-            OnFocusedCharHpChanged.Invoke(new HPModel(delta));
+            OnFocusedCharHpChanged?.Invoke(new HPModel(delta));
         }
         
+        [Obsolete]
         public void ChangeAP(int delta)
         {
             Debug.Log("AP 바뀜 일단 바꼈음");
-            OnFocusedCharApChanged.Invoke(new ApModel(delta));
+            OnFocusedCharApChanged?.Invoke(new ApModel(delta));
         }
+        
+        #endregion
         
         #region Damage Part
         
         public void ReceiveDamage(float damage)
         {
             ChangeStat(eStats.HP, -(long)damage);
-            if (_charStat[(int)eStats.NHP] <= 0)
-            {
-                _charStat[(int)eStats.NHP] = 0;
-            }
         }
 
         public void ReceiveHPPercentDamage(float percent)
