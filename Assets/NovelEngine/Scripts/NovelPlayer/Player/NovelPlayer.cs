@@ -405,14 +405,55 @@ public class NovelPlayer : MonoBehaviour
         switch (line)
         {
             case NormalLine normal:
+                // 독백시 모든 스탠딩 캐릭터 어둡게
+                foreach (GameObject standingObject in currentCharacterDict.values)
+                {
+                    Transform transform =  standingObject.transform;
+                    foreach (var img in transform.GetComponentsInChildren<Image>())
+                    {
+
+                        img.color = new Color(100/255f, 100/255f, 100/255f);
+                    }
+                }
+                
+                
                 namePanel.SetActive(false);
                 _ = TypeTextAsync(normal.line, _typingCts.Token);
-                Debug.Log($"Play Normal Line :  {normal.line} \nIndex : {normal.index}");
+                //Debug.Log($"Play Normal Line :  {normal.line} \nIndex : {normal.index}");
                 break;
             case PersonLine person:
+                
                 namePanel.SetActive(true);
                 nameText.text = person.actorName;
                 _ = TypeTextAsync(person.actorLine, _typingCts.Token);
+                
+                
+                // TODO : SerialzableDict Enumerable로 바꿔
+                // 현재 화자가 아닌 스탠딩은 전부 어둡게 처리
+                
+                foreach (NovelCharacterSO standing in currentCharacterDict.Keys)
+                {
+                    // 말하는 사람만 하이라이트
+                    if (person.actorName == standing.novelName)
+                    {
+                        Transform obj = currentCharacterDict[standing].transform;
+                        foreach (var img in obj.GetComponentsInChildren<Image>())
+                        {
+                            img.color = Color.white;
+                        }
+                    }
+                    else
+                    {
+                        Transform transform = currentCharacterDict[standing].transform;
+                        foreach (var img in transform.GetComponentsInChildren<Image>())
+                        {
+
+                            img.color = new Color(100/255f, 100/255f, 100/255f);
+                        }
+                    }
+                }
+                
+
                 Debug.Log($"Play Person Line :  {person.actorLine} \nIndex : {person.index}");
                 break;
         }

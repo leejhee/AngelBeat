@@ -9,8 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
-  m_Name: DefalutGroup_ContentUpdateGroupSchema
+  m_Script: {fileID: 11500000, guid: d79c3e5668ef76845badeed1bbb93a99, type: 3}
+  m_Name: NewCharacter 3
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: 30dbabc0fe2729c4092172bfbee3cbd6, type: 2}
-  m_StaticContent: 0
+  characterName: ??
+  body: {fileID: 21300000, guid: 9c6716709f32f934a9927085b5e8a467, type: 3}
+  faceDict:
+    pairs: []
+    keys: []
+    values: []
+  headOffset: {x: 0, y: 0}
+  novelName: ??

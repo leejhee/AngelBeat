@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 8136262442427373300}
   - component: {fileID: 3444014639018014377}
   m_Layer: 5
-  m_Name: IngameFloatingPrefab
+  m_Name: CharacterHoveringUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,9 +289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keywordPanel: {fileID: 6139943333075721567}
-  _keywords: []
   hpFill: {fileID: 6749079412900051510}
-  keywordButton: {fileID: 0}
+  keywordButton: {fileID: 5402036660408869669}
 --- !u!1 &6350320999416045866
 GameObject:
   m_ObjectHideFlags: 0

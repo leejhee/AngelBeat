@@ -23,10 +23,10 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 286f3f6e3baeaee49afadb3f2d8eb6d3
-    m_Address: IngameFloatingPrefab
+    m_Address: CharacterHoveringUI
     m_ReadOnly: 0
     m_SerializedLabels:
-    - View
+    - BattleObject
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2c90e4088b2c6834d93e97a2bfa35d1f
     m_Address: GameOverView
@@ -72,6 +72,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca9190f5c82e7bc4b9cab86d4c9494fe
+    m_Address: KeywordPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d3a56dce98182b34f9559463c94edd88
     m_Address: BattleBGM
     m_ReadOnly: 0
@@ -88,6 +94,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - BattleObject
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa8ca5e44f0c7b44e96b1c819895a67f
+    m_Address: BattleHoveringView
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}

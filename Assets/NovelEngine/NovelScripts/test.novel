@@ -1,15 +1,21 @@
-시자아아아아아아아악 하겠습니다.
-@char Gosegu time:1 pos: 33, 50
-기억나 우리 처음 만난 날 내게 오던 너의 그 미소가
-@char Jururu time:1 pos: 66, 50
-마치 날 알고있던 것 처럼 매일 스쳐 지나가던 바람처럼
-가끔은 우리사이가 멀어질까 혼자 남아 버리는 상상을 해
-이런 나를잡아줘 우리 처음 만난 날처럼 내가 너를 꼭 잡을 수 있게
-늘 꿈에서만 그리던 너와 함께할 모든 날들이 더 희미해지기전에
-나 시간이 없어
-지금 닿을 수 없는 거리 일지라도 꼭 너와 함께 있다는 기분이 들어
-널 주저했던 걸음 마음 나는 왜이리 바보같은지 자신이 없어
-늘 같은 곳을 바라보는 너의 그 눈이 좋아
-변한 세상에서 너만은 그대로 있어줘 You are my sunshine
-늘 같은 곳을 바라보는 너와 내 시간 속에
-날 잊어버리기 전에 다시한번 너를 만나러 갈테니까
+파싱 테스트
+
+
+@char Yeon pos:20,5 transition:Fadein time:1
+@wait 1
+안녕
+@char Yeon transition:Fadeout time:1
+@wait 1 
+
+
+
+@char DonQuixote pos:70,50
+@wait 0.1
+Yeon : 안녕
+DonQuixote : 안녕
+Yeon: 꺼져
+안녕
+
+#label
+
+끝~
