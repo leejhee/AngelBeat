@@ -75,7 +75,8 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
-        
+
+        public event Action<long> OnCharacterDead;
         #endregion
         
         #region UI Model
@@ -108,8 +109,6 @@ namespace GamePlay.Features.Battle.Scripts
             await BattleInitialize();
             
             await _turnManager.ChangeTurn();
-            //_turnManager.OnRoundProceeds.Invoke();
-            
         }
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
@@ -134,7 +133,7 @@ namespace GamePlay.Features.Battle.Scripts
             // 이미지 띄우기
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
-            List<CharBase> battleMembers = await _battleStage.SpawnAllUnits(playerParty);
+            await _battleStage.SpawnAllUnits(playerParty);
             stageGrid.RebuildCharacterPositions(); //다 띄웠으면 캐릭터 위치도 전부 기록해주기
             
             // 턴 관리기 초기화
@@ -348,6 +347,7 @@ namespace GamePlay.Features.Battle.Scripts
             grid?.RemoveUnit(unit);
             
             // 턴 관리도 필요함
+            OnCharacterDead?.Invoke(unit.GetID());
         }
         
         public void EndBattle(SystemEnum.eCharType winnerType)

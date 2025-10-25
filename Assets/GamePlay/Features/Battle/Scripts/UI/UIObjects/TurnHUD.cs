@@ -44,9 +44,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             turns.Clear();
         }
 
-        public void FindDeadCharacter(int idx)
+        public void FindDeadCharacter(long uid)
         {
-            turns[idx].OnCharacterDie();
+            TurnPortrait portrait = turns.Find(x => x.CharUID == uid);
+            if(!portrait) return;
+            portrait.OnCharacterDie();
         }
     }
 }

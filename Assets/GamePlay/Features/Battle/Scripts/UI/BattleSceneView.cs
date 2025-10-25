@@ -97,6 +97,12 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 act => BattleController.Instance.ActionCompleted -= act,
                 (a, r) => { View.CharacterHUD.DeselectAllToggleButton(); }
             );
+
+            ModelEvents.Subscribe<long>(
+                act => BattleController.Instance.OnCharacterDead += act,
+                act => BattleController.Instance.OnCharacterDead -= act,
+                uid => View.TurnHUD.FindDeadCharacter(uid)
+            );
             
             #endregion
 
@@ -210,8 +216,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 View.TurnHUD.AddToTurnList(turnPortrait);
             }
             View.TurnHUD.OnRoundStart();
-
-            //OnTurnChanged(new TurnController.TurnModel(BattleController.Instance.TurnController.TurnCollection.First()));
         }
         
         private void OnRoundEnd()
