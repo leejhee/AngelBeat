@@ -64,8 +64,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             CharBase victim = grid.GetUnitAt(targetingCell);
             
             Vector2Int goal = targetingCell + (targetingCell - pivot);
-            // 캐릭터 프리팹 이동
             Vector2 toWorld = stage.CellToWorldCenter(goal);
+            
+            actor.CharPushPlay();
+            // 캐릭터 프리팹 이동
             await victim.CharKnockBack(toWorld); 
             // TODO : 벽꿍 구현할 것
             

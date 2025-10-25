@@ -26,7 +26,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private static readonly int OnAttack = Animator.StringToHash("OnAttack");
         private static readonly int JumpOut = Animator.StringToHash("JumpOut");
         private static readonly int JumpIn = Animator.StringToHash("JumpIn");
-        
+        private static readonly int Push = Animator.StringToHash("Push");
         
         #region Member Field
         [SerializeField] private long _index;
@@ -42,6 +42,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
         [SerializeField] private GameObject jumpOutFX;
         [SerializeField] private GameObject jumpInFX;
+        [SerializeField] private GameObject pushFX;
         
         private SpriteRenderer  _spriteRenderer;
         private Transform       _charTransform;
@@ -351,9 +352,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
             _Animator.SetTrigger(Idle);
             transform.position = targetPos;
-            sr.enabled = true;
+            await UniTask.Delay(30, false, PlayerLoopTiming.Update, ct);
             _Animator.SetTrigger(JumpIn);
+            sr.enabled = true;
             await PlayFxOnce(jumpInFX, transform.position, ct);
+            _Animator.SetTrigger(Idle);
         }
         
         /// <summary>
@@ -370,6 +373,14 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
             _Animator.SetTrigger(Idle);
         }
+
+        public void CharPushPlay()
+        {
+            _Animator.SetTrigger(Push);
+        }
+        
+        public async void CharPushFXPlay() => await PlayFxOnce(pushFX, transform.position, CancellationToken.None); 
+        public void CharReturnIdle() => _Animator.SetTrigger(Idle);
         
         #endregion
         

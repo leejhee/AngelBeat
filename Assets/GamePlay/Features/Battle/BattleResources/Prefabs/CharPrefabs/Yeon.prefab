@@ -93,6 +93,7 @@ MonoBehaviour:
   _charUnitRoot: {fileID: 294029816145623234}
   jumpOutFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
+  pushFX: {fileID: 5358219405251250283, guid: 755dea081820a9440855323d79261723, type: 3}
   UnitName: 
 --- !u!95 &2821619371975844126
 Animator:
