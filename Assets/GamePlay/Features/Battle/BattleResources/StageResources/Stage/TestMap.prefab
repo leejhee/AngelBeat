@@ -246,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleSpawnerData:
     rid: 4918594393638961153
-  backgroundImage: {fileID: 0}
+  backgroundImage: {fileID: 6517139298170437246, guid: e69ca69890b06a0419f54e1548602e14, type: 3}
   gridSize: {x: 11, y: 3}
   gridProvider: {fileID: 5644157376870120970}
   platformGridCells:

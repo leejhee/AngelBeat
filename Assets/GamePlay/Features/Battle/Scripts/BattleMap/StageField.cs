@@ -90,6 +90,10 @@ public class StageField : MonoBehaviour
         gridProvider.ApplySpec(gridSize, _cellWorld, _originWorld, lineWidthPixels: 2);
         gridProvider.InitMask();
         gridProvider.Show(false);
+        
+        
+        
+        // TODO : 배경화면 띄워주기 나중에 옮겨도 됨
     }
 
     private void ComputeGridBasis(
