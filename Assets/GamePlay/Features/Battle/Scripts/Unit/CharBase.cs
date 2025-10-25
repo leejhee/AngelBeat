@@ -24,7 +24,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private static readonly int Move = Animator.StringToHash("Move");
         private static readonly int Idle = Animator.StringToHash("Idle");
         private static readonly int OnAttack = Animator.StringToHash("OnAttack");
-        private static readonly int BackToIdle = Animator.StringToHash("BackToIdle");
+        private static readonly int JumpOut = Animator.StringToHash("JumpOut");
+        private static readonly int JumpIn = Animator.StringToHash("JumpIn");
+        
         
         #region Member Field
         [SerializeField] private long _index;
@@ -38,8 +40,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private Transform _charUnitRoot;
         
         //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
-        [SerializeField] private static GameObject jumpOutFX;
-        [SerializeField] private static GameObject jumpInFX;
+        [SerializeField] private GameObject jumpOutFX;
+        [SerializeField] private GameObject jumpInFX;
         
         private SpriteRenderer  _spriteRenderer;
         private Transform       _charTransform;
@@ -50,7 +52,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
 
-        private List<SkillBase> _skills = new();
         
         private bool _isAction = false;    // 행동중인가? 판별
         protected long _uid;
@@ -75,7 +76,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public Camera MainCamera => _mainCamera;
         
         //public Sprite CharacterSprite => _characterSprite;
-        public List<SkillBase> Skills => _skills;
         public CharStat RuntimeStat
         {
             get => _runtimeStat;
@@ -193,22 +193,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
         }
         #endregion
-
-        public int GetSKillIndexFromModel(SkillModel skillModel)
-        {
-            int index = 0;
-            foreach (var skill in _skills)
-            {
-                if (skillModel.SkillName == skill.SkillModel.SkillName)
-                {
-                    return index;
-                }
-                index++;
-            }
-
-            return -1;
-        }
-        
         
         #region Initialize & Save Character Model
         public void UpdateCharacterInfo(CharacterModel charInfo)
@@ -296,21 +280,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         
         #region Character Death
-        public event Action OnCharDead;
+        public event Action OnCharDeadPersonal;
         public virtual void CharDead()
         {
             BattleController.Instance?.HandleUnitDeath(this);
             
-            Type myType = GetType();
-            BattleCharManager.Instance.Clear(myType, _uid);
-            Debug.Log($"{gameObject.name} is dead");
-            
-            OnCharDead?.Invoke();
+            OnCharDeadPersonal?.Invoke();
             OnUpdate = null;
             RuntimeStat.ClearChangeEvent();
             
+            Type myType = GetType();
+            BattleCharManager.Instance.Clear(myType, _uid);
+            Debug.Log($"{gameObject.name} is dead");
             gameObject.SetActive(false);
-           //Destroy(gameObject);
+            BattleCharManager.Instance.CheckDeathEvents(CharType);
         }
         
         public virtual void CharDestroy()
@@ -361,13 +344,15 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharJump(Vector3 targetPos, CancellationToken ct)
         {
+            _Animator.SetTrigger(JumpOut);
             SpriteRenderer sr = _charUnitRoot.GetComponent<SpriteRenderer>();
             if (sr) sr.enabled = false;
             await PlayFxOnce(jumpOutFX, transform.position, ct);
             
             transform.position = targetPos;
-            await PlayFxOnce(jumpInFX, transform.position, ct);
             sr.enabled = true;
+            _Animator.SetTrigger(JumpIn);
+            await PlayFxOnce(jumpInFX, transform.position, ct);
         }
         
         /// <summary>
@@ -382,7 +367,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            _Animator.SetTrigger(BackToIdle);
+            _Animator.SetTrigger(Idle);
         }
         
         #endregion
@@ -407,12 +392,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         #region Util로 옮길 부분
         
         //TODO : Particlesystem인지 animator인지 결정되면 알아서 최적화할것
-        async UniTask PlayFxOnce(GameObject prefab, Vector3 pos, CancellationToken ct)
+        private async UniTask PlayFxOnce(GameObject prefab, Vector3 offset, CancellationToken ct)
         {
             if (!prefab) return;
-            var go = Instantiate(prefab, pos, Quaternion.identity);
+            var go = Instantiate(prefab, offset, Quaternion.identity, transform);
 
             // ParticleSystem이면 모두 재생 후 살아있는 동안 대기
+            #region If Particle System
             ParticleSystem[] ps = go.GetComponentsInChildren<ParticleSystem>(true);
             // null 안터짐
             if (ps.Length > 0)
@@ -423,13 +409,16 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 Destroy(go);
                 return;
             }
-
+            #endregion
+            
+            #region If Animator
             // Animator 기반 FX면 트리거나 자동 플레이를 가정, 적당한 보호 딜레이(필요시 Animation Event로 대체)
             var anim = go.GetComponentInChildren<Animator>();
             if (anim)
-                await Cysharp.Threading.Tasks.UniTask.Delay(System.TimeSpan.FromSeconds(0.5), cancellationToken: ct);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.5), cancellationToken: ct);
 
             Destroy(go);
+            #endregion
         }
         #endregion
         

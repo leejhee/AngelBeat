@@ -91,6 +91,8 @@ MonoBehaviour:
   _rigid: {fileID: -1711375296147896922}
   moveSpeed: 5
   _charUnitRoot: {fileID: 294029816145623234}
+  jumpOutFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
+  jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   UnitName: 
 --- !u!95 &2821619371975844126
 Animator:
@@ -172,7 +174,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16768187, y: -0.07614803}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -183,7 +185,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6281352, y: 4.772296}
+  m_Size: {x: 3, y: 4}
   m_EdgeRadius: 0
 --- !u!320 &8329274003362239100
 PlayableDirector:
@@ -291,7 +293,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 5d45911c4fcb0fc418f7232097a9deca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b6c7937e730dae4896a57edc9cf6e88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

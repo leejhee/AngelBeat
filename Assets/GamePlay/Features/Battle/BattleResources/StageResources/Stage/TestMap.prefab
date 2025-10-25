@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleSpawnerData:
     rid: 4918594393638961153
+  backgroundImage: {fileID: 0}
   gridSize: {x: 11, y: 3}
   gridProvider: {fileID: 5644157376870120970}
   platformGridCells:
@@ -279,6 +280,8 @@ MonoBehaviour:
           unitSpawnList:
           - SpawnCharacterIndex: 30010001
             SpawnPosition: {x: 27.53355, y: -3.817819, z: 0}
+          - SpawnCharacterIndex: 30010001
+            SpawnPosition: {x: -7.5, y: -3.817819, z: 0}
         fieldObjectInfos: []
 --- !u!1 &4934528557023620504
 GameObject:

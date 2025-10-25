@@ -262,6 +262,20 @@ public class StageField : MonoBehaviour
             var p = originW + (c + Vector2.one * 0.5f) * cellW;
             Gizmos.DrawCube(p, cellW * pad);
         }
+
+        List<FieldSpawnInfo> fieldInfo = battleSpawnerData.fieldSpawnInfos;
+        foreach (FieldSpawnInfo tp in fieldInfo)
+        {
+            if (tp.SpawnType == eCharType.Player)
+                Gizmos.color = new Color(1, 0.5f, 0);
+            else if (tp.SpawnType == eCharType.Enemy)
+                Gizmos.color = new Color(0, 0, 1);
+            foreach (var info in tp.UnitSpawnList)
+            {
+                Gizmos.DrawSphere(info.SpawnPosition, 1f);
+            }
+            
+        }
     }
 
     [ContextMenu("좌표 셀 유효성 검사(플랫폼 및 장애물)")]

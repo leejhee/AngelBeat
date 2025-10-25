@@ -1,5 +1,4 @@
 using Core.Scripts.Data;
-using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
@@ -104,7 +103,7 @@ namespace GamePlay.Features.Battle.Scripts
                 return false;
             }
             _cache[myType].Remove(id);
-            OnCharDead?.Invoke(new DeadCharModel(id, GetEnumTypeByType(myType)));
+            OnCharDeadGlobal?.Invoke(new DeadCharModel(id, GetEnumTypeByType(myType)));
             return true;
         }
 
@@ -223,25 +222,8 @@ namespace GamePlay.Features.Battle.Scripts
             List<CharBase> enemyList = _cache[enemyType].Values.ToList();
             return enemyList;
         }
-        
-        /// <summary> 캐릭터 사망에 대한 로직 구독 </summary>
-        public void SubscribeDeathEvents()
-        {
-            foreach (var kvp in _cache)
-            {
-                foreach(var unit in kvp.Value)
-                {
-                    CharBase character = unit.Value;
-                    character.OnCharDead += () =>
-                    {
-                        eCharType type = character.GetCharType();
-                        CheckDeathEvents(type);
-                    };
-                }
-            }
-        }
 
-        public event Action<DeadCharModel> OnCharDead;
+        public event Action<DeadCharModel> OnCharDeadGlobal;
         
         public void CheckDeathEvents(eCharType type)
         {

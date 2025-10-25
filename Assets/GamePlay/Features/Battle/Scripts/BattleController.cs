@@ -343,6 +343,7 @@ namespace GamePlay.Features.Battle.Scripts
             if(IsModal && _currentActionContext?.actor == unit)
                 CancelPreview(); // preview 중에 죽을 일은 없겠지만, 예외처리 용도
             
+            // 전투 그리드 적용
             BattleStageGrid grid = _battleStage?.GetComponent<BattleStageGrid>();
             grid?.RemoveUnit(unit);
             
