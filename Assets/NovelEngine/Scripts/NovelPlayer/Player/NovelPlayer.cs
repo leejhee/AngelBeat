@@ -501,6 +501,13 @@ public class NovelPlayer : MonoBehaviour
         _typingCts?.Dispose();
     }
 
+    // public void OnClickSKipButton()
+    // {
+    //     for (int i = ; i <; i++)
+    //     {
+    //         
+    //     }
+    // }
     public void EndScript()
     {
         Addressables.ReleaseInstance(gameObject);
