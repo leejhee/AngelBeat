@@ -349,6 +349,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             if (sr) sr.enabled = false;
             await PlayFxOnce(jumpOutFX, transform.position, ct);
             
+            _Animator.SetTrigger(Idle);
             transform.position = targetPos;
             sr.enabled = true;
             _Animator.SetTrigger(JumpIn);

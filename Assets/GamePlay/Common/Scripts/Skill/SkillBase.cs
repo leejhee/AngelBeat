@@ -1,4 +1,5 @@
 using Core.Scripts.Foundation.Define;
+using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Skill;
@@ -58,6 +59,11 @@ namespace GamePlay.Common.Scripts.Skill
             _model = skillModel;
         }
 
+        public async UniTask SkillPlayAsync(SkillParameter param)
+        {
+            
+        }
+        
         public void SkillPlay(SkillParameter param)
         {
             // 타임라인 재생
