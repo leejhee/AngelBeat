@@ -8,6 +8,7 @@ using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Features.Battle.Scripts.Unit;
+using System;
 using System.Linq;
 using System.Threading;
 using UIs.Runtime;
@@ -103,15 +104,13 @@ namespace GamePlay.Features.Battle.Scripts.UI
             
             // 턴 종료 버튼 구독
             ViewEvents.Subscribe(
-                act => View.TurnEndButton.onClick.AddListener(new UnityAction(act)),
-                act => View.TurnEndButton.onClick.RemoveAllListeners(),
+                View.TurnEndButton.onClick,
                 OnClickTurnEndButton
             );
             
             // 메뉴 버튼 구독
             ViewEvents.Subscribe(
-                act => View.MenuButton.onClick.AddListener(new UnityAction(act)),
-                act => View.MenuButton.onClick.RemoveAllListeners(),
+                View.MenuButton.onClick,
                 OnClickMenuButton
             );
             // 캐릭터 초상화 꾹 누르기
@@ -212,8 +211,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             }
             View.TurnHUD.OnRoundStart();
 
-            OnTurnChanged(new TurnController.TurnModel(BattleController.Instance.TurnController.TurnCollection.First()));
-
+            //OnTurnChanged(new TurnController.TurnModel(BattleController.Instance.TurnController.TurnCollection.First()));
         }
         
         private void OnRoundEnd()
@@ -229,15 +227,15 @@ namespace GamePlay.Features.Battle.Scripts.UI
             // 아군 턴이면 캐릭터 HDU 오픈
             //CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
             CharBase character = turnModel.Turn.TurnOwner;
-             if (character.GetCharType() == SystemEnum.eCharType.Player)
-             {
-                 OnCharacterHUDOpen(character);
-             }
-             else
-             {
-                 _focusCharacterEvents.Clear();
-                 View.CharacterHUD.Hide();
-             }
+            if (character.GetCharType() == SystemEnum.eCharType.Player)
+            {
+                OnCharacterHUDOpen(character);
+            }
+            else
+            {
+                _focusCharacterEvents.Clear();
+                View.CharacterHUD.Hide();
+            }
         }
 
         private void OnCharacterHUDOpen(CharBase character)
@@ -323,9 +321,27 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         #region View To Model
 
-        private void OnClickTurnEndButton()
+        bool _turnEnding;
+        private async void OnClickTurnEndButton()
         {
-            BattleController.Instance.TurnController.ChangeTurn();
+            if (_turnEnding) return;
+            _turnEnding = true;
+            View.TurnEndButton.interactable = false;
+
+            var ct = View.gameObject.GetCancellationTokenOnDestroy();
+            try
+            {
+                await BattleController.Instance.TurnController
+                    .ChangeTurn()
+                    .AttachExternalCancellation(ct);
+            }
+            catch (OperationCanceledException) { /* noop */ }
+            catch (Exception ex) { Debug.LogException(ex); }
+            finally
+            {
+                View.TurnEndButton.interactable = true;
+                _turnEnding = false;
+            }
         }
 
         private void OnClickMenuButton()

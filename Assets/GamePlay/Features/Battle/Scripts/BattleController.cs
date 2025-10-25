@@ -106,8 +106,9 @@ namespace GamePlay.Features.Battle.Scripts
             }
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
             await BattleInitialize();
-            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
-            _turnManager.OnRoundProceeds.Invoke();
+            
+            await _turnManager.ChangeTurn();
+            //_turnManager.OnRoundProceeds.Invoke();
             
         }
         
@@ -130,15 +131,17 @@ namespace GamePlay.Features.Battle.Scripts
             BattleStageGrid stageGrid = _battleStage.GetComponent<BattleStageGrid>() 
                                         ?? _battleStage.AddComponent<BattleStageGrid>();
             stageGrid.InitGrid(_battleStage);
+            // 이미지 띄우기
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
             List<CharBase> battleMembers = await _battleStage.SpawnAllUnits(playerParty);
             stageGrid.RebuildCharacterPositions(); //다 띄웠으면 캐릭터 위치도 전부 기록해주기
             
             // 턴 관리기 초기화
-            _turnManager = new TurnController(battleMembers); 
-            _turnManager.ChangeTurn();
+            _turnManager = new TurnController(); 
             
+            // Battle 전용 UI 초기화
+            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
             
             Debug.Log("Battle Initialization Complete");
             BattlePayload.Instance.Clear();

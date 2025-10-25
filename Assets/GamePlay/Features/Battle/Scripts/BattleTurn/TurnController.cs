@@ -21,7 +21,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public Func<UniTask> OnRoundProceeds;
         public event Action OnRoundEnd;
-        public IReadOnlyCollection<BattleTurn.Turn> TurnCollection => _turnBuffer.AsReadOnly();
+        public IReadOnlyCollection<Turn> TurnCollection => _turnBuffer.AsReadOnly();
 
         #region UI Model
 
@@ -32,13 +32,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         }
 
         #endregion        
-        
-        public TurnController(List<CharBase> battleMembers)
-        {
-            InitializeTurnQueue(battleMembers);
-            //ChangeTurn();
-        }
-
+ 
         private void InitializeTurnQueue(List<CharBase> battleMembers)
         {
             foreach (var character in battleMembers)
@@ -72,7 +66,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public void RefreshTurn() => RebuildTurnQueue();
         
         public Action<TurnModel> OnTurnChanged;
-        public void ChangeTurn()
+        public async UniTask ChangeTurn()
         {
             CurrentTurn?.End();
             
@@ -82,13 +76,16 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 OnRoundEnd?.Invoke();
                 _round++;
                 RebuildTurnQueue();
-                OnRoundProceeds?.Invoke();
+                if (OnRoundProceeds != null)
+                {
+                    await OnRoundProceeds.Invoke();
+                }
             }
             
             CurrentTurn = _turnQueue.Dequeue();
             while(!CurrentTurn.IsValid)
                 CurrentTurn = _turnQueue.Dequeue();
-            
+        
             CurrentTurn.Begin();
             OnTurnChanged?.Invoke(new TurnModel(CurrentTurn));
         }

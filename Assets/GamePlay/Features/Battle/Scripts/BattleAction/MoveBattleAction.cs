@@ -96,7 +96,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             var toWorld = stage.CellToWorldCenter(goal);
             long delta = -Mathf.Abs(goal.x - pivot.x);
             actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
-            actor.RuntimeStat.ChangeAP((int)delta);
             await actor.CharMove(toWorld);
             
             // 그리드 위치정보 저장

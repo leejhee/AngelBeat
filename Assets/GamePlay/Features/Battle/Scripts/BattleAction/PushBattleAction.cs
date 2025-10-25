@@ -40,7 +40,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 }
                 else
                 {
-                    blockedPoints.Add(point);
+                    blockedPoints.Add(candidate);
                 }
             }
             // 상태 머신 그냥 안만들기 위해서
