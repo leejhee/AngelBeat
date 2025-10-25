@@ -5,21 +5,27 @@
 @char Bilyeong
 Bilyeong: 허, 아직 도착도 안 했건만 벌건 대낮부터 저놈들이 나도는 꼴이라니.
 @hide Bilyeong
-@char Hwi pos: 70, 0
-Hwi: …그만큼 저들이 세상에 들끓고 있다는 것이지.
-@char Yeon pos: 80, 0
+@char Hwi pos: 75, 0
+Hwi: ...그만큼 저들이 세상에 들끓고 있다는 것이지.
+@char Yoon pos: 25, 0
 Yoon: 내가 가서 쓸어 버릴까?
 Hwi: 그래, 부탁하지.
-Hwi: … 아니, 아니면 이번엔 사제가 나서 보는 것은 어떻겠는가?
+Hwi: ...아니.
+Hwi: 아니면 이번엔 사제가 나서 보는 것은 어떻겠는가?
 Hwi: 아직 깨어난 지 얼마 되지 않았으니, 가벼이 몸을 풀어 보는 것도 좋을 듯 한데.
 Hwi: 물론, 사제가 괜찮다면 말일세. 무리할 필요는 없지.
 Yoon: 괜찮겠어, 사제?
 @hide Hwi
-@char Yeon pos: 50, 0
+@hide Yoon
+@char Yeon pos: 25, 0
 Yeon: 전 괜찮습니다, 사저.
-@char Bilyeong pos: 70, 50
+@char Bilyeong pos: 75, 50
 Bilyeong: 흥, 이놈이 아무리 약해빠지게 되었어도 그렇지 저런 잡놈 하나 못 잡을리가 있나.
+@char Bilyeong.Angry
 Bilyeong: 어서 가자! 저 망할 것을 족쳐 버릴 때다!
 @hide Yeon
+@hide Bilyeong
 @char Yeon pos: 50, 0
-Yeon: …그래, 가자꾸나.
+Yeon: ......
+Yeon: ...그래.
+Yeon: 가자꾸나.
