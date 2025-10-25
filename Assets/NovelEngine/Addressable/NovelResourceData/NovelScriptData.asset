@@ -24,5 +24,9 @@ MonoBehaviour:
       value: {fileID: 2811297602134710623, guid: 598279c7e69a73841a615eadb3315418, type: 3}
     - _key: test
       value: {fileID: 2811297602134710623, guid: aa05d960f34095544bdee1f06ac80e23, type: 3}
+    - _key: 1
+      value: {fileID: 2811297602134710623, guid: db5ac0f34695baa47b59d0aa7e07df77, type: 3}
+    - _key: 6
+      value: {fileID: 2811297602134710623, guid: 51bff0458306d2945ba258825ee348f6, type: 3}
     keys: []
     values: []

@@ -51,6 +51,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 628d0684f78e04942a81fb1cd8975ed7, type: 2}
   - {fileID: 11400000, guid: c2c30837bc2aed84f80b028c03b2df9a, type: 2}
   - {fileID: 11400000, guid: 0b96e22d42980ed47b1a8fc19e8bf568, type: 2}
+  - {fileID: 11400000, guid: 09db4016698cdb54eb94d97c58dbf824, type: 2}
   - {fileID: 11400000, guid: 30dbabc0fe2729c4092172bfbee3cbd6, type: 2}
   - {fileID: 11400000, guid: 8eb2881c8584b4d44bb64af6891ede35, type: 2}
   - {fileID: 11400000, guid: 129c943c9c79629468bb0a63756efb92, type: 2}
@@ -117,6 +118,7 @@ MonoBehaviour:
     - NovelCharacter
     - BattleObject
     - View
+    - ExploreObject
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d8607e6f76cbd7a41931521c7af063be, type: 2}

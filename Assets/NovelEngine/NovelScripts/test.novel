@@ -1,15 +1,8 @@
 파싱 테스트
 
 
-@char Yeon pos:20,5 transition:Fadein time:1
-@wait 1
-안녕
-@char Yeon transition:Fadeout time:1
-@wait 1 
+@char Yeon.Happy
 
-
-
-@char DonQuixote pos:70,50
 @wait 0.1
 Yeon : 안녕
 DonQuixote : 안녕

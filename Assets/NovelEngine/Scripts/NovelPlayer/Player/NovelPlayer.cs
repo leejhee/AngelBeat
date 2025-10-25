@@ -13,6 +13,7 @@ using UnityEngine.AddressableAssets;
 
 public class NovelPlayer : MonoBehaviour
 {
+    [SerializeField] private Button SkipButton;
     private TextAsset novelScript;
     public NovelAct CurrentAct { get; private set; }
     public NovelEngine.Scripts.SerializableDict<string, int> LabelDict { get; private set; }
@@ -212,6 +213,9 @@ public class NovelPlayer : MonoBehaviour
             switch (result)
             {
                 case LineResult.Finished:
+                    
+                    
+                    
                     Addressables.ReleaseInstance(gameObject);
                     return;
                 case LineResult.Stop:
@@ -490,10 +494,15 @@ public class NovelPlayer : MonoBehaviour
         novelText.text = fullText;
         isTyping = false;
     }
-
+    
     private void OnDestroy()
     {
         _typingCts?.Cancel();
         _typingCts?.Dispose();
+    }
+
+    public void EndScript()
+    {
+        Addressables.ReleaseInstance(gameObject);
     }
 }

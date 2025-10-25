@@ -22,8 +22,8 @@ namespace GamePlay.Features.Scripts.Explore
         
         private void Start()
         {
-            playerParty = new Party();
-            Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+            // playerParty = new Party();
+            // Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
         }
         
         #region Interaction Part

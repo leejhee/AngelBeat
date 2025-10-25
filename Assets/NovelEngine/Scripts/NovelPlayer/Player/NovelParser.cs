@@ -10,13 +10,13 @@ public static class NovelParser
     private static readonly Regex LabelLine = new Regex(@"^#(?<name>.+?)\s*$");
     private static readonly Regex CommentLine = new Regex(@"^//.*$");
     private static readonly Regex CommandLine = new Regex(@"^@\s*");
-    private static readonly Regex PersonLine = new Regex(@"(?<name>.+?)\s*:\s*(?<line>.+)\s*$");
+    private static readonly Regex PersonLine = new Regex(@"(?<name>.[\w가-힣?]+)\s*:\s*(?<line>.+)\s*$");
 
     #region 커맨드 정규식
     private static readonly Regex BackCommand = new Regex(@"^@back\s+(?<name>\w+)(\.(?<transition>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex BGMCommand = new Regex(@"^@bgm\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex SfxCommand = new Regex(@"^@sfx\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex CharCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex CharCommand = new Regex(@"^@char\s+(?<name>[\w가-힣?]+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex GotoCommand = new Regex(@"^@goto\s+(?<script>\w+)?(\.(?<label>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex ChoiceCommand = new Regex(@"^@choice\s+(?<choice>.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex IfCommand = new Regex(@"^@if\s+(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -257,16 +257,16 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, charCommandType, ifParameter);
-                    // Debug.Log(
-                    //     $"Character : {charName}\n" +
-                    //     $"Pos : {charPos}\n" +
-                    //     $"Appearance : {charAppearance}\n" +
-                    //     $"Scale : {charScale}\n" +
-                    //     $"transition : {charTransition}\n" +
-                    //     $"Type : {charCommandType}\n" +
-                    //     $"time : {charTime}\n" +
-                    //     $"Index : {index}\n"+
-                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    Debug.Log(
+                        $"Character : {charName}\n" +
+                        $"Pos : {charPos}\n" +
+                        $"Appearance : {charAppearance}\n" +
+                        $"Scale : {charScale}\n" +
+                        $"transition : {charTransition}\n" +
+                        $"Type : {charCommandType}\n" +
+                        $"time : {charTime}\n" +
+                        $"Index : {index}\n"+
+                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideCharacter:

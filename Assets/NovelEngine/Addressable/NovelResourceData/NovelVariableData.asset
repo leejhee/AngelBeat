@@ -18,10 +18,10 @@ MonoBehaviour:
       value:
         parameter:
           rid: 347304520984821767
-    - _key: a
+    - _key: IsSeol
       value:
         parameter:
-          rid: 347304520984821763
+          rid: 1526937451696226318
     - _key: b
       value:
         parameter:
@@ -35,10 +35,6 @@ MonoBehaviour:
       type: {class: IntParameter, ns: novel, asm: NovelEngine}
       data:
         value: 6
-    - rid: 347304520984821763
-      type: {class: IntParameter, ns: novel, asm: NovelEngine}
-      data:
-        value: 0
     - rid: 347304520984821767
       type: {class: NovelCustomParameters/CharacterStateParameter, ns: novel, asm: NovelEngine}
       data:
@@ -46,3 +42,7 @@ MonoBehaviour:
           state1: 0
           state2: 0
           state3: 0
+    - rid: 1526937451696226318
+      type: {class: BooleanParameter, ns: novel, asm: NovelEngine}
+      data:
+        value: 0

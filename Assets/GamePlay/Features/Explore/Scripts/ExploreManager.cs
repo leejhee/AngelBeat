@@ -47,15 +47,15 @@ namespace GamePlay.Features.Explore.Scripts
         
         private void OnEnable()
         {
-            SaveLoadManager.Instance.RegisterProvider(this);
-            if (SaveLoadManager.Instance.CurrentSlot.TryGet("Explore", out ExploreSnapshot explore))
-            {
-                RebuildExploreState(explore);
-            }
-            else
-            {
-                
-            }
+            // SaveLoadManager.Instance.RegisterProvider(this);
+            // if (SaveLoadManager.Instance.CurrentSlot.TryGet("Explore", out ExploreSnapshot explore))
+            // {
+            //     RebuildExploreState(explore);
+            // }
+            // else
+            // {
+            //     
+            // }
             //SaveLoadManager.Instance.SlotLoaded += OnSlotLoaded;
         }
 

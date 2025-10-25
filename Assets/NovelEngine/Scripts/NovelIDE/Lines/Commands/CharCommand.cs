@@ -135,6 +135,20 @@ namespace novel
                             var headObject = newStanding.transform.GetChild(HEAD_CHILD_INDEX).gameObject;
 
                             var bodySprite = charSO.body;
+                            if (bodySprite == null)
+                            {
+                                Texture2D transparentTex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+                                transparentTex.SetPixel(0, 0, new Color(0, 0, 0, 0));
+                                transparentTex.Apply();
+                                
+                                bodySprite = Sprite.Create(
+                                    transparentTex, 
+                                    new Rect(0, 0, 1, 1), 
+                                    new Vector2(0.5f, 0.5f)
+                                );
+                            }
+                            
+                            
                             if (!bodyObject.TryGetComponent<Image>(out var bodyImage))
                                 bodyImage = bodyObject.AddComponent<Image>();
                             bodyImage.sprite = bodySprite;

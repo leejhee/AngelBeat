@@ -16,11 +16,17 @@ MonoBehaviour:
     pairs:
     - _key: DonQuixote
       value: {fileID: 11400000, guid: 0b8eb5c9a5892784abe4f4376a9a7d8f, type: 2}
-    - _key: Jururu
-      value: {fileID: 11400000, guid: 709e8fa7f3c0f1348a9b616223ea35c2, type: 2}
     - _key: Yeon
       value: {fileID: 11400000, guid: 2125d974014461f43b37f878a9594fa1, type: 2}
-    - _key: ??
+    - _key: ???
       value: {fileID: 11400000, guid: 13912fbbe423b864b817a5612a77a0be, type: 2}
+    - _key: Bilyeong
+      value: {fileID: 11400000, guid: 997207694e5ee364ea19de81d5ad74d6, type: 2}
+    - _key: Yoon
+      value: {fileID: 11400000, guid: 3acb12d02e031704cbc08a9c048eac52, type: 2}
+    - _key: Hwi
+      value: {fileID: 11400000, guid: 91de1ba9fa9bb74498215d8c4d5ab921, type: 2}
+    - _key: ??
+      value: {fileID: 11400000, guid: 709e8fa7f3c0f1348a9b616223ea35c2, type: 2}
     keys: []
     values: []
