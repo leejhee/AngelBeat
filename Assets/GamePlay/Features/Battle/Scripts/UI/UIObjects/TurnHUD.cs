@@ -16,7 +16,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             if (currentIndex >= 0)
             {
                 turns[currentIndex++].SetCurrentTurn(false);
-                turns[currentIndex].SetCurrentTurn(true);
+                turns[currentIndex % turns.Count].SetCurrentTurn(true);
             }
             else
             {
