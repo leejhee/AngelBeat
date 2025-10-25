@@ -111,6 +111,8 @@ namespace UIs.Runtime
         private Transform _mainRoot, _modalRoot, _systemRoot, _worldRoot;
         private Transform _bgRoot;
         private Transform _cacheRoot;
+
+        public Transform WorldRoot => _worldRoot;
         
         private async UniTask EnsureRoot(CancellationToken token)
         {

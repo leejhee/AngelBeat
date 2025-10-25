@@ -47,17 +47,16 @@ MonoBehaviour:
     m_SerializedLabels:
     - NovelSettingData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 931014d0679e2b34baa6e47c376e1f9f
-    m_Address: ChoiceButtonBase
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - NovelPlayerPrefabs
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a27599c3b42f52647a4286a28d180d36
     m_Address: NovelVariableData
     m_ReadOnly: 0
     m_SerializedLabels:
     - NovelSettingData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da082d9406c7a914b95d590374ba6f54
+    m_Address: ChoiceButtonBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e02d080a38887524b8a11898b66695be
     m_Address: NovelBackgroundData

@@ -22,7 +22,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 case ViewID.GameOverView:
                     return new GameOverPresenter(view);
                 case ViewID.CharacterView:
-                    return new IngameCharacterPresenter(view);
+                    return new HoveringUIPresenter(view);
                 default:
                     return new NullPresenter(view);
             }

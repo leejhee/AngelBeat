@@ -17,7 +17,7 @@ public static class NovelParser
     private static readonly Regex BGMCommand = new Regex(@"^@bgm\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex SfxCommand = new Regex(@"^@sfx\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex CharCommand = new Regex(@"^@char\s+(?<name>\w+)(\.(?<appearance>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static readonly Regex GotoCommand = new Regex(@"^@goto\s+(?<label>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex GotoCommand = new Regex(@"^@goto\s+(?<script>\w+)?(\.(?<label>\w+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex ChoiceCommand = new Regex(@"^@choice\s+(?<choice>.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex IfCommand = new Regex(@"^@if\s+(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex ElseCommand = new Regex(@"^@else", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -120,7 +120,7 @@ public static class NovelParser
                     {
                         return null;
                     }
-                    Debug.Log($"Normal : {line}\nIndex : {index}");
+                    //Debug.Log($"Normal : {line}\nIndex : {index}");
 
                     result = new NormalLine(index, normalLine);
                     break;
@@ -129,7 +129,7 @@ public static class NovelParser
                     string actorName = personMatch.Groups["name"].Value;
                     string actorLine = personMatch.Groups["line"].Value;
 
-                    Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
+                    //Debug.Log($"Person : {actorName}, Line : {actorLine}\nIndex : {index}");
                     result = new PersonLine(index, actorName, actorLine);
                     break;
                 case DialogoueType.LabelLine:
@@ -324,15 +324,18 @@ public static class NovelParser
             case CommandType.Goto:
                 {
                     var gotoMatch = GotoCommand.Match(line);
+                    string script = gotoMatch.Groups["script"].Value;
                     string label = gotoMatch.Groups["label"].Value;
 
                     IfParameter ifParameter = ParseIfParameter(line);
 
-                    result = new GotoCommand(index, label, ifParameter);
-                    // Debug.Log(
-                    //     $"Goto : {label}\n" +
-                    //     $"Index : {index}\n" +
-                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    result = new GotoCommand(index, script,label, ifParameter);
+                    Debug.Log(
+                        $"Goto : {label}\n" +
+                        $"Index : {index}\n" +
+                        $"Script : {script}\n" +
+                        $"Label : {label}\n" + 
+                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.If:

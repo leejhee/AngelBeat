@@ -23,6 +23,8 @@ namespace UIs.Runtime
         
         BattleSceneView,
         BattleCharacterInfoPopUpView,
+        
+        BattleHoveringView,
         KeywordPopUpView,
         
         GameWinView,
