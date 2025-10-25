@@ -75,7 +75,8 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
-
+        private bool _canAct = true;
+        
         public event Action<long> OnCharacterDead;
         #endregion
         
@@ -177,7 +178,10 @@ namespace GamePlay.Features.Battle.Scripts
         public async UniTask StartPreview(ActionType type, int skillSlotIndex=-1)
         {
             if (_currentActionState != BattleActionState.Idle) return; // 기본 상태에서만 선택 가능
-            
+            //if ((type == ActionType.Jump ||
+            //     type == ActionType.Move ||
+            //     type == ActionType.Skill) && !_canAct) return;
+                 
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
             _currentActionContext = new BattleActionContext
             {
@@ -307,6 +311,7 @@ namespace GamePlay.Features.Battle.Scripts
             {
                 CancelPreview();
                 ActionCompleted?.Invoke(finishedAction, result);
+                _canAct = true;
             }
         }
 
@@ -331,8 +336,12 @@ namespace GamePlay.Features.Battle.Scripts
             catch (Exception ex) { Debug.LogException(ex); }
             finally
             {
+                if (_currentActionContext.battleActionType == ActionType.Jump ||
+                    _currentActionContext.battleActionType == ActionType.Push)
+                    _canAct = false;
                 CancelPreview();
                 ActionCompleted?.Invoke(finishedAction, result);
+                
             }
         }
         

@@ -76,7 +76,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             {
                 if (!grid.TryFindLandingFloor(goal, out Vector2Int landing, out int fallCells))
                 {
-                    await victim.CharKnockBack(grid.CellToWorldCenter(new Vector2Int(landing.x, -1)));
+                    await victim.CharKnockBack(grid.CellToWorldCenter(new Vector2Int(goal.x, -1)));
                     grid.RemoveUnit(victim);
                     victim.CharDead();
                     
