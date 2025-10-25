@@ -7,6 +7,7 @@ using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
+using UIs.Runtime;
 using UnityEngine;
 using static Core.Scripts.Foundation.Define.SystemEnum;
 
@@ -94,6 +95,9 @@ public class StageField : MonoBehaviour
         
         
         // TODO : 배경화면 띄워주기 나중에 옮겨도 됨
+        UIManager.Instance.InstantiateBackgroundObject(BackgroundImageSprite);
+        
+        
     }
 
     private void ComputeGridBasis(

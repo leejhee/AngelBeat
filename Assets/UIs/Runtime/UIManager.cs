@@ -113,6 +113,7 @@ namespace UIs.Runtime
         private Transform _cacheRoot;
 
         public Transform WorldRoot => _worldRoot;
+        public Transform BGRoot => _bgRoot;
         
         private async UniTask EnsureRoot(CancellationToken token)
         {
@@ -183,6 +184,20 @@ namespace UIs.Runtime
             }
             _focusingCatalog = _catalogDict[SystemEnum.GameState.Lobby]; // 초기 포커싱 설정
             _uiCts = new CancellationTokenSource();
+        }
+        
+        // TODO : 이거 나중에 고쳐야함
+        // 배경화면 띄우는 임시용 코드
+
+        public async void InstantiateBackgroundObject(GameObject prefab)
+        {
+            await EnsureRoot(_uiCts.Token);
+            
+            
+            GameObject bgObject = Instantiate(prefab, _bgRoot);
+            bgObject.transform.localScale =  new Vector3(1, 1, 1);
+            bgObject.transform.localPosition = Vector3.zero;
+            
         }
         
         public async UniTask ShowViewAsync(ViewID viewID)

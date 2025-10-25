@@ -9,36 +9,17 @@ using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
-    public GameObject tuto;
-    public Button firstMoveButton;
-        
-    public CharPlayer player;
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        player = GetComponent<CharPlayer>();
-        //player.CharMove(new Vector2(transform.position.x + 5, transform.position.y));
+        PlayTutorial_1();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private async void PlayTutorial_1()
     {
-        // if ()
-        // {
-        //     Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position,new Vector2(tuto.transform.localScale.x, tuto.transform.localScale.y),0);
-        //     foreach (Collider2D col in hit)
-        //     {
-        //         if (col.CompareTag("Tuto1"))
-        //         {
-        //             player.CharMove(new Vector2(transform.position.x + 5, transform.position.y));
-        //         }
-        //     }
-        // }
-    }
+        await NovelManager.InitAsync();
 
-    public void FirstMove()
-    {
-        player.CharMove(new Vector2(transform.position.x + 10, transform.position.y));
-        firstMoveButton.gameObject.SetActive(false);
+        NovelManager.Instance.PlayScript("6");
+
+
     }
 }
