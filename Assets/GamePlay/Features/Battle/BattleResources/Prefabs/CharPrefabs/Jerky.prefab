@@ -226,8 +226,10 @@ MonoBehaviour:
   _charSnapShot: {fileID: 0}
   _rigid: {fileID: 2027328795377672482}
   moveSpeed: 5
-  _characterSprite: {fileID: 0}
   _charUnitRoot: {fileID: 3461385620420172154}
+  jumpOutFX: {fileID: 0}
+  jumpInFX: {fileID: 0}
+  pushFX: {fileID: 0}
   UnitName: 
 --- !u!95 &7812219678058373009
 Animator:
@@ -258,7 +260,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612062671971412147}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

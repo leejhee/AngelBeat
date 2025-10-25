@@ -378,8 +378,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             _Animator.SetTrigger(Push);
         }
-        
-        public async void CharPushFXPlay() => await PlayFxOnce(pushFX, transform.position, CancellationToken.None); 
+
+        public async void CharPushFXPlay() => await PlayFxOnce(
+            pushFX,
+            transform.position + pushFX.transform.position,
+            CancellationToken.None
+        );
         public void CharReturnIdle() => _Animator.SetTrigger(Idle);
         
         #endregion
