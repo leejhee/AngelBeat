@@ -118,8 +118,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             if (Context.TargetCell == null || Context.actor == null || Context.battleField == null)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
-            if(Context.TargetCell == null)
-                return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
             if(Context.skillModel == null)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
 
@@ -134,11 +132,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 target: targets,
                 model: Context.skillModel
             );
-            //TODO : 타임라인 재생 완료에 대한 콜백 생각하기
-            caster.SkillInfo.PlaySkill(Context.skillModel.SkillIndex, parameter);
             
-            // 지금은 자리만 잡고 성공 처리
-            await UniTask.Yield(ct);
+            await caster.SkillInfo.PlaySkillAsync(Context.skillModel.SkillIndex, parameter, ct);
+            
             return BattleActionResult.Success();
         }
         

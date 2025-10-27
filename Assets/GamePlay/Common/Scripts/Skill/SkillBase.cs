@@ -1,46 +1,23 @@
-using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Skill;
-using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Playables;
 
 namespace GamePlay.Common.Scripts.Skill
 {
-    public class SkillParameter
-    {
-        public readonly CharBase Caster;
-        public readonly List<CharBase> Target;
-        public readonly SkillModel Model;
-        public readonly SystemEnum.eSkillType SkillType;
-        public readonly float Accuracy;              
-        public readonly float CritMultiplier;
-        
-        public SkillParameter(
-            CharBase caster, 
-            List<CharBase> target,
-            SkillModel model
-            )
-        {
-            Caster = caster;
-            Target = target;
-            Model = model;
-            SkillType = model.skillType;
-            Accuracy = model.skillAccuracy;
-            CritMultiplier = model.critCalibration;
-        }
-    }
-    
     [RequireComponent(typeof(SkillMarkerReceiver))]
     public class SkillBase : MonoBehaviour
     {
         private SkillModel _model;
         private PlayableDirector _director;
+        private bool _isPlaying;
+        
         public CharBase CharPlayer { get; private set; }
         public SkillParameter SkillParameter;
         public SkillModel SkillModel => _model;
+        
         private void Awake()
         {
             _director = GetComponent<PlayableDirector>();
@@ -58,21 +35,74 @@ namespace GamePlay.Common.Scripts.Skill
         {
             _model = skillModel;
         }
-
-        public async UniTask SkillPlayAsync(SkillParameter param)
-        {
-            
-        }
         
         public void SkillPlay(SkillParameter param)
         {
             // 타임라인 재생
             if (!_director) return;
             SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
-            receiver.Input = param;
+            if (receiver) receiver.Begin(param, CancellationToken.None);
             
+            void OnStopped(PlayableDirector d)
+            {
+                if (d != _director) return;
+                _director.stopped -= OnStopped;
+                receiver?.End(); 
+            }
+
+            _director.stopped += OnStopped;
             _director.Play();
         }
 
+        public async UniTask PlaySkillAsync(SkillParameter param, CancellationToken ct)
+        {
+            if (!_director) return;
+            if (_isPlaying)
+            {
+                Debug.LogWarning($"[SkillBase] : {name} Called While Already Playing");
+                return;
+            }
+            _isPlaying = true;
+            
+            SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
+            if (receiver) receiver.Begin(param, ct);
+            
+            var tcs = new UniTaskCompletionSource();
+
+            void OnStopped(PlayableDirector d)
+            {
+                if (d != _director) return;
+                _director.stopped -= OnStopped;
+                receiver?.End();
+                tcs.TrySetResult();
+            }
+            
+            _director.stopped += OnStopped;
+            try
+            {
+                _director.time = 0;
+                _director.Play();
+
+                using (ct.Register(() =>
+                       {
+                           try { _director.stopped -= OnStopped; }
+                           catch {/* Silence */ }
+                           _director.Stop();
+                           receiver?.End();
+                           tcs.TrySetCanceled(ct);
+                       }))
+                {
+                    if (receiver)
+                        await UniTask.WhenAll(tcs.Task, receiver.Completion);
+                    else
+                        await tcs.Task;
+                }
+            }
+            finally
+            {
+                _isPlaying = false;
+            }
+        }
+        
     }
 }

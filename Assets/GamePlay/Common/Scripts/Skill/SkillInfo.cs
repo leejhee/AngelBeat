@@ -1,14 +1,15 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Utils;
 using Cysharp.Threading.Tasks;
-using GamePlay.Common.Scripts.Skill;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GamePlay.Common.Scripts.Entities.Skills
+namespace GamePlay.Common.Scripts.Skill
 {
     public class SkillInfo
     {
@@ -140,7 +141,13 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         }
         
         #endregion
-
+        
+        /// <summary>
+        /// 'n번째 스킬을 사용' 과 같은 경우에 사용
+        /// </summary>
+        /// <param name="skillSlotIndex"></param>
+        /// <param name="parameter"></param>
+        /// <exception cref="OperationCanceledException"></exception>
         public void PlaySkill(int skillSlotIndex, SkillParameter parameter)
         {
             Debug.Log($"[SkillInfo] Playing Skill By Slot number {skillSlotIndex}");
@@ -149,7 +156,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
                 Debug.LogWarning($"[SkillInfo] Skill Dictionary is null");
                 return;
             }   
-            if (skillSlotIndex < 0 || skillSlotIndex >= _dicSkill.Count)
+            if (skillSlotIndex < 0 || skillSlotIndex >= _skillSlots.Count)
                 throw new OperationCanceledException(
                     $"[SkillInfo] Invalid Skill Slot Index {skillSlotIndex} in {_skillSlots.Count} Slots");
             
@@ -172,6 +179,15 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             {
                 Debug.Log($"Skill Played : {skillIndex}");
                 _dicSkill[skillIndex].SkillPlay(parameter);
+            }
+        }
+
+        public async UniTask PlaySkillAsync(long skillIndex, SkillParameter parameter, CancellationToken ct)
+        {
+            if (_dicSkill == null) return;
+            if (_dicSkill.TryGetValue(skillIndex, out var skill))
+            {
+                await skill.PlaySkillAsync(parameter, ct);
             }
         }
     }

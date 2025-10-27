@@ -177,7 +177,13 @@ namespace GamePlay.Features.Battle.Scripts
         /// <param name="skillSlotIndex"> 몇번 슬롯 눌렀는지 </param>
         public async UniTask StartPreview(ActionType type, int skillSlotIndex=-1)
         {
-            if (_currentActionState != BattleActionState.Idle) return; // 기본 상태에서만 선택 가능
+            if (_currentActionState != BattleActionState.Idle)
+            {
+                Debug.LogWarning($"[BattleController] Preview Cannot Start in state {_currentActionState}.");
+                return;
+            } 
+            // 기본 상태에서만 선택 가능
+            
             //if ((type == ActionType.Jump ||
             //     type == ActionType.Move ||
             //     type == ActionType.Skill) && !_canAct) return;

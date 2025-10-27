@@ -61,17 +61,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             #region Model Events
             
-            //hp 구독 -> OnTurnChanged로 옮김. FocusChar을 참조하지 말 것
-            //ModelEvents.Subscribe<HPModel>(
-            //    act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged += act,
-            //    act => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharHpChanged -= act,
-            //    OnHPChanged);
-            //ModelEvents.Subscribe<ApModel>(
-            //    action =>   BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged += action,
-            //    action => BattleController.Instance.FocusChar.RuntimeStat.OnFocusedCharApChanged -= action,
-            //    OnAPChanged
-            //    );
-            
             // 턴 바뀜 이벤트 구독
             ModelEvents.Subscribe<TurnController.TurnModel>(
                 act => BattleController.Instance.TurnController.OnTurnChanged += act,

@@ -1,5 +1,4 @@
 using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Skill;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
