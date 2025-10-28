@@ -137,7 +137,7 @@ public static class NovelParser
                     string labelName = labelMatch.Groups["name"].Value;
 
                     NovelManager.Player.LabelDict.Add(labelName, index);
-                    //Debug.Log($"Label Name : {labelName}\nIndex : {index}");
+                    Debug.Log($"Label Name : {labelName}\nIndex : {index}");
                     result = new LabelLine(index, labelName);
                     break;
             }
@@ -257,16 +257,16 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, charCommandType, ifParameter);
-                    Debug.Log(
-                        $"Character : {charName}\n" +
-                        $"Pos : {charPos}\n" +
-                        $"Appearance : {charAppearance}\n" +
-                        $"Scale : {charScale}\n" +
-                        $"transition : {charTransition}\n" +
-                        $"Type : {charCommandType}\n" +
-                        $"time : {charTime}\n" +
-                        $"Index : {index}\n"+
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Character : {charName}\n" +
+                    //     $"Pos : {charPos}\n" +
+                    //     $"Appearance : {charAppearance}\n" +
+                    //     $"Scale : {charScale}\n" +
+                    //     $"transition : {charTransition}\n" +
+                    //     $"Type : {charCommandType}\n" +
+                    //     $"time : {charTime}\n" +
+                    //     $"Index : {index}\n"+
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideCharacter:
@@ -315,10 +315,10 @@ public static class NovelParser
                     result = new ChoiceCommand(index, choice, ifParameter);
 
 
-                    // Debug.Log(
-                    //     $"Choice : {choice}\n" +
-                    //     $"Index : {index}\n" +
-                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    Debug.Log(
+                        $"Choice : {choice}\n" +
+                        $"Index : {index}\n" +
+                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.Goto:

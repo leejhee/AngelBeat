@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: d38806e631f20004fb2eb15fd517529a
   m_currentHash:
     serializedVersion: 2
-    Hash: d4c1f73ff5488886fcb3d8d4a2203882
+    Hash: 84dfcb2a375cb37fc6e7738c6cbe460f
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
     - BattleObject
     - View
     - ExploreObject
+    - LunarPhase
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d8607e6f76cbd7a41931521c7af063be, type: 2}

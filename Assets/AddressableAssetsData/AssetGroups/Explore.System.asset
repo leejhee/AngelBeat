@@ -29,6 +29,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - ExploreObject
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b423c835eb98a5a4dadfa9b13c643fc9
+    m_Address: WaxingCrescent
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LunarPhase
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:

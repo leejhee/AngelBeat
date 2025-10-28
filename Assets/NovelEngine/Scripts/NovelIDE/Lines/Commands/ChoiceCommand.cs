@@ -28,7 +28,7 @@ namespace novel
         {
             var player = NovelManager.Player;
             var token = player.CommandToken;
-
+            
             // 선택지 프리팹 불러오기
             GameObject choicePrefab = null;
             try
@@ -75,6 +75,8 @@ namespace novel
                 }
             }
             //.Log($"선택지 프리팹 생성 : {argument}");
+
+            player.isChoiceOn = true;
         }
         private void OnClickChoiceButton()
         {
@@ -97,6 +99,7 @@ namespace novel
 
             NovelManager.Player.currentChoices = new();
             NovelManager.Player.Resume();
+            NovelManager.Player.isChoiceOn = false;
 
         }
     }

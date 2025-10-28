@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
@@ -10,31 +11,38 @@ using System;
 using System.Linq;
 using System.Text;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 public class NovelPlayer : MonoBehaviour
 {
-    [SerializeField] private Button SkipButton;
-    private TextAsset novelScript;
+    [SerializeField] private Button skipButton;
+    private TextAsset _novelScript;
     public NovelAct CurrentAct { get; private set; }
     public NovelEngine.Scripts.SerializableDict<string, int> LabelDict { get; private set; }
     [SerializeField] private bool isFinished = false;
 
+    public bool isChoiceOn = false;
     // 자식 오브젝트들
-    private GameObject dialoguePanel;
-    private GameObject namePanel;
-    private GameObject blurPanel;
-    private TextMeshProUGUI novelText;
-    private TextMeshProUGUI nameText;
-    private Button nextButton;
+    private GameObject _dialoguePanel;
+    private GameObject _namePanel;
+    private GameObject _blurPanel;
+    private TextMeshProUGUI _novelText;
+    private TextMeshProUGUI _nameText;
+    private Button _nextButton;
     public GameObject BackgroundPanel { get; private set; }
     public GameObject StandingPanel { get; private set; }
     public GameObject ChoicePanel { get; private set; }
+    
+    
+    // 임시코드
+    public int CurrentIndex = 0;
 
-    /// <summary>
-    /// 빌드용 임시 코드
-    /// </summary>
-    private bool isStoryStarted = false;
+    private void Update()
+    {
+        CurrentIndex = CurrentAct.CurrentIndex;
+    }
 
+    // 여기까지
     private void OnDisable()
     {
         if (!NovelManager.Instance.firstTutoEnd)
@@ -91,7 +99,7 @@ public class NovelPlayer : MonoBehaviour
     private void Init()
     {
         CurrentAct = new();
-        novelScript = null;
+        _novelScript = null;
         FindObjectsByType();
         LabelDict = new();
     }
@@ -103,7 +111,7 @@ public class NovelPlayer : MonoBehaviour
             switch (obj.GetNovelObjectType())
             {
                 case NovelObjectType.Blur:
-                    blurPanel = obj.gameObject;
+                    _blurPanel = obj.gameObject;
                     break;
                 case NovelObjectType.BackgroundPanel:
                     BackgroundPanel = obj.gameObject;
@@ -112,19 +120,19 @@ public class NovelPlayer : MonoBehaviour
                     StandingPanel = obj.gameObject;
                     break;
                 case NovelObjectType.DialogPanel:
-                    dialoguePanel = obj.gameObject;
+                    _dialoguePanel = obj.gameObject;
                     break;
                 case NovelObjectType.NovelText:
-                    novelText = obj.GetComponent<TextMeshProUGUI>();
+                    _novelText = obj.GetComponent<TextMeshProUGUI>();
                     break;
                 case NovelObjectType.NamePanel:
-                    namePanel = obj.gameObject;
+                    _namePanel = obj.gameObject;
                     break;
                 case NovelObjectType.NameText:
-                    nameText = obj.GetComponent<TextMeshProUGUI>();
+                    _nameText = obj.GetComponent<TextMeshProUGUI>();
                     break;
                 case NovelObjectType.NextButton:
-                    nextButton = obj.GetComponent<Button>();
+                    _nextButton = obj.GetComponent<Button>();
                     break;
                 case NovelObjectType.ChoicePanel:
                     ChoicePanel = obj.gameObject;
@@ -134,19 +142,19 @@ public class NovelPlayer : MonoBehaviour
     }
     public void SetScript(TextAsset text)
     {
-        novelScript = text;
+        _novelScript = text;
     }
     public void Play()
     {
         // 플레이 해주기 전에 미리 novelScript 세팅해줘야함
 
-        if (novelScript == null)
+        if (_novelScript == null)
         {
             Debug.LogError("노벨 스크립트가 설정되지 않음");
             return;
         }
         float t0 = Time.realtimeSinceStartup;
-        var lines = novelScript.text.Split('\n');
+        var lines = _novelScript.text.Split('\n');
         
 
         CurrentAct = NovelParser.Parse(lines);
@@ -158,18 +166,18 @@ public class NovelPlayer : MonoBehaviour
         
         float ms = (Time.realtimeSinceStartup - t0) * 1000f;
 
-        if (nextButton != null)
+        if (_nextButton != null)
         {
-            nextButton.onClick.RemoveAllListeners();
-            nextButton.onClick.AddListener(OnNextLineClicked);
+            _nextButton.onClick.RemoveAllListeners();
+            _nextButton.onClick.AddListener(OnNextLineClicked);
         }
 
 
-        CurrentAct.ResetAct();
-        dialoguePanel.SetActive(false);
+        CurrentAct?.ResetAct();
+
+        _dialoguePanel.SetActive(false);
         // 이거 시작 시점 언젠지 상의 필요
         OnNextLineClicked();
-        isStoryStarted = true;
     }
     private void OnNextLineClicked()
     {
@@ -400,7 +408,7 @@ public class NovelPlayer : MonoBehaviour
     // 텍스트 패널에 있는 텍스트들 플레이 해주는 함수
     private void PlayLine(NovelLine line)
     {
-        dialoguePanel.SetActive(true);
+        _dialoguePanel.SetActive(true);
 
         _typingCts?.Cancel();
         _typingCts?.Dispose();
@@ -421,14 +429,14 @@ public class NovelPlayer : MonoBehaviour
                 }
                 
                 
-                namePanel.SetActive(false);
+                _namePanel.SetActive(false);
                 _ = TypeTextAsync(normal.line, _typingCts.Token);
                 //Debug.Log($"Play Normal Line :  {normal.line} \nIndex : {normal.index}");
                 break;
             case PersonLine person:
                 
-                namePanel.SetActive(true);
-                nameText.text = person.actorName;
+                _namePanel.SetActive(true);
+                _nameText.text = person.actorName;
                 _ = TypeTextAsync(person.actorLine, _typingCts.Token);
                 
                 
@@ -466,10 +474,10 @@ public class NovelPlayer : MonoBehaviour
     private async UniTask TypeTextAsync(string fullText, CancellationToken token)
     {
         isTyping = true;
-        novelText.text = "";
+        _novelText.text = "";
         if (typingSpeed <= 0f)
         {
-            novelText.text = fullText;
+            _novelText.text = fullText;
             isTyping = false;
             return;
         }
@@ -478,7 +486,7 @@ public class NovelPlayer : MonoBehaviour
         foreach (char t in fullText.TakeWhile(t => !token.IsCancellationRequested))
         {
             stringBuilder.Append(t);
-            novelText.text = stringBuilder.ToString();
+            _novelText.text = stringBuilder.ToString();
 
             try
             {
@@ -491,7 +499,7 @@ public class NovelPlayer : MonoBehaviour
         }
 
         // 스킵/완료 모두 최종 전체 출력 보장
-        novelText.text = fullText;
+        _novelText.text = fullText;
         isTyping = false;
     }
     
@@ -501,15 +509,85 @@ public class NovelPlayer : MonoBehaviour
         _typingCts?.Dispose();
     }
 
-    // public void OnClickSKipButton()
-    // {
-    //     for (int i = ; i <; i++)
-    //     {
-    //         
-    //     }
-    // }
+    public void OnClickSKipButton()
+    {
+        if (isChoiceOn)
+            return;
+        
+        for (int i = CurrentAct.CurrentIndex; i < CurrentAct.novelLines.Count + 1; i++)
+        {
+            NovelLine line = CurrentAct.GetLineFromIndex(i);
+            if (line == null)
+                return;
+            
+            if (line is not CommandLine command)
+            {
+                continue;
+            }
+            
+            
+            switch (command)
+            {
+                case GotoCommand:
+                    Debug.Log("Goto 실행");
+                    command.Execute();
+                    i = CurrentAct.CurrentIndex;
+                    
+                    break;
+                case ChoiceCommand:
+                    Debug.Log($"선택지 도달 Index : {i}");
+                    CurrentAct.JumpToIndex(i);
+                    OnNextLineClicked();
+                    ReleaseStandings();
+                    
+                    return;
+            }
+
+
+            // if (command is GotoCommand)
+            // {
+            //     Debug.Log("Goto 실행");
+            //     command.Execute();
+            //     i = CurrentAct.CurrentIndex - 1;
+            //
+            // }
+            // else if (command is ChoiceCommand)
+            // {
+            //     Debug.Log("선택지 도달");
+            //     CurrentAct.JumpToIndex(i);
+            //     OnNextLineClicked();
+            //     return;
+            // }
+        }
+        Debug.Log("선택지 없음 플레이 종료");
+        
+        EndScript();
+    }
     public void EndScript()
     {
+        Addressables.Release(BackgroundPanel);
+        ReleaseStandings();
+        ReleaseChoices();
         Addressables.ReleaseInstance(gameObject);
     }
+
+    public void ReleaseStandings()
+    {
+        foreach (GameObject standingObject in currentCharacterDict.Values)
+        {
+            Addressables.Release(standingObject);
+        }
+        currentCharacterDict.Clear();
+    }
+
+    public void ReleaseChoices()
+    {
+        foreach (GameObject choiceObjects in currentChoices.Values)
+        {
+            Addressables.Release(choiceObjects);
+        }
+        currentChoices.Clear();
+    }
+    
+    
 }

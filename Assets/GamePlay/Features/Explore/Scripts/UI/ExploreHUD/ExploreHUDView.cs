@@ -22,6 +22,7 @@ namespace GamePlay.Features.Explore.Scripts.UI
         [SerializeField] private List<ExploreResource> exploreResources;
         
         public Transform PartyTransform => partyTransform;
+        public Image  LunarPhase => lunarPhase;
         public List<ExploreResource> ExploreResources => exploreResources;
         
         
@@ -63,6 +64,12 @@ namespace GamePlay.Features.Explore.Scripts.UI
                 resource.SetResourceAmount(model.Amount);
                 break;
             }
+        }
+        
+        public async void SetLunarPhase(LunarPhaseModel model)
+        {
+            Sprite lunarSprite = await ResourceManager.Instance.LoadAsync<Sprite>(model.phase.ToString());
+            View.LunarPhase.sprite = lunarSprite;
         }
         
         public async void InstantiatePartyPortrait(List<CharacterModel> models)

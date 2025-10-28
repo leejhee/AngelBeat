@@ -383,7 +383,20 @@ namespace GamePlay.Features.Battle.Scripts
             // 탐사로 비동기 로딩. 
             SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
         }
+
+
+        #region UI
+
+        public Action<CharacterModel> battleCharInfoEvent;
         
+        public async void ShowCharacterInfoView()
+        {
+            await UIManager.Instance.ShowViewAsync(ViewID.CharacterInfoPopUpView);
+            
+            battleCharInfoEvent?.Invoke(FocusChar.CharInfo);
+        }
+
+        #endregion
     }
 }
 

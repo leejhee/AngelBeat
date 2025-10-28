@@ -422,6 +422,8 @@ namespace Core.Scripts.Foundation.Define
             EUINYEO_SKILL_3,
         }
         #endregion
-
+        
+        
+        
     }
 }

@@ -49,19 +49,21 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             #region Model To View
 
-            // if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
-            // {
-            //     // 전
-            //     ModelEvents.Subscribe<CharacterModel>(
-            //         action => ExploreManager.Instance.playerParty.partyMembers
-            //     );
-            // }
-            // else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
-            // {
-            //     ModelEvents.Subscribe<CharacterModel>(
-            //         action => 
-            //     );
-            // }
+            if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
+            {
+                // // 전
+                // ModelEvents.Subscribe<CharacterModel>(
+                //     action => ExploreManager.Instance.playerParty.partyMembers
+                // );
+            }
+            else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
+            {
+                ModelEvents.Subscribe<CharacterModel>(
+                    action => BattleController.Instance.battleCharInfoEvent += action,
+                    action => BattleController.Instance.battleCharInfoEvent -= action,
+                    SetCharacterInfoPopup
+                );
+            }
 
             
             #endregion
