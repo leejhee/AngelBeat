@@ -26,5 +26,7 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: 91de1ba9fa9bb74498215d8c4d5ab921, type: 2}
     - _key: ??
       value: {fileID: 11400000, guid: 709e8fa7f3c0f1348a9b616223ea35c2, type: 2}
+    - _key: Seol
+      value: {fileID: 11400000, guid: 922c072b4ef113e47aed13df936bede4, type: 2}
     keys: []
     values: []

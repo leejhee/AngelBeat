@@ -7,58 +7,60 @@ Yoon: 이게 얼마만이야, 연 사제?
 @char Yeon pos: 80, 0
 Yeon: 그러게 말입니다. 오랜만입니다, 사저.
 Yoon: 너도 오랜만이다, 비령아?
-
 @char Bilyeong.Sigh pos: 70, 50
 Bilyeong: 흥, 퍽이나.
-Yoon: 이야, 너는 어떻게 된 것이 세월이 이리 지났는데도 변한 게 없니.
+Yoon: 이야, 너는 어떻게 된 것이 세월이 이리 지났는데도 성질머리가 변한 게 하나도 없니.
 @char Bilyeong.Angry
-Bilyeong: 내가 뭐 어떻다고 그러느... 읍!
+Bilyeong: 내가 뭐 어떻다고 그러는... 읍!
 @hide Yeon
 @char Yeon pos: 80, 0
-Yeon: 예, 비령이도 반갑다고 합니다.
+Yeon: 예, 비령이도 반갑다고 하는군요, 사저.
 
 @hide Yeon
 @hide Yoon
 @hide Bilyeong
 시끄럽게 조잘대는 녀석의 입 부분을 콱 쥐어지고는 대신해서 말을 이어간다.
 @char Hwi.Sigh pos: 25, 0
-Hwi: ...모두 한결같은 모습이구나. 다시 보게 되어 반갑네, 연 사제.
+Hwi: ...모두 한결같은 모습이구나. 
+Hwi: 다시 보게 되어 반갑네, 연 사제.
 @char Yeon pos: 75, 0
 Yeon: ...네, 사형도 다시 보게 되어 반갑습니다.
 @char Hwi
 Hwi: 그래, 궁금한 것이 많겠지?
-Yeon: 그렇죠, 아무래도.
-Hwi: 뭐든 물어보게. 내 아는 선에서 최대한 대답해 줄 터이니.
-
+Yeon: 뭐, 그렇죠. 아무래도.
 @hide Yeon
 @hide Hwi
 손을 놓자 열심히 떽떽거리던 비령은, 얼마 지나지 않아 사저와 또 무슨 시비가 붙었는지 열심히 다투고 있는 것 같다. 
 이 틈에, 나는 사형에게 궁금한 것을 털어놓기로 하였다.
+@char Hwi pos: 50, 0
+Hwi: 뭐든 물어보게. 내 아는 선에서 최대한 답해 줄 터이니.
 
 #wayChoice
 
 @hide Yeon
 @hide Hwi
 
-@choice 사형이 봉인을 푼 것이 맞습니까?
-	@goto .wayA
+@choice 봉인을 푼 자는 사형이 맞습니까?
+    @goto .wayA
 @choice 제가 잠든 동안 무슨 일이 있었습니까?
-	@goto .wayB
-@choice 사형은 지금껏 어떻게 지냈습니까?
-	@goto .wayC
-@choice 마지막으로, 옆의 이 자는 누구입니까?
-	@goto .wayD
+    @goto .wayB
+@choice 사형은 지금껏 어떻게 지냈던 겁니까?
+    @goto .wayC
+@choice 더 궁금한 것은 없습니다. (질문 종료)
+    @goto .wayD
 @wait
 
 #wayA
 
-@char Hwi pos: 75, 0
-Hwi: 사제도 술식을 살펴보았나 보군.
-Hwi: 그래, 예상하였듯 내가 사제의 봉인을 풀었네. 마찬가지로, 사저와 다른 망량들의 봉인 또한 내가 풀었네... 아니, 풀려고 시도했었네.
-@char Yeon pos: 25, 0
-Yeon: 시도했다... 라고 하는 것은.
-Hwi: 자네와 윤 사매를 제외하면 쉬이 봉인을 풀 수 있는 망량들은 없었네.
-Yeon: 다른 이들은, 이 정도의 턱없이 부족한 시간으로는 저와 사저만큼도 회복할 수 없었기 때문이었겠지요. 맞습니까, 사형?
+@char Hwi pos: 25, 0
+Hwi: 아, 그래. 사제도 술식을 살펴보았나 보군.
+Hwi: 그래, 예상하였듯 내가 사제의 봉인을 풀었다네, 사매도 마찬가지고.
+Hwi: 마찬가지로, 다른 망량들의 봉인 또한 내가 풀었네. 
+Hwi: ...아니, 정확히는 풀려고 시도했었지.
+@char Yeon pos: 75, 0
+Yeon: 시도했었다, 라고 하는 것은.
+Hwi: 자네와 사매 말고는, 쉬이 봉인을 풀 수 있는 이들은 없었네.
+Yeon: 다른 이들을 강제로 깨우기에는 위험 부담이 컸다는 것이군요.
 Hwi: ...사제랑 대화할 때면 설명을 할 필요가 없어서 좋군. 그래, 사제 말이 맞네.
 Hwi: 사제는 강하지, 윤 사저도 마찬가지고. 다른 사제, 사매들도 물론 강하지만, 그대들만큼은 아니지. 
 Hwi: 아직 그들의 회복이 충분치 않아 강제로 이들의 봉인을 풀기에는 그 위험이 너무 컸네.
@@ -67,13 +69,11 @@ Yeon: 그렇다면 지금 망량은 이렇게 셋뿐이라는 것이군요. 그�
 
 #wayB
 
-@char Hwi
+@char Hwi pos: 25, 0
 Hwi: 그래, 자네는 모르겠군. 그 전쟁이 끝나고 나서 무슨 일이 있었는지.
 Hwi: 자네들이 목숨을 바쳐가며 요괴들과 싸워 이긴 덕분에, 요괴들은 한동안 잠잠했다네. 인간들, 그리고 우리 망량들은 요괴의 위협으로부터 벗어나 평화를 맞이한 것만 같았지.
-@hide Hwi
-@char Yeon pos: 50, 25
+@char Yeon pos: 75, 0
 Yeon: ...그렇지만, 그러지 못했나 보군요.
-@char Hwi pos: 50, 75
 Hwi: ...그래, 자네 말대로네. 그리 얼마 되지 않아, 요괴들은 다시 세상에 창궐하기 시작했다네. 망량들 역시 그에 맞서 세상에 나타났지만, 그 수는 요괴들에 비해서는 턱없이 모자랐어. 그에 더해 요괴들은... 이전과는 달랐네.
 Hwi: 그들은 예전보다도 더 강하고 사나워졌네. 단지 그뿐이었다면, 그렇게까지 큰 문제는 아니었겠지. 무릇 힘만을 믿고 싸우는 자를 이기는 것은 그리 어렵지 않은 일이니까. 그렇지만 그들은, 그래.
 Hwi: 지혜를 가지기 시작했네. 이전처럼 그 힘과 수만을 믿고 덤벼드는 놈들이 아니게 되었어.
@@ -94,33 +94,42 @@ Yeon: 숙지했습니다, 사형. 그러면...
 
 #wayC
 
-@char Hwi
+@char Hwi pos: 50, 0
 Hwi: 나는 자네들처럼 봉인에 들지 않았네. 물론 알다시피 전장에 직접 나서지 못했기에 봉인에 들 이유가 없었으니 그런 것이지만.
 Hwi: 대신 지금까지 세상을 떠돌며 이곳 저곳에 새로이 피어난 망량들을 인도하고, 여러 인간들을 만나며 요괴들을 막으려 도움을 청하고 다녔네. 하지만...
 Hwi: 상황은 그리 여의치 않아, 결국 이 꼴인 것이지.
 @hide Hwi
-@char bilyeong.Sigh pos: 50, 25
+@char Bilyeong.Sigh pos: 50, 50
 Bilyeong: 잘 자던 놈들까지 강제로 깨워야 할 정도로 한놈 한놈이 아쉬운 상황까지 왔다는 것이겠지.
-@char Hwi pos: 50, 75
+@char Hwi pos: 50, 0
 Hwi: 하하... 말한 그대로 전부 사실이네. 미안하네, 모두들.
-@hide bilyeong
-@char Yeon pos: 50, 25
+@hide Bilyeong
+@char Yeon pos: 50, 0
 Yeon: 아닙니다, 사형. 그러면...
 @goto .wayChoice
 
 #wayD
 
-@char Hwi pos: 50, 25
+@char Yeon pos: 50, 0
+Yeon: 아니, 질문 하나가 더 남았습니다.
+Yeon: 옆의 이 분은 누구십니까?
+@hide Yeon
+@char Hwi pos: 50, 0
 Hwi: 아, 그래. 소개가 늦었군. 이쪽은 설이라고 하네. 우리와 뜻이 맞아 요괴들과 맞서 싸우는 데 함께하기로 한 인간분이시지.
-@char Seol.EyeClosed pos: 50, 75
-설: ...설이라고 합니다. 잘 부탁드겠습니다.
 @hide Hwi
-@char Yeon pos: 50, 25
+@char Seol.EyeClosed pos: 75, 0
+설: ...설이라고 합니다. 잘 부탁드겠습니다.
+@char Yeon pos: 25, 0
 Yeon: ...반갑습니다. 설 소저.
-@char Hwi pos 50, 85
+@hide Seol
+@hide Yeon
+@char Hwi pos 75, 0
 Hwi: 전에 의원 일을 하였고, 지금은 주로 나와 세상을 공부하고 있는 중이네. 
-@char Seol pos 50, 75
+@char Seol pos 25, 0
 설: ......
+@hide Hwi
+@hide Hwi
+@char Yeon pos: 50, 0
 Yeon: ...그저 뜻이 맞아 함께 같은 길을 걷는다기엔, 사연 있어 보이는 모습인데,
 
 @hide Hwi
@@ -128,9 +137,9 @@ Yeon: ...그저 뜻이 맞아 함께 같은 길을 걷는다기엔, 사연 있�
 @hide Yeon
 
 @choice ...누구나 말 못할 사연은 있는 법이니, 구태여 더 물을 순 없겠지.
-	@goto .wayE
-@choice 실례가 되지 않는다면, 알려줄 수 있으면 한데.
-	@goto .wayF
+    @goto .wayE
+@choice 실례가 되지 않는다면, 알려주었으면 한데.
+    @goto .wayF
 @wait
 
 
