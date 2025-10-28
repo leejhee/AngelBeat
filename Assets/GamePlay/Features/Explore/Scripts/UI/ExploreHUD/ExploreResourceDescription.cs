@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace GamePlay.Features.Explore.Scripts.UI.ExploreHUD
 {
-    public class ExploreResourceDescription : MonoBehaviour
+    public class ExploreResourceDescription : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private GameObject descriptionObject;
         public void OnPointerEnter(PointerEventData eventData)

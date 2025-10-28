@@ -33,9 +33,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4259228654424238229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 79.04, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 79.04, y: -10.7525}
   m_SizeDelta: {x: 148.08, y: 21.505}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1056818510628757217
@@ -244,6 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: {fileID: 1187053103602615064}
   skillDescription: {fileID: 3976799831742529463}
+  skillDescriptionSprite: {fileID: 0}
 --- !u!114 &1258720882613896977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,9 +338,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4259228654424238229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 79.04, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 79.04, y: -34.87}
   m_SizeDelta: {x: 148.08, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &493223310969015716

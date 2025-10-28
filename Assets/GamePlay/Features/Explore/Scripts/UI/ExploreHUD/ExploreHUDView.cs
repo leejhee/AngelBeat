@@ -38,8 +38,8 @@ namespace GamePlay.Features.Explore.Scripts.UI
         {
         }
         private const string PartyCharacterAddress = "PartyCharacter";
-        
-        private Dictionary<long ,ExplorePartyCharacterUI> _exploreCharacters;
+
+        //private Dictionary<int, ExplorePartyCharacterUI> _exploreCharacters = new();
 
         public override UniTask EnterAction(CancellationToken token)
         {
@@ -64,32 +64,30 @@ namespace GamePlay.Features.Explore.Scripts.UI
                 break;
             }
         }
-
-        // public void InstantiateAllParty()
-        // {
-        //     // 현재 파티원 전원 만들어주기
-        //     foreach (var character in party)
-        //     {
-        //         
-        //     }
-        // }
         
-        public async void InstantiatePartyPortrait(CharacterModel model)
+        public async void InstantiatePartyPortrait(List<CharacterModel> models)
         {
-            UniTask<GameObject> goTask =  ResourceManager.Instance.InstantiateAsync(PartyCharacterAddress, View.PartyTransform);
-            ExplorePartyCharacterUI exploreCharacter = (await goTask).GetComponent<ExplorePartyCharacterUI>();
-
-            UniTask<Sprite> spriteTask = ResourceManager.Instance.LoadAsync<Sprite>(model.LdRoot);
-            Sprite sprite = await spriteTask;
-            
-            exploreCharacter.InitExplorePartyCharacter(
-                sprite, 
-                model.Name,
-                model.BaseStat.GetStat(SystemEnum.eStats.NHP),
-                model.BaseStat.GetStat(SystemEnum.eStats.NMHP)
-                );
-            
-            _exploreCharacters.Add(model.Index, exploreCharacter);
+            for (int i = 0; i < models.Count; i++)
+            {
+                // UI 오브젝트 생성
+                UniTask<GameObject> goTask =  ResourceManager.Instance.InstantiateAsync(PartyCharacterAddress, View.PartyTransform);
+                ExplorePartyCharacterUI exploreCharacter = (await goTask).GetComponent<ExplorePartyCharacterUI>();
+                
+                // 스프라이트 불러오기
+                UniTask<Sprite> spriteTask = ResourceManager.Instance.LoadAsync<Sprite>(models[i].LdRoot);
+                Sprite sprite = await spriteTask;
+                
+                // 이미지, 체력 설정
+                exploreCharacter.InitExplorePartyCharacter(
+                    sprite,
+                    models[i].BaseStat.GetStat(SystemEnum.eStats.NHP),
+                    models[i].BaseStat.GetStat(SystemEnum.eStats.NMHP),
+                    i);
+                
+                
+                // 딕셔너리에 넣어주기 이거 필요한지 고민
+                //_exploreCharacters.Add(i, exploreCharacter);
+            }
         }
 
     }

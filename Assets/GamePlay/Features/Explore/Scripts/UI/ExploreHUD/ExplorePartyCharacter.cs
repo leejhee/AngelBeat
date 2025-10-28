@@ -6,13 +6,18 @@ using TMPro;
 public class ExplorePartyCharacterUI : MonoBehaviour
 {
     [SerializeField] private Image characterPortrait;
-    [SerializeField] private TMP_Text characterName;
     [SerializeField] private Image hpFill;
-
-    public void InitExplorePartyCharacter(Sprite img, string charName, long curHp, long maxHp)
+    [SerializeField] private int index;
+    public void InitExplorePartyCharacter(Sprite img, long curHp, long maxHp, int index)
     {
         characterPortrait.sprite = img;
-        characterName.text = charName;
         hpFill.fillAmount = curHp / (float)maxHp;
+        this.index = index;
+    }
+
+    public void Click()
+    {
+        // 파티 내에서 index번째 캐릭터의 정보창 뷰 띄우기
+        // ViewID : 
     }
 }

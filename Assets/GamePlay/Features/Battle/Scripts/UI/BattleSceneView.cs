@@ -345,7 +345,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
         private void OnClickPortraitButton()
         {
             // 캐릭터 정보 팝업 뷰 생성
-            _ = UIManager.Instance.ShowViewAsync(ViewID.BattleCharacterInfoPopUpView);
+            _ = UIManager.Instance.ShowViewAsync(ViewID.CharacterInfoPopUpView);
         }
 
         private void OnSkillSelected(int slot)

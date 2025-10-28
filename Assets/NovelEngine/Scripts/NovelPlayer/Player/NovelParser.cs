@@ -22,7 +22,7 @@ public static class NovelParser
     private static readonly Regex IfCommand = new Regex(@"^@if\s+(?<var>\w+)\s*(?<op>>=|<=|==|!=|>|<)\s*(?<value>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex ElseCommand = new Regex(@"^@else", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    private static readonly Regex HideCommand = new Regex(@"^@hide\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex HideCommand = new Regex(@"^@hide\s+(?<name>[\w가-힣?]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex HideAllCommand = new Regex(@"^@hideall\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex hideCharsCommand = new Regex(@"^@hidechars\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex hidePrinterCommand = new Regex(@"^@hideprinter\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);

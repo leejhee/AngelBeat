@@ -15,7 +15,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             {
                 case ViewID.BattleSceneView:
                     return new BattleHUDPresenter(view);
-                case ViewID.BattleCharacterInfoPopUpView:
+                case ViewID.CharacterInfoPopUpView:
                     return new CharacterInfoPresenter(view);
                 case ViewID.GameWinView:
                     return new BattleWinPresenter(view);

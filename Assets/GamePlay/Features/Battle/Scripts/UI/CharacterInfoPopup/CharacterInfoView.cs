@@ -1,5 +1,8 @@
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Features.Explore.Scripts;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -44,9 +47,23 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
         public override UniTask EnterAction(CancellationToken token)
         {
-            SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
             #region Model To View
 
+            // if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
+            // {
+            //     // 전
+            //     ModelEvents.Subscribe<CharacterModel>(
+            //         action => ExploreManager.Instance.playerParty.partyMembers
+            //     );
+            // }
+            // else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
+            // {
+            //     ModelEvents.Subscribe<CharacterModel>(
+            //         action => 
+            //     );
+            // }
+
+            
             #endregion
 
             #region View To Model
@@ -71,7 +88,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             return UniTask.CompletedTask;
         }
 
-
+        private readonly PresenterEventBag _focusCharacterEvents = new();
+        
         private void SetCharacterInfoPopup(CharacterModel model)
         {
             View.PortraitPanel.SetPortraitPanel(model);
