@@ -15,7 +15,19 @@ MonoBehaviour:
   characterName: Bilyeong
   body: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
   faceDict:
-    pairs: []
+    pairs:
+    - _key: Embarrassed
+      value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
+    - _key: Happy
+      value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
+    - _key: Angry
+      value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
+    - _key: Surprised
+      value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
+    - _key: Sigh
+      value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
+    - _key: 
+      value: {fileID: 0}
     keys: []
     values: []
   headOffset: {x: 0, y: 0}
