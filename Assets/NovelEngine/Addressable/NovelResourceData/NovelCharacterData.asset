@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charDict:
     pairs:
-    - _key: DonQuixote
-      value: {fileID: 11400000, guid: 0b8eb5c9a5892784abe4f4376a9a7d8f, type: 2}
     - _key: Yeon
       value: {fileID: 11400000, guid: 2125d974014461f43b37f878a9594fa1, type: 2}
     - _key: ???
