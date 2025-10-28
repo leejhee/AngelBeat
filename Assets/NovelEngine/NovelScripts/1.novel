@@ -1,6 +1,6 @@
 #Scenario_1
 
-@back Blackscreen
+@back BlackScreen
 
 ??: ......
 ??: ......라...
@@ -8,10 +8,11 @@
 ??: ...이제 그만...
 @char ??.BilyeongAngry
 ??: 일어나라! 이 놈아!
-@hide ??
 
 @back Dwissan1
 
+@hide ??
+???: ......
 @char ???.Yeon pos: 50, 0
 ???: ......
 ???: ...무어냐.
