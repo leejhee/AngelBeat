@@ -491,7 +491,7 @@ MonoBehaviour:
     pairs: []
     keys: []
     values: []
-  typingSpeed: 0.03
+  typingSpeed: 0.025
   references:
     version: 2
     RefIds: []
