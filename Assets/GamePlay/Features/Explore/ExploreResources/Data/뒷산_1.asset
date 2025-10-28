@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonName: 1
   floor: 1
-  xCapacity: 15
+  xCapacity: 20
   yCapacity: 15
   floorPrefab: {fileID: 8271769597311064957, guid: 2fa5192e166cde240a8ab327c4c736b3, type: 3}
   boundPrefab: {fileID: 897307508555944082, guid: 0edc819af4405c34ea7dcc73ab784abf, type: 3}
