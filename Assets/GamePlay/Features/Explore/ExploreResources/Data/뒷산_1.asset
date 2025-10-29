@@ -15,11 +15,29 @@ MonoBehaviour:
   dungeonName: 1
   floor: 1
   xCapacity: 20
-  yCapacity: 15
-  floorPrefab: {fileID: 8271769597311064957, guid: 2fa5192e166cde240a8ab327c4c736b3, type: 3}
-  boundPrefab: {fileID: 897307508555944082, guid: 0edc819af4405c34ea7dcc73ab784abf, type: 3}
-  eventSymbolCount: 4
-  itemSymbolCount: 4
-  battleSymbolCount: 3
-  itemCandidate: 6f000000de000000
-  eventCandidate: 000000000100000002000000
+  yCapacity: 20
+  floorPrefab: {fileID: 5986098223241787332, guid: 47e069d36dc1e3148a50c57c475d26eb, type: 3}
+  wallPrefab: {fileID: 897307508555944082, guid: 0edc819af4405c34ea7dcc73ab784abf, type: 3}
+  symbolConfig:
+  - symbolType: 1
+    symbolCount: 1
+  - symbolType: 2
+    symbolCount: 1
+  - symbolType: 3
+    symbolCount: 3
+  - symbolType: 5
+    symbolCount: 1
+  - symbolType: 4
+    symbolCount: 1
+  - symbolType: 6
+    symbolCount: 2
+  - symbolType: 7
+    symbolCount: 1
+  - symbolType: 8
+    symbolCount: 2
+  itemCandidate:
+  - itemIndex: 0
+    dropProbability: 1
+  eventCandidate:
+  - eventType: 0
+    probability: 1

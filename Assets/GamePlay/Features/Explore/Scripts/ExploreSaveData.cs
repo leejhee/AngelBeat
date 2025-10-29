@@ -12,7 +12,7 @@ namespace GamePlay.Explore
     {
         public SystemEnum.Dungeon dungeon;
         public Party playerParty;
-        public ExploreMap mapData;
+        public ExploreMapSkeleton MapSkeletonData;
         
         public ExploreSaveData(
             Party playerParty,
@@ -25,9 +25,9 @@ namespace GamePlay.Explore
         }
         
         // TODO : 탐사에서의 저장 포인트를 알아올 것. 호출 타이밍을 정해야 한다.
-        public void WriteMap(ExploreMap map)
+        public void WriteMap(ExploreMapSkeleton mapSkeleton)
         {
-            mapData = map;
+            MapSkeletonData = mapSkeleton;
         }
     }
 }

@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: ExploreSymbolDB
   m_EditorClassIdentifier: 
   entries:
-  - cellType: 3
+  - cellType: 1
     prefab: {fileID: 2260281530952314823, guid: 48b7c9e1131c2e545b4a896727209ca3, type: 3}
-  - cellType: 5
+  - cellType: 3
     prefab: {fileID: 8209083761072202776, guid: d43821497b9526846bb6757927f7e6f2, type: 3}
-  - cellType: 6
+  - cellType: 5
     prefab: {fileID: 3109987336858753890, guid: a32e27e492a89424a845c85207f0444a, type: 3}
-  - cellType: 9
-    prefab: {fileID: 7562736470856318426, guid: 08925cc452808fe49a642bf79ce679a8, type: 3}
+  - cellType: 4
+    prefab: {fileID: 3585241296738520450, guid: bb17d9e14d9fbad45b785a978186b305, type: 3}
+  - cellType: 6
+    prefab: {fileID: 2366364454534015263, guid: 7db30d6d9a36d9249a3b0df27c013d93, type: 3}
+  - cellType: 8
+    prefab: {fileID: 5133149841105516440, guid: f66c121a3944e374aa38a9d36d009e98, type: 3}

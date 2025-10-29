@@ -29,7 +29,7 @@ namespace GamePlay.Features.Explore.Scripts
         #endregion
         
         public SystemEnum.Dungeon dungeon;
-        public ExploreMap mapData;
+        public ExploreMapSkeleton MapSkeletonData;
         public Party playerParty;
         
         private void Awake()

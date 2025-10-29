@@ -312,7 +312,32 @@ namespace Core.Scripts.Foundation.Define
         
             eMax
         }
-
+        
+        #region Explore 
+        
+        [Serializable]
+        public enum MapCellType
+        {
+            None,
+            Wall,
+            Floor,
+        }
+        
+        [Serializable]
+        public enum MapSymbolType
+        {
+            None,
+            StartPoint,
+            EndPoint,
+            Battle,
+            EliteBattle,
+            BossBattle,
+            Gather,
+            Event,
+            Item,
+        }
+        
+        [Serializable]
         public enum CellEventType
         {
             DUMMY_1,
@@ -324,21 +349,7 @@ namespace Core.Scripts.Foundation.Define
             eMax,
         }
         
-        [Serializable]
-        public enum MapCellType
-        {
-            None,
-            Wall,
-            Floor,
-            StartPoint,
-            EndPoint,
-            Battle,
-            BossBattle,
-            Event,
-            EMax,
-            Item
-        }
-        
+        #endregion
         
         #region Execution & Keyword
         public enum eExecutionType

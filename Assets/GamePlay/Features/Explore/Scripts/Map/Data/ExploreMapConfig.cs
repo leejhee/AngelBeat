@@ -24,18 +24,13 @@ namespace GamePlay.Features.Explore.Scripts.Map.Data
         [Header("지나갈 수 있는 땅")] 
         public GameObject floorPrefab;
         [Header("경계 역할의 땅")] 
-        public GameObject boundPrefab;
+        public GameObject wallPrefab;
         
-        [Header("던전 내 이벤트 심볼 개수")]
-        public int eventSymbolCount;
-        [Header("던전 내 아이템 심볼 개수")]
-        public int itemSymbolCount;
-        [Header("던전 내 전투 심볼 개수")]
-        public int battleSymbolCount;
-        
-        [Header("심볼 내 아이템 후보 ID 리스트")]
-        public List<int> itemCandidate;
+        [Header("던전 내 심볼 수 테이블")]
+        public List<SymbolConfigEntry> symbolConfig;
+        [Header("심볼 내 아이템 후보 ID 테이블")]
+        public List<ItemConfigEntry> itemCandidate;
         [Header("심볼 내 이벤트 후보 ENUM 리스트")]
-        public List<SystemEnum.CellEventType> eventCandidate;
+        public List<EventConfigEntry> eventCandidate;
     }
 }
