@@ -15,7 +15,9 @@ MonoBehaviour:
   characterName: Seol
   body: {fileID: 21300000, guid: 364ae5b046efb3a4fbd9eb9bd74836e7, type: 3}
   faceDict:
-    pairs: []
+    pairs:
+    - _key: eyeclosed
+      value: {fileID: 21300000, guid: 364ae5b046efb3a4fbd9eb9bd74836e7, type: 3}
     keys: []
     values: []
   headOffset: {x: 0, y: 0}

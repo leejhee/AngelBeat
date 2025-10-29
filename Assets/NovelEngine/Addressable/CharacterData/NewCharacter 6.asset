@@ -15,8 +15,16 @@ MonoBehaviour:
   characterName: Hwi
   body: {fileID: 21300000, guid: f3d546115a5657447b0ed021ae6321a4, type: 3}
   faceDict:
-    pairs: []
-    keys: []
-    values: []
+    pairs:
+    - _key: 
+      value: {fileID: 21300000, guid: f3d546115a5657447b0ed021ae6321a4, type: 3}
+    - _key: happy
+      value: {fileID: 21300000, guid: f3d546115a5657447b0ed021ae6321a4, type: 3}
+    - _key: sigh
+      value: {fileID: 21300000, guid: f3d546115a5657447b0ed021ae6321a4, type: 3}
+    keys:
+    - happy
+    values:
+    - {fileID: 21300000, guid: f3d546115a5657447b0ed021ae6321a4, type: 3}
   headOffset: {x: 0, y: 0}
   novelName: "\uD718"
