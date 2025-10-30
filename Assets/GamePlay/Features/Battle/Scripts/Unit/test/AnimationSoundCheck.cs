@@ -24,11 +24,15 @@ public class AnimationSoundCheck : MonoBehaviour
         animator.SetTrigger(skill.ToString());
     }
 
+    public void PlayAnim(YeonSkill yeonSkill)
+    {
+        animator.SetTrigger(yeonSkill.ToString());
+    }
     public void PlayJumpInTrigger()
     {
         animator.SetTrigger(SmokeStepJumpIn);
     }
-
+    
     public void PlayAudioClip(AudioClip sound)
     {
         audioSource.PlayOneShot(sound);
@@ -44,6 +48,7 @@ public class AnimationSoundCheck : MonoBehaviour
         SmokeStepCast,
         SmokeStepJumpIn,
         SmokeStepJumpOut,
-        SmokeBind
+        SmokeBind,
+        SmokeBindEnd
     }
 }
