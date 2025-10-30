@@ -9,7 +9,7 @@ public class AnimationSoundCheck : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip audioClip;
     public Animator animator;
-    public YeonSkill skill;
+    public CharAction skill;
     public void PlaySound()
     {
         audioSource.PlayOneShot(audioClip);
@@ -24,9 +24,9 @@ public class AnimationSoundCheck : MonoBehaviour
         animator.SetTrigger(skill.ToString());
     }
 
-    public void PlayAnim(YeonSkill yeonSkill)
+    public void PlayAnim(CharAction action)
     {
-        animator.SetTrigger(yeonSkill.ToString());
+        animator.SetTrigger(action.ToString());
     }
     public void PlayJumpInTrigger()
     {
@@ -40,8 +40,16 @@ public class AnimationSoundCheck : MonoBehaviour
     
     
     
-    public enum YeonSkill
+    public enum CharAction
     {
+        Idle,
+        Push,
+        Dash,
+        Attacked,
+        Evade,
+        
+        
+        
         MungeCloud,
         Twister,
         SmokeWave,
@@ -49,6 +57,13 @@ public class AnimationSoundCheck : MonoBehaviour
         SmokeStepJumpIn,
         SmokeStepJumpOut,
         SmokeBind,
-        SmokeBindEnd
+        SmokeBindEnd,
+        
+        
+        
+        
+        
+        Nanta,
+        Tamsik,
     }
 }
