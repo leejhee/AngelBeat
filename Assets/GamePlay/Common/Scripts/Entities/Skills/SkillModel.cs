@@ -14,7 +14,6 @@ namespace GamePlay.Common.Scripts.Entities.Skills
         public readonly long SkillOwnerID;
         public readonly SystemEnum.eSkillType skillType;
         public readonly Sprite icon;
-        public readonly long executionIndex;
         public readonly int critCalibration;
         public readonly int skillAccuracy;
         public readonly string prefabName;
@@ -31,7 +30,6 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             SkillOwnerID = skillData.characterID;
             skillType = skillData.skillType;
             
-            executionIndex  = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;
 
@@ -49,7 +47,6 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             SkillOwnerID = SystemConst.DokkaebiID;
             skillType = skillData.skillType;
             
-            executionIndex = skillData.executionIndex;
             critCalibration = skillData.skillCritical;
             skillAccuracy = skillData.skillAccuracy;
             

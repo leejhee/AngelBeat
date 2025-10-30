@@ -1,14 +1,10 @@
-﻿using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Skill;
-using GamePlay.Common.Scripts.Timeline.Marker;
-using GamePlay.Features.Battle.Scripts;
+﻿using AngelBeat;
+using Core.Scripts.Foundation.Define;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace AngelBeat
+namespace GamePlay.Common.Scripts.Timeline.Marker
 {
     
     public class SkillDamageMarker : SkillTimeLineMarker

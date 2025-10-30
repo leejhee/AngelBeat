@@ -255,7 +255,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
         }
 
-        private static eCharType GetEnemyType(eCharType type)
+        public static eCharType GetEnemyType(eCharType type)
         {
             switch (type)
             {
