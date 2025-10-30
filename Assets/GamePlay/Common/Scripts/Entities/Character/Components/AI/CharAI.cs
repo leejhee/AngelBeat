@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using GamePlay.Character.Components;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
@@ -9,16 +10,10 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Character.Components
+namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
 {
     /// <summary>
-    /// 적 AI의 핵심 제어 클래스
-    /// PDF 전체 플로우: 상황 판단 → 후보 선정 → 우선도 계산 → 최종 행동 실행
-    /// 
-    /// [수정사항]
-    /// - BattleController의 StageField/Grid 사용
-    /// - 실제 BattleAction 시스템 통합
-    /// - TurnActionState와 완전 통합
+    /// 적 AI 제어
     /// </summary>
     public class CharAI
     {
@@ -60,22 +55,18 @@ namespace GamePlay.Character.Components
             
             Debug.Log($"[AI] {_owner.name} 턴 시작");
             
-            // 1단계: 상황 판단
             _context.AnalyzeSituation();
             Debug.Log(_context.GetSummary());
             
-            // 2-3단계: 행동 후보 생성 및 우선도 계산
             var candidates = AIActionCandidateFactory.GenerateCandidates(_context);
             var sortedCandidates = AIActionCandidateFactory.GetSortedCandidates(candidates);
             
-            // 로그 출력
-            Debug.Log($"[AI] 행동 후보 목록:");
+            Debug.Log("[AI] 행동 후보 목록:");
             foreach (var c in sortedCandidates)
             {
                 Debug.Log($"  - {c}");
             }
             
-            // 4단계: 최종 선택 및 실행 (실패 시 다음 후보 시도)
             bool actionSuccess = false;
             foreach (var candidate in sortedCandidates)
             {
@@ -87,10 +78,8 @@ namespace GamePlay.Character.Components
                     Debug.Log($"[AI] 성공: {candidate.Action}");
                     break;
                 }
-                else
-                {
-                    Debug.Log($"[AI] 실패: {candidate.Action}, 다음 후보 시도");
-                }
+
+                Debug.Log($"[AI] 실패: {candidate.Action}, 다음 후보 시도");
             }
             
             if (!actionSuccess)

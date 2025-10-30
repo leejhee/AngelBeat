@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamePlay.Common.Scripts.Entities.Character.Components.AI;
+using System;
 using UnityEngine;
 
 namespace GamePlay.Character.Components

@@ -1,20 +1,16 @@
-﻿using GamePlay.Features.Battle.Scripts.BattleMap;
+﻿using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Battle.Scripts;
+using GamePlay.Features.Battle.Scripts.BattleAction;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UnityEngine;
-using Core.Scripts.Foundation.Define;
-using GamePlay.Features.Battle.Scripts;
 
-namespace GamePlay.Character.Components
+namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
 {
     /// <summary>
     /// AI가 한 턴 동안 상황을 판단한 결과를 저장하는 컨텍스트
-    /// PDF 1단계: 상황 판단 결과 저장
-    /// 
-    /// [수정사항]
-    /// - BattleStageGrid 기반 그리드 계산
-    /// - 실제 이동 가능 거리 계산 (행동력 기반)
-    /// - 점프 가능 여부 확인
     /// </summary>
     public class AIContext
     {
@@ -61,7 +57,7 @@ namespace GamePlay.Character.Components
             CurrentCell = Grid.WorldToCell(Self.CharTransform.position);
             
             // 이동력 계산
-            AvailableMoveRange = (int)Self.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            AvailableMoveRange = (int)Self.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             
             // 이동 가능한 칸 계산
             CalculateWalkableCells();
@@ -180,31 +176,64 @@ namespace GamePlay.Character.Components
         /// </summary>
         private bool CheckIfCanAttack()
         {
-            if (NearestEnemy == null) return false;
+            if (!NearestEnemy) return false;
             
-            // 각 스킬의 최대 사거리 확인
-            foreach (var skill in Self.SkillInfo.SkillSlots)
+            Vector2Int enemyCell = Grid.WorldToCell(NearestEnemy.CharTransform.position);
+            
+            foreach (SkillModel skill in Self.SkillInfo.SkillSlots)
             {
                 if (skill == null) continue;
+                if (skill.skillType != SystemEnum.eSkillType.PhysicalAttack &&
+                    skill.skillType != SystemEnum.eSkillType.MagicAttack) continue;
                 
-                // 스킬 사거리 데이터에서 최대 거리 계산
-                var range = skill.skillRange;
-                int maxRange = Mathf.Max(
-                    range.Forward,
-                    range.Backward,
-                    range.UpForward,
-                    range.UpBackward,
-                    range.DownForward,
-                    range.DownBackward
-                );
-                
-                // 그리드 거리로 비교
-                if (GridDistanceToNearestEnemy <= maxRange)
+                try
                 {
-                    return true;
+                    // SkillRangeHelper로 정확한 범위 계산
+                    // 이 메서드는:
+                    // 1. 방향(LastDirection) 고려
+                    // 2. 장애물 블로킹 체크
+                    // 3. 물리 공격 관통 여부 체크
+                    // 4. Y축 3단계 범위 (y=0, y=1, y=-1) 계산
+                    BattleActionPreviewData rangeData = SkillRangeHelper.ComputeSkillRange(
+                        Grid,
+                        skill.skillRange,
+                        Self
+                    );
+                    
+                    // 적의 위치가 타격 가능 범위(PossibleTile)에 포함되는지 확인
+                    if (rangeData.PossibleCells.Contains(enemyCell))
+                    {
+                        Debug.Log($"[AI CanAttack] ✓ {Self.name}의 스킬 [{skill.SkillName}]로 공격 가능" +
+                                  $"\n  - 적: {NearestEnemy.name} at {enemyCell}" +
+                                  $"\n  - AI 위치: {CurrentCell}" +
+                                  $"\n  - AI 방향: {(Self.LastDirection ? "Right" : "Left")}" +
+                                  $"\n  - 타격 가능 셀 수: {rangeData.PossibleCells.Count}");
+                        return true;
+                    }
+                    else
+                    {
+                        // 디버그: 왜 공격할 수 없는지 상세 정보
+                        Debug.Log($"[AI CanAttack] ✗ {Self.name}의 스킬 [{skill.SkillName}]로 공격 불가" +
+                                  $"\n  - 적 위치: {enemyCell}" +
+                                  $"\n  - AI 위치: {CurrentCell}" +
+                                  $"\n  - AI 방향: {(Self.LastDirection ? "Right" : "Left")}" +
+                                  $"\n  - 타격 가능 셀 수: {rangeData.PossibleCells.Count}" +
+                                  $"\n  - 스킬 범위: Forward={skill.skillRange.Forward}, " +
+                                  $"Backward={skill.skillRange.Backward}, " +
+                                  $"UpForward={skill.skillRange.UpForward}, " +
+                                  $"UpBackward={skill.skillRange.UpBackward}");
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"[AI CanAttack] 스킬 범위 계산 중 오류: {skill.SkillName}\n{e}");
                 }
             }
             
+            Debug.Log($"[AI CanAttack] ✗ {Self.name}는 어떤 스킬로도 {NearestEnemy.name}를 공격할 수 없음" +
+                      $"\n  - 적 위치: {enemyCell}" +
+                      $"\n  - AI 위치: {CurrentCell}" +
+                      $"\n  - 그리드 거리: {GridDistanceToNearestEnemy}");
             return false;
         }
         

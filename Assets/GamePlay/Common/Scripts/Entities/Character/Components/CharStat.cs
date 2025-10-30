@@ -40,7 +40,7 @@ namespace AngelBeat
 
             _charStat[(int)eStats.ACTION_POINT] = charStat.Movement;
             _charStat[(int)eStats.NACTION_POINT] = charStat.Movement;
-
+            _charStat[(int)eStats.NMACTION_POINT] = charStat.Movement;
             //_charStat[(int)eStats.MOVE_POINT] = charStat.movePoint;
             
             _charStat[(int)eStats.EVATION] = charStat.Evasion;
