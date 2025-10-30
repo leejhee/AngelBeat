@@ -2,6 +2,10 @@ using Core.Scripts.Foundation.Define;
 using System;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Core.Scripts.Managers
 {
     public class GameManager : MonoBehaviour
@@ -40,6 +44,7 @@ namespace Core.Scripts.Managers
         
         #endregion
         
+        #region Initialization
         private static void Init()
         {
             GameObject go = GameObject.Find("@GameManager");
@@ -50,8 +55,14 @@ namespace Core.Scripts.Managers
             }
 
             instance = go.GetComponent<GameManager>();
+            #if UNITY_EDITOR
+            if(EditorApplication.isPlaying)
+                DontDestroyOnLoad(go);
+            #else
             DontDestroyOnLoad(go);
+            #endif      
         }
+        #endregion
         
         #region Events responsible with GameManager
         
@@ -61,6 +72,7 @@ namespace Core.Scripts.Managers
         
         #endregion
         
+        #region Unity Events
         private void Update()
         {
             OnUpdate?.Invoke();
@@ -79,6 +91,7 @@ namespace Core.Scripts.Managers
             //모바일 사례 : 갑자기 내린다면
             SaveLoadManager.Instance.OnApplicationPause(pauseStatus);
         }
+        #endregion
     }
     
     public class QuitParam {}

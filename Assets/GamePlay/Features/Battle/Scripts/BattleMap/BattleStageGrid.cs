@@ -53,6 +53,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public bool IsOccupied(Vector2Int cell) => _characters.ContainsKey(cell);
         public bool IsWalkable(Vector2Int cell) => _walkable.Contains(cell) && !_obstacles.Contains(cell) && !IsOccupied(cell);
         public bool IsPlatform(Vector2Int cell) => _walkable.Contains(cell);
+        public bool IsObstacle(Vector2Int cell) => _obstacles.Contains(cell) && !IsOccupied(cell);
         public bool IsMaskable(Vector2Int cell) => !IsInBounds(cell) || !IsPlatform(cell);
         
         #endregion

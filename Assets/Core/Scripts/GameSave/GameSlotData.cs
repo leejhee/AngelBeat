@@ -57,6 +57,8 @@ namespace Core.Scripts.GameSave
             Features ??= new Dictionary<string, FeatureSnapshot>();
             this.slotName = slotName;
             slotProgress ??= new SlotProgressData();
+            
+            RngCounters ??= new Dictionary<string, ulong>();
         }
         
         /// <summary>

@@ -261,7 +261,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 404082844086143809}
-  - component: {fileID: 4775062178808810109}
   m_Layer: 0
   m_Name: SkillPreview
   m_TagString: Untagged
@@ -288,24 +287,6 @@ Transform:
   - {fileID: 6823665559976320908}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4775062178808810109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4849087280689241070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de9f84f9775b46c896f603b2c8e8206c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _textureCaptureCamera: {fileID: 2011851894326893245}
-  _targetPointer: {fileID: 2773974162432668901}
-  _rangeCircle: {fileID: 864430968119251450}
-  _spriteRenderer: {fileID: 6834037111523712377}
-  outlineMaterial: {fileID: 2100000, guid: 857a28624daa3a248a3991d6fca07449, type: 2}
-  normalMaterial: {fileID: 2100000, guid: c5a65547d1edf4a9d882bd6cff83eda8, type: 2}
 --- !u!1 &7798528422893095649
 GameObject:
   m_ObjectHideFlags: 0

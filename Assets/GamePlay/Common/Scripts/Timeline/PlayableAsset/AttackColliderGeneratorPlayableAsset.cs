@@ -1,5 +1,6 @@
 using AngelBeat;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Timeline.PlayableAsset;
 using GamePlay.Common.Scripts.Timeline.PlayableBehaviour;
 using UnityEngine;
 using UnityEngine.Playables;
