@@ -2,16 +2,16 @@
 
 @back Dwissan2
 
-@char Seol.EyeClosed pos: 25, 0
+@char Seol.EyeClosed pos: 25, 0 scale: 0.85
 Seol: ...제법 상등품입니다.
 @char Hwi pos: 75, 0
 Hwi: 그래, 요긴히 쓸 수 있겠군.
 Hwi: 가면서 이런 것들이 보이면 좀 챙기도록 하지.
 @hide Hwi
 @hide Seol
-@char Bilyeong.Sigh pos: 75, 50
+@char Bilyeong.Sigh pos: 75, 50 scale: 0.85
 Bilyeong: 안 그래도 먼 거리를 풀뿌리 캐면서 가다가는 한세월이 걸릴 텐데.
-@char Yeon pos: 20, 0
+@char Yeon pos: 20, 0 scale: 0.9
 Yeon: 없어서 후회하는 것보다는 낫겠다고 생각하거라.
 @hide Bilyeong
 @char Hwi pos: 75, 0
@@ -20,13 +20,13 @@ Hwi: 부족한 것은 그때그때 직접 수급해야 하네, 특히 요괴곡�
 Hwi: 또한 워낙 알 수 없는 신묘한 곳이기에, 무엇을 마주치더라도, 무슨 일이 일어나더라도 이상하지 않아. 
 Hwi: 하지만 사제라면 괜찮을 것 같네. 워낙 임기응변에 능해서야 말이지.
 Yeon: 저라고 그렇지는 않습니다만... 새겨 듣도록 하죠.
-@char Bilyeong.Happy pos: 30, 50
+@char Bilyeong.Happy pos: 30, 50 scale: 0.85
 Bilyeong: 그래, 이놈도 그냥 눈앞까지 닥쳤으니까 하는거지, 임기응변은 무슨.
 @hide Yeon
-@char Yeon pos: 20, 0
+@char Yeon pos: 20, 0 scale: 0.85
 Yeon: 주어진 것에 맞추어 최선을 다할 뿐이지.
 @hide Bilyeong
-@char Bilyeong.Sigh pos: 30, 50
+@char Bilyeong.Sigh pos: 30, 50 scale: 0.85
 Bilyeong: 그래서 계획이라고는 요괴곡까지 가는 것밖에 없지 않느냐.
 
 @hide Hwi
