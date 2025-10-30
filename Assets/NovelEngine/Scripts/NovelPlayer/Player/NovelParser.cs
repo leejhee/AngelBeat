@@ -158,7 +158,8 @@ public static class NovelParser
             return CommandType.HideCharacter;
         else if (HideAllCommand.IsMatch(line))
             return CommandType.HideAll;
-
+        else if (hideUICommand.IsMatch(line))
+            return CommandType.HideUI;
         else if (ChoiceCommand.IsMatch(line))
             return CommandType.Choice;
         else if (GotoCommand.IsMatch(line))
@@ -510,6 +511,10 @@ public static class NovelParser
                 }
                 break;
             case CommandType.Effect:
+            case CommandType.HideUI:
+                {
+                    result = new HideUICommand(index);
+                }
                 break;
         }
 

@@ -1,18 +1,22 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HideUICommand : MonoBehaviour
+namespace novel
 {
-    // Start is called before the first frame update
-    void Start()
+    public class HideUICommand : CommandLine
     {
-        
+
+        public HideUICommand(int index) : base(index, DialogoueType.CommandLine)
+        {
+        }
+
+        public override UniTask Execute()
+        {
+            NovelManager.Player.gameObject.SetActive(false);
+            return UniTask.CompletedTask;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
