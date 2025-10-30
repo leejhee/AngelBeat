@@ -1,4 +1,5 @@
 ﻿using Core.Scripts.Data;
+using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
@@ -26,92 +27,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             CharBase actor = Context.actor;
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();
-            List<Vector2Int> possible = new();
-            List<Vector2Int> blocked = new();
-            Vector2Int pivot = stageGrid.WorldToCell(actor.CharTransform.position);
+            BattleActionPreviewData data = SkillRangeHelper.ComputeSkillRange(stageGrid, range, actor);
             
-            #region Calculation
-            
-            #region 0, 0 계산
-            if (range.Origin)
-            {
-                if(stageGrid.IsInBounds(pivot) && stageGrid.IsWalkable(pivot)) possible.Add(pivot);
-                else blocked.Add(pivot);
-            }
-            #endregion
-            
-            bool hit = false;
-            #region y = 0 계산
-            for (int i = 1; i <= range.Forward; i++)
-            {
-                var c = new Vector2Int(pivot.x + i, pivot.y);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            hit = false;
-            for (int i = 1; i <= range.Backward; i++)
-            {
-                var c = new Vector2Int(pivot.x - i, pivot.y);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            #endregion
-            
-            #region y = 1 계산
-            if (range.Up)
-            {
-                var c = new Vector2Int(pivot.x, pivot.y + 1);
-                (stageGrid.IsInBounds(c) && stageGrid.IsWalkable(c) ? possible : blocked).Add(c);
-            }
-            int upY = pivot.y + 1;
-            hit = false;
-            for (int i = 1; i <= range.UpForward; i++)
-            {
-                var c = new Vector2Int(pivot.x + i, upY);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            hit = false;
-            for (int i = 1; i <= range.UpBackward; i++)
-            {
-                var c = new Vector2Int(pivot.x - i, upY);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            
-            #endregion
-            
-            #region y = -1 계산
-            if (range.Down)
-            {
-                var c = new Vector2Int(pivot.x, pivot.y - 1);
-                (stageGrid.IsInBounds(c) && stageGrid.IsWalkable(c) ? possible : blocked).Add(c);
-            }
-            int downY = pivot.y - 1;
-            hit = false;
-            for (int i = 1; i <= range.DownForward; i++)
-            {
-                var c = new Vector2Int(pivot.x + i, downY);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            hit = false;
-            for (int i = 1; i <= range.DownBackward; i++)
-            {
-                var c = new Vector2Int(pivot.x - i, downY);
-                if (!stageGrid.IsInBounds(c) || !stageGrid.IsWalkable(c)) hit = true;
-                (hit ? blocked : possible).Add(c);
-                if (hit) break;
-            }
-            #endregion
-            #endregion
-
-            return UniTask.FromResult(new BattleActionPreviewData(possible, blocked));
+            return UniTask.FromResult(data);
         }
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)

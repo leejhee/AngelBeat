@@ -1,7 +1,11 @@
 using Core.Scripts.Foundation.Define;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Data;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 
@@ -20,7 +24,6 @@ public long index; // 도깨비 스킬 ID
 		public long skillRange; // 스킬 범위
 		public int skillCritical; // 치명타 배율
 		public int skillAccuracy; // 명중율
-		public long executionIndex; // 스킬 효과
 		public string skillIconImage; // 스킬 아이콘명
 		public string skillTimeLine; // 스킬 타임라인명
 		
@@ -92,19 +95,14 @@ public long index; // 도깨비 스킬 ID
 					    data.skillAccuracy = Convert.ToInt32(values[9]);
 					
 					if(values[10] == "")
-					    data.executionIndex = default;
-					else
-					    data.executionIndex = Convert.ToInt64(values[10]);
-					
-					if(values[11] == "")
 					    data.skillIconImage = default;
 					else
-					    data.skillIconImage = Convert.ToString(values[11]);
+					    data.skillIconImage = Convert.ToString(values[10]);
 					
-					if(values[12] == "")
+					if(values[11] == "")
 					    data.skillTimeLine = default;
 					else
-					    data.skillTimeLine = Convert.ToString(values[12]);
+					    data.skillTimeLine = Convert.ToString(values[11]);
 					
 
                     dataList[data.index] = data;

@@ -15,9 +15,7 @@ namespace Core.Scripts.Data
     {
 public long index; // 스킬 데미지ID
 		
-		public SystemEnum.eStats AttackStat; // 공격 스탯
-		
-		public SystemEnum.eStats DefenseStat; // 방어 스탯
+		public SystemEnum.eSkillType SkillType; // 공격 방식
 		public float DamageCoefficient; // 대미지 계수
 		public float RandMin; // 난수 MIM 데미지
 		public float RandMax; // 난수 MAX 데미지
@@ -64,69 +62,64 @@ public long index; // 스킬 데미지ID
 					    data.index = Convert.ToInt64(values[0]);
 					
 					if(values[3] == "")
-					    data.AttackStat = default;
+					    data.SkillType = default;
 					else
-					    data.AttackStat = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[3]);
+					    data.SkillType = (SystemEnum.eSkillType)Enum.Parse(typeof(SystemEnum.eSkillType), values[3]);
 					
 					if(values[4] == "")
-					    data.DefenseStat = default;
-					else
-					    data.DefenseStat = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[4]);
-					
-					if(values[5] == "")
 					    data.DamageCoefficient = default;
 					else
-					    data.DamageCoefficient = Convert.ToSingle(values[5]);
+					    data.DamageCoefficient = Convert.ToSingle(values[4]);
 					
-					if(values[6] == "")
+					if(values[5] == "")
 					    data.RandMin = default;
 					else
-					    data.RandMin = Convert.ToSingle(values[6]);
+					    data.RandMin = Convert.ToSingle(values[5]);
 					
-					if(values[7] == "")
+					if(values[6] == "")
 					    data.RandMax = default;
 					else
-					    data.RandMax = Convert.ToSingle(values[7]);
+					    data.RandMax = Convert.ToSingle(values[6]);
 					
-					if(values[8] == "")
+					if(values[7] == "")
 					    data.RoundNormal = default;
 					else
-					    data.RoundNormal = (SystemEnum.eRound)Enum.Parse(typeof(SystemEnum.eRound), values[8]);
+					    data.RoundNormal = (SystemEnum.eRound)Enum.Parse(typeof(SystemEnum.eRound), values[7]);
 					
-					if(values[9] == "")
+					if(values[8] == "")
 					    data.RoundFinal = default;
 					else
-					    data.RoundFinal = (SystemEnum.eRound)Enum.Parse(typeof(SystemEnum.eRound), values[9]);
+					    data.RoundFinal = (SystemEnum.eRound)Enum.Parse(typeof(SystemEnum.eRound), values[8]);
 					
-					if(values[10] == "")
+					if(values[9] == "")
 					    data.CritMultiplier = default;
 					else
-					    data.CritMultiplier = Convert.ToSingle(values[10]);
+					    data.CritMultiplier = Convert.ToSingle(values[9]);
 					
-					if(values[11] == "")
+					if(values[10] == "")
 					    data.ConditionalDamageFormula = default;
 					else
-					    data.ConditionalDamageFormula = Convert.ToString(values[11]);
+					    data.ConditionalDamageFormula = Convert.ToString(values[10]);
 					
-					if(values[12] == "")
+					if(values[11] == "")
 					    data.input1 = default;
 					else
-					    data.input1 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[12]);
+					    data.input1 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[11]);
 					
-					if(values[13] == "")
+					if(values[12] == "")
 					    data.input2 = default;
 					else
-					    data.input2 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[13]);
+					    data.input2 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[12]);
 					
-					if(values[14] == "")
+					if(values[13] == "")
 					    data.input3 = default;
 					else
-					    data.input3 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[14]);
+					    data.input3 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[13]);
 					
-					if(values[15] == "")
+					if(values[14] == "")
 					    data.input4 = default;
 					else
-					    data.input4 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[15]);
+					    data.input4 = (SystemEnum.eStats)Enum.Parse(typeof(SystemEnum.eStats), values[14]);
 					
 
                     dataList[data.index] = data;

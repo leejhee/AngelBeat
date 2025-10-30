@@ -222,7 +222,8 @@ namespace Core.Scripts.Foundation.Define
             MagicAttack,
             Buff,
             Debuff,
-
+            Etc,
+            
             eMax
 
         }
@@ -233,7 +234,7 @@ namespace Core.Scripts.Foundation.Define
         
             TARGET_SELF,
             TARGET_ENEMY,
-            Caster,
+            TARGET_ALLY,
         }
 
         public enum eUpgradeLevel

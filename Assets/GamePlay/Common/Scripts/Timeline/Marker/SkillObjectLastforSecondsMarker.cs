@@ -1,8 +1,7 @@
-﻿using GamePlay.Common.Scripts.Timeline.Marker;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Common.Scripts.Timeline.Marker
 {
     public class SkillObjectLastForSecondsMarker : SkillTimeLineMarker
     {

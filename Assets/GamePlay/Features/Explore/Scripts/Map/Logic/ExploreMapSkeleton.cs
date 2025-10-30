@@ -1,7 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts.Map.Logic
 {

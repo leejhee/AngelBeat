@@ -315,6 +315,18 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private bool _isGrounded = true;
         public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
         
+        private bool _lastDirectionRight; // true 오른쪽, false 왼쪽
+        
+        public bool LastDirection
+        {
+            get => _lastDirectionRight;
+            private set
+            {
+                _lastDirectionRight = value;
+                _spriteRenderer.flipX = !LastDirection;
+            }
+        }
+
         /// <summary>
         /// 캐릭터 이동 연출 메서드
         /// 외부에서 이동력을 조사하므로, 이동력을 초과하지 않음을 전제로 함.
@@ -322,13 +334,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public async UniTask CharMove(Vector3 targetPos)
         {
             _Animator.SetTrigger(Move);
-            while ((transform.position - targetPos).sqrMagnitude > 0.05f)
+            Vector3 displacement =  targetPos - transform.position;
+            while (displacement.sqrMagnitude > 0.05f)
             {
-                transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
-                if((targetPos - transform.position).x < 0)
-                    _spriteRenderer.flipX = true;
-                else
-                    _spriteRenderer.flipX = false;
+                displacement =  targetPos - transform.position;
+                transform.position += displacement.normalized * Time.deltaTime * moveSpeed;
+                LastDirection = !(displacement.x < 0);
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
             _Animator.SetTrigger(Idle);
@@ -339,6 +350,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharJump(Vector3 targetPos, CancellationToken ct)
         {
+            LastDirection = (targetPos - transform.position).x > 0;
+            
             _Animator.SetTrigger(JumpOut);
             SpriteRenderer sr = _charUnitRoot.GetComponent<SpriteRenderer>();
             if (sr) sr.enabled = false;
@@ -346,8 +359,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
             _Animator.SetTrigger(Idle);
             transform.position = targetPos;
-            await UniTask.Delay(30, false, PlayerLoopTiming.Update, ct);
             _Animator.SetTrigger(JumpIn);
+            await UniTask.Delay(50, false, PlayerLoopTiming.Update, ct);
             sr.enabled = true;
             await PlayFxOnce(jumpInFX, transform.position, ct);
             _Animator.SetTrigger(Idle);
