@@ -54,6 +54,8 @@ namespace novel
             float realVar = 10; // 임시 데이터
 
             float realValue = 0;
+            
+            
             bool returnBool = NovelUtils.ConditinalStateMent(realVar, op, realValue);
 
 

@@ -104,7 +104,7 @@ namespace novel
 
 
                                 headImage.sprite = headSprite;
-
+                                headImage.SetNativeSize();
                                 var headTransform = headObject.GetComponent<RectTransform>();
                                 headTransform.localPosition = charSO.headOffset;
                                 headTransform.sizeDelta = new Vector2(headSprite.rect.width, headSprite.rect.height);
@@ -152,7 +152,7 @@ namespace novel
                             if (!bodyObject.TryGetComponent<Image>(out var bodyImage))
                                 bodyImage = bodyObject.AddComponent<Image>();
                             bodyImage.sprite = bodySprite;
-
+                            bodyImage.SetNativeSize();
                             var bodyTransform = bodyObject.GetComponent<RectTransform>();
                             bodyTransform.sizeDelta = new Vector2(bodySprite.rect.width, bodySprite.rect.height);
 
@@ -174,7 +174,7 @@ namespace novel
                                     if (!headObject.TryGetComponent<Image>(out var headImage))
                                         headImage = headObject.AddComponent<Image>();
                                     headImage.sprite = headSprite;
-
+                                    headImage.SetNativeSize();
                                     var headTransform = headObject.GetComponent<RectTransform>();
                                     headTransform.localPosition = charSO.headOffset;
                                     headTransform.sizeDelta = new Vector2(headSprite.rect.width, headSprite.rect.height);

@@ -1,7 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -19,6 +17,29 @@ namespace novel
         public float? scale;
         public float? time;
 
+
+        enum Transition
+        {
+            Fadein,
+            Fadeout,
+            SlideRight,
+            SlideLeft,
+            SlideUp,
+            SlideDown,
+            None
+        }
+
+        private Transition MatchTransition(string str)
+        {
+            foreach (Transition value in Enum.GetValues(typeof(Transition)))
+            {
+                if (value.ToString().ToLower() == str)
+                {
+                    return value;
+                }
+            }
+            return Transition.None;
+        }
         public BackCommand(
             int index, 
             string backName, 
@@ -119,15 +140,30 @@ namespace novel
             {
                 // TODO
                 // 나중에 스위치문으로 바꿀것
-                if (transition.ToLower() == "fadein")
+                Transition trans = MatchTransition(transition);
+                switch (trans)
                 {
-
-                    if (!backgroundPrefab.TryGetComponent<CanvasGroup>(out var cg))
-                        cg = backgroundPrefab.AddComponent<CanvasGroup>();
-                    cg.alpha = 0f;
-                    float fadeTime = time ?? 0f;
-                    if (time > 0f)
-                        await NovelUtils.Fade(backgroundPrefab, fadeTime, true, token);
+                    case Transition.Fadein:
+                        {
+                            if (!backgroundPrefab.TryGetComponent<CanvasGroup>(out var cg))
+                                cg = backgroundPrefab.AddComponent<CanvasGroup>();
+                            cg.alpha = 0f;
+                            float fadeTime = time ?? 0f;
+                            if (time > 0f)
+                                await NovelUtils.Fade(backgroundPrefab, fadeTime, true, token);
+                        }
+                        break;
+                    case Transition.SlideRight:
+                        break;
+                    case Transition.SlideLeft:
+                        break;
+                    case Transition.SlideUp:
+                        break;
+                    case Transition.SlideDown:
+                        break;
+                    case Transition.None:
+                        Debug.LogError("해당하는 트랜지션이 없음");
+                        break;
                 }
             }
 

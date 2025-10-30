@@ -8,7 +8,7 @@ public static class NovelParser
 {
     #region 정규표현식 정의
     private static readonly Regex LabelLine = new Regex(@"^#(?<name>.+?)\s*$");
-    private static readonly Regex CommentLine = new Regex(@"^//.*$");
+    private static readonly Regex CommentLine = new Regex(@"^\s*//.*$");
     private static readonly Regex CommandLine = new Regex(@"^@\s*");
     private static readonly Regex PersonLine = new Regex(@"(?<name>.[\w가-힣?]+)\s*:\s*(?<line>.+)\s*$");
 
@@ -36,6 +36,8 @@ public static class NovelParser
     private static Regex stopSfxCommand = new Regex(@"^@stopsfx\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex stopVoiceCommand = new Regex(@"^@stopvoice\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    private static Regex setCommand = new Regex(@"^@set\s*(?<left>\w+)\s*(?<op>=|\+\+|\-\-|\+=|\-=)\s*(?<right>("".*?"")|\w+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    
     private static readonly Regex WaitCommand = new Regex(@"^@wait(?:\s+(?<time>[\d.]+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     #endregion
 
@@ -47,11 +49,13 @@ public static class NovelParser
 
     private static readonly Regex VolumePattern = new Regex(@"volume\s*:\s*(?<volume>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex LoopPattern = new Regex(@"(?<loop>!loop|loop!)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    private static Regex fadePattern = new Regex(@"fade\s*:\s*(?<fade>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static  Regex fadePattern = new Regex(@"fade\s*:\s*(?<fade>[\d.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static readonly Regex TransitionPattern = new Regex(@"transition\s*:\s*(?<transition>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static readonly Regex SubLinePattern = new Regex("^ {4}(?<argument>.*)", RegexOptions.Compiled);
+    
+    // set 관련 매개변수
     #endregion
     #endregion
     public static NovelAct Parse(string[] lines)
@@ -169,10 +173,15 @@ public static class NovelParser
             return CommandType.Choice;
         else if (GotoCommand.IsMatch(line))
             return CommandType.Goto;
+        
         else if (IfCommand.IsMatch(line))
             return CommandType.If;
         else if (ElseCommand.IsMatch(line))
             return CommandType.Else;
+        
+        else if (setCommand.IsMatch(line))
+            return CommandType.Set;
+        
         else if (WaitCommand.IsMatch(line))
             return CommandType.Wait;
 
@@ -198,6 +207,19 @@ public static class NovelParser
             "<=" => CompOp.LessThanOrEqual,
             "==" => CompOp.Equal,
             "!=" => CompOp.NotEqual,
+            _ => throw new ArgumentException($"Invalid operator: {opStr}")
+        };
+    }
+
+    private static CalcOp ParseCalcOp(string opStr)
+    {
+        return opStr switch
+        {
+            "=" => CalcOp.Assign,
+            "++" => CalcOp.Increase,
+            "--" => CalcOp.Decrease,
+            "+=" => CalcOp.IncreaseAmount,
+            "-=" => CalcOp.DecreaseAmount,
             _ => throw new ArgumentException($"Invalid operator: {opStr}")
         };
     }
@@ -364,6 +386,22 @@ public static class NovelParser
                     // Debug.Log($"Else Command :");
                 }
                 break;
+            case CommandType.Set:
+                {
+                    var setMatch = setCommand.Match(line);
+                    string left = setMatch.Groups["left"].Value;
+                    CalcOp op = ParseCalcOp(setMatch.Groups["op"].Value);
+                    string right = setMatch.Groups["right"].Value;
+                    
+                    NovelVariable rightVariable = null;
+                    NovelVariable leftVariable = null;
+                    
+                    
+                    
+                    
+                    Debug.Log($"Set : {left} {op} {right}");
+                }
+                break;
             case CommandType.Wait:
                 {
                     var waitMatch = WaitCommand.Match(line);
@@ -418,14 +456,14 @@ public static class NovelParser
                         ifParameter);
 
 
-                    // Debug.Log(
-                    //     $"BackName : {backName}\n" +
-                    //     $"Transition : {backgroundTransition}\n" +
-                    //     $"pos : {backgroundPos}\n" +
-                    //     $"scale : {backgroundScale}\n" +
-                    //     $"Time : {backgroundTime}\n" +
-                    //     $"Index : {index}" +
-                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    Debug.Log(
+                        $"BackName : {backName}\n" +
+                        $"Transition : {backgroundTransition}\n" +
+                        $"pos : {backgroundPos}\n" +
+                        $"scale : {backgroundScale}\n" +
+                        $"Time : {backgroundTime}\n" +
+                        $"Index : {index}" +
+                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
 
                 }
 

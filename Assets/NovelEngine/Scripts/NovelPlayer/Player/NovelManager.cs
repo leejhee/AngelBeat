@@ -13,18 +13,6 @@ public class NovelManager : MonoBehaviour
         get => instance;
         set => instance = value;
     }
-
-    // {
-    //     get
-    //     {
-    //         if (instance == null)
-    //         {
-    //             Init();
-    //         }
-    //         return instance;
-    //     }
-    //     private set =>  instance = value;
-    // }
     private static NovelManager instance;
     public static NovelResources Data { get; private set; } = new NovelResources();
 

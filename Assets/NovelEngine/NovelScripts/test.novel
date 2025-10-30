@@ -1,14 +1,10 @@
-파싱 테스트
+@char Yeon.Happy transition:fadein time:1
+@wait 1
 
-
-@char Yeon.Happy
-
-@wait 0.1
 Yeon : 안녕
-DonQuixote : 안녕
-Yeon: 꺼져
-안녕
-
-#label
-
-끝~
+@back BlackScreen.fadein time:2
+@char Yeon transition:fadeout time:2
+@hideui
+@wait 2.5
+연은 눈앞이 깜깜해졌다
+@wait

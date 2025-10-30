@@ -27,14 +27,9 @@ namespace novel
         Wait,
         If,
         Else,
+        Set,
         HideUI,
         ShowUI
-    }
-    public enum CharacterName
-    {
-        DonQuixote,
-        Gosegu,
-        Jururu
     }
     public enum CharCommandType
     {
@@ -54,6 +49,16 @@ namespace novel
         NotEqual,           // !=,
         None
     }
+
+    public enum CalcOp
+    {
+        Assign, // =
+        Increase, // ++
+        Decrease, // --
+        IncreaseAmount, // += 
+        DecreaseAmount, // -=
+    }
+    
     public enum NovelSound
     {
         Bgm,

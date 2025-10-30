@@ -14,35 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   novelVariableDict:
     pairs:
-    - _key: "\uC2A4\uD14C\uC774\uD130\uC2A4"
+    - _key: 
       value:
         parameter:
-          rid: 347304520984821767
-    - _key: IsSeol
-      value:
-        parameter:
-          rid: 1526937451696226318
-    - _key: b
-      value:
-        parameter:
-          rid: 33037701104795648
+          rid: 1526937573873680391
     keys: []
     values: []
   references:
     version: 2
     RefIds:
-    - rid: 33037701104795648
-      type: {class: IntParameter, ns: novel, asm: NovelEngine}
-      data:
-        value: 6
-    - rid: 347304520984821767
-      type: {class: NovelCustomParameters/CharacterStateParameter, ns: novel, asm: NovelEngine}
-      data:
-        state:
-          state1: 0
-          state2: 0
-          state3: 0
-    - rid: 1526937451696226318
-      type: {class: BooleanParameter, ns: novel, asm: NovelEngine}
+    - rid: 1526937573873680391
+      type: {class: FloatParameter, ns: novel, asm: NovelEngine}
       data:
         value: 0
