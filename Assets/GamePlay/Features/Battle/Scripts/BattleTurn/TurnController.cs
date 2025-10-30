@@ -37,7 +37,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         {
             foreach (var character in battleMembers)
             {
-                _turnBuffer.Add(new BattleTurn.Turn(character));
+                Turn newTurn = new BattleTurn.Turn(character);
+                
+                newTurn.OnAITurnCompleted += () => ChangeTurn().Forget();
+                
+                _turnBuffer.Add(newTurn);
             }
             _turnBuffer.Sort(new TurnComparer(VanillaComparer));
             foreach (var turn in _turnBuffer)

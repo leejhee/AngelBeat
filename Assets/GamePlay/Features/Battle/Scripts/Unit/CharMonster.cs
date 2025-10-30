@@ -2,8 +2,9 @@ using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Character.Components;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Features.Battle.Scripts.BattleTurn;
+using UnityEngine;
 
-//using Modules.BT;
 
 namespace GamePlay.Features.Battle.Scripts.Unit
 {
@@ -16,8 +17,17 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             await base.CharInit(charModel);
             BattleCharManager.Instance.SetChar(this);
-            
+            _charAI = new CharAI(this);
         }
-    
+        
+        public async UniTask ExecuteAITurn(Turn turn)
+        {
+            if (_charAI == null)
+            {
+                Debug.LogWarning($"{name} AI 미초기화");
+                return;
+            }
+            await _charAI.ExecuteTurn(turn);
+        }
     }
 }
