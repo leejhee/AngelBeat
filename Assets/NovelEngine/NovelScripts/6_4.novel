@@ -1,24 +1,23 @@
 #Scenario_6_4
 
-
-@char Akui
+@back Dwissan3
+@char Akui pos: 50, 0
 Akui: @#%#$$&&#$...!!!!!
 @hide Akui
-@char Bilyeong
+@char Bilyeong pos: 50, 50
 Bilyeong: …허.
 @hide Bilyeong
-@char Yeon pos: 50, 25
+@char Yeon pos: 25, 0
 Yeon: 뭐, 잘 끝난 것 같구나.
-@char Bilyeong.Sigh pos 50, 75
+@char Bilyeong.Sigh pos: 75, 50
 Bilyeong: …쥐새끼처럼 숨어 있다가 낭떠러지로 슬쩍 밀어버린 것 말이느냐? 
 Yeon: 문제라도 있느냐?
 @char Bilyeong
 Bilyeong: 어쩜 이리도 좀생이같이 싸우는 것이냐.
 Yeon: 주어진 것을 알맞게 활용하는 것이야말로 지혜로움임을,
-Yeon: 싸우지 않고 이기는 것이 더 좋은 승리임을 늘 말하지 않았느냐.
+Yeon: 싸우지 않고 이기는 것이 더 좋은 승리임을 늘 말하지 않느냐.
 @char Bilyeong.Angry
-Bilyeong: 하,그래. 네놈은 옛날부터 그랬지.
+Bilyeong: 하, 그래. 네놈은 옛날부터 그랬지.
 Bilyeong: 치고박고 싸우는 재미를 모르는 고리타분한 녀석 같으니라고.
-Yeon: 가장 현명한 법이지.
-Bilyeong: 
-Yeon: 그래, 이렇게 한바탕 싸우니, 예전에 싸우던 느낌이 손에 익는 것 같구나.
+Yeon: 너도 늘 그렇게 말했었지.
+Yeon: 그래, 이렇게 한바탕 싸우니, 예전 생각이 나는 것 같구나.
