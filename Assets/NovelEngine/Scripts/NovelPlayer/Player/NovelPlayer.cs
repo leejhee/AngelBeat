@@ -33,6 +33,7 @@ public class NovelPlayer : MonoBehaviour
     public GameObject StandingPanel { get; private set; }
     public GameObject ChoicePanel { get; private set; }
     
+    public GameObject DialoguePanel => _dialoguePanel;
     
     // 임시코드
     public int CurrentIndex = 0;
@@ -466,7 +467,7 @@ public class NovelPlayer : MonoBehaviour
                 }
                 
 
-                Debug.Log($"Play Person Line :  {person.actorLine} \nIndex : {person.index}");
+                //Debug.Log($"Play Person Line :  {person.actorLine} \nIndex : {person.index}");
                 break;
         }
     }
@@ -529,10 +530,9 @@ public class NovelPlayer : MonoBehaviour
             switch (command)
             {
                 case GotoCommand:
-                    Debug.Log("Goto 실행");
+                    //Debug.Log("Goto 실행");
                     command.Execute();
-                    i = CurrentAct.CurrentIndex;
-                    
+                    i = CurrentAct.CurrentIndex + 1;
                     break;
                 case ChoiceCommand:
                     Debug.Log($"선택지 도달 Index : {i}");

@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5768bfa0bf724484fb112afa321b63e5, type: 3}
   m_Name: ExploreViewCatalog
   m_EditorClassIdentifier: 
-  viewTable: []
+  viewTable:
+  - viewID: 5
+    viewReference:
+      m_AssetGUID: 084656c32e8680e498c8cd96911dff22
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - viewID: 7
+    viewReference:
+      m_AssetGUID: 459afaa99bf66d8479f3fe36d88dc537
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
   presenterFactory: {fileID: 11400000, guid: 88dfeda710552da4eada89d11ccfdf73, type: 2}
