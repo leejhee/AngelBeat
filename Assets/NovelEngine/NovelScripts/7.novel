@@ -33,9 +33,9 @@ Hwi: ...그럼 이어서 가지.
 @hideui
 
 @back Dwissan2
-@wait 1.2
+@wait 1.8
 @back Dwissan3
-@wait 1.2
+@wait 1.8
 
 @char Bilyeong.Sigh pos: 25, 50
 @wait 1
@@ -49,37 +49,41 @@ Hwi: 이제 마지막으로... 흐음.
 Bilyeong: 또 뭔 말을 하려고 그리 뜸을 들이는 것이느냐.
 Hwi: 꽤 먼 곳에 희귀한 약초 자생지가 있는데, 여기까지 돌아가면 시간이 꽤 걸릴 듯 싶군.
 @char Bilyeong.Angry
-Bilyeong: 그래서? 간다는 것이냐, 만다는 것이냐?
-Hwi: 생각 중이네.
-@char Bilyeong
 Bilyeong: 나도 가야 하느냐?
 Hwi: 생각 중이네.
+@char Bilyeong
+Bilyeong: 간다는 것이냐, 만다는 것이냐?
+Hwi: 그것도 생각 중이네.
 @char Bilyeong.Sigh
-Bilyeong: 날 새겠구나.
+Bilyeong: ...그리 생각만 하다 날 새겠구나.
 Hwi: 연 사제.
 @hide Bilyeong
 @char Yeon pos: 25, 0
 Yeon: 예, 사형.
 Hwi: 설 소저와 함께 요괴곡으로 향할 수 있겠는가?
 Yeon: 둘이서 말입니까?
-Hwi: 그래, 그곳은 나랑 사매만 갔다오면 충분할 것 같네만, 먼저 요괴곡을 둘러보는 게 좋을 것 같네. 사매 없이도 사제는 충분히 갈 수 있겠지.
+Hwi: 그래, 그곳은 나랑 사매만 갔다오면 충분할 것 같네만, 사제는 먼저 요괴곡을 둘러보는 게 좋을 것 같네. 
+Hwi: 사매 없이도 사제는 충분히 갈 수 있겠지.
 Hwi: 설이 길을 알고 있네. 그녀가 발을 잡는 일은 없을 걸세.
 Yeon: 전 괜찮습니다만.
 @hide Yeon
-@char Seol.EyeClosed pos: 25, 0
+@hide Hwi
+@char Seol.EyeClosed pos: 50, 0
 Seol: ...그러면 동행하도록 하겠습니다.
+@hide Seol
+@char Hwi pos: 50, 0
 Hwi: 그래, 그러면 그렇게 하지.
 
 @hideui
-@hide Seol
 @hide Hwi
 @wait 1.2
 @back BlackScreen
-@wait 1.2
+@wait 0.7
 @back Dwissan3
 @wait 1.2
 
 @char Yoon pos: 50, 0
+@wait 1.5
 Yoon: 그럼 나중에 봐, 사제!
 @hide Yoon
 @char Yeon pos: 50, 0
@@ -101,13 +105,18 @@ Yeon: 내가 나중에 사저에게 그대로 전해 주도록 하마.
 @wait 1.5
 @char Bilyeong.Embarrassed
 Bilyeong: 그... 다시 잘 생각해보니 내가 잘못한 것도 있는 것 같구나.
+Yeon: ......
 @hide Bilyeong
 @hide Yeon
-@char Seol.EyeClosed
-Seol: ...이제 출발하겠습니다. 이쪽입니다.
+@char Seol.EyeClosed pos: 50, 0
+Seol: ......
+Seol: 이제 출발하겠습니다. 이쪽입니다.
+@hide Seol
 
+@hideui
 @wait 1.2
 @back Dwissan2
+@wait 1.2
 
 @char Seol pos: 75, 0
 @wait 1
@@ -118,12 +127,16 @@ Bilyeong: 잡아 족쳐달라고?
 @char Seol.EyeClosed
 Seol: ...함께 싸우도록 하겠습니다.
 Bilyeong: ...호오?
-@char Yeon 30, 0
-Yeon: 싸울 줄 아느냐?
-@char Seol
-Seol: 세상을 떠돌며 제 몸 하나는 지킬 수 있게 되었습니다.
 @hide Bilyeong
-@char Bilyeong pos: 20, 50
+@hide Seol
+@char Yeon pos: 50, 0
+Yeon: 싸울 줄 아느냐?
+@hide Yeon
+@char Seol pos: 50, 0
+Seol: 세상을 떠돌며 제 몸 하나는 지킬 수 있게 되었습니다.
+@hide Seol
+@char Bilyeong pos: 50, 50
 Bilyeong: 하, 그리 순탄한 삶은 아니었나 보구나.
-@char Seol.EyeClosed
-Seol: ...그럼 계속해서 모시도록 하겠습니다. 따라와 주십시오.
+@hide Bilyeong
+@char Seol.EyeClosed pos: 50, 0
+Seol: ...그럼 계속해서 안내하겠습니다. 따라와 주십시오.
