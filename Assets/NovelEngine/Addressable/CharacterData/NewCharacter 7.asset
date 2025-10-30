@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: NewCharacter 7
   m_EditorClassIdentifier: 
   characterName: Akui
-  body: {fileID: 0}
+  body: {fileID: 21300000, guid: c5a198bc6d9447c49998014d2c15d82c, type: 3}
   faceDict:
     pairs: []
     keys: []
     values: []
   headOffset: {x: 0, y: 0}
-  novelName: "\uC544\uADC0"
+  novelName: '@!#?'
