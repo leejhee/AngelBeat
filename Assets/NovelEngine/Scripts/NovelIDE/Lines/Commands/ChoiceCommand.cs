@@ -75,32 +75,34 @@ namespace novel
                 }
             }
             //.Log($"선택지 프리팹 생성 : {argument}");
-
+            player.DialoguePanel.SetActive(false);
             player.isChoiceOn = true;
         }
         private void OnClickChoiceButton()
         {
             //Debug.Log($"선택지 {argument} 클릭");
-
+            NovelPlayer player = NovelManager.Player;
             if (subLine == null)
             {
                 Debug.LogError("선택지에 연결된 서브라인이 없습니다.");
             }
             else
-                NovelManager.Player.SetSublinePlaying(subLine);
+            {
+                player.SetSublinePlaying(subLine);
+            }
+                
 
             // 선택지 오브젝트 제거
-            foreach (Transform child in NovelManager.Player.ChoicePanel.transform)
+            foreach (Transform child in player.ChoicePanel.transform)
             {
                 child.gameObject.SetActive(false);
                 Addressables.ReleaseInstance(child.gameObject);
             }
 
 
-            NovelManager.Player.currentChoices = new();
-            NovelManager.Player.Resume();
-            NovelManager.Player.isChoiceOn = false;
-
+            player.currentChoices.Clear();
+            player.Resume();
+            player.isChoiceOn = false;
         }
     }
 

@@ -26,7 +26,7 @@ namespace novel
 
         public override async UniTask Execute()
         {
-            Debug.Log($"GOTO 실행 \nScript : {script}\nLabel : {label}");
+            //Debug.Log($"GOTO 실행 \nScript : {script}\nLabel : {label}");
             
             //if (!ifParameter)
             //    return;
