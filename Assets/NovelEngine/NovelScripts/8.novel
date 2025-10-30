@@ -1,0 +1,106 @@
+#Scenario_8
+
+@back Dwissan4
+
+@char Seol.EyeClosed pos: 50, 75
+설: 도착했군요, 이곳입니다.
+@char Bilyeong pos: 50, 25
+비령: 여기라고? 생각보다도 훨씬 더... 
+@char Seol
+설: 낡았다고 생각하실 겁니다.
+설: 원래도 그리 큰 마을은 아니었으나, 요괴들이 자주 나타나면서 그나마 있던 사람들도 대부분 마을을 떠났습니다. 많은 곳이 빈집이 되어 낡아갔고, 그나마 가끔 이곳을 가로질러 가려는 상인들이 와서 종종 묵기에 이 정도라도 유지되는 중입니다.
+@char Bilyeong.Sigh
+비령: 보기에는 사람이 아니라 귀신이라도 살아야 할 것 같구나.
+설: 최근에는 실제로 귀신을 봤다는 마을 사람도 종종 나오곤 했습니다.
+@char Bilyeong.Embarrassed
+비령: ......농이느냐?
+@char Seol.EyeClosed
+설: ...농이었다고 생각하고 잊어주시길.
+@char Seol
+설: 그럼, 전 마을 분들께 얘기를 드리고 올 터이니, 이곳에서 잠시 기다려 주십시오.
+@hide Bilyeong
+@char Yeon pos: 50, 25
+연: 따라가지 않아도 괜찮겠는가?
+설: 마을 분들에게 아직 망량은 이해하기 어려운 자들입니다. 괜히 따라가서 그들의 불안감을 키울 필요는 없을 것 같다고 생각됩니다.
+연: ...그래, 그럼 부탁하지.
+@char Seol.EyeClosed
+설: 네.
+@char Seol transition: Fadeout time: 1
+@wait 1
+
+@char Bilyeong pos: 50, 75
+비령: 요괴 잡으러 왔더니 귀신잡게 생겼구나.
+연: 그래, 마을이 낡고 활기가 없으니, 퍽 을씨년스러운 것이 귀신이 나와도 이상하지 않겠구나.
+비령: 네놈도 귀신 소리나 하는 것이냐? 에잇! 그래, 여기까지 와서 귀신들이랑 같이 자게 생겼구나. 이렇게나 낡아서야 잘 때 비바람이나 제대로 막을 수 있을런지, 원.
+연: 전에는 비가 내리던 눈이 오던 몸 뉘일 수 있다면 상관없었는데 말이지.
+비령: 하, 그래. 그때야 하늘을 이불삼아 산을 베게삼아 잠을 청했지, 하루종일 잡놈들을 패주고서는 별을 세면서 자곤 했었고.
+연: 지금 처지에 그리 했다간 입 돌아가 죽기 딱 좋겠지만 말이지.
+@hide Yeon
+@hide Bilyeong
+@char Seol
+설: 말씀 중에 죄송합니다만.
+@hide Seol
+@char Bilyeong.Surprised pos: 50, 25
+비령: ...허! 무슨, 벌써 왔느냐? 기척을 그리 지우고 다가오니 난 귀신이 벌써 나온 줄 알았다.
+@char Seol.EyeClosed pos: 50, 75
+설: ...죄송합니다. 마을 분과 얘기가 끝났기에 돌아왔습니다.
+@hide Bilyeong
+@char Yeon pos: 50, 20
+연: 뭐라고 하셨느냐?
+@char Seol
+설: 살고 있는 곳 외의 나머지 집은 자유롭게 이용해도 좋다고 합니다.
+설: 따로 무언가를 줄 형편은 되지 않지만, 원하는 바를 이룰 수 있기를 바란다... 고 합니다.
+@char Bilyeong pos: 50, 30
+비령: 과할 정도로 호의적이지 않나...? 이놈들도 좀 배워야 하는데.
+@hide Yeon
+@char Yeon.Sigh pos: 50, 20
+연: 그래, 특히 네가 말이지.
+@char Seol.EyeClosed
+설: 그들도 이미 저희가 요괴를 해치우러 왔다는 것을 알고 있습니다. 아마 그렇기에 가능한 선에 최대한 도우려 하는 것이겠지요. 
+@char Seol
+설: 다만, 아직 저희를 미심쩍게 보고 있는 것 같습니다.
+@hide Bilyeong
+@char Bilyeong.Happy pos: 50, 30
+비령: 결국 일단 잡놈들을 때려잡아 준다기에 돕기는 하겠는데, 아직 출신에 근본도 없는 놈들을 믿기는 힘들다는 것이지?
+@hide Yeon
+@char Yeon.EyeClosed pos: 50, 20
+연: 그러면 기대에 부응해야겠지.
+@hide Bilyeong
+@char Bilyeong pos: 50, 30
+비령: 지금 갈 것이냐?
+@hide Yeon
+@char Yeon pos: 50, 20
+연: 못 갈 것도 없지. 가볍게 근처라도 거닐며 그것들을 쫒아줘야, 그쪽에서도 우리를 믿어 주지 않겠는가?
+@hide Bilyeong
+@char Bilyeong.Sigh pos: 50, 30
+비령: 그렇게 고생해서 왔거늘 오자마자 또 힘쓰게 생겼구나.
+설: 저도, 같이 싸우면 되겠습니까?
+@hide Yeon
+@char Yeon pos: 50, 20
+연: 아, 설 소저께서는,
+
+@choice 같이 함께해주신다면, 큰 도움이 될 것 같습니다.
+	@goto .wayA
+@choice 이 곳에 남아, 사형과 사저를 기다려 주셨으면 합니다.
+	@goto .wayB
+@wait
+
+#wayA
+
+@char Seol.EyeClosed
+설: 그럼, 따라가도록 하겠습니다. 
+@hide Seol
+@goto .wayC
+
+#wayB
+
+@char Seol.EyeClosed
+설: ...네, 알겠습니다. 그러면, 이곳에서 거처를 정리하도록 하겠습니다.
+@char Seol
+설: 모쪼록 무사히 다녀오십시오.
+@hide Seol
+@goto .wayC
+
+#wayC
+@char Yeon
+연: 그래, 그럼 출발하지.
