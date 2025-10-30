@@ -141,7 +141,7 @@ Bilyeong: 하, 그리 순탄한 삶은 아니었나 보구나.
 @char Seol.EyeClosed pos: 50, 0
 Seol: ...그럼 계속해서 안내하겠습니다. 따라와 주십...
 @hide Seol
-@$#$@%%@$...!
+$#$@%%@$...!
 @char Bilyeong pos: 25, 50
 Bilyeong: 무슨 소리가 들리는데.
 @char Yeon pos: 75, 0
