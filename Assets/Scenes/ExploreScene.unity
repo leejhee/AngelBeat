@@ -407,6 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1060932397}
+  - component: {fileID: 1060932398}
   m_Layer: 0
   m_Name: ExploreMapRoot
   m_TagString: Untagged
@@ -429,6 +430,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1060932398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060932396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c892167736104daa9afd989ed5bd6aac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configDB: {fileID: 11400000, guid: 0b7b30ca4e4d1f841ad47c3c2bd5ef8e, type: 2}
+  symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
+  eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
 --- !u!1 &1098317312
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +647,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: d7409f2027011d447a7bae57f61526e2, type: 2}
   eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
   symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
-  seed: 479211869
+  seed: 18446744073604550179
   useRandomSeedOnGenerate: 1
   floorPrefabOverride: {fileID: 0}
   wallPrefabOverride: {fileID: 0}

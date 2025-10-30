@@ -1,5 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Skill;
+using GamePlay.Common.Scripts.Timeline.Marker;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace AngelBeat
                 target.SkillDamage(
                     param,
                     100,
-                    InputParam.CritMultiplier //* InputParam.DamageCalibration
+                    InputParam.Model.skillAccuracy //* InputParam.DamageCalibration
                     );
             }
             

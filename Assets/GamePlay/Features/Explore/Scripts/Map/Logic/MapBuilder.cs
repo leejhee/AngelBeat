@@ -21,7 +21,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
         private (int x, int y) _anchorB;
         private List<(int x,int y)> _spinePath; // 메인 스파인 경로
         
-        public MapBuilder(ExploreMapConfig cfg, int seed)
+        public MapBuilder(ExploreMapConfig cfg, ulong seed)
         {
             _cfg = cfg;
             _rng = new GameRandom((ulong)seed);

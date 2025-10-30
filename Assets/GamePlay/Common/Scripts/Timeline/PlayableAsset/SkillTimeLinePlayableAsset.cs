@@ -1,10 +1,9 @@
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.Unit;
-using GamePlay.Features.Scripts.Skill;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GamePlay.Timeline.PlayableAsset.PlayableAsset
+namespace GamePlay.Common.Scripts.Timeline.PlayableAsset
 {
     public abstract class SkillTimeLinePlayableAsset : UnityEngine.Playables.PlayableAsset
     {

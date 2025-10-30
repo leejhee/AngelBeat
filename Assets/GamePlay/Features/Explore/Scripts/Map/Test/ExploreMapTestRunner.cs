@@ -16,7 +16,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
         public ExploreMapConfig config;
         public ExploreEventDB eventDB;     // EventType -> Prefab (우선 적용)
         public ExploreSymbolDB symbolDB;   // MapSymbolType -> Prefab (기본/폴백)
-        public int seed = 12345;
+        public ulong seed = 12345;
         public bool useRandomSeedOnGenerate = false;
 
         [Header("Tile Prefabs (override). If null, use config prefabs")]
@@ -66,7 +66,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
         // ---------- ContextMenu Actions ----------
 
         [ContextMenu("Generate (Use Current Seed)")]
-        public void CM_Generate()
+        public async void CM_Generate()
         {
             if (config == null)
             {
@@ -75,13 +75,13 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
             }
 
             if (useRandomSeedOnGenerate)
-                seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+                seed = (ulong)UnityEngine.Random.Range(ulong.MinValue, ulong.MaxValue);
 
             try
             {
                 if (clearBeforeGenerate) ClearSpawned();
 
-                _lastSkeleton = ExploreMapGenerator.BuildSkeleton(config, seed);
+                _lastSkeleton = await ExploreMapGenerator.BuildSkeleton(config, seed);
                 BuildViewFromSkeleton(_lastSkeleton);
                 LogSummary(_lastSkeleton);
             }

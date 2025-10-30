@@ -1,17 +1,14 @@
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Skill;
-using GamePlay.Features.Scripts.Skill;
 using System;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using UnityEngine.Timeline;
+using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
-namespace AngelBeat
+namespace GamePlay.Common.Scripts.Timeline.Marker
 {
-    public abstract class SkillTimeLineMarker : Marker, INotification
+    public abstract class SkillTimeLineMarker : UnityEngine.Timeline.Marker, INotification
     {
         public PropertyName id => new PropertyName("SkillTimeLineMarker");
 
@@ -22,8 +19,9 @@ namespace AngelBeat
         protected void Track(UniTask task) => _trackHook?.Invoke(task);
         
         public virtual void InitInput(SkillParameter input) => InputParam = input;
-        
-        public abstract void MarkerAction();
+
+        public virtual void MarkerAction() { }
+
         public virtual UniTask BuildTaskAsync(CancellationToken ct)
         {
             try { MarkerAction(); }
