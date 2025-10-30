@@ -27,7 +27,8 @@ namespace novel
         Wait,
         If,
         Else,
-        HideUI
+        HideUI,
+        ShowUI
     }
     public enum CharacterName
     {

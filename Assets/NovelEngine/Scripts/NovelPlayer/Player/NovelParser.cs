@@ -26,8 +26,11 @@ public static class NovelParser
     private static readonly Regex HideAllCommand = new Regex(@"^@hideall\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex hideCharsCommand = new Regex(@"^@hidechars\s+(?<name>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex hidePrinterCommand = new Regex(@"^@hideprinter\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+   
     private static Regex hideUICommand = new Regex(@"^@hideui\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static Regex showUICommand = new Regex(@"^@showui\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+    
     private static Regex stopCommand = new Regex(@"^@stop\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex StopBGMCommand = new Regex(@"^@stopbgm\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static Regex stopSfxCommand = new Regex(@"^@stopsfx\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -160,6 +163,8 @@ public static class NovelParser
             return CommandType.HideAll;
         else if (hideUICommand.IsMatch(line))
             return CommandType.HideUI;
+        else if (showUICommand.IsMatch(line))
+            return CommandType.ShowUI;
         else if (ChoiceCommand.IsMatch(line))
             return CommandType.Choice;
         else if (GotoCommand.IsMatch(line))
@@ -513,7 +518,12 @@ public static class NovelParser
             case CommandType.Effect:
             case CommandType.HideUI:
                 {
-                    result = new HideUICommand(index);
+                    result = new HideUICommand(index, false);
+                }
+                break;
+            case CommandType.ShowUI:
+                {
+                    result = new HideUICommand(index, true);
                 }
                 break;
         }

@@ -7,15 +7,25 @@ namespace novel
 {
     public class HideUICommand : CommandLine
     {
-
-        public HideUICommand(int index) : base(index, DialogoueType.CommandLine)
+        private bool isShowUI;
+        public HideUICommand(int index, bool isShow) : base(index, DialogoueType.CommandLine)
         {
+            isShowUI = isShow;
         }
 
         public override UniTask Execute()
         {
-            NovelManager.Player.gameObject.SetActive(false);
-            return UniTask.CompletedTask;
+
+            if (isShowUI)
+            {
+                NovelManager.Player.DialoguePanel.SetActive(true);
+                return UniTask.CompletedTask;
+            }
+            else
+            {
+                NovelManager.Player.DialoguePanel.SetActive(false);
+                return UniTask.CompletedTask;
+            }
         }
     }
 
