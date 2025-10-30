@@ -631,7 +631,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: d7409f2027011d447a7bae57f61526e2, type: 2}
   eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
   symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
-  seed: -76407247
+  seed: 479211869
   useRandomSeedOnGenerate: 1
   floorPrefabOverride: {fileID: 0}
   wallPrefabOverride: {fileID: 0}

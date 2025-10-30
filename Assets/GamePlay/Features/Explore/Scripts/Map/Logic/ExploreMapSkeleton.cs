@@ -202,5 +202,8 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
             foreach (var s in _symbols) if (!s.IsDeleted) result.Add(s);
             return result;
         }
+        
+        public void SetFloor(int x, int y) => SetCellType(x, y, SystemEnum.MapCellType.Floor);
+        public void SetWall (int x, int y) => SetCellType(x, y, SystemEnum.MapCellType.Wall);
     }
 }
