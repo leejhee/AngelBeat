@@ -15,7 +15,7 @@ public class NovelTest : MonoBehaviour
     {
         await NovelManager.InitAsync();
         //NovelManager.Instance.PlayTutorial(1);
-        NovelManager.Instance.PlayScript("4");
+        NovelManager.Instance.PlayScript("5");
         // var bgm = await SoundManager.Instance.LoadAudioClipByAddressables("BattleBGM");
         //
         // if (SoundManager.Instance!= null)

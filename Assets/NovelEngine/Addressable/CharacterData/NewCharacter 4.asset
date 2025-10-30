@@ -26,11 +26,13 @@ MonoBehaviour:
       value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
     - _key: surprised
       value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
-    - _key: sngry2
+    - _key: angry2
       value: {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
     keys:
     - surprised
+    - angry2
     values:
+    - {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
     - {fileID: 21300000, guid: c427c0d0751fafd479261f4f9ba08644, type: 3}
   headOffset: {x: 0, y: 0}
   novelName: "\uBE44\uB839"

@@ -28,5 +28,7 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: 709e8fa7f3c0f1348a9b616223ea35c2, type: 2}
     - _key: Seol
       value: {fileID: 11400000, guid: 922c072b4ef113e47aed13df936bede4, type: 2}
+    - _key: Akui
+      value: {fileID: 11400000, guid: 4552863f3d472cc459c10ff4c217ef5b, type: 2}
     keys: []
     values: []
