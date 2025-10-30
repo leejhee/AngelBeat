@@ -1,9 +1,11 @@
-﻿키워드 부여 ID,#키워드 부여 설명,부여 주체,참조 ID,부여 키워드,부여 대상,턴 수,시작 스탯,확률,합산/갱신/무,,,,,,,,,
+﻿키워드 부여 ID,#키워드 부여 설명,부여 주체,참조 ID,부여 키워드,부여 대상,턴 수,시작 스택,확률,합산/갱신/무,,,,,,,,,
 index,#,SourceType,SouceRefID,KeywordID,ApplyTarget,Duration,InitStack,Probability,StackBehavior,,,,,,,,,
 long,#,eSourceType,long,long,eApplyTarget,int,int,int,eStackBehavior,,,,,,,,,
-60020001,#은신 부여,Skill,10010001,60010001,TARGET_SELF,1,1,100,Refresh,,,,,,,,,
-60020002,#방어력 감소 부여,Skill,30010001,60010002,TARGET_ENEMY,3,1,100,Cumulative,,,,,,,,,
-60020003,#연기 부여,Skill,10010001,60010003,TARGET_ENEMY,-1,1,100,Cumulative,,,,,,,,,
-
-
-
+90212001,"#눈속임, 응수 준비 부여",Skill,10101002,10201001,TARGET_SELF,1,1,1000,Refresh,,,,,,,,,
+90212002,"#눈속임, 이동 불가 부여",Skill,10101002,90201001,TARGET_SELF,1,1,1000,Cumulative,,,,,,,,,
+90212003,"#퍼뜨리기, 연기 부여",Skill,10101003,10201002,TARGET_ENEMY,-1,1,100,Cumulative,,,,,,,,,
+90212004,"#연기사슬, 연기 결속 부여",Skill,10101004,10201003,TARGET_ENEMY,1,1,1000,Refresh,,,,,,,,,
+90212005,"#연기사슬, 이동 불가 부여",Skill,10101004,90201001,TARGET_SELF,1,1,1000,Refresh,,,,,,,,,
+90212006,"#회오리, 회오리 부여",Skill,10101005,10201004,TARGET_ENEMY,2,1,1000,Refresh,,,,,,,,,
+90212007,"#탐식, 방어력 감소 부여",Skill,30101002,90201002,TARGET_ENEMY,3,2,90,Cumulative,,,,,,,,,
+90212008,"#절규, 방어력 감소 부여",Skill,30101004,90201002,TARGET_ENEMY,3,2,90,Cumulative,,,,,,,,,

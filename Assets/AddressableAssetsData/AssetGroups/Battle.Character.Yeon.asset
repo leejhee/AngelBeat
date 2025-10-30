@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: f318c059008d5b6409747a9526c8fda7
   m_SerializeEntries:
+  - m_GUID: 002fc475c31d08b4c8c0258b228886d8
+    m_Address: timeline_Twister
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 12444c1a52e2f8441b8967baea73dd8a
     m_Address: Yeon
     m_ReadOnly: 0
@@ -28,12 +33,22 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7b5a100d3a426c14b912515473845358
-    m_Address: timeline_MiasmaSpread
+    m_Address: timeline_SmokeWave
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a30d08670dfab354bbdc6c0226075389
-    m_Address: timeline_PhantomReprisal
+    m_Address: timeline_SmokeStep
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a826f88183b21024f84ae34b45f9c5a9
+    m_Address: timeline_SmokeBind
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bce0bf5cca08ff845be418f3dc90dda4
+    m_Address: timeline_SmokeLink
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

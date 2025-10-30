@@ -222,6 +222,7 @@ namespace Core.Scripts.Foundation.Define
             MagicAttack,
             Buff,
             Debuff,
+            Heal,
             Etc,
             
             eMax
@@ -262,12 +263,13 @@ namespace Core.Scripts.Foundation.Define
             None,
             Refresh,
             Stack,
+            Extend
         }
 
         public enum eRemovePolicy
         {
             ByDuration,
-            ByStackEmpty,
+            ByCondition
         }
 
         public enum eEffectType
@@ -275,12 +277,14 @@ namespace Core.Scripts.Foundation.Define
             ControlMove,
             TriggerSkill,
             Debuff,
+            Dot
         }
 
         public enum eTriggerCondition
         {
             OnUse,
             OnHit,
+            EndOfTurn
         }
         
         
@@ -366,11 +370,12 @@ namespace Core.Scripts.Foundation.Define
         {
             None,
         
-            Burn,
-            PhantomReprisal,
-            DefenseDecrease,
+            ParryReady,
             Smoke,
-
+            SmokeBind,
+            Twister,
+            BanMove,
+            DefenseDecrease,
             
             eMax
         }
@@ -429,6 +434,7 @@ namespace Core.Scripts.Foundation.Define
         public enum eSkillUnlock
         {
             None,
+            Default,
             EUINYEO_SKILL_1,
             EUINYEO_SKILL_2,
             EUINYEO_SKILL_3,

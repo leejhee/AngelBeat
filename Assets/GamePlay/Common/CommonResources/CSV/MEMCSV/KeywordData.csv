@@ -1,9 +1,12 @@
 ﻿키워드 ID,키워드 이름,#키워드 설명,긍정/부정/중립,중첩 가능,최대 중첩,Refresh / Stack / Extend,ByDuration / ByCondition / Permanent,진화 후 키워드 ID,아이콘이 보이는지,키워드 enum,키워드 아이콘,프리팹 경로,,,,,,
 index,KeywordName,#,InfluenceType,Stackable,MaxStack,RefreshPolicy,RemovePolicy,EvolvedKeywordID,iconIsVisible,keywordType,keywordIcon,PrefabPath,,,,,,
 long,string,#,eInfluenceType,bool,int,eRefreshPolicy,eRemovePolicy,long,bool,eKeyword,string,,,,,,,
-60010001,Phantom,#은신,Positive,FALSE,1,Refresh,ByDuration,,TRUE,PhantomReprisal,PhantomReprisal,,,,,,,
-60010002,DefenseDecrease,#방어력 감소,Negative,TRUE,9,Stack,ByDuration,,TRUE,DefenseDecrease,DefenseDecrease,,,,,,,
-60010003,Smog,#연기,Negative,TRUE,9,Stack,ByStackEmpty,,TRUE,Smoke,Smoke,,,,,,,
+10201001,ParryReady,#응수 준비,Positive,FALSE,1,Refresh,ByCondition,,TRUE,ParryReady,ParryReady,,,,,,,
+10201002,Smoke,#연기,Negative,TRUE,9,Stack,ByDuration,,TRUE,Smoke,Smoke,,,,,,,
+10201003,SmokeBind,#연기 결속,Negative,FALSE,1,Refresh,ByDuration,,TRUE,SmokeBind,SmokeBind,,,,,,,
+10201004,Twister,#회오리,Negative,FALSE,1,Extend,ByDuration,,TRUE,Twister,Twister,,,,,,,
+90201001,BanMove,#이동 불가,Neutral,FALSE,1,Refresh,ByDuration,,TRUE,BanMove,BanMove,,,,,,,
+90201002,DefenseDecrease,#방어력 감소,Negative,TRUE,10,Stack,ByDuration,,TRUE,DefenseDecrease,DefenseDecrease,,,,,,,
 
 
 

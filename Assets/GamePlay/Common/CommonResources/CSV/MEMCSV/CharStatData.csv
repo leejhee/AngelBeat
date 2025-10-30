@@ -1,10 +1,10 @@
 ﻿캐릭터 스탯 ID,방어력,항마력,상태이상저항,물리공격력,치명타율,마법공격력,이동력,명중률,상태이상가산치,회피율,행동속도,체력,변위 저항
 index,Defense,MagicResist,AilmentResist,PhysicalAttack,CriticalRate,MagicAttack,Movement,Accuracy,AilmentInflict,Evasion,Speed,HealthPoint,MoveResist
 long,int,int,int,int,int,int,int,int,int,int,int,int,int
-20010001,0,20,20,10,3,10,20,90,20,20,8,30,40
-30020001,10,10,20,8,1,0,12,88,20,0,2,15,0
-
-
+20002001,5,5,30,8,2,8,16,95,30,20,4,18,20
+30002001,10,20,20,10,3,10,20,90,20,20,8,30,40
+30002002,8,8,20,8,1,0,12,88,20,0,2,15,0
+30002003,10,10,20,10,5,10,16,90,25,0,6,15,0
 
 
 
