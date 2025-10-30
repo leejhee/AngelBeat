@@ -161,8 +161,8 @@ Yeon: ...
 @wait
 
 #wayE
-@set Empathy += 1
-@set Faith_Seol += 1
+//@set Empathy += 1
+//@set Faith_Seol += 1
 구태여 묻는 것도 좋지는 않겠지. 누구나 말하고 싶지 않은 것은 하나씩 있을지 모른다.
 어쩌면 언젠가, 스스로 말해 줄 날이 올지도 모르니.
 @hide Seol
@@ -171,7 +171,7 @@ Yeon: ...
 @goto .wayG
 
 #wayF
-@set Empathy -= 1
+//@set Empathy -= 1
 @char Seol pos: 75, 0
 Seol: ...저는 그저, 별 것 아닌 재주로 아픈 사람들을 봐주는 떠돌이였을 뿐입니다.
 @char Yeon pos: 25, 0
