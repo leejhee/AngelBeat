@@ -24,7 +24,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
         private (int x, int y) _anchorA;
         private (int x, int y) _anchorB;
 
-        public DenseMapBuilder(ExploreMapConfig cfg, int seed)
+        public DenseMapBuilder(ExploreMapConfig cfg, ulong seed)
         {
             _cfg = cfg;
             _rng = new GameRandom((ulong)seed);

@@ -1,5 +1,4 @@
 using AngelBeat;
-using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
 using Cysharp.Threading.Tasks;
@@ -7,15 +6,10 @@ using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Common.Scripts.Skill;
-using GamePlay.Features.Scripts.Keyword;
-using GamePlay.Features.Scripts.Skill;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using DataManager = Core.Scripts.Managers.DataManager;
 
 namespace GamePlay.Features.Battle.Scripts.Unit
 {

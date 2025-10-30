@@ -1,30 +1,25 @@
-﻿using GamePlay.Features.Battle.Scripts.Unit;
+﻿using Cysharp.Threading.Tasks;
+using GamePlay.Features.Battle.Scripts.BattleAction;
+using GamePlay.Features.Battle.Scripts.Unit;
+using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
-namespace AngelBeat
+namespace GamePlay.Common.Scripts.Timeline.Marker
 {
     public class SkillPushTargetMarker : SkillTimeLineMarker
     {
-        private Coroutine moveCoroutine;
-        private CharBase target;
-        [SerializeField] private float movespeed;
-        public override void MarkerAction()
+        private CharBase _target;
+        
+        public override async UniTask BuildTaskAsync(CancellationToken ct)
         {
-            //미는 동작
-            target = InputParam.Target[0]; // 무조건 한명 대상
-            target.StartCoroutine(PushMove());
-        }
-
-        private IEnumerator PushMove()
-        { 
-            Vector3 dir = (target.transform.position - InputParam.Caster.transform.position).normalized;
-            Vector3 dest = dir * 5 + target.transform.position;
-            while ((dest - target.transform.position).sqrMagnitude > 0.1f)
-            {
-                target.transform.position += dir * movespeed * Time.deltaTime;
-                yield return null;
-            }
+            _target = InputParam.Target[0];
+            var grid = InputParam.Grid;
+            Vector2Int pivot = grid.WorldToCell(InputParam.Caster.CharTransform.position);
+            Vector2Int targetCell = grid.WorldToCell(_target.CharTransform.position);
+            var res = PushEngine.ComputePushResult(pivot, targetCell, grid);
+            await PushEngine.ApplyPushResult(_target, res, grid, ct);
         }
     }
 }

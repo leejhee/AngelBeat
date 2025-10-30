@@ -1,0 +1,129 @@
+#Scenario_7
+
+@back Dwissan1
+
+@char Yoon pos: 50, 0
+Yoon: 다친 데는 없어, 사제?
+@hide Yoon
+@char Yeon pos: 30, 0
+Yeon: 전 멀쩡합니다, 사저.
+@char Hwi pos: 80, 0
+Hwi: 볼 때마다 인상적이군, 사제가 하는 전투는.
+@char Yoon pos: 70, 0
+Yoon: 저놈들이 더 몰려왔을 때는 도와줘야 하나 싶었다니까?
+@char Bilyeong pos: 20, 50
+Bilyeong: 하, 저들 따위가 이몸의 상대가 될 성 싶더냐?
+@hide Yeon
+@char Yeon pos: 30, 0
+Yeon: 싸우기는 내가 했는데 왜 폼은 네가 잡느냐.
+@hide Bilyeong
+@char Bilyeong pos: 20, 50
+Bilyeong: 하, 내가 손을 쓸 가치도 없는 놈들이었지.
+@hide Yoon
+@char Yoon pos: 70, 0
+Yoon: 그래, 그래. 그렇겠지.
+Bilyeong: 그런 셈 치는 듯한 말본새는 무어냐?
+@hide Hwi
+@char Hwi pos: 80, 0
+Hwi: ...그럼 이어서 가지.
+@hide Yeon
+@hide Bilyeong
+@hide Hwi
+@hide Yoon
+@hideui
+
+@back Dwissan2
+@wait 1.2
+@back Dwissan3
+@wait 1.2
+
+@char Bilyeong.Sigh pos: 25, 50
+@wait 1
+Bilyeong: 하... 
+Bilyeong: 이제 얼마나 남았지?
+@char Hwi pos: 75, 0
+Hwi: 이 앞의 산만 넘으면 나온다네.
+Bilyeong: 오는 동안 저놈들이 뭐 이렇게 많은 건지, 지루할 틈도 없이 나타나서는 덤벼대니 원.
+Hwi: 이제 마지막으로... 흐음.
+@char Bilyeong
+Bilyeong: 또 뭔 말을 하려고 그리 뜸을 들이는 것이느냐.
+Hwi: 꽤 먼 곳에 희귀한 약초 자생지가 있는데, 여기까지 돌아가면 시간이 꽤 걸릴 듯 싶군.
+@char Bilyeong.Angry
+Bilyeong: 그래서? 간다는 것이냐, 만다는 것이냐?
+Hwi: 생각 중이네.
+@char Bilyeong
+Bilyeong: 나도 가야 하느냐?
+Hwi: 생각 중이네.
+@char Bilyeong.Sigh
+Bilyeong: 날 새겠구나.
+Hwi: 연 사제.
+@hide Bilyeong
+@char Yeon pos: 25, 0
+Yeon: 예, 사형.
+Hwi: 설 소저와 함께 요괴곡으로 향할 수 있겠는가?
+Yeon: 둘이서 말입니까?
+Hwi: 그래, 그곳은 나랑 사매만 갔다오면 충분할 것 같네만, 먼저 요괴곡을 둘러보는 게 좋을 것 같네. 사매 없이도 사제는 충분히 갈 수 있겠지.
+Hwi: 설이 길을 알고 있네. 그녀가 발을 잡는 일은 없을 걸세.
+Yeon: 전 괜찮습니다만.
+@hide Yeon
+@char Seol.EyeClosed pos: 25, 0
+Seol: ...그러면 동행하도록 하겠습니다.
+Hwi: 그래, 그러면 그렇게 하지.
+
+@hideui
+@hide Seol
+@hide Hwi
+@wait 1.2
+@back BlackScreen
+@wait 1.2
+@back Dwissan3
+@wait 1.2
+
+@char Yoon pos: 50, 0
+Yoon: 그럼 나중에 봐, 사제!
+@hide Yoon
+@char Yeon pos: 50, 0
+Yeon: 살펴 가시죠.
+@hide Yeon
+@char Bilyeong pos: 75, 50
+Bilyeong: 가다 확 자빠지기나 해라.
+@char Yeon pos: 25, 0
+Yeon: ...또 언제 다투었길래 말이 그 모양이느냐.
+@char Bilyeong.Sigh
+Bilyeong: 허, 내가 당하는 걸 알면 네놈도 그렇게 말할 수 없을 것이니라.
+Yeon: 뿌린대로 거둔다고들 하지.
+@char Bilyeong.Angry
+Bilyeong: 뿌리기는 개뿔이...
+Bilyeong: 내가 당하고만 사는 것 아니더냐?
+Yeon: 그 말.
+Yeon: 내가 나중에 사저에게 그대로 전해 주도록 하마.
+@char Bilyeong.Surprised
+@wait 1.5
+@char Bilyeong.Embarrassed
+Bilyeong: 그... 다시 잘 생각해보니 내가 잘못한 것도 있는 것 같구나.
+@hide Bilyeong
+@hide Yeon
+@char Seol.EyeClosed
+Seol: ...이제 출발하겠습니다. 이쪽입니다.
+
+@wait 1.2
+@back Dwissan2
+
+@char Seol pos: 75, 0
+@wait 1
+Seol: 요괴곡 근처이기에, 나타나는 요괴들을 각별히 주의해주시기 바랍니다.
+Seol: 최대한 그것들이 없는 쪽으로 갈 터이나, 맞닥뜨리게 된다면.
+@char Bilyeong pos: 20, 50
+Bilyeong: 잡아 족쳐달라고?
+@char Seol.EyeClosed
+Seol: ...함께 싸우도록 하겠습니다.
+Bilyeong: ...호오?
+@char Yeon 30, 0
+Yeon: 싸울 줄 아느냐?
+@char Seol
+Seol: 세상을 떠돌며 제 몸 하나는 지킬 수 있게 되었습니다.
+@hide Bilyeong
+@char Bilyeong pos: 20, 50
+Bilyeong: 하, 그리 순탄한 삶은 아니었나 보구나.
+@char Seol.EyeClosed
+Seol: ...그럼 계속해서 모시도록 하겠습니다. 따라와 주십시오.

@@ -18,7 +18,7 @@ public class Tutorial : MonoBehaviour
     {
         await NovelManager.InitAsync();
 
-        NovelManager.Instance.PlayScript("6");
+        NovelManager.Instance.PlayScript("6_1");
 
 
     }

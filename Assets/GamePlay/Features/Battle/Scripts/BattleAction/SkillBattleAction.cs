@@ -122,15 +122,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
 
             CharBase caster = Context.actor;
-            //StageField stage = Context.battleField;
-            //Vector2Int cell = Context.TargetCell.Value;
-            //Vector2 targetWorld = stage.CellToWorldCenter(cell);
             List<CharBase> targets = Context.targets ?? new List<CharBase>();
 
             SkillParameter parameter = new(
                 caster: caster,
                 target: targets,
-                model: Context.skillModel
+                model: Context.skillModel,
+                grid : Context.battleField.GetComponent<BattleStageGrid>()
             );
             
             await caster.SkillInfo.PlaySkillAsync(Context.skillModel.SkillIndex, parameter, ct);

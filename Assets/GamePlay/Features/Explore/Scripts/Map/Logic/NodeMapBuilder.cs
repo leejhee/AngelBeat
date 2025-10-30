@@ -39,7 +39,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
             public long? ItemIndex;
         }
 
-        public NodeMapBuilder(ExploreMapConfig cfg, int seed)
+        public NodeMapBuilder(ExploreMapConfig cfg, ulong seed)
         {
             _cfg = cfg;
             _rng = new GameRandom((ulong)seed);
@@ -856,7 +856,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
 
                 if (!_skel.InBounds(nx, ny) || !_interiorMask[Index(nx, ny)])
                     continue;
-                if (!IsFarFromEnd(nx, ny, 3)) continue;
+                if (!IsFarFromEnd(nx, ny, 5)) continue;
 
                 // 다른 노드와 충돌 체크
                 bool collision = false;
@@ -986,7 +986,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
                 int nx = fromNode.X + perpDx * distance + variance;
                 int ny = fromNode.Y + perpDy * distance + variance;
 
-                if (IsEndForbidden(nx, ny) || !IsFarFromEnd(nx, ny, 3)) continue;
+                if (IsEndForbidden(nx, ny) || !IsFarFromEnd(nx, ny, 5)) continue;
 
                 if (!_skel.InBounds(nx, ny) || !_interiorMask[Index(nx, ny)])
                     continue;

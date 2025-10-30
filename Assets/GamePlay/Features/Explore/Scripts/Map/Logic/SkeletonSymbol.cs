@@ -3,7 +3,7 @@ using System;
 
 namespace GamePlay.Features.Explore.Scripts.Map.Logic
 {
-    public readonly struct SkeletonSymbol
+    public class SkeletonSymbol
     {
         public readonly int Id;                  
         public readonly SystemEnum.MapSymbolType Type;       

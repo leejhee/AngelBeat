@@ -44,7 +44,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
             public Room Room;
         }
 
-        public BSPMapBuilder(ExploreMapConfig cfg, int seed)
+        public BSPMapBuilder(ExploreMapConfig cfg, ulong seed)
         {
             _cfg = cfg;
             _rng = new GameRandom((ulong)seed);

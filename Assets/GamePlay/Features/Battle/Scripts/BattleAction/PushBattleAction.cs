@@ -62,35 +62,41 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             Vector2Int targetingCell = Context.TargetCell.Value;
             CharBase victim = grid.GetUnitAt(targetingCell);
-            
-            Vector2Int goal = targetingCell + (targetingCell - pivot);
-            Vector2 toWorld = stage.CellToWorldCenter(goal);
-            
-            actor.CharPushPlay();
-            // 캐릭터 프리팹 이동
-            await victim.CharKnockBack(toWorld); 
-            // TODO : 벽꿍 구현할 것
-            
-            // 다 움직이고 나서 만약 떨어질 경우 : 낙차만큼 피해 및 사망 예약
-            if (!grid.IsPlatform(goal))
-            {
-                if (!grid.TryFindLandingFloor(goal, out Vector2Int landing, out int fallCells))
-                {
-                    await victim.CharKnockBack(grid.CellToWorldCenter(new Vector2Int(goal.x, -1)));
-                    grid.RemoveUnit(victim);
-                    victim.CharDead();
-                    
-                    return BattleActionResult.Success();
-                }
 
-                await victim.CharKnockBack(grid.CellToWorldCenter(landing));
-                grid.MoveUnit(victim, landing);
-                victim.RuntimeStat.ReceiveHPPercentDamage(30 * fallCells);
-                return BattleActionResult.Success();
-            }
-            
-            grid.MoveUnit(victim, goal);
+            PushEngine.PushResult res = PushEngine.ComputePushResult(pivot, targetingCell, grid);
+            actor.CharPushPlay();
+            await PushEngine.ApplyPushResult(victim, res, grid, ct);
             return BattleActionResult.Success();
+            
+            //Vector2Int goal = targetingCell + (targetingCell - pivot);
+            //Vector2 toWorld = stage.CellToWorldCenter(goal);
+
+            //Vector2 toWorld = grid.CellToWorldCenter(firstGoal);
+            //actor.CharPushPlay();
+            // 캐릭터 프리팹 이동
+            //await victim.CharKnockBack(toWorld); 
+            // TODO : 벽꿍 구현할 것
+
+            // 다 움직이고 나서 만약 떨어질 경우 : 낙차만큼 피해 및 사망 예약
+            //if (!grid.IsPlatform(goal))
+            //{
+            //    if (!grid.TryFindLandingFloor(goal, out Vector2Int landing, out int fallCells))
+            //    {
+            //        await victim.CharKnockBack(grid.CellToWorldCenter(new Vector2Int(goal.x, -1)));
+            //        grid.RemoveUnit(victim);
+            //        victim.CharDead();
+            //        
+            //        return BattleActionResult.Success();
+            //    }
+//
+            //    await victim.CharKnockBack(grid.CellToWorldCenter(landing));
+            //    grid.MoveUnit(victim, landing);
+            //    victim.RuntimeStat.ReceiveHPPercentDamage(30 * fallCells);
+            //    return BattleActionResult.Success();
+            //}
+            //
+            //grid.MoveUnit(victim, goal);
+            //return BattleActionResult.Success();
         }
     }
 }

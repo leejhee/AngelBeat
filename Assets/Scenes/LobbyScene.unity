@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 26324063}
   - component: {fileID: 26324062}
+  - component: {fileID: 26324064}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -152,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSaveName: "\uC0C8 \uC5EC\uC815 \uC2DC\uC791"
+  autoLoadLastSlot: 0
 --- !u!4 &26324063
 Transform:
   m_ObjectHideFlags: 0
@@ -167,6 +169,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &26324064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26324061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13c32f4114364958a62d338c4981b9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testSlotName: TestSlot
+  initializeInEditor: 1
 --- !u!1 &38212994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,13 +1258,13 @@ MonoBehaviour:
       - m_Target: {fileID: 26324062}
         m_TargetAssemblyTypeName: GamePlay.Features.Lobby.Scripts.LobbyManager, Assembly-CSharp
         m_MethodName: NewGameStart
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "\uC0C8 \uC5EC\uC815 \uC2DC\uC791"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1339808845
@@ -1364,6 +1380,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456137324}
   m_CullTransparentMesh: 1
+--- !u!1 &1481140400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481140402}
+  - component: {fileID: 1481140401}
+  m_Layer: 0
+  m_Name: '@GameManager'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1481140401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481140400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43bfb00f92a4dd0428f36839106cc83c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1481140402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481140400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1372,3 +1432,4 @@ SceneRoots:
   - {fileID: 26324063}
   - {fileID: 38212998}
   - {fileID: 262833358}
+  - {fileID: 1481140402}

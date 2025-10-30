@@ -8,13 +8,14 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
     /// <summary>
     /// 맵의 기본 구조를 나타내는 클래스
     /// </summary>
+   [Serializable]
     public class ExploreMapSkeleton
     {
         public string DungeonName { get; }
         public int Floor { get; }
         public int Width { get; }
         public int Height { get; }
-        public int Seed { get; }
+        public ulong Seed { get; }
         
         private readonly SystemEnum.MapCellType[] _cells;
         private readonly List<SkeletonSymbol> _symbols = new();
@@ -23,7 +24,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
         private readonly Dictionary<int, List<int>> _indexToSymbolIds = new();
         private readonly Dictionary<SystemEnum.MapSymbolType, List<int>> _typeToSymbolIds = new();
         
-        public ExploreMapSkeleton(string dungeonName, int floor, int width, int height, int seed)
+        public ExploreMapSkeleton(string dungeonName, int floor, int width, int height, ulong seed)
         {
             if (width <= 0 || height <= 0) throw new ArgumentOutOfRangeException("width/height must be positive");
 
