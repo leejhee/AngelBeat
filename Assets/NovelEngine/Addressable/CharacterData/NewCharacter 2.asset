@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NewCharacter 2
   m_EditorClassIdentifier: 
   characterName: Yeon
-  body: {fileID: 21300000, guid: 9c6716709f32f934a9927085b5e8a467, type: 3}
+  body: {fileID: 21300000, guid: 8987bad71030f824bb2dd317ddd3dba9, type: 3}
   faceDict:
     pairs:
     - _key: eyeClosed
