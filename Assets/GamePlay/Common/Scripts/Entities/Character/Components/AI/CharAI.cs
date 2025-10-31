@@ -13,7 +13,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
 {
     /// <summary>
     /// 적 AI 제어 (ActionSet 기반)
-    /// PDF "적 AI 판단 로직 (Simple Ver.)" 구현
+    /// PDF "적 AI 판단 로직 (Simple Ver.)" 완전 구현
     /// </summary>
     public class CharAI
     {
@@ -30,15 +30,13 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         }
         
         /// <summary>
-        /// 턴 시작 시 AI 실행
-        /// PDF 전체 플로우 구현
+        /// PDF 전체 플로우 실행
         /// </summary>
         public async UniTask ExecuteTurn(Turn turn)
         {
             _currentTurn = turn;
-            await UniTask.Delay(1000); // 연출을 위한 딜레이
+            await UniTask.Delay(1000); // 연출용 딜레이
             
-            // BattleController에서 그리드 가져오기
             #region Grid Initialization
             _stageField = BattleController.Instance.GetStageField();
             if (!_stageField)
@@ -57,28 +55,42 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             Debug.Log($"[AI] ====== {_owner.name} 턴 시작 ======");
             
+            // 1단계: 상황 분석
             _context = new AIContext(_owner, _grid);
             _context.AnalyzeSituation();
             Debug.Log(_context.GetSummary());
             
+            // 2단계: 모든 ActionSet 생성
             _setGenerator = new AIActionSetGenerator(_context);
             List<AIActionSet> allSets = _setGenerator.GenerateAllActionSets();
             
+            // 3단계: 각 세트에 재이동 설정
             foreach (var set in allSets)
             {
                 _setGenerator.CheckAfterMoveForSet(set);
             }
             
+            // 4단계: 유효성 필터링
             List<AIActionSet> validSets = _setGenerator.FilterInvalidSets(allSets);
             Debug.Log($"[AI] 유효한 세트: {validSets.Count}/{allSets.Count}");
             
+            if (validSets.Count == 0)
+            {
+                Debug.LogWarning($"[AI] {_owner.name} 실행 가능한 행동 없음, 턴 종료");
+                await UniTask.Delay(500);
+                return;
+            }
+            
+            // 5단계: 가중치 계산
             foreach (var set in validSets)
             {
                 _setGenerator.CalculateWeight(set);
             }
             
+            // 6단계: 상위 세트 선택
             List<AIActionSet> topSets = _setGenerator.SelectTopSets(validSets, 3);
             
+            // 7단계: 실행
             bool actionSuccess = false;
             foreach (var set in topSets)
             {
@@ -87,11 +99,11 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 
                 if (actionSuccess)
                 {
-                    Debug.Log($"[AI] 성공: {set}");
+                    Debug.Log($"[AI] ✓ 성공: {set}");
                     break;
                 }
                 
-                Debug.Log("[AI] 실패, 다음 후보 시도");
+                Debug.Log("[AI] ✗ 실패, 다음 후보 시도");
             }
             
             if (!actionSuccess)
@@ -106,12 +118,18 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         }
         
         /// <summary>
-        /// ActionSet 실행 시도
+        /// PDF 7단계: ActionSet 실행 시도
         /// </summary>
         private async UniTask<bool> TryExecuteActionSet(AIActionSet set)
         {
             try
             {
+                // 0. 방향 전환 (타겟이 있는 경우)
+                if (set.TargetChar && set.TargetCell.HasValue)
+                {
+                    AdjustDirection(set.TargetCell.Value);
+                }
+                
                 // 1. 이동 (MoveTo)
                 if (set.MoveTo.HasValue)
                 {
@@ -176,29 +194,24 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             }
         }
         
+        #region 행동 실행 메서드들
+        
         /// <summary>
-        /// AIActionType을 BattleActionContext의 ActionType으로 변환
+        /// 타겟 방향으로 캐릭터 방향 조정
         /// </summary>
-        private ActionType ConvertToBattleActionType(AIActionType aiActionType)
+        private void AdjustDirection(Vector2Int targetCell)
         {
-            switch (aiActionType)
+            Vector2Int currentCell = _grid.WorldToCell(_owner.CharTransform.position);
+            
+            bool shouldFaceRight = targetCell.x > currentCell.x;
+            
+            if (_owner.LastDirection != shouldFaceRight)
             {
-                case AIActionType.Attack:
-                    return ActionType.Skill;  // AI의 Attack은 Skill 사용
-                case AIActionType.Push:
-                    return ActionType.Push;
-                case AIActionType.Jump:
-                    return ActionType.Jump;
-                case AIActionType.Move:
-                    return ActionType.Move;
-                case AIActionType.Wait:
-                    return ActionType.None;
-                default:
-                    return ActionType.None;
+                _owner.LastDirection = shouldFaceRight;
+                // TODO: 실제 스프라이트 플립 적용 필요
+                Debug.Log($"[AI] 방향 전환: {(shouldFaceRight ? "→" : "←")}");
             }
         }
-        
-        #region 행동 실행 메서드들
         
         /// <summary>
         /// 이동 실행
@@ -215,10 +228,10 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 return false;
             }
             
-            // BattleActionContext 생성 - 올바른 ActionType 사용
+            // BattleActionContext 생성
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Move,  // BattleAction의 ActionType
+                battleActionType = ActionType.Move,
                 actor = _owner,
                 battleField = _stageField,
                 TargetCell = target
@@ -231,7 +244,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             if (result.ActionSuccess)
             {
                 _currentTurn.TryConsumeMove(moveDistance);
-                Debug.Log($"[AI] 이동 성공: {currentPos} → {target}");
+                Debug.Log($"[AI] ✓ 이동 성공: {currentPos} → {target}");
                 return true;
             }
             
@@ -255,10 +268,10 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 return false;
             }
             
-            // BattleActionContext 생성 - Attack은 Skill로 변환
+            // BattleActionContext 생성
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Skill,  // BattleAction의 ActionType.Skill
+                battleActionType = ActionType.Skill,
                 actor = _owner,
                 battleField = _stageField,
                 skillModel = set.SkillToUse,
@@ -273,7 +286,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             if (result.ActionSuccess)
             {
                 _currentTurn.TryUseMajorAction();
-                Debug.Log($"[AI] 공격 성공: {set.SkillToUse.SkillName} → {set.TargetChar.name}");
+                Debug.Log($"[AI] ✓ 공격 성공: {set.SkillToUse.SkillName} → {set.TargetChar.name}");
                 return true;
             }
             
@@ -300,7 +313,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             // BattleActionContext 생성
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Push,  // BattleAction의 ActionType.Push
+                battleActionType = ActionType.Push,
                 actor = _owner,
                 battleField = _stageField,
                 TargetCell = set.TargetCell.Value
@@ -313,7 +326,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             if (result.ActionSuccess)
             {
                 _currentTurn.TryUseMajorAction();
-                Debug.Log($"[AI] 푸시 성공: {set.TargetCell.Value}");
+                Debug.Log($"[AI] ✓ 푸시 성공: {set.TargetCell.Value}");
                 return true;
             }
             
@@ -340,7 +353,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             // BattleActionContext 생성
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Jump,  // BattleAction의 ActionType.Jump
+                battleActionType = ActionType.Jump,
                 actor = _owner,
                 battleField = _stageField,
                 TargetCell = set.TargetCell.Value
@@ -353,7 +366,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             if (result.ActionSuccess)
             {
                 _currentTurn.TryUseMajorAction();
-                Debug.Log($"[AI] 점프 성공: {set.TargetCell.Value}");
+                Debug.Log($"[AI] ✓ 점프 성공: {set.TargetCell.Value}");
                 return true;
             }
             

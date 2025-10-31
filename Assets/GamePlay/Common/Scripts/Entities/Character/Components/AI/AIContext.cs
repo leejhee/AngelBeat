@@ -11,6 +11,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
 {
     /// <summary>
     /// AI가 한 턴 동안 상황을 판단한 결과를 저장하는 컨텍스트
+    /// PDF 1단계: 상황 분석
     /// </summary>
     public class AIContext
     {
@@ -21,7 +22,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         public BattleStageGrid Grid { get; private set; }
         
         // 상황 판단 플래그들 (PDF 1단계)
-        public bool CanAttack { get; private set; }      // 사거리 내 적 존재
+        public bool CanAttack { get; private set; }      // 사거리 내 적 존재 (더 이상 현재 위치만 체크하지 않음)
         public bool LowHP { get; private set; }          // HP ≤ 30%
         public bool Grouped { get; private set; }        // 주변 2칸 내 아군 ≥ 2
         
@@ -49,7 +50,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         }
         
         /// <summary>
-        /// 전장 상황을 분석하여 플래그 설정
+        /// PDF 1단계: 전장 상황을 분석하여 플래그 설정
         /// </summary>
         public void AnalyzeSituation()
         {
@@ -57,7 +58,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             CurrentCell = Grid.WorldToCell(Self.CharTransform.position);
             
             // 이동력 계산
-            AvailableMoveRange = (int)Self.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
+            AvailableMoveRange = (int)Self.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
             
             // 이동 가능한 칸 계산
             CalculateWalkableCells();
@@ -83,8 +84,9 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                                               Mathf.Abs(enemyCell.y - CurrentCell.y);
             }
             
-            // 1. canAttack: 사거리 내 적 존재 여부
-            CanAttack = CheckIfCanAttack();
+            // 1. canAttack: 이제 Generator에서 직접 판단하므로 간단히 거리 기반으로만
+            //    실제로는 이동 후 각 위치에서 공격 가능 여부를 Generator가 체크
+            CanAttack = CheckIfInAttackRange();
             
             // 2. lowHP: 체력이 30% 이하인지
             LowHP = Self.CurrentHP <= Self.MaxHP * 0.3f;
@@ -92,52 +94,63 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             // 3. grouped: 주변 2칸 내 아군이 2명 이상인지
             Grouped = CheckIfGrouped();
             
-            Debug.Log($"[AI Context] {Self.name} - Pos:{CurrentCell}, MoveRange:{AvailableMoveRange}, " +
-                      $"canAttack:{CanAttack}, lowHP:{LowHP}, grouped:{Grouped}");
+            Debug.Log($"[AIContext] ====== 상황 분석 ======");
+            Debug.Log($"  위치: {CurrentCell}, 이동력: {AvailableMoveRange}");
+            Debug.Log($"  가장 가까운 적: {(NearestEnemy ? NearestEnemy.name : "없음")} (거리: {GridDistanceToNearestEnemy})");
+            Debug.Log($"  HP: {Self.CurrentHP:F0}/{Self.MaxHP:F0} (LowHP: {LowHP})");
+            Debug.Log($"  주변 아군: {NearbyAllies.Count}명 (Grouped: {Grouped})");
+            Debug.Log($"  공격 가능 범위 내: {CanAttack}");
         }
         
         /// <summary>
         /// 실제 걸어서 이동 가능한 칸 계산 (MoveBattleAction 로직 기반)
+        /// 🔧 수정: 장애물/유닛이 있으면 즉시 탐색 중단
         /// </summary>
         private void CalculateWalkableCells()
         {
             WalkableCells.Clear();
             
             // 오른쪽 탐색
-            bool blockedRight = false;
             for (int offset = 1; offset <= AvailableMoveRange; offset++)
             {
                 Vector2Int candidate = new Vector2Int(CurrentCell.x + offset, CurrentCell.y);
-                if (Grid.IsMaskable(candidate)) continue;
                 
+                // 맵 밖이면 중단
+                if (Grid.IsMaskable(candidate)) break;
+                
+                // 갈 수 있으면 추가
                 if (Grid.IsWalkable(candidate))
                 {
-                    if (!blockedRight)
-                        WalkableCells.Add(candidate);
+                    WalkableCells.Add(candidate);
                 }
                 else
                 {
-                    blockedRight = true;
+                    // 갈 수 없는 칸(장애물/유닛)이면 탐색 중단
+                    break;
                 }
             }
             
             // 왼쪽 탐색
-            bool blockedLeft = false;
             for (int offset = 1; offset <= AvailableMoveRange; offset++)
             {
                 Vector2Int candidate = new Vector2Int(CurrentCell.x - offset, CurrentCell.y);
-                if (Grid.IsMaskable(candidate)) continue;
                 
+                // 맵 밖이면 중단
+                if (Grid.IsMaskable(candidate)) break;
+                
+                // 갈 수 있으면 추가
                 if (Grid.IsWalkable(candidate))
                 {
-                    if (!blockedLeft)
-                        WalkableCells.Add(candidate);
+                    WalkableCells.Add(candidate);
                 }
                 else
                 {
-                    blockedLeft = true;
+                    // 갈 수 없는 칸(장애물/유닛)이면 탐색 중단
+                    break;
                 }
             }
+            
+            Debug.Log($"[AIContext] 이동 가능 칸: {string.Join(", ", WalkableCells)}");
         }
         
         /// <summary>
@@ -172,63 +185,19 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         }
         
         /// <summary>
-        /// 보유한 스킬 중 하나라도 사거리 내에 적이 있는지 확인
+        /// 간단한 공격 가능 거리 체크 (대략적 판단용)
+        /// 실제 공격 가능 여부는 Generator에서 각 위치마다 정확히 계산
         /// </summary>
-        private bool CheckIfCanAttack()
+        private bool CheckIfInAttackRange()
         {
             if (!NearestEnemy) return false;
             
-            Vector2Int enemyCell = Grid.WorldToCell(NearestEnemy.CharTransform.position);
+            // 이동력 + 평균 스킬 사거리(3칸 가정)를 고려한 대략적 판단
+            int estimatedMaxRange = AvailableMoveRange + 3;
             
-            foreach (SkillModel skill in Self.SkillInfo.SkillSlots)
-            {
-                if (skill == null) continue;
-                if (skill.skillType != SystemEnum.eSkillType.PhysicalAttack &&
-                    skill.skillType != SystemEnum.eSkillType.MagicAttack) continue;
-                
-                try
-                {
-                    BattleActionPreviewData rangeData = SkillRangeHelper.ComputeSkillRange(
-                        Grid,
-                        skill.skillRange,
-                        Self
-                    );
-                    
-                    // 적의 위치가 타격 가능 범위(PossibleTile)에 포함되는지 확인
-                    if (rangeData.PossibleCells.Contains(enemyCell))
-                    {
-                        Debug.Log($"[AI CanAttack] ✓ {Self.name}의 스킬 [{skill.SkillName}]로 공격 가능" +
-                                  $"\n  - 적: {NearestEnemy.name} at {enemyCell}" +
-                                  $"\n  - AI 위치: {CurrentCell}" +
-                                  $"\n  - AI 방향: {(Self.LastDirection ? "Right" : "Left")}" +
-                                  $"\n  - 타격 가능 셀 수: {rangeData.PossibleCells.Count}");
-                        return true;
-                    }
-                    else
-                    {
-                        // 디버그: 왜 공격할 수 없는지 상세 정보
-                        Debug.Log($"[AI CanAttack] ✗ {Self.name}의 스킬 [{skill.SkillName}]로 공격 불가" +
-                                  $"\n  - 적 위치: {enemyCell}" +
-                                  $"\n  - AI 위치: {CurrentCell}" +
-                                  $"\n  - AI 방향: {(Self.LastDirection ? "Right" : "Left")}" +
-                                  $"\n  - 타격 가능 셀 수: {rangeData.PossibleCells.Count}" +
-                                  $"\n  - 스킬 범위: Forward={skill.skillRange.Forward}, " +
-                                  $"Backward={skill.skillRange.Backward}, " +
-                                  $"UpForward={skill.skillRange.UpForward}, " +
-                                  $"UpBackward={skill.skillRange.UpBackward}");
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    Debug.LogError($"[AI CanAttack] 스킬 범위 계산 중 오류: {skill.SkillName}\n{e}");
-                }
-            }
+            bool inRange = GridDistanceToNearestEnemy <= estimatedMaxRange;
             
-            Debug.Log($"[AI CanAttack] ✗ {Self.name}는 어떤 스킬로도 {NearestEnemy.name}를 공격할 수 없음" +
-                      $"\n  - 적 위치: {enemyCell}" +
-                      $"\n  - AI 위치: {CurrentCell}" +
-                      $"\n  - 그리드 거리: {GridDistanceToNearestEnemy}");
-            return false;
+            return inRange;
         }
         
         /// <summary>
@@ -238,7 +207,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         {
             NearbyAllies.Clear();
             
-            // 같은 편 캐릭터 목록 가져오기 (적의 적의 적 = 아군)
+            // 같은 편 캐릭터 목록 가져오기
             var allCharacters = BattleCharManager.Instance.GetBattleMembers();
             
             // 거리 2칸 이내의 아군 카운트 (그리드 맨해튼 거리)

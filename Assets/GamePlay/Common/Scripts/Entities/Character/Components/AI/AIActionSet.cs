@@ -44,9 +44,18 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             {
                 actionStr = $"Attack[{SkillToUse.SkillName}]→{(TargetChar ? TargetChar.name : "?")}";
             }
+            else if (AIActionType == AIActionType.Push && TargetChar)
+            {
+                actionStr = $"Push[{TargetChar.name}]";
+            }
+            else if (AIActionType == AIActionType.Jump && TargetCell.HasValue)
+            {
+                actionStr = $"Jump→{TargetCell.Value}";
+            }
+            
             string afterStr = AfterMove.HasValue ? $"→AfterMove({AfterMove.Value})" : "";
             
-            return $"[Set W:{Weight:F1}] {moveStr} → {actionStr} {afterStr}";
+            return $"[W:{Weight:F1}] {moveStr} → {actionStr} {afterStr}";
         }
     }
     

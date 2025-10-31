@@ -365,7 +365,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public bool LastDirection
         {
             get => _lastDirectionRight;
-            private set
+            set
             {
                 _lastDirectionRight = value;
                 if(CharType == SystemEnum.eCharType.Player)
