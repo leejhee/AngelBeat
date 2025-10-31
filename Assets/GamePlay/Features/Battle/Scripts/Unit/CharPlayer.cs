@@ -9,7 +9,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public class CharPlayer : CharBase, IPointerClickHandler
     {
-        
         protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Player;
         public override async UniTask CharInit(CharacterModel charModel)
         {

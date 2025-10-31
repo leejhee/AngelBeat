@@ -46,6 +46,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - View
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74c5f599caed9194c83d4efa39bb2ad4
+    m_Address: MoveBlocked
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76012417a12a620448b173e60a9bb482
     m_Address: STAGE/TestMap
     m_ReadOnly: 0
