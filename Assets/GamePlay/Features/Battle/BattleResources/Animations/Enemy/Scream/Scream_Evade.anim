@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Baby_Tamsik
+  m_Name: Scream_Evade
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 2c9061059dc3be9499c30a5796f0474c, type: 3}
-    - time: 0.9
-      value: {fileID: 21300000, guid: 2c9061059dc3be9499c30a5796f0474c, type: 3}
+      value: {fileID: 21300000, guid: 481c4cea6d13d7f43b469c2062f5cc74, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: 481c4cea6d13d7f43b469c2062f5cc74, type: 3}
     attribute: m_Sprite
     path: UnitRoot
     classID: 212
@@ -46,14 +46,14 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 2c9061059dc3be9499c30a5796f0474c, type: 3}
-    - {fileID: 21300000, guid: 2c9061059dc3be9499c30a5796f0474c, type: 3}
+    - {fileID: 21300000, guid: 481c4cea6d13d7f43b469c2062f5cc74, type: 3}
+    - {fileID: 21300000, guid: 481c4cea6d13d7f43b469c2062f5cc74, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.9166666
+    m_StopTime: 1.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

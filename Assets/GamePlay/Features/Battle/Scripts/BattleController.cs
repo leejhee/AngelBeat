@@ -460,7 +460,18 @@ namespace GamePlay.Features.Battle.Scripts
             
             battleCharInfoEvent?.Invoke(FocusChar.CharInfo);
         }
+        
+        public Action<long> rewardSkillSelectedEvent;
+        public void SelectSkillReward(long skillID)
+        {
+            rewardSkillSelectedEvent?.Invoke(skillID);
+        }
 
+        public void GetSkill(long skillID)
+        {
+            
+        }
+        
         #endregion
     }
     

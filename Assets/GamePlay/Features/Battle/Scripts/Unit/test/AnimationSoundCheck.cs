@@ -65,5 +65,9 @@ public class AnimationSoundCheck : MonoBehaviour
         
         Nanta,
         Tamsik,
+        
+        
+        Scream,
+        EchoShot,
     }
 }

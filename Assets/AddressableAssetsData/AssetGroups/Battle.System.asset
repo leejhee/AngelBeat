@@ -28,12 +28,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - BattleObject
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2c90e4088b2c6834d93e97a2bfa35d1f
-    m_Address: GameOverView
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 31a6031f5d615a8489cc582d4476a1e6
     m_Address: KeywordFloatingObject
     m_ReadOnly: 0
@@ -42,6 +36,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 459afaa99bf66d8479f3fe36d88dc537
     m_Address: BattleCharacterInfoPopUp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - View
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e22d306472cf5c4ebaa26bde8963324
+    m_Address: BattleWinView
     m_ReadOnly: 0
     m_SerializedLabels:
     - View
@@ -82,12 +82,6 @@ MonoBehaviour:
     m_Address: BattleBGM
     m_ReadOnly: 0
     m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d94ea6fac8cf3d149887ce915f01ad5a
-    m_Address: GameWinView
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - View
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e655065696571044288b085ba2544c29
     m_Address: TurnPortrait
