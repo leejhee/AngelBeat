@@ -130,7 +130,7 @@ namespace novel
                                 Debug.LogError(e);
                                 break;
                             }
-
+                            
                             var bodyObject = newStanding.transform.GetChild(BODY_CHILD_INDEX).gameObject;
                             var headObject = newStanding.transform.GetChild(HEAD_CHILD_INDEX).gameObject;
 
@@ -164,7 +164,7 @@ namespace novel
                             }
                             else
                             {
-                                var headSprite = charSO.GetHead(appearance);
+                                var headSprite = charSO.GetHead(appearance.ToLower());
                                 if (headSprite == null)
                                 {
                                     Debug.LogError($"{charName}의 {appearance} 표정 존재하지 않음");
