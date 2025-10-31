@@ -4,12 +4,12 @@
 @char Akui pos: 50, 0
 Akui: @#%#$$&&#$...!!!!!
 @hide Akui
-@char Bilyeong pos: 50, 50
+@char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: …허.
 @hide Bilyeong
-@char Yeon pos: 25, 0
+@char Yeon pos: 25, 0 scale: 0.9
 Yeon: 뭐, 잘 끝난 것 같구나.
-@char Bilyeong.Sigh pos: 75, 50
+@char Bilyeong.Sigh pos: 75, 50 scale: 0.7
 Bilyeong: …쥐새끼처럼 숨어 있다가 낭떠러지로 슬쩍 밀어버린 것 말이느냐? 
 Yeon: 문제라도 있느냐?
 @char Bilyeong

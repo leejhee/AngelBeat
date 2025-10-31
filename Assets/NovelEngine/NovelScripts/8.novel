@@ -2,9 +2,9 @@
 
 @back Yokaigol
 
-@char Seol.Eyeclosed pos: 75, 0
+@char Seol.Eyeclosed pos: 75, 0 scale: 0.9
 Seol: 도착했군요, 이곳입니다.
-@char Bilyeong pos: 25, 50
+@char Bilyeong pos: 25, 50 scale: 0.7
 Bilyeong: 여기라고? 생각보다도 훨씬 더... 
 @char Seol
 Seol: 낡았다고 생각하실 겁니다.
@@ -20,7 +20,7 @@ Seol: ...농이었다고 생각하고 잊어주시길.
 @char Seol
 Seol: 그럼, 전 마을 분들께 얘기를 드리고 올 터이니, 이곳에서 잠시 기다려 주십시오.
 @hide Bilyeong
-@char Yeon pos: 25, 0
+@char Yeon pos: 25, 0 scale: 0.9
 Yeon: 따라가지 않아도 괜찮겠는가?
 Seol: 마을 분들에게 아직 망량은 이해하기 어려운 자들입니다. 
 Seol: 괜히 따라가서 그들의 불안감을 키울 필요는 없을 것 같다고 생각됩니다.
@@ -30,7 +30,7 @@ Seol: 네.
 @char Seol transition: Fadeout time: 1
 @wait 2.5
 
-@char Bilyeong pos: 75, 50
+@char Bilyeong pos: 75, 50 scale: 0.7
 Bilyeong: 요괴 잡으러 왔더니 귀신잡게 생겼구나.
 Yeon: 그래, 마을이 낡고 활기가 없으니, 퍽 을씨년스러운 것이 귀신이 나와도 이상하지 않겠구나.
 Bilyeong: 네놈도 귀신 소리나 하는 것이냐? 
@@ -43,21 +43,21 @@ Bilyeong: 하루종일 잡놈들을 패주고서는 별을 세면서 자곤 했�
 Yeon: 지금 처지에 그리 했다간 입 돌아가 죽기 딱 좋겠지만 말이지.
 @hide Yeon
 @hide Bilyeong
-@char Seol pos: 50, 0
+@char Seol pos: 50, 0 scale: 0.9
 Seol: 말씀 중에 죄송합니다만.
 @hide Seol
-@char Bilyeong.Surprised pos: 25, 50
+@char Bilyeong.Surprised pos: 25, 50 scale: 0.7
 Bilyeong: ...허! 무슨, 벌써 왔느냐? 
 Bilyeong: 기척을 그리 지우고 다가오니 난 귀신이 벌써 나온 줄 알았다.
-@char Seol.EyeClosed pos: 75, 0
+@char Seol.EyeClosed pos: 75, 0 scale: 0.9
 Seol: ...죄송합니다. 마을 분과 얘기가 끝났기에 돌아왔습니다.
 @hide Bilyeong
-@char Yeon pos: 20, 0
+@char Yeon pos: 20, 0 scale: 0.9
 Yeon: 뭐라고 하셨느냐?
 @char Seol
 Seol: 살고 있는 곳 외의 나머지 집은 자유롭게 이용해도 좋다고 합니다.
 Seol: 따로 무언가를 줄 형편은 되지 않지만, 원하는 바를 이룰 수 있기를 바란다... 고 합니다.
-@char Bilyeong pos: 30, 50
+@char Bilyeong pos: 30, 50 scale: 0.7
 Bilyeong: 낯선 이를 대한다기에는 과할 정도로 호의적이지 않나?
 @char Seol.EyeClosed
 Seol: 그들도 이미 저희가 요괴를 해치우러 왔다는 것을 알고 있습니다. 
@@ -65,23 +65,23 @@ Seol: 아마 그렇기에 가능한 선에 최대한 도우려 하는 것이겠�
 @char Seol
 Seol: 다만, 아직 저희를 미심쩍게 보고 있는 것 같습니다.
 @hide Bilyeong
-@char Bilyeong.Happy pos: 30, 50
+@char Bilyeong.Happy pos: 30, 50 scale: 0.7
 Bilyeong: 결국 일단 잡놈들을 때려잡아 준다기에 돕기는 하겠는데, 아직 출신에 근본도 없는 놈들을 믿기는 힘들다는 것이지?
 @hide Yeon
-@char Yeon.EyeClosed pos: 20, 0
+@char Yeon.EyeClosed pos: 20, 0 scale: 0.9
 Yeon: 그러면 기대에 부응해야겠지.
 @hide Bilyeong
-@char Bilyeong pos: 30, 50
+@char Bilyeong pos: 30, 50 scale: 0.7
 Bilyeong: 지금 갈 것이냐?
 @hide Yeon
-@char Yeon pos: 20, 0
+@char Yeon pos: 20, 0 scale: 0.9
 Yeon: 못 갈 것도 없지. 가볍게 근처라도 거닐며 그것들을 쫓아줘야, 그쪽에서도 우리를 믿어 주지 않겠는가?
 @hide Bilyeong
-@char Bilyeong.Sigh pos: 30, 50
+@char Bilyeong.Sigh pos: 30, 50 scale: 0.7
 Bilyeong: 그렇게 고생해서 왔거늘 오자마자 또 힘쓰게 생겼구나.
 Seol: 저도, 같이 싸우면 되겠습니까?
 @hide Yeon
-@char Yeon pos: 20, 0
+@char Yeon pos: 20, 0 scale: 0.9
 Yeon: 아, 설 소저께서는,
 
 @hide Yeon
@@ -96,14 +96,14 @@ Yeon: 아, 설 소저께서는,
 
 #wayA
 
-@char Seol.EyeClosed pos: 50, 0
+@char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: 그럼, 따라가도록 하겠습니다. 가시죠.
 @hide Seol
 @goto .wayC
 
 #wayB
 
-@char Seol.EyeClosed pos: 50, 0
+@char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: ...네, 알겠습니다. 그러면, 이곳에서 거처를 정리하도록 하겠습니다.
 @char Seol
 Seol: 모쪼록 무사히 다녀오십시오.
@@ -111,5 +111,5 @@ Seol: 모쪼록 무사히 다녀오십시오.
 @goto .wayC
 
 #wayC
-@char Yeon pos: 50, 0
+@char Yeon pos: 50, 0 scale: 0.9
 Yeon: 그래, 그럼 출발하지.

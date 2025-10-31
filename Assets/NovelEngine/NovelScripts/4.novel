@@ -2,61 +2,61 @@
 
 @back Dwissan3
 
-@char Seol.EyeClosed pos: 50, 0
+@char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: ...휘 의원님.
 @hide Seol
-@char Hwi pos: 75, 0
+@char Hwi pos: 75, 0 scale: 0.9
 Hwi: 아, 왜 그러지?
-@char Yeon pos: 30, 0
+@char Yeon pos: 30, 0 scale: 0.9
 Yeon: ...의원님?
 Hwi: 아, 사제는 모르겠군.
-@char Yoon pos: 20, 0
+@char Yoon pos: 20, 0 scale: 0.9
 Yoon: 사형이 우리가 봉인되었던 동안 이 분하고 의술을 연구했다나봐.
 Hwi: 정확하게는 좀 다르지만... 결론적으로는 그렇지.
 @hide Yeon
-@char Yeon pos: 30, 0
+@char Yeon pos: 30, 0 scale: 0.9
 Yeon: ...인간을 연구하던 것이군요.
 Yeon: 의술은 그 과정에서 깨우친 것이고.
 Hwi: 하하, 그래. 숲을 마주하려면, 나무를 먼저 보아야 하니 말이지.
 Hwi: 그래서, 무슨 일인가?
 @hide Yeon
 @hide Yoon
-@char Seol pos: 30, 0
+@char Seol pos: 30, 0 scale: 0.9
 Seol: 그저, 길을 약간 돌아가면 근처에 선약초 자생지가 있기에 여쭈었습니다.
 Hwi: 아, 좋군. 잠시 들러서 좀 캐 가지.
-@char Bilyeong pos: 20, 50
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 그 줘도 안 먹는 씁쓸한 걸 캐 가겠다고 또 돌아가자고?
 Hwi: 물자 한 톨이 중요한 상황이니 말이지.
 @hide Seol
-@char Seol pos: 30, 0
+@char Seol pos: 30, 0 scale: 0.9
 Seol: 그리 멀지 않습니다만, 언짢으시다면 거두겠습니다.
 @hide Bilyeong
-@char Bilyeong pos: 20, 50
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 아니, 언짢았다는 건 아닌데...
 Bilyeong: 그... 되었다. 마음대로 하거라.
 
 @hide Hwi
 @hide Seol
 @hide Bilyeong
-@char Yoon.Happy pos: 70, 0
+@char Yoon.Happy pos: 70, 0 scale: 0.9
 Yoon: 왜, 인간들에게는 네 성질 표현하려니 부끄러워?
-@char Bilyeong pos: 20, 50
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 허, 내가 아무한테나 언성 높이는 것처럼 보이느냐?
 Bilyeong: 받는 게 고와야 주는 게 고운 법이거늘.
-@char Yeon pos: 80, 0
+@char Yeon pos: 80, 0 scale: 0.9
 Yeon: 그걸 아는 놈이.
 @hide Bilyeong
-@char Bilyeong.Angry pos: 20, 50
+@char Bilyeong.Angry pos: 20, 50 scale: 0.7
 Bilyeong: 뭐?!
 
 @hide Bilyeong
 @hide Yeon
 @hide Yoon
-@char Seol.EyeClosed pos: 75, 0
+@char Seol.EyeClosed pos: 75, 0 scale: 0.9
 Seol: 안내하겠습니다. 저를 따라와 주십시오.
 @char Hwi pos: 25, 0
 Hwi: 서둘러 가지.
 Bilyeong: 말 끊지 말...!
-@char Bilyeong.Sigh pos: 50, 50
+@char Bilyeong.Sigh pos: 50, 50 scale: 0.7
 Bilyeong: 하아... 되었다, 말을 말자.
 Bilyeong: 빨리 가기나 하거라.

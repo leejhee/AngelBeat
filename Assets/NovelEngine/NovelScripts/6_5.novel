@@ -1,10 +1,10 @@
 #Scenario_6_5
 
 @back Dwissan3
-@char Yeon pos: 25, 0
+@char Yeon pos: 25, 0 scale: 0.9
 Yeon: ......
 Yeon: 흠, 소란을 듣고 더 몰려왔나.
-@char Bilyeong pos: 75, 50
+@char Bilyeong pos: 75, 50 scale: 0.7
 Bilyeong: 흥, 자기 입으로 지혜로우시다는 샌님께서 겨우 이 정도로 문제된다 하는 건 아니시겠지?
 Yeon: 또 까부는구나, 비령아.
 @char Bilyeong.Happy
