@@ -1,5 +1,4 @@
-@char Yeon.Happy transition:fadein time:1
-@wait 1
+@char Yeon scale:0.5
 
 Yeon : 안녕
 @back BlackScreen.fadein time:2

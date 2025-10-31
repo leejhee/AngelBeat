@@ -89,7 +89,7 @@ namespace novel
                             }
                             else
                             {
-                                var headSprite = charSO.GetHead(appearance);
+                                var headSprite = charSO.GetHead(appearance.ToLower());
                                 if (headSprite == null)
                                 {
                                     Debug.LogError($"{charName}의 {appearance} 표정 존재하지 않음");
@@ -137,24 +137,26 @@ namespace novel
                             var bodySprite = charSO.body;
                             if (bodySprite == null)
                             {
-                                Texture2D transparentTex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-                                transparentTex.SetPixel(0, 0, new Color(0, 0, 0, 0));
-                                transparentTex.Apply();
-                                
-                                bodySprite = Sprite.Create(
-                                    transparentTex, 
-                                    new Rect(0, 0, 1, 1), 
-                                    new Vector2(0.5f, 0.5f)
-                                );
+                                bodyObject.SetActive(false);
+                                // Texture2D transparentTex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+                                // transparentTex.SetPixel(0, 0, new Color(0, 0, 0, 0));
+                                // transparentTex.Apply();
+                                //
+                                // bodySprite = Sprite.Create(
+                                //     transparentTex, 
+                                //     new Rect(0, 0, 1, 1), 
+                                //     new Vector2(0.5f, 0.5f)
+                                // );
                             }
-                            
-                            
-                            if (!bodyObject.TryGetComponent<Image>(out var bodyImage))
-                                bodyImage = bodyObject.AddComponent<Image>();
-                            bodyImage.sprite = bodySprite;
-                            bodyImage.SetNativeSize();
-                            var bodyTransform = bodyObject.GetComponent<RectTransform>();
-                            bodyTransform.sizeDelta = new Vector2(bodySprite.rect.width, bodySprite.rect.height);
+                            else
+                            {
+                                if (!bodyObject.TryGetComponent<Image>(out var bodyImage))
+                                    bodyImage = bodyObject.AddComponent<Image>();
+                                bodyImage.sprite = bodySprite;
+                                bodyImage.SetNativeSize();
+                                var bodyTransform = bodyObject.GetComponent<RectTransform>();
+                                bodyTransform.sizeDelta = new Vector2(bodySprite.rect.width, bodySprite.rect.height);
+                            }
 
                             if (string.IsNullOrEmpty(appearance))
                             {
