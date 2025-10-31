@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectable: 0
   isSelected: 0
   frame: {fileID: 7944391138431004040}
   selectedFrame: {fileID: 21300000, guid: adb89a387fb1fb14bbd8283c3e65b670, type: 3}
@@ -449,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectable: 0
   isSelected: 0
   frame: {fileID: 4653730906238037150}
   selectedFrame: {fileID: 21300000, guid: d0b1de84982905a41a73fbf8775c6e86, type: 3}
@@ -721,6 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c663e6a0c05b2d45ba604c82a3cd543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectable: 0
   isSelected: 0
   frame: {fileID: 8407312318720239474}
   selectedFrame: {fileID: 21300000, guid: 45dc133095fb5834fbe848ca71f6f4db, type: 3}
@@ -3358,6 +3361,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: bdb9ee2c671bdbd4d870839247af0e16, type: 3}
+    - target: {fileID: 8340151555212956054, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

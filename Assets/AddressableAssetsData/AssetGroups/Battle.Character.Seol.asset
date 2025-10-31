@@ -17,8 +17,28 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 718132b0878405d4a865eeb9827d3cb6
   m_SerializeEntries:
+  - m_GUID: 507247a44a4ddd4429ef08a459640a13
+    m_Address: timeline_ThrowHeal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5320e105a7aab554baf0135af59c7300
     m_Address: Seol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62e39b33463ce844e9af29a8af201bcc
+    m_Address: timeline_PoisonShot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c4483167f30d8b4f80f4fc1810aae7b
+    m_Address: timeline_Purify
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dfe5168b13ef3bb40be5fdc1ef8f6169
+    m_Address: timeline_SingleHeal
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

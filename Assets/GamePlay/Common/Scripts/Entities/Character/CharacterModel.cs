@@ -118,10 +118,17 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             // TODO : 초기화 테이블 따로 가지고 있게 할 것
             var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
-            var smokeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
             var mungeModel = new SkillModel(mungeData);
-            var smokeModel = new SkillModel(smokeData);
-            _allSkillModels.Add(mungeModel); _allSkillModels.Add(smokeModel);
+            _allSkillModels.Add(mungeModel);
+            // var smokeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
+            // var smokeModel = new SkillModel(smokeData);
+            // _allSkillModels.Add(smokeModel);
+
+            //
+            // var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
+            // var twisterModel = new SkillModel(twisterData);
+            // _allSkillModels.Add(twisterModel);
+            
             _activeSkillModels = new List<SkillModel>(_allSkillModels);
         }
         
