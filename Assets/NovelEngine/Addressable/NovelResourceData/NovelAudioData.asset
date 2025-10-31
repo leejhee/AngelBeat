@@ -18,6 +18,8 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 13bc02fb179a05d47b0b6dd2b4be10dc, type: 3}
     - _key: Battle
       value: {fileID: 8300000, guid: d3a56dce98182b34f9559463c94edd88, type: 3}
+    - _key: ScenarioBGM
+      value: {fileID: 8300000, guid: bfb1f39dbdb67b948b718a1e1349c40a, type: 3}
     keys: []
     values: []
   sfxDict:
