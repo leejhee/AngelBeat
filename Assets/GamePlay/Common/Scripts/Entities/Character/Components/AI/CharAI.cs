@@ -36,8 +36,10 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         public async UniTask ExecuteTurn(Turn turn)
         {
             _currentTurn = turn;
+            await UniTask.Delay(1000); // 연출을 위한 딜레이
             
             // BattleController에서 그리드 가져오기
+            #region Grid Initialization
             _stageField = BattleController.Instance.GetStageField();
             if (!_stageField)
             {
@@ -51,6 +53,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 Debug.LogError("[AI] BattleStageGrid를 찾을 수 없습니다.");
                 return;
             }
+            #endregion
             
             Debug.Log($"[AI] ====== {_owner.name} 턴 시작 ======");
             

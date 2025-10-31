@@ -1,5 +1,4 @@
 ﻿using Core.Scripts.Data;
-using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
@@ -8,7 +7,6 @@ using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
 {

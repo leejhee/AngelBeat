@@ -21,6 +21,16 @@ namespace GamePlay.Common.Scripts.Entities.Character
         [Header("해당 파티 전원에 적용되는 효과를 기록합니다.")]
         public List<long> FunctionsPerParty;
         
+        [Header("파티가 보유한 돈")]
+        public int money;
+
+        [Header("파티가 보유한 열쇠 부적")] 
+        public int talisman;
+
+        [Header("파티가 보유한 부활 부적")]
+        public int revivalTalisman;
+        
+        
         /// <summary>
         /// 슬롯 생성 후 처음 파티 생성 시 호출
         /// </summary>

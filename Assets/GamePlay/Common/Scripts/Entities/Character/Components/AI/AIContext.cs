@@ -188,12 +188,6 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 
                 try
                 {
-                    // SkillRangeHelper로 정확한 범위 계산
-                    // 이 메서드는:
-                    // 1. 방향(LastDirection) 고려
-                    // 2. 장애물 블로킹 체크
-                    // 3. 물리 공격 관통 여부 체크
-                    // 4. Y축 3단계 범위 (y=0, y=1, y=-1) 계산
                     BattleActionPreviewData rangeData = SkillRangeHelper.ComputeSkillRange(
                         Grid,
                         skill.skillRange,

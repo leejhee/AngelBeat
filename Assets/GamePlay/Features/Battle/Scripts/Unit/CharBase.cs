@@ -366,7 +366,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             private set
             {
                 _lastDirectionRight = value;
-                _spriteRenderer.flipX = !LastDirection;
+                if(CharType == SystemEnum.eCharType.Player)
+                    _spriteRenderer.flipX = !LastDirection;
+                else
+                    _spriteRenderer.flipX = LastDirection;
             }
         }
 

@@ -19,6 +19,7 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
             while (timer < lastingSeconds)
             {
                 await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                timer += Time.deltaTime;
             }
             Destroy(inst);
         }
