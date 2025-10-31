@@ -194,8 +194,7 @@ Seol: ...예.
 그렇게 조금의 시간이 더 지난 후.
 
 @wait 0.5
-@back Dwissan2
-@wait 0.5
+@back Dwissan2.SlideLeft time: 1
 
 @char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: 그래서 정리하자면.

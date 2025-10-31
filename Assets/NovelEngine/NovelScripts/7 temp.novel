@@ -32,10 +32,11 @@ Hwi: ...그럼 이어서 가지.
 @hide Yoon
 @hideui
 
-@back Dwissan2
-@wait 1.8
-@back Dwissan3
-@wait 1.8
+@wait 1
+@back BlackScreen.SlideLeft time: 1
+@wait 0.3
+@back Dwissan3.SlideLeft time: 1
+@wait 1
 
 @char Bilyeong.Sigh pos: 25, 50 scale: 0.7
 @wait 1
@@ -77,10 +78,9 @@ Hwi: 그래, 그러면 그렇게 하지.
 @hideui
 @hide Hwi
 @wait 1.2
-@back BlackScreen
-@wait 0.7
-@back Dwissan3
-@wait 1.2
+@back BlackScreen.SlideLeft time: 1
+@back Dwissan3.SlideLeft time: 1
+@wait 1
 
 @char Yoon pos: 50, 0 scale: 0.9
 @wait 1.5
@@ -114,9 +114,9 @@ Seol: 이제 출발하겠습니다. 이쪽입니다.
 @hide Seol
 
 @hideui
-@wait 1.2
-@back Dwissan2
-@wait 1.2
+@wait 1
+@back Dwissan2.SlideLeft time: 1
+@wait 1
 
 @char Seol pos: 75, 0 scale: 0.9
 @wait 1
