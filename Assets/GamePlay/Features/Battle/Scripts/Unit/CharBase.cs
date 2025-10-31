@@ -377,14 +377,25 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public async UniTask CharMove(Vector3 targetPos)
         {
             _Animator.SetTrigger(Move);
-            Vector3 displacement =  targetPos - transform.position;
-            while (displacement.sqrMagnitude > 0.05f)
+    
+            Vector2 target = targetPos;
+            float arrivalThreshold = 0.05f;
+    
+            while (Vector2.Distance(_rigid.position, target) > arrivalThreshold)
             {
-                displacement =  targetPos - transform.position;
-                transform.position += displacement.normalized * Time.deltaTime * moveSpeed;
-                LastDirection = !(displacement.x < 0);
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                Vector2 direction = (target - _rigid.position).normalized;
+                Vector2 newPosition = _rigid.position + direction * (moveSpeed * Time.fixedDeltaTime);
+        
+                _rigid.MovePosition(newPosition);
+                LastDirection = direction.x > 0;
+        
+                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             }
+    
+            // 정확한 최종 위치
+            _rigid.MovePosition(target);
+            _rigid.velocity = Vector2.zero; // 혹시 모를 관성 제거
+    
             _Animator.SetTrigger(Idle);
         }
         

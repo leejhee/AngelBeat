@@ -429,25 +429,31 @@ namespace GamePlay.Features.Battle.Scripts
             OnCharacterDead?.Invoke(unit.GetID());
         }
         
-        public void EndBattle(SystemEnum.eCharType winnerType)
+        public async void EndBattle(SystemEnum.eCharType winnerType)
         {
             // 결과 내보내기(onBattleEnd 필요)
             if (winnerType == SystemEnum.eCharType.Player)
             {
                 // 이겼을 때 보수를 주는 UI를 올린다.
-                //UIManager.Instance.ShowUI(gameWinPrefab);
+                await UIManager.Instance.ShowViewAsync(ViewID.GameWinView);
             }
             else
             {
-                //UIManager.Instance.ShowUI(gameOverPrefab);
+                await UIManager.Instance.ShowViewAsync(ViewID.GameOverView);
             }
-			// 캐릭터 모델 갱신
             
             // 탐사로 비동기 로딩. 
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
+            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
         }
-
-
+#if UNITY_EDITOR
+        [ContextMenu("전투 승리 치트")]
+        public void GameWinCheat()
+        {
+            EndBattle(SystemEnum.eCharType.Player);
+        }
+#endif
+        
+        
         #region UI
 
         public Action<CharacterModel> battleCharInfoEvent;
