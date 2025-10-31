@@ -1,7 +1,7 @@
 #Scenario_6_3
 
 @back Dwissan3
-@char Akui pos: 50, 0
+@char Akui pos: 50, 30 scale: 0.7
 Akui: $%#$&@#$%...!
 @hide Akui
 @char Bilyeong.Happy pos: 25, 0 scale: 0.7

@@ -14,7 +14,7 @@ Yoon: 저놈들이 더 몰려왔을 때는 도와줘야 하나 싶었다니까?
 @char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 하, 저들 따위가 이몸의 상대가 될 성 싶더냐?
 @hide Yeon
-@char Yeon pos: 30,  scale: 0.9
+@char Yeon pos: 30, 0 scale: 0.9
 Yeon: 싸우기는 내가 했는데 왜 폼은 네가 잡느냐.
 @hide Bilyeong
 @char Bilyeong pos: 20, 50 scale: 0.7
@@ -152,7 +152,7 @@ Yeon: 별로 좋은 소리는 아니지.
 @char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: ......
 @hide Seol
-@char Jeolgu pos: 50, 0
+@char Jeolgu pos: 50, 30 scale: 0.7
 Jeolgu: %#$$@%@%...!!!!!
 @hide Jeolgu
 @char Bilyeong pos: 25, 50 scale: 0.7

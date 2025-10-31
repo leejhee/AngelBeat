@@ -118,7 +118,7 @@ Seol: 이제 출발하겠습니다. 이쪽입니다.
 @back Dwissan2
 @wait 1.2
 
-@char Seol pos: 75, scale: 0.9
+@char Seol pos: 75, 0 scale: 0.9
 @wait 1
 Seol: 요괴곡 근처이기에, 나타나는 요괴들을 각별히 주의해주시기 바랍니다.
 Seol: 최대한 그것들이 없는 쪽으로 갈 터이나, 맞닥뜨리게 된다면.
