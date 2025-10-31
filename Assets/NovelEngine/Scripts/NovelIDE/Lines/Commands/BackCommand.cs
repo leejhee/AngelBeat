@@ -141,30 +141,60 @@ namespace novel
                 // TODO
                 // 나중에 스위치문으로 바꿀것
                 Transition trans = MatchTransition(transition);
-                switch (trans)
+
+                if (trans == Transition.Fadein)
                 {
-                    case Transition.Fadein:
-                        {
-                            if (!backgroundPrefab.TryGetComponent<CanvasGroup>(out var cg))
-                                cg = backgroundPrefab.AddComponent<CanvasGroup>();
-                            cg.alpha = 0f;
-                            float fadeTime = time ?? 0f;
-                            if (time > 0f)
-                                await NovelUtils.Fade(backgroundPrefab, fadeTime, true, token);
-                        }
-                        break;
-                    case Transition.SlideRight:
-                        break;
-                    case Transition.SlideLeft:
-                        break;
-                    case Transition.SlideUp:
-                        break;
-                    case Transition.SlideDown:
-                        break;
-                    case Transition.None:
-                        Debug.LogError("해당하는 트랜지션이 없음");
-                        break;
+                    if (!backgroundPrefab.TryGetComponent<CanvasGroup>(out var cg))
+                        cg = backgroundPrefab.AddComponent<CanvasGroup>();
+                    cg.alpha = 0f;
+                    float fadeTime = time ?? 0f;
+                    if (time > 0f)
+                        await NovelUtils.Fade(backgroundPrefab, fadeTime, true, token);
                 }
+                else
+                {
+                    // Silde 연출
+
+                    image.type = Image.Type.Filled;
+                    image.fillAmount = 0f;
+                    switch (trans)
+                    {
+                        case Transition.SlideRight:
+                            {
+                                image.fillMethod = Image.FillMethod.Horizontal;
+                                image.fillOrigin = (int)Image.OriginHorizontal.Right;
+                            }
+                            break;
+                        case Transition.SlideLeft:
+                            {
+                                image.fillMethod =  Image.FillMethod.Horizontal;
+                                image.fillOrigin = (int)Image.OriginHorizontal.Left;
+
+                            }
+                            break;
+                        case Transition.SlideUp:
+                            {
+                                image.fillMethod =  Image.FillMethod.Vertical;
+                                image.fillOrigin = (int)Image.OriginVertical.Top;
+                            }
+                            break;
+                        case Transition.SlideDown:
+                            {
+                                image.fillMethod =  Image.FillMethod.Vertical;
+                                image.fillOrigin = (int)Image.OriginVertical.Bottom;
+                            }
+                            break;
+                        case Transition.None:
+                            Debug.LogError("해당하는 트랜지션이 없음");
+                            break;
+                    }
+                    float slideTime = time ?? 0f;
+                    if (time > 0f)
+                        await NovelUtils.Slide(image, slideTime, token);
+                    
+                }
+                
+
             }
 
             // 연출이 끝난 후 기존 배경화면 삭제

@@ -103,6 +103,26 @@ namespace novel
             cg.alpha = target;
         }
 
+        public static async UniTask Slide(Image img, float duration, CancellationToken token = default)
+        {
+            if (img == null) return;
+            
+            img.fillAmount = 0f;
+            float t = 0f;
+
+            while (t < duration)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    img.fillAmount = 1f;
+                    return;
+                }
+                t += UnityEngine.Time.unscaledDeltaTime;
+                img.fillAmount = Mathf.Lerp(0f, 1f, Mathf.Clamp01(t / duration));
+                await Cysharp.Threading.Tasks.UniTask.Yield(Cysharp.Threading.Tasks.PlayerLoopTiming.Update); // 토큰 X
+            }
+            img.fillAmount = 1f;
+        }
 
     }
 
