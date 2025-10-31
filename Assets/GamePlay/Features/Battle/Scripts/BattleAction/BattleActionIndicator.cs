@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Battle.Scripts.Unit;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Features.Battle.Scripts;             
-using GamePlay.Features.Battle.Scripts.Unit;
-using System;
-
-namespace GamePlay.Common.Scripts.Skill.Preview
+namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
     /// <summary>
     /// - 셀 위에 커서가 올라가기만 하면, 셀 영역 안의 '유효 타겟' 캐릭터의 hoverSR(오버레이 SR)을 켜서 외곽선 표시

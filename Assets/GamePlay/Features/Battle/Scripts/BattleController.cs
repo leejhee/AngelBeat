@@ -6,7 +6,6 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
-using GamePlay.Common.Scripts.Skill.Preview;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -364,10 +363,9 @@ namespace GamePlay.Features.Battle.Scripts
             // 이동 행동 시 이동력 검증 및 소모
             if (_currentActionContext.battleActionType == ActionType.Move)
             {
-                Vector3 startPos = _currentActionContext.actor.transform.position;
-                Vector3 targetPos = _battleStage.CellToWorldCenter(cell);
-                float moveDistance = Vector3.Distance(startPos, targetPos);
-                
+                BattleStageGrid g = _currentActionContext.battleField.GetComponent<BattleStageGrid>();
+                Vector2Int startCell = g.WorldToCell(_currentActionContext.actor.transform.position);
+                int moveDistance = cell.x - startCell.x;
                 // 이동 가능 여부
                 if (!currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
                 {

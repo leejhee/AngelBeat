@@ -14,7 +14,7 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
         
         public override async UniTask BuildTaskAsync(CancellationToken ct)
         {
-            _target = InputParam.Target[0];
+            _target = InputParam.Target[0]; // 단일 타겟이라 가정
             var grid = InputParam.Grid;
             Vector2Int pivot = grid.WorldToCell(InputParam.Caster.CharTransform.position);
             Vector2Int targetCell = grid.WorldToCell(_target.CharTransform.position);

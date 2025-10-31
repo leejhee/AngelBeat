@@ -1,24 +1,25 @@
 using Cysharp.Threading.Tasks;
-using GamePlay.Character.Components;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
 namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
 {
     /// <summary>
-    /// 적 AI 제어
+    /// 적 AI 제어 (ActionSet 기반)
+    /// PDF "적 AI 판단 로직 (Simple Ver.)" 구현
     /// </summary>
     public class CharAI
     {
         private CharBase _owner;
         private AIContext _context;
+        private AIActionSetGenerator _setGenerator;
         private Turn _currentTurn;
         private BattleStageGrid _grid;
         private StageField _stageField;
@@ -29,7 +30,8 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         }
         
         /// <summary>
-        /// 턴 시작 시 AI 실행 (PDF 전체 플로우)
+        /// 턴 시작 시 AI 실행
+        /// PDF 전체 플로우 구현
         /// </summary>
         public async UniTask ExecuteTurn(Turn turn)
         {
@@ -50,36 +52,43 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 return;
             }
             
-            // Context 초기화
+            Debug.Log($"[AI] ====== {_owner.name} 턴 시작 ======");
+            
             _context = new AIContext(_owner, _grid);
-            
-            Debug.Log($"[AI] {_owner.name} 턴 시작");
-            
             _context.AnalyzeSituation();
             Debug.Log(_context.GetSummary());
             
-            var candidates = AIActionCandidateFactory.GenerateCandidates(_context);
-            var sortedCandidates = AIActionCandidateFactory.GetSortedCandidates(candidates);
+            _setGenerator = new AIActionSetGenerator(_context);
+            List<AIActionSet> allSets = _setGenerator.GenerateAllActionSets();
             
-            Debug.Log("[AI] 행동 후보 목록:");
-            foreach (var c in sortedCandidates)
+            foreach (var set in allSets)
             {
-                Debug.Log($"  - {c}");
+                _setGenerator.CheckAfterMoveForSet(set);
             }
             
-            bool actionSuccess = false;
-            foreach (var candidate in sortedCandidates)
+            List<AIActionSet> validSets = _setGenerator.FilterInvalidSets(allSets);
+            Debug.Log($"[AI] 유효한 세트: {validSets.Count}/{allSets.Count}");
+            
+            foreach (var set in validSets)
             {
-                Debug.Log($"[AI] 시도: {candidate.Action}");
-                actionSuccess = await TryExecuteAction(candidate);
+                _setGenerator.CalculateWeight(set);
+            }
+            
+            List<AIActionSet> topSets = _setGenerator.SelectTopSets(validSets, 3);
+            
+            bool actionSuccess = false;
+            foreach (var set in topSets)
+            {
+                Debug.Log($"[AI] 시도: {set}");
+                actionSuccess = await TryExecuteActionSet(set);
                 
                 if (actionSuccess)
                 {
-                    Debug.Log($"[AI] 성공: {candidate.Action}");
+                    Debug.Log($"[AI] 성공: {set}");
                     break;
                 }
-
-                Debug.Log($"[AI] 실패: {candidate.Action}, 다음 후보 시도");
+                
+                Debug.Log("[AI] 실패, 다음 후보 시도");
             }
             
             if (!actionSuccess)
@@ -90,300 +99,261 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             // 턴 종료 대기 (연출용)
             await UniTask.Delay(500);
             
-            Debug.Log($"[AI] {_owner.name} 턴 종료");
+            Debug.Log($"[AI] ====== {_owner.name} 턴 종료 ======");
         }
         
         /// <summary>
-        /// 선택된 행동 실행 시도
+        /// ActionSet 실행 시도
         /// </summary>
-        private async UniTask<bool> TryExecuteAction(AIActionCandidate candidate)
+        private async UniTask<bool> TryExecuteActionSet(AIActionSet set)
         {
-            switch (candidate.Action)
+            try
             {
-                case AIActionCandidate.ActionType.Attack:
-                    return await ExecuteAttack();
+                // 1. 이동 (MoveTo)
+                if (set.MoveTo.HasValue)
+                {
+                    bool moveSuccess = await ExecuteMove(set.MoveTo.Value);
+                    if (!moveSuccess)
+                    {
+                        Debug.LogWarning("[AI] 초기 이동 실패");
+                        return false;
+                    }
+                }
                 
-                case AIActionCandidate.ActionType.Move:
-                    return await ExecuteMove();
+                // 2. 행동 실행
+                bool actionSuccess = false;
+                switch (set.AIActionType)
+                {
+                    case AIActionType.Attack:
+                        actionSuccess = await ExecuteAttack(set);
+                        break;
+                    
+                    case AIActionType.Push:
+                        actionSuccess = await ExecutePush(set);
+                        break;
+                    
+                    case AIActionType.Jump:
+                        actionSuccess = await ExecuteJump(set);
+                        break;
+                    
+                    case AIActionType.Move:
+                        // 이미 이동 완료
+                        actionSuccess = true;
+                        break;
+                    
+                    case AIActionType.Wait:
+                        await UniTask.Delay(300);
+                        actionSuccess = true;
+                        break;
+                }
                 
-                case AIActionCandidate.ActionType.Defend:
-                    return await ExecuteDefend();
-                
-                case AIActionCandidate.ActionType.Buff:
-                    return await ExecuteBuff();
-                
-                default:
-                    Debug.LogWarning($"[AI] 알 수 없는 행동: {candidate.Action}");
+                if (!actionSuccess)
+                {
+                    Debug.LogWarning("[AI] 행동 실행 실패");
                     return false;
+                }
+                
+                // 3. 재이동 (AfterMove)
+                if (set.AfterMove.HasValue)
+                {
+                    bool afterMoveSuccess = await ExecuteMove(set.AfterMove.Value);
+                    if (!afterMoveSuccess)
+                    {
+                        Debug.LogWarning("[AI] 재이동 실패 (행동은 성공)");
+                        // 재이동 실패는 허용
+                    }
+                }
+                
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// AIActionType을 BattleActionContext의 ActionType으로 변환
+        /// </summary>
+        private ActionType ConvertToBattleActionType(AIActionType aiActionType)
+        {
+            switch (aiActionType)
+            {
+                case AIActionType.Attack:
+                    return ActionType.Skill;  // AI의 Attack은 Skill 사용
+                case AIActionType.Push:
+                    return ActionType.Push;
+                case AIActionType.Jump:
+                    return ActionType.Jump;
+                case AIActionType.Move:
+                    return ActionType.Move;
+                case AIActionType.Wait:
+                    return ActionType.None;
+                default:
+                    return ActionType.None;
             }
         }
         
         #region 행동 실행 메서드들
         
         /// <summary>
-        /// 공격 실행: 사용 가능한 스킬 중 하나를 선택하여 가장 가까운 적 공격
+        /// 이동 실행
         /// </summary>
-        private async UniTask<bool> ExecuteAttack()
+        private async UniTask<bool> ExecuteMove(Vector2Int target)
         {
-            // 주요 행동 사용 가능한지 확인
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
+            Vector2Int currentPos = _grid.WorldToCell(_owner.CharTransform.position);
+            int moveDistance = Mathf.Abs(target.x - currentPos.x);
+            
+            // 이동력 검증
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
             {
-                Debug.LogWarning("[AI] 이미 주요 행동을 사용했습니다.");
+                Debug.LogWarning("[AI] 이동력 부족");
                 return false;
             }
             
-            // 공격 가능한 적이 있는지 확인
-            if (_context.NearestEnemy == null)
-            {
-                Debug.LogWarning("[AI] 공격할 대상이 없습니다.");
-                return false;
-            }
-            
-            // 사용 가능한 스킬 중 첫 번째 선택
-            var availableSkills = _owner.SkillInfo.SkillSlots.Where(s => s != null).ToList();
-            if (availableSkills.Count == 0)
-            {
-                Debug.LogWarning("[AI] 사용 가능한 스킬이 없습니다.");
-                return false;
-            }
-            
-            var selectedSkill = availableSkills[0];
-            Vector2Int targetCell = _grid.WorldToCell(_context.NearestEnemy.CharTransform.position);
-            
-            // BattleActionContext 생성 (BattleController 패턴 참조)
+            // BattleActionContext 생성 - 올바른 ActionType 사용
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Skill,
+                battleActionType = ActionType.Move,  // BattleAction의 ActionType
                 actor = _owner,
                 battleField = _stageField,
-                skillModel = selectedSkill,
-                TargetCell = targetCell,
-                targets = new System.Collections.Generic.List<CharBase> { _context.NearestEnemy }
+                TargetCell = target
             };
             
-            // SkillBattleAction 생성 및 실행
-            var skillAction = new SkillBattleAction(actionContext);
+            // MoveBattleAction 실행
+            var moveAction = new MoveBattleAction(actionContext);
+            var result = await moveAction.ExecuteAction(CancellationToken.None);
             
-            try
+            if (result.ActionSuccess)
             {
-                var result = await skillAction.ExecuteAction(CancellationToken.None);
-                
-                if (result.ActionSuccess)
-                {
-                    // 주요 행동 소모
-                    _currentTurn.TryUseMajorAction();
-                    Debug.Log($"[AI] 스킬 사용 성공: {selectedSkill.SkillName} → {_context.NearestEnemy.name}");
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
+                _currentTurn.TryConsumeMove(moveDistance);
+                Debug.Log($"[AI] 이동 성공: {currentPos} → {target}");
+                return true;
             }
             
             return false;
         }
         
         /// <summary>
-        /// 이동 실행: 가장 가까운 적에게 접근 (MoveBattleAction 사용)
+        /// 공격 실행
         /// </summary>
-        private async UniTask<bool> ExecuteMove()
+        private async UniTask<bool> ExecuteAttack(AIActionSet set)
         {
-            if (_context.NearestEnemy == null)
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
             {
-                Debug.LogWarning("[AI] 이동할 목표가 없습니다.");
+                Debug.LogWarning("[AI] 주요 행동 사용 불가");
                 return false;
             }
             
-            // 적 방향으로 최선의 이동 위치 찾기
-            Vector2Int enemyCell = _grid.WorldToCell(_context.NearestEnemy.CharTransform.position);
-            Vector2Int? targetCell = _context.FindBestMoveToward(enemyCell);
-            
-            if (targetCell == null)
+            if (set.SkillToUse == null || !set.TargetChar|| !set.TargetCell.HasValue)
             {
-                Debug.LogWarning("[AI] 이동 가능한 위치가 없습니다.");
+                Debug.LogWarning("[AI] 공격 정보 불완전");
                 return false;
             }
             
-            Vector2Int moveTarget = targetCell.Value;
-            
-            // 이동 거리 계산
-            float moveDistance = Mathf.Abs(moveTarget.x - _context.CurrentCell.x);
-            
-            // 이동력 검증
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
+            // BattleActionContext 생성 - Attack은 Skill로 변환
+            var actionContext = new BattleActionContext
             {
-                Debug.LogWarning("[AI] 이동력이 부족합니다.");
+                battleActionType = ActionType.Skill,  // BattleAction의 ActionType.Skill
+                actor = _owner,
+                battleField = _stageField,
+                skillModel = set.SkillToUse,
+                TargetCell = set.TargetCell.Value,
+                targets = new List<CharBase> { set.TargetChar }
+            };
+            
+            // SkillBattleAction 실행
+            var skillAction = new SkillBattleAction(actionContext);
+            var result = await skillAction.ExecuteAction(CancellationToken.None);
+            
+            if (result.ActionSuccess)
+            {
+                _currentTurn.TryUseMajorAction();
+                Debug.Log($"[AI] 공격 성공: {set.SkillToUse.SkillName} → {set.TargetChar.name}");
+                return true;
+            }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// 푸시 실행
+        /// </summary>
+        private async UniTask<bool> ExecutePush(AIActionSet set)
+        {
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
+            {
+                Debug.LogWarning("[AI] 주요 행동 사용 불가");
+                return false;
+            }
+            
+            if (!set.TargetCell.HasValue)
+            {
+                Debug.LogWarning("[AI] 푸시 대상 없음");
                 return false;
             }
             
             // BattleActionContext 생성
             var actionContext = new BattleActionContext
             {
-                battleActionType = ActionType.Move,
+                battleActionType = ActionType.Push,  // BattleAction의 ActionType.Push
                 actor = _owner,
                 battleField = _stageField,
-                TargetCell = moveTarget
+                TargetCell = set.TargetCell.Value
             };
             
-            // MoveBattleAction 생성 및 실행
-            var moveAction = new MoveBattleAction(actionContext);
+            // PushBattleAction 실행
+            var pushAction = new PushBattleAction(actionContext);
+            var result = await pushAction.ExecuteAction(CancellationToken.None);
             
-            try
+            if (result.ActionSuccess)
             {
-                var result = await moveAction.ExecuteAction(CancellationToken.None);
-                
-                if (result.ActionSuccess)
-                {
-                    // 이동력 소모
-                    _currentTurn.TryConsumeMove(moveDistance);
-                    Debug.Log($"[AI] 이동 성공: {_context.CurrentCell} → {moveTarget}");
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-            
-            return false;
-        }
-        
-        /// <summary>
-        /// 방어 실행: 적에게서 멀어지기 (점프 또는 이동)
-        /// </summary>
-        private async UniTask<bool> ExecuteDefend()
-        {
-            if (!_context.NearestEnemy)
-            {
-                Debug.Log("[AI] 방어: 위협 없음, 대기");
-                await UniTask.Delay(500);
+                _currentTurn.TryUseMajorAction();
+                Debug.Log($"[AI] 푸시 성공: {set.TargetCell.Value}");
                 return true;
             }
             
-            Vector2Int enemyCell = _grid.WorldToCell(_context.NearestEnemy.CharTransform.position);
-            
-            // 1. 점프로 후퇴 시도
-            if (_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction) && 
-                _context.JumpableCells.Count > 0)
-            {
-                // 적에게서 가장 먼 점프 위치 찾기
-                Vector2Int? bestJump = FindFarthestCell(_context.JumpableCells, enemyCell);
-                
-                if (bestJump != null && await TryJump(bestJump.Value))
-                {
-                    Debug.Log($"[AI] 점프로 후퇴 성공: {bestJump.Value}");
-                    return true;
-                }
-            }
-            
-            // 2. 이동으로 후퇴 시도
-            if (_context.WalkableCells.Count > 0)
-            {
-                // 적에게서 가장 먼 이동 위치 찾기
-                Vector2Int? bestMove = FindFarthestCell(_context.WalkableCells, enemyCell);
-                
-                if (bestMove != null)
-                {
-                    float moveDistance = Mathf.Abs(bestMove.Value.x - _context.CurrentCell.x);
-                    
-                    if (_currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
-                    {
-                        var actionContext = new BattleActionContext
-                        {
-                            battleActionType = ActionType.Move,
-                            actor = _owner,
-                            battleField = _stageField,
-                            TargetCell = bestMove.Value
-                        };
-                        
-                        var moveAction = new MoveBattleAction(actionContext);
-                        var result = await moveAction.ExecuteAction(CancellationToken.None);
-                        
-                        if (result.ActionSuccess)
-                        {
-                            _currentTurn.TryConsumeMove(moveDistance);
-                            Debug.Log($"[AI] 이동으로 후퇴 성공: {bestMove.Value}");
-                            return true;
-                        }
-                    }
-                }
-            }
-            
-            // 3. 후퇴 불가 시 제자리 대기
-            Debug.Log("[AI] 후퇴 불가, 제자리 방어");
-            await UniTask.Delay(500);
-            return true;
-        }
-        
-        /// <summary>
-        /// 점프 실행 헬퍼
-        /// </summary>
-        private async UniTask<bool> TryJump(Vector2Int target)
-        {
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
-                return false;
-            
-            var actionContext = new BattleActionContext
-            {
-                battleActionType = ActionType.Jump,
-                actor = _owner,
-                battleField = _stageField,
-                TargetCell = target
-            };
-            
-            var jumpAction = new JumpBattleAction(actionContext);
-            
-            try
-            {
-                var result = await jumpAction.ExecuteAction(CancellationToken.None);
-                
-                if (result.ActionSuccess)
-                {
-                    _currentTurn.TryUseMajorAction();
-                    return true;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-            
             return false;
         }
         
         /// <summary>
-        /// 목표에서 가장 먼 셀 찾기
+        /// 점프 실행
         /// </summary>
-        private Vector2Int? FindFarthestCell(System.Collections.Generic.List<Vector2Int> candidates, Vector2Int from)
+        private async UniTask<bool> ExecuteJump(AIActionSet set)
         {
-            if (candidates.Count == 0) return null;
-            
-            Vector2Int farthest = candidates[0];
-            int maxDistance = 0;
-            
-            foreach (var cell in candidates)
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
             {
-                int distance = Mathf.Abs(cell.x - from.x) + Mathf.Abs(cell.y - from.y);
-                if (distance > maxDistance)
-                {
-                    maxDistance = distance;
-                    farthest = cell;
-                }
+                Debug.LogWarning("[AI] 주요 행동 사용 불가");
+                return false;
             }
             
-            return farthest;
-        }
-        
-        /// <summary>
-        /// 버프 실행: 아군 강화 (현재는 미구현)
-        /// </summary>
-        private async UniTask<bool> ExecuteBuff()
-        {
-            Debug.Log("[AI] 버프 행동 (미구현)");
+            if (!set.TargetCell.HasValue)
+            {
+                Debug.LogWarning("[AI] 점프 대상 없음");
+                return false;
+            }
             
-            // TODO: 버프 스킬 시스템 구현 후 연동
-            await UniTask.Delay(500);
+            // BattleActionContext 생성
+            var actionContext = new BattleActionContext
+            {
+                battleActionType = ActionType.Jump,  // BattleAction의 ActionType.Jump
+                actor = _owner,
+                battleField = _stageField,
+                TargetCell = set.TargetCell.Value
+            };
+            
+            // JumpBattleAction 실행
+            var jumpAction = new JumpBattleAction(actionContext);
+            var result = await jumpAction.ExecuteAction(CancellationToken.None);
+            
+            if (result.ActionSuccess)
+            {
+                _currentTurn.TryUseMajorAction();
+                Debug.Log($"[AI] 점프 성공: {set.TargetCell.Value}");
+                return true;
+            }
+            
             return false;
         }
         

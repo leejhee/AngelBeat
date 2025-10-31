@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8611309491220914860
+--- !u!114 &-7292064032660017217
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,32 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45f43f9d4ed4da0af19516b57a1ef7d, type: 3}
-  m_Name: Skill Object Last For Seconds Marker
+  m_Script: {fileID: 11500000, guid: ada830c38cef48ce9e607674189e7db8, type: 3}
+  m_Name: Skill Push With Damage Marker
   m_EditorClassIdentifier: 
-  m_Time: 1.1166666666666667
-  lastingSeconds: 1.5
-  lastingObject: {fileID: 0}
-  offset: {x: 0, y: 0}
---- !u!114 &-8569219610482871173
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe1e947e4664d64abdc7b8816045143, type: 3}
-  m_Name: Skill Damage Marker
-  m_EditorClassIdentifier: 
-  m_Time: 1.7166666666666666
-  damageFormulaInput: 
-  inputStats: 
-  inputKeywords: 
-  Damage: 8
-  CritRate: 0
-  Accuracy: 0
+  m_Time: 2.35
 --- !u!114 &-5233447064958152174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,20 +105,6 @@ MonoBehaviour:
     m_DisplayName: Yeon_MungeCloud
   m_Markers:
     m_Objects: []
---- !u!114 &-2617539266957804759
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd47beb0b8a4ce99b0e16c01e32976e, type: 3}
-  m_Name: Skill Push Target Marker
-  m_EditorClassIdentifier: 
-  m_Time: 2.4166666666666665
-  movespeed: 2
 --- !u!114 &-2590175140194241097
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,9 +128,7 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects:
-    - {fileID: -8611309491220914860}
-    - {fileID: -2617539266957804759}
-    - {fileID: -8569219610482871173}
+    - {fileID: -7292064032660017217}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -115,7 +115,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// <summary>
         /// 행동 수행 가능 여부 검증
         /// </summary>
-        public bool CanPerformAction(TurnActionState.ActionCategory category, float moveDistance = 0f)
+        public bool CanPerformAction(TurnActionState.ActionCategory category, int moveDistance=0)
         {
             return ActionState.CanPerformAction(category, moveDistance);
         }

@@ -63,25 +63,32 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             CharBase victim,
             PushResult result,
             BattleStageGrid grid,
-            CancellationToken ct)
+            CancellationToken ct,
+            bool playAnimation = false,
+            bool suppressIdle = false)
         {
             if (result.Result == VictimResult.JustPush)
             {
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.FirstGoal));
+                await victim.CharKnockBack(
+                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle);
                 grid.MoveUnit(victim, result.FirstGoal);
             }
             else if (result.Result == VictimResult.Land)
             {
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.FirstGoal)); // 먼저 한번 밀쳐지고
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault())); //떨어지기
+                await victim.CharKnockBack(
+                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
+                await victim.CharKnockBack(grid.CellToWorldCenter(
+                    result.LandingGoal.GetValueOrDefault()), playAnimation, suppressIdle); //떨어지기
                 // 다 떨어지면 피해 계산
                 grid.MoveUnit(victim, result.LandingGoal.GetValueOrDefault());
                 victim.RuntimeStat.ReceiveHPPercentDamage(30 * result.FallCells);
             }
             else if (result.Result == VictimResult.Fall)
             {
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.FirstGoal)); // 먼저 한번 밀쳐지고
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault())); //떨어지기
+                await victim.CharKnockBack(
+                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
+                await victim.CharKnockBack(
+                    grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault()), playAnimation, suppressIdle); //떨어지기
                 //낙사 처리
                 grid.RemoveUnit(victim);
                 victim.CharDead();
@@ -89,7 +96,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             else
             {
                 //반칸 밀렸다가 작은 포물선으로 돌아오게 수정
-                await victim.CharKnockBack(grid.CellToWorldCenter(result.FirstGoal));
+                await victim.CharKnockBack(
+                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle);
                 victim.RuntimeStat.ReceiveHPPercentDamage(30); // 30퍼만
             }
         }

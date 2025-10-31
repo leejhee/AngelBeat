@@ -105,7 +105,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public float BonusAccuracy => _runtimeStat.GetStat(SystemEnum.eStats.ACCURACY_INCREASE);
         public float DamageIncrease => _runtimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE);
         public float MovePoint => _movePoint;
-        
+
+        public bool IsDead;
         #endregion
         public Transform FloatingUIRoot
         {
@@ -229,85 +230,89 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// 회피 시 호출하는 이벤트
         /// </summary>
         public event Action<DamageParameter> OnMiss;
-        
+
         /// <summary>
         /// 대미지 관련 파라미터로 이벤트 발생시킴.
         /// </summary>
         /// <param name="damageInfo">기존 대미지 파라미터</param>
-        public async UniTask SkillDamage(DamageParameter damageInfo)
+        /// <param name="playOnAttack">피격 모션 재생할까?</param>
+        /// <param name="suppressIdle">Idle suppression</param>
+        public async UniTask SkillDamage(DamageParameter damageInfo, bool playOnAttack=true, bool suppressIdle=false)
         {
             CharBase attacker = damageInfo.Attacker;
             SkillModel model = damageInfo.Model;
-            attacker.OnAttackTrial?.Invoke(damageInfo);
+            //attacker.OnAttackTrial?.Invoke(damageInfo); 외부에서 발행하도록 한다.
             
-            // 명중 판단
-            int acc = (int)attacker.RuntimeStat.GetStat(SystemEnum.eStats.NACCURACY) + model.skillAccuracy;
-            acc = Math.Clamp(acc, 0, 100);
-            bool evaded = model.skillType != SystemEnum.eSkillType.MagicAttack && TryEvade(attacker, acc);
+            Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
+            attacker.OnAttackSuccess?.Invoke(damageInfo);
             
-            // 판정 후 결과에 따른 연출
-            if (evaded)
+            // Calculation
+            float attackStat = attacker.RuntimeStat.GetAttackStat(model.skillType);
+            float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
+            SkillDamageData damageData = model.skillDamage;
+            
+            long finalDamage = 0;
+            switch (model.skillType)
             {
-                Debug.Log($"{attacker.name}의 공격을 {name}이 회피했습니다.");
-                OnMiss?.Invoke(damageInfo);
-                _Animator.SetTrigger(Evade);
+                case SystemEnum.eSkillType.Heal:
+                    finalDamage = -(long)Mathf.Ceil(
+                        damageData.DamageCoefficient *
+                        Random.Range(damageData.RandMin, damageData.RandMax + 1)
+                    );
+                    break;
+                case SystemEnum.eSkillType.Debuff:
+                    finalDamage = (long)Mathf.Ceil(
+                        damageData.DamageCoefficient *
+                        (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f)
+                    );
+                    break;
+                default:
+                    finalDamage = (long)Mathf.Ceil(
+                        attackStat *
+                        damageData.DamageCoefficient *
+                        Random.Range(damageData.RandMin, damageData.RandMax + 1) *
+                        (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f) *
+                        (100 - defenseStat) / 100f
+                    );
+                    break;
             }
-            else
-            {
-                Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
-                attacker.OnAttackSuccess?.Invoke(damageInfo);
-                
-                // Calculation
-                float attackStat = attacker.RuntimeStat.GetAttackStat(model.skillType);
-                float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
-                SkillDamageData damageData = model.skillDamage;
-                
-                long finalDamage = 0;
-                switch (model.skillType)
-                {
-                    case SystemEnum.eSkillType.Heal:
-                        finalDamage = -(long)Mathf.Ceil(
-                            damageData.DamageCoefficient *
-                            Random.Range(damageData.RandMin, damageData.RandMax + 1)
-                        );
-                        break;
-                    case SystemEnum.eSkillType.Debuff:
-                        finalDamage = (long)Mathf.Ceil(
-                            damageData.DamageCoefficient *
-                            attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f
-                        );
-                        break;
-                    default:
-                        finalDamage = (long)Mathf.Ceil(
-                            attackStat *
-                            damageData.DamageCoefficient *
-                            Random.Range(damageData.RandMin, damageData.RandMax + 1) *
-                            attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f *
-                            (100 - defenseStat) / 100f
-                        );
-                        break;
-                }
-                
-                Debug.Log($"{finalDamage}데미지");
-                Debug.Log($"{CurrentHP} / {MaxHP}");
-                OnHit?.Invoke(damageInfo);
+            
+            _runtimeStat.ReceiveDamage(finalDamage);
+            Debug.Log($"{finalDamage}데미지");
+            Debug.Log($"{CurrentHP} / {MaxHP}");
+            OnHit?.Invoke(damageInfo);
+            if(playOnAttack)
                 _Animator.SetTrigger(OnAttack);
-            }
-
+            
             await UniTask.Delay(60);
+            if(!suppressIdle)
+                _Animator.SetTrigger(Idle);
+        }
+
+        /// <summary>
+        /// 명중 계산 -> 성공하면 이벤트 발행하고 연출
+        /// </summary>
+        /// <returns>피했나? 안피했나?</returns>
+        public async UniTask<bool> TryEvade(DamageParameter damageInfo)
+        {
+            SkillModel model = damageInfo.Model;
+            if (model.skillType == SystemEnum.eSkillType.MagicAttack) return false;
+            float hitChance = model.skillAccuracy + damageInfo.Attacker.BonusAccuracy - Dodge + 5;
+            bool succeed = Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
+            if (!succeed)
+            {
+                return false;
+            }
+            Debug.Log($"{damageInfo.Attacker.name}의 공격을 {name}이 회피했습니다.");
+            _Animator.SetTrigger(Evade);
+            OnMiss?.Invoke(damageInfo); // '회피 시'
+            await UniTask.Delay(60);
+            _Animator.SetTrigger(Idle);
+            return true;
         }
         
-        /// <summary>
-        /// 명중 처리 역할
-        /// </summary>
-        /// <param name="attacker">공격자</param>
-        /// <param name="accuracy">해당 스킬의 기본 명중률</param>
-        /// <returns>피했나? 안피했나?</returns>
-        private bool TryEvade(CharBase attacker, float accuracy)
-        {
-            float hitChance = accuracy + attacker.BonusAccuracy - Dodge + 5;
-            return UnityEngine.Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
-        }
+        
+        
         #endregion
         
         
@@ -315,6 +320,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public event Action OnCharDeadPersonal;
         public virtual void CharDead()
         {
+            IsDead = true;
             BattleController.Instance?.HandleUnitDeath(this);
             
             OnCharDeadPersonal?.Invoke();
@@ -402,20 +408,26 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             await PlayFxOnce(jumpInFX, transform.position, ct);
             _Animator.SetTrigger(Idle);
         }
-        
+
         /// <summary>
         /// 넉백 '되는' 메서드
         /// </summary>
         /// <param name="targetPos">목적지. 플랫폼 없을 경우, rigidbody라서 알아서 떨어짐. 일단은..</param>
-        public async UniTask CharKnockBack(Vector3 targetPos)
+        /// <param name="playOnAttack">피격 애니메이션 플레이 여부</param>
+        /// <param name="suppressIdle">Idle로 돌아가지 않을 것인지</param>
+        public async UniTask CharKnockBack(Vector3 targetPos, bool playOnAttack=false, bool suppressIdle=false)
         {
-            _Animator.SetTrigger(OnAttack);
+            if(playOnAttack)
+                _Animator.SetTrigger(OnAttack);
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
                 transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
-            _Animator.SetTrigger(Idle);
+
+            await UniTask.Delay(30);
+            if(!suppressIdle)
+                _Animator.SetTrigger(Idle);
         }
 
         public void CharPushPlay()
@@ -428,6 +440,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             transform.position + pushFX.transform.position,
             CancellationToken.None
         );
+        
         public void CharReturnIdle() => _Animator.SetTrigger(Idle);
         
         #endregion

@@ -35,7 +35,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// <summary>
         /// 행동 수행 가능 여부 검증
         /// </summary>
-        public bool CanPerformAction(ActionCategory category, float moveDistance = 0f)
+        public bool CanPerformAction(ActionCategory category, int moveDistance)
         {
             switch (category)
             {
