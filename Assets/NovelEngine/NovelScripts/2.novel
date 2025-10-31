@@ -195,7 +195,7 @@ Seol: ...예.
 
 @wait 0.5
 @back Dwissan2.SlideLeft time: 1
-
+@wait 1
 @char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: 그래서 정리하자면.
 가장 먼저 말에 물꼬를 튼 것은 비령이었다.

@@ -108,7 +108,7 @@ Bilyeong: 그런 놈이 뭐가 그리 태평하느냐.
 ????: 일어~~ 났구나~~ 연~~ 사~~ 제~~!
 @hide ????.yoonsillouette
 멀리서부터 들려오는 목소리에 비령의 불꽃이 순간 흠칫했다.
-@char Bilyeong
+@char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: 으엑. 저놈도 있는 것이냐.
 @hide Bilyeong
 마찬가지로 반가운지 달려오는 윤 사저를, 비령은 반기지 않는 듯 해 보인다마는,

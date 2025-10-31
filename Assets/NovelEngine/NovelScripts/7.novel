@@ -7,7 +7,7 @@ Yoon: 다친 데는 없어, 사제?
 @hide Yoon
 @char Yeon pos: 30, 0 scale: 0.9
 Yeon: 전 멀쩡합니다, 사저.
-@char Hwi pos: 80, 0 scale: 0.9
+@char Hwi pos: 80, 0 scale: 0.85
 Hwi: 볼 때마다 인상적이군, 사제가 하는 전투는.
 @char Yoon pos: 70, 0 scale: 0.9
 Yoon: 저놈들이 더 몰려왔을 때는 도와줘야 하나 싶었다니까?
@@ -24,7 +24,7 @@ Bilyeong: 하, 내가 손을 쓸 가치도 없는 놈들이었지.
 Yoon: 그래, 그래. 그렇겠지.
 Bilyeong: 그런 셈 치는 듯한 말본새는 무어냐?
 @hide Hwi
-@char Hwi pos: 80, 0 scale: 0.9
+@char Hwi pos: 80, 0 scale: 0.85
 Hwi: ...그럼 이어서 가지.
 @hide Yeon
 @hide Bilyeong
@@ -41,7 +41,7 @@ Hwi: ...그럼 이어서 가지.
 @wait 1
 Bilyeong: 하... 
 Bilyeong: 이제 얼마나 남았지?
-@char Hwi pos: 75, 0 scale: 0.9
+@char Hwi pos: 75, 0 scale: 0.85
 Hwi: 이 앞의 산만 넘으면 나온다네.
 Bilyeong: 오는 동안 저놈들이 뭐 이렇게 많은 건지, 지루할 틈도 없이 나타나서는 덤벼대니 원.
 Hwi: 이제 마지막으로... 흐음.
@@ -71,7 +71,7 @@ Yeon: 전 괜찮습니다만.
 @char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: ...그러면 동행하도록 하겠습니다.
 @hide Seol
-@char Hwi pos: 50, 0 scale: 0.9
+@char Hwi pos: 50, 0 scale: 0.85
 Hwi: 그래, 그러면 그렇게 하지.
 
 @hideui

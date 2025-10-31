@@ -5,15 +5,17 @@
 @char Seol.EyeClosed pos: 50, 0 scale: 0.9
 Seol: ...휘 의원님.
 @hide Seol
-@char Hwi pos: 75, 0 scale: 0.9
+@char Hwi pos: 50, 0 scale: 0.85
 Hwi: 아, 왜 그러지?
-@char Yeon pos: 30, 0 scale: 0.9
+@hide Hwi
+@char Yeon pos: 50, 0 scale: 0.9
 Yeon: ...의원님?
+@hide Yeon
+@char Hwi pos: 75, 0 scale: 0.85
 Hwi: 아, 사제는 모르겠군.
 @char Yoon pos: 20, 0 scale: 0.9
 Yoon: 사형이 우리가 봉인되었던 동안 이 분하고 의술을 연구했다나봐.
 Hwi: 정확하게는 좀 다르지만... 결론적으로는 그렇지.
-@hide Yeon
 @char Yeon pos: 30, 0 scale: 0.9
 Yeon: ...인간을 연구하던 것이군요.
 Yeon: 의술은 그 과정에서 깨우친 것이고.
@@ -54,7 +56,7 @@ Bilyeong: 뭐?!
 @hide Yoon
 @char Seol.EyeClosed pos: 75, 0 scale: 0.9
 Seol: 안내하겠습니다. 저를 따라와 주십시오.
-@char Hwi pos: 25, 0
+@char Hwi pos: 25, 0 scale: 0.85
 Hwi: 서둘러 가지.
 Bilyeong: 말 끊지 말...!
 @char Bilyeong.Sigh pos: 50, 50 scale: 0.7
