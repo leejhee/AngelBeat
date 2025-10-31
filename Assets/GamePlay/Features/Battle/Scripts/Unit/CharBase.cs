@@ -1,15 +1,19 @@
 using AngelBeat;
+using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Common.Scripts.Skill;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GamePlay.Features.Battle.Scripts.Unit
 {
@@ -21,6 +25,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private static readonly int JumpOut = Animator.StringToHash("JumpOut");
         private static readonly int JumpIn = Animator.StringToHash("JumpIn");
         private static readonly int Push = Animator.StringToHash("Push");
+        private static readonly int Evade = Animator.StringToHash("Evade");
+        
         
         #region Member Field
         [SerializeField] private long _index;
@@ -228,36 +234,67 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// 대미지 관련 파라미터로 이벤트 발생시킴.
         /// </summary>
         /// <param name="damageInfo">기존 대미지 파라미터</param>
-        /// <param name="accuracy">스킬 적중 요소 : 명중률</param>
-        /// <param name="skillDamageMultiplier">스킬 대미지 요소 : 스킬 고유 인자</param>
-        public void SkillDamage(DamageParameter damageInfo, float accuracy, float skillDamageMultiplier)
+        public async UniTask SkillDamage(DamageParameter damageInfo)
         {
             CharBase attacker = damageInfo.Attacker;
+            SkillModel model = damageInfo.Model;
             attacker.OnAttackTrial?.Invoke(damageInfo);
-            if (TryEvade(attacker, accuracy))
+            
+            // 명중 판단
+            int acc = (int)attacker.RuntimeStat.GetStat(SystemEnum.eStats.NACCURACY) + model.skillAccuracy;
+            acc = Math.Clamp(acc, 0, 100);
+            bool evaded = model.skillType != SystemEnum.eSkillType.MagicAttack && TryEvade(attacker, acc);
+            
+            // 판정 후 결과에 따른 연출
+            if (evaded)
             {
                 Debug.Log($"{attacker.name}의 공격을 {name}이 회피했습니다.");
                 OnMiss?.Invoke(damageInfo);
+                _Animator.SetTrigger(Evade);
             }
             else
             {
                 Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
                 attacker.OnAttackSuccess?.Invoke(damageInfo);
                 
-                float finalDamage = damageInfo.FinalDamage *
-                                    skillDamageMultiplier * 
-                                    (1f + attacker.DamageIncrease * 0.01f) *
-                                    (1f - Armor * 0.01f);
+                // Calculation
+                float attackStat = attacker.RuntimeStat.GetAttackStat(model.skillType);
+                float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
+                SkillDamageData damageData = model.skillDamage;
                 
+                long finalDamage = 0;
+                switch (model.skillType)
+                {
+                    case SystemEnum.eSkillType.Heal:
+                        finalDamage = -(long)Mathf.Ceil(
+                            damageData.DamageCoefficient *
+                            Random.Range(damageData.RandMin, damageData.RandMax + 1)
+                        );
+                        break;
+                    case SystemEnum.eSkillType.Debuff:
+                        finalDamage = (long)Mathf.Ceil(
+                            damageData.DamageCoefficient *
+                            attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f
+                        );
+                        break;
+                    default:
+                        finalDamage = (long)Mathf.Ceil(
+                            attackStat *
+                            damageData.DamageCoefficient *
+                            Random.Range(damageData.RandMin, damageData.RandMax + 1) *
+                            attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f *
+                            (100 - defenseStat) / 100f
+                        );
+                        break;
+                }
                 
-                // 나중에 바꿔
-                RuntimeStat.ReceiveDamage(damageInfo.FinalDamage);
-                
-                Debug.Log($"{damageInfo.FinalDamage}");
                 Debug.Log($"{finalDamage}데미지");
                 Debug.Log($"{CurrentHP} / {MaxHP}");
                 OnHit?.Invoke(damageInfo);
+                _Animator.SetTrigger(OnAttack);
             }
+
+            await UniTask.Delay(60);
         }
         
         /// <summary>

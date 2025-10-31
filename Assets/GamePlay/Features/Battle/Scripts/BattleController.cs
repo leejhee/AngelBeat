@@ -74,7 +74,7 @@ namespace GamePlay.Features.Battle.Scripts
         
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
-        public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
+        public Party PlayerParty =>  _stageSource.PlayerParty;
         
         public event Action<long> OnCharacterDead;
         #endregion
@@ -469,7 +469,7 @@ namespace GamePlay.Features.Battle.Scripts
 
         public void GetSkill(long skillID)
         {
-            
+            PlayerParty.AddSkillInCharacter(skillID);
         }
         
         #endregion

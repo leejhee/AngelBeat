@@ -2,9 +2,11 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
+using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Common.Scripts.Entities.Skills;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GamePlay.Common.Scripts.Entities.Character
@@ -43,7 +45,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         public CharStat BaseStat => _baseStat;
         public string Name => _characterName;
         public IReadOnlyList<SkillModel> AllSkills => _allSkillModels.AsReadOnly();
-        public IReadOnlyList<SkillModel> ActiveSkills => _allSkillModels.AsReadOnly();
+        public IReadOnlyList<SkillModel> ActiveSkills => _activeSkillModels.AsReadOnly();
         public SystemEnum.eCharType CharacterType => _type;
 
         public string PrefabRoot => _prefabRoot;
@@ -97,6 +99,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
             var skills = DataManager.Instance.CharacterSkillMap[index];
             foreach(var sk in skills)
                 _allSkillModels.Add(new SkillModel(sk));
+            _activeSkillModels = new List<SkillModel>(_allSkillModels);
         }
         
         /// <summary>
@@ -113,12 +116,13 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             _baseStat = new CharStat(dok);
             
-            //스킬
-            var dokSkills = DataManager.Instance.GetDataList<DokkaebiSkillData>();
-            foreach (var doSkill in dokSkills)
-            {
-                _allSkillModels.Add(new SkillModel(doSkill as DokkaebiSkillData));
-            }
+            // TODO : 초기화 테이블 따로 가지고 있게 할 것
+            var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
+            var smokeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
+            var mungeModel = new SkillModel(mungeData);
+            var smokeModel = new SkillModel(smokeData);
+            _allSkillModels.Add(mungeModel); _allSkillModels.Add(smokeModel);
+            _activeSkillModels = new List<SkillModel>(_allSkillModels);
         }
         
         // 기존의 데이터로 등록
@@ -131,6 +135,21 @@ namespace GamePlay.Common.Scripts.Entities.Character
             _iconSpriteRoot = model.IconSpriteRoot;
             _allSkillModels = model._allSkillModels;
             _baseStat = model.BaseStat;
+        }
+
+        public void AddSkill(SkillModel skillModel)
+        {
+            if (_activeSkillModels.Contains(skillModel) || _allSkillModels.Contains(skillModel))
+            {
+                Debug.LogWarning("이미 있는 스킬 데이터입니다.");
+                return;
+            }
+            
+            _allSkillModels.Add(skillModel);
+            if (_activeSkillModels.Count < 4)
+            {
+                _activeSkillModels.Add(skillModel);
+            }
         }
         
     }

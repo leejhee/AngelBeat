@@ -1,6 +1,7 @@
 ﻿using AngelBeat;
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;

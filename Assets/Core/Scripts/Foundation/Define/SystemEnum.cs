@@ -160,14 +160,13 @@ namespace Core.Scripts.Foundation.Define
         
             SPEED, 
             NSPEED,
-        
+            
+            MOVEMENT,
+            NMOVEMENT,
             ACTION_POINT,
             NACTION_POINT,
             NMACTION_POINT,
-        
-            MOVEMENT,
-            NMOVEMENT,
-        
+            
             EVATION,
             NEVATION,
             

@@ -1,6 +1,7 @@
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
+using GamePlay.Common.Scripts.Entities.Skills;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,13 +41,14 @@ namespace GamePlay.Common.Scripts.Entities.Character
             this.FunctionsPerParty = FunctionsPerParty;
             this.partyType = partyType;
         }
-
+        
+        #region Party Members Management
         /// <summary>
         /// 파티가 생성되는 최초 시점에만 적용
         /// </summary>
         public void InitPartyAsync()
         {
-            DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(10001001);
+            DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(SystemConst.DokkaebiID);
             CharacterModel dokModel = new(dok);
             partyMembers.Add(dokModel);
         }
@@ -55,7 +57,59 @@ namespace GamePlay.Common.Scripts.Entities.Character
         {
             partyMembers.Add(member);
         }
+        
+        //업데이트에 안쓰니까 마음놓고 쓰도록 하자.
+        public CharacterModel SearchCharacter(string charName)
+        {
+            return partyMembers.Find(x => x.Name == charName);
+        }
 
+        public CharacterModel SearchCharacter(long charIndex)
+        {
+            return partyMembers.Find(x => x.Index == charIndex);
+        }
+
+        public CharacterModel YeonModel => SearchCharacter("Yeon");
+
+        
+        // 캐릭터 모델에 스킬을 추가 
+        // TODO : 보상 테이블 시 스킬 / 재화 / 아이템 등으로 type 지정
+        // TODO : 캐릭터 풀에 맞는 스킬을 데이터 풀에서 놓고 제공하도록 보장할 것.
+        public bool AddSkillInCharacter(long skillIndex)
+        {
+            // 데이터 찾아 삼만리
+            SheetData data = DataManager.Instance.GetData<DokkaebiSkillData>(skillIndex);
+            SkillModel model;
+            CharacterModel receiver;
+            if (data == null)
+            {
+                // 그냥 스킬이었다.
+                data = DataManager.Instance.GetData<SkillData>(skillIndex);
+                if (data == null)
+                {
+                    Debug.LogError("Invalid Skill ");
+                    return false;
+                }
+                // 데이터로 모델 만들고 수령자 지정
+                SkillData skillData = data as SkillData;
+                model = new SkillModel(skillData);
+                receiver = SearchCharacter(model.SkillOwnerID);
+            }
+            else
+            {
+                // 데이터로 모델 만들고 수령자 지정
+                DokkaebiSkillData skillData = data as DokkaebiSkillData;
+                model = new SkillModel(skillData);
+                receiver = YeonModel;
+            }
+            receiver.AddSkill(model);
+            return true;
+        }
+        
+        
+        #endregion
+        
+        #region Debug
         public override string ToString()
         {
             string func = FunctionsPerParty == null || FunctionsPerParty.Count == 0
@@ -63,10 +117,8 @@ namespace GamePlay.Common.Scripts.Entities.Character
             return new StringBuilder($"{partyType} : {partyMembers.Count}명 | 버프 : ").Append(func).ToString();
         }
         
-        //업데이트에 안쓰니까 마음놓고 쓰도록 하자.
-        public CharacterModel SearchCharacter(string charName)
-        {
-            return partyMembers.Find(x => x.Name == charName);
-        }
+        #endregion
+        
+        
     }
 }

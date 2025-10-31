@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 namespace GamePlay.Common.Scripts.Timeline.Marker
@@ -9,20 +10,15 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
         [SerializeField] private GameObject lastingObject;
         [SerializeField] private Vector2 offset;
         
-        public override void MarkerAction()
-        {
-            if (!lastingObject) return;
-            InputParam.Caster.StartCoroutine(ObjectLasts());
-        }
-
-        public IEnumerator ObjectLasts()
+        public override async UniTask BuildTaskAsync(CancellationToken ct)
         {
             float timer = 0f;
+            if (!lastingObject) return;
             GameObject inst = Instantiate(lastingObject, InputParam.Caster.transform);
             inst.transform.position += new Vector3(offset.x, offset.y, 0f);
             while (timer < lastingSeconds)
             {
-                yield return null;
+                await UniTask.Yield(PlayerLoopTiming.Update, ct);
             }
             Destroy(inst);
         }
