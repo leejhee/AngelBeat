@@ -1,6 +1,3 @@
-using Codice.CM.Common;
-using Core.Scripts.Foundation.Define;
-using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
 using novel;
 using System.Threading;
@@ -11,7 +8,6 @@ using System;
 using System.Linq;
 using System.Text;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -38,6 +34,8 @@ public class NovelPlayer : MonoBehaviour
     // 임시코드
     public int CurrentIndex = 0;
 
+    public event Action OnScriptEnd;
+    
     private void Update()
     {
         CurrentIndex = CurrentAct.CurrentIndex;
@@ -225,7 +223,9 @@ public class NovelPlayer : MonoBehaviour
                     
                     
                     
-                    Addressables.ReleaseInstance(gameObject);
+                    //Addressables.ReleaseInstance(gameObject);
+                    EndScript();
+                    OnScriptEnd?.Invoke();
                     return;
                 case LineResult.Stop:
                     return;
