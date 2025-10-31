@@ -1,15 +1,14 @@
 #Scenario_1
 
-@back BlackScreen.SlideDown time:1
+@back BlackScreen
 
 ??: ......
 ??: ......라...
 ??: ......나라...
 ??: ...이제 그만...
+@back Dwissan1.SildeLeft time: 1.5
 @char ??.BilyeongAngry
 ??: 일어나라! 이 놈아!
-
-@back Dwissan1
 
 @hide ??
 ???: ......
