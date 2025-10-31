@@ -39,8 +39,19 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
 
         private void DefaultTurnBegin()
         {
+            // 최대 이동력 가져오기 (NMACTION_POINT = 최대값)
             float movePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             ActionState.Initialize(movePoint);
+            
+            long maxMovePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
+            long currentMovePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            
+            if (currentMovePoint != maxMovePoint)
+            {
+                long delta = maxMovePoint - currentMovePoint;
+                TurnOwner.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
+                Debug.Log($"[Turn] {TurnOwner.name} 이동력 회복: {currentMovePoint} -> {maxMovePoint}");
+            }
             
             // Control Camera.
             FocusCamera();
@@ -48,7 +59,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             #region Control Logic
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
-                //Debug.Log("Monster turn : AI not implemented");
                 CharMonster monster = TurnOwner as CharMonster;
                 if (monster)
                 {
@@ -72,13 +82,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 await monster.ExecuteAITurn(this);
                 Debug.Log($"[Turn] {monster.name} AI 행동 완료");
                 
-                TurnActionUtility.LogActionState(monster.name, ActionState);  // 로깅
+                TurnActionUtility.LogActionState(monster.name, ActionState);
                 
-                await UniTask.Delay(500);  // 연출용 딜레이
+                await UniTask.Delay(500);
                 Debug.Log($"[Turn] {monster.name} AI 턴 종료");
                 
-                End();  // 턴 종료 처리
-                OnAITurnCompleted?.Invoke();  // 다음 턴으로 넘어가라고 알림
+                End();
+                OnAITurnCompleted?.Invoke();
             }
             catch (Exception e)
             {
@@ -87,7 +97,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 
                 End();
                 OnAITurnCompleted?.Invoke();
-                
             }
         }
         
@@ -125,7 +134,16 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// </summary>
         public bool TryConsumeMove(float distance)
         {
-            return ActionState.ConsumeMovePoint(distance);
+            if (!ActionState.ConsumeMovePoint(distance))
+            {
+                return false;
+            }
+            
+            TurnOwner.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, -(long)distance);
+            
+            Debug.Log($"[Turn] {TurnOwner.name} 이동력 소모 완료: {distance} (남은: {ActionState.RemainingMovePoint})");
+            
+            return true;
         }
         
         /// <summary>

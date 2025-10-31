@@ -95,10 +95,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int goal = Context.TargetCell.Value;
             Vector2Int pivot = grid.WorldToCell(pos);
             
-            // 캐릭터 프리팹 이동
+            // 캐릭터 프리팹 이동'만' 한다.
             Vector2 toWorld = stage.CellToWorldCenter(goal);
-            long delta = -Mathf.Abs(goal.x - pivot.x);
-            actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
+            //long delta = -Mathf.Abs(goal.x - pivot.x);
+            //actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
             await actor.CharMove(new Vector2(toWorld.x, pos.y));
             
             // 그리드 위치정보 저장

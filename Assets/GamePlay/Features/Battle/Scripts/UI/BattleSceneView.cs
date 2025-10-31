@@ -84,10 +84,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             ModelEvents.Subscribe<BattleActionBase, BattleActionResult>(
                 act => BattleController.Instance.ActionCompleted += act,
                 act => BattleController.Instance.ActionCompleted -= act,
-                (a, r) =>
-                {
-                    View.CharacterHUD.DisableAllToggleButton();
-                }
+                OnBattleActionCompleted
             );
 
             ModelEvents.Subscribe<long>(
@@ -234,6 +231,12 @@ namespace GamePlay.Features.Battle.Scripts.UI
             }
         }
 
+        private void OnBattleActionCompleted(BattleActionBase b, BattleActionResult r)
+        {
+            if(b.ActionType != ActionType.Move)
+                View.CharacterHUD.DisableAllToggleButton();
+        }
+        
         private void OnCharacterHUDOpen(CharBase character)
         {
             _focusCharacterEvents.Clear();
@@ -353,7 +356,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnSkillSelected(int slot)
         {
-            
             BattleController.Instance.StartPreview(ActionType.Skill, slot).Forget();
         }
 

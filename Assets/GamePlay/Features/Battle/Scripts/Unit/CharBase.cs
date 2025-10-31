@@ -505,6 +505,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             Destroy(go);
             #endregion
         }
+
+        public async UniTask BlinkSpriteOnce()
+        {
+            _spriteRenderer.color = new Color(0, 0, 0, 0);
+            await UniTask.Delay(50);
+            _spriteRenderer.color = new Color(1, 1, 1, 1);
+        }
         #endregion
         
     }

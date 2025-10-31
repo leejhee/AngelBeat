@@ -11,7 +11,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
     public abstract class ToggleButton : MonoBehaviour
     {
-        public bool selectable = true;
+        public bool selectable;
         public bool isSelected;
         [SerializeField] protected Image frame;
         [SerializeField] protected Sprite selectedFrame;
@@ -19,6 +19,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         public Image Frame => frame;
         public Sprite SelectedFrame => selectedFrame;
         public Sprite NonSelectedFrame => nonSelectedFrame;
+
+        private void Start()
+        {
+            selectable = true;
+        }
 
         public abstract void OnSelect();
 
@@ -106,7 +111,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                 {
                     button.isSelected = false;
                     button.Frame.sprite = button.NonSelectedFrame;
-                    return;
+                    //return;
                 }
 
                 button.selectable = false;

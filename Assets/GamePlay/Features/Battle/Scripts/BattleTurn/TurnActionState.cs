@@ -39,8 +39,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         {
             switch (category)
             {
-                case ActionCategory.Move:
-                    return _remainingMovePoint >= moveDistance;
+                case ActionCategory.Move: //남아는 있어야 하고, moveDistance 이상으로 남아야 하니까.
+                    return _remainingMovePoint > 0 && _remainingMovePoint >= moveDistance;
                     
                 case ActionCategory.MajorAction:
                     return !_majorActionUsed;

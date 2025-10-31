@@ -69,7 +69,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
             return partyMembers.Find(x => x.Index == charIndex);
         }
 
-        public CharacterModel YeonModel => SearchCharacter("Yeon");
+        public CharacterModel YeonModel => SearchCharacter("연");
 
         
         // 캐릭터 모델에 스킬을 추가 

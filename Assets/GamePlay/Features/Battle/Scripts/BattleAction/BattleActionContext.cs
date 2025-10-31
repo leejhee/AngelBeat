@@ -68,7 +68,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             ActionSuccess = success;
             Reason = reason;
         }
-
+        
         public readonly bool ActionSuccess;
         public readonly ResultReason Reason;
 
