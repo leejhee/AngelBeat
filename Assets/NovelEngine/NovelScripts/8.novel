@@ -1,6 +1,7 @@
 #Scenario_8
 
 @back Yokaigol
+@bgm ScenarioBGM
 
 @char Seol.Eyeclosed pos: 75, 0 scale: 0.9
 Seol: 도착했군요, 이곳입니다.
@@ -113,3 +114,4 @@ Seol: 모쪼록 무사히 다녀오십시오.
 #wayC
 @char Yeon pos: 50, 0 scale: 0.9
 Yeon: 그래, 그럼 출발하지.
+@stopbgm

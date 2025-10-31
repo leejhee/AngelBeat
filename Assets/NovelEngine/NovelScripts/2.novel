@@ -1,7 +1,7 @@
 #Scenario_2
 
 @back Dwissan1
-
+@bgm ScenarioBGM
 @char Yoon.Happy pos: 25, 0 scale: 0.9
 Yoon: 이게 얼마만이야, 연 사제?
 @char Yeon pos: 80, 0 scale: 0.9
@@ -282,6 +282,7 @@ Hwi: 아니네, 이리 세월이 지나도 한결같으니 보기 좋구나.
 
 @hide Hwi
 ......
+@stopbgm 
 표정과 말이 맞지 않으십니다.
 라는 말은, 그저 속으로만 삼키기로 하며.
 우리는, 그렇게 요괴곡으로 향하기로 했다.

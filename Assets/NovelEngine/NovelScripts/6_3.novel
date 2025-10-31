@@ -4,7 +4,7 @@
 @char Akui pos: 50, 30 scale: 0.7
 Akui: $%#$&@#$%...!
 @hide Akui
-@char Bilyeong.Happy pos: 25, 0 scale: 0.7
+@char Bilyeong.Happy pos: 25, 50 scale: 0.7
 Bilyeong: 하, 그따위 허접한 공격이 맞을 성 싶더냐?
 @char Yeon pos: 75, 0 scale: 0.9
 Yeon: 적의 기세가 멎은 것 같구나.
