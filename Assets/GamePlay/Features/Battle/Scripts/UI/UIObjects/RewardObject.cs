@@ -1,69 +1,49 @@
-﻿using AngelBeat;
-using Core.Scripts.Data;
+﻿using Core.Scripts.Data;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using DataManager = Core.Scripts.Managers.DataManager;
 
-namespace UIs.UIObjects
+namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
-    public class RewardObject : MonoBehaviour
+    public class RewardObject : ToggleButton
     {
-        [SerializeField] private TMP_Text rewardText;
+        //[SerializeField] private TMP_Text rewardText;
         [SerializeField] private Image rewardImage;
         [SerializeField] private Button interactionButton;
-        [SerializeField] private float fadeTime;
-       private void Awake()
-        {
-            Color oldImageColor = rewardImage.color;
-            rewardText.color = new Color(0, 0, 0, 0);
-            rewardImage.color = new Color(oldImageColor.r, oldImageColor.g, oldImageColor.b, 0);
-        }
-        public event Action OnClickReward;
-        public void SetReward(string text, long amount)
-        {
-            if(text == "Skill") 
-                rewardText.SetText(text + $": {DataManager.Instance.GetData<SkillData>(amount).skillName}");
-            else
-                rewardText.SetText(text + $": {amount}");
-            interactionButton.onClick.AddListener(() => StartCoroutine(FadeOutUI(fadeTime)));
-            StartCoroutine(FadeInUI(fadeTime));
-        }
 
-        private IEnumerator FadeInUI(float time)
-        {
-            float elapsed = 0f;
-            while (elapsed < time)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / time);
-                var oldImageColor = rewardImage.color;
-                rewardText.color = new Color(0, 0, 0, t);
-                rewardImage.color = new Color(oldImageColor.r, oldImageColor.r, oldImageColor.r, t);
-                yield return null;
-            }
-        }
+        [SerializeField] private int slotIndex;
+
+        public Button InterActionButton => interactionButton;
         
-        private IEnumerator FadeOutUI(float time)
+        public event Action<int> Selected;
+        public event Action<int> Deselected;
+        
+        public void SetReward(int idx, Sprite deselected = null, Sprite selected = null)
         {
-            float elapsed = 0f;
-            while (elapsed < time)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / time);
-                var oldImageColor = rewardImage.color;
-                rewardImage.color = new Color(oldImageColor.r, oldImageColor.g, oldImageColor.b, 1 - t);
-                rewardText.color = new Color(0, 0, 0, 1 - t);
-                yield return null;
-            }
-            Destroy(gameObject);
+            isSelected = false;
+            slotIndex = idx;
+            selectedFrame =  selected;
+            nonSelectedFrame = deselected;
+            
+            
+            Frame.sprite = deselected;
         }
 
-        private void OnDestroy()
+
+        public override void OnSelect()
         {
-            OnClickReward?.Invoke();
+            Debug.Log($"{slotIndex} 번 보상 선택");
+            Selected?.Invoke(slotIndex);
+        }
+
+        public override void OnDeselect()
+        {
+            Debug.Log($"{slotIndex} 번 해제");
+            Deselected?.Invoke(slotIndex);
         }
     }
 }

@@ -1920,6 +1920,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
   UnitName: 
+  IsDead: 0
 --- !u!114 &1981804264842584168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,6 +1946,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
   UnitName: 
+  IsDead: 0
 --- !u!50 &2027328795304072874
 Rigidbody2D:
   serializedVersion: 4
@@ -2066,9 +2068,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1175075706}
     m_Modifications:
+    - target: {fileID: 163917645794642875, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2796917740754543886, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
       propertyPath: m_Name
       value: BattleWinView
+      objectReference: {fileID: 0}
+    - target: {fileID: 2796917740754543886, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3206386452651957035, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: rewardList.Array.data[0].rewardRange.Array.data[0]
+      value: 1001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3206386452651957035, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: rewardList.Array.data[0].rewardRange.Array.data[1]
+      value: 1002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3206386452651957035, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: rewardList.Array.data[0].rewardRange.Array.data[2]
+      value: 1003
+      objectReference: {fileID: 0}
+    - target: {fileID: 3206386452651957035, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: rewardList.Array.data[0].rewardRange.Array.data[3]
+      value: 1004
       objectReference: {fileID: 0}
     - target: {fileID: 4762593557107769928, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
       propertyPath: m_Pivot.x
@@ -2148,6 +2174,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762593557107769928, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220255305231469341, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220255305231469341, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220255305231469341, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7220255305231469341, guid: 4e22d306472cf5c4ebaa26bde8963324, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2629,6 +2671,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   pushFX: {fileID: 5358219405251250283, guid: 755dea081820a9440855323d79261723, type: 3}
   UnitName: 
+  IsDead: 0
 --- !u!114 &5310836942225669637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2654,6 +2697,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
   UnitName: 
+  IsDead: 0
 --- !u!1 &5612062671903253266
 GameObject:
   m_ObjectHideFlags: 0
@@ -3708,6 +3752,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
   UnitName: 
+  IsDead: 0
 --- !u!114 &8940425832549280585
 MonoBehaviour:
   m_ObjectHideFlags: 0

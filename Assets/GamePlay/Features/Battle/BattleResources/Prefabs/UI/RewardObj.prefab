@@ -169,7 +169,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c2637c357946c7b81823f30c35b0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardText: {fileID: 0}
+  selectable: 1
+  isSelected: 0
+  frame: {fileID: 1496630013443811840}
+  selectedFrame: {fileID: 0}
+  nonSelectedFrame: {fileID: 0}
   rewardImage: {fileID: 1496630013443811840}
   interactionButton: {fileID: 4154973975090956217}
-  fadeTime: 1
+  slotIndex: 0

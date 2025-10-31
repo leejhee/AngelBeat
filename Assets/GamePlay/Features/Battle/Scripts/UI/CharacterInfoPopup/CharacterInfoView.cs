@@ -3,6 +3,7 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Explore.Scripts;
+using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -48,7 +49,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         public override UniTask EnterAction(CancellationToken token)
         {
             #region Model To View
+            
 
+            
             if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
             {
                 // // 전
