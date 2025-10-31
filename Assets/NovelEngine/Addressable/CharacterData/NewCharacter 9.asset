@@ -15,7 +15,9 @@ MonoBehaviour:
   characterName: ????
   body: {fileID: 0}
   faceDict:
-    pairs: []
+    pairs:
+    - _key: yoonsillouette
+      value: {fileID: 21300000, guid: 4a1ef61f60d6ea947b4216378a9304c6, type: 3}
     keys: []
     values: []
   headOffset: {x: 0, y: 0}
