@@ -19,7 +19,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private bool _isDead = false;
         private readonly Action _onBeginTurn =     delegate { };
         private readonly Action _onEndTurn =       delegate { };
-        
+
+        private Action TurnOwnerOutline;
         public event Action OnAITurnCompleted;
         
         public Turn(CharBase turnOwner)
@@ -71,7 +72,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 }
             }
             
+            TurnOwnerOutline = () => TurnOwner.OutlineCharacter(Color.green, 10f);
+            TurnOwner.OnUpdate += TurnOwnerOutline;
+
             //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT, TriggerType.EoT);
+
             #endregion
         }
         
@@ -111,6 +116,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             {
                 Debug.Log($"[Turn] {TurnOwner.name} 플레이어 턴 종료 처리");
             }
+
+            TurnOwner.OnUpdate -= TurnOwnerOutline;
+            TurnOwner.ClearOutline();
             //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT, TriggerType.EoT);
         }
 

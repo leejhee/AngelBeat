@@ -45,6 +45,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject pushFX;
         
         private SpriteRenderer  _spriteRenderer;
+        private SpriteRenderer  _outlineRenderer;
         private Transform       _charTransform;
         private CharAnim        _charAnim;
         
@@ -166,6 +167,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _charTransform = transform;
             _charUnitRoot = Util.FindChild<Transform>(gameObject, "UnitRoot");
             _spriteRenderer = _charUnitRoot.GetComponent<SpriteRenderer>();
+            _outlineRenderer = _charUnitRoot.GetChild(0).GetComponent<SpriteRenderer>();
             _uid = BattleCharManager.Instance.GetNextID();
             _charAnim = new();
             _mainCamera = Camera.main;
@@ -514,6 +516,33 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _spriteRenderer.color = new Color(0, 0, 0, 0);
             await UniTask.Delay(50);
             _spriteRenderer.color = new Color(1, 1, 1, 1);
+        }
+
+        public void OutlineCharacter(Color outlineColor, float outlineSize)
+        {
+            _outlineRenderer.sprite = _spriteRenderer.sprite;
+            _outlineRenderer.material.SetColor("_OutlineColor", outlineColor);
+            _outlineRenderer.material.SetFloat("_OutlineSize", outlineSize);
+            
+            // 정렬을 기본 SR 기준으로 보정
+            _outlineRenderer.sortingLayerID = _spriteRenderer.sortingLayerID;
+            _outlineRenderer.sortingOrder   = _spriteRenderer.sortingOrder;
+
+            // 스프라이트/플립 동기화 후 켜기
+            _outlineRenderer.sprite = _spriteRenderer.sprite;
+            _outlineRenderer.flipX  = _spriteRenderer.flipX;
+            _outlineRenderer.flipY  = _spriteRenderer.flipY;
+            _outlineRenderer.enabled = true;
+            
+        }
+
+        public void ClearOutline()
+        {
+            if (_outlineRenderer)
+            {
+                _outlineRenderer.enabled = false;
+                _outlineRenderer.sprite  = null;      // 깔끔히 끊기(선택)
+            }
         }
         #endregion
         

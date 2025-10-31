@@ -44,8 +44,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         [Tooltip("Outline 셰이더 파라미터명")]
         [SerializeField] private string outlineColorProp = "_OutlineColor";
         [SerializeField] private string outlineSizeProp  = "_OutlineSize";
-        [SerializeField] private Color  outlineColor     = Color.yellow;
-        [SerializeField] private float  outlineSize      = 1.5f;
+        [SerializeField] private Color  outlineColor     = new(1, 0, 1, 1);
+        [SerializeField] private float  outlineSize      = 5f;
         [Tooltip("기본 SR보다 몇 단계 위/아래에 그릴지")]
         [SerializeField] private int outlineSortingOffset = +1;
         [Tooltip("애니메이션 스프라이트를 따라가도록 호버 중 매 프레임 동기화")]
