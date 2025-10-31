@@ -32,7 +32,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private long _index;
         [SerializeField] private GameObject _SkillRoot;
         [SerializeField] protected Animator _Animator;
-        [SerializeField] private Collider2D _battleCollider;
+        [SerializeField] private BoxCollider2D _battleCollider;
         [SerializeField] private GameObject _CharCameraPos;
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
@@ -69,7 +69,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public Transform CharTransform => _charTransform;
         public Transform CharUnitRoot => _charUnitRoot;
         public GameObject SkillRoot => _SkillRoot;
-        public Collider2D BattleCollider => _battleCollider;
+        public BoxCollider2D BattleCollider => _battleCollider;
         public GameObject CharCameraPos => _CharCameraPos;
         public GameObject CharSnapShot => _charSnapShot;
         public CharAnim CharAnim => _charAnim;
@@ -413,6 +413,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
             _Animator.SetTrigger(Idle);
             transform.position = targetPos;
+            
             _Animator.SetTrigger(JumpIn);
             await UniTask.Delay(50, false, PlayerLoopTiming.Update, ct);
             sr.enabled = true;

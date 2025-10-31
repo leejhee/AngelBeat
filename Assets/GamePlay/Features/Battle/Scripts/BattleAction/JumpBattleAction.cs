@@ -54,7 +54,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)
         {
-            if(Context == null || Context.actor == null || Context.battleField == null)
+            if(Context == null || !Context.actor || !Context.battleField)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
             if(Context.TargetCell == null)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
@@ -65,7 +65,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int goal = Context.TargetCell.Value;
             
             var toWorld = stage.CellToWorldCenter(goal);
-            await actor.CharJump(toWorld, ct);
+            float yCalibration = stage.Grid.cellSize.y / 2;
+            float yCollider = actor.BattleCollider.size.y / 2;
+            var finalPos = new Vector2(toWorld.x, toWorld.y - (yCalibration - yCollider)); 
+            await actor.CharJump(finalPos, ct);
             
             grid.MoveUnit(actor, goal);
             return BattleActionResult.Success();
