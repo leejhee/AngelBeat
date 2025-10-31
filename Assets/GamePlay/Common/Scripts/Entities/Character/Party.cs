@@ -46,7 +46,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         /// </summary>
         public void InitPartyAsync()
         {
-            DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(10010001);
+            DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(10001001);
             CharacterModel dokModel = new(dok);
             partyMembers.Add(dokModel);
         }

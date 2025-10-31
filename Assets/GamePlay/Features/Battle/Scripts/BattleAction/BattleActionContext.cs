@@ -1,5 +1,6 @@
 ﻿using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.BattleMap;
+using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,26 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         public static BattleActionResult Success() => new(true);
         public static BattleActionResult Fail(ResultReason reason) => new(false, reason);
 
+    }
+    
+    public static class ActionTypeExtensions
+    {
+        public static TurnActionState.ActionCategory GetActionCategory(this ActionType type)
+        {
+            switch (type)
+            {
+                case ActionType.Move:
+                    return TurnActionState.ActionCategory.Move;
+                    
+                case ActionType.Jump:
+                case ActionType.Push:
+                case ActionType.Skill:
+                    return TurnActionState.ActionCategory.MajorAction;
+                    
+                default:
+                    return TurnActionState.ActionCategory.Move; // 기본값
+            }
+        }
     }
     
 }

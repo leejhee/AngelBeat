@@ -23,7 +23,6 @@ namespace GamePlay.Features.Lobby.Scripts
         }
         
         [SerializeField] private string defaultSaveName = "새 여정 시작";
-        private int selectedSlotIndex = -1;
         
         [Header("Debug 용도")]
         [SerializeField] private bool autoLoadLastSlot = false;
@@ -52,9 +51,9 @@ namespace GamePlay.Features.Lobby.Scripts
             // 디버그 모드: 마지막 플레이한 슬롯 자동 로드
             if (autoLoadLastSlot && SaveLoadManager.Instance.HasLastPlayed)
             {
-                var lastSlotIndex = SaveLoadManager.Instance.GlobalSave.LastPlayedSlotIndex;
-                Debug.Log($"[LobbyManager] Auto-loading last played slot: {lastSlotIndex}");
-                ContinueGame(lastSlotIndex);
+                //var lastSlotIndex = SaveLoadManager.Instance.GlobalSave.LastPlayedSlotIndex;
+                Debug.Log($"[LobbyManager] Auto-loading...");
+                ContinueGame();
             }
         }
         
@@ -71,7 +70,11 @@ namespace GamePlay.Features.Lobby.Scripts
             }
         }
         
-
+        public void NewGameStart()
+        {
+            NewGameStart(defaultSaveName);
+        }
+        
         public void NewGameStart(string slotName)
         {
             if (string.IsNullOrWhiteSpace(slotName))
@@ -114,40 +117,69 @@ namespace GamePlay.Features.Lobby.Scripts
             var globalSave = SaveLoadManager.Instance.GlobalSave;
             return globalSave.maxSlotCount - globalSave.PlayableSlotCount;
         }
-        
-        public void ContinueGame(int slotIndex)
+
+        public void ContinueGame()
         {
-            bool success = SaveLoadManager.Instance.LoadSlot(slotIndex);
-            
+            bool success = SaveLoadManager.Instance.LoadSlot();
+
             if (!success)
             {
-                Debug.LogError($"[LobbyManager] Failed to load slot: {slotIndex}");
+                Debug.LogError($"[LobbyManager] Failed to load slot!");
                 // TODO: UI에 오류 표시
                 return;
             }
 
             var currentSlot = SaveLoadManager.Instance.CurrentSlot;
-            Debug.Log($"[LobbyManager] Slot loaded: {currentSlot.slotName}");
-            Debug.Log($"[LobbyManager] Last game state: {currentSlot.lastGameState}");
+            Debug.Log($"[LobbyManager] Game loaded: {currentSlot.slotName}");
+            Debug.Log($"[LobbyManager] Last state: {currentSlot.lastGameState}");
 
             // 마지막 게임 상태에 따라 적절한 씬으로 전환
             LoadSceneByGameState(currentSlot.lastGameState);
         }
+        
+        public bool HasSavedGame()
+        {
+            return SaveLoadManager.Instance.HasLastPlayed;
+        }
 
         /// <summary>
-        /// 마지막 플레이한 슬롯으로 빠른 이어하기
+        /// 저장된 게임 정보 가져오기
         /// </summary>
-        public void QuickContinue()
+        public SlotMetaData GetSavedGameInfo()
         {
-            if (!SaveLoadManager.Instance.HasLastPlayed)
-            {
-                Debug.LogWarning("[LobbyManager] No last played slot found!");
-                return;
-            }
-
-            var lastSlotIndex = SaveLoadManager.Instance.GlobalSave.LastPlayedSlotIndex;
-            ContinueGame(lastSlotIndex);
+            return SaveLoadManager.Instance.GlobalSave.LastPlayedSlotData;
         }
+
+        /// <summary>
+        /// 저장된 게임 삭제
+        /// </summary>
+        public void DeleteSavedGame()
+        {
+            bool success = SaveLoadManager.Instance.DeleteSlot();
+            
+            if (success)
+            {
+                Debug.Log($"[LobbyManager] Saved game deleted successfully.");
+                // TODO: UI 갱신
+            }
+            else
+            {
+                Debug.LogError($"[LobbyManager] Failed to delete saved game");
+            }
+        }
+
+        
+       //public void QuickContinue()
+       //{
+       //    if (!SaveLoadManager.Instance.HasLastPlayed)
+       //    {
+       //        Debug.LogWarning("[LobbyManager] No last played slot found!");
+       //        return;
+       //    }
+
+       //    var lastSlotIndex = SaveLoadManager.Instance.GlobalSave.LastPlayedSlotIndex;
+       //    ContinueGame(lastSlotIndex);
+       //}
         
         #region 슬롯 관리
         
@@ -225,26 +257,23 @@ namespace GamePlay.Features.Lobby.Scripts
         #endregion
         
         /// <summary>
-        /// 모든 슬롯 정보 출력 (디버깅용)
+        /// 슬롯 정보 출력 (디버깅용)
         /// </summary>
-        [ContextMenu("Print All Slots")]
-        public void PrintAllSlots()
+        [ContextMenu("Print Slot Info")]
+        public void PrintSlotInfo()
         {
-            var slots = GetAllSlots();
-            Debug.Log($"=== All Slots ({slots.Count}) ===");
-            
-            for (int i = 0; i < slots.Count; i++)
+            if (!SaveLoadManager.Instance.HasLastPlayed)
             {
-                SlotMetaData slot = slots[i];
-                if (slot.isEmpty)
-                {
-                    Debug.Log($"Slot {i}: [EMPTY]");
-                }
-                else
-                {
-                    Debug.Log($"Slot {i}: {slot.slotName} | Last: {slot.lastGameState} | Time: {slot.playTimeTicks:hh\\:mm\\:ss}");
-                }
+                Debug.Log("=== No Saved Game ===");
+                return;
             }
+
+            var slot = SaveLoadManager.Instance.GlobalSave.LastPlayedSlotData;
+            Debug.Log("=== Saved Game Info ===");
+            Debug.Log($"Slot Name: {slot.slotName}");
+            Debug.Log($"Last State: {slot.lastGameState}");
+            Debug.Log($"Play Time: {slot.PlayTime:hh\\:mm\\:ss}");
+            Debug.Log($"Last Saved: {slot.lastSavedTime:yyyy-MM-dd HH:mm:ss}");
         }
 
         /// <summary>
@@ -269,15 +298,15 @@ namespace GamePlay.Features.Lobby.Scripts
             }
 
             var currentSlot = SaveLoadManager.Instance.CurrentSlot;
-            Debug.Log($"=== RNG Counters for Slot: {currentSlot.slotName} ===");
+            Debug.Log($"=== RNG Counters: {currentSlot.slotName} ===");
             Debug.Log($"Slot Seed: {currentSlot.slotSeed}");
-            Debug.Log($"Counters:");
             
             if (currentSlot.RngCounters != null && currentSlot.RngCounters.Count > 0)
             {
+                Debug.Log("Counters:");
                 foreach (var kvp in currentSlot.RngCounters)
                 {
-                    Debug.Log($"{kvp.Key}: {kvp.Value}");
+                    Debug.Log($"  {kvp.Key}: {kvp.Value}");
                 }
             }
             else

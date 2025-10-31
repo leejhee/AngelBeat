@@ -30,7 +30,7 @@ namespace Core.Scripts.Managers
         #endregion
         
         #region Fields
-        
+        private const int SINGLE_SLOT_INDEX = 0;
         private GlobalSaveData _globalSave;
         private GameSlotData _cachedSlotData;
         public event Action<GameSlotData> SlotLoaded;
@@ -142,17 +142,36 @@ namespace Core.Scripts.Managers
         /// <returns> 잘 되었는가? </returns>
         public bool CreateNewSlot(string slotName, out int slotIndex)
         {
-            slotIndex = -1;
-            if (_globalSave.GameSlots.Count >= _globalSave.maxSlotCount)
-            {
-                Debug.LogWarning("방 없어 방 빼고 들어와~");
-                return false;
-            }
+            // slotIndex = -1;
+            // if (!_globalSave.HasEmptySlot)
+            // {
+            //     Debug.LogWarning($"[CreateNewSlot] 슬롯이 가득 찼습니다. (현재: {_globalSave.PlayableSlotCount}/{_globalSave.maxSlotCount})");
+            //     return false;
+            // }
+            //
+            // var newSlot = new GameSlotData(slotName);
+            //
+            // // 새 슬롯 만들었으므로 전역 데이터 저장하기
+            // slotIndex = _globalSave.GetOrCreateSlot(slotName);
+            //
+            // _globalSave.LastPlayedSlotIndex = slotIndex;
+            // SaveGlobalData();
             
+            slotIndex = SINGLE_SLOT_INDEX;
+    
+            Debug.Log($"[CreateNewSlot] Creating new game: '{slotName}'");
+    
+            // 기존 슬롯 데이터 완전 초기화
+            _globalSave.GameSlots.Clear();
+    
+            // 새 GameSlotData 생성
             var newSlot = new GameSlotData(slotName);
-            
-            // 새 슬롯 만들었으므로 전역 데이터 저장하기
-            slotIndex = _globalSave.GetOrCreateSlot(slotName);
+    
+            // 새 메타데이터 생성 및 추가
+            var newMeta = new SlotMetaData(slotName);
+            _globalSave.GameSlots.Add(newMeta);
+    
+            // 글로벌 데이터 업데이트
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
             
@@ -172,6 +191,7 @@ namespace Core.Scripts.Managers
             catch (Exception e)
             {
                 Debug.LogError($"[New Slot Save Error] {slotName} : {e}");
+                return false;
             }
             
             
@@ -184,40 +204,86 @@ namespace Core.Scripts.Managers
         /// </summary>
         /// <param name="slotIndex">선택한 슬롯의 인덱스(UI에서 받아올 거임)</param>
         /// <returns> 로드가 잘 되었는가? </returns>
-        public bool LoadSlot(int slotIndex)
+        public bool LoadSlot(int slotIndex=SINGLE_SLOT_INDEX)
         {
-            if (slotIndex < 0 || slotIndex >= _globalSave.maxSlotCount)
+            // if (slotIndex < 0 || slotIndex >= _globalSave.maxSlotCount)
+            // {
+            //     Debug.LogError($"[로드 실패] : 유효하지 않은 슬롯 넘버 {slotIndex}");
+            //     return false;
+            // }
+            // var slotMetaData = _globalSave.GameSlots[slotIndex];
+            // if (slotMetaData.isEmpty)
+            // {
+            //     Debug.LogWarning($"[로드 실패] : 비어있는데요? {slotIndex}번 슬롯입니다.");
+            //     return false;
+            // }
+            //
+            // string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}.json";
+            // var gameSlot = SlotIO.LoadAsync(slotFileName, CancellationToken.None).GetAwaiter().GetResult();
+            // if (gameSlot == null)
+            // {
+            //     // TODO : 메타데이터가 있는데 게임 슬롯이 없는 경우는 흔하지는 않다. 이러면 그냥 유효하지 않다 하고 튕겨버리자.
+            //     Debug.LogError("[로드 실패] : 슬롯 파일이 없어 로드할 수 없습니다. 해당 슬롯을 삭제해주세요.");
+            // }
+            //
+            // // 할당부
+            // _cachedSlotData = gameSlot;
+            // _globalSave.LastPlayedSlotIndex = slotIndex;
+            // SaveGlobalData();
+            //
+            // #if UNITY_INCLUDE_TESTS
+            // if(!suppressSlotLoadEvent)
+            //     SlotLoaded?.Invoke(_cachedSlotData); //할당할거 다 하고 호출!
+            // #else
+            // SlotLoaded?.Invoke(_cachedSlotData);
+            // #endif
+            //
+            // return true;
+            
+            // 단일 슬롯이므로 항상 인덱스 0 사용
+            slotIndex = SINGLE_SLOT_INDEX;
+    
+            Debug.Log($"[LoadSlot] Loading slot {slotIndex}...");
+    
+            // 메타데이터 확인
+            if (_globalSave.GameSlots.Count == 0)
             {
-                Debug.LogError($"[로드 실패] : 유효하지 않은 슬롯 넘버 {slotIndex}");
+                Debug.LogWarning($"[LoadSlot] No slot metadata found.");
                 return false;
             }
+    
             var slotMetaData = _globalSave.GameSlots[slotIndex];
             if (slotMetaData.isEmpty)
             {
-                Debug.LogWarning($"[로드 실패] : 비어있는데요? {slotIndex}번 슬롯입니다.");
+                Debug.LogWarning($"[LoadSlot] Slot {slotIndex} is empty.");
                 return false;
             }
-            
+    
+            // 슬롯 파일 로드
             string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}.json";
             var gameSlot = SlotIO.LoadAsync(slotFileName, CancellationToken.None).GetAwaiter().GetResult();
+    
             if (gameSlot == null)
             {
-                // TODO : 메타데이터가 있는데 게임 슬롯이 없는 경우는 흔하지는 않다. 이러면 그냥 유효하지 않다 하고 튕겨버리자.
-                Debug.LogError("[로드 실패] : 슬롯 파일이 없어 로드할 수 없습니다. 해당 슬롯을 삭제해주세요.");
+                Debug.LogError("[LoadSlot] Slot file not found. Please delete this slot or create a new game.");
+                return false;
             }
-            
-            // 할당부
+    
+            // 슬롯 데이터 할당
             _cachedSlotData = gameSlot;
             _globalSave.LastPlayedSlotIndex = slotIndex;
             SaveGlobalData();
-            
-            #if UNITY_INCLUDE_TESTS
+    
+            Debug.Log($"[LoadSlot] Successfully loaded: '{gameSlot.slotName}'");
+    
+            // 이벤트 발생
+#if UNITY_INCLUDE_TESTS
             if(!suppressSlotLoadEvent)
-                SlotLoaded?.Invoke(_cachedSlotData); //할당할거 다 하고 호출!
-            #else
-            SlotLoaded?.Invoke(_cachedSlotData);
-            #endif
-            
+                SlotLoaded?.Invoke(_cachedSlotData);
+#else
+    SlotLoaded?.Invoke(_cachedSlotData);
+#endif
+    
             return true;
         }
         
@@ -234,16 +300,20 @@ namespace Core.Scripts.Managers
             
             _cachedSlotData.WriteSnapshot(snapshot); // 쓰기
 
-            string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            string slotFileName = SystemString.GetSlotName(SINGLE_SLOT_INDEX) + SystemString.JsonExtension;
             AsyncJobQueue.EnqueueKeyed("save-slot",
                 ct => SlotIO.SaveAsync(slotFileName, _cachedSlotData, ct));
             
-            if (_globalSave.LastPlayedSlotIndex >= 0 &&
-                _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
-            {
-                UpdateSlotMetadata(); // 연결용 메타데이터 업데이트 및 글로벌 데이터 저장
-                SaveGlobalData();
-            }
+            //if (_globalSave.LastPlayedSlotIndex >= 0 &&
+            //    _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
+            //{
+            //    UpdateSlotMetadata(); // 연결용 메타데이터 업데이트 및 글로벌 데이터 저장
+            //    SaveGlobalData();
+            //}
+            
+            UpdateSlotMetadata();
+            SaveGlobalData();
+            
             Debug.Log($"Current Slot Saved : {_cachedSlotData.slotName}");
         }
         
@@ -265,7 +335,7 @@ namespace Core.Scripts.Managers
             _cachedSlotData.lastGameState = state;
             _cachedSlotData.lastSavedTime = DateTime.Now;
 
-            string slotFileName = SystemString.GetSlotName(_globalSave.LastPlayedSlotIndex) + SystemString.JsonExtension;
+            string slotFileName = SystemString.GetSlotName(SINGLE_SLOT_INDEX) + SystemString.JsonExtension;
             AsyncJobQueue.EnqueueKeyed("save-slot",
                 ct => SlotIO.SaveAsync(slotFileName, _cachedSlotData, ct));
             
@@ -278,10 +348,14 @@ namespace Core.Scripts.Managers
         
         private void UpdateSlotMetadata()
         {
-            if (_globalSave.LastPlayedSlotIndex >= 0 && 
-                _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
+            //if (_globalSave.LastPlayedSlotIndex >= 0 && 
+            //    _globalSave.LastPlayedSlotIndex < _globalSave.GameSlots.Count)
+            //{
+            //    _globalSave.UpdateSlotMetadata(_globalSave.LastPlayedSlotIndex, _cachedSlotData);
+            //}
+            if (_globalSave.GameSlots.Count > 0)
             {
-                _globalSave.UpdateSlotMetadata(_globalSave.LastPlayedSlotIndex, _cachedSlotData);
+                _globalSave.UpdateSlotMetadata(SINGLE_SLOT_INDEX, _cachedSlotData);
             }
         }
         
@@ -290,32 +364,51 @@ namespace Core.Scripts.Managers
         /// </summary>
         /// <param name="slotIndex"> 삭제할 슬롯 인덱스 </param>
         /// <returns> 잘 되었는가? </returns>
-        public bool DeleteSlot(int slotIndex)
+        public bool DeleteSlot(int slotIndex = SINGLE_SLOT_INDEX)
         {
-            if (slotIndex < 0 || slotIndex >= _globalSave.GameSlots.Count)
-            {
-                Debug.LogError($"Invalid slot index: {slotIndex}");
-                return false;
-            }
-
-            string deletedSlotName = _globalSave.GameSlots[slotIndex].slotName;
+            //if (slotIndex < 0 || slotIndex >= _globalSave.GameSlots.Count)
+            //{
+            //    Debug.LogError($"Invalid slot index: {slotIndex}");
+            //    return false;
+            //}
+//
+            //string deletedSlotName = _globalSave.GameSlots[slotIndex].slotName;
+            //
+            //// 개별 슬롯 파일 삭제
+            //string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}";
+            //DeleteSlotFile(slotFileName);
+            //
+            //// 글로벌 데이터에서의 슬롯 메타데이터 삭제
+            //bool success = _globalSave.DeleteSlot(slotIndex);
+            //
+            //// 현재 캐시된 슬롯이 삭제된 경우 정리
+            //if (_globalSave.LastPlayedSlotIndex == slotIndex)
+            //{
+            //    _cachedSlotData = null;
+            //}
+            //
+            //SaveGlobalData();
+            //Debug.Log($"Slot deleted: {deletedSlotName}");
+            //return success;
             
-            // 개별 슬롯 파일 삭제
+            Debug.Log("[DeleteSlot] Clearing single slot...");
+    
+            slotIndex = SINGLE_SLOT_INDEX;
+    
+            // 슬롯 파일 삭제
             string slotFileName = $"{SystemString.SlotPrefix}{slotIndex}";
             DeleteSlotFile(slotFileName);
-            
-            // 글로벌 데이터에서의 슬롯 메타데이터 삭제
-            bool success = _globalSave.DeleteSlot(slotIndex);
-            
-            // 현재 캐시된 슬롯이 삭제된 경우 정리
-            if (_globalSave.LastPlayedSlotIndex == slotIndex)
-            {
-                _cachedSlotData = null;
-            }
-            
+    
+            // 메타데이터 초기화
+            _globalSave.GameSlots.Clear();
+            _globalSave.LastPlayedSlotIndex = -1;
+    
+            // 캐시된 슬롯 정리
+            _cachedSlotData = null;
+    
             SaveGlobalData();
-            Debug.Log($"Slot deleted: {deletedSlotName}");
-            return success;
+            Debug.Log("[DeleteSlot] Slot cleared successfully.");
+            return true;
         }
         
         private void DeleteSlotFile(string fileName)

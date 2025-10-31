@@ -216,6 +216,13 @@ namespace GamePlay.Features.Battle.Scripts
             return battleMembers;
         }
 
+        public List<CharBase> GetAllies(eCharType type)
+        {
+            Type myType = GetTypeByEnum(type);
+            List<CharBase> allies = _cache[myType].Values.ToList();
+            return allies;
+        }
+        
         public List<CharBase> GetEnemies(eCharType type)
         {
             Type enemyType = GetTypeByEnum(GetEnemyType(type));

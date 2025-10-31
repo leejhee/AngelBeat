@@ -75,7 +75,6 @@ namespace GamePlay.Features.Battle.Scripts
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public IReadOnlyList<CharacterModel> PartyList => _stageSource.PlayerParty.partyMembers;
-        private bool _canAct = true;
         
         public event Action<long> OnCharacterDead;
         #endregion
@@ -90,7 +89,17 @@ namespace GamePlay.Features.Battle.Scripts
         }
         public TurnStructureModel GetChangedTurnStructureModel => new(_turnManager.TurnCollection);
         
-        //temporary
+        //TODO : temporary. 절대 그냥 냅두지 말것.
+        public StageField GetStageField()
+        {
+            return _battleStage;
+        }
+        
+        public BattleStageGrid GetBattleGrid()
+        {
+            return _battleStage?.GetComponent<BattleStageGrid>();
+        }
+        
         public TurnController TurnController => _turnManager;
         
         #endregion
@@ -179,15 +188,32 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (_currentActionState != BattleActionState.Idle)
             {
+                // 기본 상태에서만 선택 가능
                 Debug.LogWarning($"[BattleController] Preview Cannot Start in state {_currentActionState}.");
                 return;
             } 
-            // 기본 상태에서만 선택 가능
             
-            //if ((type == ActionType.Jump ||
-            //     type == ActionType.Move ||
-            //     type == ActionType.Skill) && !_canAct) return;
-                 
+            // 턴 행동 가능 여부를 검증
+            Turn currentTurn = _turnManager.CurrentTurn;
+            if (currentTurn == null)
+            {
+                Debug.LogWarning("[BattleController] 현재 턴이 없습니다.");
+                return;
+            }
+            
+            TurnActionState.ActionCategory category = type.GetActionCategory();
+            
+            // 이동이 아닌 경우 주요 행동 사용 가능 여부 체크
+            if (category == TurnActionState.ActionCategory.MajorAction)
+            {
+                if (!currentTurn.CanPerformAction(category))
+                {
+                    Debug.LogWarning($"[BattleController] 이번 턴에는 더 이상 주요 행동(밀기/점프/스킬)을 사용할 수 없습니다.");
+                    // UI에 메시지 표시하는 로직 추가 가능
+                    return;
+                }
+            }
+            
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
             _currentActionContext = new BattleActionContext
             {
@@ -297,7 +323,15 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (_currentActionState != BattleActionState.Preview) return;
             if (_currentActionBase == null || _currentActionContext == null) return;
-
+            
+            Turn currentTurn = _turnManager.CurrentTurn;
+            if (!currentTurn.TryUseMajorAction())
+            {
+                Debug.LogWarning("스킬 사용 실패: 이미 주요 행동을 사용했습니다.");
+                CancelPreview();
+                return;
+            }
+            
             _currentActionContext.TargetCell = cell;
             _currentActionContext.targets =  targets;
 
@@ -317,7 +351,6 @@ namespace GamePlay.Features.Battle.Scripts
             {
                 CancelPreview();
                 ActionCompleted?.Invoke(finishedAction, result);
-                _canAct = true;
             }
         }
 
@@ -325,6 +358,42 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (_currentActionState != BattleActionState.Preview) return;
             if (_currentActionBase == null || _currentActionContext == null) return;
+            
+            Turn currentTurn = _turnManager.CurrentTurn;
+            
+            // 이동 행동 시 이동력 검증 및 소모
+            if (_currentActionContext.battleActionType == ActionType.Move)
+            {
+                Vector3 startPos = _currentActionContext.actor.transform.position;
+                Vector3 targetPos = _battleStage.CellToWorldCenter(cell);
+                float moveDistance = Vector3.Distance(startPos, targetPos);
+                
+                // 이동 가능 여부
+                if (!currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
+                {
+                    Debug.LogWarning($"이동력 부족: {moveDistance:F1} 필요, {currentTurn.ActionState.RemainingMovePoint:F1} 남음");
+                    CancelPreview();
+                    return;
+                }
+                
+                // 이동력 소모
+                if (!currentTurn.TryConsumeMove(moveDistance))
+                {
+                    Debug.LogWarning("이동력 소모 실패");
+                    CancelPreview();
+                    return;
+                }
+            }
+            else if (_currentActionContext.battleActionType == ActionType.Jump ||
+                     _currentActionContext.battleActionType == ActionType.Push)
+            {
+                if (!currentTurn.TryUseMajorAction())
+                {
+                    Debug.LogWarning("주요 행동 사용 실패");
+                    CancelPreview();
+                    return;
+                }
+            }
             
             _currentActionContext.TargetCell = cell;
             _currentActionState = BattleActionState.Execute;
@@ -342,12 +411,8 @@ namespace GamePlay.Features.Battle.Scripts
             catch (Exception ex) { Debug.LogException(ex); }
             finally
             {
-                if (_currentActionContext.battleActionType == ActionType.Jump ||
-                    _currentActionContext.battleActionType == ActionType.Push)
-                    _canAct = false;
                 CancelPreview();
                 ActionCompleted?.Invoke(finishedAction, result);
-                
             }
         }
         
@@ -398,6 +463,7 @@ namespace GamePlay.Features.Battle.Scripts
 
         #endregion
     }
+    
 }
 
 

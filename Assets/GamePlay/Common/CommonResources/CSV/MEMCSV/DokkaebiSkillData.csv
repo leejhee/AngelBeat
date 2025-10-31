@@ -2,9 +2,9 @@
 index,skillName,#skillDescription,ObangTag,Weight,skillType,skillDamage,skillRange,skillCritical,skillAccuracy,skillIconImage,skillTimeLine,,,,,,,
 long,string,#,eObang,float,eSkillType,long,long,int,int,string,string,,,,,,,
 10101001,뭉게구름,"#물리 단일, 밀기",Red,3,PhysicalAttack,10102001,10103001,3,85,skillicon_MungeCloud,timeline_MungeCloud,,,,,,,
-10101002,눈속임,"#버프, 반격 패시브",Blue,1,Buff,10102002,10103002,6,1000,skillicon_SmokeStep,timeline_SmokeStep,,,,,,,
+10101002,눈속임,"#버프, 반격 패시브",Blue,1,Buff,,10103002,-1000,1000,skillicon_SmokeStep,timeline_SmokeStep,,,,,,,
 10101003,퍼뜨리기,"#마법 광역, 디버프",Black,1,MagicAttack,10102003,10103003,-1000,1000,skillicon_SmokeWave,timeline_SmokeWave,,,,,,,
 10101004,연기사슬,"#디버프, 피해량 증가",White,1,Debuff,10102004,10103004,-1000,90,skillicon_SmokeBind,timeline_SmokeBind,,,,,,,
 10101005,회오리,"#마법 단일, 지속피해",Black,1,MagicAttack,10102005,10103005,-1000,1000,skillicon_Twister,timeline_Twister,,,,,,,
-10101006,환위,"#기타, 위치 교환",Yellow,1,Etc,10102006,10103006,-1000,1000,skillicon_SmokeLink,timeline_SmokeLink,,,,,,,
+10101006,환위,"#기타, 위치 교환",Yellow,1,Etc,,10103006,-1000,1000,skillicon_SmokeLink,timeline_SmokeLink,,,,,,,
 

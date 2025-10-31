@@ -23,7 +23,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         }
     }
 
-//[TODO] : 속도 계산식 나오면 작업할 것.
     public static class TurnComparisonMethods
     {
         public static int VanillaComparer(Turn x, Turn y)
@@ -33,4 +32,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             return ySpeed - xSpeed;
         }
     }
+    
+    
+    
 }

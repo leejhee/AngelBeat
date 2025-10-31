@@ -21,7 +21,7 @@ public long index; // 키워드 부여 ID
 		
 		public SystemEnum.eApplyTarget ApplyTarget; // 부여 대상
 		public int Duration; // 턴 수
-		public int InitStack; // 시작 스탯
+		public int InitStack; // 시작 스택
 		public int Probability; // 확률
 		
 		public SystemEnum.eStackBehavior StackBehavior; // 합산/갱신/무

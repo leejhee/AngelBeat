@@ -445,6 +445,8 @@ MonoBehaviour:
   configDB: {fileID: 11400000, guid: 0b7b30ca4e4d1f841ad47c3c2bd5ef8e, type: 2}
   symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
   eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
+  tileParent: {fileID: 0}
+  symbolParent: {fileID: 0}
 --- !u!1 &1098317312
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,11 +629,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad57b5ed094abfa0b7fb1fab77a5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeon: 1
+  exploreMap: {fileID: 1060932398}
+  currentDungeon: 0
+  currentFloor: 0
   playerParty:
     partyType: 0
     partyMembers: []
     FunctionsPerParty: 
+  playerPosition: {x: 0, y: 0}
+  currentMapSeed: 0
 --- !u!114 &1710743195
 MonoBehaviour:
   m_ObjectHideFlags: 0
