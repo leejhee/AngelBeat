@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3847752097392564417}
   - component: {fileID: 9173584969308156386}
   m_Layer: 9
-  m_Name: SeolSingleHealUnderFX
+  m_Name: Seol_ThrowHeal_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 5358219405251250283}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5ec9fc584537d59468ebc9684821af88, type: 2}
+  m_Controller: {fileID: 9100000, guid: 90a9f8db770cd844d96dc70b9f0d880d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
