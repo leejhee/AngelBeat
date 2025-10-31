@@ -1,6 +1,6 @@
 #Scenario_1
 
-@back BlackScreen
+@back BlackScreen.SlideDown time:1
 
 ??: ......
 ??: ......라...

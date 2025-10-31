@@ -33,7 +33,7 @@ namespace novel
         {
             foreach (Transition value in Enum.GetValues(typeof(Transition)))
             {
-                if (value.ToString().ToLower() == str)
+                if (string.Equals(value.ToString(), str, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return value;
                 }
