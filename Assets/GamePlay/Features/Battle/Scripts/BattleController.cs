@@ -1,11 +1,8 @@
-using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
-using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -73,7 +70,7 @@ namespace GamePlay.Features.Battle.Scripts
         
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
-        public Party PlayerParty =>  _stageSource.PlayerParty;
+        public Party PlayerParty;
         
         public event Action<long> OnCharacterDead;
         #endregion
@@ -109,11 +106,12 @@ namespace GamePlay.Features.Battle.Scripts
             {
                 Party party = new();
                 party.InitPartyAsync();
-                BattlePayload.Instance.SetBattleData(party, DebugDungeon, DebugMapName);
+                //BattlePayload.Instance.SetBattleData(party, DebugDungeon, DebugMapName);
                 
                 Debug.Log("Stage source not set : Using Battle Payload");
-                _stageSource = new BattlePayloadSource();
+                _stageSource = new DebugMockSource(DebugDungeon, party, DebugMapName);
             }
+            PlayerParty = _stageSource.PlayerParty;
             _mapLoader = new StageLoader(_stageSource, battleFieldDB);
             await BattleInitialize();
             
@@ -464,7 +462,6 @@ namespace GamePlay.Features.Battle.Scripts
         }
 #endif
         
-        
         #region UI
 
         public Action<CharacterModel> battleCharInfoEvent;
@@ -476,12 +473,6 @@ namespace GamePlay.Features.Battle.Scripts
             battleCharInfoEvent?.Invoke(FocusChar.CharInfo);
         }
         
-        public Action<long> rewardSkillSelectedEvent;
-        public void SelectSkillReward(long skillID)
-        {
-            rewardSkillSelectedEvent?.Invoke(skillID);
-        }
-
         public void GetSkill(long skillID)
         {
             PlayerParty.AddSkillInCharacter(skillID);
