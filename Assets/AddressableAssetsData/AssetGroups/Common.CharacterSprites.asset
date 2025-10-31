@@ -28,7 +28,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 494ee01f68d76b948837de5b3ab43a78
-    m_Address: skillicon_MiasmaSpread
+    m_Address: skillicon_SmokeWave
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b6f1ad3764268af4f804da81b65f5558
-    m_Address: skillicon_PhantomReprisal
+    m_Address: skillicon_SmokeStep
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
