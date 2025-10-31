@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 2821619371975844126}
   - component: {fileID: -1711375296147896922}
   - component: {fileID: 6604672686628628585}
-  - component: {fileID: 8329274003362239100}
   m_Layer: 9
   m_Name: Seol
   m_TagString: Untagged
@@ -94,6 +93,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   pushFX: {fileID: 5358219405251250283, guid: 755dea081820a9440855323d79261723, type: 3}
   UnitName: 
+  IsDead: 0
 --- !u!95 &2821619371975844126
 Animator:
   serializedVersion: 5
@@ -129,7 +129,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -187,23 +187,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 4}
   m_EdgeRadius: 0
---- !u!320 &8329274003362239100
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3717310159286373163}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 6ef713803875e864db051bf6c87039d2, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings: []
-  m_ExposedReferences:
-    m_References: []
 --- !u!1 &6020758775045425114
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +261,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 8b6c7937e730dae4896a57edc9cf6e88, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d87222a708730c840ba1bdada005fa70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

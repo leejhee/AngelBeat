@@ -231,6 +231,7 @@ MonoBehaviour:
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
   UnitName: 
+  IsDead: 0
 --- !u!95 &7812219678058373009
 Animator:
   serializedVersion: 5
@@ -260,7 +261,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612062671971412147}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

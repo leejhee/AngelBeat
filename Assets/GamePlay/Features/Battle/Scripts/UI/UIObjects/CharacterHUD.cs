@@ -11,6 +11,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
     public abstract class ToggleButton : MonoBehaviour
     {
+        public bool selectable = true;
         public bool isSelected;
         [SerializeField] protected Image frame;
         [SerializeField] protected Sprite selectedFrame;
@@ -79,6 +80,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             }
             else
             {
+                if (!selectedButton.selectable) return; // 선택할 수 없는 경우에는 토글이 되면 안된다.
                 foreach (var button in buttons)
                 {
                     if (button.isSelected)
@@ -96,7 +98,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         }
         
         // 스킬이나 행동이 사용되었을 경우
-        public void DeselectAllToggleButton()
+        public void DisableAllToggleButton()
         {
             foreach (var button in buttons)
             {
@@ -106,6 +108,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                     button.Frame.sprite = button.NonSelectedFrame;
                     return;
                 }
+
+                button.selectable = false;
             }
         }
         

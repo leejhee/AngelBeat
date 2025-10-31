@@ -84,7 +84,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
             ModelEvents.Subscribe<BattleActionBase, BattleActionResult>(
                 act => BattleController.Instance.ActionCompleted += act,
                 act => BattleController.Instance.ActionCompleted -= act,
-                (a, r) => { View.CharacterHUD.DeselectAllToggleButton(); }
+                (a, r) =>
+                {
+                    View.CharacterHUD.DisableAllToggleButton();
+                }
             );
 
             ModelEvents.Subscribe<long>(
@@ -350,6 +353,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnSkillSelected(int slot)
         {
+            
             BattleController.Instance.StartPreview(ActionType.Skill, slot).Forget();
         }
 
@@ -369,6 +373,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 Debug.Log("점프");
                 BattleController.Instance.StartPreview(ActionType.Jump).Forget();
             }
+            else
+            {
+                Debug.Log("점프를 할 수 없습니다.");
+            }
         }
 
         private void OnClickPushButton()
@@ -377,6 +385,10 @@ namespace GamePlay.Features.Battle.Scripts.UI
             {
                 Debug.Log("밀기");
                 BattleController.Instance.StartPreview(ActionType.Push).Forget();
+            }
+            else
+            {
+                Debug.Log("밀기를 할 수 없습니다.");
             }
         }
 

@@ -82,7 +82,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)
         {
-            if(Context == null || Context.actor == null || Context.battleField == null)
+            if(Context == null || !Context.actor || !Context.battleField)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
             if(Context.TargetCell == null)
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidTarget);
@@ -94,7 +94,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int pivot = grid.WorldToCell(actor.CharTransform.position);
             
             // 캐릭터 프리팹 이동
-            var toWorld = stage.CellToWorldCenter(goal);
+            Vector2 toWorld = stage.CellToWorldCenter(goal);
             long delta = -Mathf.Abs(goal.x - pivot.x);
             actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
             await actor.CharMove(toWorld);

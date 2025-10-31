@@ -179,7 +179,7 @@ namespace GamePlay.Features.Battle.Scripts
         public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
         
         /// <summary>
-        /// BattleAction 시작을 위한 Preview 제시 및 
+        /// BattleAction 시작을 위한 Preview 제시 
         /// </summary>
         /// <param name="type"></param>
         /// <param name="skillSlotIndex"> 몇번 슬롯 눌렀는지 </param>
