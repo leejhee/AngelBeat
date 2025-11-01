@@ -221,8 +221,6 @@ public class NovelPlayer : MonoBehaviour
             {
                 case LineResult.Finished:
                     
-                    
-                    
                     //Addressables.ReleaseInstance(gameObject);
                     EndScript();
                     OnScriptEnd?.Invoke();

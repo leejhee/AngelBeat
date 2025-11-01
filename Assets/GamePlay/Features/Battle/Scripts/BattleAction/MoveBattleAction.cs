@@ -39,7 +39,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new Vector2Int(pivot.x + offset, pivot.y);
-                if (stageGrid.IsMaskable(candidate)) continue;
+                if (stageGrid.IsMaskable(candidate)) break;
                 if (stageGrid.IsWalkable(candidate))
                 {
                     movablePoints.Add(candidate);
@@ -59,7 +59,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new Vector2Int(pivot.x - offset, pivot.y);
-                if (stageGrid.IsMaskable(candidate)) continue;
+                if (stageGrid.IsMaskable(candidate)) break;
                 if (stageGrid.IsWalkable(candidate))
                 {
                     movablePoints.Add(candidate);
