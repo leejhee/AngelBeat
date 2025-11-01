@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4466978587040071930}
   - component: {fileID: 8792098787545492461}
   m_Layer: 5
-  m_Name: SkillButton
+  m_Name: TwisterButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 110, y: 140}
+  m_SizeDelta: {x: 151, y: 181}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1963925615964687230
 CanvasRenderer:
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bdb9ee2c671bdbd4d870839247af0e16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2212ea4e0e4729b4fae7f256fb8cd497, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -93,14 +93,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5830480521c9f344194d634dce3c518b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectable: 0
-  isSelected: 0
   frame: {fileID: 8340151555212956054}
-  selectedFrame: {fileID: 21300000, guid: 005364f30ce0112468de7b31098dd2f9, type: 3}
-  nonSelectedFrame: {fileID: 21300000, guid: 2212ea4e0e4729b4fae7f256fb8cd497, type: 3}
   icon: {fileID: 1513205153054408118}
   skillName: {fileID: 5724446158743449484}
   skillDescription: {fileID: 8442910324350844216}
+  selectedFrame: {fileID: 21300000, guid: 005364f30ce0112468de7b31098dd2f9, type: 3}
+  nonSelectedFrame: {fileID: 21300000, guid: 2212ea4e0e4729b4fae7f256fb8cd497, type: 3}
+  isSelected: 0
+  buttonType: 0
 --- !u!114 &-4466978587040071930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7554494565786903211
 RectTransform:
   m_ObjectHideFlags: 0
@@ -341,7 +341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7959972188354289101
 RectTransform:
   m_ObjectHideFlags: 0

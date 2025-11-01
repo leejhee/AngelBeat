@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,7 +63,22 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         
         #endregion
         #endregion
-        
+
+
+
+        #region TempCode
+
+        [Serializable]
+        public struct TempSkillInfo
+        {
+            public long skllId;
+            public Sprite skillIcon;
+            public Sprite skillDescription;
+        }
+
+        public List<TempSkillInfo> skillInfos = new();
+
+        #endregion
         
         [SerializeField] private List<ToggleButton> buttons = new List<ToggleButton>();
 
@@ -150,16 +166,27 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         public void SetSkillButtons(IReadOnlyList<SkillModel> skillList)
         {
             int skillCount = skillList.Count;
-            for (int i = 0; i < skillPanel.SkillButtons.Count; i++)
+            
+            
+            for (int i = 0; i < skillCount; i++)
             {
-                bool isSkill = i < skillCount;
                 SkillButton button = skillPanel.SkillButtons[i];
-                skillPanel.SkillButtons[i].gameObject.SetActive(isSkill);
-                if (!isSkill) continue;
                 
                 button.BindSlot(i);
-                button.SetButton(skillList[i]);
+                
+                Debug.Log(skillList[i].SkillIndex);
+                
+                foreach (TempSkillInfo tempInfo in skillInfos.Where(tempInfo => skillList[i].SkillIndex == tempInfo.skllId))
+                {
+                    button.SetButton(tempInfo);
+                    break;
+                }
+                
+
             }
+
+            buttons[4].selectable = true;
+            buttons[5].selectable = true;
         }
 
         private async UniTask HpOrApBarChanged(long delta, Slider slider, TMP_Text text)

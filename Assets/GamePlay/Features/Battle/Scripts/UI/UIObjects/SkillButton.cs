@@ -30,23 +30,32 @@ namespace AngelBeat
             isSelected = false;
         }
         
-        //TODO : 이 부분 필요 없나요??
-        public void SetButton(SkillModel model)
+        public void SetButton(CharacterHUD.TempSkillInfo info)
         {
-            //icon.sprite = model.icon;
-            //skillName.SetText(model.SkillName);
+            Debug.Log(info.skillIcon.name);
+            Debug.Log(info.skillDescription.name);
+
             
+            this.GetComponent<Image>().sprite = nonSelectedFrame;
             
-            skillDescription.SetSkillDescription(model);
+
+            
+            icon.gameObject.SetActive(true);
+            icon.sprite = info.skillIcon;
+            icon.color = Color.white;
+            
+            this.GetComponent<Button>().interactable = true;
+            selectable = true;
+            skillDescription.SetSkillDescription(info.skillDescription);
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (skillDescription != null)
+            if (selectable)
                 skillDescription.gameObject.SetActive(true);
         }
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (skillDescription != null)
+            if (selectable)
                 skillDescription.gameObject.SetActive(false);
         }
         

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle.UI.YeonSkill.Temp
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle.UI.YeonSkill.Temp
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 08e3482bae6709c4fb7c591d7f48aad3
+  m_SerializeEntries:
+  - m_GUID: 95ae0378a349ce74e866090d1c2b4dc2
+    m_Address: SmokeWaveButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c772c0972651e1419e4cc5900285279
+    m_Address: SmokeBindButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3cb62d649a745e45b26d42018edf95a
+    m_Address: MungeButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c124b881f414e1646876ff47acbf0284
+    m_Address: SmokeStepButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f1f9195ed8bd26c4b8c520dc121fe349
+    m_Address: TwisterButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a952f928c1216964f8a04d63ae38b4ea, type: 2}
+    - {fileID: 11400000, guid: 34a454f1954e00649a92bce7ee730112, type: 2}

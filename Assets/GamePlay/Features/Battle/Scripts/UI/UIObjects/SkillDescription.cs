@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillDescription : MonoBehaviour
 {
@@ -10,10 +11,10 @@ public class SkillDescription : MonoBehaviour
     [SerializeField] private TMP_Text skillDescription;
     [SerializeField] private Sprite skillDescriptionSprite;
 
-    public void SetSkillDescription(SkillModel model)
+    public void SetSkillDescription(Sprite description)
     {
-        //skillName.text = model.SkillName;
-        // 스킬 설명 추가하기
+        skillDescriptionSprite = description;
         
+        this.GetComponent<Image>().sprite = description;
     }
 }
