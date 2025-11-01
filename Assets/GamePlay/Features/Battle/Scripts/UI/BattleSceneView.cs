@@ -323,6 +323,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
         bool _turnEnding;
         private async void OnClickTurnEndButton()
         {
+            if (BattleController.Instance.IsModal) return;
+            
             if (_turnEnding) return;
             _turnEnding = true;
             View.TurnEndButton.interactable = false;
