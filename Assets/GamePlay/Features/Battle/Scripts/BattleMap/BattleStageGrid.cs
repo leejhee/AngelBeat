@@ -41,6 +41,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             _unitToCell.Clear();
             foreach (CharBase unit in BattleCharManager.Instance.GetBattleMembers())
             {
+                Debug.Log(unit.CharInfo.Name);
+                Debug.Log(unit.CharTransform);
                 Vector2Int cell = _stage.WorldToCell(unit.CharTransform.position);
                 _characters[cell] = unit;
                 _unitToCell[unit] = cell;

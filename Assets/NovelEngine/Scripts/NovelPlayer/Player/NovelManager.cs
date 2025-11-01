@@ -8,6 +8,10 @@ using System;
 
 public class NovelManager : MonoBehaviour
 {
+    // TODO 씨이이발 임시코드
+    public bool isRewardOpen = false;
+    
+    
     public static NovelManager Instance
     {
         get => instance;

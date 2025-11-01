@@ -15,7 +15,7 @@ MonoBehaviour:
   stages:
   - stageName: TestMap
     stageField:
-      m_AssetGUID: 76012417a12a620448b173e60a9bb482
+      m_AssetGUID: 09e2471522072464c8773c757bf49258
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
+      m_EditorAssetChanged: 1

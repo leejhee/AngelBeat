@@ -1,4 +1,5 @@
 using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
@@ -438,17 +439,20 @@ namespace GamePlay.Features.Battle.Scripts
             OnCharacterDead?.Invoke(unit.GetID());
         }
         
+        // TODO 절대수정해
         public async void EndBattle(SystemEnum.eCharType winnerType)
         {
             // 결과 내보내기(onBattleEnd 필요)
             if (winnerType == SystemEnum.eCharType.Player)
             {
                 // 이겼을 때 보수를 주는 UI를 올린다.
-                await UIManager.Instance.ShowViewAsync(ViewID.GameWinView);
+                //await UIManager.Instance.ShowViewAsync(ViewID.GameWinView);
+                await NovelManager.Instance.PlayScript("7 temp");
             }
             else
             {
-                await UIManager.Instance.ShowViewAsync(ViewID.GameOverView);
+                SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
+                //await UIManager.Instance.ShowViewAsync(ViewID.GameOverView);
             }
             
             // 탐사로 비동기 로딩. 

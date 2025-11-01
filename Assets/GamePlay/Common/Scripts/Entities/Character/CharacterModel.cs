@@ -118,9 +118,9 @@ namespace GamePlay.Common.Scripts.Entities.Character
             _baseStat = new CharStat(dok);
             
             // TODO : 초기화 테이블 따로 가지고 있게 할 것
-            // var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
-            // var mungeModel = new SkillModel(mungeData);
-            // _allSkillModels.Add(mungeModel);
+            var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
+            var mungeModel = new SkillModel(mungeData);
+            _allSkillModels.Add(mungeModel);
             
             // var smokeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
             // var smokeModel = new SkillModel(smokeData);
@@ -131,14 +131,14 @@ namespace GamePlay.Common.Scripts.Entities.Character
             // var waveData = DataManager.Instance.GetData<DokkaebiSkillData>(10101003);
             // var waveModel = new SkillModel(waveData);
             // _allSkillModels.Add(waveModel);
+            //
+            // var bindData = DataManager.Instance.GetData<DokkaebiSkillData>(10101004);
+            // var bindModel = new SkillModel(bindData);
+            // _allSkillModels.Add(bindModel);
             
-            var bindData = DataManager.Instance.GetData<DokkaebiSkillData>(10101004);
-            var bindModel = new SkillModel(bindData);
-            _allSkillModels.Add(bindModel);
-            
-            // var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
-            // var twisterModel = new SkillModel(twisterData);
-            // _allSkillModels.Add(twisterModel);
+            var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
+            var twisterModel = new SkillModel(twisterData);
+            _allSkillModels.Add(twisterModel);
 
 
             

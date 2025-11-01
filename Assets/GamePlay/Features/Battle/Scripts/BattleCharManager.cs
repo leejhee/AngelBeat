@@ -234,6 +234,7 @@ namespace GamePlay.Features.Battle.Scripts
         
         public void CheckDeathEvents(eCharType type)
         {
+            
             if (!_cache.ContainsKey(GetTypeByEnum(type)) ||
                 _cache[GetTypeByEnum(type)].Count == 0)
                 BattleController.Instance.EndBattle(GetEnemyType(type));

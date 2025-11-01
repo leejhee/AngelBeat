@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: fe6dff6f70f89c54996d2e815a3dbbe6
   m_SerializeEntries:
+  - m_GUID: 09e2471522072464c8773c757bf49258
+    m_Address: STAGE/TestMap1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1fca69bdcf9d90c4ca03a0eb3de182da
     m_Address: TutorialCanvas
     m_ReadOnly: 0

@@ -100,6 +100,13 @@ namespace AngelBeat.UI
 
         public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
         public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
+        
+        
+        
+        public void ToLobby()
+        {
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
+        }
     }
     public class BattleWinPresenter : PresenterBase<BattleWinView>
     {
@@ -197,5 +204,7 @@ namespace AngelBeat.UI
             
             //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
         }
+
+
     }
 }

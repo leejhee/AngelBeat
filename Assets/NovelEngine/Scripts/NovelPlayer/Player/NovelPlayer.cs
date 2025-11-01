@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Text;
+using UIs.Runtime;
 using UnityEngine.AddressableAssets;
 
 public class NovelPlayer : MonoBehaviour
@@ -211,6 +212,28 @@ public class NovelPlayer : MonoBehaviour
             NextLine().Forget();
         }
     }  
+    public void EndScript()
+    {
+        
+        OnScriptEnd?.Invoke();
+        
+        // TODO 씨발 임시코드
+        if (NovelManager.Instance.isRewardOpen)
+        {
+            Debug.Log("tttldlqkf");
+            UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();     
+        }
+        else
+        {
+            NovelManager.Instance.isRewardOpen = true;
+        }
+        
+        Addressables.Release(BackgroundPanel);
+        ReleaseStandings();
+        ReleaseChoices();
+        Addressables.ReleaseInstance(gameObject);
+    }
+
     private async UniTask NextLine()
     {
         bool keepPumping = false;
@@ -220,10 +243,8 @@ public class NovelPlayer : MonoBehaviour
             switch (result)
             {
                 case LineResult.Finished:
-                    
-                    //Addressables.ReleaseInstance(gameObject);
                     EndScript();
-                    OnScriptEnd?.Invoke();
+
                     return;
                 case LineResult.Stop:
                     return;
@@ -560,13 +581,6 @@ public class NovelPlayer : MonoBehaviour
         Debug.Log("선택지 없음 플레이 종료");
         
         EndScript();
-    }
-    public void EndScript()
-    {
-        Addressables.Release(BackgroundPanel);
-        ReleaseStandings();
-        ReleaseChoices();
-        Addressables.ReleaseInstance(gameObject);
     }
 
     public void ReleaseStandings()

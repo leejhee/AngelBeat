@@ -1,4 +1,5 @@
 using AngelBeat;
+using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -70,6 +71,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public void RefreshTurn() => RebuildTurnQueue();
         
         public Action<TurnModel> OnTurnChanged;
+        
+        
         public async UniTask ChangeTurn()
         {
             CurrentTurn?.End();
@@ -92,6 +95,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         
             CurrentTurn.Begin();
             OnTurnChanged?.Invoke(new TurnModel(CurrentTurn));
+            
+            
         }
         
         public void ChangeTurn(BattleTurn.Turn targetTurn)

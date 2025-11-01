@@ -172,6 +172,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _charAnim = new();
             _mainCamera = Camera.main;
             
+            
+            Debug.Log($"여기에요 시발련들아 {_charTransform}");
         }
         
         /// <summary>
