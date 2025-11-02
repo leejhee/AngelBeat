@@ -5,6 +5,8 @@ using UnityEngine.AddressableAssets;
 
 public class NovelTest : MonoBehaviour
 {
+
+    public string scriptName;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,20 +16,7 @@ public class NovelTest : MonoBehaviour
     private async void PlayTutorial_1()
     {
         await NovelManager.InitAsync();
-        //NovelManager.Instance.PlayTutorial(1);
-        NovelManager.Instance.PlayScript("8");
-        // var bgm = await SoundManager.Instance.LoadAudioClipByAddressables("BattleBGM");
-        //
-        // if (SoundManager.Instance!= null)
-        //     SoundManager.Instance.Play(bgm, SystemEnum.Sound.Bgm);
+        NovelManager.Instance.PlayScript(scriptName);
 
     }
-    
-    // public void OnButtonClick()
-    // {
-    //     
-    //     NovelManager.Instance.PlayScript("Tutorial_2");
-    // }
-
-
 }

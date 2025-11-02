@@ -45,3 +45,6 @@ TagManager:
   - name: HoveLayer
     uniqueID: 2393706855
     locked: 0
+  - name: CharHoveLayer
+    uniqueID: 3715504937
+    locked: 0
