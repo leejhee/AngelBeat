@@ -2832,6 +2832,7 @@ MonoBehaviour:
   _rigid: {fileID: 4006964338806355461}
   moveSpeed: 5
   _charUnitRoot: {fileID: 6607057064583203681}
+  _hpBar: {fileID: 202326472}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -2874,6 +2875,7 @@ MonoBehaviour:
   _rigid: {fileID: 2027328795304072874}
   moveSpeed: 5
   _charUnitRoot: {fileID: 3461385620484992754}
+  _hpBar: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -2900,6 +2902,7 @@ MonoBehaviour:
   _rigid: {fileID: 2027328795445832323}
   moveSpeed: 5
   _charUnitRoot: {fileID: 3461385620354110171}
+  _hpBar: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -3697,6 +3700,7 @@ MonoBehaviour:
   _rigid: {fileID: 0}
   moveSpeed: 5
   _charUnitRoot: {fileID: 294029815369250600}
+  _hpBar: {fileID: 0}
   jumpOutFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   pushFX: {fileID: 5358219405251250283, guid: 755dea081820a9440855323d79261723, type: 3}
@@ -4671,6 +4675,7 @@ MonoBehaviour:
   _rigid: {fileID: 8912774690307613091}
   moveSpeed: 5
   _charUnitRoot: {fileID: 6312712378844879355}
+  _hpBar: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}

@@ -8,6 +8,7 @@ using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Common.Scripts.Skill;
+using GamePlay.Features.Battle.Scripts.UI.BattleHovering;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -38,6 +39,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private Transform _charUnitRoot;
+        [SerializeField] private CharacterHpBar _hpBar;
         
         //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
         [SerializeField] private GameObject jumpOutFX;
