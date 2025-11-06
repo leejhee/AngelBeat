@@ -2,9 +2,9 @@
 
 @back Dwissan1
 @bgm ScenarioBGM
-@char Yoon.Happy pos: 25, 0 scale: 0.9
+@char Yoon.Happy pos: 15, 15 scale: 0.8
 Yoon: 이게 얼마만이야, 연 사제?
-@char Yeon pos: 80, 0 scale: 0.9
+@char Yeon pos: 85, 15 scale: 0.8
 Yeon: 그러게 말입니다. 오랜만입니다, 사저.
 Yoon: 너도 오랜만이다, 비령아?
 @char Bilyeong.Sigh pos: 70, 50 scale: 0.7

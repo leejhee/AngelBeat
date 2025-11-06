@@ -2,40 +2,55 @@
 
 @back BlackScreen
 
-??: ......
-??: ......라...
+??: ........
+??: ......라......
 ??: ......나라...
 ??: ...이제 그만...
-@back Dwissan1.SlideDown time: 1
-@char ??.BilyeongAngry
+
+@back Dwissan1.SlideDown time: 0.7
+@wait 1
+@char ??.BilyeongAngry pos: 50, 50 scale 0.7
+@wait 1
 ??: 일어나라! 이 놈아!
 
 @hide ??
 ???: ......
-@char ???.Yeon pos: 50, 0 scale: 0.9
+
+@char ???.Yeon pos: 50, 15 scale: 0.8
+@wait 2
 ???: ......
 ???: ...무어냐.
+
 @hide ???
-@char ??.Bilyeong pos: 25, 50 scale: 0.7
+@char ??.Bilyeong pos: 50, 50 scale: 0.7
 @wait 1
 @char ??.BilyeongSurprised
 @wait 1
 ??: ...?! 
 ??: 일어났느냐?
-@char ???.Yeon pos: 75, 0 scale: 0.9
+
+@hide ??
+@char ???.Yeon pos: 50, 15 scale: 0.8
 ???: 그래, 보다시피.
-@char ??.Bilyeong
+
+@hide ???
+@char ??.Bilyeong pos: 15, 50 scale: 0.7
 ??: 실로 오랜만에 깨어나서 처음 보는 풍경이라는 것이.
 ??: 주인이라는 것이 땅바닥에 퍼질러 있는 꼴이라니... 
 ??: 난 네가 드디어 죽은 줄 알았다.
+
+@char ???.Yeon pos: 85, 15 scale: 0.8
 ???: 네가 멀쩡히 살아 떠드는 걸 보니, 내가 아직 죽진 않은 것 같구나.
 ??: 그러게 말이다, 하.
+
 @char ??.BilyeongHappy
 ??: 나도, 네놈도. 분명히 그 때 죽을 것이라 생각했는데 말이지.
-???: 뭐, 어떻게든... 살아남은 것이겠지.
+???: 뭐, 어떻게든 살아남은 것이겠지.
+
 @char ??.BilyeongSigh
 ??: 징글징글하게도 말이지. 흥.
-???: 그래, 나도 이렇게 살아있어 다행이라 생각한다.
+???: 그래, 걱정해 주어서 고맙구나.
+
 @char ??.BilyeongAngry
 ??: 허, 누가 네놈 걱정을...!
 ???: 헌데 말이다, 비령아.
@@ -44,58 +59,79 @@
 @hide ???
 몸에서 무엇인가 묘한 감각이 느껴진다.
 머릿속은 계속하여 탁하여 안개가 자욱히 낀 것만 같고, 몸은 물에 푹 젖기라도 한 양 축 늘어져 내 것이 아닌 것 같다.
-@char ???.Yeon pos: 75, 0 scale: 0.9
+
+@char ???.Yeon pos: 50, 15 scale: 0.8
 ???: 흠.
-???: 몸이, 아직 완전히 회복되지 못했군.
-@char Bilyeong pos: 25, 50 scale: 0.7
+???: 몸이, 아직 제 상태가 아니군.
+
+@hide ???
+@char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: 그래, 네놈도 이제야 느낀 것이냐? 
 Bilyeong: 어째서인진 모르겠지만, 너무 이르게 봉인이 풀려버렸다.
+
+@hide Bilyeong
+@char ???.Yeon pos: 50, 15 scale: 0.8
 ???: 무슨 일이라도 있었던 것이냐.
+
+@hide ???
+@char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: 그걸 왜 나에게 묻느냐? 
+
 @char Bilyeong.Happy
 Bilyeong: 말코 같은 네놈이 술식을 얼마나 허접하게 걸었으면 수천년은 거뜬히 가야 했을 봉인이 지금 이 모양이겠느냐.
 
 @hide Bilyeong
 @hide ???
-눈 앞에서 녀석이 깐죽대며 신나서 떠드는 걸 보고 있자니 조용해질 때까지 기다릴까 싶기도 하지만, 당장은 어찌 된 일인지를 파악하는 것이 먼저였다.
+눈 앞에서 녀석이 깐죽대며 신나서 떠드는 걸 보고 있자니 조용해질 때까지 기다릴까 싶기도 하지만, 
+그만두었다. 당장은 어찌 된 일인지를 파악하는 것이 먼저였으니.
 근처에 너저분하게 떨어져 있는 부적을 모아 술식을 살피고 있자니, 가만히 있기 심심한 것인지 불꽃을 화륵대며 알짱거린다.
-@char Bilyeong.Embarrassed pos: 25, 50 scale: 0.7
-Bilyeong: ...설마 화났느냐? 그거 가지고?
-@char ???.Yeon pos: 75, 0 scale: 0.9
+
+@char Bilyeong.Embarrassed pos: 50, 50 scale: 0.7
+Bilyeong: ...설마 화났느냐?
+
+@hide Bilyeong
+@char ???.Yeon pos: 50, 15 scale: 0.8
 ???: 지금 어찌 된 것인지 살펴보고 있는 중이니, 조용히 좀 하고 떨어져 있어 보거라.
-@char Bilyeong
+
+@hide ???
+@char Bilyeong pos: 50, 50 scale: 0.7
 Bilyeong: ...흥.
 
 @hide Bilyeong
 @hide ???
 싫은 소리 하면서도 순순히 입을 다무는 걸 보면, 자기도 어찌 된 것인지가 내심 궁금한 것인지.
-아니면 정말로 화났는지가 신경쓰이는 건지.
+아니면 정말 순수하게 화났는지가 신경쓰였던 건지.
 얼마 지나지 않아, 조용히 하라 한 것을 그새 까먹은 것인지 녀석이 다시 말을 꺼낸다.
-@char Bilyeong pos: 25, 50 scale: 0.7
+
+@char Bilyeong pos: 15, 50 scale: 0.7
 Bilyeong: 뭐라도 좀 찾았느냐?
-@char ???.Yeon pos: 75, 0 scale: 0.9
+
+@char ???.Yeon pos: 85, 15 scale: 0.8
 ???: 그래.
 ???: 처음엔 술식이 부서진 줄 알았는데, 살펴 보니 깔끔히 풀려 있더구나.
 Bilyeong: 멀쩡한 술식이 제 혼자서 스스로 풀렸단 말이더냐?
-???: 아니, 누군가 의도적으로 술식을 해체했다.
-@hide ??
-@char Bilyeong.Surprised pos: 50, 50 scale: 0.7
-Bilyeong: 허.
-???: 누구인지 어느 정도는 짐작은 간다마는...
-???: 다만, 술식을 풀기 위해 따로 부수거나 강제로 해제하려는 흔적은 보이지 않는구나.
-???: 무엇보다 이 술식에 외부자들이 접근했었다는 흔적은 보이지 않아. 나와 같은 망량이 벌였다는 것이지.
+???: 아니, 누군가 의도적으로 술식을 해체한 건 맞는 것 같군.
+Bilyeong: 허, 그럴 리가?
+???: 봉인을 풀기 위해 강제로 접근한 듯한 낌새는 보이지 않는구나.
+???: 무엇보다 이쪽 술식이 반응하지 않았다는 건... 나와 같은 망량이 벌였다는 것이지.
+???: 누구인지 어느 정도 짐작은 간다마는...
+
 @char Bilyeong.Angry
 Bilyeong: 에잇, 뭔 말이 그렇게 기느냐? 그러니까 어떤 망량놈이 무슨 뜬바람이 들어서는 제멋대로 잘 자고 있는 나를 깨웠다는 것 아니느냐.
+
 @char Bilyeong
 Bilyeong: 그렇지만, 내가 아는 술식에 이렇게 능통한 망량은 하나밖에 없는데.
 ???: 그래. 우리가 잠든 동안 사형같은 망량이 태어난 것이 아니라면야.
 ???: 술식을 해제할 자는 휘 사형밖에 없겠지.
+
 @char Bilyeong.Sigh
 Bilyeong: 그 놈이 갑자기 무슨 바람이 불어 네놈을 깨우냐는 게 문제지.
 ???: 정말로 사형이라면, 그 이유는... 직접 물어보는 수밖에 없겠구나.
+
 @char Bilyeong
 Bilyeong: 어디 있는지 코빼기도 안 보이는 놈을 지금 무슨 수로 찾겠다는 말이더냐?
 ???: 그건 충분히 문제겠지, 지금 내 힘이 온전치 않아 마음대로 술법을 쓸 수는 없는 노릇이니.
+
 @char Bilyeong.Sigh
 Bilyeong: 그런 놈이 뭐가 그리 태평하느냐.
 ???: 저 멀리 보이지 않느냐.
@@ -103,19 +139,32 @@ Bilyeong: 그런 놈이 뭐가 그리 태평하느냐.
 @hide Bilyeong
 @hide ???
 멀리서부터 가면을 쓴 사형이 천천히 우리를 향해 걸어오는 것이 보인다.
-그리고 제법 반가운 얼굴이 옆에 하나 더 있는 것 같은데, 나머지 한 명은 기억 속에 없는 자이다.
-@char ????.yoonsillouette
+그리고 제법 반가운 얼굴이 옆에 하나 더 있는 것 같은데.
+그리고 다른 한 명은 기억 속에 없는 자이다.
+
+@char ????.yoonsillouette pos: 50, 15 scale: 0.8
+@wiat 2
 ????: 일어~~ 났구나~~ 연~~ 사~~ 제~~!
+
 @hide ????.yoonsillouette
-멀리서부터 들려오는 목소리에 비령의 불꽃이 순간 흠칫했다.
+멀리서부터 들려오는 목소리에 비령의 불꽃 끝이 순간 흠칫한다.
+
 @char Bilyeong pos: 50, 50 scale: 0.7
-Bilyeong: 으엑. 저놈도 있는 것이냐.
+Bilyeong: 으엑, 저놈도 있는 것이냐.
+
 @hide Bilyeong
 마찬가지로 반가운지 달려오는 윤 사저를, 비령은 반기지 않는 듯 해 보인다마는,
-이 녀석도 오랜만에 보는 얼굴이 내심 반갑기는 할 것이다.
-@char Yeon pos: 50, 0 scale: 0.9
-    Yeon: 다들 멀쩡히 살아 있었구나.
-    @hide Yeon
-달려오는 사저의 뒤로 천천히 걸어오는 사형과, 여성으로 보이는 자가 뒤따라오는 것이 보인다.
-자세한 것은 물어보아야 알 수 있을 테지.
+그래도 오랜만에 보는 얼굴이 내심 반갑기는 할 것이다.
+
+@char Bilyeong pos: 50, 50 scale: 0.7
+Bilyeong: 그럼 난 저기 빠져 있을 테니 알아서 이야기 나누던가 말던가 하거라.
+
+@hide Bilyeong
+...아마도 반가울 것이다.
+
+@char Yeon pos: 50, 15 scale: 0.8
+Yeon: 그래, 다들. 멀쩡히 살아 있었구나.
+
+@hide Yeon
+자세한 것은 물어보면 알 수 있을 테지.
 아마도 긴 대화가 될 것이다.
