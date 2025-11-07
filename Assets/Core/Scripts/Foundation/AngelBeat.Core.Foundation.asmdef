@@ -2,7 +2,9 @@
   "name": "AngelBeat.Core.Foundation",
   "references": [
     "UnityEngine.UI",
-    "UniTask"
+    "UniTask",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
@@ -10,5 +12,12 @@
   "overrideReferences": false,
   "precompiledReferences": [],
   "autoReferenced": true,
-  "noEngineReferences": false
+  "noEngineReferences": false,
+  "versionDefines": [
+    {
+      "name": "com.unity.render-pipelines.universal",
+      "expression": "10.0.0",
+      "define": "HAS_URP"
+    }
+  ]
 }

@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: MOUNTAIN_BACK
   m_EditorClassIdentifier: 
   stages:
-  - stageName: TestMap
+  - stageName: TestMap1
+    stageField:
+      m_AssetGUID: 76012417a12a620448b173e60a9bb482
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - stageName: TestMap2
     stageField:
       m_AssetGUID: 09e2471522072464c8773c757bf49258
       m_SubObjectName: 

@@ -9,12 +9,12 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
 {
     public class StageLoader : IMapLoader
     {
-        private readonly IBattleStageSource _stageSource;
+        private readonly IBattleSceneSource _sceneSource;
         private readonly BattleFieldDB _db;
         
-        public StageLoader(IBattleStageSource source, BattleFieldDB db)
+        public StageLoader(IBattleSceneSource source, BattleFieldDB db)
         {
-            _stageSource = source;
+            _sceneSource = source;
             _db = db;
         }
 
@@ -24,10 +24,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public async UniTask<StageField> InstantiateBattleFieldAsync(
             string stageName = null, Transform parent = null, CancellationToken ct = default)
         {
-            BattleFieldGroup group = _db.Resolve(_stageSource.Dungeon);
+            BattleFieldGroup group = _db.Resolve(_sceneSource.Dungeon);
             if (!group)
             {
-                throw new Exception($"BattleFieldGroup not found for {_stageSource.Dungeon}");
+                throw new Exception($"BattleFieldGroup not found for {_sceneSource.Dungeon}");
             }
 
             AssetReferenceT<GameObject> stageRef = group.GetStageRef(stageName);

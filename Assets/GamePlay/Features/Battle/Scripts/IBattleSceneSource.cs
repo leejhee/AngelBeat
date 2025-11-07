@@ -1,16 +1,17 @@
 ﻿using Core.Scripts.Foundation.Define;
+using Core.Scripts.Foundation.SceneUtil;
 using GamePlay.Common.Scripts.Entities.Character;
 
 namespace GamePlay.Features.Battle.Scripts
 {
-    public interface IBattleStageSource
+    public interface IBattleSceneSource : ISceneArgs
     {
         public SystemEnum.Dungeon Dungeon { get; }
         public Party PlayerParty { get; }
         public string StageName { get; }
     }
 
-    public class BattlePayloadSource : IBattleStageSource
+    public class BattlePayloadSource : IBattleSceneSource
     {
         public SystemEnum.Dungeon Dungeon => BattlePayload.Instance.DungeonName;
         public Party PlayerParty => BattlePayload.Instance.PlayerParty;
@@ -19,7 +20,7 @@ namespace GamePlay.Features.Battle.Scripts
         public void ClearPayload() => BattlePayload.Instance.Clear();
     }
 
-    public class DebugMockSource : IBattleStageSource
+    public class DebugMockSource : IBattleSceneSource
     {
         private readonly SystemEnum.Dungeon _dungeon;
         private readonly Party _playerParty;
@@ -35,5 +36,7 @@ namespace GamePlay.Features.Battle.Scripts
             _playerParty = playerParty;
             _stageName = stageName;
         }
+
+        public static DebugMockSource Default => new(SystemEnum.Dungeon.MOUNTAIN_BACK, new Party(), "TestMap1");
     }
 }

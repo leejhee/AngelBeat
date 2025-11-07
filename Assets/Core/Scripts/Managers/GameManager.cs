@@ -83,6 +83,8 @@ namespace Core.Scripts.Managers
             OnQuit?.Invoke(new QuitParam());
             //강종 대비
             SaveLoadManager.Instance.OnApplicationQuit();
+            DataManager.Instance.ClearCache();
+            ResourceManager.Instance.Clear();
         }
 
         private void OnApplicationPause(bool pauseStatus)

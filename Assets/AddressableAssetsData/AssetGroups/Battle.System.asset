@@ -61,6 +61,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d085e60757bd6b429d8a0dce77253be
+    m_Address: BattleFieldDB
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7d900f8b4784cd042a7570b41af024c1
     m_Address: BattleSceneView
     m_ReadOnly: 0

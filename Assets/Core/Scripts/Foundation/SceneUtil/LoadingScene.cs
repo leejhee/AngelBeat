@@ -30,10 +30,9 @@ namespace Core.Scripts.Foundation.SceneUtil
             
             #region Scene Loading
             if(progressBar) progressBar.fillAmount = 0; 
-            AsyncOperation op = SceneManager.LoadSceneAsync(destination, LoadSceneMode.Single);
-            op.allowSceneActivation = false;
+            AsyncOperation op = SceneManager.LoadSceneAsync(destination, LoadSceneMode.Additive);
 
-            while (op.progress < loadingBoundary)
+            while (!op.isDone)
             {
                 if(progressBar)
                     progressBar.fillAmount = Mathf.Clamp01(op.progress / loadingBoundary) * loadingBoundary;
@@ -41,8 +40,18 @@ namespace Core.Scripts.Foundation.SceneUtil
             }
             #endregion
             
+            
+            var destScene = SceneManager.GetSceneByName(destination);
+            if (!destScene.IsValid() || !destScene.isLoaded)
+            {
+                Debug.LogError($"[LoadingScene] : failed to load scene {destination}");
+                return;
+            }
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(destination));
+            
             #region Loading Pipeline - After Scene Loading
-            _cts = new CancellationTokenSource();
+            using CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            _cts = linked;
             try
             {
                 if (SceneLoader.InitCallbackAsync != null)
@@ -71,9 +80,8 @@ namespace Core.Scripts.Foundation.SceneUtil
             }
             
             #endregion
-                
-            op.allowSceneActivation = true;
-            await op.ToUniTask();
+            
+            SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 
         private void OnDestroy()

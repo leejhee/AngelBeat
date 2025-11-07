@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
@@ -65,13 +64,16 @@ namespace GamePlay.Features.Battle.Scripts
         #region Core Field & Property
         [SerializeField] private float cameraSize = 11;
         
-        private IBattleStageSource _stageSource;
+        private IBattleSceneSource _sceneSource;
         private IMapLoader _mapLoader;
         private StageField _battleStage;
+        private Party _playerParty;
+        private bool _initialized;
+        
         
         private TurnController _turnManager;
         public CharBase FocusChar => _turnManager.TurnOwner;
-        public Party PlayerParty;
+        public Party PlayerParty => _playerParty;
         
         public event Action<long> OnCharacterDead;
         #endregion
@@ -100,45 +102,44 @@ namespace GamePlay.Features.Battle.Scripts
         public TurnController TurnController => _turnManager;
         
         #endregion
-        private async void Start()
-        {
-            Debug.Log("Starting Battle...");
-            if (_stageSource == null)
-            {
-                Party party = new();
-                party.InitPartyAsync();
-                //BattlePayload.Instance.SetBattleData(party, DebugDungeon, DebugMapName);
-                
-                Debug.Log("Stage source not set : Using Battle Payload");
-                _stageSource = new DebugMockSource(DebugDungeon, party, DebugMapName);
-            }
-            PlayerParty = _stageSource.PlayerParty;
-            _mapLoader = new StageLoader(_stageSource, battleFieldDB);
-            await BattleInitialize();
-            
-            await _turnManager.ChangeTurn();
-        }
+        //private async void Start()
+        //{
+        //    Debug.Log("Starting Battle...");
+        //    if (_stageSource == null)
+        //    {
+        //        Party party = new();
+        //        party.InitParty();
+        //        
+        //        Debug.Log("Stage source not set : Using Battle Payload");
+        //        _stageSource = new DebugMockSource(DebugDungeon, party, DebugMapName);
+        //    }
+        //    PlayerParty = _stageSource.PlayerParty;
+        //    _mapLoader = new StageLoader(_stageSource, battleFieldDB);
+        //    await BattleInitialize();
+        //    
+        //    await _turnManager.ChangeTurn();
+        //}
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
-        /// <param name="stageSource"> 테스트 용도의 stage source. </param>
-        public void SetStageSource(IBattleStageSource stageSource) => _stageSource = stageSource;
+        /// <param name="sceneSource"> 테스트 용도의 stage source. </param>
+        public void SetStageSource(IBattleSceneSource sceneSource) => _sceneSource = sceneSource;
         
         /// <summary>
         /// 역할 : 전투 진입 시의 최초 동작 메서드. 전투 환경을 초기화한다.
         /// </summary>
+        [Obsolete("초기화는 이제 Initializer 클래스에서 진행합니다.")]
         private async UniTask BattleInitialize()
         {
             Debug.Log("Starting Battle Initialization...");
 
-            string stageName = _stageSource.StageName;
-            Party playerParty = _stageSource.PlayerParty;
+            string stageName = _sceneSource.StageName;
+            Party playerParty = _sceneSource.PlayerParty;
             
             // 맵 띄우기
             _battleStage = await _mapLoader.InstantiateBattleFieldAsync(stageName);
             BattleStageGrid stageGrid = _battleStage.GetComponent<BattleStageGrid>() 
-                                        ?? _battleStage.AddComponent<BattleStageGrid>();
+                                        ?? _battleStage.gameObject.AddComponent<BattleStageGrid>();
             stageGrid.InitGrid(_battleStage);
-            // 이미지 띄우기
             
             // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
             await _battleStage.SpawnAllUnits(playerParty);
@@ -156,6 +157,17 @@ namespace GamePlay.Features.Battle.Scripts
             //카메라 초기화
             Camera.main.orthographicSize = cameraSize;
             
+        }
+
+        public void Initialize(StageField stage, TurnController turnManager, Party party)
+        {
+            _battleStage = stage;
+            _turnManager = turnManager;
+            _playerParty = party;
+
+            _initialized = true;
+            if(Camera.main != null)
+                Camera.main.orthographicSize = cameraSize;
         }
         
         #region Battle Action Managing

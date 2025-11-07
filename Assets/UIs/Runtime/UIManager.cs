@@ -159,7 +159,7 @@ namespace UIs.Runtime
             Canvas c = g.AddComponent<Canvas>();
             c.renderMode = RenderMode.ScreenSpaceCamera;
             
-            Camera uiCam = GameObject.Find("UICamera").GetComponent<Camera>();
+            Camera uiCam = GameObject.Find("BackgroundCamera").GetComponent<Camera>();
             c.worldCamera = uiCam;
             
             return g.transform;

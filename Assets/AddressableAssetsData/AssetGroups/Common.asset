@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d75ad5ead67e49648819f859f82bc88a
   m_SerializeEntries:
+  - m_GUID: 138541bc15ed98d42aaab8e06be748e2
+    m_Address: Main Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 496f21946c0ca374e858e36b89214489
     m_Address: Maplestory Light SDF
     m_ReadOnly: 0
@@ -39,6 +44,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 966bcd43b4ffd3f4386ded17a200626b
     m_Address: '@MainRoot'
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b181f8694b519274f88def5e3d4d733f
+    m_Address: EventSystem
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

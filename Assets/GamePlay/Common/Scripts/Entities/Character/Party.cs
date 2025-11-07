@@ -56,7 +56,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         /// <summary>
         /// 파티가 생성되는 최초 시점에만 적용
         /// </summary>
-        public void InitPartyAsync()
+        public void InitParty()
         {
             DokkaebiData dok = DataManager.Instance.GetData<DokkaebiData>(SystemConst.DokkaebiID);
             CharacterModel dokModel = new(dok);
