@@ -43,12 +43,16 @@ public class StageField : MonoBehaviour
     [SerializeField] private BattleGridProvider gridProvider;
 
     private Grid _grid;
-    public Grid Grid => _grid;
     private Vector2 _cellWorld;
     private Vector2 _originWorld;
 
     [SerializeField] private List<Vector2Int> platformGridCells;
     [SerializeField] private List<Vector2Int> obstacleGridCells;
+    
+    public Grid Grid => _grid;
+    public Vector2Int GridSize => gridSize;
+    public Vector2 CellWorld => _cellWorld;
+    public Vector2 OriginWorld => _originWorld;
     
     public List<Vector2Int> PlatformGridCells => platformGridCells;
     public List<Vector2Int> ObstacleGridCells => obstacleGridCells;

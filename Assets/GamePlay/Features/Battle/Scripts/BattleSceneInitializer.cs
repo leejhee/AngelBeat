@@ -68,7 +68,7 @@ namespace GamePlay.Features.Battle.Scripts
                 
                 Debug.Log("[Battle Initializer] UI 초기화...");
                 await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
-                await turnManager.ChangeTurn();
+                BattleSceneRunner.RunAfterLoading(stage, turnManager);
                 progress?.Report(1.0f);
                 
                 Debug.Log("———————————————Battle Initialization Complete———————————————");
