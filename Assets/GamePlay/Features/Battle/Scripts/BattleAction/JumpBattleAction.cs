@@ -68,8 +68,18 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             float yCalibration = stage.Grid.cellSize.y / 2;
             float yCollider = actor.BattleCollider.size.y / 2;
             var finalPos = new Vector2(toWorld.x, toWorld.y - (yCalibration - yCollider)); 
-            await actor.CharJump(finalPos, ct);
-            
+            //await actor.CharJump(finalPos, ct);
+            var driver = BattleController.Instance.CameraDriver;
+            var jumpTask = actor.CharJump(finalPos, ct);
+            if (driver)
+            {
+                await driver.FollowDuringAsync(actor.CharCameraPos, jumpTask, 0.25f, driver.FocusOrthoSize, 0.25f);
+            }
+            else
+            {
+                await jumpTask;
+            }
+
             grid.MoveUnit(actor, goal);
             return BattleActionResult.Success();
         }

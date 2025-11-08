@@ -37,7 +37,7 @@ namespace GamePlay.Features.Battle.Scripts
         public bool IsLockedToTarget => _lockedToTarget;
         public bool IsOrtho => followCam && followCam.Lens.Orthographic;
         public float CurrentOrthoSize => IsOrtho ? followCam.Lens.OrthographicSize : 0f;
-
+        public float FocusOrthoSize => IsOrtho ? focusOrthoSize : 0f;
         private void Awake()
         {
             _brain = Camera.main ? Camera.main.GetComponent<CinemachineBrain>() : null;
@@ -140,7 +140,33 @@ namespace GamePlay.Features.Battle.Scripts
             _lockedToTarget = true;
             await Focus(target, blendSeconds, targetOrthoSize, zoomSeconds);
         }
+        
+        public async UniTask FollowDuringAsync(Transform target,
+            UniTask task,
+            float? blendSeconds = 0.3f,
+            float? targetOrthoSize = null,
+            float? zoomSeconds = null)
+        {
+            await EnterFollowAsync(target, blendSeconds, targetOrthoSize ?? focusOrthoSize, zoomSeconds);
+            await task; // 액션 실행 완료까지 대기
+            // 여기서 Free로 자동 복귀시키고 싶다면:
+            // EnterFree(stageFieldRef);  // <- 원하면 주입/저장한 StageField를 사용
+        }
 
+        /// <summary>
+        /// 제네릭 반환형 버전. 작업의 결과를 그대로 반환합니다.
+        /// </summary>
+        public async UniTask<T> FollowDuringAsync<T>(Transform target,
+            UniTask<T> task,
+            float? blendSeconds = 0.3f,
+            float? targetOrthoSize = null,
+            float? zoomSeconds = null)
+        {
+            await EnterFollowAsync(target, blendSeconds, targetOrthoSize ?? focusOrthoSize, zoomSeconds);
+            var result = await task;
+            return result;
+        }
+        
         /// <summary>Free 모드 진입. 현재 화면 중심을 기준으로 앵커 생성, 재배치</summary>
         public void EnterFree(StageField stage)
         {

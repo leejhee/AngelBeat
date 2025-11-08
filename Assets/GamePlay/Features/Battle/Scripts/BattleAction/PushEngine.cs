@@ -101,5 +101,29 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 victim.RuntimeStat.ReceiveHPPercentDamage(30); // 30퍼만
             }
         }
+        
+        public static async UniTask ApplyPushResult(
+            CharBase victim,
+            PushResult result,
+            BattleStageGrid grid,
+            CancellationToken ct,
+            BattleCameraDriver driver,
+            bool followVictim = true,
+            bool playAnimation = false,
+            bool suppressIdle = false)
+        {
+            if (driver == null)
+            {
+                await ApplyPushResult(victim, result, grid, ct, playAnimation, suppressIdle);
+                return;
+            }
+
+            var task = ApplyPushResult(victim, result, grid, ct, playAnimation, suppressIdle);
+            var target = followVictim ? victim.CharCameraPos : null;
+            if (target != null)
+                await driver.FollowDuringAsync(target, task, 0.25f, driver.FocusOrthoSize, 0.25f);
+            else
+                await task;
+        }
     }
 }

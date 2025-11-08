@@ -99,8 +99,19 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2 toWorld = stage.CellToWorldCenter(goal);
             //long delta = -Mathf.Abs(goal.x - pivot.x);
             //actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
-            await actor.CharMove(new Vector2(toWorld.x, pos.y));
-            
+            // await actor.CharMove(new Vector2(toWorld.x, pos.y));
+            BattleCameraDriver driver = BattleController.Instance.CameraDriver;
+            UniTask moveTask = actor.CharMove(new Vector2(toWorld.x, pos.y));
+            if (driver)
+            {
+                await driver.FollowDuringAsync(actor.CharCameraPos, moveTask, 0.25f, driver.FocusOrthoSize, 0.25f);
+            }
+            else
+            {
+                await moveTask; 
+            }
+
+
             // 그리드 위치정보 저장
             grid.MoveUnit(actor, goal);
             return BattleActionResult.Success();
