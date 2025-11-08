@@ -44,6 +44,14 @@ namespace GamePlay.Features.Battle.Scripts
                 BattleFieldDB db = await ResourceManager.Instance.LoadAsync <BattleFieldDB>("BattleFieldDB", ct);
                 StageLoader loader = new(src, db);
                 StageField stage = await loader.InstantiateBattleFieldAsync(src.StageName, null, ct);
+                
+                BattleCameraInput input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
+                if (input)
+                {
+                    input.Bind(stage, controller.CameraDriver);
+                    input.enableDuringTurn = false;
+                }
+                
                 Debug.Log("[Battle Initializer] 맵 로딩 완료!");
                 progress?.Report(0.4f);
             

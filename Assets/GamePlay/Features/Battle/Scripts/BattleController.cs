@@ -64,7 +64,7 @@ namespace GamePlay.Features.Battle.Scripts
         private bool _initialized;
         private TurnController _turnManager;
         
-        
+        public BattleCameraDriver CameraDriver => cameraDriver;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public Party PlayerParty => _playerParty;
         

@@ -304,6 +304,7 @@ Transform:
   m_Children:
   - {fileID: 881014747}
   - {fileID: 1229864059}
+  - {fileID: 1741569936}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &881014745
@@ -405,6 +406,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followCam: {fileID: 385473291}
   defaultBlendSeconds: 0.5
+  orthoSizeClampMax: 0
+  useFocusZoom: 1
+  focusOrthoSize: 10
+  focusZoomSeconds: 0.35
+  minOrthoSize: 5
+  maxOrthoSize: 20
 --- !u!1 &1565324164
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +540,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1741569935
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741569936}
+  - component: {fileID: 1741569937}
+  m_Layer: 0
+  m_Name: CameraInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1741569936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741569935}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 594992055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1741569937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741569935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668052c1ed0d4628a7685bbc66d785a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  driver: {fileID: 1229864060}
+  stage: {fileID: 0}
+  panButton: {fileID: 7858437705492857727, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
+  pan: {fileID: -7991056327057769435, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
+  zoom: {fileID: 4699203901749905772, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
+  dragSensitivity: 1
+  wheelStep: 1
+  enableDuringTurn: 1
 --- !u!1 &1983618995
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,10 @@ namespace GamePlay.Features.Battle.Scripts
                     UnityEngine.SceneManagement.Scene s = SceneManager.GetSceneByName("LoadingScene");
                     return !s.IsValid() || !s.isLoaded;
                 });
-
+                
+                var input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
+                if (input) input.enableDuringTurn = false;
+                
                 // 전장 전체 인트로
                 var driver = Object.FindFirstObjectByType<BattleCameraDriver>();
                 if (driver && stage)
@@ -32,7 +35,7 @@ namespace GamePlay.Features.Battle.Scripts
                 // 첫 턴 시작
                 if (turn != null)
                     await turn.ChangeTurn();
-
+                if (input) input.enableDuringTurn = true;
                 scheduled = false; // 한 번 끝났으면 해제(필요시 유지)
             });
         }

@@ -11,11 +11,32 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private CinemachineCamera followCam;
         [SerializeField] private float defaultBlendSeconds = 0.5f;
         [SerializeField] private float orthoSizeClampMax;
+        
+        private CinemachineBrain _brain;
+        
+        [Header("Focus Settings")]
         [SerializeField] private bool useFocusZoom = true;
         [SerializeField] private float focusOrthoSize = 10f;
         [SerializeField] private float focusZoomSeconds = 0.35f;
-        private CinemachineBrain _brain;
+        
+        [Header("Free Mode Settings")]
+        [SerializeField] float minOrthoSize = 5f;
+        [SerializeField] float maxOrthoSize = 20f;
+        
+        public enum FreeEdgeSlackMode { None, FixedWorld, ScreenHalf }
 
+        [SerializeField] FreeEdgeSlackMode freeSlackMode = FreeEdgeSlackMode.ScreenHalf; // 기본값: 화면 반만큼
+        [SerializeField] float fixedWorldSlack = 0f;  // FreeEdgeSlackMode.FixedWorld일 때만
+        [SerializeField] float freeInnerPaddingWorld = 0f;  // 경계 안쪽 여유
+        
+        private Transform _freeAnchor;                 // 자유 팬용 앵커
+        private bool _lockedToTarget = true;           // true=Follow 모드, false=Free 모드
+
+        private Vector2 _stageOriginWorld;
+        private Vector2 _stageSizeWorld;
+        public bool IsLockedToTarget => _lockedToTarget;
+        public bool IsOrtho => followCam && followCam.Lens.Orthographic;
+        public float CurrentOrthoSize => IsOrtho ? followCam.Lens.OrthographicSize : 0f;
 
         private void Awake()
         {
@@ -23,6 +44,13 @@ namespace GamePlay.Features.Battle.Scripts
             if (!_brain) Debug.LogWarning("[BattleCameraDriver] CinemachineBrain(MainCamera) 미발견");
         }
         
+        private void StoreStageBounds(Vector2 originWorld, Vector2 sizeWorld)
+        {
+            _stageOriginWorld = originWorld;
+            _stageSizeWorld   = sizeWorld;
+        }
+        
+        #region Intro Showing Part
         public async UniTask ShowStageIntro(StageField stage, float paddingWorld = 1f, float fadeSeconds = 0.8f)
         {
             if (!stage || !followCam) return;
@@ -39,7 +67,9 @@ namespace GamePlay.Features.Battle.Scripts
             Vector2 originWorld = zeroCenter - new Vector2(half.x + 0.5f, half.y + 0.5f) * cellWorld;
 
             Vector2 centerWorld = originWorld + 0.5f * sizeWorld;
-
+            
+            StoreStageBounds(originWorld, sizeWorld);
+            
             var lens = followCam.Lens;
             if (lens.Orthographic)
             {
@@ -97,7 +127,112 @@ namespace GamePlay.Features.Battle.Scripts
             while (t < dur) { t += Time.deltaTime; cg.alpha = Mathf.Lerp(1f, 0f, t / dur); await UniTask.Yield(); }
             Destroy(go);
         }
+        #endregion
         
+        #region Mode Implementation
+        /// <summary>Follow 모드 진입</summary>
+        public async UniTask EnterFollowAsync(
+            Transform target, 
+            float? blendSeconds = null,
+            float? targetOrthoSize = null, 
+            float? zoomSeconds = null)
+        {
+            _lockedToTarget = true;
+            await Focus(target, blendSeconds, targetOrthoSize, zoomSeconds);
+        }
+
+        /// <summary>Free 모드 진입. 현재 화면 중심을 기준으로 앵커 생성, 재배치</summary>
+        public void EnterFree(StageField stage)
+        {
+            if (!followCam) return;
+
+            if (_freeAnchor == null)
+            {
+                var go = new GameObject("__CamFreeAnchor");
+                go.transform.SetParent(stage.transform, worldPositionStays: false);
+                _freeAnchor = go.transform;
+            }
+
+            // 현재 화면 중심을 월드로 환산
+            var outCam = _brain && _brain.OutputCamera ? _brain.OutputCamera : Camera.main;
+            Vector3 camPos = outCam ? outCam.transform.position : followCam.transform.position;
+            _freeAnchor.position = new Vector3(camPos.x, camPos.y, 0f);
+
+            followCam.Follow = _freeAnchor;
+            followCam.LookAt = _freeAnchor;
+            followCam.Priority = 100;
+            _lockedToTarget = false;
+
+            ClampFreeAnchorToStage(); // 시작 시점 클램프
+        }
+
+        /// <summary>Free 모드에서 월드 델타만큼 팬</summary>
+        public void PanFree(Vector2 worldDelta)
+        {
+            if (_lockedToTarget || !_freeAnchor) return;
+            _freeAnchor.position += (Vector3)worldDelta;
+            ClampFreeAnchorToStage();
+        }
+
+        /// <summary>줌(OrthoSize) 즉시 설정(클램프 포함)</summary>
+        public void SetZoom(float orthoSize)
+        {
+            if (!followCam) return;
+            var lens = followCam.Lens;
+            if (!lens.Orthographic) return;
+
+            lens.OrthographicSize = Mathf.Clamp(orthoSize, minOrthoSize, maxOrthoSize);
+            followCam.Lens = lens;
+            ClampFreeAnchorToStage(); // 줌 변하면 화면 반경도 변하므로 재클램프
+        }
+
+        /// <summary>현재 줌에 대해 Free 앵커를 전장 경계 내로 클램프</summary>
+        void ClampFreeAnchorToStage()
+        {
+            if (!_freeAnchor) return;
+            LensSettings lens = followCam.Lens;
+            if (!lens.Orthographic) return;
+
+            var cam = _brain && _brain.OutputCamera ? _brain.OutputCamera : Camera.main;
+            float aspect = cam ? cam.aspect : 16f/9f;
+
+            float halfH = lens.OrthographicSize;
+            float halfW = lens.OrthographicSize * aspect;
+
+            // ▶ 슬랙 계산
+            float slackX = 0f, slackY = 0f;
+            switch (freeSlackMode)
+            {
+                case FreeEdgeSlackMode.None:
+                    slackX = 0f; slackY = 0f;
+                    break;
+                case FreeEdgeSlackMode.FixedWorld:
+                    slackX = fixedWorldSlack; slackY = fixedWorldSlack;
+                    break;
+                case FreeEdgeSlackMode.ScreenHalf:
+                    // 핵심: 화면 반만큼 바깥으로 허용
+                    slackX = halfW; slackY = halfH;
+                    break;
+            }
+
+            float minX = _stageOriginWorld.x + halfW - slackX + freeInnerPaddingWorld;
+            float maxX = _stageOriginWorld.x + _stageSizeWorld.x - halfW + slackX - freeInnerPaddingWorld;
+            float minY = _stageOriginWorld.y + halfH - slackY + freeInnerPaddingWorld;
+            float maxY = _stageOriginWorld.y + _stageSizeWorld.y - halfH + slackY - freeInnerPaddingWorld;
+            
+            // edge case
+            if (minX > maxX) { float c = (_stageOriginWorld.x + _stageSizeWorld.x) * 0.5f; minX = maxX = c; }
+            if (minY > maxY) { float c = (_stageOriginWorld.y + _stageSizeWorld.y) * 0.5f; minY = maxY = c; }
+
+            var p = _freeAnchor.position;
+            p.x = Mathf.Clamp(p.x, minX, maxX);
+            p.y = Mathf.Clamp(p.y, minY, maxY);
+            _freeAnchor.position = p;
+        }
+        
+        #endregion
+        
+        #region Core
         public async UniTask Focus(Transform target,
                                float? blendSeconds = null,
                                float? targetOrthoSize = null,
@@ -177,8 +312,6 @@ namespace GamePlay.Features.Battle.Scripts
             followCam.Priority = 100;
         }
         
-       
+        #endregion
     }
-    
-    
 }
