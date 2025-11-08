@@ -11,7 +11,7 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
         public override async UniTask BuildTaskAsync(CancellationToken ct)
         {
             CharBase caster =   InputParam.Caster;
-            SkillModel model =  InputParam.Model;
+            SkillModel model =  SkillBase.SkillModel;
 
             foreach (var target in InputParam.Target)
             {

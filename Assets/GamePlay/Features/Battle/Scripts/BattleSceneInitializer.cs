@@ -68,6 +68,7 @@ namespace GamePlay.Features.Battle.Scripts
                 
                 Debug.Log("[Battle Initializer] UI 초기화...");
                 await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
+                await turnManager.ChangeTurn();
                 progress?.Report(1.0f);
                 
                 Debug.Log("———————————————Battle Initialization Complete———————————————");
@@ -91,7 +92,7 @@ namespace GamePlay.Features.Battle.Scripts
             
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.LogWarning("[Battle Initializer] No args/payload provided. Using DebugMockSource.Default.");
-            return DebugMockSource.Default;
+            return DebugMockSource.Default();
 #else
             throw new InvalidOperationException("[Battle Initializer] No battle args/payload provided.");
 #endif

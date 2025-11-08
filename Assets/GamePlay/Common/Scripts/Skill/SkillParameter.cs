@@ -10,22 +10,22 @@ namespace GamePlay.Common.Scripts.Skill
     {
         public readonly CharBase                Caster;
         public readonly List<CharBase>          Target;
-        public readonly SkillModel              Model;
-        public readonly SystemEnum.eSkillType   SkillType;
+        //public readonly SkillModel              Model;
+        //public readonly SystemEnum.eSkillType   SkillType;
         public readonly BattleStageGrid         Grid;
         
         public SkillParameter(
             CharBase caster, 
             List<CharBase> target,
-            SkillModel model,
+            //SkillModel model,
             BattleStageGrid grid
         )
         {
             Caster = caster;
             Target = target;
-            Model = model;
+            //Model = model;
             Grid = grid;
-            SkillType = model.skillType;
+            //SkillType = model.skillType;
         }
     }
 }

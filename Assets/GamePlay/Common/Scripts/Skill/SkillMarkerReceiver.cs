@@ -15,43 +15,48 @@ namespace GamePlay.Common.Scripts.Skill
     [RequireComponent(typeof(PlayableDirector))]
     public class SkillMarkerReceiver : MonoBehaviour, INotificationReceiver
     {
-        private SkillParameter _input;
+        private SkillBase _skillBase;
         private List<UniTask> _pending = new();
         private UniTaskCompletionSource _allDone;
         private CancellationToken _ct;
-        private int _markerCount = 0;
+        private int _markerCount;
+        private bool _ending;
         
         /// <summary>
-        /// 현재 실행 중인 스킬의 파라미터
-        /// </summary>
-        public SkillParameter Input => _input;
-        
-        /// <summary>
-        /// 모든 Marker 작업이 완료될 때까지 대기. SkillBase.PlaySkillAsync에서 이 속성을 await함
+        /// 모든 Marker 작업이 완료될 때까지 대기
         /// </summary>
         public UniTask Completion => _allDone?.Task ?? UniTask.CompletedTask;
 
         /// <summary>
-        /// 스킬 재생 시작 시 호출 (SkillBase.PlaySkillAsync에서)
+        /// 스킬 재생 시작 시 호출 
         /// </summary>
-        public void Begin(SkillParameter input, CancellationToken ct)
+        public void Begin(CancellationToken ct)
         {
-            _input = input;
+            _skillBase = GetComponent<SkillBase>();
+            if (!_skillBase || _skillBase.SkillModel == null)
+            {
+                Debug.LogError("[SkillMarkerReceiver] Missing SkillBase/SkillModel on this GameObject.");
+                _allDone = new UniTaskCompletionSource();
+                _allDone.TrySetResult();
+                return;
+            }
+
             _ct = ct;
             _pending.Clear();
             _allDone = new UniTaskCompletionSource();
             _markerCount = 0;
-            
-            Debug.Log($"[SkillMarkerReceiver] Begin - Skill: {input.Model.SkillIndex}");
+            _ending = false;
+            Debug.Log($"[SkillMarkerReceiver] Begin - Skill: {_skillBase.SkillModel.SkillIndex}");
         }
 
         /// <summary>
-        /// Timeline에서 Marker가 발동될 때 Unity가 자동으로 호출 (INotificationReceiver 인터페이스)
+        /// Timeline에서 Marker가 발동될 때 Unity가 자동으로 호출
         /// </summary>
         public void OnNotify(Playable origin, INotification notification, object context)
         {
             // SkillTimeLineMarker가 아니면 무시
             if (notification is not SkillTimeLineMarker skillMarker) return;
+            if (_skillBase == null) return;
             
             _markerCount++;
             string markerName = skillMarker.GetType().Name;
@@ -59,9 +64,14 @@ namespace GamePlay.Common.Scripts.Skill
             try
             {
                 // 1. Marker에 파라미터 전달
-                skillMarker.InitInput(Input);
+                skillMarker.InitContext(_skillBase);
                 
                 // 2. Marker의 비동기 작업 시작
+                skillMarker.AttachTracker(task =>
+                {
+                    if (task.Status == UniTaskStatus.Pending)
+                        _pending.Add(WrapTask(task, $"{markerName}#tracked"));
+                });
                 UniTask task = skillMarker.BuildTaskAsync(_ct);
                 
                 // 3. 작업이 즉시 완료된 것이 아니라면 추적 리스트에 추가
@@ -110,6 +120,8 @@ namespace GamePlay.Common.Scripts.Skill
         /// </summary>
         public void End()
         {
+            if (_ending) return;
+            _ending = true;
             Debug.Log($"[SkillMarkerReceiver] End - Total Markers: {_markerCount}, Pending: {_pending.Count}");
             CompleteAsync().Forget();
         }
@@ -135,7 +147,7 @@ namespace GamePlay.Common.Scripts.Skill
                 Debug.Log("[SkillMarkerReceiver] All tasks cancelled");
                 _allDone?.TrySetCanceled(_ct);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError($"[SkillMarkerReceiver] Task execution failed:\n{e}");
                 _allDone?.TrySetException(e);
@@ -144,7 +156,7 @@ namespace GamePlay.Common.Scripts.Skill
             {
                 // 정리
                 _pending.Clear();
-                _input = null;
+                _skillBase.SkillParameter = null;
                 _markerCount = 0;
             }
         }
@@ -163,7 +175,7 @@ namespace GamePlay.Common.Scripts.Skill
         /// </summary>
         public string GetDebugInfo()
         {
-            return $"Markers: {_markerCount}, Pending: {_pending.Count}, Input: {_input != null}";
+            return $"Markers: {_markerCount}, Pending: {_pending.Count}, Input: {_skillBase.SkillParameter != null}";
         }
     }
 }

@@ -47,14 +47,6 @@ namespace GamePlay.Features.Battle.Scripts
         }
         #endregion
         
-        #region UI Member
-
-        [SerializeField] private GameObject backgroundPrefab;
-        [SerializeField] private GameObject gameOverPrefab;
-        [SerializeField] private GameObject gameWinPrefab;
-        [SerializeField] private GameObject previewPrefab;
-        #endregion
-        
         #region Battle Map DataBase
         [SerializeField] private BattleFieldDB battleFieldDB;
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
@@ -63,15 +55,16 @@ namespace GamePlay.Features.Battle.Scripts
         
         #region Core Field & Property
         [SerializeField] private float cameraSize = 11;
+        [SerializeField] private BattleCameraDriver cameraDriver;
         
         private IBattleSceneSource _sceneSource;
         private IMapLoader _mapLoader;
         private StageField _battleStage;
         private Party _playerParty;
         private bool _initialized;
-        
-        
         private TurnController _turnManager;
+        
+        
         public CharBase FocusChar => _turnManager.TurnOwner;
         public Party PlayerParty => _playerParty;
         
@@ -102,23 +95,6 @@ namespace GamePlay.Features.Battle.Scripts
         public TurnController TurnController => _turnManager;
         
         #endregion
-        //private async void Start()
-        //{
-        //    Debug.Log("Starting Battle...");
-        //    if (_stageSource == null)
-        //    {
-        //        Party party = new();
-        //        party.InitParty();
-        //        
-        //        Debug.Log("Stage source not set : Using Battle Payload");
-        //        _stageSource = new DebugMockSource(DebugDungeon, party, DebugMapName);
-        //    }
-        //    PlayerParty = _stageSource.PlayerParty;
-        //    _mapLoader = new StageLoader(_stageSource, battleFieldDB);
-        //    await BattleInitialize();
-        //    
-        //    await _turnManager.ChangeTurn();
-        //}
         
         /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
         /// <param name="sceneSource"> 테스트 용도의 stage source. </param>
@@ -168,6 +144,12 @@ namespace GamePlay.Features.Battle.Scripts
             _initialized = true;
             if(Camera.main != null)
                 Camera.main.orthographicSize = cameraSize;
+            
+            _turnManager.OnTurnChanged += async m =>
+            {
+                if (cameraDriver && m?.Turn?.TurnOwner)
+                    await cameraDriver.Focus(m.Turn.TurnOwner.CharCameraPos, 0.4f);
+            };
         }
         
         #region Battle Action Managing
@@ -448,6 +430,15 @@ namespace GamePlay.Features.Battle.Scripts
             grid?.RemoveUnit(unit);
             
             // 턴 관리도 필요함
+            Turn t = _turnManager.FindTurn(unit);
+            if (t != null)
+            {
+                t.KillTurn();
+                // 현재 턴이 죽었으면 다음 턴으로 즉시 진행
+                if (_turnManager.CurrentTurn == t)
+                    _ = _turnManager.ChangeTurn();
+            }
+
             OnCharacterDead?.Invoke(unit.GetID());
         }
         

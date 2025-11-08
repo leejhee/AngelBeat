@@ -12,13 +12,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
 
         public CharBase TurnOwner { get; private set; }
         public Side WhoseSide { get; private set; }
-        public bool IsValid => TurnOwner;
+        public bool IsValid => TurnOwner && !_isDead;
         
         public TurnActionState ActionState { get; private set; }
         
         private bool _isDead = false;
-        private readonly Action _onBeginTurn =     delegate { };
-        private readonly Action _onEndTurn =       delegate { };
+        private Action _onBeginTurn =     delegate { };
+        private Action _onEndTurn =       delegate { };
 
         private Action TurnOwnerOutline;
         public event Action OnAITurnCompleted;
@@ -35,12 +35,27 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             _onEndTurn += DefaultTurnEnd;
         }
         
-        public void Begin() => _onBeginTurn();
-        public void End() => _onEndTurn();
+        public void Begin() => _onBeginTurn?.Invoke();
+        public void End() => _onEndTurn?.Invoke();
 
+        public void KillTurn()
+        {
+            _isDead = true;
+            if (TurnOwner)
+            {
+                if (TurnOwnerOutline != null)
+                {
+                    TurnOwner.OnUpdate -= TurnOwnerOutline;
+                    TurnOwnerOutline = null;
+                }
+                TurnOwner.ClearOutline();
+            }
+            OnAITurnCompleted = null;
+        }
+        
         private void DefaultTurnBegin()
         {
-            // 최대 이동력 가져오기 (NMACTION_POINT = 최대값)
+            #region Action Point Initialize
             float movePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             ActionState.Initialize(movePoint);
             
@@ -53,9 +68,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 TurnOwner.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
                 Debug.Log($"[Turn] {TurnOwner.name} 이동력 회복: {currentMovePoint} -> {maxMovePoint}");
             }
-            
-            // Control Camera.
-            FocusCamera();
+            #endregion
                 
             #region Control Logic
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)

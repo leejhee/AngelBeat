@@ -43,7 +43,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             SkillParameter parameter = new(
                 caster: caster,
                 target: targets,
-                model: Context.skillModel,
                 grid : Context.battleField.GetComponent<BattleStageGrid>()
             );
             

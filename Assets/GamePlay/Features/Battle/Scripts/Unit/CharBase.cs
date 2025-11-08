@@ -34,7 +34,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject _SkillRoot;
         [SerializeField] protected Animator _Animator;
         [SerializeField] private BoxCollider2D _battleCollider;
-        [SerializeField] private GameObject _CharCameraPos;
+        [SerializeField] private Transform charCameraPos;
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 5f;
@@ -73,7 +73,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public Transform CharUnitRoot => _charUnitRoot;
         public GameObject SkillRoot => _SkillRoot;
         public BoxCollider2D BattleCollider => _battleCollider;
-        public GameObject CharCameraPos => _CharCameraPos;
+        public Transform CharCameraPos => charCameraPos;
         public GameObject CharSnapShot => _charSnapShot;
         public CharAnim CharAnim => _charAnim;
         public Rigidbody2D Rigid => _rigid;

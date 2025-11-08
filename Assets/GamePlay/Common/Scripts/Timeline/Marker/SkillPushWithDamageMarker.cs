@@ -16,7 +16,7 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
             CharBase caster = InputParam.Caster;
             CharBase target = InputParam.Target[0]; // 단일 타겟이라고 가정.
             var grid = InputParam.Grid;
-            SkillModel model = InputParam.Model;
+            SkillModel model = SkillBase.SkillModel;
             
             DamageParameter param = new()
             {

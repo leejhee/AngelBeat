@@ -40,8 +40,9 @@ namespace GamePlay.Common.Scripts.Skill
         {
             // 타임라인 재생
             if (!_director) return;
+            SkillParameter = param;
             SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
-            if (receiver) receiver.Begin(param, CancellationToken.None);
+            if (receiver) receiver.Begin(CancellationToken.None);
             
             void OnStopped(PlayableDirector d)
             {
@@ -63,9 +64,9 @@ namespace GamePlay.Common.Scripts.Skill
                 return;
             }
             _isPlaying = true;
-            
+            SkillParameter = param;
             SkillMarkerReceiver receiver = GetComponent<SkillMarkerReceiver>();
-            if (receiver) receiver.Begin(param, ct);
+            if (receiver) receiver.Begin(ct);
             
             var tcs = new UniTaskCompletionSource();
 
@@ -100,6 +101,7 @@ namespace GamePlay.Common.Scripts.Skill
             }
             finally
             {
+                SkillParameter = null;
                 _isPlaying = false;
             }
         }

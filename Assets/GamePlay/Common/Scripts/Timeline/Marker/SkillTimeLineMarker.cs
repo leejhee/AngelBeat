@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
 using System;
 using System.Threading;
@@ -13,12 +14,14 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
         public PropertyName id => new PropertyName("SkillTimeLineMarker");
 
         private Action<UniTask> _trackHook;
-        protected SkillParameter InputParam;
+        protected SkillParameter InputParam => SkillBase?.SkillParameter;
+        protected SkillModel Model => SkillBase?.SkillModel;
+        protected SkillBase SkillBase { get; private set; }
         
         public void AttachTracker(Action<UniTask> trackHook) => _trackHook = trackHook;
         protected void Track(UniTask task) => _trackHook?.Invoke(task);
         
-        public virtual void InitInput(SkillParameter input) => InputParam = input;
+        public virtual void InitContext(SkillBase sb) => SkillBase = sb;
 
         public virtual void MarkerAction() { }
 

@@ -19,6 +19,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private List<Turn> _turnBuffer = new();
         
         public Turn CurrentTurn { get; private set; }
+        public int CurrentRound => _round;
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public Func<UniTask> OnRoundProceeds;
         public event Action OnRoundEnd;
@@ -108,6 +109,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             CurrentTurn.Begin();
 
             // 강제 턴 조정 관련한 로직 작성하기.
+        }
+        
+        /// <summary>
+        /// UID로 해당 캐릭터가 포함된 턴 탐색
+        /// </summary>
+        public Turn FindTurn(CharBase client)
+        {
+            return _turnBuffer.Find(x => x.TurnOwner.GetID() == client.GetID());
         }
     }
 }

@@ -37,6 +37,11 @@ namespace GamePlay.Features.Battle.Scripts
             _stageName = stageName;
         }
 
-        public static DebugMockSource Default => new(SystemEnum.Dungeon.MOUNTAIN_BACK, new Party(), "TestMap1");
+        public static DebugMockSource Default()
+        {
+            Party p = new();
+            p.InitParty();
+            return new DebugMockSource(SystemEnum.Dungeon.MOUNTAIN_BACK, p, "TestMap1");
+        }
     }
 }
