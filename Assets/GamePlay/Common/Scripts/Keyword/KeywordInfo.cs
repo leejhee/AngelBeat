@@ -57,38 +57,5 @@ namespace GamePlay.Common.Scripts.Keyword
             return _byType[keyword].EffectValue;
         }
         
-        
-        
-        //public IEnumerable<KeywordBase> GetKeywordsByPhase(eExecutionPhase phase)
-        //    => _byPhase.TryGetValue(phase, out var list) ? list : Enumerable.Empty<KeywordBase>();
-//
-        //// 기존 ExecuteByPhase를 Port/ActorId/Runtime과 동작하도록
-        //public void ExecuteByPhase(eExecutionPhase phase, TriggerType triggerType)
-        //{
-        //    if (!_byPhase.TryGetValue(phase, out var list)) return;
-//
-        //    for (int i = list.Count - 1; i >= 0; i--)
-        //    {
-        //        var kw = list[i];
-        //        if (!_rt.TryGetValue(kw, out var runtime)) continue;
-//
-        //        var ctx = new KeywordTriggerContext(_owner, triggerType);
-        //        // 키워드가 runtime 변경/효과 호출
-        //        kw.OnTrigger(ctx, ref runtime, _port);
-//
-        //        // 키워드 내부 편의 필드 동기화(선택)
-        //        kw.SyncFrom(ref runtime);
-//
-        //        // 만료 처리(지속/스택 0 이하면 제거)
-        //        if (runtime.Duration <= 0 || runtime.Stacks <= 0)
-        //        {
-        //            list.RemoveAt(i);
-        //            _rt.Remove(kw);
-        //            continue;
-        //        }
-        //        // 변경사항 반영
-        //        _rt[kw] = runtime;
-        //    }
-        //}
     }    
 }

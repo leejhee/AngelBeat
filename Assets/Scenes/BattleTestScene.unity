@@ -303,6 +303,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 881014747}
+  - {fileID: 2070375775}
   - {fileID: 1229864059}
   - {fileID: 1741569936}
   m_Father: {fileID: 0}
@@ -412,6 +413,9 @@ MonoBehaviour:
   focusZoomSeconds: 0.35
   minOrthoSize: 5
   maxOrthoSize: 20
+  freeSlackMode: 2
+  fixedWorldSlack: 0
+  freeInnerPaddingWorld: 0
 --- !u!1 &1565324164
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +596,11 @@ MonoBehaviour:
   dragSensitivity: 1
   wheelStep: 1
   enableDuringTurn: 1
+  normalizeWheel: 1
+  wheelDetent: 120
+  multiplicative: 1
+  zoomMulPerStep: 0.9
+  zoomLinearStep: 0.5
 --- !u!1 &1983618995
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +646,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2070375774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2070375775}
+  - component: {fileID: 2070375776}
+  m_Layer: 0
+  m_Name: FXController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2070375775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070375774}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 594992055}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2070375776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070375774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931e3c234f094900b4ddeb757321ba22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entries: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

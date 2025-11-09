@@ -12,14 +12,23 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
 
         private Dictionary<Vector2Int, CharBase> _characters;
         private Dictionary<CharBase, Vector2Int> _unitToCell;
-        private HashSet<Vector2Int> _walkable;
-        private HashSet<Vector2Int> _obstacles;
+        
+        private Dictionary<Vector2Int, FieldCover> _cellToCover;
+        private Dictionary<FieldCover, Vector2Int> _coverToCell;
+
+        private Dictionary<Vector2Int, FieldObstacle> _cellToObstacle;
+        private Dictionary<FieldObstacle, Vector2Int> _obstacleToCell;
+        
+        private HashSet<Vector2Int> _walkable;  //플랫폼이 있는 자리
+        private HashSet<Vector2Int> _obstacles; //장애물이 있는 자리
+        private HashSet<Vector2Int> _coverages; //엄폐물이 있는 자리
         
         #region Public Properties
         /// <summary> 여기서 필요한 cell position 가져다 쓸 것 </summary>
         public IReadOnlyDictionary<Vector2Int, CharBase> CharacterPositions => _characters;
         public IReadOnlyCollection<Vector2Int> WalkablePositions => _walkable;
         public IReadOnlyCollection<Vector2Int> ObstaclePositions => _obstacles;
+        public IReadOnlyCollection<Vector2Int> CoveragePositions => _coverages;
         #endregion
         
         #region Initialization
@@ -27,9 +36,22 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         {
             _stage = staticField;
             _walkable = staticField.PlatformGridCells.ToHashSet();
-            _obstacles = staticField.ObstacleGridCells.ToHashSet();
+            _obstacles = new HashSet<Vector2Int>();
+            _coverages = new HashSet<Vector2Int>();
+            
             _characters = new Dictionary<Vector2Int, CharBase>();
             _unitToCell = new Dictionary<CharBase, Vector2Int>();
+            
+            _cellToCover = new Dictionary<Vector2Int, FieldCover>();
+            _coverToCell = new Dictionary<FieldCover, Vector2Int>();
+            
+            _cellToObstacle = new Dictionary<Vector2Int, FieldObstacle>();
+            _obstacleToCell = new Dictionary<FieldObstacle, Vector2Int>();
+
+            foreach (ObstacleEntry oe in staticField.ObstacleGridCells)
+                RegisterObstacle(oe.obstacle, oe.cell);
+            foreach (CoverEntry ce in staticField.CoverageGridCells)
+                RegisterCover(ce.cover, ce.cell);
         }
         
         /// <summary>
@@ -47,15 +69,20 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
                 _characters[cell] = unit;
                 _unitToCell[unit] = cell;
             }
+            
+            
         }
         #endregion
         
         #region Cell Point Validation
         public bool IsInBounds(Vector2Int cell) => _stage.InBounds(cell);
         public bool IsOccupied(Vector2Int cell) => _characters.ContainsKey(cell);
-        public bool IsWalkable(Vector2Int cell) => _walkable.Contains(cell) && !_obstacles.Contains(cell) && !IsOccupied(cell);
+
+        public bool IsWalkable(Vector2Int cell) =>
+            _walkable.Contains(cell) && !_obstacles.Contains(cell) && !IsOccupied(cell);
         public bool IsPlatform(Vector2Int cell) => _walkable.Contains(cell);
         public bool IsObstacle(Vector2Int cell) => _obstacles.Contains(cell) && !IsOccupied(cell);
+        public bool IsCoverage(Vector2Int cell) => _coverages.Contains(cell);
         public bool IsMaskable(Vector2Int cell) => !IsInBounds(cell) || !IsPlatform(cell);
         
         #endregion
@@ -64,7 +91,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         
         public Vector2Int WorldToCell(Vector2 w) => _stage.WorldToCell(w);
         public Vector2 CellToWorldCenter(Vector2Int c) => _stage.CellToWorldCenter(c);
-
         
         #endregion
         
@@ -95,6 +121,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             if (!IsInBounds(cell) || !IsWalkable(cell)) return false;
             if(_unitToCell.TryGetValue(registrant, out Vector2Int c)) _characters.Remove(c);
             _characters[cell] = registrant; _unitToCell[registrant] = cell;
+
             return true;
         }
         
@@ -116,13 +143,99 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         /// <returns>결과</returns>
         public bool MoveUnit(CharBase unit, Vector2Int to)
         {
-            if(!_unitToCell.TryGetValue(unit, out Vector2Int c)) return OccupyCell(to, unit);
-            if (to != c && !IsWalkable(to)) return false;
+            if(!_unitToCell.TryGetValue(unit, out Vector2Int c)) return OccupyCell(to, unit); // 자기자리 찾기
+            if (to != c && !IsWalkable(to)) return false; // 자기자리가 아닌 다른 곳으로 가는데, 갈 수 있는 곳이 아니면 false.
             _characters.Remove(c);
-            _characters[to] = unit; _unitToCell[unit] = to;
+            _characters[to] = unit; 
+            _unitToCell[unit] = to;
             return true;
         }
 
         #endregion
+        
+        public bool RegisterObstacle(FieldObstacle obs, Vector2Int cell)
+        {
+            if (!obs) return false;
+
+            _cellToObstacle[cell] = obs;
+            _obstacleToCell[obs] = cell;
+            _obstacles.Add(cell);
+            
+            SnapToCenter(obs.transform, cell);
+            obs.BindGrid(this, cell);
+            obs.Broken -= OnObstacleBroken;
+            obs.Broken += OnObstacleBroken;
+            return true;
+        }
+
+        public bool RegisterCover(FieldCover cover, Vector2Int cell)
+        {
+            if (!cover) return false;
+            _cellToCover[cell] = cover;
+            _coverToCell[cover] = cell;
+            _coverages.Add(cell);
+            
+            SnapToCenter(cover.transform, cell);
+            cover.BindGrid(this, cell);
+            cover.Broken -= OnCoverBroken;
+            cover.Broken += OnCoverBroken;
+            return true;
+        }
+
+        public bool UnregisterObstacle(FieldObstacle obs)
+        {
+            if (!obs) return false;
+            if (_obstacleToCell.Remove(obs, out Vector2Int cell))
+            {
+                _cellToObstacle.Remove(cell);
+                _obstacles.Remove(cell);
+                return true;
+            }
+            return false;
+        }
+
+        public bool UnregisterCover(FieldCover cover)
+        {
+            if (!cover) return false;
+            if (_coverToCell.Remove(cover, out Vector2Int cell))
+            {
+                _cellToCover.Remove(cell);
+                _coverages.Remove(cell);
+                return true;
+            }
+            return false;
+        }
+
+        public FieldObstacle GetObstacleAt(Vector2Int cell) => _cellToObstacle.GetValueOrDefault(cell);
+        public FieldCover    GetCoverAt(Vector2Int cell)    => _cellToCover.GetValueOrDefault(cell);
+
+        // 외부에서 셀 기준 제거하고 싶을 때(예: 스킬 효과)
+        public bool TryRemoveObstacleAt(Vector2Int cell)
+        {
+            FieldObstacle obs = GetObstacleAt(cell);
+            if (!obs) return false;
+            // 파괴 → OnDestroy/이벤트 통해 정리
+            Object.Destroy(obs.gameObject);
+            return true;
+        }
+
+        public bool TryRemoveCoverAt(Vector2Int cell)
+        {
+            FieldCover cov = GetCoverAt(cell);
+            if (!cov) return false;
+            Object.Destroy(cov.gameObject);
+            return true;
+        }
+
+        private void OnObstacleBroken(FieldObstacle obs) => UnregisterObstacle(obs);
+        private void OnCoverBroken(FieldCover cov)       => UnregisterCover(cov);
+
+        private void SnapToCenter(Transform t, Vector2Int cell)
+        {
+            Vector2 want = _stage.CellToWorldCenter(cell);
+            if ((Vector2)t.position != want) t.position = want;
+        }
+           
+           
     }
 }

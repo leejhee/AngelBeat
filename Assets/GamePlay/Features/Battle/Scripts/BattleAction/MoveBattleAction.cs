@@ -40,7 +40,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             {
                 Vector2Int candidate = new Vector2Int(pivot.x + offset, pivot.y);
                 if (stageGrid.IsMaskable(candidate)) break;
-                if (stageGrid.IsWalkable(candidate))
+                if (stageGrid.IsWalkable(candidate) && !blocked)
                 {
                     movablePoints.Add(candidate);
                 }
@@ -60,7 +60,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             {
                 Vector2Int candidate = new Vector2Int(pivot.x - offset, pivot.y);
                 if (stageGrid.IsMaskable(candidate)) break;
-                if (stageGrid.IsWalkable(candidate))
+                if (stageGrid.IsWalkable(candidate) && !blocked)
                 {
                     movablePoints.Add(candidate);
                 }
@@ -95,11 +95,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int goal = Context.TargetCell.Value;
             Vector2Int pivot = grid.WorldToCell(pos);
             
-            // 캐릭터 프리팹 이동'만' 한다.
+            #region 연출
             Vector2 toWorld = stage.CellToWorldCenter(goal);
-            //long delta = -Mathf.Abs(goal.x - pivot.x);
-            //actor.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, delta);
-            // await actor.CharMove(new Vector2(toWorld.x, pos.y));
+
             BattleCameraDriver driver = BattleController.Instance.CameraDriver;
             UniTask moveTask = actor.CharMove(new Vector2(toWorld.x, pos.y));
             if (driver)
@@ -110,8 +108,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             {
                 await moveTask; 
             }
-
-
+            #endregion
+            
             // 그리드 위치정보 저장
             grid.MoveUnit(actor, goal);
             return BattleActionResult.Success();

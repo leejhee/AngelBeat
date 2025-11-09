@@ -43,7 +43,6 @@ namespace GamePlay.Features.Battle.Scripts
             else
                 Destroy(gameObject);
 
-            GameManager.Instance.GameState = SystemEnum.GameState.Battle;
         }
         #endregion
         

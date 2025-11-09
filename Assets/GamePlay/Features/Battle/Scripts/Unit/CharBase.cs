@@ -3,6 +3,7 @@ using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Common.Scripts.Entities.Skills;
@@ -18,7 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace GamePlay.Features.Battle.Scripts.Unit
 {
-    public abstract class CharBase : MonoBehaviour
+    public abstract class CharBase : MonoBehaviour, IDamageable
     {
         private static readonly int Move = Animator.StringToHash("Move");
         private static readonly int Idle = Animator.StringToHash("Idle");
@@ -40,11 +41,14 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private Transform _charUnitRoot;
         [SerializeField] private CharacterHpBar _hpBar;
+        [SerializeField] private GameObject protectionIndicator;
+        [SerializeField] private GameObject tauntIndicator;
         
         //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
         [SerializeField] private GameObject jumpOutFX;
         [SerializeField] private GameObject jumpInFX;
         [SerializeField] private GameObject pushFX;
+        
         
         private SpriteRenderer  _spriteRenderer;
         private SpriteRenderer  _outlineRenderer;
@@ -55,7 +59,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private CharStat        _runtimeStat;
         private SkillInfo       _skillInfo;
         private KeywordInfo     _keywordInfo;
-
         
         private bool _isAction = false;    // 행동중인가? 판별
         protected long _uid;
@@ -64,6 +67,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private float _currentMovePoint;
         
         private Camera _mainCamera;
+
+        private FieldCover _coverage; // 등록된 엄폐물
         #endregion
         
         #region Properties
@@ -237,17 +242,27 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public event Action<DamageParameter> OnMiss;
 
+        public async UniTask DamageAsync(long finalDamage, CancellationToken ct)
+        {
+            // 대미지 글자 연출
+            _runtimeStat.ReceiveDamage(finalDamage);
+            Debug.Log($"{finalDamage}데미지");
+            Debug.Log($"{CurrentHP} / {MaxHP}");
+        }
+        
         /// <summary>
         /// 대미지 관련 파라미터로 이벤트 발생시킴.
         /// </summary>
         /// <param name="damageInfo">기존 대미지 파라미터</param>
         /// <param name="playOnAttack">피격 모션 재생할까?</param>
         /// <param name="suppressIdle">Idle suppression</param>
-        public async UniTask SkillDamage(DamageParameter damageInfo, bool playOnAttack=true, bool suppressIdle=false)
+        public async UniTask SkillDamage(
+            DamageParameter damageInfo, 
+            bool playOnAttack=true, 
+            bool suppressIdle=false)
         {
             CharBase attacker = damageInfo.Attacker;
             SkillModel model = damageInfo.Model;
-            //attacker.OnAttackTrial?.Invoke(damageInfo); 외부에서 발행하도록 한다.
             
             Debug.Log($"{attacker.name}의 공격이 {name}에게 적중했습니다.");
             attacker.OnAttackSuccess?.Invoke(damageInfo);
@@ -257,7 +272,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
             SkillDamageData damageData = model.skillDamage;
             
-            long finalDamage = 0;
+            long finalDamage;
             switch (model.skillType)
             {
                 case SystemEnum.eSkillType.Heal:
@@ -283,12 +298,16 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     break;
             }
             
-            _runtimeStat.ReceiveDamage(finalDamage);
-            Debug.Log($"{finalDamage}데미지");
-            Debug.Log($"{CurrentHP} / {MaxHP}");
-            OnHit?.Invoke(damageInfo);
+            //////////// 이 부분은 이제 완전 대미지 구현 말단.
             if(playOnAttack)
                 _Animator.SetTrigger(OnAttack);
+
+            if (_coverage)
+                await _coverage.DamageAsync(finalDamage, CancellationToken.None);
+            else
+                await DamageAsync(finalDamage, CancellationToken.None);
+            
+            OnHit?.Invoke(damageInfo);
             
             await UniTask.Delay(60);
             if(!suppressIdle)
@@ -442,7 +461,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 _Animator.SetTrigger(OnAttack);
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
-                transform.position += (targetPos - transform.position).normalized * Time.deltaTime * moveSpeed;
+                transform.position += (targetPos - transform.position).normalized * (Time.deltaTime * moveSpeed);
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
 
@@ -464,6 +483,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         public void CharReturnIdle() => _Animator.SetTrigger(Idle);
         
+        #region Coverage Logic
+        public void RegisterCoverage(FieldCover cover)
+        {
+            _coverage = cover;
+            protectionIndicator.SetActive(true);
+        }
+
+        public void ExitCoverage()
+        {
+            _coverage = null;
+            protectionIndicator.SetActive(false);
+        }
+        
+        #endregion
         #endregion
         
         #region Unity Events
@@ -473,14 +506,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             OnUpdate?.Invoke();
         }
         
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Platform"))
-            {
-                if(!_isGrounded)
-                    _isGrounded = true;
-            }
-        }
         #endregion
         
         #region Util로 옮길 부분

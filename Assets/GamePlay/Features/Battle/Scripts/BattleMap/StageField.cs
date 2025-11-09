@@ -47,15 +47,16 @@ public class StageField : MonoBehaviour
     private Vector2 _originWorld;
 
     [SerializeField] private List<Vector2Int> platformGridCells;
-    [SerializeField] private List<Vector2Int> obstacleGridCells;
-    
+    [SerializeField] private List<ObstacleEntry> obstacleGridCells;
+    [SerializeField] private List<CoverEntry> coverageGridCells;
     public Grid Grid => _grid;
     public Vector2Int GridSize => gridSize;
     public Vector2 CellWorld => _cellWorld;
     public Vector2 OriginWorld => _originWorld;
     
     public List<Vector2Int> PlatformGridCells => platformGridCells;
-    public List<Vector2Int> ObstacleGridCells => obstacleGridCells;
+    public List<ObstacleEntry> ObstacleGridCells => obstacleGridCells;
+    public List<CoverEntry> CoverageGridCells => coverageGridCells;
 
     public GameObject BackgroundImageSprite => backgroundImage;
 
@@ -96,12 +97,7 @@ public class StageField : MonoBehaviour
         gridProvider.InitMask();
         gridProvider.Show(false);
         
-        
-        
-        // TODO : 배경화면 띄워주기 나중에 옮겨도 됨
         UIManager.Instance.InstantiateBackgroundObject(BackgroundImageSprite);
-        
-        
     }
 
     private void ComputeGridBasis(
@@ -176,7 +172,6 @@ public class StageField : MonoBehaviour
             SpawnData data = _spawnDict[eCharType.Player][i];
             CharBase battlePrefab =
                 await BattleCharManager.Instance.CharGenerate(new CharBattleParameter(character, data.SpawnPosition));
-            //battlePrefab.UpdateCharacterInfo(character);
             battleMembers.Add(battlePrefab);
         }
 
@@ -271,7 +266,7 @@ public class StageField : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.25f);
         foreach (var c in obstacleGridCells)
         {
-            var p = originW + (c + Vector2.one * 0.5f) * cellW;
+            var p = originW + (c.cell + Vector2.one * 0.5f) * cellW;
             Gizmos.DrawCube(p, cellW * pad);
         }
 
@@ -295,7 +290,7 @@ public class StageField : MonoBehaviour
     {
         bool ok = true;
         ok &= ValidateList(platformGridCells, "platformGridCells");
-        ok &= ValidateList(obstacleGridCells, "obstacleGridCells");
+        //ok &= ValidateList(obstacleGridCells, "obstacleGridCells");
         if (ok) Debug.Log("[StageField] Grid cell lists are valid.");
     }
     
@@ -318,6 +313,7 @@ public class StageField : MonoBehaviour
         }
         return ok;
     }
+    
 #endif
     #endregion
 
