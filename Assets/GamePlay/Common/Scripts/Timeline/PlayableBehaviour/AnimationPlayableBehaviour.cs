@@ -11,30 +11,24 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 
         PlayableGraph playableGraph;
 
-        // Ŭ���� ���۵� �� ȣ��
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
-            // PlayableGraph ����
             playableGraph = PlayableGraph.Create("AnimationPlayable");
 
-            // AnimationClipPlayable ����
             AnimationClipPlayable clipPlayable = AnimationClipPlayable.Create(playableGraph, animationClip);
 
-            // ��� ���� �� ����
             var output = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
             output.SetSourcePlayable(clipPlayable);
 
-            // Playable ���
             playableGraph.Play();
         }
 
-        // Ŭ���� ���� �� ȣ��
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
             if (playableGraph.IsValid())
             {
-                playableGraph.Stop(); // �׷��� ����
-                playableGraph.Destroy(); // �׷��� ���ҽ� ����
+                playableGraph.Stop();
+                playableGraph.Destroy(); 
             }
             //animator.Play("IDLE",0,0);
         }

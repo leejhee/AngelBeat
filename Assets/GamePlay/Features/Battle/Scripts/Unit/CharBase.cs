@@ -10,6 +10,7 @@ using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Keyword;
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.UI.BattleHovering;
+using GamePlay.Features.Battle.Scripts.Unit.Components;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -34,6 +35,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private CharacterHpBar _hpBar;
         [SerializeField] private GameObject protectionIndicator;
         [SerializeField] private GameObject tauntIndicator;
+        [SerializeField] private CharAnimDriver anim;
         
         //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
         [SerializeField] private GameObject jumpOutFX;
@@ -44,7 +46,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         private SpriteRenderer  _spriteRenderer;
         private SpriteRenderer  _outlineRenderer;
         private Transform       _charTransform;
-        private CharAnim        _charAnim;
+        //private CharAnim        _charAnim;
         
         private CharacterModel  _charInfo;
         private CharStat        _runtimeStat;
@@ -71,7 +73,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public BoxCollider2D BattleCollider => _battleCollider;
         public Transform CharCameraPos => charCameraPos;
         public GameObject CharSnapShot => _charSnapShot;
-        public CharAnim CharAnim => _charAnim;
+        //public CharAnim CharAnim => _charAnim;
+        public Animator Animator => _Animator;
+        public CharAnimDriver Anim => anim;
         public Rigidbody2D Rigid => _rigid;
         public Camera MainCamera => _mainCamera;
         
@@ -167,11 +171,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _spriteRenderer = _charUnitRoot.GetComponent<SpriteRenderer>();
             _outlineRenderer = _charUnitRoot.GetChild(0).GetComponent<SpriteRenderer>();
             _uid = BattleCharManager.Instance.GetNextID();
-            _charAnim = new();
+            //_charAnim = new();
+            anim = GetComponent<CharAnimDriver>();
             _mainCamera = Camera.main;
             _battleCollider.enabled = false;
-            
-            Debug.Log($"여기에요 시발련들아 {_charTransform}");
         }
         
         /// <summary>
@@ -179,10 +182,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         private void Start()
         {
-            if (_charAnim != null)
-            {
-                _charAnim.Initialized(_Animator);
-            }
+            
         }
 
         public virtual async UniTask CharInit(CharacterModel charModel)
@@ -264,47 +264,37 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
             SkillDamageData damageData = model.skillDamage;
             
-            long finalDamage;
-            switch (model.skillType)
+            long finalDamage = model.skillType switch
             {
-                case SystemEnum.eSkillType.Heal:
-                    finalDamage = -(long)Mathf.Ceil(
-                        damageData.DamageCoefficient *
-                        Random.Range(damageData.RandMin, damageData.RandMax + 1)
-                    );
-                    break;
-                case SystemEnum.eSkillType.Debuff:
-                    finalDamage = (long)Mathf.Ceil(
-                        damageData.DamageCoefficient *
-                        (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f)
-                    );
-                    break;
-                default:
-                    finalDamage = (long)Mathf.Ceil(
-                        attackStat *
-                        damageData.DamageCoefficient *
-                        Random.Range(damageData.RandMin, damageData.RandMax + 1) *
-                        (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f) *
-                        (100 - defenseStat) / 100f
-                    );
-                    break;
-            }
-            
-            //////////// 이 부분은 이제 완전 대미지 구현 말단.
-            if(playOnAttack)
-                _Animator.SetTrigger(OnAttack);
+                SystemEnum.eSkillType.Heal => -(long)Mathf.Ceil(
+                    damageData.DamageCoefficient *
+                    Random.Range(damageData.RandMin, damageData.RandMax + 1)),
+                SystemEnum.eSkillType.Debuff => (long)Mathf.Ceil(
+                    damageData.DamageCoefficient *
+                    (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f)),
+                _ => (long)Mathf.Ceil(
+                    attackStat *
+                    damageData.DamageCoefficient *
+                    Random.Range(damageData.RandMin, damageData.RandMax + 1) *
+                    (1 + attacker.RuntimeStat.GetStat(SystemEnum.eStats.DAMAGE_INCREASE) / 100f) *
+                    (100 - defenseStat) / 100f)
+            };
             
             bool canBeBlocked = model.skillType == SystemEnum.eSkillType.PhysicalAttack && finalDamage > 0;
-            if (_coverage && canBeBlocked)
-                await _coverage.DamageAsync(finalDamage, CancellationToken.None);
-            else
-                await DamageAsync(finalDamage, CancellationToken.None);
             
-            OnHit?.Invoke(damageInfo);
+            async UniTask Apply(CancellationToken t)
+            {
+                if (_coverage && canBeBlocked)
+                    await _coverage.DamageAsync(finalDamage, t);
+                else
+                    await DamageAsync(finalDamage, t);
             
-            await UniTask.Delay(60);
-            if(!suppressIdle)
-                _Animator.SetTrigger(Idle);
+                OnHit?.Invoke(damageInfo);
+                await UniTask.Delay(60, cancellationToken: t); // 히트스톱/여유
+            }
+            
+            if (playOnAttack) await anim.WithOnAttack(Apply);
+            else              await Apply(CancellationToken.None);
         }
 
         /// <summary>
@@ -315,17 +305,18 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             SkillModel model = damageInfo.Model;
             if (model.skillType == SystemEnum.eSkillType.MagicAttack) return false;
+
             float hitChance = model.skillAccuracy + damageInfo.Attacker.BonusAccuracy - Dodge + 5;
-            bool succeed = Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
-            if (!succeed)
-            {
-                return false;
-            }
+            bool succeed = UnityEngine.Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
+            if (!succeed) return false;
+
             Debug.Log($"{damageInfo.Attacker.name}의 공격을 {name}이 회피했습니다.");
-            _Animator.SetTrigger(Evade);
-            OnMiss?.Invoke(damageInfo); // '회피 시'
-            await UniTask.Delay(60);
-            _Animator.SetTrigger(Idle);
+
+            OnMiss?.Invoke(damageInfo);
+            await anim.WithEvade(async t =>
+            {
+                await UniTask.Delay(60, cancellationToken: t);
+            });
             return true;
         }
         
@@ -358,72 +349,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             BattleCharManager.Instance.Clear(myType, _uid);
             Destroy(gameObject);
         }
-        #endregion
-
-        #region Character Animation
-        //public void SetStateAnimationIndex(PlayerState state, int index = 0)
-        //{
-        //    _indexPair[state] = index;
-        //}
-        //public void PlayStateAnimation(PlayerState state)
-        //{
-        //    _charAnim.PlayAnimation(state);
-        //}
-        private static readonly int Move = Animator.StringToHash("Move");
-        private static readonly int Idle = Animator.StringToHash("Idle");
-        private static readonly int OnAttack = Animator.StringToHash("OnAttack");
-        private static readonly int JumpOut = Animator.StringToHash("JumpOut");
-        private static readonly int JumpIn = Animator.StringToHash("JumpIn");
-        private static readonly int Push = Animator.StringToHash("Push");
-        private static readonly int Evade = Animator.StringToHash("Evade");
-        
-        void SetTriggerExclusive(int trigger)
-        {
-            _Animator.ResetTrigger(Idle);
-            _Animator.ResetTrigger(Move);
-            _Animator.ResetTrigger(OnAttack);
-            _Animator.ResetTrigger(JumpOut);
-            _Animator.ResetTrigger(JumpIn);
-            _Animator.ResetTrigger(Push);
-            _Animator.ResetTrigger(Evade);
-            _Animator.SetTrigger(trigger);
-        }
-        
-        [SerializeField] private string idleTag = "Idle"; // 필요하면 인스펙터에서 바꿔도 됨
-
-        private bool IsIdleLike()
-        {
-            const int layer = 0;
-            // 전이 중이면 다음 상태도 확인 (전이 프레임에서 놓치는 것 방지)
-            if (_Animator.IsInTransition(layer))
-            {
-                var next = _Animator.GetNextAnimatorStateInfo(layer);
-                if (next.IsTag(idleTag)) return true;
-            }
-
-            AnimatorStateInfo cur = _Animator.GetCurrentAnimatorStateInfo(layer);
-            if (cur.IsTag(idleTag)) return true;
-
-            // 태그를 아직 못 달았다면 임시 폴백: 현재 클립 이름으로 판별
-            AnimatorClipInfo[] clips = _Animator.GetCurrentAnimatorClipInfo(layer);
-            if (clips.Length > 0 && clips[0].clip != null)
-            {
-                var name = clips[0].clip.name;
-                if (!string.IsNullOrEmpty(name) && name.EndsWith("_Idle"))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private void ReturnIdleSafe()
-        {
-            if (!IsIdleLike())
-                SetTriggerExclusive(Idle); // Idle로 ‘전이가 필요할 때만’ 트리거
-            else
-                _Animator.ResetTrigger(Idle); // 이미 Idle이면 남아있는 트리거를 정리
-        }
-        
         #endregion
         
         #region Character movement Control
@@ -462,27 +387,27 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharMove(Vector3 targetPos)
         {
-            SetTriggerExclusive(Move);
-    
-            Vector2 target = targetPos;
-            float arrivalThreshold = 0.05f;
-    
-            while (Vector2.Distance(_rigid.position, target) > arrivalThreshold)
+            await anim.WithMoving(async _ =>
             {
-                Vector2 direction = (target - _rigid.position).normalized;
-                Vector2 newPosition = _rigid.position + direction * (moveSpeed * Time.fixedDeltaTime);
-        
-                _rigid.MovePosition(newPosition);
-                SetCharacterToward(direction);
-        
-                await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
-            }
-    
-            // 정확한 최종 위치
-            _rigid.MovePosition(target);
-            _rigid.velocity = Vector2.zero; // 혹시 모를 관성 제거
-    
-            ReturnIdleSafe();
+                Vector2 target = targetPos;
+                const float eps = 0.05f;
+
+                while (Vector2.Distance(_rigid.position, target) > eps)
+                {
+                    Vector2 dir = (target - _rigid.position).normalized;
+                    Vector2 next = _rigid.position + dir * (moveSpeed * Time.fixedDeltaTime);
+
+                    _rigid.MovePosition(next);
+                    SetCharacterToward(dir);
+
+                    //anim.SetSpeed(moveSpeed); // BlendTree 쓰면 유효
+                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+                }
+
+                _rigid.MovePosition(target);
+                _rigid.velocity = Vector2.zero;
+                //anim.SetSpeed(0f);
+            });
         }
         
         /// <summary>
@@ -492,19 +417,28 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         {
             SetCharacterToward(transform.position, targetPos);
             
-            SetTriggerExclusive(JumpOut);
-            SpriteRenderer sr = _charUnitRoot.GetComponent<SpriteRenderer>();
+            // JumpOut 연출 (FX는 기다리지 않음)
+            _ = PlayFxOnce(jumpOutFX, transform.position, ct, maxSeconds: 1f, detachFromCharacter: true, wait: false);
+            await anim.WithJumpOut(async t =>
+            {
+                await UniTask.Delay(1000, cancellationToken: t); // 살짝 텐션
+            }, ct);
+            
+            var sr = _charUnitRoot.GetComponent<SpriteRenderer>();
+            var outlineSR = _charUnitRoot.GetChild(0).GetComponent<SpriteRenderer>();
             if (sr) sr.enabled = false;
-            await PlayFxOnce(jumpOutFX, transform.position, ct);
+            if(outlineSR) outlineSR.enabled = false;
             
-            ReturnIdleSafe();
+            await UniTask.Delay(250, cancellationToken: ct);
             transform.position = targetPos;
+            if (sr) sr.enabled = true;
+            if(outlineSR) outlineSR.enabled = true;
             
-            SetTriggerExclusive(JumpIn);
-            await UniTask.Delay(50, false, PlayerLoopTiming.FixedUpdate, ct);
-            sr.enabled = true;
-            await PlayFxOnce(jumpInFX, transform.position, ct);
-            ReturnIdleSafe();
+            _ = PlayFxOnce(jumpInFX, transform.position, ct, maxSeconds: 1f, detachFromCharacter: true, wait: false);
+            await anim.WithJumpIn(async t =>
+            {
+                await UniTask.Delay(1000, cancellationToken: t);
+            }, ct);
         }
 
         /// <summary>
@@ -513,35 +447,32 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// <param name="targetPos">목적지. 플랫폼 없을 경우, rigidbody라서 알아서 떨어짐. 일단은..</param>
         /// <param name="playOnAttack">피격 애니메이션 플레이 여부</param>
         /// <param name="suppressIdle">Idle로 돌아가지 않을 것인지</param>
-        public async UniTask CharKnockBack(Vector3 targetPos, bool playOnAttack=false, bool suppressIdle=false)
+        public async UniTask CharKnockBack(Vector3 targetPos, bool playOnAttack = false, bool suppressIdle = false)
         {
-            if(playOnAttack)
-                SetTriggerExclusive(OnAttack);
-            while ((transform.position - targetPos).sqrMagnitude > 0.05f)
+            async UniTask Motion(CancellationToken t)
             {
-                transform.position += (targetPos - transform.position).normalized * (Time.deltaTime * moveSpeed);
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                while ((transform.position - targetPos).sqrMagnitude > 0.05f)
+                {
+                    transform.position += (targetPos - transform.position).normalized * (Time.deltaTime * moveSpeed);
+                    await UniTask.Yield(PlayerLoopTiming.Update, t);
+                }
+                await UniTask.Delay(30, cancellationToken: t);
             }
 
-            await UniTask.Delay(30);
-            if(!suppressIdle)
-                ReturnIdleSafe();
+            if (playOnAttack) await anim.WithOnAttack(Motion);
+            else              await Motion(CancellationToken.None);
+
         }
 
-        public void CharPushPlay(Vector3 targetPos)
+        public void CharPushPlay(Vector3 lookAtPos)
         {
-            SetCharacterToward(transform.position, targetPos);
-            SetTriggerExclusive(Push);
+            SetCharacterToward(transform.position, lookAtPos);
+            anim.SetPush(true);
         }
+        public void CharPushEnd() => anim.SetPush(false);
 
-        public async void CharPushFXPlay() => await PlayFxOnce(
-            pushFX,
-            transform.position + pushFX.transform.position,
-            CancellationToken.None
-        );
-        
-        public void CharReturnIdle() => ReturnIdleSafe();
-        
+        public void CharReturnIdle() => anim.ResetAllFlags();
+
         #region Coverage Logic
         public void RegisterCoverage(FieldCover cover)
         {
@@ -570,33 +501,91 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         #region Util로 옮길 부분
         
         //TODO : Particlesystem인지 animator인지 결정되면 알아서 최적화할것
-        private async UniTask PlayFxOnce(GameObject prefab, Vector3 offset, CancellationToken ct)
+        private async UniTask PlayFxOnce(
+            GameObject prefab,
+            Vector3 worldPos,
+            CancellationToken ct,
+            float maxSeconds = 0.8f,
+            bool detachFromCharacter = true,
+            bool wait = false)
         {
             if (!prefab) return;
-            var go = Instantiate(prefab, offset, Quaternion.identity, transform);
 
-            // ParticleSystem이면 모두 재생 후 살아있는 동안 대기
-            #region If Particle System
-            ParticleSystem[] ps = go.GetComponentsInChildren<ParticleSystem>(true);
-            // null 안터짐
+            Transform parent = detachFromCharacter ? null : transform;
+            var go = Instantiate(prefab, worldPos, Quaternion.identity, parent);
+
+            // 1) 파티클
+            var ps = go.GetComponentsInChildren<ParticleSystem>(true);
             if (ps.Length > 0)
             {
-                foreach (var p in ps) p.Play();
-                while (!ct.IsCancellationRequested && System.Array.Exists(ps, p => p && p.IsAlive(true)))
-                    await Cysharp.Threading.Tasks.UniTask.Yield(PlayerLoopTiming.Update, ct);
-                Destroy(go);
+                foreach (var p in ps)
+                    if (p)
+                        p.Play();
+
+                if (wait)
+                {
+                    float t = 0f;
+                    while (!ct.IsCancellationRequested &&
+                           Array.Exists(ps, p => p && p.IsAlive(true)) &&
+                           t < maxSeconds)
+                    {
+                        await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                        t += Time.deltaTime;
+                    }
+
+                    if (go) Destroy(go);
+                }
+                else
+                {
+                    UniTask.Void(async () =>
+                    {
+                        try
+                        {
+                            float t = 0f;
+                            while (t < maxSeconds && Array.Exists(ps, p => p && p.IsAlive(true)))
+                            {
+                                await UniTask.Yield();
+                                t += Time.deltaTime;
+                            }
+                        }
+                        finally
+                        {
+                            if (go) Destroy(go);
+                        }
+                    });
+                }
+
                 return;
             }
-            #endregion
-            
-            #region If Animator
-            // Animator 기반 FX면 트리거나 자동 플레이를 가정, 적당한 보호 딜레이(필요시 Animation Event로 대체)
-            var anim = go.GetComponentInChildren<Animator>();
-            if (anim)
-                await UniTask.Delay(TimeSpan.FromSeconds(0.5), cancellationToken: ct);
 
-            Destroy(go);
-            #endregion
+            // 2) 애니메이터 FX
+            var fxAnim = go.GetComponentInChildren<Animator>();
+            float clipLen = 0.5f;
+            if (fxAnim && fxAnim.runtimeAnimatorController)
+            {
+                var clips = fxAnim.runtimeAnimatorController.animationClips;
+                for (int i = 0; i < clips.Length; i++)
+                    clipLen = Mathf.Max(clipLen, clips[i].length);
+            }
+
+            clipLen = Mathf.Min(clipLen, maxSeconds);
+
+            if (wait)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(clipLen), cancellationToken: ct);
+                if (go) Destroy(go);
+            }
+            else
+            {
+                UniTask.Void(async () =>
+                {
+                    try { await UniTask.Delay(TimeSpan.FromSeconds(clipLen), cancellationToken: ct); }
+                    finally
+                    {
+                        if (go) Destroy(go);
+                    }
+                });
+            }
         }
 
         public async UniTask BlinkSpriteOnce()

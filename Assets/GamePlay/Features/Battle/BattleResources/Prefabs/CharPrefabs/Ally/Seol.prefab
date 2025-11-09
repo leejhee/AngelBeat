@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2821619371975844126}
   - component: {fileID: -1711375296147896922}
   - component: {fileID: 6604672686628628585}
+  - component: {fileID: 5430513460922047587}
   m_Layer: 9
   m_Name: Seol
   m_TagString: Untagged
@@ -122,6 +123,9 @@ MonoBehaviour:
   moveSpeed: 5
   _charUnitRoot: {fileID: 294029816145623234}
   _hpBar: {fileID: 0}
+  protectionIndicator: {fileID: 0}
+  tauntIndicator: {fileID: 0}
+  anim: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -156,7 +160,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3717310159286373163}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -220,6 +224,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &5430513460922047587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3717310159286373163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e2436079c464ea5f37822e0a74c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2821619371975844126}
+  names:
+    layerPath: Base Layer
+    Idle: Idle
+    Move: Seol_Dash
+    OnAttack: Seol_Attacked
+    JumpOut: 
+    JumpIn: 
+    Push: Seol_Push
+    Evade: Seol_Evade
 --- !u!1 &6020758775045425114
 GameObject:
   m_ObjectHideFlags: 0

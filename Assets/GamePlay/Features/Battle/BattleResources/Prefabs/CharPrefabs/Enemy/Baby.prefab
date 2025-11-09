@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 7812219678058373009}
   - component: {fileID: 2027328795377672482}
   - component: {fileID: 7717259853931674838}
+  - component: {fileID: 8922023582481775873}
   m_Layer: 9
   m_Name: Baby
   m_TagString: Untagged
@@ -433,6 +434,7 @@ MonoBehaviour:
   _hpBar: {fileID: 0}
   protectionIndicator: {fileID: 2861258712402979882}
   tauntIndicator: {fileID: 3820559809614052424}
+  anim: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -531,6 +533,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &8922023582481775873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612062671971412147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e2436079c464ea5f37822e0a74c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7812219678058373009}
+  names:
+    layerPath: Base Layer
+    Idle: Baby_Idle
+    Move: Baby_Dash
+    OnAttack: Baby_Attacked
+    JumpOut: 
+    JumpIn: 
+    Push: Baby_Push
+    Evade: Baby_Evade
 --- !u!1 &5772427888404262633
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableAsset
             CharBase player = skill.CharPlayer;
             playableBehaviour.InitBehaviour(player, skill);
             
-            playableBehaviour.animator = player.CharAnim.Animator;
+            playableBehaviour.animator = player.Animator;
             playableBehaviour.animationClip = animationClip;
             var scriptPlayable = ScriptPlayable<AnimationPlayableBehaviour>.Create(graph, playableBehaviour);
 

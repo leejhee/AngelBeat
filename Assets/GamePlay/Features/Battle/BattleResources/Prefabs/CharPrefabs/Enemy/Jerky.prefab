@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 7812219678058373009}
   - component: {fileID: 2027328795377672482}
   - component: {fileID: 7717259853931674838}
+  - component: {fileID: 4720208076061105733}
   m_Layer: 9
   m_Name: Jerky
   m_TagString: Untagged
@@ -260,6 +261,9 @@ MonoBehaviour:
   moveSpeed: 5
   _charUnitRoot: {fileID: 3461385620420172154}
   _hpBar: {fileID: 0}
+  protectionIndicator: {fileID: 0}
+  tauntIndicator: {fileID: 0}
+  anim: {fileID: 0}
   jumpOutFX: {fileID: 0}
   jumpInFX: {fileID: 0}
   pushFX: {fileID: 0}
@@ -358,6 +362,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &4720208076061105733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612062671971412147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e2436079c464ea5f37822e0a74c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7812219678058373009}
+  names:
+    layerPath: Base Layer
+    Idle: Jerky_Idle
+    Move: 
+    OnAttack: Jerky_OnAttack
+    JumpOut: 
+    JumpIn: 
+    Push: 
+    Evade: Jerky_Evade
 --- !u!1 &5772427888404262633
 GameObject:
   m_ObjectHideFlags: 0

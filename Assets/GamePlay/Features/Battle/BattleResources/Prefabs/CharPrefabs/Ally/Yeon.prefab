@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2821619371975844126}
   - component: {fileID: -1711375296147896922}
   - component: {fileID: 6604672686628628585}
-  - component: {fileID: 8329274003362239100}
+  - component: {fileID: 6136315194622285223}
   m_Layer: 9
   m_Name: Yeon
   m_TagString: Untagged
@@ -95,6 +95,7 @@ MonoBehaviour:
   _hpBar: {fileID: 0}
   protectionIndicator: {fileID: 8452536955811578223}
   tauntIndicator: {fileID: 7493163874148569357}
+  anim: {fileID: 6136315194622285223}
   jumpOutFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   jumpInFX: {fileID: 5358219405251250283, guid: d91e94086383b594383a1d3c415ecb52, type: 3}
   pushFX: {fileID: 5358219405251250283, guid: 755dea081820a9440855323d79261723, type: 3}
@@ -193,23 +194,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 4}
   m_EdgeRadius: 0
---- !u!320 &8329274003362239100
-PlayableDirector:
+--- !u!114 &6136315194622285223
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3717310159286373163}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 6ef713803875e864db051bf6c87039d2, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings: []
-  m_ExposedReferences:
-    m_References: []
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e2436079c464ea5f37822e0a74c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2821619371975844126}
+  param:
+    IsMoving: IsMoving
+    OnAttack: 
+    Push: 
+    Evade: 
+    JumpOut: 
+    JumpIn: 
+    Speed: 
 --- !u!1 &5645147782404956435
 GameObject:
   m_ObjectHideFlags: 0
