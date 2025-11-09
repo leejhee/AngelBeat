@@ -85,10 +85,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             }
             else if (result.Result == VictimResult.Fall)
             {
-                await victim.CharKnockBack(
-                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
-                await victim.CharKnockBack(
-                    grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault()), playAnimation, suppressIdle); //떨어지기
+                var firstPos = grid.CellToWorldCenter(result.FirstGoal);
+                var lastPos = grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault());
+                
+                await victim.CharKnockBack(firstPos, playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
+                await victim.CharKnockBack(lastPos, playAnimation, suppressIdle); //떨어지기
                 //낙사 처리
                 grid.RemoveUnit(victim);
                 victim.CharDead();

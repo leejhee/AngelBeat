@@ -29,7 +29,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.BattleHovering
             SetFillAmount(target / max);
         }
         
-        public async void SetFillAmount(float amount)
+        public async void SetFillAmount(float targetPercent)
         {
             if (_mp == null)
                 _mp = new MaterialPropertyBlock();
@@ -47,7 +47,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.BattleHovering
             {
                 curDuration += Time.deltaTime;
                 float t = curDuration / duration;
-                float newValue = Mathf.Lerp(startValue, amount, t); // 선형 보간
+                float newValue = Mathf.Lerp(startValue, targetPercent, t); // 선형 보간
                 fillAmount = newValue;
                 _mp.SetFloat("_Fill", Mathf.Clamp01(newValue));
                 hpBar.SetPropertyBlock(_mp);
@@ -55,7 +55,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.BattleHovering
                 await UniTask.Yield(); // 다음 프레임까지 대기
             }
             
-            _mp.SetFloat("_Fill", Mathf.Clamp01(amount));
+            _mp.SetFloat("_Fill", Mathf.Clamp01(targetPercent));
             hpBar.SetPropertyBlock(_mp);
         }
         private void Update()

@@ -46,7 +46,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             }
             else
             {
-                //감나빗 효과
+                Debug.Log("가만히있는 반반확률도 못맞추는 허접❤️");
+                //감나빗 텍스트 효과
             }
         }
 

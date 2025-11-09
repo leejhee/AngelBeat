@@ -120,7 +120,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         
         private void DefaultTurnEnd()
         {
-            FocusCamera();
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
                 Debug.Log($"[Turn] {TurnOwner.name} 적 턴 종료 처리");
@@ -133,13 +132,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             TurnOwner.OnUpdate -= TurnOwnerOutline;
             TurnOwner.ClearOutline();
             //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT, TriggerType.EoT);
-        }
-
-        private void FocusCamera()
-        {
-            float z = TurnOwner.MainCamera.transform.position.z;
-            Vector3 charPos = TurnOwner.CharTransform.position;
-            TurnOwner.MainCamera.transform.position = new Vector3(charPos.x, charPos.y, z);
         }
         
         /// <summary>

@@ -178,7 +178,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _uid = BattleCharManager.Instance.GetNextID();
             _charAnim = new();
             _mainCamera = Camera.main;
-            
+            _battleCollider.enabled = false;
             
             Debug.Log($"여기에요 시발련들아 {_charTransform}");
         }
@@ -203,7 +203,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             IReadOnlyList<SkillModel> skillModels = charModel.ActiveSkills;
             _skillInfo = new SkillInfo(this);
             await _skillInfo.InitAsync(skillModels);
-            
+
+            _battleCollider.enabled = true;
         }
         #endregion
         
