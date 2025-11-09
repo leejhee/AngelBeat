@@ -203,15 +203,15 @@ Yeon: ...반갑습니다. 설 소저.
 
 @hide Yeon
 @wait 1
-@char Hwi pos: 80, 0 scale: 0.95 flip: true
-@char Seol.EyeClosed pos: 20, 0 scale: 1.05
+@char Hwi pos: 20, 0 scale: 0.95
+@char Seol.EyeClosed pos: 80, 0 scale: 1.05
 @wait 0.5
 Hwi: 전에 의원 일을 하였고, 지금은 주로 나와 세상을 공부하고 있는 중이네. 
 Seol: ......
 
 @hide Hwi
 @hide Seol
-@char Yeon transition: Fadein time: 1.5 
+@char Yeon pos: 50, 0 scale: 1.05 transition: Fadein time: 1.5 
 Yeon: ...
 
 @hide Yeon
@@ -238,7 +238,7 @@ Yeon: ...
 @char Seol.EyeClosed pos: 20, 0 scale: 1.05 flip: true
 Seol: ...저는 그저, 별 것 아닌 재주로 아픈 사람들을 봐주는 떠돌이였을 뿐입니다.
 
-@char Yeon pos: 25, 0 scale: 1.05
+@char Yeon pos: 80, 0 scale: 1.05
 @wait 0.5
 Yeon: 그렇지만, 그저 그뿐이라기에는.
 Seol: ......
@@ -327,7 +327,7 @@ Hwi: 모두들... 정말로 고맙네.
 
 @hide Hwi
 @back BlackScreen.SlideLeft time: 1
-@wait 1.5
+@wait 2
 그렇게, 이야기 끝에 모두의 의견이 하나로 모였다.
 
 @back Dwissan2.SlideLeft time: 1
@@ -338,10 +338,11 @@ Yoon: 그럼 뭐부터 하면 될까? 여기저기 돌아다니면서 요괴놈�
 
 @hide Yoon
 @char Hwi pos: 50, 0 scale: 0.95
+@wait 0.5
 Hwi: ...그것도 좋을 수 있겠지마는, 사매.
 
 @hide Hwi
-가면 너머로 묘하게 질린 듯한 표정이 보이는 것만 같다.
+가면 너머로 묘하게 질린 듯한 표정이 보인 것 같은데.
 
 @char Hwi pos: 50, 0 scale: 0.95
 Hwi: 우리들은 요괴들이 점령한 골짜기를 탈환하는 것이 목표이네.
@@ -349,6 +350,7 @@ Hwi: 한때 월령곡이라 불리던, 지금은 그들의 손에 넘어가 인�
 
 @hide Hwi
 @char Yeon pos: 80, 0 scale: 1.05
+@wait 0.5
 Yeon: 월령곡이라 하면...
 
 @char Hwi pos: 20, 0 scale: 0.95
@@ -359,7 +361,7 @@ Hwi: 지금은 요괴들이 그 기운을 더럽혀 그 본질을 잃었고, 나
 
 @hide Hwi
 @hide Yeon
-@char Hwi pos: 50, 0 scale: 1.05
+@char Yoon pos: 50, 0 scale: 1.05
 Yoon: 긴 말은 필요 없네, 그럼.
 Yoon: 요괴곡을 간다, 놈들의 골통을 죄다 깨부순다, 해결! 
 Yoon: 내 말이 맞아?
