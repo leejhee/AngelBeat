@@ -64,8 +64,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             CharBase victim = grid.GetUnitAt(targetingCell);
 
             PushEngine.PushResult res = PushEngine.ComputePushResult(pivot, targetingCell, grid);
-            actor.CharPushPlay();
-            await PushEngine.ApplyPushResult(victim, res, grid, ct);
+            actor.CharPushPlay(grid.CellToWorldCenter(targetingCell));
+            await PushEngine.ApplyPushResult(
+                victim, res, grid, ct, 
+                BattleController.Instance.CameraDriver, true, true);
+            actor.CharReturnIdle();
             return BattleActionResult.Success();
             
         }

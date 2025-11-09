@@ -207,9 +207,9 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             bool shouldFaceRight = targetCell.x > currentCell.x;
             
-            if (_owner.LastDirection != shouldFaceRight)
+            if (_owner.LastDirectionRight != shouldFaceRight)
             {
-                _owner.LastDirection = shouldFaceRight;
+                _owner.LastDirectionRight = shouldFaceRight;
                 // TODO: 실제 스프라이트 플립 적용 필요
                 Debug.Log($"[AI] 방향 전환: {(shouldFaceRight ? "→" : "←")}");
             }

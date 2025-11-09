@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -19,7 +20,7 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
             Vector2Int pivot = grid.WorldToCell(InputParam.Caster.CharTransform.position);
             Vector2Int targetCell = grid.WorldToCell(_target.CharTransform.position);
             var res = PushEngine.ComputePushResult(pivot, targetCell, grid);
-            await PushEngine.ApplyPushResult(_target, res, grid, ct);
+            await PushEngine.ApplyPushResult(_target, res, grid, ct, true);
         }
     }
 }

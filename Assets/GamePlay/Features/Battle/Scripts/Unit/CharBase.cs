@@ -21,15 +21,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public abstract class CharBase : MonoBehaviour, IDamageable
     {
-        private static readonly int Move = Animator.StringToHash("Move");
-        private static readonly int Idle = Animator.StringToHash("Idle");
-        private static readonly int OnAttack = Animator.StringToHash("OnAttack");
-        private static readonly int JumpOut = Animator.StringToHash("JumpOut");
-        private static readonly int JumpIn = Animator.StringToHash("JumpIn");
-        private static readonly int Push = Animator.StringToHash("Push");
-        private static readonly int Evade = Animator.StringToHash("Evade");
-        
-        
         #region Member Field
         [SerializeField] private long _index;
         [SerializeField] private GameObject _SkillRoot;
@@ -302,8 +293,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             //////////// 이 부분은 이제 완전 대미지 구현 말단.
             if(playOnAttack)
                 _Animator.SetTrigger(OnAttack);
-
-            if (_coverage)
+            
+            bool canBeBlocked = model.skillType == SystemEnum.eSkillType.PhysicalAttack && finalDamage > 0;
+            if (_coverage && canBeBlocked)
                 await _coverage.DamageAsync(finalDamage, CancellationToken.None);
             else
                 await DamageAsync(finalDamage, CancellationToken.None);
@@ -377,6 +369,61 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         //{
         //    _charAnim.PlayAnimation(state);
         //}
+        private static readonly int Move = Animator.StringToHash("Move");
+        private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int OnAttack = Animator.StringToHash("OnAttack");
+        private static readonly int JumpOut = Animator.StringToHash("JumpOut");
+        private static readonly int JumpIn = Animator.StringToHash("JumpIn");
+        private static readonly int Push = Animator.StringToHash("Push");
+        private static readonly int Evade = Animator.StringToHash("Evade");
+        
+        void SetTriggerExclusive(int trigger)
+        {
+            _Animator.ResetTrigger(Idle);
+            _Animator.ResetTrigger(Move);
+            _Animator.ResetTrigger(OnAttack);
+            _Animator.ResetTrigger(JumpOut);
+            _Animator.ResetTrigger(JumpIn);
+            _Animator.ResetTrigger(Push);
+            _Animator.ResetTrigger(Evade);
+            _Animator.SetTrigger(trigger);
+        }
+        
+        [SerializeField] private string idleTag = "Idle"; // 필요하면 인스펙터에서 바꿔도 됨
+
+        private bool IsIdleLike()
+        {
+            const int layer = 0;
+            // 전이 중이면 다음 상태도 확인 (전이 프레임에서 놓치는 것 방지)
+            if (_Animator.IsInTransition(layer))
+            {
+                var next = _Animator.GetNextAnimatorStateInfo(layer);
+                if (next.IsTag(idleTag)) return true;
+            }
+
+            AnimatorStateInfo cur = _Animator.GetCurrentAnimatorStateInfo(layer);
+            if (cur.IsTag(idleTag)) return true;
+
+            // 태그를 아직 못 달았다면 임시 폴백: 현재 클립 이름으로 판별
+            AnimatorClipInfo[] clips = _Animator.GetCurrentAnimatorClipInfo(layer);
+            if (clips.Length > 0 && clips[0].clip != null)
+            {
+                var name = clips[0].clip.name;
+                if (!string.IsNullOrEmpty(name) && name.EndsWith("_Idle"))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void ReturnIdleSafe()
+        {
+            if (!IsIdleLike())
+                SetTriggerExclusive(Idle); // Idle로 ‘전이가 필요할 때만’ 트리거
+            else
+                _Animator.ResetTrigger(Idle); // 이미 Idle이면 남아있는 트리거를 정리
+        }
+        
         #endregion
         
         #region Character movement Control
@@ -386,26 +433,36 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         
         private bool _lastDirectionRight; // true 오른쪽, false 왼쪽
         
-        public bool LastDirection
+        public bool LastDirectionRight
         {
             get => _lastDirectionRight;
             set
             {
                 _lastDirectionRight = value;
                 if(CharType == SystemEnum.eCharType.Player)
-                    _spriteRenderer.flipX = !LastDirection;
+                    _spriteRenderer.flipX = !LastDirectionRight;
                 else
-                    _spriteRenderer.flipX = LastDirection;
+                    _spriteRenderer.flipX = LastDirectionRight;
             }
         }
-
+        
+        private void SetCharacterToward(Vector3 direction)
+        {
+            LastDirectionRight = direction.x > 0;
+        }
+        
+        private void SetCharacterToward(Vector3 originPos, Vector3 targetPos)
+        {
+            SetCharacterToward(targetPos - originPos);
+        }
+        
         /// <summary>
         /// 캐릭터 이동 연출 메서드
         /// 외부에서 이동력을 조사하므로, 이동력을 초과하지 않음을 전제로 함.
         /// </summary>
         public async UniTask CharMove(Vector3 targetPos)
         {
-            _Animator.SetTrigger(Move);
+            SetTriggerExclusive(Move);
     
             Vector2 target = targetPos;
             float arrivalThreshold = 0.05f;
@@ -416,7 +473,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                 Vector2 newPosition = _rigid.position + direction * (moveSpeed * Time.fixedDeltaTime);
         
                 _rigid.MovePosition(newPosition);
-                LastDirection = direction.x > 0;
+                SetCharacterToward(direction);
         
                 await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
             }
@@ -425,7 +482,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _rigid.MovePosition(target);
             _rigid.velocity = Vector2.zero; // 혹시 모를 관성 제거
     
-            _Animator.SetTrigger(Idle);
+            ReturnIdleSafe();
         }
         
         /// <summary>
@@ -433,21 +490,21 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// </summary>
         public async UniTask CharJump(Vector3 targetPos, CancellationToken ct)
         {
-            LastDirection = (targetPos - transform.position).x > 0;
+            SetCharacterToward(transform.position, targetPos);
             
-            _Animator.SetTrigger(JumpOut);
+            SetTriggerExclusive(JumpOut);
             SpriteRenderer sr = _charUnitRoot.GetComponent<SpriteRenderer>();
             if (sr) sr.enabled = false;
             await PlayFxOnce(jumpOutFX, transform.position, ct);
             
-            _Animator.SetTrigger(Idle);
+            ReturnIdleSafe();
             transform.position = targetPos;
             
-            _Animator.SetTrigger(JumpIn);
-            await UniTask.Delay(50, false, PlayerLoopTiming.Update, ct);
+            SetTriggerExclusive(JumpIn);
+            await UniTask.Delay(50, false, PlayerLoopTiming.FixedUpdate, ct);
             sr.enabled = true;
             await PlayFxOnce(jumpInFX, transform.position, ct);
-            _Animator.SetTrigger(Idle);
+            ReturnIdleSafe();
         }
 
         /// <summary>
@@ -459,7 +516,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public async UniTask CharKnockBack(Vector3 targetPos, bool playOnAttack=false, bool suppressIdle=false)
         {
             if(playOnAttack)
-                _Animator.SetTrigger(OnAttack);
+                SetTriggerExclusive(OnAttack);
             while ((transform.position - targetPos).sqrMagnitude > 0.05f)
             {
                 transform.position += (targetPos - transform.position).normalized * (Time.deltaTime * moveSpeed);
@@ -468,12 +525,13 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
             await UniTask.Delay(30);
             if(!suppressIdle)
-                _Animator.SetTrigger(Idle);
+                ReturnIdleSafe();
         }
 
-        public void CharPushPlay()
+        public void CharPushPlay(Vector3 targetPos)
         {
-            _Animator.SetTrigger(Push);
+            SetCharacterToward(transform.position, targetPos);
+            SetTriggerExclusive(Push);
         }
 
         public async void CharPushFXPlay() => await PlayFxOnce(
@@ -482,7 +540,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             CancellationToken.None
         );
         
-        public void CharReturnIdle() => _Animator.SetTrigger(Idle);
+        public void CharReturnIdle() => ReturnIdleSafe();
         
         #region Coverage Logic
         public void RegisterCoverage(FieldCover cover)

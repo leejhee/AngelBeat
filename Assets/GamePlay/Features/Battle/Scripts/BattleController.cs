@@ -444,6 +444,8 @@ namespace GamePlay.Features.Battle.Scripts
         // TODO 절대수정해
         public async void EndBattle(SystemEnum.eCharType winnerType)
         {
+            
+            
             // 결과 내보내기(onBattleEnd 필요)
             if (winnerType == SystemEnum.eCharType.Player)
             {

@@ -67,29 +67,26 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             bool playAnimation = false,
             bool suppressIdle = false)
         {
+            Vector2 firstPos = grid.CalibratedPivot(result.FirstGoal, victim);
+            Vector2 landingPos = grid.CalibratedPivot(result.LandingGoal.GetValueOrDefault(), victim);
+            
             if (result.Result == VictimResult.JustPush)
             {
-                await victim.CharKnockBack(
-                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle);
+                await victim.CharKnockBack(firstPos, playAnimation, suppressIdle);
                 grid.MoveUnit(victim, result.FirstGoal);
             }
             else if (result.Result == VictimResult.Land)
             {
-                await victim.CharKnockBack(
-                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
-                await victim.CharKnockBack(grid.CellToWorldCenter(
-                    result.LandingGoal.GetValueOrDefault()), playAnimation, suppressIdle); //떨어지기
+                await victim.CharKnockBack(firstPos, playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
+                await victim.CharKnockBack(landingPos, playAnimation, suppressIdle); //떨어지기
                 // 다 떨어지면 피해 계산
                 grid.MoveUnit(victim, result.LandingGoal.GetValueOrDefault());
                 victim.RuntimeStat.ReceiveHPPercentDamage(30 * result.FallCells);
             }
             else if (result.Result == VictimResult.Fall)
             {
-                var firstPos = grid.CellToWorldCenter(result.FirstGoal);
-                var lastPos = grid.CellToWorldCenter(result.LandingGoal.GetValueOrDefault());
-                
                 await victim.CharKnockBack(firstPos, playAnimation, suppressIdle); // 먼저 한번 밀쳐지고
-                await victim.CharKnockBack(lastPos, playAnimation, suppressIdle); //떨어지기
+                await victim.CharKnockBack(landingPos, playAnimation, suppressIdle); //떨어지기
                 //낙사 처리
                 grid.RemoveUnit(victim);
                 victim.CharDead();
@@ -97,8 +94,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             else
             {
                 //반칸 밀렸다가 작은 포물선으로 돌아오게 수정
-                await victim.CharKnockBack(
-                    grid.CellToWorldCenter(result.FirstGoal), playAnimation, suppressIdle);
+                await victim.CharKnockBack(firstPos, playAnimation, suppressIdle);
                 victim.RuntimeStat.ReceiveHPPercentDamage(30); // 30퍼만
             }
         }
@@ -113,15 +109,15 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             bool playAnimation = false,
             bool suppressIdle = false)
         {
-            if (driver == null)
+            if (!driver)
             {
                 await ApplyPushResult(victim, result, grid, ct, playAnimation, suppressIdle);
                 return;
             }
 
-            var task = ApplyPushResult(victim, result, grid, ct, playAnimation, suppressIdle);
-            var target = followVictim ? victim.CharCameraPos : null;
-            if (target != null)
+            UniTask task = ApplyPushResult(victim, result, grid, ct, playAnimation, suppressIdle);
+            Transform target = followVictim ? victim.CharCameraPos : null;
+            if (target)
                 await driver.FollowDuringAsync(target, task, 0.25f, driver.FocusOrthoSize, 0.25f);
             else
                 await task;

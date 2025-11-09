@@ -11,7 +11,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public class FieldCover : MonoBehaviour, IDamageable, IPointerEnterHandler, IPointerExitHandler
     {
-        private const float DamageProbability = 50;
+        [SerializeField, Range(0,100)] private float damageProbability = 50f;
 
         public long NMHP;
         public long NHP;
@@ -33,7 +33,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         public async UniTask DamageAsync(long _, CancellationToken ct)
         {
-            bool hit = Random.Range(0f, 100f) <= DamageProbability;
+            bool hit = Random.value < (damageProbability * 0.01f);
             if (hit)
             {
                 //대미지 폰트

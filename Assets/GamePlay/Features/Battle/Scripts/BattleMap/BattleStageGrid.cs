@@ -1,6 +1,7 @@
 ﻿using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleMap
@@ -161,7 +162,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             _obstacleToCell[obs] = cell;
             _obstacles.Add(cell);
             
-            SnapToCenter(obs.transform, cell);
+            //SnapToCenter(obs.transform, cell);
             obs.BindGrid(this, cell);
             obs.Broken -= OnObstacleBroken;
             obs.Broken += OnObstacleBroken;
@@ -175,7 +176,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             _coverToCell[cover] = cell;
             _coverages.Add(cell);
             
-            SnapToCenter(cover.transform, cell);
+            //SnapToCenter(cover.transform, cell);
             cover.BindGrid(this, cell);
             cover.Broken -= OnCoverBroken;
             cover.Broken += OnCoverBroken;
@@ -189,6 +190,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             {
                 _cellToObstacle.Remove(cell);
                 _obstacles.Remove(cell);
+                obs.Broken -= OnObstacleBroken;
                 return true;
             }
             return false;
@@ -201,6 +203,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             {
                 _cellToCover.Remove(cell);
                 _coverages.Remove(cell);
+                cover.Broken -= OnCoverBroken;
                 return true;
             }
             return false;
@@ -235,7 +238,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             Vector2 want = _stage.CellToWorldCenter(cell);
             if ((Vector2)t.position != want) t.position = want;
         }
-           
-           
+
+        public Vector2 CalibratedPivot(Vector2Int cell, CharBase unit)
+        {
+            Vector2 toWorld = _stage.CellToWorldCenter(cell);
+            float yCalibration = _stage.Grid.cellSize.y / 2;
+            float yColliderHalf = unit.BattleCollider.size.y / 2;
+            Vector2 finalPos = new(toWorld.x, toWorld.y - (yCalibration - yColliderHalf));
+            return finalPos;
+        }
     }
 }

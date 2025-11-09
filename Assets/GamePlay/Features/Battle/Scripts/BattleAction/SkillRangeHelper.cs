@@ -50,7 +50,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             // Calculation
             
             // '앞' 방향 구별
-            Vector2Int forward = client.LastDirection ? Vector2Int.right : Vector2Int.left;
+            Vector2Int forward = client.LastDirectionRight ? Vector2Int.right : Vector2Int.left;
             Vector2Int backward = -forward;
             
             // 범위 내 임의선택 가능한지

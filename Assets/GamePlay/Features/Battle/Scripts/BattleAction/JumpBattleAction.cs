@@ -64,10 +64,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             CharBase actor = Context.actor;
             Vector2Int goal = Context.TargetCell.Value;
             
-            var toWorld = stage.CellToWorldCenter(goal);
-            float yCalibration = stage.Grid.cellSize.y / 2;
-            float yCollider = actor.BattleCollider.size.y / 2;
-            var finalPos = new Vector2(toWorld.x, toWorld.y - (yCalibration - yCollider)); 
+            //var toWorld = stage.CellToWorldCenter(goal);
+            //float yCalibration = stage.Grid.cellSize.y / 2;
+            //float yCollider = actor.BattleCollider.size.y / 2;
+            //(new Vector2(toWorld.x, toWorld.y - (yCalibration - yCollider)));
+            var finalPos = grid.CalibratedPivot(goal, actor); 
             //await actor.CharJump(finalPos, ct);
             var driver = BattleController.Instance.CameraDriver;
             var jumpTask = actor.CharJump(finalPos, ct);

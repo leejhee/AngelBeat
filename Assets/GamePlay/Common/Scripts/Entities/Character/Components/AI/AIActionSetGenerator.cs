@@ -195,13 +195,13 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             // 원본 저장
             Vector3 originalPos = _self.CharTransform.position;
-            bool originalDir = _self.LastDirection;
+            bool originalDir = _self.LastDirectionRight;
             
             try
             {
                 // 임시 변경
                 _self.CharTransform.position = _grid.CellToWorldCenter(position);
-                _self.LastDirection = faceRight;
+                _self.LastDirectionRight = faceRight;
                 
                 // 🔍 상세 로그
                 Debug.Log($"[AISetGen]     임시 위치 설정: {position} (월드: {_self.CharTransform.position})");
@@ -245,7 +245,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             {
                 // 복원
                 _self.CharTransform.position = originalPos;
-                _self.LastDirection = originalDir;
+                _self.LastDirectionRight = originalDir;
             }
             
             return targets;
