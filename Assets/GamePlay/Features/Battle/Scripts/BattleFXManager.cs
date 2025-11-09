@@ -51,10 +51,9 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private List<FXEntry> entries = new();
         
         // duration -1이면 영구
-        public async UniTask PlayFX(
+        public async UniTask<GameObject> PlayFX(
             FX fx,
             Transform parent,
-            float duration,
             Vector2 offset,
             CancellationToken token)
         {
@@ -62,20 +61,15 @@ namespace GamePlay.Features.Battle.Scripts
             if (reference == null)
             {
                 Debug.LogError("[FXManager] : FX not found");
-                return;
+                return null;
             }
             
             // 풀링 하지 않고 그냥 연출하는 식으로 함.
             GameObject go = await ResourceManager.Instance.InstantiateAsync(reference, parent, false, token);
             go.transform.position += (Vector3)offset;
-            
-            float timer = 0;
-            while (timer < duration)
-            {
-                timer += Time.deltaTime;
-                await UniTask.Yield(PlayerLoopTiming.Update);
-            }
-            Destroy(go);
+
+            return go;
         }
+        
     }
 }

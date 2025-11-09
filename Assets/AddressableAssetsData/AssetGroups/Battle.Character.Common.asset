@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle.Character.Common
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle.Character.Common
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0306c3e2350fbf540bb87d43ea59b63d
+  m_SerializeEntries:
+  - m_GUID: ffa684c029c4e9248a5caa987f2b59c5
+    m_Address: DamageObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 845581cf0c66f664d9db0b925a2230b3, type: 2}
+    - {fileID: 11400000, guid: 3402b8e45e9216a42b5dcfd8d20d2904, type: 2}

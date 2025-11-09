@@ -36,7 +36,14 @@ namespace GamePlay.Features.Battle.Scripts
                 if (turn != null)
                     await turn.ChangeTurn();
                 if (input) input.enableDuringTurn = true;
+                
+                
+                // TODO 나중에 옮겨
+                await NovelManager.InitAsync();
+                NovelManager.Instance.PlayScript("6_5");
+                
                 scheduled = false; // 한 번 끝났으면 해제(필요시 유지)
+                
             });
         }
     }
