@@ -64,7 +64,7 @@ public class NovelPlayer : MonoBehaviour
 
 
     // 이거 나중에 설정 가능하도록 바꾸기
-    public float typingSpeed = 0.03f;
+    public float typingSpeed = 0.015f;
     private bool isTyping;
 
     // 실행시킬 서브라인
