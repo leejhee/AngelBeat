@@ -269,7 +269,7 @@ MonoBehaviour:
   - cell: {x: 2, y: 0}
     obstacle: {fileID: 606406222486103345}
   coverageGridCells:
-  - cell: {x: 5, y: 1}
+  - cell: {x: 4, y: 1}
     cover: {fileID: 1332535333159235894}
   references:
     version: 2
@@ -281,7 +281,7 @@ MonoBehaviour:
         - spawnType: 1
           unitSpawnList:
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -22.74967, y: -3.5, z: 0}
+            SpawnPosition: {x: 22.5, y: -3.5, z: 0}
         - spawnType: 2
           unitSpawnList:
           - SpawnCharacterIndex: 30001001
