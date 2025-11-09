@@ -2,29 +2,44 @@
 
 @back Dwissan2
 
-@char Seol.EyeClosed pos: 25, 0 scale: 0.9
+@char Seol.EyeClosed pos: 80, 0 scale: 1.05 transition: Fadein time: 1
+@wait 1.5
 Seol: ...제법 상등품입니다.
-@char Hwi pos: 75, 0 scale: 0.85
+
+@char Hwi pos: 20, 0 scale: 0.95 transition: Fadein time: 1
+@wait 1.5
 Hwi: 그래, 요긴히 쓸 수 있겠군.
 Hwi: 가면서 이런 것들이 보이면 좀 챙기도록 하지.
+
 @hide Hwi
 @hide Seol
-@char Bilyeong.Sigh pos: 75, 50 scale: 0.7
+@char Bilyeong.Sigh pos: 20, 50 scale: 0.7
 Bilyeong: 안 그래도 먼 거리를 풀뿌리 캐면서 가다가는 한세월이 걸릴 텐데.
-@char Yeon pos: 20, 0 scale: 0.9
+
+@char Yeon pos: 80, 0 scale: 1.05
 Yeon: 없어서 후회하는 것보다는 낫겠다고 생각하거라.
+
 @hide Bilyeong
-@char Hwi pos: 75, 0 scale: 0.85
+@hide Yeon
+@char Hwi pos: 50, 0 scale: 0.95 transition: Fadein time: 1
+@wait 1.5
 Hwi: 찬것 더운것 가릴 처지도 아니고 말이지, 앞으로 싸우면서도 이런 일이 많을 걸세.
 Hwi: 부족한 것은 그때그때 직접 수급해야 하네, 특히 요괴곡에는 급히 피난을 떠난 인간들이 많기에 잘 찾아보면 분명 도움되는 것들이 많겠지.
 Hwi: 또한 워낙 알 수 없는 신묘한 곳이기에, 무엇을 마주치더라도, 무슨 일이 일어나더라도 이상하지 않아. 
 Hwi: 하지만 사제라면 괜찮을 것 같네. 워낙 임기응변에 능해서야 말이지.
+
+@hide Hwi
+@wait 0.5
+@char Yeon pos: 50, 0 scale: 1.05 
 Yeon: 저라고 그렇지는 않습니다만... 새겨 듣도록 하죠.
-@char Bilyeong.Happy pos: 30, 50 scale: 0.7
-Bilyeong: 그래, 이놈도 그냥 눈앞까지 닥쳤으니까 하는거지, 임기응변은 무슨.
+//=================================================================
 @hide Yeon
-@char Yeon pos: 20, 0 scale: 0.9
+@char Bilyeong.Happy pos: 20, 50 scale: 0.7
+Bilyeong: 그래, 이놈도 그냥 눈앞까지 닥쳤으니까 하는거지, 임기응변은 무슨.
+
+@char Yeon pos: 80, 0 scale: 1.05
 Yeon: 주어진 것에 맞추어 최선을 다할 뿐이지.
+
 @hide Bilyeong
 @char Bilyeong.Sigh pos: 30, 50 scale: 0.7
 Bilyeong: 그래서 계획이라고는 요괴곡까지 가는 것밖에 없지 않느냐.
@@ -32,33 +47,40 @@ Bilyeong: 그래서 계획이라고는 요괴곡까지 가는 것밖에 없지 �
 @hide Hwi
 @hide Yeon
 @hide Bilyeong
-@char Yoon pos: 50, 0 scale: 0.9
+@char Yoon pos: 50, 0 scale: 1.05
 Yoon: ...?
 Yoon: 그거면 된 거 아냐?
+
 @hide Yoon
-@char Yeon pos: 25, 0 scale: 0.9
+@char Yeon pos: 25, 0 scale: 1.05
 Yeon: ...일단은 알 수 있는 것이 그뿐이니 말이다.
+
 @char Bilyeong pos: 75, 50 scale: 0.7
 Bilyeong: 왜, 실컷 고생해서 갔더니 요괴라고는 코빼기도 없으면 헛걸음이 아니겠냐는 생각은 없느냐? 
 Bilyeong: 잡것들이 그곳에만 모여 있다는 장담은 있냐는 말이야.
+
 @hide Yeon
 @hide Bilyeong
-@char Hwi pos: 25, 0 scale: 0.85
+@char Hwi pos: 25, 0 scale: 0.95
 Hwi: 맞는 말이지. 요괴들이 요괴곡에만 있는 것은 아니니.
-@char Yoon pos: 75, 0 scale: 0.9
+
+@char Yoon pos: 75, 0 scale: 1.05
 Yoon: 단지 요괴곡에 좀 더 많은 것 뿐이지. 
+
 @hide Hwi
 @hide Yoon
-@char Yoon pos: 50, 0 scale: 0.9
+@char Yoon pos: 50, 0 scale: 1.05
 마을에도 있고, 뒷산에도 있고, 저잣거리에도 나타난다고 하고, 또... 음...
 Yoon: 어...... 
 Yoon: 저~기에도 있고?
+
 @hide Yoon
 @char Bilyeong
 Bilyeong: ...저기?
+
 @hide Bilyeong
 ......
-사저가 가리킨 곳 끝에는, 저 멀리 우거진 나무 사이로 어렴풋이 꿈틀대는, 익숙한 형체가 보이는 것 같았다.
+사저가 가리킨 곳 끝에는, 저 멀리 우거진 나무 사이로 어렴풋이 꿈틀대는, 익숙한 형체가 보였다.
 
 @back Dwissan3.SlideLeft time: 1
 @wait 2
