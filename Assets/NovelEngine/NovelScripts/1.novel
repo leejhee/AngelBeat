@@ -16,7 +16,7 @@
 @hide ??
 ???: ......
 
-@char ???.Yeon pos: 50, 15 scale: 0.8
+@char ???.Yeon pos: 50, 0 scale: 1.05
 @wait 2
 ???: ......
 ???: ...무어냐.
@@ -30,16 +30,16 @@
 ??: 일어났느냐?
 
 @hide ??
-@char ???.Yeon pos: 50, 15 scale: 0.8
+@char ???.Yeon pos: 50, 0 scale: 1.05
 ???: 그래, 보다시피.
 
 @hide ???
-@char ??.Bilyeong pos: 15, 50 scale: 0.7
+@char ??.Bilyeong pos: 20, 50 scale: 0.7
 ??: 실로 오랜만에 깨어나서 처음 보는 풍경이라는 것이.
 ??: 주인이라는 것이 땅바닥에 퍼질러 있는 꼴이라니... 
 ??: 난 네가 드디어 죽은 줄 알았다.
 
-@char ???.Yeon pos: 85, 15 scale: 0.8
+@char ???.Yeon pos: 80, 0 scale: 1.05
 ???: 네가 멀쩡히 살아 떠드는 걸 보니, 내가 아직 죽진 않은 것 같구나.
 ??: 그러게 말이다, 하.
 
@@ -60,7 +60,7 @@
 몸에서 무엇인가 묘한 감각이 느껴진다.
 머릿속은 계속하여 탁하여 안개가 자욱히 낀 것만 같고, 몸은 물에 푹 젖기라도 한 양 축 늘어져 내 것이 아닌 것 같다.
 
-@char ???.Yeon pos: 50, 15 scale: 0.8
+@char ???.Yeon pos: 50, 0 scale: 1.05
 ???: 흠.
 ???: 몸이, 아직 제 상태가 아니군.
 
@@ -70,7 +70,7 @@ Bilyeong: 그래, 네놈도 이제야 느낀 것이냐?
 Bilyeong: 어째서인진 모르겠지만, 너무 이르게 봉인이 풀려버렸다.
 
 @hide Bilyeong
-@char ???.Yeon pos: 50, 15 scale: 0.8
+@char ???.Yeon pos: 50, 0 scale: 1.05
 ???: 무슨 일이라도 있었던 것이냐.
 
 @hide ???
@@ -90,7 +90,7 @@ Bilyeong: 말코 같은 네놈이 술식을 얼마나 허접하게 걸었으면 
 Bilyeong: ...설마 화났느냐?
 
 @hide Bilyeong
-@char ???.Yeon pos: 50, 15 scale: 0.8
+@char ???.Yeon pos: 50, 0 scale: 1.05
 ???: 지금 어찌 된 것인지 살펴보고 있는 중이니, 조용히 좀 하고 떨어져 있어 보거라.
 
 @hide ???
@@ -103,10 +103,10 @@ Bilyeong: ...흥.
 아니면 정말 순수하게 화났는지가 신경쓰였던 건지.
 얼마 지나지 않아, 조용히 하라 한 것을 그새 까먹은 것인지 녀석이 다시 말을 꺼낸다.
 
-@char Bilyeong pos: 15, 50 scale: 0.7
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 뭐라도 좀 찾았느냐?
 
-@char ???.Yeon pos: 85, 15 scale: 0.8
+@char ???.Yeon pos: 80, 0 scale: 1.05
 ???: 그래.
 ???: 처음엔 술식이 부서진 줄 알았는데, 살펴 보니 깔끔히 풀려 있더구나.
 Bilyeong: 멀쩡한 술식이 제 혼자서 스스로 풀렸단 말이더냐?
@@ -142,7 +142,7 @@ Bilyeong: 그런 놈이 뭐가 그리 태평하느냐.
 그리고 제법 반가운 얼굴이 옆에 하나 더 있는 것 같은데.
 그리고 다른 한 명은 기억 속에 없는 자이다.
 
-@char ????.yoonsillouette pos: 50, 15 scale: 0.8
+@char ????.yoonsillouette pos: 50, 0 scale: 1.05
 @wiat 2
 ????: 일어~~ 났구나~~ 연~~ 사~~ 제~~!
 
@@ -162,7 +162,7 @@ Bilyeong: 그럼 난 저기 빠져 있을 테니 알아서 이야기 나누던�
 @hide Bilyeong
 ...아마도 반가울 것이다.
 
-@char Yeon pos: 50, 15 scale: 0.8
+@char Yeon pos: 50, 0 scale: 1.05
 Yeon: 그래, 다들. 멀쩡히 살아 있었구나.
 
 @hide Yeon
