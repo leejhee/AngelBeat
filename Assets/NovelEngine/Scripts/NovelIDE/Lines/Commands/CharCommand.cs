@@ -20,7 +20,8 @@ namespace novel
         Vector2? pos;
         float? scale;
         float? time;
-
+        private bool isFlip;
+        
         CharCommandType charCommandType;
         public CharCommand(
             int index,
@@ -32,6 +33,7 @@ namespace novel
             Vector2? pos,
             float? scale,
             float? time,
+            bool isFlip,
             CharCommandType charCommandType = CharCommandType.Show,
             IfParameter ifParameter = null
         ) : base(index, DialogoueType.CommandLine)
@@ -44,6 +46,7 @@ namespace novel
             this.time = time;
             this.charCommandType = charCommandType;
             this.ifParameter = ifParameter;
+            this.isFlip = isFlip;
         }
         public override async UniTask Execute()
         {
@@ -109,7 +112,12 @@ namespace novel
                                 headTransform.localPosition = charSO.headOffset;
                                 headTransform.sizeDelta = new Vector2(headSprite.rect.width, headSprite.rect.height);
                             }
-                            break;
+                            
+                            // 좌우 반전
+                            if (isFlip)
+                            {
+                                standingObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+                            }
                         }
                         else  // 현재 캐릭터가 띄워져 있지 않은 경우
                         {
@@ -129,6 +137,11 @@ namespace novel
                             {
                                 Debug.LogError(e);
                                 break;
+                            }
+
+                            if (isFlip)
+                            {
+                                newStanding.transform.rotation = Quaternion.Euler(0, 180, 0);
                             }
                             
                             var bodyObject = newStanding.transform.GetChild(BODY_CHILD_INDEX).gameObject;
@@ -222,9 +235,10 @@ namespace novel
                             }
 
                             dict[charSO] = newStanding;
-                            break;
+              
                         }
-
+                        
+                        break;
                     case CharCommandType.Hide:
                         Debug.Log($"Hide Character : {charName}");
                         if (!dict.TryGetValue(charSO, out GameObject hideObject) || hideObject == null)
