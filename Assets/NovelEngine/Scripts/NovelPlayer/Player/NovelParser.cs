@@ -54,7 +54,8 @@ public static class NovelParser
     private static readonly Regex TransitionPattern = new Regex(@"transition\s*:\s*(?<transition>\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static readonly Regex SubLinePattern = new Regex("^ {4}(?<argument>.*)", RegexOptions.Compiled);
-    
+
+    private static readonly Regex FlipPattern = new Regex(@"flip\s*:\s*(?<isFlip>true|False)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     // set 관련 매개변수
     #endregion
     #endregion
@@ -276,6 +277,15 @@ public static class NovelParser
                     if (charTimeMatch.Success)
                         charTime = float.Parse(charTimeMatch.Groups["time"].Value);
 
+                    bool isFlip = false;
+                    var isFlipMatch = FlipPattern.Match(line);
+                    if (isFlipMatch.Success)
+                    {
+                        isFlip = isFlipMatch.Groups["isFlip"].Value == "true";
+                    }
+                    
+                    
+                    
                     CharCommandType charCommandType = CharCommandType.Show;
                     if (charTransition == "fadeout")
                     {
@@ -284,17 +294,18 @@ public static class NovelParser
 
                     IfParameter ifParameter = ParseIfParameter(line);
 
-                    result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, charCommandType, ifParameter);
-                    // Debug.Log(
-                    //     $"Character : {charName}\n" +
-                    //     $"Pos : {charPos}\n" +
-                    //     $"Appearance : {charAppearance}\n" +
-                    //     $"Scale : {charScale}\n" +
-                    //     $"transition : {charTransition}\n" +
-                    //     $"Type : {charCommandType}\n" +
-                    //     $"time : {charTime}\n" +
-                    //     $"Index : {index}\n"+
-                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, isFlip, charCommandType, ifParameter);
+                    Debug.Log(
+                        $"Character : {charName}\n" +
+                        $"Pos : {charPos}\n" +
+                        $"Appearance : {charAppearance}\n" +
+                        $"Scale : {charScale}\n" +
+                        $"transition : {charTransition}\n" +
+                        $"Type : {charCommandType}\n" +
+                        $"time : {charTime}\n" +
+                        $"flip : {isFlip}\n" +
+                        $"Index : {index}\n"+
+                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideCharacter:
@@ -304,7 +315,7 @@ public static class NovelParser
 
                     IfParameter ifParameter = ParseIfParameter(line);
 
-                    result = new CharCommand(index, name, null, null, null, null, null, CharCommandType.Hide, ifParameter);
+                    result = new CharCommand(index, name, null, null, null, null, null, false, CharCommandType.Hide, ifParameter);
                     // Debug.Log(
                     //     $"hide command\nCharacter : {name}\n" +
                     //     $"Index : {index}\n" +
@@ -315,7 +326,7 @@ public static class NovelParser
                 {
                     IfParameter ifParameter = ParseIfParameter(line);
 
-                    result = new CharCommand(index, null, null, null, null, null, null, CharCommandType.HideAll, ifParameter);
+                    result = new CharCommand(index, null, null, null, null, null, null, false, CharCommandType.HideAll, ifParameter);
                     // Debug.Log($"Hide All Command\n" +
                     //     $"Index : {index}\n" +
                     //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");

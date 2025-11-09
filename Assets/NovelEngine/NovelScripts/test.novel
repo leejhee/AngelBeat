@@ -1,9 +1,2 @@
-@char Yeon scale:0.5
-
-Yeon : 안녕
-@back BlackScreen.fadein time:2
-@char Yeon transition:fadeout time:2
-@hideui
-@wait 2.5
-연은 눈앞이 깜깜해졌다
+@char Yeon flip:true
 @wait
