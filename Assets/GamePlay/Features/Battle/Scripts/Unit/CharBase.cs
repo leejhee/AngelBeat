@@ -433,13 +433,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             await UniTask.Delay(250, cancellationToken: ct);
             transform.position = targetPos;
             if (sr) sr.enabled = true;
-            if(outlineSR) outlineSR.enabled = true;
-            
             _ = PlayFxOnce(jumpInFX, transform.position, ct, maxSeconds: 1f, detachFromCharacter: true, wait: false);
             await anim.WithJumpIn(async t =>
             {
                 await UniTask.Delay(1000, cancellationToken: t);
             }, ct);
+            if(outlineSR) outlineSR.enabled = true;
         }
 
         /// <summary>

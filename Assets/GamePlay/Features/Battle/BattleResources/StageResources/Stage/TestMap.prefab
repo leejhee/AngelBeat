@@ -281,11 +281,11 @@ MonoBehaviour:
         - spawnType: 1
           unitSpawnList:
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -22.5, y: -3.5, z: 0}
+            SpawnPosition: {x: -2.6, y: -3.5, z: 0}
         - spawnType: 2
           unitSpawnList:
           - SpawnCharacterIndex: 30001001
-            SpawnPosition: {x: 27.53355, y: -3.5, z: 0}
+            SpawnPosition: {x: 2.86, y: -3.5, z: 0}
         fieldObjectInfos: []
 --- !u!1 &4934528557023620504
 GameObject:
