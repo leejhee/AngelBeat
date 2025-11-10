@@ -44,7 +44,7 @@ MonoBehaviour:
       value: {fileID: 2811297602134710623, guid: 67a4b3253b64ba14fa39394042c8163c, type: 3}
     - _key: S#6_5
       value: {fileID: 2811297602134710623, guid: b8b4f5435d7950a4bb0c75515cffc1a4, type: 3}
-    - _key: S#7-1
+    - _key: S#7
       value: {fileID: 2811297602134710623, guid: 15b74723a74e9c3439910a9815aa74f1, type: 3}
     - _key: S#8
       value: {fileID: 2811297602134710623, guid: 5364ef367ac37fd44b0c8e7607482d44, type: 3}

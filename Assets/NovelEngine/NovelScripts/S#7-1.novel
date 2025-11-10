@@ -16,10 +16,9 @@ Hwi: 볼 때마다 인상적이군, 사제가 하는 전투는.
 @char Yoon pos: 50, 0 scale: 1.05
 Yoon: 그러게, 저놈들이 더 몰려왔을 때는 도와줘야 하나 싶었다니까?
 
-@hide Yoon
 @char Bilyeong pos: 20, 50 scale: 0.7
-Bilyeong: 하, 저들 따위가 이몸의 상대가 될 성 싶더냐?
 @char Yeon pos: 80, 0 scale: 1.05
+Bilyeong: 하, 저들 따위가 이몸의 상대가 될 성 싶더냐?
 Yeon: 싸우기는 내가 했는데 왜 폼은 네가 잡느냐.
 Bilyeong: 하, 내가 손을 쓸 가치도 없는 놈들이었지.
 
@@ -105,7 +104,7 @@ Hwi: 그래, 그러면 그렇게 하지.
 @wait 1.5
 @back Dwissan3.SlideLeft time: 0.5
 @wait 1.5
-@char Yoon pos: 50, 0 scale: 1.05 transition: Fadein time: 0.5
+@char Yoon pos: 50, 0 scale: 1.05
 @wait 1
 Yoon: 그럼 나중에 봐, 사제!
 
@@ -196,18 +195,14 @@ Yeon: 별로 좋은 소리는 아니지.
 Seol: ......
 
 @hide Seol
-@wait 1.5
 @char Jeolgu pos: 50, 50 scale: 0.7
-@wait 1.5
 Jeolgu: %#$$@%@%...!!!!!
 
 @hide Jeolgu
 @char Bilyeong pos: 20, 50 scale: 0.7
-Bilyeong: ......
 Bilyeong: ...함께 싸우겠다고?
 
 @char Seol.EyeClosed pos: 80, 0 scale: 1.05
-Seol: ......
 Seol: ...네.
 
 @hide Seol
