@@ -187,9 +187,8 @@ Yeon: 혹여 제가 기억하지 못하는 분이십니까?
 @char Hwi pos: 20, 0 scale: 0.95
 Hwi: 아, 그래. 소개가 늦었군. 이쪽은 설이라고 하네. 우리와 뜻이 맞아 요괴들과 맞서 싸우는 데 함께하기로 한 인간분이시지.
 
-@char Hwi transition: Fadeout time: 1
-@char Yeon transition: Fadeout time: 1
-@wait 1.2
+@hide Hwi
+@hide Yeon
 @char Seol pos: 50, 0 scale: 1.05 transition: Fadein time: 1
 @wait 1.2
 @char Seol.EyeClosed

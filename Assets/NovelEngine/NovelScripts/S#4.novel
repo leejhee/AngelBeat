@@ -2,24 +2,25 @@
 
 @back Dwissan3
 
-@char Seol.EyeClosed pos: 50, 0 scale: 1.05 transition: Fadein time: 1
-@wait 1.5
+@char Seol.EyeClosed pos: 50, 0 scale: 1.05
+@wait 1
 Seol: ...휘 의원님.
 
-@char Seol transition: Fadeout time: 0.5
+@hide Seol
 @wait 1
-@char Hwi pos: 50, 0 scale: 0.95 transition: Fadein time: 1
-@wait 1.5
+@char Hwi pos: 50, 0 scale: 0.95 transition: Fadein time: 0.5
+@wait 1
 Hwi: 아, 왜 그러지?
 
-@char Hwi transition: Fadeout time: 0.5
-@wait 2
+@hide Hwi
+@wait 0.5
 @char Yeon pos: 50, 0 scale: 1.05
-@wait 0.3
+@wait 1
 Yeon: ...의원님?
 
 @hide Yeon
 @char Hwi pos: 20, 0 scale: 0.95
+@wait 0.3
 Hwi: 아, 사제는 모르겠군.
 
 @char Yoon pos: 80, 0 scale: 1.05
@@ -40,11 +41,11 @@ Hwi: 그래서, 무슨 일인가?
 
 @hide Yeon
 @hide Hwi
-@char Seol pos: 80, 0 scale: 1.05 transition: Fadein time: 1
+@char Seol pos: 80, 0 scale: 1.05
 Seol: 그저, 길을 약간 돌아가면 근처에 선약초 자생지가 있기에 여쭈었습니다.
 
-@char Hwi pos: 20, 0 scale: 0.95 transition: Fadein time: 0.5
-@wait 1
+@char Hwi pos: 20, 0 scale: 0.95
+@wait 0.5
 Hwi: 아, 좋군. 잠시 들러서 좀 캐 가지.
 
 @hide Hwi
@@ -60,30 +61,28 @@ Hwi: 물자 한 톨이 중요한 상황이니 말이지.
 
 @hide Hwi
 @wait 0.5
+@char Bilyeong pos: 20, 50 scale: 0.7
 @char Seol pos: 80, 0 scale: 1.05 transition: Fadein time: 1
 @wait 1.5
 Seol: 그리 멀지 않습니다만, 언짢으시다면 거두겠습니다.
-
-@char Bilyeong pos: 20, 50 scale: 0.7 transition: Fadein time: 1
-@wait 2
-Bilyeong: 아니, 언짢았다는 건 아닌데...
+Bilyeong: 응? 아, 아니. 언짢았다는 건 아닌데...
 Bilyeong: 그... 되었다. 마음대로 하거라.
 
 @hide Seol
 @hide Bilyeong
 @char Yoon.Happy pos: 80, 0 scale: 1.05
 @wait 0.3
-Yoon: 왜, 인간들에게는 고집부리려니, 부끄러워?
+Yoon: 왜, 인간들에게는 고집부리려니 부끄러워?
 
 @char Bilyeong pos: 20, 50 scale: 0.7
 @wait 0.3
-Bilyeong: 허, 내가 아무한테나 언성 높이는 것처럼 보이느냐?
-Bilyeong: 받는 게 고와야 주는 게 고운 법이거늘.
+Bilyeong: 허, 내가 아무한테나 언성 높이는 것 같으냐?
+Bilyeong: 오는 게 고와야 가는 게 고운 것이거늘.
 
-@char Yoon transition: Fadeout time: 0.5
+@hide Yoon
 @wait 1
-@char Yeon pos: 80, 0 scale: 1.05 transition: Fadein time: 1
-@wait 1.5
+@char Yeon pos: 80, 0 scale: 1.05
+@wait 1
 Yeon: 그걸 아는 놈이.
 
 @char Bilyeong.Angry
@@ -92,9 +91,9 @@ Bilyeong: 뭐?!
 
 @hide Bilyeong
 @hide Yeon
-@back BlackScreen.SlideLeft time: 0.4
-단지, 그런 얘기를 하며 잠시.
-@wait 2.5
+@hideui
+@back BlackScreen.SlideLeft time: 0.5
+@wait 1.5
 @back Dwissan2.Slideleft time: 0.4
 @wait 1.5
 @char Seol.EyeClosed pos: 80, 0 scale: 1.05 transition: Fadein time: 1
@@ -113,5 +112,5 @@ Bilyeong: 말 끊지 말...!
 
 @wait 0.8
 @char Bilyeong.Sigh pos: 50, 50 scale: 0.7
-Bilyeong: 하아... 되었다, 말을 말자.
-Bilyeong: 빨리 가기나 하거라.
+Bilyeong: 하아...
+Bilyeong: 되었다, 빨리 가기나 하거라.
