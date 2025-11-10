@@ -95,16 +95,17 @@ Seol: ...그러면 동행하도록 하겠습니다.
 
 @char Hwi pos: 20, 0 scale: 0.95
 Hwi: 그래, 그러면 그렇게 하지.
-//-------------------------------------------------------------------------------------------------------------------
+
 @hideui
+@hide Seol
 @hide Hwi
-@wait 1.2
-@back BlackScreen.SlideLeft time: 1
-@wait 2
-@back Dwissan3.SlideLeft time: 1
 @wait 1
-@char Yoon pos: 50, 0 scale: 1.05
+@back BlackScreen.SlideLeft time: 0.5
 @wait 1.5
+@back Dwissan3.SlideLeft time: 0.5
+@wait 1.5
+@char Yoon pos: 50, 0 scale: 1.05
+@wait 1
 Yoon: 그럼 나중에 봐, 사제!
 
 @hide Yoon
@@ -112,10 +113,10 @@ Yoon: 그럼 나중에 봐, 사제!
 Yeon: 살펴 가시죠.
 
 @hide Yeon
-@char Bilyeong pos: 75, 50 scale: 0.7
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: 가다 확 자빠지기나 해라.
 
-@char Yeon pos: 25, 0 scale: 1.05
+@char Yeon pos: 80, 0 scale: 1.05
 Yeon: ...또 언제 다투었길래 말이 그 모양이느냐.
 
 @char Bilyeong.Sigh
@@ -125,27 +126,29 @@ Yeon: 뿌린대로 거둔다고들 하지.
 @char Bilyeong.Angry
 Bilyeong: 뿌리기는 개뿔이...
 Bilyeong: 내가 당하고만 사는 것 아니더냐?
-Yeon: 그 말.
-Yeon: 내가 나중에 사저에게 그대로 전해 주도록 하마.
+Yeon: 흠, 그렇다면 그 말...
+Yeon: 내가 사저에게 그대로 전해 주도록 하마.
 
 @char Bilyeong.Surprised
 @wait 1.5
 @char Bilyeong.Embarrassed
-Bilyeong: 그... 다시 잘 생각해보니 내가 잘못한 것도 있는 것 같구나.
+Bilyeong: 그... 다시 생각해보니 내가 잘못한 것도 없지는 않은 것 같구나.
 Yeon: ......
-
+//---------------------------------------------------------------------------------------
 @hide Bilyeong
 @hide Yeon
-@char Seol.EyeClosed pos: 50, 0 scale: 1.05
+@char Seol.EyeClosed pos: 50, 0 scale: 1.05 transition: Fadein time: 0.5
 Seol: ......
 Seol: 이제 출발하겠습니다. 이쪽입니다.
 
 @hide Seol
 @hideui
 @wait 1
-@back Dwissan2.SlideLeft time: 1
-@wait 1
-@char Seol pos: 75, 0 scale: 1.05
+@back BlackScreen.SlideLeft time: 0.5
+@wait 1.5
+@back Dwissan3.SlideLeft time: 0.5
+@wait 1.5
+@char Seol pos: 80, 0 scale: 1.05
 @wait 1
 Seol: 이제 요괴곡 근처이기에, 나타나는 요괴들을 각별히 주의해주시기 바랍니다.
 Seol: 최대한 그것들이 없는 쪽으로 갈 터이나, 그럼에도 맞닥뜨리게 된다면.
@@ -155,20 +158,22 @@ Bilyeong: 잡아 족쳐달라고?
 
 @char Seol.EyeClosed
 Seol: ...함께 싸우도록 하겠습니다.
-Bilyeong: ...호오?
+Bilyeong: ...호오.
 
 @hide Bilyeong
 @hide Seol
 @char Yeon pos: 50, 0 scale: 1.05
+@wait 0.3
 Yeon: 싸울 줄 아느냐?
 
 @hide Yeon
 @char Seol pos: 50, 0 scale: 1.05
+@wait 0.3
 Seol: 세상을 떠돌며 제 몸 하나는 지킬 수 있게 되었습니다.
 
 @hide Seol
 @char Bilyeong pos: 50, 50 scale: 0.7
-Bilyeong: 하, 그리 순탄한 삶은 아니었나 보구나.
+Bilyeong: 하, 그리 순탄한 삶은 아니었나 보구만.
 
 @hide Bilyeong
 @char Seol.EyeClosed pos: 50, 0 scale: 1.05
@@ -177,11 +182,11 @@ Seol: ...그럼 계속해서 안내하겠습니다. 따라와 주십...
 @hide Seol
 $#$@%%@$...!
 
-@char Bilyeong pos: 25, 50 scale: 0.7
-Bilyeong: 무슨 소리가 들리는데.
+@char Bilyeong pos: 20, 50 scale: 0.7
+Bilyeong: 무슨 소리 들었느냐.
 
-@char Yeon pos: 75, 0 scale: 1.05
-Yeon: 그래.
+@char Yeon pos: 80, 0 scale: 1.05
+Yeon: ...그래.
 Yeon: 별로 좋은 소리는 아니지.
 
 @hide Bilyeong
@@ -190,14 +195,14 @@ Yeon: 별로 좋은 소리는 아니지.
 Seol: ......
 
 @hide Seol
-@char Jeolgu pos: 50, 30 scale: 0.7
+@char Jeolgu pos: 50, 50 scale: 0.7
 Jeolgu: %#$$@%@%...!!!!!
 
 @hide Jeolgu
-@char Bilyeong pos: 25, 50 scale: 0.7
+@char Bilyeong pos: 20, 50 scale: 0.7
 Bilyeong: ...함께 싸우겠다고?
 
-@char Seol.EyeClosed pos: 75, 0 scale: 1.05
+@char Seol.EyeClosed pos: 80, 0 scale: 1.05
 Seol: ...네.
 
 @hide Seol
