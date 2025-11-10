@@ -5,13 +5,22 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 {
     public abstract class SkillTimeLinePlayableBehaviour : UnityEngine.Playables.PlayableBehaviour
     {
-        public CharBase charBase;
-        public SkillBase skillBase;
-        
+        protected CharBase Char { get; private set; }
+        protected SkillBase Skill { get; private set; }
+        public bool HasContext { get; private set; }
+
         public virtual void InitBehaviour(CharBase character, SkillBase skill)
         {
-            this.charBase = character;
-            this.skillBase = skill;
+            Char = character;
+            Skill = skill;
+            HasContext = (Char != null && Skill != null);
+        }
+
+        public void MarkNoContext()
+        {
+            Char = null;
+            Skill = null;
+            HasContext = false;
         }
     }
 }
