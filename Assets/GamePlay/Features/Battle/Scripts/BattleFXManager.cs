@@ -65,7 +65,7 @@ namespace GamePlay.Features.Battle.Scripts
             }
             
             // 풀링 하지 않고 그냥 연출하는 식으로 함.
-            GameObject go = await ResourceManager.Instance.InstantiateAsync(reference, parent, false, token);
+            GameObject go = await ResourceManager.Instance.InstantiateAsync(reference.fxReference, parent, false, token);
             go.transform.position += (Vector3)offset;
 
             return go;

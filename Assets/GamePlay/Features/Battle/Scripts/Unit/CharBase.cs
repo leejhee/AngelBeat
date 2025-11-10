@@ -177,18 +177,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             _battleCollider.enabled = false;
         }
         
-        /// <summary>
-        /// 현재 start에서는 애니메이션 초기화만 함
-        /// </summary>
-        private void Start()
-        {
-            
-        }
 
         public virtual async UniTask CharInit(CharacterModel charModel)
         {
             _charInfo = charModel; //모델
             _runtimeStat = charModel.BaseStat; // 스탯 복사
+            _hpBar.SetFillAmount(MaxHP, MaxHP);
             
             //스킬 초기화 - 이미 ActiveSkills로 저장해놓은 애들만 뽑아줌.
             IReadOnlyList<SkillModel> skillModels = charModel.ActiveSkills;
@@ -236,10 +230,17 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         public async UniTask DamageAsync(long finalDamage, CancellationToken ct)
         {
-            // 대미지 글자 연출
             _runtimeStat.ReceiveDamage(finalDamage);
             Debug.Log($"{finalDamage}데미지");
             Debug.Log($"{CurrentHP} / {MaxHP}");
+            GameObject damageText =
+                await BattleFXManager.Instance.PlayFX(FX.DamageFX, transform, new Vector2(1, 1), ct);
+            IngameDamageObject txt = damageText.GetComponent<IngameDamageObject>();
+            txt.Init(finalDamage);
+            if (_hpBar)
+            {
+                _hpBar.SetFillAmount(CurrentHP, MaxHP);
+            }
         }
         
         /// <summary>

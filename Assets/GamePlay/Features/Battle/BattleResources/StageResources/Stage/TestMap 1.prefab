@@ -271,7 +271,9 @@ MonoBehaviour:
   - {x: 5, y: 2}
   - {x: 6, y: 2}
   obstacleGridCells:
-  - {x: 2, y: 2}
+  - cell: {x: 0, y: 0}
+    obstacle: {fileID: 0}
+  coverageGridCells: []
   references:
     version: 2
     RefIds:

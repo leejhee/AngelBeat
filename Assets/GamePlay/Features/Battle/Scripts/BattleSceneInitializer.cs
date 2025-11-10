@@ -102,7 +102,9 @@ namespace GamePlay.Features.Battle.Scripts
             Debug.LogWarning("[Battle Initializer] No args/payload provided. Using DebugMockSource.Default.");
             return DebugMockSource.Default();
 #else
-            throw new InvalidOperationException("[Battle Initializer] No battle args/payload provided.");
+            return DebugMockSource.Default();
+            //throw new InvalidOperationException("[Battle Initializer] No battle args/payload provided.");
+            
 #endif
         }
         

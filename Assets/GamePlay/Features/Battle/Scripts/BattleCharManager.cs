@@ -54,7 +54,7 @@ namespace GamePlay.Features.Battle.Scripts
                 Debug.LogWarning($"{typeof(T).ToString()} 타입을 찾을 수 없음");
                 return null;
             }
-            if (_cache[key].ContainsKey(ID))
+            if (!_cache[key].ContainsKey(ID))
             {
                 Debug.LogWarning($"{key} 타입의 ID: {ID}을 찾을 수 없음");
                 return null;
@@ -123,6 +123,24 @@ namespace GamePlay.Features.Battle.Scripts
             }
 
             return true;
+        }
+        
+        public void ClearAll(bool destroyGameObjects = true)
+        {
+            foreach (var typeDict in _cache.Values)
+            {
+                if (!destroyGameObjects) continue;
+                foreach (var cb in typeDict.Values.ToList())
+                    if (cb) UnityEngine.Object.Destroy(cb.gameObject);
+            }
+            _cache.Clear();
+            _nextID = 0;
+            OnCharDeadGlobal = null;
+            if (_unitRoot)
+            {
+                if (destroyGameObjects) UnityEngine.Object.Destroy(_unitRoot.gameObject);
+                _unitRoot = null;
+            }
         }
         
         
