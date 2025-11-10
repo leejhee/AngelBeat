@@ -17,7 +17,7 @@ MonoBehaviour:
   xCapacity: 20
   yCapacity: 20
   floorPrefab: {fileID: 5986098223241787332, guid: 47e069d36dc1e3148a50c57c475d26eb, type: 3}
-  wallPrefab: {fileID: 897307508555944082, guid: 0edc819af4405c34ea7dcc73ab784abf, type: 3}
+  wallPrefab: {fileID: 4645370274386212317, guid: cc62849f5fa079e41a8ee8f812430d0b, type: 3}
   symbolConfig:
   - symbolType: 1
     symbolCount: 1
