@@ -1,3 +1,5 @@
+using GamePlay.Features.Battle.Scripts.Unit.Components;
+using System;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
@@ -6,31 +8,35 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 {
     public class AnimationPlayableBehaviour: SkillTimeLinePlayableBehaviour
     {
-        public Animator animator { get; set; }
+        public CharAnimDriver animDriver { get; set; }
         public AnimationClip animationClip { get; set; }
 
-        PlayableGraph playableGraph;
+        private PlayableGraph _playableGraph;
+        private IDisposable _lease;
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
-            playableGraph = PlayableGraph.Create("AnimationPlayable");
+            _lease = animDriver?.AcquireTimelineLease();
+            _playableGraph = PlayableGraph.Create("AnimationPlayable");
 
-            AnimationClipPlayable clipPlayable = AnimationClipPlayable.Create(playableGraph, animationClip);
+            AnimationClipPlayable clipPlayable = AnimationClipPlayable.Create(_playableGraph, animationClip);
 
-            var output = AnimationPlayableOutput.Create(playableGraph, "Animation", animator);
+            AnimationPlayableOutput output = AnimationPlayableOutput.Create(_playableGraph, "Animation", animDriver.Animator);
             output.SetSourcePlayable(clipPlayable);
 
-            playableGraph.Play();
+            _playableGraph.Play();
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
-            if (playableGraph.IsValid())
+            if (_playableGraph.IsValid())
             {
-                playableGraph.Stop();
-                playableGraph.Destroy(); 
+                _playableGraph.Stop();
+                _playableGraph.Destroy(); 
             }
-            //animator.Play("IDLE",0,0);
+            
+            _lease?.Dispose();
+            _lease = null;
         }
     }
 }

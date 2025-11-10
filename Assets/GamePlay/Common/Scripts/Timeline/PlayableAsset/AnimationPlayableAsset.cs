@@ -26,17 +26,14 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableAsset
             
             SkillBase skill = owner.GetComponent<SkillBase>();
             CharBase player = skill.CharPlayer;
-            playableBehaviour.InitBehaviour(player, skill);
             
-            playableBehaviour.animator = player.Animator;
+            playableBehaviour.InitBehaviour(player, skill);
+            playableBehaviour.animDriver = player.Anim;
             playableBehaviour.animationClip = animationClip;
             var scriptPlayable = ScriptPlayable<AnimationPlayableBehaviour>.Create(graph, playableBehaviour);
 
-            // AnimationClipPlayable ����
-            var animationPlayable = AnimationClipPlayable.Create(graph, animationClip);
-
-            // �÷��̺��� ����
-            scriptPlayable.AddInput(animationPlayable, 0, 1);
+            // var animationPlayable = AnimationClipPlayable.Create(graph, animationClip);
+            //scriptPlayable.AddInput(animationPlayable, 0, 1);
 
             return scriptPlayable;
         }
