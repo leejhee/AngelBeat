@@ -1,5 +1,4 @@
 ﻿using GamePlay.Features.Battle.Scripts.BattleMap;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

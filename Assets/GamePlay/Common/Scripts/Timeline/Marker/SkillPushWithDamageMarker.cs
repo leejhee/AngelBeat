@@ -29,14 +29,14 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
             
             //=================맞았을 때================//
 
-            await target.SkillDamage(param, true, true); // 피격 연출 및 idle로 안돌아감
+            await target.SkillDamage(param, false, true); // 피격 연출 및 idle로 안돌아감
             
             Vector2Int pivot = grid.WorldToCell(caster.CharTransform.position);
             Vector2Int targetCell = grid.WorldToCell(target.CharTransform.position);
             var pushResult = PushEngine.ComputePushResult(pivot, targetCell, grid);
  
             // 밀치기 실행 (연출 포함, 추가 피격 애니메이션 없이)
-            await PushEngine.ApplyPushResult(target, pushResult, grid, ct, false, true);
+            await PushEngine.ApplyPushResult(target, pushResult, grid, ct, true, true);
             target.CharReturnIdle(); // 강제 Idle로 귀환
         }
     }

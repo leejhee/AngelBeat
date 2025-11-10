@@ -21,13 +21,23 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
         public bool animateZoom;
         public float targetOrthoSize;
         public AnimationCurve ease;
-
+        public bool useDirectionalEase;
+        public AnimationCurve easeWhenZoomIn;
+        public AnimationCurve easeWhenZoomOut;
+        public bool useRelativeZoom;
+        public float zoomInFactor;
+        public float zoomOutFactor;
+        public float minZoomDelta;
+        
+        
         // 내부 상태
         BattleCameraDriver _driver;
         BattleCameraInput _input;
         Transform _targetTF;
         float _prevOrtho;
         ICamEffectStrategy _strategy;
+        float _effectiveTargetOrtho;
+        AnimationCurve _effectiveEase;
         bool _hadDriver;
         bool _hadInput;
         double _duration;
@@ -39,15 +49,16 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
         
             _hadDriver = _driver != null;
             _hadInput  = _input  != null;
-
-            if (_hadDriver && _driver.IsOrtho)
-                _prevOrtho = _driver.CurrentOrthoSize;
+            
         }
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
             if (!HasContext || !_hadDriver) return;
-
+            
+            if (_driver.IsOrtho)
+                _prevOrtho = _driver.CurrentOrthoSize;
+            
             // 1) 대상 해석
             _targetTF = ResolveTargetTransform(role, Char, Skill);
 
@@ -61,6 +72,7 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
 
             // 4) 전략 구성
             _duration = playable.GetDuration();
+            BuildZoomPlan();
             _strategy = BuildStrategy();
             var ctx = MakeCtx();
             _strategy?.OnPlay(ctx);
@@ -109,7 +121,9 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
             {
                 case SkillCameraEffectType.FocusZoom:
                     if (!animateZoom || !_driver.IsOrtho) return null;
-                    return new FocusZoomStrategy(targetOrthoSize, ease);
+                    if (Mathf.Abs(_effectiveTargetOrtho - _prevOrtho) < Mathf.Max(0.0001f, minZoomDelta))
+                            return null;
+                    return new FocusZoomStrategy(_effectiveTargetOrtho, _effectiveEase ?? ease);
                 default:
                     return null;
             }
@@ -133,5 +147,33 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
             return targets[0];
         }
 
+        void BuildZoomPlan()
+        {
+            // 시작값
+            float start = _prevOrtho;
+            // 기본 목표: 절대값
+            float desired = targetOrthoSize;
+
+            // 상대 모드면 방향에 따라 배율 적용
+            if (useRelativeZoom)
+            {
+                // 절대 목표 대비 방향 판단(더 자연스럽게 하고 싶으면 driver.FocusOrthoSize 같은 내부 기준을 써도 됨)
+                bool zoomIn = (targetOrthoSize < start);
+                desired = start * (zoomIn ? Mathf.Max(0.01f, zoomInFactor) : Mathf.Max(0.01f, zoomOutFactor));
+            }
+
+            _effectiveTargetOrtho = desired;
+
+            // 방향별 이징 선택
+            if (useDirectionalEase)
+            {
+                bool zoomIn = (_effectiveTargetOrtho < start);
+                _effectiveEase = zoomIn ? (easeWhenZoomIn ?? ease) : (easeWhenZoomOut ?? ease);
+            }
+            else
+            {
+                _effectiveEase = ease;
+            }
+        }
     }
 }
