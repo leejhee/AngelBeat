@@ -24,31 +24,31 @@ MonoBehaviour:
       value: {fileID: 2811297602134710623, guid: 598279c7e69a73841a615eadb3315418, type: 3}
     - _key: test
       value: {fileID: 2811297602134710623, guid: aa05d960f34095544bdee1f06ac80e23, type: 3}
-    - _key: S#1
+    - _key: 1
       value: {fileID: 2811297602134710623, guid: db5ac0f34695baa47b59d0aa7e07df77, type: 3}
-    - _key: S#6-1
+    - _key: 6_1
       value: {fileID: 2811297602134710623, guid: 51bff0458306d2945ba258825ee348f6, type: 3}
-    - _key: S#2
+    - _key: 2
       value: {fileID: 2811297602134710623, guid: 1cfa59cd18f363a4b9aee284026df2f5, type: 3}
-    - _key: S#3
+    - _key: 3
       value: {fileID: 2811297602134710623, guid: 09aa121621f212d4da65e0e8839fc9d8, type: 3}
-    - _key: S#4
+    - _key: 4
       value: {fileID: 2811297602134710623, guid: 291f252516909aa419f1a3d6309a682b, type: 3}
-    - _key: S#5
+    - _key: 5
       value: {fileID: 2811297602134710623, guid: 4d1989093b8b30f478065600c6dbf53d, type: 3}
-    - _key: S#6_2
+    - _key: 6_2
       value: {fileID: 2811297602134710623, guid: 670cc5e04da44c94e95f14bdc8f59abc, type: 3}
-    - _key: S#6_3
+    - _key: 6_3
       value: {fileID: 2811297602134710623, guid: dfc5f2fdef59a22478ac6adce804a2fd, type: 3}
-    - _key: S#6_4
+    - _key: 6_4
       value: {fileID: 2811297602134710623, guid: 67a4b3253b64ba14fa39394042c8163c, type: 3}
-    - _key: S#6_5
+    - _key: 6_5
       value: {fileID: 2811297602134710623, guid: b8b4f5435d7950a4bb0c75515cffc1a4, type: 3}
-    - _key: S#7
+    - _key: 7
       value: {fileID: 2811297602134710623, guid: 15b74723a74e9c3439910a9815aa74f1, type: 3}
-    - _key: S#8
+    - _key: 8
       value: {fileID: 2811297602134710623, guid: 5364ef367ac37fd44b0c8e7607482d44, type: 3}
-    - _key: S#7-2
+    - _key: 7-2
       value: {fileID: 2811297602134710623, guid: 8e63b4c3b2777454ea0d1be0473417bf, type: 3}
     keys: []
     values: []

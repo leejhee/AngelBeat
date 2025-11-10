@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4b29f8426606a8541ac257feb4c10cf8
   m_SerializeEntries:
+  - m_GUID: 11e63a31ca7af7844b7e3199e6e7e152
+    m_Address: testBaby
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c68f217e8f06e56438a0cbfe189b0606
     m_Address: timeline_Nanta
     m_ReadOnly: 0
