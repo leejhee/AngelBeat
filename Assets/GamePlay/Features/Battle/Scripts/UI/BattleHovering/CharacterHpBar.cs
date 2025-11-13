@@ -11,7 +11,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.BattleHovering
     {
         [SerializeField] private CharBase charBase;
         [SerializeField] private SpriteRenderer hpBar;
-        private MaterialPropertyBlock _mp = new();
+        private MaterialPropertyBlock _mp; //= new();
 
         [Range(0f, 1f)]
         public float fillAmount = 1f;

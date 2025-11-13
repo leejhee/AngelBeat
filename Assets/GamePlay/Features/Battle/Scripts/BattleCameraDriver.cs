@@ -150,7 +150,7 @@ namespace GamePlay.Features.Battle.Scripts
             await EnterFollowAsync(target, blendSeconds, targetOrthoSize ?? focusOrthoSize, zoomSeconds);
             await task; // 액션 실행 완료까지 대기
             // 여기서 Free로 자동 복귀시키고 싶다면:
-            // EnterFree(stageFieldRef);  // <- 원하면 주입/저장한 StageField를 사용
+            // EnterFree(stageFieldRef);
         }
 
         /// <summary>

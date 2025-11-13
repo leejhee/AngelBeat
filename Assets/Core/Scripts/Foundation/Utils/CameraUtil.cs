@@ -36,7 +36,7 @@ namespace Core.Scripts.Foundation.Utils
             baseData.renderType   = CameraRenderType.Base;
             overlayData.renderType = CameraRenderType.Overlay;
 
-            // Overlay는 클리어 무의미지만 혼동 방지용
+            // Overlay는 클리어 무의미하므로 혼동 방지용
             overlayCam.clearFlags = CameraClearFlags.Nothing;
 
             var stack = baseData.cameraStack;

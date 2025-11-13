@@ -87,7 +87,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             
             TurnOwnerOutline = () => TurnOwner.OutlineCharacter(Color.green, 10f);
             TurnOwner.OnUpdate += TurnOwnerOutline;
-
             //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT, TriggerType.EoT);
 
             #endregion

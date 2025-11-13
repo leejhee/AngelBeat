@@ -28,10 +28,14 @@ namespace GamePlay.Features.Battle.Scripts
                 GameManager.Instance.GameState = SystemEnum.GameState.Battle;
                 progress?.Report(0.1f);
             
-                Debug.Log("[Battle Initializer] Camera Test");
+                Debug.Log("[Battle Initializer] Camera Setting for Battle");
                 Camera mainCamera = Camera.main;
                 Camera backCamera = GameObject.Find("BackgroundCamera").GetComponent<Camera>(); //그냥 널가드 안하고 할거임.
                 CameraUtil.TryStackOverlay(backCamera, mainCamera);
+                
+                backCamera.clearFlags = CameraClearFlags.SolidColor;
+                backCamera.backgroundColor = Color.black;
+                
                 progress?.Report(0.2f);
                 
                 Debug.Log("[Battle Initializer] 맵 로딩 시작...");

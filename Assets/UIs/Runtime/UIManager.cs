@@ -1,13 +1,12 @@
 ﻿using Core.Scripts.Foundation.Define;
-using Core.Scripts.Foundation.Utils;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UIs.Runtime
@@ -49,6 +48,29 @@ namespace UIs.Runtime
         private readonly Dictionary<SystemEnum.GameState, ViewCatalog> _catalogDict = new();
         
         private void ChangeCatalog(SystemEnum.GameState state) => _focusingCatalog = _catalogDict.GetValueOrDefault(state);
+        
+        #endregion
+        
+        #region Canvas Scaler Settings
+        [Header("Canvas Scaler Settings")]
+        [SerializeField] private Vector2 referenceResolution = new(1920, 1080);
+
+        [SerializeField, Range(0f, 1f)] private float match = 0.5f;
+
+        [SerializeField] private CanvasScaler.ScreenMatchMode screenMatchMode =
+            CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+
+        [SerializeField] private CanvasScaler.ScaleMode scaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        
+        private void SetupScaler(Canvas canvas)
+        {
+            var scaler = canvas.GetComponent<CanvasScaler>();
+            if (!scaler) scaler = canvas.gameObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = scaleMode;
+            scaler.referenceResolution = referenceResolution;
+            scaler.screenMatchMode = screenMatchMode;
+            scaler.matchWidthOrHeight = match;
+        }       
         
         #endregion
         
@@ -104,6 +126,7 @@ namespace UIs.Runtime
         
         #endregion
         
+        // layer root도 전부 handle을 미보유. view만 release할 것.
         #region Root & Layer Transform
         [SerializeField] private AssetReferenceGameObject rootPrefabReference;
 
@@ -132,7 +155,7 @@ namespace UIs.Runtime
             // 배경화면 전용 캔버스 불필요시 나중에 제거
             _bgRoot = _uiRoot.Find("@BGRoot") ?? CreateBackgroundUILayer("@BGRoot");
         }
-
+        
         private Transform CreateLayer(string layerName, int order)
         {
             GameObject g = new(layerName);
@@ -141,6 +164,7 @@ namespace UIs.Runtime
             c.overrideSorting = true; c.sortingOrder = order;
             g.AddComponent<GraphicRaycaster>();
             c.renderMode = RenderMode.ScreenSpaceOverlay;
+            SetupScaler(c);
             return g.transform;
         }
 
@@ -186,18 +210,27 @@ namespace UIs.Runtime
             _uiCts = new CancellationTokenSource();
         }
         
-        // TODO : 이거 나중에 고쳐야함
-        // 배경화면 띄우는 임시용 코드
-
         public async void InstantiateBackgroundObject(GameObject prefab)
         {
             await EnsureRoot(_uiCts.Token);
             
-            
+            // 이때 handle 생성 안하므로 release 별도 필요 없음
             GameObject bgObject = Instantiate(prefab, _bgRoot);
-            bgObject.transform.localScale =  new Vector3(1, 1, 1);
-            bgObject.transform.localPosition = Vector3.zero;
-            
+
+            if (bgObject.TryGetComponent<RectTransform>(out var rt))
+            {
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.offsetMin = Vector2.zero;
+                rt.offsetMax = Vector2.zero;
+                rt.localScale = Vector3.one;
+                rt.localPosition = Vector3.zero;
+            }
+            if (bgObject.TryGetComponent<Image>(out var img))
+            {
+                img.preserveAspect = false; 
+                img.raycastTarget = false;
+            }
         }
         
         public async UniTask ShowViewAsync(ViewID viewID)
@@ -260,6 +293,47 @@ namespace UIs.Runtime
             }
         }
         
+        #region Unity Events
+        
+        private void OnEnable()
+        {
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+        }
+
+        private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+        {
+            _uiCts?.Cancel(); _uiCts?.Dispose(); _uiCts = new CancellationTokenSource();
+
+            while (_stack.Count > 0)
+            {
+                var x = _stack.Pop();
+                try { x.Presenter?.Dispose(); } catch {}
+                if (x.Go) ResourceManager.Instance.ReleaseInstance(x.Go);
+            }
+
+            foreach (var kv in _cache)
+            {
+                var st = kv.Value;
+                while (st.Count > 0)
+                {
+                    var go = st.Pop();
+                    if (go) ResourceManager.Instance.ReleaseInstance(go);
+                }
+            }
+            _cache.Clear();
+
+            if (_uiRoot)
+            {
+                ResourceManager.Instance.ReleaseInstance(_uiRoot.gameObject);
+                _uiRoot = _mainRoot = _modalRoot = _systemRoot = _worldRoot = _bgRoot = _cacheRoot = null;
+            }
+        }
+        
         /// <summary>
         /// 게임이 종료될 때긴 하지만, 만일을 위해 묶인 모든 리소스와 이벤트를 해제한다.
         /// </summary>
@@ -296,5 +370,7 @@ namespace UIs.Runtime
             _uiCts?.Cancel();
             _uiCts?.Dispose();
         }
+        
+        #endregion
     }
 }

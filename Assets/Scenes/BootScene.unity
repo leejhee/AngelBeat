@@ -167,21 +167,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: 1
-  uiManagerReference:
-    m_AssetGUID: 551dd4b2baee1fd469f5152625c40476
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  mainCameraReference:
-    m_AssetGUID: 138541bc15ed98d42aaab8e06be748e2
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  eventSystemReference:
-    m_AssetGUID: b181f8694b519274f88def5e3d4d733f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  uiManager: {fileID: 8182951620832533243, guid: 551dd4b2baee1fd469f5152625c40476, type: 3}
+  mainCamera: {fileID: 4512082255502729759, guid: 138541bc15ed98d42aaab8e06be748e2, type: 3}
+  eventSystem: {fileID: 6984057351615015256, guid: b181f8694b519274f88def5e3d4d733f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

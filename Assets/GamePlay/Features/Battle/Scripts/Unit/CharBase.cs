@@ -353,9 +353,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         #endregion
         
         #region Character movement Control
-
-        private bool _isGrounded = true;
-        public bool IsGrounded { get => _isGrounded; private set { _isGrounded = value; } }
         
         private bool _lastDirectionRight; // true 오른쪽, false 왼쪽
         
@@ -427,8 +424,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             
             var sr = _charUnitRoot.GetComponent<SpriteRenderer>();
             var outlineSR = _charUnitRoot.GetChild(0).GetComponent<SpriteRenderer>();
-            if (sr) sr.enabled = false;
             if(outlineSR) outlineSR.enabled = false;
+            if (sr) sr.enabled = false;
             
             await UniTask.Delay(250, cancellationToken: ct);
             transform.position = targetPos;
@@ -440,6 +437,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             {
                 await UniTask.Delay(1000, cancellationToken: t);
             }, ct);
+            
         }
 
         /// <summary>
@@ -598,6 +596,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         public void OutlineCharacter(Color outlineColor, float outlineSize)
         {
+            if (!_spriteRenderer || !_spriteRenderer.enabled)
+            {
+                if (_outlineRenderer) _outlineRenderer.enabled = false;
+                return;
+            }
             _outlineRenderer.sprite = _spriteRenderer.sprite;
             _outlineRenderer.material.SetColor("_OutlineColor", outlineColor);
             _outlineRenderer.material.SetFloat("_OutlineSize", outlineSize);

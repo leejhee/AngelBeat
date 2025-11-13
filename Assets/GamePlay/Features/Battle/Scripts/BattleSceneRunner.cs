@@ -24,11 +24,14 @@ namespace GamePlay.Features.Battle.Scripts
                     return !s.IsValid() || !s.isLoaded;
                 });
                 
+                await NovelManager.InitAsync();
+                NovelManager.Instance.PlayScript("6_5");
+                
                 var input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
                 if (input) input.enableDuringTurn = false;
                 
                 // 전장 전체 인트로
-                var driver = Object.FindFirstObjectByType<BattleCameraDriver>();
+                var driver = BattleController.Instance.CameraDriver;
                 if (driver && stage)
                     await driver.ShowStageIntro(stage, paddingWorld:1.0f, fadeSeconds:0.8f);
 
@@ -36,11 +39,6 @@ namespace GamePlay.Features.Battle.Scripts
                 if (turn != null)
                     await turn.ChangeTurn();
                 if (input) input.enableDuringTurn = true;
-                
-                
-                // TODO 나중에 옮겨
-                await NovelManager.InitAsync();
-                NovelManager.Instance.PlayScript("6_5");
                 
                 scheduled = false; // 한 번 끝났으면 해제(필요시 유지)
                 
