@@ -16,7 +16,7 @@ Bilyeong: 허어, 생각보다도 훨씬...
 @wait 0.3
 Seol: 낡았다고 생각하실 수도, 작다고 생각하실 수도 있을 겁니다.
 Seol: 원래도 그리 큰 마을은 아니었으나, 요괴들이 자주 나타나면서 그나마 있던 사람들도 대부분 마을을 떠났습니다. 
-Seol: 많은 곳이 빈집이 되어 낡아갔고, 그나마 가끔 이곳을 가로질러 가려는 상인들이 와서 종종 묵기에 이 정도라도 유지되는 중입니다.
+Seol: 그나마 가끔 이곳을 가로질러 가려는 상인들이 와서 종종 묵기에 이 정도라도 유지되는 중입니다.
 
 @char Bilyeong.Sigh
 Bilyeong: 허어, 보기에는 사람이 아니라 귀신이라도 살아야 할 것 같구나.
@@ -39,31 +39,32 @@ Seol: 그럼, 전 마을 분들께 얘기를 드리고 올 터이니, 이곳에�
 Yeon: 따라가지 않아도 괜찮겠는가?
 
 @char Seol pos: 20, 0 scale: 1.05 flip: true
-Seol: 마을 분들에게 아직 망량은 낮선 자일 것입니다. 
+Seol: 마을 분들에게 망량은 낮선 자일 것입니다. 
 Seol: 괜히 모습을 비추어 그들의 불안감을 키울 필요는 없을 것 같다고 생각됩니다.
 Yeon: ...그래, 그럼 부탁하지.
 
 @char Seol.EyeClosed
 Seol: 네.
 
-@char Seol transition: Fadeout time: 
+@char Seol transition: Fadeout time: 0.5
 @wait 1
 @hide Yeon
-@wait 1.5
+@wait 1
 @char Bilyeong pos: 20, 50 scale: 0.7
 @wait 0.5
 Bilyeong: 요괴 잡으러 왔더니 귀신 구경할 팔자구나.
 
 @char Yeon pos: 80, 0 scale: 1.05
-Yeon: 그래, 마을이 낡고 활기가 없으니, 퍽 을씨년스러운 것이 귀신이 나와도 이상하지 않겠구나.
+Yeon: 그래, 마을이 낡고 활기가 없으니, 퍽 을씨년스럽기는 하구나.
 Bilyeong: 네놈도 귀신 소리나 하는 것이냐? 
-Bilyeong: 에잇! 그래, 여기까지 와서 귀신들이랑 같이 자게 생겼구나.
+Bilyeong: 에잇! 그래, 여기까지 와서 귀신들이랑 하룻밤 보낼 수도 있는 것이지.
 Bilyeong: 이렇게나 낡아서야 잘 때 비바람이나 제대로 막을 수 있을런지, 원.
-Yeon: 그러는 네놈도 도깨비불인 것이, 귀신 가지고 뭘 그러느냐?
-Yeon: 전에는 비가 내리던 눈이 오던 몸 뉘일 수 있다면 상관없었는데 말이지.
-Bilyeong: 하, 그래. 그때야 하늘을 이불삼아 산을 베개삼아 잠을 청했지.
-Bilyeong: 하루종일 잡놈들을 패주고서는 별을 세면서 자곤 했었고.
-Yeon: 지금 처지에 그리 했다간 입 돌아가 죽기 딱 좋겠지만 말이지.
+Yeon: 그러는 네놈도 도깨비불인 것이, 귀신 가지고 뭘 호들갑이느냐.
+Yeon: 이전에는 비가 내리던 눈이 오던 몸 뉘일 수 있다면 얼마나 낡았든간에 상관없었는데 말이지.
+Bilyeong: 하, 그래. 그때야 누울 수만 있으면 하늘을 이불삼아 산을 베개삼아 잠을 청했지.
+Bilyeong: 하루를 꼬박 싸워 놓고는 해 뜨는 걸 보며 눈 붙이곤 했지 않느냐.
+Yeon: ...그래, 그랬었지.
+Yeon: 지금 처지에 그리 했다간 입 돌아가 죽겠지만 말이지.
 
 @hide Yeon
 @hide Bilyeong
@@ -96,43 +97,52 @@ Bilyeong: 호의적이구나, 낯선 이를 대한다기에는 과할 정도로.
 //------------------------------------------------------------------------------------------------------------
 @hide Bilyeong
 @char Seol.EyeClosed pos: 50, 0 scale: 1.05
-Seol: 
-Seol: 외지인이 오는 것이 그들에게 그렇게 특별한 일은 아닐 겁니다.
-Seol: 거기에, 주변 요괴들을 물리쳐 준다는 것만으로 그들에게는 안심되는 말일 테니까요.
+Seol: 이들도 이미, 저희가 이곳에 온 목적을 알고 있습니다.
+Seol: 저들에게도 요괴들은 삶에 있어 큰 위협이니, 이리 돕는 것일 겁니다.
 
-@char Seol
-Seol: 다만, 아직 저희를 미심쩍게 보고 있는 것 같습니다.
+@hide Seol 
+@char Bilyeong pos: 50, 0 scale: 0.7
+Bilyeong: 그런데도 용케 이곳을 떠나지 않는구나.
 
 @hide Bilyeong
-@char Bilyeong.Happy pos: 30, 50 scale: 0.7
-Bilyeong: 결국 일단 잡놈들을 때려잡아 준다기에 돕기는 하겠는데, 아직 출신에 근본도 없는 놈들을 믿기는 힘들다는 것이지?
+@char Seol pos: 50, 0 scale: 1.05
+Seol: ...아무래도 평생 살던 곳을 떠나는 것이 그리 쉽진 않을 테니까요.
+
+@hide Seol
+@char Yeon pos: 50, 0 scale: 1.05
+Yeon: 요괴들이 들끓는 이곳보다도 바깥이 더 막막한 곳이라는 뜻이겠지.
 
 @hide Yeon
-@char Yeon.EyeClosed pos: 20, 0 scale: 1.05
-Yeon: 그러면 기대에 부응해야겠지.
+@char Seol pos: 50, 0 scale: 1.05
+Seol: ......
 
-@hide Bilyeong
-@char Bilyeong pos: 30, 50 scale: 0.7
-Bilyeong: 지금 갈 것이냐?
+@hide Seol
+@char Yeon.EyeClosed pos: 80, 0 scale: 1.05
+Yeon: 그러면, 흔쾌히 머물 곳을 내어준 그들의 기대에 부응해야겠구나, 비령아.
 
-@hide Yeon
-@char Yeon pos: 20, 0 scale: 1.05
-Yeon: 못 갈 것도 없지. 가볍게 근처라도 거닐며 그것들을 쫓아줘야, 그쪽에서도 우리를 믿어 주지 않겠는가?
+@char Bilyeong pos: 20, 50 scale: 0.7
+Bilyeong: ...지금 바로 갈 것이냐?
 
-@hide Bilyeong
-@char Bilyeong.Sigh pos: 30, 50 scale: 0.7
+@char Yeon
+Yeon: 못 갈 것도 없지. 
+Yeon: 근처라도 거닐며 그것들을 쫓아줘야, 그쪽에서도 우리를 믿지 않겠는가?
+Yeon: 우리가 정말로 저것들을 잡을 목적으로 자들이라는 걸 말이지.
+
+@char Bilyeong.Sigh
 Bilyeong: 그렇게 고생해서 왔거늘 오자마자 또 힘쓰게 생겼구나.
-Seol: 저도, 같이 싸우면 되겠습니까?
 
+@hide Bilyeong
 @hide Yeon
-@char Yeon pos: 20, 0 scale: 1.05
+@char Seol pos: 50, 0 scale: 1.05
+Seol: 저도, 함께 싸우면 되겠습니까?
+
+@hide Seol
+@char Yeon pos: 50, 0 scale: 1.05
 Yeon: 아, 설 소저께서는,
 
 @hide Yeon
-@hide Bilyeong
-@hide Seol
 
-@choice 같이 함께해주신다면, 큰 도움이 될 것 같습니다.
+@choice 힘을 보태 주신다면, 큰 도움이 될 것 같습니다.
     @goto .wayA
 @choice 이 곳에 남아, 사형과 사저를 기다려 주셨으면 합니다.
     @goto .wayB
@@ -141,25 +151,24 @@ Yeon: 아, 설 소저께서는,
 #wayA
 
 @char Seol.EyeClosed pos: 50, 0 scale: 1.05
-Seol: 그럼, 따라가도록 하겠습니다. 가시죠.
+Seol: 그럼, 동행하도록 하겠습니다.
 
-@hide Seol
 @goto .wayC
 
 #wayB
 
 @char Seol.EyeClosed pos: 50, 0 scale: 1.05
-Seol: ...네, 알겠습니다. 그러면, 이곳에서 거처를 정리하도록 하겠습니다.
+Seol: ...네, 알겠습니다. 그러면, 이곳에서 거처를 정리하고 있도록 하겠습니다.
 
 @char Seol
 Seol: 모쪼록 무사히 다녀오십시오.
 
-@hide Seol
 @goto .wayC
 
 #wayC
 
+@hide Seol
 @char Yeon pos: 50, 0 scale: 1.05
-Yeon: 그래, 그럼 출발하지.
+Yeon: 예, 그럼 출발하지요.
 
 @stopbgm
