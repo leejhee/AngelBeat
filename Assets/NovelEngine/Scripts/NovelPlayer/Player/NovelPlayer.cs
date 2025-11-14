@@ -214,19 +214,18 @@ public class NovelPlayer : MonoBehaviour
     }  
     public void EndScript()
     {
-        
         OnScriptEnd?.Invoke();
         
-        // TODO 씨발 임시코드
-        if (NovelManager.Instance.isRewardOpen)
-        {
-            Debug.Log("tttldlqkf");
-            UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();     
-        }
-        else
-        {
-            NovelManager.Instance.isRewardOpen = true;
-        }
+        //// TODO 씨발 임시코드
+        //if (NovelManager.Instance.isRewardOpen)
+        //{
+        //    Debug.Log("tttldlqkf");
+        //    UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();     
+        //}
+        //else
+        //{
+        //    NovelManager.Instance.isRewardOpen = true;
+        //}
         
         Addressables.Release(BackgroundPanel);
         ReleaseStandings();

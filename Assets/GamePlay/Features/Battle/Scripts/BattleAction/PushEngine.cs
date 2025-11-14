@@ -2,6 +2,7 @@
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Threading;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
@@ -33,32 +34,99 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             result.FirstGoal = goal;
 
-            if (!grid.IsPlatform(goal))
+            if (grid.IsPlatform(goal))
             {
-                if (!grid.TryFindLandingFloor(goal, out Vector2Int landing, out int fallCells))
+                if(grid.IsOccupied(goal) || grid.IsObstacle(goal))
                 {
-                    result.LandingGoal = new Vector2Int(goal.x, -1);
-                    result.Result = VictimResult.Fall;
+                    result.FirstGoal = target;
+                    result.LandingGoal = null;
+                    result.Result = VictimResult.WallSmack;
                     return result;
                 }
-                
-                result.LandingGoal = landing;
-                result.FallCells = fallCells;
-                result.Result = VictimResult.Land;
-                return result;
-            }
 
-            if(grid.IsOccupied(goal) || grid.IsObstacle(goal))
-            {
-                result.FirstGoal = target;
                 result.LandingGoal = null;
-                result.Result = VictimResult.WallSmack;
+                result.Result = VictimResult.JustPush;
                 return result;
             }
-
-            result.LandingGoal = null;
-            result.Result = VictimResult.JustPush;
+            
+            ResolveInAir(goal, dir, grid, ref result);
             return result;
+
+        }
+
+        private static void ResolveInAir(
+            Vector2Int start,
+            Vector2Int dir,
+            BattleStageGrid grid,
+            ref PushResult result)
+        {
+            int totalFallFloors = 0;
+            Vector2Int currentAir = start;
+            int guard = 0;
+
+            while (true)
+            {
+                if (++guard > 32)
+                {
+                    result.LandingGoal = new Vector2Int(currentAir.x, -1);
+                    result.Result = VictimResult.Fall;
+                    return;
+                }
+                
+                // 낙사
+                if (!grid.TryFindLandingFloor(currentAir, out Vector2Int landing, out int fallFloors))
+                {
+                    result.LandingGoal = new Vector2Int(currentAir.x, -1);
+                    result.FallCells = totalFallFloors;
+                    result.Result = VictimResult.Fall;
+                    return;
+                }
+                
+                totalFallFloors += fallFloors;
+                
+                // 착지
+                if (grid.IsWalkable(landing))
+                {
+                    result.LandingGoal = landing;
+                    result.FallCells = totalFallFloors;
+                    result.Result = VictimResult.Land;
+                    return;
+                }
+
+                Vector2Int slideCell = landing + dir;
+                
+                // 착지 불가 시 밀리는 경우 내부 루프
+                while (true)
+                {
+                    if (++guard > 32)
+                    {
+                        result.LandingGoal = new Vector2Int(currentAir.x, -1);
+                        result.Result = VictimResult.Fall;
+                        return;
+                    }
+
+                    // 목표 칸도 막혀 있으면 같은 방향으로 계속 한 칸씩 전진
+                    if (grid.IsOccupied(slideCell) || grid.IsObstacle(slideCell))
+                    {
+                        slideCell += dir;
+                        continue;
+                    }
+
+                    // 슬라이드 목표 칸이 비어있고, 플랫폼이면 그 자리에서 밀리고 끝
+                    if (grid.IsPlatform(slideCell))
+                    {
+                        result.LandingGoal = slideCell;
+                        result.FallCells = totalFallFloors; // 위에서 누적한 낙하 칸 수로 데미지 계산
+                        result.Result = VictimResult.Land;
+                        return;
+                    }
+
+                    // 슬라이드 목표 칸이 플랫폼이 아니라면 다시 낙하 규칙
+                    currentAir = slideCell;
+                    break;
+                }
+            }
+
         }
         
         #endregion

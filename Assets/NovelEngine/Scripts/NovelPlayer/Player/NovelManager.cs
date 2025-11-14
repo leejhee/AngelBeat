@@ -8,8 +8,8 @@ using System;
 
 public class NovelManager : MonoBehaviour
 {
-    // TODO 씨이이발 임시코드
-    public bool isRewardOpen = false;
+    //// TODO 씨이이발 임시코드
+    //public bool isRewardOpen = false;
     
     
     public static NovelManager Instance
@@ -102,6 +102,9 @@ public class NovelManager : MonoBehaviour
     }
     private UniTask InitializeIfNeededAsync()
     {
+        if(isReady)
+            return UniTask.CompletedTask;
+        
         // 이미 초기화가 시작되었으면 기존 Task 반환
         if (initStarted)
         {
@@ -112,7 +115,7 @@ public class NovelManager : MonoBehaviour
 
         // 초기화 시작
         initStarted = true;
-          _initialization = InitializeAsync();
+        _initialization = InitializeAsync().Preserve();
 
         return _initialization;
     }
@@ -196,8 +199,61 @@ public class NovelManager : MonoBehaviour
             throw;
         }
 
-
     }
+    
+    /// <summary>
+    /// Novel 끝나는거까지 기다리는 함수 팜.
+    /// TODO : 설계한 쪽에서 검수 바람
+    /// </summary>
+    public async UniTask PlayScriptAndWait(string scriptTitle, CancellationToken ct = default)
+    {
+        if (instance == null)
+        {
+            await InitAsync();
+        }
+
+        if (!isReady)
+        {
+            Debug.LogError("[NovelManager] Not ready yet. Call InitializeAsync() first.");
+            return;
+        }
+
+        if (Player == null)
+            await InstantiateNovelPlayerAsync();
+
+        TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
+        if (script == null)
+        {
+            Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
+            return;
+        }
+
+        var tcs = new UniTaskCompletionSource();
+
+        void Handler()
+        {
+            Player.OnScriptEnd -= Handler;
+            tcs.TrySetResult();
+        }
+
+        Player.OnScriptEnd += Handler;
+
+        if (ct.CanBeCanceled)
+        {
+            ct.Register(() =>
+            {
+                Player.OnScriptEnd -= Handler;
+                tcs.TrySetCanceled(ct);
+            });
+        }
+
+        Player.SetScript(script);
+        Player.Play();
+
+        await tcs.Task;
+    }
+    
+    
     private async UniTask InstantiateNovelPlayerAsync()
     {
         await NovelPlayerGate.WaitAsync();

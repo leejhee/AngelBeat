@@ -23,9 +23,8 @@ namespace GamePlay.Features.Battle.Scripts
                     UnityEngine.SceneManagement.Scene s = SceneManager.GetSceneByName("LoadingScene");
                     return !s.IsValid() || !s.isLoaded;
                 });
-                
-                await NovelManager.InitAsync();
-                NovelManager.Instance.PlayScript("6_5");
+
+                await NovelManager.Instance.PlayScriptAndWait("6_5");
                 
                 var input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
                 if (input) input.enableDuringTurn = false;
