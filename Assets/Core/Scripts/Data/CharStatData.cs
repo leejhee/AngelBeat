@@ -13,7 +13,7 @@ namespace Core.Scripts.Data
 {
     public partial class CharStatData : SheetData
     {
-        public long index; // 캐릭터 스탯 ID
+public long index; // 캐릭터 스탯 ID
 		public int Defense; // 방어력
 		public int MagicResist; // 항마력
 		public int AilmentResist; // 상태이상저항

@@ -105,18 +105,6 @@ namespace Core.Scripts.Managers
                 case nameof(KeywordData):
                     SetKeywordDataMap();
                     return;
-                //case nameof(DokkaebiData):
-                //    await InitCharacterSpriteMapWithYeon();
-                //    return;
-                //case nameof(CompanionData):
-                //    await SetCompanionSpriteMap();
-                //    return;
-                //case nameof(MonsterData):
-                //    await SetMonsterSpriteMap();
-                //    return;
-                //case nameof(DokkaebiSkillData):
-                //    await SetDokkaebiSkillIconSpriteMap();
-                //    return;
                 case nameof(SkillData):
                     SetCharacterSkillMap();
                     //await SetNormalSkillIconSpriteMap();

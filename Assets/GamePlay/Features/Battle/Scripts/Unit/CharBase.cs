@@ -261,11 +261,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             attacker.OnAttackSuccess?.Invoke(damageInfo);
             
             // Calculation
-            float attackStat = attacker.RuntimeStat.GetAttackStat(model.skillType);
-            float defenseStat = _runtimeStat.GetDefenseStat(model.skillType);
-            SkillDamageData damageData = model.skillDamage;
+            float attackStat = attacker.RuntimeStat.GetAttackStat(model.SkillType);
+            float defenseStat = _runtimeStat.GetDefenseStat(model.SkillType);
+            SkillDamageData damageData = model.SkillDamage;
             
-            long finalDamage = model.skillType switch
+            long finalDamage = model.SkillType switch
             {
                 SystemEnum.eSkillType.Heal => -(long)Mathf.Ceil(
                     damageData.DamageCoefficient *
@@ -281,7 +281,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     (100 - defenseStat) / 100f)
             };
             
-            bool canBeBlocked = model.skillType == SystemEnum.eSkillType.PhysicalAttack && finalDamage > 0;
+            bool canBeBlocked = model.SkillType == SystemEnum.eSkillType.PhysicalAttack && finalDamage > 0;
             
             async UniTask Apply(CancellationToken t)
             {
@@ -305,9 +305,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public async UniTask<bool> TryEvade(DamageParameter damageInfo)
         {
             SkillModel model = damageInfo.Model;
-            if (model.skillType == SystemEnum.eSkillType.MagicAttack) return false;
+            if (model.SkillType == SystemEnum.eSkillType.MagicAttack) return false;
 
-            float hitChance = model.skillAccuracy + damageInfo.Attacker.BonusAccuracy - Dodge + 5;
+            float hitChance = model.SkillAccuracy + damageInfo.Attacker.BonusAccuracy - Dodge + 5;
             bool succeed = UnityEngine.Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
             if (!succeed) return false;
 

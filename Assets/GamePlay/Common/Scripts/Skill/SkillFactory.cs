@@ -18,7 +18,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
 
         public static async UniTask<SkillBase> CreateSkill(SkillModel model)
         {
-            GameObject go = await ResourceManager.Instance.InstantiateAsync(model.prefabName);
+            GameObject go = await ResourceManager.Instance.InstantiateAsync(model.PrefabName);
             SkillBase skillBase = go.GetComponent<SkillBase>();
             skillBase.Init(model);
             return skillBase;

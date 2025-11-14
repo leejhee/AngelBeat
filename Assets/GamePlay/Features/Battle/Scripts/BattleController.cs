@@ -302,7 +302,7 @@ namespace GamePlay.Features.Battle.Scripts
                     caster: FocusChar,
                     skill:  _currentActionContext.skillModel,
                     isBlocked: blocked,
-                    pivotType: _currentActionContext.skillModel.skillRange.skillPivot,
+                    pivotType: _currentActionContext.skillModel.SkillRange.skillPivot,
                     cell: cell,
                     confirmAction: OnSkillIndicatorConfirm
                 );

@@ -47,7 +47,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             {
                 if (skill != null)
                 {
-                    Debug.Log($"  - {skill.SkillName} (타입: {skill.skillType}, 사거리: F{skill.skillRange.Forward}/B{skill.skillRange.Backward})");
+                    Debug.Log($"  - {skill.SkillName} (타입: {skill.SkillType}, 사거리: F{skill.SkillRange.Forward}/B{skill.SkillRange.Backward})");
                 }
             }
             
@@ -139,8 +139,8 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 if (skill == null) continue;
                 
                 // 공격 스킬만
-                if (skill.skillType != SystemEnum.eSkillType.PhysicalAttack &&
-                    skill.skillType != SystemEnum.eSkillType.MagicAttack)
+                if (skill.SkillType != SystemEnum.eSkillType.PhysicalAttack &&
+                    skill.SkillType != SystemEnum.eSkillType.MagicAttack)
                     continue;
                 
                 // 🔍 각 스킬 처리 로그
@@ -210,7 +210,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
                 // 스킬 범위 계산
                 BattleActionPreviewData rangeData = SkillRangeHelper.ComputeSkillRange(
                     _grid,
-                    skill.skillRange,
+                    skill.SkillRange,
                     _self
                 );
                 

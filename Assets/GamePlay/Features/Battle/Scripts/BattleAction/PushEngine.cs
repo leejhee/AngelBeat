@@ -19,7 +19,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             public int FallCells;
             public VictimResult Result;
         }
-
+        
+        #region Computing Push Action Result
+        
         public static PushResult ComputePushResult(
             Vector2Int pivot,
             Vector2Int target,
@@ -58,7 +60,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             result.Result = VictimResult.JustPush;
             return result;
         }
-
+        
+        #endregion
+        
+        #region Applying Push Action Result
+        
         public static async UniTask ApplyPushResult(
             CharBase victim,
             PushResult result,
@@ -122,5 +128,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             else
                 await task;
         }
+        
+        #endregion
     }
 }

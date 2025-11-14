@@ -21,7 +21,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             SkillModel model = Context.skillModel;
             if(model == null) throw new InvalidOperationException("[SkillBattleAction] - SkillModel is null");
-            SkillRangeData range = model.skillRange;
+            SkillRangeData range = model.SkillRange;
             
             CharBase actor = Context.actor;
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();

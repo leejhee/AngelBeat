@@ -1,13 +1,10 @@
-﻿using AngelBeat;
-using Core.Scripts.Data;
+﻿using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Common.Scripts.Entities.Skills;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GamePlay.Common.Scripts.Entities.Character
@@ -22,9 +19,10 @@ namespace GamePlay.Common.Scripts.Entities.Character
         private CharStat _baseStat;
         private SystemEnum.eCharType _type;
         
+        // 해금 목록이 따로 드러나야 한다는 전제로 3단으로 구성
+        
         /// <summary>
         /// 이 캐릭터가 가질 수 있는 모든 스킬의 리스트
-        /// TODO : 해금 목록이 따로 드러나야하는지 알아볼 것(현재 확인 불가)
         /// </summary>
         private List<SkillModel> _allSkillModels = new();
         
@@ -33,6 +31,11 @@ namespace GamePlay.Common.Scripts.Entities.Character
         /// TODO : 스킬 연결 앞으로 여기에 할 것.
         /// </summary>
         private List<SkillModel> _activeSkillModels = new();
+        
+        /// <summary>
+        /// 현재 활성화가 되어 있는 스킬들 중 사용하는 스킬
+        /// </summary>
+        private List<SkillModel> _usingSkillModels = new();
         
         #region Asset Key Route
         private string _prefabRoot;
@@ -47,6 +50,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         public string Name => _characterName;
         public IReadOnlyList<SkillModel> AllSkills => _allSkillModels.AsReadOnly();
         public IReadOnlyList<SkillModel> ActiveSkills => _activeSkillModels.AsReadOnly();
+        public IReadOnlyList<SkillModel> UsingSkills => _usingSkillModels.AsReadOnly();
         public SystemEnum.eCharType CharacterType => _type;
 
         public string PrefabRoot => _prefabRoot;
@@ -54,7 +58,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         public string LdRoot => _ldRoot;
         #endregion
         
-        
+        #region CTOR
         // 탐사 중 영입 시 등록
         public CharacterModel(CompanionData companion)
         {
@@ -74,8 +78,16 @@ namespace GamePlay.Common.Scripts.Entities.Character
             }
             _baseStat = new CharStat(statData);
 
-            //스킬 - 동료 나중
-            
+            List<SkillData> sl = DataManager.Instance.CharacterSkillMap[index];
+            foreach(SkillData skill in sl)
+                _allSkillModels.Add(new SkillModel(skill));
+            _activeSkillModels = _allSkillModels.FindAll(x => x.Unlock == SystemEnum.eSkillUnlock.Default);
+
+            foreach (SkillModel activeSkill in _activeSkillModels)
+            {
+                if (_usingSkillModels.Count >= 4) break;
+                _usingSkillModels.Add(activeSkill);
+            }
         }
         
         public CharacterModel(MonsterData monster)
@@ -96,11 +108,12 @@ namespace GamePlay.Common.Scripts.Entities.Character
             }
             _baseStat = new CharStat(statData);
             
-            // 몬스터는 데이터 상의 스킬 사용에 제한이 없다고 가정
+            // 몬스터는 데이터 상의 스킬 사용에 제한이 없다고 가정. 또한 그 수에도 제한을 두지 않는다 가정
             var skills = DataManager.Instance.CharacterSkillMap[index];
-            foreach(var sk in skills)
+            foreach(SkillData sk in skills)
                 _allSkillModels.Add(new SkillModel(sk));
             _activeSkillModels = new List<SkillModel>(_allSkillModels);
+            _usingSkillModels =  new List<SkillModel>(_activeSkillModels);
         }
         
         /// <summary>
@@ -117,32 +130,22 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             _baseStat = new CharStat(dok);
             
-            // TODO : 초기화 테이블 따로 가지고 있게 할 것
+            //도깨비는 처음부터 스킬을 얻지 않는다는 전제
+            ////////////// SKILL TEST SECTION ////////////////////
+            
             var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
             var mungeModel = new SkillModel(mungeData);
             _allSkillModels.Add(mungeModel);
             
-            // var smokeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
-            // var smokeModel = new SkillModel(smokeData);
-            // _allSkillModels.Add(smokeModel);
-            
-            
-
-            // var waveData = DataManager.Instance.GetData<DokkaebiSkillData>(10101003);
-            // var waveModel = new SkillModel(waveData);
-            // _allSkillModels.Add(waveModel);
-            //
-            // var bindData = DataManager.Instance.GetData<DokkaebiSkillData>(10101004);
-            // var bindModel = new SkillModel(bindData);
-            // _allSkillModels.Add(bindModel);
-            
             var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
             var twisterModel = new SkillModel(twisterData);
             _allSkillModels.Add(twisterModel);
-
-
             
             _activeSkillModels = new List<SkillModel>(_allSkillModels);
+            
+            ////////////// SKILL TEST SECTION //////////////////// 
+            
+            
         }
         
         // 기존의 데이터로 등록
@@ -156,7 +159,13 @@ namespace GamePlay.Common.Scripts.Entities.Character
             _allSkillModels = model._allSkillModels;
             _baseStat = model.BaseStat;
         }
-
+        
+        #endregion
+        
+        /// <summary>
+        /// 도깨비의 스킬 선택에는 이 메서드를 사용할 것
+        /// </summary>
+        /// <param name="skillModel"></param>
         public void AddSkill(SkillModel skillModel)
         {
             if (_activeSkillModels.Contains(skillModel) || _allSkillModels.Contains(skillModel))
@@ -169,6 +178,26 @@ namespace GamePlay.Common.Scripts.Entities.Character
             if (_activeSkillModels.Count < 4)
             {
                 _activeSkillModels.Add(skillModel);
+            }
+        }
+        
+        /// <summary>
+        /// 동료의 스킬 해금에는 이 메서드를 사용할 것
+        /// </summary>
+        /// <param name="unlock"></param>
+        public void UnlockSkill(SystemEnum.eSkillUnlock unlock)
+        {
+            List<SkillModel> skillModels = _allSkillModels.FindAll(x => x.Unlock == unlock);
+            foreach (SkillModel skillModel in skillModels)
+            {
+                if (_activeSkillModels.Contains(skillModel))
+                {
+                    Debug.LogWarning($"{skillModel}은 이미 존재하는 스킬입니다. 여기 오면 안되는데?");
+                    continue;
+                }
+                _activeSkillModels.Add(skillModel);
+                if (_usingSkillModels.Count < 4) _usingSkillModels.Add(skillModel);
+                //skillModel.locked = false; 필요한가?
             }
         }
         

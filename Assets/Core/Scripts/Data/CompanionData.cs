@@ -18,13 +18,6 @@ public long index; // 동료 ID
 		public long charStatID; // 캐릭터 스탯 ID
 		public long PassiveD1; // 첫 번째 패시브
 		public long PassiveD2; // 두 번째 패시브
-		public long Skill1ID; // 첫 번째 스킬
-		public long Skill2ID; // 두 번째 스킬
-		public long Skill3ID; // 세 번째 스킬
-		public long Skill4ID; // 네 번째 스킬
-		public long Skill5ID; // 다섯 번째 스킬
-		public long Skill6ID; // 여섯 번째 스킬
-		public long Skill7ID; // 일곱 번째 스킬
 		
 		public SystemEnum.eUnlockCondition UnlockCondition; // 해금조건
 		
@@ -81,64 +74,29 @@ public long index; // 동료 ID
 					    data.PassiveD2 = Convert.ToInt64(values[5]);
 					
 					if(values[6] == "")
-					    data.Skill1ID = default;
-					else
-					    data.Skill1ID = Convert.ToInt64(values[6]);
-					
-					if(values[7] == "")
-					    data.Skill2ID = default;
-					else
-					    data.Skill2ID = Convert.ToInt64(values[7]);
-					
-					if(values[8] == "")
-					    data.Skill3ID = default;
-					else
-					    data.Skill3ID = Convert.ToInt64(values[8]);
-					
-					if(values[9] == "")
-					    data.Skill4ID = default;
-					else
-					    data.Skill4ID = Convert.ToInt64(values[9]);
-					
-					if(values[10] == "")
-					    data.Skill5ID = default;
-					else
-					    data.Skill5ID = Convert.ToInt64(values[10]);
-					
-					if(values[11] == "")
-					    data.Skill6ID = default;
-					else
-					    data.Skill6ID = Convert.ToInt64(values[11]);
-					
-					if(values[12] == "")
-					    data.Skill7ID = default;
-					else
-					    data.Skill7ID = Convert.ToInt64(values[12]);
-					
-					if(values[13] == "")
 					    data.UnlockCondition = default;
 					else
-					    data.UnlockCondition = (SystemEnum.eUnlockCondition)Enum.Parse(typeof(SystemEnum.eUnlockCondition), values[13]);
+					    data.UnlockCondition = (SystemEnum.eUnlockCondition)Enum.Parse(typeof(SystemEnum.eUnlockCondition), values[6]);
 					
-					if(values[14] == "")
+					if(values[7] == "")
 					    data.UpgradeLevel = default;
 					else
-					    data.UpgradeLevel = (SystemEnum.eUpgradeLevel)Enum.Parse(typeof(SystemEnum.eUpgradeLevel), values[14]);
+					    data.UpgradeLevel = (SystemEnum.eUpgradeLevel)Enum.Parse(typeof(SystemEnum.eUpgradeLevel), values[7]);
 					
-					if(values[15] == "")
+					if(values[8] == "")
 					    data.charPrefabName = default;
 					else
-					    data.charPrefabName = Convert.ToString(values[15]);
+					    data.charPrefabName = Convert.ToString(values[8]);
 					
-					if(values[16] == "")
+					if(values[9] == "")
 					    data.charImage = default;
 					else
-					    data.charImage = Convert.ToString(values[16]);
+					    data.charImage = Convert.ToString(values[9]);
 					
-					if(values[17] == "")
+					if(values[10] == "")
 					    data.charLDRoute = default;
 					else
-					    data.charLDRoute = Convert.ToString(values[17]);
+					    data.charLDRoute = Convert.ToString(values[10]);
 					
 
                     dataList[data.index] = data;

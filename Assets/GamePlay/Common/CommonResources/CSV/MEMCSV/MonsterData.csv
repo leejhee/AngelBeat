@@ -2,8 +2,8 @@
 index,#,charName,charPrefabName,charImage,charStatID,defaultPassiveListID,,,,,,,,,,,,
 long,#,string,string,string,long,long,,,,,,,,,,,,
 30001001,#근거리 잡몹,아귀,testBaby,Baby,30002001,,,,,,,,,,,,,
-30001002,#원거리 잡몹,절규,testJerky,Jerky,30002002,,,,,,,,,,,,,
-
-
+30001002,#원거리 잡몹,절규,testScream,Scream,30002002,,,,,,,,,,,,,
+30001003,#서포트 뒷산,저퀴,testJerky,Jerky,30002003,,,,,,,,,,,,,
+30001004,#창귀,굴각,testGulGak,Gulgak,30002004,,,,,,,,,,,,,
 
 

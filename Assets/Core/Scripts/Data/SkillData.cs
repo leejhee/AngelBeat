@@ -26,6 +26,7 @@ public long index; // 스킬 ID
 		public string skillTimeLine; // 스킬 타임라인명
 		
 		public SystemEnum.eSkillUnlock unlockCondition; // 스킬 해금 조건
+		public string SkillToolTip; // 스킬 툴팁
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
         public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
@@ -103,6 +104,11 @@ public long index; // 스킬 ID
 					    data.unlockCondition = default;
 					else
 					    data.unlockCondition = (SystemEnum.eSkillUnlock)Enum.Parse(typeof(SystemEnum.eSkillUnlock), values[11]);
+					
+					if(values[12] == "")
+					    data.SkillToolTip = default;
+					else
+					    data.SkillToolTip = Convert.ToString(values[12]);
 					
 
                     dataList[data.index] = data;
