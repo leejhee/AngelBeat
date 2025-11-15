@@ -1,6 +1,7 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.BattleAction;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
@@ -10,15 +11,33 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 {
     public class BattleTutorialDirector : MonoBehaviour
     {
+        #region Singleton
+        public static BattleTutorialDirector Instance { get; private set; }
+        
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+        #endregion
+        
         [Header("전투 튜토리얼에 대한 config 삽입")]
         [SerializeField] private BattleTutorialConfig config;
 
         private readonly HashSet<string> _completedSteps = new();
 
         private TurnEventContext _lastTurnContext;
-
         private TurnController _turnController;
         private BattleController _battleController;
+        
+        private bool _inputLocked;
+        private TutorialGuideTarget _requiredClickTarget = TutorialGuideTarget.None;
+        private Vector2Int _requiredCell;
+        private BattleTutorialStep _lockedStep;
         
         public void Init(TurnController turnController, BattleController battleController)
         {
@@ -34,6 +53,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             _battleController.OnBattleStartAsync += OnBattleStartAsync;
             _battleController.OnBattleEndAsync += OnBattleEndAsync;
             _battleController.ActionCompleted += OnActionCompleted;
+            _battleController.OnActionPreviewStarted += OnActionPreviewStarted;
             
             _turnController.OnRoundProceedAsync += OnRoundProceedAsync;
             _turnController.OnTurnBeganAsync += OnTurnBeganAsync;
@@ -123,6 +143,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
                 await ExecuteStep(step);
             }
+            
+            ClearInputLock();
         }
         
         private void OnActionCompleted(BattleActionBase action, BattleActionResult result)
@@ -132,10 +154,12 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         private async UniTask HandleActionCompletedAsync(BattleActionBase action, BattleActionResult result)
         {
+            ClearInputLock();
+            
             if (!result.ActionSuccess)
                 return;
-
-            var ctx = _lastTurnContext; // 여기서 Round/Actor/ActorTurnCount 다 쓸 수 있음
+            
+            TurnEventContext ctx = _lastTurnContext;
 
             foreach (var step in config.steps)
             {
@@ -148,6 +172,36 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                     continue;
                 if (!MatchActionCondition(step, action, result))
                     continue;
+
+                await ExecuteStep(step);
+            }
+        }
+        
+        private void OnActionPreviewStarted(BattleActionContext ctx, BattleActionPreviewData data)
+        {
+            HandleActionPreviewStartedAsync(ctx, data).Forget();
+        }
+
+        private async UniTask HandleActionPreviewStartedAsync(
+            BattleActionContext ctx, 
+            BattleActionPreviewData data)
+        {
+            TurnEventContext turnCtx = _lastTurnContext;
+
+            foreach (BattleTutorialStep step in config.steps)
+            {
+                if (step.triggerType != TutorialTriggerEventType.ActionPreviewStart)
+                    continue;
+                if (!IsStepAvailable(step))
+                    continue;
+
+                if (!MatchTurnCondition(step, turnCtx))
+                    continue;
+
+                if (step.filterActionType && step.requiredActionType != ctx.battleActionType)
+                    continue;
+
+                // 필요하면 data(PossibleCells 등)도 여기서 활용 가능
 
                 await ExecuteStep(step);
             }
@@ -170,20 +224,103 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
             _completedSteps.Add(step.stepID);
         }
-
-        private async UniTask ExecuteStep(BattleTutorialStep step)
+        
+        private void ApplyInputLockForStep(BattleTutorialStep step)
         {
-            MarkStepCompleted(step);
-            
-            // 삽입하고 싶은 이벤트가 있다면 여기에 삽입할 것.
-            
-            if (!string.IsNullOrEmpty(step.novelScriptId))
+            if (!step.lockInputDuringStep)
+                return;
+
+            _inputLocked = true;
+            _lockedStep = step;
+            _requiredClickTarget = step.requiredClickTarget;
+            _requiredCell = default;
+
+            if (_requiredClickTarget == TutorialGuideTarget.CellWorld
+                && _battleController
+                && _lastTurnContext?.Actor)
             {
-                Debug.Log($"[TutorialDirector] 데이터에 따라, {step.stepID} - {step.novelScriptId}의 재생");
-                await NovelManager.PlayScriptAndWait(step.novelScriptId);
+                BattleStageGrid grid = _battleController.GetBattleGrid();
+                if (grid)
+                {
+                    Vector2Int actorCell = grid.WorldToCell(_lastTurnContext.Actor.transform.position);
+                    _requiredCell = actorCell + step.requiredCellOffset;
+                }
             }
         }
+        
+        private void ClearInputLock()
+        {
+            _inputLocked = false;
+            _requiredClickTarget = TutorialGuideTarget.None;
+            _requiredCell = default;
+            _lockedStep = null;
+        }
+        
+        private async UniTask ExecuteStep(BattleTutorialStep step)
+        {
+            if (!step) return;
 
+            MarkStepCompleted(step);
+            ApplyInputLockForStep(step);
+            
+            switch (step.viewType)
+            {
+                case BattleTutorialViewType.Novel:
+                    await PlayNovelStepAsync(step);
+                    break;
+        
+                case BattleTutorialViewType.Guide:
+                    await PlayGuideStepAsync(step);
+                    break;
+            }
+        }
+        
+        private async UniTask PlayNovelStepAsync(BattleTutorialStep step)
+        {
+            if (string.IsNullOrEmpty(step.novelScriptId))
+                return;
+
+            await NovelManager.PlayScriptAndWait(step.novelScriptId);
+        }
+        
+        private async UniTask PlayGuideStepAsync(BattleTutorialStep step)
+        {
+            if (step.guidePages == null || step.guidePages.Length == 0)
+                return;
+    
+            var ui = BattleTutorialGuideUI.Instance;
+            if (ui == null)
+            {
+                Debug.LogWarning("BattleTutorialGuideUI 인스턴스가 없습니다.");
+                return;
+            }
+
+            CharBase actor = _lastTurnContext?.Actor;
+
+            foreach (var page in step.guidePages)
+            {
+                if (page == null) continue;
+
+                switch (page.anchor)
+                {
+                    case GuideAnchor.ScreenTop:
+                        ui.ShowScreenTop(page.text);
+                        break;
+                    case GuideAnchor.Actor:
+                        if (actor != null && page.focusActor)
+                            ui.ShowForActor(actor, page.text);
+                        else
+                            ui.ShowScreenTop(page.text);
+                        break;
+                }
+
+                await ui.WaitForNextAsync();
+            }
+
+            ui.Hide();
+
+        }
+        
         private bool MatchTurnCondition(BattleTutorialStep step, TurnEventContext ctx)
         {
             if (step.requiredRound > 0 && step.requiredRound != ctx.Round)
@@ -231,7 +368,11 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 _battleController.OnBattleStartAsync -= OnBattleStartAsync;
                 _battleController.OnBattleEndAsync -= OnBattleEndAsync;
             }
+            
+            if (Instance == this)
+                Instance = null;
         }
+        
         
     }
 }

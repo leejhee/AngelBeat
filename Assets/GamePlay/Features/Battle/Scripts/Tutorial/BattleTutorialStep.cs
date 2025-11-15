@@ -15,6 +15,9 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         [Header("트리거 타입")]
         public TutorialTriggerEventType triggerType;
         
+        [Header("연출 타입")]
+        public BattleTutorialViewType viewType = BattleTutorialViewType.Novel;
+        
         [Header("라운드 조건 - 0이면 무시")]
         public int requiredRound = 0;
         
@@ -31,7 +34,18 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         public bool filterSkillId = false;
         public int requiredSkillId;
         
-        [Header("실행할 연출")]
+        [Header("Novel 연출이라면 Script의 ID를 작성할 것")]
         public string novelScriptId;   
+        
+        [Header("Guide 연출이라면 Page의 배열을 작성할 것")]
+        public BattleTutorialGuidePage[] guidePages;
+        
+        [Header("Guide 연출이라면 입력 유도 / 강제 옵션")]
+        public bool lockInputDuringStep = false;  // 이 스텝이 활성화된 동안 입력을 제한할지
+        // 무엇을 클릭하게 할지
+        public TutorialGuideTarget requiredClickTarget = TutorialGuideTarget.None;
+        // 액터 기준 오프셋
+        public Vector2Int requiredCellOffset;
+
     }
 }

@@ -7,6 +7,7 @@
         RoundStart,
         TurnStart,
         TurnEnd,
-        ActionCompleted
+        ActionCompleted,
+        ActionPreviewStart
     }
 }

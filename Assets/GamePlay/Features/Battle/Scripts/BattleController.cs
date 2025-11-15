@@ -70,8 +70,9 @@ namespace GamePlay.Features.Battle.Scripts
 
         public event Func<UniTask> OnBattleStartAsync;
         public event Func<SystemEnum.eCharType, UniTask> OnBattleEndAsync;
+        public event Action<BattleActionContext, BattleActionPreviewData> OnActionPreviewStarted;
+        public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
         public event Action<long> OnCharacterDead;
-        
         #endregion
         
         #region UI Model
@@ -97,13 +98,8 @@ namespace GamePlay.Features.Battle.Scripts
         
         #endregion
         
-        /// <summary> 테스트 용도로 stage source를 관리체에 제공한다. </summary>
-        /// <param name="sceneSource"> 테스트 용도의 stage source. </param>
         public void SetStageSource(IBattleSceneSource sceneSource) => _sceneSource = sceneSource;
         
-        /// <summary>
-        /// 역할 : 전투 진입 시의 최초 동작 메서드. 전투 환경을 초기화한다.
-        /// </summary>
         [Obsolete("초기화는 이제 Initializer 클래스에서 진행합니다.")]
         private async UniTask BattleInitialize()
         {
@@ -176,7 +172,7 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
         
         public bool IsModal => _currentActionState != BattleActionState.Idle;
-        public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
+        
         
         /// <summary>
         /// BattleAction 시작을 위한 Preview 제시 
@@ -243,6 +239,7 @@ namespace GamePlay.Features.Battle.Scripts
                 BattleActionPreviewData data = await _currentActionBase.BuildActionPreview(_actionCts.Token);
                 RenderPreview(data);    
                 _currentActionState = BattleActionState.Preview;
+                OnActionPreviewStarted?.Invoke(_currentActionContext, data);
             }
             catch (OperationCanceledException) { /*Silence*/ }
             catch (Exception e)
