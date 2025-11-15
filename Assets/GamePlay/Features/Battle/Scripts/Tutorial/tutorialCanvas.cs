@@ -71,22 +71,22 @@ public class tutorialCanvas : MonoBehaviour
     }
     private void Update()
     {
-        if (BattleController.Instance.FocusChar != null)
-        {
-            isFocusOn = true;
-        }
-        if (NovelManager.Instance.firstTutoEnd && !firstButton)
-        {
-            isNovelEnd = true;
-            firstButton = true;
-            tutorialButton.gameObject.SetActive(true);
-        }
-        if (isFocusOn)
-        {
-            Vector3 vec = BattleController.Instance.FocusChar.gameObject.transform.localPosition;
-            rectTransform.localPosition = vec;
-            buttonRect.localPosition = new Vector3(vec.x + buttonDistance, vec.y, vec.z);
-        }
-
+        //if (BattleController.Instance.FocusChar != null)
+        //{
+        //    isFocusOn = true;
+        //}
+        //if (NovelManager.Instance.firstTutoEnd && !firstButton)
+        //{
+        //    isNovelEnd = true;
+        //    firstButton = true;
+        //    tutorialButton.gameObject.SetActive(true);
+        //}
+        //if (isFocusOn)
+        //{
+        //    Vector3 vec = BattleController.Instance.FocusChar.gameObject.transform.localPosition;
+        //    rectTransform.localPosition = vec;
+        //    buttonRect.localPosition = new Vector3(vec.x + buttonDistance, vec.y, vec.z);
+        //}
+//
     }
 }

@@ -5,6 +5,7 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
+using GamePlay.Features.Battle.Scripts.Tutorial;
 using System;
 using System.Threading;
 using UIs.Runtime;
@@ -71,8 +72,21 @@ namespace GamePlay.Features.Battle.Scripts
                 
                 Debug.Log("[Battle Initializer] 유닛 스폰 완료!");
                 progress?.Report(0.7f);
-            
+                
+                Debug.Log("[Battle Initializer] 턴 관리 및 이벤트 주입 중...");
                 TurnController turnManager = new(); 
+                
+                BattleTutorialDirector tutorialDirector = Object.FindFirstObjectByType<BattleTutorialDirector>(FindObjectsInactive.Exclude);
+                if (tutorialDirector != null)
+                {
+                    tutorialDirector.Init(turnManager, controller);
+                }
+                else
+                {
+                    Debug.Log("[BattleSceneInitializer] BattleTutorialDirector not found in scene.");
+                }
+                
+                Debug.Log("[Battle Initializer] 턴 관리 및 이벤트 주입 완료!");
                 progress?.Report(0.8f);
             
                 controller.Initialize(stage, turnManager, src.PlayerParty);

@@ -66,8 +66,12 @@ namespace GamePlay.Features.Battle.Scripts
         public BattleCameraDriver CameraDriver => cameraDriver;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public Party PlayerParty => _playerParty;
-        
+        public TurnController TurnController => _turnManager;
+
+        public event Func<UniTask> OnBattleStartAsync;
+        public event Func<SystemEnum.eCharType, UniTask> OnBattleEndAsync;
         public event Action<long> OnCharacterDead;
+        
         #endregion
         
         #region UI Model
@@ -90,8 +94,6 @@ namespace GamePlay.Features.Battle.Scripts
         {
             return _battleStage?.GetComponent<BattleStageGrid>();
         }
-        
-        public TurnController TurnController => _turnManager;
         
         #endregion
         
@@ -149,6 +151,12 @@ namespace GamePlay.Features.Battle.Scripts
                 if (cameraDriver && m?.Turn?.TurnOwner)
                     await cameraDriver.Focus(m.Turn.TurnOwner.CharCameraPos, 0.4f);
             };
+        }
+        
+        public async UniTask RaiseBattleStartAsync()
+        {
+            if (OnBattleStartAsync != null)
+                await OnBattleStartAsync.Invoke();
         }
         
         #region Battle Action Managing
@@ -445,19 +453,19 @@ namespace GamePlay.Features.Battle.Scripts
         {
             BattleCharManager.Instance.ClearAll();
             
-            // 결과 내보내기(onBattleEnd 필요)
+            // 전투 종료 시의 특정 이벤트 수행
+            if (OnBattleEndAsync != null)
+                await OnBattleEndAsync.Invoke(winnerType);
+            
+            // 마지막에는 전투 승리, 패배에 따른 통상 시퀀스
             if (winnerType == SystemEnum.eCharType.Player)
             {
-                await NovelManager.Instance.PlayScriptAndWait("7");
+                await UIManager.Instance.ShowViewAsync(ViewID.GameWinView);
             }
             else
             {
                 SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
-                //await UIManager.Instance.ShowViewAsync(ViewID.GameOverView);
             }
-            
-            // 탐사로 비동기 로딩. 
-            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.ExploreScene);
         }
 #if UNITY_EDITOR
         [ContextMenu("전투 승리 치트")]

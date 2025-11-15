@@ -43,13 +43,13 @@ public class NovelPlayer : MonoBehaviour
     }
 
     // 여기까지
-    private void OnDisable()
-    {
-        if (!NovelManager.Instance.firstTutoEnd)
-        {
-            NovelManager.Instance.firstTutoEnd = true;
-        }
-    }
+    //private void OnDisable()
+    //{
+    //    if (!NovelManager.Instance.firstTutoEnd)
+    //    {
+    //        NovelManager.Instance.firstTutoEnd = true;
+    //    }
+    //}
 
     // 나중에 private로 돌릴것들
 
@@ -215,17 +215,6 @@ public class NovelPlayer : MonoBehaviour
     public void EndScript()
     {
         OnScriptEnd?.Invoke();
-        
-        //// TODO 씨발 임시코드
-        //if (NovelManager.Instance.isRewardOpen)
-        //{
-        //    Debug.Log("tttldlqkf");
-        //    UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();     
-        //}
-        //else
-        //{
-        //    NovelManager.Instance.isRewardOpen = true;
-        //}
         
         Addressables.Release(BackgroundPanel);
         ReleaseStandings();

@@ -1,5 +1,3 @@
-using AngelBeat;
-using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -14,17 +12,30 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
     /// </summary>
     public class TurnController
     {
+        #region Fields
         private int _round = 1;
         private Queue<Turn> _turnQueue = new();
-        private List<Turn> _turnBuffer = new();
+        private readonly List<Turn> _turnBuffer = new();
+        private readonly Dictionary<long, int> _actorTurnCounts = new();
+        #endregion
         
+        #region Properties
         public Turn CurrentTurn { get; private set; }
         public int CurrentRound => _round;
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
         public Func<UniTask> OnRoundProceeds;
         public event Action OnRoundEnd;
         public IReadOnlyCollection<Turn> TurnCollection => _turnBuffer.AsReadOnly();
-
+        
+        #endregion
+        
+        #region New Events - Testing
+        public event Func<RoundEventContext, UniTask> OnRoundProceedAsync;
+        public event Func<TurnEventContext, UniTask> OnTurnBeganAsync;
+        public event Func<TurnEventContext, UniTask> OnTurnEndedAsync;
+        
+        #endregion
+        
         #region UI Model
 
         public class TurnModel
@@ -76,35 +87,73 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         
         public async UniTask ChangeTurn()
         {
-            CurrentTurn?.End();
+            #region End Previous turn & Ending Event
+            if (CurrentTurn != null)
+            {
+                if (TurnOwner && OnTurnEndedAsync != null)
+                {
+                    long actorID = TurnOwner.GetID();
+                    _actorTurnCounts.TryGetValue(actorID, out int actorTurnCount);
+
+                    TurnEventContext endCtx = new(_round, TurnOwner, actorTurnCount);
+                    await OnTurnEndedAsync(endCtx);
+                }
+                
+                CurrentTurn?.End();
+            }
+            #endregion
             
-            
+            #region Check Round Ending & Event & Rebuild
             if (_turnQueue.Count == 0)
             {
                 OnRoundEnd?.Invoke();
                 _round++;
                 RebuildTurnQueue();
+
+                if (OnRoundProceedAsync != null)
+                {
+                    RoundEventContext roundCtx = new(_round);
+                    await OnRoundProceedAsync.Invoke(roundCtx);
+                }
+                //TODO : 하나에 다 묶을 지 선택할 것
                 if (OnRoundProceeds != null)
                 {
                     await OnRoundProceeds.Invoke();
                 }
             }
+            #endregion
             
+            #region Start Next Turn & Starting Event
             CurrentTurn = _turnQueue.Dequeue();
             while(!CurrentTurn.IsValid)
                 CurrentTurn = _turnQueue.Dequeue();
-        
+
+            if (TurnOwner)
+            {
+                long id = TurnOwner.GetID();
+                if (!_actorTurnCounts.TryGetValue(id, out int actorTurnCount))
+                    actorTurnCount = 0;
+                actorTurnCount++;
+                _actorTurnCounts[id] = actorTurnCount;
+
+                if (OnTurnBeganAsync != null)
+                {
+                    TurnEventContext beginCtx = new(_round, TurnOwner, actorTurnCount);
+                    await OnTurnBeganAsync(beginCtx);
+                }
+            }
+            
             CurrentTurn.Begin();
             OnTurnChanged?.Invoke(new TurnModel(CurrentTurn));
             
-            
+            #endregion
         }
         
-        public void ChangeTurn(BattleTurn.Turn targetTurn)
+        public void ChangeTurn(Turn targetTurn)
         {
             CurrentTurn?.End();
             if (_turnQueue.Contains(targetTurn))
-                _turnQueue = new Queue<BattleTurn.Turn>(_turnQueue.Where(t => t != targetTurn));
+                _turnQueue = new Queue<Turn>(_turnQueue.Where(t => t != targetTurn));
             CurrentTurn = targetTurn;
             CurrentTurn.Begin();
 

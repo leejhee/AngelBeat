@@ -24,16 +24,19 @@ namespace GamePlay.Features.Battle.Scripts
                     return !s.IsValid() || !s.isLoaded;
                 });
 
-                await NovelManager.Instance.PlayScriptAndWait("6_5");
+                //await NovelManager.PlayScriptAndWait("6_5");
+                BattleController battle = BattleController.Instance;
+                if (battle != null)
+                    await battle.RaiseBattleStartAsync();
                 
-                var input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
+                BattleCameraInput input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
                 if (input) input.enableDuringTurn = false;
                 
                 // 전장 전체 인트로
-                var driver = BattleController.Instance.CameraDriver;
+                BattleCameraDriver driver = BattleController.Instance.CameraDriver;
                 if (driver && stage)
                     await driver.ShowStageIntro(stage, paddingWorld:1.0f, fadeSeconds:0.8f);
-
+                
                 // 첫 턴 시작
                 if (turn != null)
                     await turn.ChangeTurn();

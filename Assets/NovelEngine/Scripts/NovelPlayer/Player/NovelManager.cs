@@ -43,10 +43,10 @@ public class NovelManager : MonoBehaviour
         PlayScript(name);
     }
 
-    public bool firstTutoEnd = false;
-    public bool secondTutoEnd = false;
-    public bool thirdTutoEnd = false;
-    public bool fourthTutoEnd = false;
+    //public bool firstTutoEnd = false;
+    //public bool secondTutoEnd = false;
+    //public bool thirdTutoEnd = false;
+    //public bool fourthTutoEnd = false;
     
     public static async void Init()
     {
@@ -205,9 +205,9 @@ public class NovelManager : MonoBehaviour
     /// Novel 끝나는거까지 기다리는 함수 팜.
     /// TODO : 설계한 쪽에서 검수 바람
     /// </summary>
-    public async UniTask PlayScriptAndWait(string scriptTitle, CancellationToken ct = default)
+    public static async UniTask PlayScriptAndWait(string scriptTitle, CancellationToken ct = default)
     {
-        if (instance == null)
+        if (!instance)
         {
             await InitAsync();
         }
@@ -218,11 +218,11 @@ public class NovelManager : MonoBehaviour
             return;
         }
 
-        if (Player == null)
-            await InstantiateNovelPlayerAsync();
+        if (!Player)
+            await instance.InstantiateNovelPlayerAsync();
 
         TextAsset script = Data.script.GetScriptByTitle(scriptTitle);
-        if (script == null)
+        if (!script)
         {
             Debug.LogError($"[NovelManager] Script '{scriptTitle}' not found.");
             return;
