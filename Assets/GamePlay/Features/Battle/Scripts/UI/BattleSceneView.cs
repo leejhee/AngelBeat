@@ -2,18 +2,15 @@ using AngelBeat;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
-using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
-using System.Linq;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI
@@ -162,6 +159,12 @@ namespace GamePlay.Features.Battle.Scripts.UI
             // TODO : 인벤 구현 후 인벤 flow 작성할 것
             
             #endregion
+            return UniTask.CompletedTask;
+        }
+
+        public override UniTask ExitAction(CancellationToken token)
+        {
+            _focusCharacterEvents.Clear();
             return UniTask.CompletedTask;
         }
 
@@ -358,6 +361,18 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnSkillSelected(int slot)
         {
+            BattleInputGate gate = BattleInputGate.Instance;
+            if (gate && !gate.CanStartAction(ActionType.Skill))
+            {
+                SkillButton btn = View.CharacterHUD.SkillPanel.SkillButtons[slot].GetComponent<SkillButton>();
+                View.CharacterHUD.Toggling(btn);
+
+                // TODO : SystemMessage 띄울 것
+                Debug.Log("[Tutorial] 이 스킬은 지금 사용할 수 없습니다.");
+
+                return;
+            }
+            
             BattleController.Instance.StartPreview(ActionType.Skill, slot).Forget();
         }
 
@@ -372,27 +387,35 @@ namespace GamePlay.Features.Battle.Scripts.UI
 
         private void OnClickJumpButton()
         {
+            BattleInputGate gate = BattleInputGate.Instance;
+            if (gate && !gate.CanStartAction(ActionType.Jump))
+            {
+                View.CharacterHUD.Toggling(View.CharacterHUD.JumpButton);
+                Debug.Log("[InputGate] 지금은 점프를 사용할 수 없습니다.");
+                return;
+            }
+            
             if (View.CharacterHUD.JumpButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("점프");
                 BattleController.Instance.StartPreview(ActionType.Jump).Forget();
             }
-            else
-            {
-                Debug.Log("점프를 할 수 없습니다.");
-            }
         }
 
         private void OnClickPushButton()
         {
+            BattleInputGate gate = BattleInputGate.Instance;
+            if (gate && !gate.CanStartAction(ActionType.Push))
+            {
+                View.CharacterHUD.Toggling(View.CharacterHUD.PushButton);
+                Debug.Log("[InputGate] 지금은 밀기를 사용할 수 없습니다.");
+                return;
+            }
+            
             if (View.CharacterHUD.PushButton.GetComponent<ToggleButton>().isSelected)
             {
                 Debug.Log("밀기");
                 BattleController.Instance.StartPreview(ActionType.Push).Forget();
-            }
-            else
-            {
-                Debug.Log("밀기를 할 수 없습니다.");
             }
         }
 

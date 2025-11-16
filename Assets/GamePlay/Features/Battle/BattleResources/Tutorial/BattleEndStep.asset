@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe92d91731e4435791f63c2e896d92de, type: 3}
   m_Name: BattleEndStep
   m_EditorClassIdentifier: 
-  stepID: 
+  stepID: Battle_01_EndingNovel
   triggerOnce: 1
   triggerType: 1
+  viewType: 1
   requiredRound: 0
   onlyPlayer: 0
   onlyEnemy: 0
@@ -25,3 +26,7 @@ MonoBehaviour:
   filterSkillId: 0
   requiredSkillId: 0
   novelScriptId: 7
+  guidePages: []
+  lockInputDuringStep: 0
+  requiredClickTarget: 0
+  requiredCellOffset: {x: 0, y: 0}

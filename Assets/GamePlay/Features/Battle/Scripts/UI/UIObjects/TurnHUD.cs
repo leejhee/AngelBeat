@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Resources;
-using Core.Scripts.Managers;
 using UnityEngine;
 using ResourceManager = Core.Scripts.Managers.ResourceManager;
 

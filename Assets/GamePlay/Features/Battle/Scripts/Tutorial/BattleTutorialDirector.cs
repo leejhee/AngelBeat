@@ -1,7 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.BattleAction;
-using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
@@ -27,17 +26,13 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         [Header("전투 튜토리얼에 대한 config 삽입")]
         [SerializeField] private BattleTutorialConfig config;
-
+        [SerializeField] private BattleInputGate inputGate;
+        
         private readonly HashSet<string> _completedSteps = new();
 
         private TurnEventContext _lastTurnContext;
         private TurnController _turnController;
         private BattleController _battleController;
-        
-        private bool _inputLocked;
-        private TutorialGuideTarget _requiredClickTarget = TutorialGuideTarget.None;
-        private Vector2Int _requiredCell;
-        private BattleTutorialStep _lockedStep;
         
         public void Init(TurnController turnController, BattleController battleController)
         {
@@ -209,6 +204,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         #endregion
         
+        #region Core Methods
+        
         private bool IsStepAvailable(BattleTutorialStep step)
         {
             if (!step.triggerOnce) return true;
@@ -227,33 +224,15 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         private void ApplyInputLockForStep(BattleTutorialStep step)
         {
-            if (!step.lockInputDuringStep)
+            if (!inputGate || !step.lockInputDuringStep)
                 return;
 
-            _inputLocked = true;
-            _lockedStep = step;
-            _requiredClickTarget = step.requiredClickTarget;
-            _requiredCell = default;
-
-            if (_requiredClickTarget == TutorialGuideTarget.CellWorld
-                && _battleController
-                && _lastTurnContext?.Actor)
-            {
-                BattleStageGrid grid = _battleController.GetBattleGrid();
-                if (grid)
-                {
-                    Vector2Int actorCell = grid.WorldToCell(_lastTurnContext.Actor.transform.position);
-                    _requiredCell = actorCell + step.requiredCellOffset;
-                }
-            }
+            inputGate.ApplyTutorialLock(step, _lastTurnContext);
         }
         
         private void ClearInputLock()
         {
-            _inputLocked = false;
-            _requiredClickTarget = TutorialGuideTarget.None;
-            _requiredCell = default;
-            _lockedStep = null;
+            inputGate?.ClearTutorialLock();
         }
         
         private async UniTask ExecuteStep(BattleTutorialStep step)
@@ -288,8 +267,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             if (step.guidePages == null || step.guidePages.Length == 0)
                 return;
     
-            var ui = BattleTutorialGuideUI.Instance;
-            if (ui == null)
+            BattleTutorialGuideUI ui = BattleTutorialGuideUI.Instance;
+            if (!ui)
             {
                 Debug.LogWarning("BattleTutorialGuideUI 인스턴스가 없습니다.");
                 return;
@@ -307,7 +286,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                         ui.ShowScreenTop(page.text);
                         break;
                     case GuideAnchor.Actor:
-                        if (actor != null && page.focusActor)
+                        if (actor && page.focusActor)
                             ui.ShowForActor(actor, page.text);
                         else
                             ui.ShowScreenTop(page.text);
@@ -353,6 +332,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             return true;
         }
         
+        #endregion
+        
         private void OnDestroy()
         {
             if (_turnController != null)
@@ -367,6 +348,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 _battleController.ActionCompleted -= OnActionCompleted;
                 _battleController.OnBattleStartAsync -= OnBattleStartAsync;
                 _battleController.OnBattleEndAsync -= OnBattleEndAsync;
+                _battleController.OnActionPreviewStarted -= OnActionPreviewStarted;
             }
             
             if (Instance == this)

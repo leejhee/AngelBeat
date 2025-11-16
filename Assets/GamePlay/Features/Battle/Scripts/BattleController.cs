@@ -99,38 +99,6 @@ namespace GamePlay.Features.Battle.Scripts
         #endregion
         
         public void SetStageSource(IBattleSceneSource sceneSource) => _sceneSource = sceneSource;
-        
-        [Obsolete("초기화는 이제 Initializer 클래스에서 진행합니다.")]
-        private async UniTask BattleInitialize()
-        {
-            Debug.Log("Starting Battle Initialization...");
-
-            string stageName = _sceneSource.StageName;
-            Party playerParty = _sceneSource.PlayerParty;
-            
-            // 맵 띄우기
-            _battleStage = await _mapLoader.InstantiateBattleFieldAsync(stageName);
-            BattleStageGrid stageGrid = _battleStage.GetComponent<BattleStageGrid>() 
-                                        ?? _battleStage.gameObject.AddComponent<BattleStageGrid>();
-            stageGrid.InitGrid(_battleStage);
-            
-            // 맵에다가 파티를 포함시켜서 모든 애들 띄우기
-            await _battleStage.SpawnAllUnits(playerParty);
-            stageGrid.RebuildCharacterPositions(); //다 띄웠으면 캐릭터 위치도 전부 기록해주기
-            
-            // 턴 관리기 초기화
-            _turnManager = new TurnController(); 
-            
-            // Battle 전용 UI 초기화
-            await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
-            
-            Debug.Log("Battle Initialization Complete");
-            BattlePayload.Instance.Clear();
-            
-            //카메라 초기화
-            Camera.main.orthographicSize = cameraSize;
-            
-        }
 
         public void Initialize(StageField stage, TurnController turnManager, Party party)
         {
