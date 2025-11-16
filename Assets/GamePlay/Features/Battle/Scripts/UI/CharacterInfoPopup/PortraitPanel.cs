@@ -1,17 +1,49 @@
+using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using ResourceManager = Core.Scripts.Managers.ResourceManager;
 
 namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 {
     public class PortraitPanel : MonoBehaviour
     {
-        [SerializeField] private Image characterPortrait;
-        [SerializeField] private Image characterName;
-        [SerializeField] private Image characterClass;
-        public void SetPortraitPanel(CharacterModel model)
+        private Dictionary<string, Sprite> _partyPortraits = new Dictionary<string, Sprite>();
+        
+        
+        public async UniTask PreloadPortraits(List<CharacterModel> modelList)
         {
-            Debug.Log("팝업창 켰을때 캐릭터 초상화 세팅");
+            foreach (CharacterModel model in modelList)
+            {
+                UniTask<Sprite> handle = ResourceManager.Instance.LoadAsync<Sprite>(model.LdRoot);
+                Sprite sprite = await handle;
+
+                _partyPortraits[model.Name] = sprite;
+                
+                
+                Debug.Log(model.Name);
+            }
+        }
+
+        public void ReleaseAllPortraits()
+        {
+            foreach (Sprite sprite in _partyPortraits.Values)
+            {
+                ResourceManager.Instance.Release(sprite);
+            }
+        }
+        
+        [SerializeField] private Image characterPortrait;
+        [SerializeField] private TMP_Text characterName;
+        [SerializeField] private Image characterClass;
+        public async void SetPortraitPanel(CharacterModel model)
+        {
+            Debug.Log($"{model.Name} 초상화 설정");
+            
+            characterPortrait.sprite = _partyPortraits[model.Name];
+            characterName.text = model.Name;
         }
     }
 }

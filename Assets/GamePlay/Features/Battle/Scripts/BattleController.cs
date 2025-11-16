@@ -442,13 +442,13 @@ namespace GamePlay.Features.Battle.Scripts
         
         #region UI
 
-        public Action<CharacterModel> battleCharInfoEvent;
+        public Action<CharacterModel> BattleCharInfoEvent;
         
         public async void ShowCharacterInfoView()
         {
             await UIManager.Instance.ShowViewAsync(ViewID.CharacterInfoPopUpView);
             
-            battleCharInfoEvent?.Invoke(FocusChar.CharInfo);
+            BattleCharInfoEvent?.Invoke(FocusChar.CharInfo);
         }
         
         public void GetSkill(long skillID)

@@ -50,7 +50,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             #region Model To View
             
-
+            
             
             if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
             {
@@ -61,11 +61,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             }
             else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
             {
-                ModelEvents.Subscribe<CharacterModel>(
-                    action => BattleController.Instance.battleCharInfoEvent += action,
-                    action => BattleController.Instance.battleCharInfoEvent -= action,
-                    SetCharacterInfoPopup
-                );
+                PreloadProcess();
             }
 
             
@@ -86,13 +82,23 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             ViewEvents.Subscribe(
                 act => View.CloseButton.onClick.AddListener(new UnityAction(act)),
                 act => View.CloseButton.onClick.RemoveAllListeners(),
-                View.Hide
+                OnClickHideButton
             );
             #endregion
             
             return UniTask.CompletedTask;
         }
 
+        private async void PreloadProcess()
+        {
+            // TODO 여기 Race 체크 바람 오류날수도 있음
+            // 파티원 LD 미리 다 로드해두기
+            await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
+            
+            // 다른 정보칸 입력
+            SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
+            
+        }
         private readonly PresenterEventBag _focusCharacterEvents = new();
         
         private void SetCharacterInfoPopup(CharacterModel model)
@@ -114,5 +120,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             
         }
         
+        // 팝업창 닫을때
+        private void OnClickHideButton()
+        {
+            View.PortraitPanel.ReleaseAllPortraits();
+            View.Hide();
+        }
     }
 }
