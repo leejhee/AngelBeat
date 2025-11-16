@@ -25,7 +25,7 @@ MonoBehaviour:
   requiredActionType: 0
   filterSkillId: 0
   requiredSkillId: 0
-  novelScriptId: 6_5
+  novelScriptId: 6_1
   guidePages: []
   lockInputDuringStep: 0
   requiredClickTarget: 0

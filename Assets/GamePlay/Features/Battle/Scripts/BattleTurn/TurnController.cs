@@ -13,7 +13,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
     public class TurnController
     {
         #region Fields
-        private int _round = 1;
+        private int _round;
         private Queue<Turn> _turnQueue = new();
         private readonly List<Turn> _turnBuffer = new();
         private readonly Dictionary<long, int> _actorTurnCounts = new();
