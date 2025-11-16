@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fill: 1
+    - _Fill: 0.43
     - _arcAngle: 300
     - _endAngle: 360
     - _startAngle: 120

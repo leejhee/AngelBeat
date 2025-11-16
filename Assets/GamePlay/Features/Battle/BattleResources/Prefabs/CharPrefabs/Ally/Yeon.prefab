@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 943729f9c7faa3b4db17cd4113c98598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charBase: {fileID: 0}
+  charBase: {fileID: 5310836943903905345}
   hpBar: {fileID: 941095302572552805}
   fillAmount: 0
 --- !u!1 &5645147782404956435

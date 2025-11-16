@@ -215,10 +215,11 @@ public class NovelPlayer : MonoBehaviour
     public void EndScript()
     {
         OnScriptEnd?.Invoke();
+        // bgm stop
+        NovelManager.Instance.Audio.StopBGM();
+
+        ReleaseObjects();
         
-        Addressables.Release(BackgroundPanel);
-        ReleaseStandings();
-        ReleaseChoices();
         Addressables.ReleaseInstance(gameObject);
     }
 
@@ -571,7 +572,21 @@ public class NovelPlayer : MonoBehaviour
         EndScript();
     }
 
-    public void ReleaseStandings()
+    public void ReleaseObjects()
+    {
+        ReleaseBackground();
+        ReleaseStandings();
+        ReleaseChoices();
+    }
+
+    private void ReleaseBackground()
+    {
+        foreach (Transform child in BackgroundPanel.transform)
+        {
+            Addressables.Release(child.gameObject);
+        }
+    }
+    private void ReleaseStandings()
     {
         foreach (GameObject standingObject in currentCharacterDict.Values)
         {
@@ -580,7 +595,7 @@ public class NovelPlayer : MonoBehaviour
         currentCharacterDict.Clear();
     }
 
-    public void ReleaseChoices()
+    private void ReleaseChoices()
     {
         foreach (GameObject choiceObjects in currentChoices.Values)
         {
