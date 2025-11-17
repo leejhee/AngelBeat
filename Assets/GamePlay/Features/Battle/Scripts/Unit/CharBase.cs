@@ -1,4 +1,3 @@
-using AngelBeat;
 using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Utils;
@@ -14,7 +13,6 @@ using GamePlay.Features.Battle.Scripts.Unit.Components;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,7 +28,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private Transform charCameraPos;
         [SerializeField] private GameObject _charSnapShot;
         [SerializeField] private Rigidbody2D _rigid;
-        [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private Transform _charUnitRoot;
         [SerializeField] private CharacterHpBar _hpBar;
         [SerializeField] private GameObject protectionIndicator;
@@ -42,11 +40,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private GameObject jumpInFX;
         [SerializeField] private GameObject pushFX;
         
-        
         private SpriteRenderer  _spriteRenderer;
         private SpriteRenderer  _outlineRenderer;
         private Transform       _charTransform;
-        //private CharAnim        _charAnim;
         
         private CharacterModel  _charInfo;
         private CharStat        _runtimeStat;
@@ -73,13 +69,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public BoxCollider2D BattleCollider => _battleCollider;
         public Transform CharCameraPos => charCameraPos;
         public GameObject CharSnapShot => _charSnapShot;
-        //public CharAnim CharAnim => _charAnim;
         public Animator Animator => _Animator;
         public CharAnimDriver Anim => anim;
         public Rigidbody2D Rigid => _rigid;
         public Camera MainCamera => _mainCamera;
         
-        //public Sprite CharacterSprite => _characterSprite;
         public CharStat RuntimeStat
         {
             get => _runtimeStat;
@@ -398,13 +392,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit
                     _rigid.MovePosition(next);
                     SetCharacterToward(dir);
 
-                    //anim.SetSpeed(moveSpeed); // BlendTree 쓰면 유효
                     await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
                 }
 
                 _rigid.MovePosition(target);
                 _rigid.velocity = Vector2.zero;
-                //anim.SetSpeed(0f);
             });
         }
         
@@ -443,16 +435,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// <summary>
         /// 넉백 '되는' 메서드
         /// </summary>
-        /// <param name="targetPos">목적지. 플랫폼 없을 경우, rigidbody라서 알아서 떨어짐. 일단은..</param>
+        /// <param name="targetPos">목적지</param>
         /// <param name="playOnAttack">피격 애니메이션 플레이 여부</param>
         /// <param name="suppressIdle">Idle로 돌아가지 않을 것인지</param>
         public async UniTask CharKnockBack(Vector3 targetPos, bool playOnAttack = false, bool suppressIdle = false)
         {
             async UniTask Motion(CancellationToken t)
             {
-                while ((transform.position - targetPos).sqrMagnitude > 0.05f)
+                Vector3 displacement = targetPos - transform.position;
+                SetCharacterToward(-displacement);
+                while (displacement.sqrMagnitude > 0.05f)
                 {
-                    transform.position += (targetPos - transform.position).normalized * (Time.deltaTime * moveSpeed);
+                    Vector3 delta = displacement.normalized * (Time.deltaTime * moveSpeed);
+                    transform.position += delta;
+                    displacement -= delta;
                     await UniTask.Yield(PlayerLoopTiming.Update, t);
                 }
                 await UniTask.Delay(30, cancellationToken: t);

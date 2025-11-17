@@ -258,7 +258,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         /// </summary>
         private async UniTask<bool> ExecuteAttack(AIActionSet set)
         {
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.SkillAction))
             {
                 Debug.LogWarning("[AI] 주요 행동 사용 불가");
                 return false;
@@ -300,7 +300,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         /// </summary>
         private async UniTask<bool> ExecutePush(AIActionSet set)
         {
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.SkillAction))
             {
                 Debug.LogWarning("[AI] 주요 행동 사용 불가");
                 return false;
@@ -340,7 +340,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
         /// </summary>
         private async UniTask<bool> ExecuteJump(AIActionSet set)
         {
-            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.MajorAction))
+            if (!_currentTurn.CanPerformAction(TurnActionState.ActionCategory.SkillAction))
             {
                 Debug.LogWarning("[AI] 주요 행동 사용 불가");
                 return false;

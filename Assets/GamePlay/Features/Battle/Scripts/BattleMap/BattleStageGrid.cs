@@ -175,7 +175,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             _coverToCell[cover] = cell;
             _coverages.Add(cell);
             
-            //SnapToCenter(cover.transform, cell);
             cover.BindGrid(this, cell);
             cover.Broken -= OnCoverBroken;
             cover.Broken += OnCoverBroken;

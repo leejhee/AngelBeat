@@ -15,7 +15,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public enum ActionCategory
         {
             Move,           // 이동 
-            MajorAction     // 밀기/점프/스킬 
+            SkillAction,    // 스킬 
+            ExtraAction     // 밀기 / 점프
         }
         
         public float MaxMovePoint => _maxMovePoint;
@@ -42,7 +43,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 case ActionCategory.Move: //남아는 있어야 하고, moveDistance 이상으로 남아야 하니까.
                     return _remainingMovePoint > 0 && _remainingMovePoint >= moveDistance;
                     
-                case ActionCategory.MajorAction:
+                case ActionCategory.SkillAction:
                     return !_majorActionUsed;
                     
                 default:

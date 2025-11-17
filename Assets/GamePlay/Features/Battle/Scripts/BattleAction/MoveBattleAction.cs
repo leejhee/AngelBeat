@@ -56,6 +56,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             }
             #endregion
             #region Left Inspection
+
+            blocked = false;
             for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new Vector2Int(pivot.x - offset, pivot.y);

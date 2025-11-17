@@ -74,7 +74,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 
@@ -106,7 +106,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 
@@ -139,8 +139,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 Vector2Int pos = origin + Vector2Int.up;
                 if (grid.IsInBounds(pos) && grid.IsPlatform(pos))
                 {
-                    if(IsMaskMatch(grid, pos, maskType)) targetable.Add(origin);
-                    else unable.Add(origin);
+                    if(IsMaskMatch(grid, pos, maskType)) targetable.Add(pos);
+                    else unable.Add(pos);
                 }
             }
             
@@ -153,7 +153,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 
@@ -185,7 +185,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 
@@ -220,7 +220,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (grid.IsInBounds(pos) && grid.IsPlatform(pos))
                 {
                     if(IsMaskMatch(grid, pos, maskType)) targetable.Add(origin);
-                    else unable.Add(origin);
+                    else unable.Add(pos);
                 }
             }
             
@@ -233,7 +233,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 
@@ -259,13 +259,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             blocked = false;
             for (int i = 1; i <= rangeData.DownBackward; i++)
             {
-                Vector2Int pos = origin + forward * i - Vector2Int.down;
+                Vector2Int pos = origin - forward * i + Vector2Int.down;
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
-                    unable.Add(origin);
+                    unable.Add(pos);
                     continue;
                 }
                 

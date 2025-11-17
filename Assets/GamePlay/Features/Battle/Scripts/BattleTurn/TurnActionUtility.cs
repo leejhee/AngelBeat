@@ -61,8 +61,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             {
                 case TurnActionState.ActionCategory.Move:
                     return "이동 (이동력 소모)";
-                case TurnActionState.ActionCategory.MajorAction:
-                    return "주요 행동 (턴당 1회 제한)";
+                case TurnActionState.ActionCategory.SkillAction:
+                    return "스킬 (턴당 1회 제한)";
+                case TurnActionState.ActionCategory.ExtraAction:
+                    return "부가 액션 (턴당 1회 제한)";
                 default:
                     return "알 수 없는 행동";
             }

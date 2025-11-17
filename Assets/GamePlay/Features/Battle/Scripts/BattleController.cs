@@ -167,7 +167,7 @@ namespace GamePlay.Features.Battle.Scripts
             TurnActionState.ActionCategory category = type.GetActionCategory();
             
             // 이동이 아닌 경우
-            if (category == TurnActionState.ActionCategory.MajorAction)
+            if (category == TurnActionState.ActionCategory.SkillAction)
             {
                 if (!currentTurn.CanPerformAction(category))
                 {
