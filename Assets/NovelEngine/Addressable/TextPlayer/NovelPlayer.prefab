@@ -563,8 +563,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB300\uC0AC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6b79457340cf3c241aa6accd5c2df6cb, type: 2}
-  m_sharedMaterial: {fileID: -5373470425577337988, guid: 6b79457340cf3c241aa6accd5c2df6cb, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d6fc55af7f306364ab5c71119d0c82d8, type: 2}
+  m_sharedMaterial: {fileID: -221891524885314040, guid: d6fc55af7f306364ab5c71119d0c82d8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
