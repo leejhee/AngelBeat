@@ -50,7 +50,12 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         {
             _waitTcs?.TrySetResult(true);
         }
-
+        
+        public void ForceNext()
+        {
+            _waitTcs?.TrySetResult(true);
+        }
+        
         public async UniTask WaitForNextAsync()
         {
             _waitTcs = new UniTaskCompletionSource<bool>();
@@ -87,11 +92,33 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
             panel.gameObject.SetActive(true);
         }
+        
+        public void ShowForScreenPosition(Vector2 normalizedPos, string text)
+        {
+            if (!panel || !rootCanvas) return;
+            if (guideText) guideText.text = text;
+
+            RectTransform canvasRect = rootCanvas.transform as RectTransform;
+            if (!canvasRect) return;
+
+            float x = (normalizedPos.x - 0.5f) * canvasRect.rect.width;
+            float y = (normalizedPos.y - 0.5f) * canvasRect.rect.height;
+
+            panel.anchorMin = new Vector2(0.5f, 0.5f);
+            panel.anchorMax = new Vector2(0.5f, 0.5f);
+            panel.pivot = new Vector2(0.5f, 0f);
+
+            panel.anchoredPosition = new Vector2(x, y);
+
+            panel.gameObject.SetActive(true);
+        }
 
         public void Hide()
         {
             if (panel)
                 panel.gameObject.SetActive(false);
+            _waitTcs?.TrySetResult(false);
+            _waitTcs = null;
         }
     }
 }

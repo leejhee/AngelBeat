@@ -249,7 +249,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                     break;
         
                 case BattleTutorialViewType.Guide:
-                    await PlayGuideStepAsync(step);
+                    PlayGuideStepAsync(step).Forget();
                     break;
             }
         }
@@ -276,7 +276,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
             CharBase actor = _lastTurnContext?.Actor;
 
-            foreach (var page in step.guidePages)
+            foreach (BattleTutorialGuidePage page in step.guidePages)
             {
                 if (page == null) continue;
 
@@ -286,10 +286,13 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                         ui.ShowScreenTop(page.text);
                         break;
                     case GuideAnchor.Actor:
-                        if (actor && page.focusActor)
+                        if (actor)
                             ui.ShowForActor(actor, page.text);
                         else
                             ui.ShowScreenTop(page.text);
+                        break;
+                    case GuideAnchor.ScreenPosition:
+                        ui.ShowForScreenPosition(page.screenNormalizedPos, page.text);
                         break;
                 }
 

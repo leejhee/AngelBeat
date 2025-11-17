@@ -6,6 +6,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
     {
         ScreenTop,
         Actor,
+        ScreenPosition,
     }
     
     [System.Serializable]
@@ -15,6 +16,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         public string text;
 
         public GuideAnchor anchor;
-        public bool focusActor;
+
+        public Vector2 screenNormalizedPos = new(0.5f, 0.5f);
     }
 }

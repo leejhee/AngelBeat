@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe92d91731e4435791f63c2e896d92de, type: 3}
+  m_Name: Battle01_Guide_TurnEnd_01
+  m_EditorClassIdentifier: 
+  stepID: Battle01_Guide_TurnEnd_01
+  triggerOnce: 1
+  triggerType: 5
+  viewType: 2
+  requiredRound: 1
+  onlyPlayer: 1
+  onlyEnemy: 0
+  requiredCharId: 0
+  requiredActorTurnCount: 1
+  filterActionType: 1
+  requiredActionType: 1
+  filterSkillId: 0
+  requiredSkillId: 0
+  novelScriptId: 
+  guidePages:
+  - text: "\"\uD134 \uC885\uB8CC\" \uBC84\uD2BC\uC744 \uD074\uB9AD\uD574 \uD134\uC744
+      \uC885\uB8CC\uD558\uC138\uC694!"
+    anchor: 0
+    screenNormalizedPos: {x: 0.5, y: 0.5}
+  lockInputDuringStep: 1
+  requiredClickTarget: 1
+  requiredCellOffset: {x: 0, y: 0}

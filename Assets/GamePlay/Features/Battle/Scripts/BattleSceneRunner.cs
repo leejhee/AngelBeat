@@ -24,11 +24,6 @@ namespace GamePlay.Features.Battle.Scripts
                     return !s.IsValid() || !s.isLoaded;
                 });
 
-                //await NovelManager.PlayScriptAndWait("6_5");
-                BattleController battle = BattleController.Instance;
-                if (battle != null)
-                    await battle.RaiseBattleStartAsync();
-                
                 BattleCameraInput input = Object.FindFirstObjectByType<BattleCameraInput>(FindObjectsInactive.Exclude);
                 if (input) input.enableDuringTurn = false;
                 
@@ -36,6 +31,10 @@ namespace GamePlay.Features.Battle.Scripts
                 BattleCameraDriver driver = BattleController.Instance.CameraDriver;
                 if (driver && stage)
                     await driver.ShowStageIntro(stage, paddingWorld:1.0f, fadeSeconds:0.8f);
+                
+                BattleController battle = BattleController.Instance;
+                if (battle != null)
+                    await battle.RaiseBattleStartAsync();
                 
                 // 첫 턴 시작
                 if (turn != null)
