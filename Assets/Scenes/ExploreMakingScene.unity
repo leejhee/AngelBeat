@@ -267,6 +267,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61604578108418683, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.663
+      objectReference: {fileID: 0}
+    - target: {fileID: 61604578108418683, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.554
+      objectReference: {fileID: 0}
     - target: {fileID: 1362822751880167696, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
       propertyPath: m_Name
       value: TutorialExploreGrid
@@ -309,10 +317,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5652458495169920971, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5680236822718948327, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
-      propertyPath: m_UsedByComposite
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
