@@ -88,11 +88,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                     
                 case ActionType.Jump:
                 case ActionType.Push:
+                    return TurnActionState.ActionCategory.ExtraAction;
+                    
                 case ActionType.Skill:
                     return TurnActionState.ActionCategory.SkillAction;
                     
                 default:
-                    return TurnActionState.ActionCategory.Move; // 기본값
+                    return TurnActionState.ActionCategory.Move; 
             }
         }
     }

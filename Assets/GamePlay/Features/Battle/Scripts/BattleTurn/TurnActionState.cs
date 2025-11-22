@@ -9,11 +9,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private float _remainingMovePoint;
         
         // 주요 행동 사용 여부
+        private bool _extraActionUsed;
         private bool _majorActionUsed;
         
+        private bool _skillUsed;
         // 행동 타입 정의
         public enum ActionCategory
         {
+            None,           // 
             Move,           // 이동 
             SkillAction,    // 스킬 
             ExtraAction     // 밀기 / 점프

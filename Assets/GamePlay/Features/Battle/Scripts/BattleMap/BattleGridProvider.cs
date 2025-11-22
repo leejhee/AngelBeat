@@ -18,7 +18,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         const byte S_POSSIBLE = 85;   
         const byte S_BLOCKED  = 170;  
         const byte S_SELECTED = 255;
-
+        
+        [Header("Grid Appearance")]
+        [SerializeField, Range(0.005f, 0.02f)]
+        private float thickness = 0.005f;   // 셀 크기 대비 선 두께 비율
+        
         SpriteRenderer _sr;
         MaterialPropertyBlock _mpb;
 
@@ -33,7 +37,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         }
 
         /// <summary>스프라이트 크기/위치와 셰이더 기본 파라미터 세팅</summary>
-        public void ApplySpec(Vector2Int cells, Vector2 cellSizeWorld, Vector2 originWorld, int lineWidthPixels = 2)
+        public void ApplySpec(Vector2Int cells, Vector2 cellSizeWorld, Vector2 originWorld)
         {
             _cells = cells;
 
@@ -45,18 +49,22 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             transform.position = new Vector3(center.x, center.y, transform.position.z);
 
             // 픽셀 → 월드 선두께(선택)
-            float worldPerPixel = 1f;
-            var cam = Camera.main;
-            if (cam && cam.orthographic)
-                worldPerPixel = (2f * cam.orthographicSize) / Screen.height;
-            float thicknessWorld = Mathf.Max(worldPerPixel, lineWidthPixels * worldPerPixel);
+            //float worldPerPixel = 1f;
+            //var cam = Camera.main;
+            //if (cam && cam.orthographic)
+            //    worldPerPixel = (2f * cam.orthographicSize) / Screen.height;
+            //float thicknessWorld = Mathf.Max(worldPerPixel, lineWidthPixels * worldPerPixel);
 
             _sr.GetPropertyBlock(_mpb);
             _mpb.SetVector(CellsID,    new Vector4(cells.x, cells.y, 0, 0));
             _mpb.SetVector(CellSizeID, new Vector4(cellSizeWorld.x, cellSizeWorld.y, 0, 0));
             _mpb.SetVector(OriginID,   new Vector4(originWorld.x, originWorld.y, 0, 0));
             if (_sr.sharedMaterial && _sr.sharedMaterial.HasFloat(ThicknessID))
-                _mpb.SetFloat(ThicknessID, thicknessWorld);
+            {
+                float clamped = Mathf.Clamp(thickness, 0.001f, 1.0f);
+                _mpb.SetFloat(ThicknessID, clamped);
+            }
+                
             _mpb.SetVector(HoverCellID, new Vector4(-999, -999, 0, 0)); // 초기 호버 off
             _sr.SetPropertyBlock(_mpb);
         }

@@ -96,7 +96,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             );
             
             ComputeGridBasis(out _cellWorld, out _originWorld, out _);
-            gridProvider.ApplySpec(gridSize, _cellWorld, _originWorld, lineWidthPixels: 1);
+            gridProvider.ApplySpec(gridSize, _cellWorld, _originWorld);
             gridProvider.InitMask();
             gridProvider.Show(false);
             
