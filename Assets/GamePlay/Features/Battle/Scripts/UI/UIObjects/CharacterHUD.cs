@@ -1,4 +1,5 @@
 using AngelBeat;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using System;
@@ -69,14 +70,17 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         #region TempCode
 
         [Serializable]
-        public struct TempSkillInfo
+        public struct SkillInfo
         {
-            public long skllId;
             public Sprite skillIcon;
             public Sprite skillDescription;
-        }
 
-        public List<TempSkillInfo> skillInfos = new();
+            public SkillInfo(Sprite icon, Sprite description)
+            {
+                skillIcon = icon;
+                skillDescription = description;
+            }
+        }
 
         #endregion
         
@@ -163,24 +167,26 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             actionSlider.value = curAp;
         }
 
-        public void SetSkillButtons(IReadOnlyList<SkillModel> skillList)
+        public async void SetSkillButtons(List<BattleHUDPresenter.SkillResourceRoot> skillRoots)
         {
-            int skillCount = skillList.Count;
-            
-            
+            int skillCount = skillRoots.Count;
             for (int i = 0; i < skillCount; i++)
             {
                 SkillButton button = skillPanel.SkillButtons[i];
                 
                 button.BindSlot(i);
+
+                Debug.Log(skillRoots[i].iconRoot);
+                Debug.Log(skillRoots[i].descriptionRoot);
                 
-                Debug.Log(skillList[i].SkillIndex);
+                Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].iconRoot);
+                Sprite description = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].descriptionRoot);
                 
-                foreach (TempSkillInfo tempInfo in skillInfos.Where(tempInfo => skillList[i].SkillIndex == tempInfo.skllId))
-                {
-                    button.SetButton(tempInfo);
-                    break;
-                }
+                
+                
+                SkillInfo info = new SkillInfo(icon, description);
+                
+                button.SetButton(info);
                 
 
             }

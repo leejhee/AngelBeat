@@ -8,6 +8,7 @@ using GamePlay.Features.Battle.Scripts.Models;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -51,6 +52,21 @@ namespace GamePlay.Features.Battle.Scripts.UI
         #region AddressablesDefinition
         private readonly string _turnPortraitAddress = "TurnPortrait";
         #endregion
+        
+        
+        public struct SkillResourceRoot
+        {
+            public string iconRoot;
+            public string descriptionRoot;
+
+            public SkillResourceRoot(string iconRoot, string descriptionRoot)
+            {
+                this.iconRoot = iconRoot;
+                this.descriptionRoot = descriptionRoot;
+            }
+        }
+        
+        
         
         public BattleHUDPresenter(IView view) : base(view) { }
 
@@ -267,8 +283,20 @@ namespace GamePlay.Features.Battle.Scripts.UI
             View.CharacterHUD.gameObject.SetActive(true);
             // 체력, 액션포인트, 초상화 설정
             View.CharacterHUD.ShowCharacterHUD(name, curHp, maxHp, curAp, maxAp);
+
+
+
+            List<SkillResourceRoot> skillRoots = new();
+            
+            foreach (var skill in character.SkillInfo.SkillSlots)
+            {
+                Debug.Log(skill.Icon);
+                Debug.Log(skill.TooltipName);
+                SkillResourceRoot roots = new SkillResourceRoot(skill.Icon, skill.TooltipName);
+                skillRoots.Add(roots);
+            }
             // 스킬 버튼 생성
-            View.CharacterHUD.SetSkillButtons(character.SkillInfo.SkillSlots);
+            View.CharacterHUD.SetSkillButtons(skillRoots);
 
             
             // 스킬 버튼마다 이벤트 구독

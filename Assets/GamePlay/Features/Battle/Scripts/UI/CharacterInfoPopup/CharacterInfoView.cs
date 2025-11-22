@@ -2,7 +2,6 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Features.Explore.Scripts;
 using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
@@ -95,9 +94,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             // 파티원 LD 미리 다 로드해두기
             await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
             
-            // 다른 정보칸 입력
-            SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
             
+            // 현재 포커스된 캐릭터 다른 정보칸 입력
+            SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
         }
         private readonly PresenterEventBag _focusCharacterEvents = new();
         
@@ -105,11 +104,26 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             View.PortraitPanel.SetPortraitPanel(model);
             View.PassivePanel.SetPassivePanel(model);
-            View.SkillPanel.SetSkills(model.ActiveSkills);
+            
+            List<string> activeSkills = new();
+            List<string> usingSkills = new();
+            
+            foreach (var activeSkill in model.ActiveSkills)
+            {
+                Debug.Log(activeSkill.SkillName);
+                activeSkills.Add(activeSkill.SkillName);
+            }
+            foreach (var usingSkill in model.UsingSkills)
+            {
+                Debug.Log(usingSkill.SkillName);
+                usingSkills.Add(usingSkill.SkillName);
+            }
+            
+            View.SkillPanel.SetSkills(activeSkills, usingSkills);
             View.StatPanel.SetStats(model);
             View.EssencePanel.SetEssence(model);
         }
-
+        
         private void OnClickLeftButton()
         {
             //List<CharacterModel> characters = BattleContoller.Instance.

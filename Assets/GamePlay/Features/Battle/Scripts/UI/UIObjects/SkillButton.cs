@@ -30,15 +30,9 @@ namespace AngelBeat
             isSelected = false;
         }
         
-        public void SetButton(CharacterHUD.TempSkillInfo info)
+        public void SetButton(CharacterHUD.SkillInfo info)
         {
-            Debug.Log(info.skillIcon.name);
-            Debug.Log(info.skillDescription.name);
-
-            
             this.GetComponent<Image>().sprite = nonSelectedFrame;
-            
-
             
             icon.gameObject.SetActive(true);
             icon.sprite = info.skillIcon;

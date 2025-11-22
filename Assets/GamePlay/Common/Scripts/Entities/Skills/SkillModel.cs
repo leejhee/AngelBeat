@@ -52,6 +52,7 @@ namespace GamePlay.Common.Scripts.Entities.Skills
             CritCalibration = skillData.skillCritical;
             SkillAccuracy = skillData.skillAccuracy;
             
+            Icon = skillData.skillIconImage;
             SkillRange = DataManager.Instance.GetData<SkillRangeData>(skillData.skillRange);
             SkillDamage = DataManager.Instance.GetData<SkillDamageData>(skillData.skillDamage);
             Unlock = SystemEnum.eSkillUnlock.None;
