@@ -20,7 +20,7 @@ Bilyeong: 뭘 엎어져서 코 닿을 정도쯤인 것처럼 말하느냐?
 @hide Bilyeong
 @char Yoon pos: 50, 0 scale: 1.05 transition: Fadein time: 1
 @wait 1.5
-Yoon: 너는 사제한테 찰싹 붙어서 걷지도 않는 것이, 무슨 불만이 그렇게 많니.
+Yoon: 너는 사제한테 찰싹 붙어서는 걷지도 않는 것이, 무슨 불만이 그렇게 많니.
 
 @char Yoon transition: Fadeout time: 0.5
 @wait 1
@@ -48,8 +48,10 @@ Bilyeong: 하, 못한다는 말을 뭘 그리 돌려서 하느냐.
 Yeon: ...나 혼자라면 못 갈 것도 없을 것 같군. 
 Yeon: 먼저 갈테니 사저 옆에 붙어서 오붓하게 오도록 하거라.
 
-@wait 2
+
+@wait 1
 @char Bilyeong.Surprised
+Bilyeong: ...!
 @wait 1.5
 @char Bilyeong.Angry
 Bilyeong: ...조금이라도 힘을 아껴야 하거늘 그게 무슨 말이냐! 
@@ -63,10 +65,10 @@ Yoon: ......
 Yoon: 내가 더 싫거든...
 
 @char Yoon transition: Fadeout time: 0.5
-@wait 1.8
+@wait 1.7
 @char Seol.EyeClosed pos: 80, 0 scale: 1.05 transition: Fadein time: 1
-@wait 1.8
+@wait 1.7
 Seol: ......
 @char Hwi.Sigh pos: 20, 0 scale: 0.95 transition: Fadein time: 1
-@wait 2.5
+@wait 1.7
 Hwi: 하아...
