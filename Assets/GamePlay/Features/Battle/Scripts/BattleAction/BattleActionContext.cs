@@ -94,7 +94,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                     return TurnActionState.ActionCategory.SkillAction;
                     
                 default:
-                    return TurnActionState.ActionCategory.Move; 
+                    return TurnActionState.ActionCategory.None; 
             }
         }
     }

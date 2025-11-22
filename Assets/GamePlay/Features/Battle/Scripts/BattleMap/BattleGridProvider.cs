@@ -48,13 +48,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             var center   = originWorld + worldSize * 0.5f;
             transform.position = new Vector3(center.x, center.y, transform.position.z);
 
-            // 픽셀 → 월드 선두께(선택)
-            //float worldPerPixel = 1f;
-            //var cam = Camera.main;
-            //if (cam && cam.orthographic)
-            //    worldPerPixel = (2f * cam.orthographicSize) / Screen.height;
-            //float thicknessWorld = Mathf.Max(worldPerPixel, lineWidthPixels * worldPerPixel);
-
             _sr.GetPropertyBlock(_mpb);
             _mpb.SetVector(CellsID,    new Vector4(cells.x, cells.y, 0, 0));
             _mpb.SetVector(CellSizeID, new Vector4(cellSizeWorld.x, cellSizeWorld.y, 0, 0));

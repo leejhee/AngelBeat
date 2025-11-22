@@ -20,10 +20,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         #endregion
         
         #region Properties
-        public Turn CurrentTurn { get; private set; }
         public int CurrentRound => _round;
+        public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
-        public Func<UniTask> OnRoundProceeds;
+        public event Func<UniTask> OnRoundProceeds;
         public event Action OnRoundEnd;
         public IReadOnlyCollection<Turn> TurnCollection => _turnBuffer.AsReadOnly();
         
@@ -48,12 +48,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
  
         private void InitializeTurnQueue(List<CharBase> battleMembers)
         {
-            foreach (var character in battleMembers)
+            foreach (CharBase character in battleMembers)
             {
-                Turn newTurn = new BattleTurn.Turn(character);
-                
+                Turn newTurn = new(character);
                 newTurn.OnAITurnCompleted += () => ChangeTurn().Forget();
-                
                 _turnBuffer.Add(newTurn);
             }
             _turnBuffer.Sort(new TurnComparer(VanillaComparer));
@@ -149,6 +147,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             #endregion
         }
         
+        [Obsolete("동기 턴 변경은 현재 사용처 소실. 비동기로 사용할 것.")]
         public void ChangeTurn(Turn targetTurn)
         {
             CurrentTurn?.End();

@@ -17,8 +17,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public TurnActionState ActionState { get; private set; }
         
         private bool _isDead = false;
-        private Action _onBeginTurn =     delegate { };
-        private Action _onEndTurn =       delegate { };
+        private event Action OnBeginTurn =     delegate { };
+        private event Action OnEndTurn =       delegate { };
 
         private Action TurnOwnerOutline;
         public event Action OnAITurnCompleted;
@@ -31,12 +31,12 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             
             ActionState = new TurnActionState();
             
-            _onBeginTurn += DefaultTurnBegin;
-            _onEndTurn += DefaultTurnEnd;
+            OnBeginTurn += DefaultTurnBegin;
+            OnEndTurn += DefaultTurnEnd;
         }
         
-        public void Begin() => _onBeginTurn?.Invoke();
-        public void End() => _onEndTurn?.Invoke();
+        public void Begin() => OnBeginTurn?.Invoke();
+        public void End() => OnEndTurn?.Invoke();
 
         public void KillTurn()
         {
@@ -130,7 +130,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
 
             TurnOwner.OnUpdate -= TurnOwnerOutline;
             TurnOwner.ClearOutline();
-            //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.EoT, TriggerType.EoT);
         }
         
         /// <summary>
@@ -161,9 +160,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// <summary>
         /// 주요 행동 실행 (밀기/점프/스킬)
         /// </summary>
-        public bool TryUseMajorAction()
-        {
-            return ActionState.UseMajorAction();
-        }
+        public bool TryUseSkill() => ActionState.UseSkillAction();
+        
+        public bool TryUseExtra() => ActionState.UseExtraAction();
     }
 }

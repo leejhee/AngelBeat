@@ -287,7 +287,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             if (result.ActionSuccess)
             {
-                _currentTurn.TryUseMajorAction();
+                _currentTurn.TryUseSkill();
                 Debug.Log($"[AI] ✓ 공격 성공: {set.SkillToUse.SkillName} → {set.TargetChar.name}");
                 return true;
             }
@@ -327,7 +327,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             if (result.ActionSuccess)
             {
-                _currentTurn.TryUseMajorAction();
+                _currentTurn.TryUseSkill();
                 Debug.Log($"[AI] ✓ 푸시 성공: {set.TargetCell.Value}");
                 return true;
             }
@@ -367,7 +367,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             
             if (result.ActionSuccess)
             {
-                _currentTurn.TryUseMajorAction();
+                _currentTurn.TryUseSkill();
                 Debug.Log($"[AI] ✓ 점프 성공: {set.TargetCell.Value}");
                 return true;
             }

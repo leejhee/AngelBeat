@@ -23,7 +23,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             if (eventData.clickCount != 2) return;
             
             Debug.Log($"Double Clicked - {name}");
-            var bc = BattleController.Instance;
+            BattleController bc = BattleController.Instance;
             
             if (bc.FocusChar != this) return;
             if (bc.IsModal)

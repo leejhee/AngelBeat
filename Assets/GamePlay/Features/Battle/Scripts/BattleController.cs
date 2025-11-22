@@ -58,6 +58,7 @@ namespace GamePlay.Features.Battle.Scripts
         
         private IBattleSceneSource _sceneSource;
         private IMapLoader _mapLoader;
+        
         private StageField _battleStage;
         private Party _playerParty;
         private bool _initialized;
@@ -156,7 +157,8 @@ namespace GamePlay.Features.Battle.Scripts
                 return;
             } 
             
-            // 턴 행동 가능 여부를 검증
+            #region 턴 행동 가능 여부 계산 
+            
             Turn currentTurn = _turnManager.CurrentTurn;
             if (currentTurn == null)
             {
@@ -171,7 +173,15 @@ namespace GamePlay.Features.Battle.Scripts
             {
                 if (!currentTurn.CanPerformAction(category))
                 {
-                    Debug.LogWarning($"[BattleController] 이번 턴에는 더 이상 주요 행동(밀기/점프/스킬)을 사용할 수 없습니다.");
+                    Debug.LogWarning($"[BattleController] 이번 턴에는 더 이상 스킬을 사용할 수 없습니다.");
+                    return;
+                }
+            }
+            else if (category == TurnActionState.ActionCategory.ExtraAction)
+            {
+                if (!currentTurn.CanPerformAction(category))
+                {
+                    Debug.LogWarning($"[BattleController] 이번 턴에는 더 이상 부가행동을 사용할 수 없습니다.");
                     return;
                 }
             }
@@ -188,6 +198,9 @@ namespace GamePlay.Features.Battle.Scripts
                 }
             }
             
+            #endregion
+            
+            #region 턴 행동을 위한 베이스 생성
             CancelPreview(); // 깔끔하게 남아있는 필드 초기화
             _currentActionContext = new BattleActionContext
             {
@@ -201,11 +214,13 @@ namespace GamePlay.Features.Battle.Scripts
             // Action을 만들어주고 state를 옮겨준다.
             _currentActionBase = BattleActionFactory.CreateBattleAction(_currentActionContext);
             _actionCts = new CancellationTokenSource();
-
+            #endregion
+            
+            #region 행동 베이스에 따른 프리뷰 렌더링
             try
             {
                 BattleActionPreviewData data = await _currentActionBase.BuildActionPreview(_actionCts.Token);
-                RenderPreview(data);    
+                RenderPreview(data); // 미리보기를 렌더링한다.
                 _currentActionState = BattleActionState.Preview;
                 OnActionPreviewStarted?.Invoke(_currentActionContext, data);
             }
@@ -215,7 +230,8 @@ namespace GamePlay.Features.Battle.Scripts
                 Debug.LogException(e);
                 CancelPreview();
             }
-
+            #endregion
+            
         }
         
         /// <summary>
@@ -300,7 +316,7 @@ namespace GamePlay.Features.Battle.Scripts
             if (_currentActionBase == null || _currentActionContext == null) return;
             
             Turn currentTurn = _turnManager.CurrentTurn;
-            if (!currentTurn.TryUseMajorAction())
+            if (!currentTurn.TryUseSkill())
             {
                 Debug.LogWarning("스킬 사용 실패: 이미 주요 행동을 사용했습니다.");
                 CancelPreview();
@@ -326,6 +342,7 @@ namespace GamePlay.Features.Battle.Scripts
             {
                 CancelPreview();
                 ActionCompleted?.Invoke(finishedAction, result);
+                
             }
         }
 
@@ -361,9 +378,9 @@ namespace GamePlay.Features.Battle.Scripts
             else if (_currentActionContext.battleActionType == ActionType.Jump ||
                      _currentActionContext.battleActionType == ActionType.Push)
             {
-                if (!currentTurn.TryUseMajorAction())
+                if (!currentTurn.TryUseExtra())
                 {
-                    Debug.LogWarning("주요 행동 사용 실패");
+                    Debug.LogWarning($"{_currentActionContext.battleActionType} 사용 실패");
                     CancelPreview();
                     return;
                 }

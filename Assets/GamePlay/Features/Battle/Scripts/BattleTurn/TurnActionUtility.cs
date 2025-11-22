@@ -80,14 +80,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             
             // 이동력이 많이 남았고 주요 행동도 사용하지 않은 경우
             if (actionState.RemainingMovePoint > actionState.MaxMovePoint * 0.5f && 
-                !actionState.MajorActionUsed)
+                !actionState.SkillActionUsed)
             {
                 warningMessage = "아직 이동력과 주요 행동이 남아있습니다. 턴을 종료하시겠습니까?";
                 return true;
             }
             
             // 주요 행동만 사용하지 않은 경우
-            if (!actionState.MajorActionUsed && actionState.RemainingMovePoint <= 0.5f)
+            if (!actionState.SkillActionUsed && actionState.RemainingMovePoint <= 0.5f)
             {
                 warningMessage = "밀기/점프/스킬을 사용하지 않았습니다. 턴을 종료하시겠습니까?";
                 return true;
@@ -105,7 +105,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 ? $"<color=green>이동력: {state.RemainingMovePoint:F1}/{state.MaxMovePoint:F1}</color>"
                 : $"<color=red>이동력: 소진</color>";
             
-            string actionStatus = !state.MajorActionUsed
+            string actionStatus = !state.SkillActionUsed
                 ? "<color=green>주요행동: 사용가능</color>"
                 : "<color=yellow>주요행동: 사용완료</color>";
             

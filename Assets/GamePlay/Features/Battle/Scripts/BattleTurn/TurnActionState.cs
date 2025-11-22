@@ -4,27 +4,33 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
 {
     public class TurnActionState
     {
+        // 행동 타입 정의
+        public enum ActionCategory
+        {
+            None, // 무효
+            Move, // 이동 
+            SkillAction, // 스킬 
+            ExtraAction // 밀기 / 점프 / 인벤 상호작용
+        }
+        
+        #region Fields
         // 이동력 관리
         private float _maxMovePoint;
         private float _remainingMovePoint;
         
         // 주요 행동 사용 여부
         private bool _extraActionUsed;
-        private bool _majorActionUsed;
+        private bool _skillActionUsed;
         
-        private bool _skillUsed;
-        // 행동 타입 정의
-        public enum ActionCategory
-        {
-            None,           // 
-            Move,           // 이동 
-            SkillAction,    // 스킬 
-            ExtraAction     // 밀기 / 점프
-        }
+        #endregion
         
+        #region Properties
         public float MaxMovePoint => _maxMovePoint;
         public float RemainingMovePoint => _remainingMovePoint;
-        public bool MajorActionUsed => _majorActionUsed;
+        public bool ExtraActionUsed => _extraActionUsed;
+        public bool SkillActionUsed => _skillActionUsed;
+        
+        #endregion
         
         /// <summary>
         /// 턴 시작 시 행동 상태 초기화
@@ -33,7 +39,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         {
             _maxMovePoint = movePoint;
             _remainingMovePoint = movePoint;
-            _majorActionUsed = false;
+            _skillActionUsed = false;
+            _extraActionUsed = false;
         }
         
         /// <summary>
@@ -41,17 +48,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// </summary>
         public bool CanPerformAction(ActionCategory category, int moveDistance)
         {
-            switch (category)
+            return category switch
             {
-                case ActionCategory.Move: //남아는 있어야 하고, moveDistance 이상으로 남아야 하니까.
-                    return _remainingMovePoint > 0 && _remainingMovePoint >= moveDistance;
-                    
-                case ActionCategory.SkillAction:
-                    return !_majorActionUsed;
-                    
-                default:
-                    return false;
-            }
+                ActionCategory.Move => //남아는 있어야 하고, moveDistance 이상으로 남아야 하니까.
+                    _remainingMovePoint > 0 && _remainingMovePoint >= moveDistance,
+                ActionCategory.SkillAction => !_skillActionUsed,
+                ActionCategory.ExtraAction => !_extraActionUsed,
+                _ => false
+            };
         }
         
         /// <summary>
@@ -70,19 +74,30 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             return true;
         }
         
-        /// <summary>
-        /// 주요 행동 사용 (밀기/점프/스킬 실행 시 호출)
-        /// </summary>
-        public bool UseMajorAction()
+        public bool UseSkillAction()
         {
-            if (_majorActionUsed)
+            if (_skillActionUsed)
             {
-                Debug.LogWarning("이미 주요 행동을 사용했습니다 (밀기/점프/스킬은 턴당 1회)");
+                Debug.LogWarning("이미 스킬을 사용했습니다. (스킬은 턴당 1회)");
                 return false;
             }
             
-            _majorActionUsed = true;
-            Debug.Log("주요 행동 사용됨 (이번 턴에 추가 밀기/점프/스킬 불가)");
+            _skillActionUsed = true;
+            Debug.Log("스킬 사용됨 (이번 턴에 추가 스킬 불가)");
+            return true;
+        }
+        
+        // TODO : Jump와 Push를 구별해야 할지 정할 것.
+        public bool UseExtraAction()
+        {
+            if (_extraActionUsed)
+            {
+                Debug.LogWarning("이미 부가 행동을 사용했습니다.");
+                return false;
+            }
+            
+            _extraActionUsed = true;
+            Debug.Log("부가 행동 사용됨 (이번 턴에 추가 스킬 불가)");
             return true;
         }
         
@@ -92,7 +107,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public string GetStatusSummary()
         {
             return $"이동력: {_remainingMovePoint:F1}/{_maxMovePoint:F1} | " +
-                   $"주요행동: {(_majorActionUsed ? "사용완료" : "사용가능")}";
+                   $"주요행동: {(_skillActionUsed ? "사용완료" : "사용가능")}";
         }
     }
 }
