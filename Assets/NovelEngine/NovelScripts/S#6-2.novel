@@ -2,7 +2,8 @@
 
 @back Dwissan3
 @char Bilyeong.Angry pos: 50, 50 scale: 0.7
-Bilyeong: 저것이 위쪽으로 도망간다! 뭐하고 있느냐? 어서 쫓아가지 않고?
+Bilyeong: 저것이 위쪽으로 도망간다! 
+Bilyeong: 뭐하고 있느냐? 어서 쫓아가지 않고?
 @hide Bilyeong
 @char Yeon pos: 25, 0 scale: 0.9
 Yeon: 보채지 말거라.
@@ -18,4 +19,5 @@ Yeon: 아니, 방금 더 좋은 수가 떠올랐다.
 Bilyeong: 하, 이리 간단한 걸 두고 또 무슨 잔꾀가 떠올랐다고 그러는 것이냐?
 @hide Bilyeong
 @char Yeon pos: 50, 0 scale: 0.9
-Yeon: 잠자코 보기나 하거라… 우선 저 위쪽 바위로 가자꾸나.
+Yeon: 잠자코 보기나 하거라… 
+Yeon: 우선 저 위쪽 바위로 가자꾸나.
