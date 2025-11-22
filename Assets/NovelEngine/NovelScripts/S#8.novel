@@ -3,16 +3,16 @@
 @back Yokaigol
 @bgm ScenarioBGM
 
-@char Seol.Eyeclosed pos: 50, 0 scale: 1.05 transition: Fadein time: 0.5
+@char Seol.Eyeclosed pos: 50, 0 scale: 0.85 transition: Fadein time: 0.5
 Seol: 도착했군요, 이곳입니다.
 
 @hide Seol
 @wait 1
 @char Bilyeong pos: 20, 50 scale: 0.7
-Bilyeong: 여기라고? 
+Bilyeong: 여기라고?
 Bilyeong: 허어, 생각보다도 훨씬... 
 
-@char Seol pos: 80, 0 scale: 1.05
+@char Seol pos: 80, 0 scale: 0.85
 @wait 0.3
 Seol: 낡았다고 생각하실 수도, 작다고 생각하실 수도 있을 겁니다.
 Seol: 원래도 그리 큰 마을은 아니었으나, 요괴들이 자주 나타나면서 그나마 있던 사람들도 대부분 마을을 떠났습니다. 
@@ -31,14 +31,14 @@ Seol: ...농이었다고 생각하고 잊으셔도 괜찮습니다.
 @hide Bilyeong
 @hide Seol
 @wait 2
-@char Seol pos: 50, 0 scale: 1.05 transition: Fadein time: 0.5
+@char Seol pos: 50, 0 scale: 0.85 transition: Fadein time: 0.5
 Seol: 그럼, 전 마을 분들께 얘기를 드리고 올 터이니, 이곳에서 잠시 기다려 주십시오.
 
 @hide Seol
-@char Yeon pos: 80, 0 scale: 1.05
+@char Yeon pos: 80, 0 scale: 0.85
 Yeon: 따라가지 않아도 괜찮겠는가?
 
-@char Seol pos: 20, 0 scale: 1.05 flip: true
+@char Seol pos: 20, 0 scale: 0.85 flip: true
 Seol: 마을 분들에게 망량은 낮선 자일 것입니다. 
 Seol: 괜히 모습을 비추어 그들의 불안감을 키울 필요는 없을 것 같다고 생각됩니다.
 Yeon: ...그래, 그럼 부탁하지.
@@ -54,7 +54,7 @@ Seol: 네.
 @wait 0.5
 Bilyeong: 요괴 잡으러 왔더니 귀신 구경할 팔자구나.
 
-@char Yeon pos: 80, 0 scale: 1.05
+@char Yeon pos: 80, 0 scale: 0.85
 Yeon: 그래, 마을이 낡고 활기가 없으니, 퍽 을씨년스럽기는 하구나.
 Bilyeong: 네놈도 귀신 소리나 하는 것이냐? 
 Bilyeong: 에잇! 그래, 여기까지 와서 귀신들이랑 하룻밤 보낼 수도 있는 것이지.
@@ -69,7 +69,7 @@ Yeon: 지금 처지에 그리 했다간 입 돌아가 죽겠지만 말이지.
 @hide Yeon
 @hide Bilyeong
 @wait 1
-@char Seol pos: 50, 0 scale: 1.05 transition: Fadein time: 0.5
+@char Seol pos: 50, 0 scale: 0.85 transition: Fadein time: 0.5
 @wait 0.3
 Seol: 말씀 중에 죄송합니다만.
 
@@ -78,16 +78,16 @@ Seol: 말씀 중에 죄송합니다만.
 Bilyeong: ...허! 무슨, 벌써 왔느냐? 
 Bilyeong: 기척을 그리 지우고 다가오니 난 귀신이 벌써 나온 줄 알았다.
 
-@char Seol.EyeClosed pos: 80, 0 scale: 1.05
+@char Seol.EyeClosed pos: 80, 0 scale: 0.85
 Seol: ...죄송합니다. 마을 분과 얘기가 끝났기에 돌아왔습니다.
 
 @hide Bilyeong
 @hide Seol
-@char Yeon pos: 50, 0 scale: 1.05
+@char Yeon pos: 50, 0 scale: 0.85
 Yeon: 뭐라고 하셨느냐?
 
 @hide Yeon
-@char Seol pos: 50, 0 scale: 1.05
+@char Seol pos: 50, 0 scale: 0.85
 Seol: 사람이 살고 있는 곳 외의 나머지 집은 자유롭게 이용해도 좋다고 합니다.
 Seol: 따로 무언가를 챙겨줄 형편은 되지 못하지만, 원하는 바를 이룰 수 있기를 바란다... 고 합니다.
 
@@ -96,7 +96,7 @@ Seol: 따로 무언가를 챙겨줄 형편은 되지 못하지만, 원하는 바
 Bilyeong: 호의적이구나, 낯선 이를 대한다기에는 과할 정도로.
 //------------------------------------------------------------------------------------------------------------
 @hide Bilyeong
-@char Seol.EyeClosed pos: 50, 0 scale: 1.05
+@char Seol.EyeClosed pos: 50, 0 scale: 0.85
 Seol: 이들도 이미, 저희가 이곳에 온 목적을 알고 있습니다.
 Seol: 저들에게도 요괴들은 삶에 있어 큰 위협이니, 이리 돕는 것일 겁니다.
 
@@ -105,19 +105,19 @@ Seol: 저들에게도 요괴들은 삶에 있어 큰 위협이니, 이리 돕는
 Bilyeong: 그런데도 용케 이곳을 떠나지 않는구나.
 
 @hide Bilyeong
-@char Seol pos: 50, 0 scale: 1.05
+@char Seol pos: 50, 0 scale: 0.85
 Seol: ...아무래도 평생 살던 곳을 떠나는 것이 그리 쉽진 않을 테니까요.
 
 @hide Seol
-@char Yeon pos: 50, 0 scale: 1.05
+@char Yeon pos: 50, 0 scale: 0.85
 Yeon: 요괴들이 들끓는 이곳보다도 바깥이 더 막막한 곳이라는 뜻이겠지.
 
 @hide Yeon
-@char Seol pos: 50, 0 scale: 1.05
+@char Seol pos: 50, 0 scale: 0.85
 Seol: ......
 
 @hide Seol
-@char Yeon.EyeClosed pos: 80, 0 scale: 1.05
+@char Yeon.EyeClosed pos: 80, 0 scale: 0.85
 Yeon: 그러면, 흔쾌히 머물 곳을 내어준 그들의 기대에 부응해야겠구나, 비령아.
 
 @char Bilyeong pos: 20, 50 scale: 0.7
@@ -133,11 +133,11 @@ Bilyeong: 그렇게 고생해서 왔거늘 오자마자 또 힘쓰게 생겼구�
 
 @hide Bilyeong
 @hide Yeon
-@char Seol pos: 50, 0 scale: 1.05
+@char Seol pos: 50, 0 scale: 0.85
 Seol: 저도, 함께 싸우면 되겠습니까?
 
 @hide Seol
-@char Yeon pos: 50, 0 scale: 1.05
+@char Yeon pos: 50, 0 scale: 0.85
 Yeon: 아, 설 소저께서는,
 
 @hide Yeon
@@ -150,14 +150,14 @@ Yeon: 아, 설 소저께서는,
 
 #wayA
 
-@char Seol.EyeClosed pos: 50, 0 scale: 1.05
+@char Seol.EyeClosed pos: 50, 0 scale: 0.85
 Seol: 그럼, 동행하도록 하겠습니다.
 
 @goto .wayC
 
 #wayB
 
-@char Seol.EyeClosed pos: 50, 0 scale: 1.05
+@char Seol.EyeClosed pos: 50, 0 scale: 0.85
 Seol: ...네, 알겠습니다. 그러면, 이곳에서 거처를 정리하고 있도록 하겠습니다.
 
 @char Seol
@@ -168,7 +168,7 @@ Seol: 모쪼록 무사히 다녀오십시오.
 #wayC
 
 @hide Seol
-@char Yeon pos: 50, 0 scale: 1.05
+@char Yeon pos: 50, 0 scale: 0.85
 Yeon: 예, 그럼 출발하지요.
 
 @stopbgm
