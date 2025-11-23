@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Skill/SkillInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Skill/SkillInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterInfo/CharacterInfoPopUpSkillUI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterInfo/CharacterInfoPopUpSkillUI.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCharManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCharManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/Turn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/Turn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnEventParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnEventParameters.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/SkillPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/SkillPanel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillDescription.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillDescription.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SPUM/Basic_Resources/Package/SPUM177.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButtonPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButtonPanel.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,50 +67,42 @@
 }</component>
   <component name="RunManager" selected="Unity 에디터에 연결.Unity 에디터에 연결">
     <configuration name="유닛 테스트(배치 모드)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Unity\Editor\2022.3.62f2\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="독립실행형 플레이어" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../../new/AngelBeat.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/졸프로그/build\AngelBeat.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="Unity 시작" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="D:\Unity\Editor\2022.3.62f2\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="32680">
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="32680" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -193,27 +182,13 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>219</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="7249" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7298" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>215</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="7123" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7142" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
@@ -225,53 +200,25 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>222</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="7423" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7439" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>217</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="7173" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7215" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>224</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="7470" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7471" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>292</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
-            <startOffsets>
-              <option value="9550" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9605" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

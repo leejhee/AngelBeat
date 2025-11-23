@@ -78,7 +78,7 @@ namespace GamePlay.Features.Battle.Scripts
                 && BattleController.Instance)
             {
                 // 현재 턴 캐릭터 기준 offset 셀만 클릭 가능
-                BattleStageGrid grid = BattleController.Instance.GetBattleGrid();
+                BattleStageGrid grid = BattleController.Instance.StageGrid;
                 if (grid)
                 {
                     Vector2Int actorCell = grid.WorldToCell(turnCtx.Actor.transform.position);

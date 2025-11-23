@@ -131,10 +131,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                 {
                     button.isSelected = false;
                     button.Frame.sprite = button.NonSelectedFrame;
-                    //return;
                 }
-
-                button.selectable = false;
             }
         }
         
@@ -224,6 +221,22 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             gameObject.SetActive(true);
         }
         public void Hide() => gameObject.SetActive(false);
+
+        public void SetSkillInteractable(bool dtoCanUseSkill)
+        {
+            if (!skillPanel || skillPanel.SkillButtons.Count == 0) return;
+            skillPanel.SetInteractable(dtoCanUseSkill);
+        }
+
+        public void SetExtraInteractable(bool dtoCanUseExtra)
+        {
+            Button button = jumpButton.GetComponent<Button>();
+            button.interactable = dtoCanUseExtra;
+            button = pushButton.GetComponent<Button>();
+            button.interactable = dtoCanUseExtra;
+            button = invenButton.GetComponent<Button>();
+            button.interactable = dtoCanUseExtra;
+        }
     }
 
 }

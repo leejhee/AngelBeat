@@ -190,9 +190,9 @@ namespace GamePlay.Features.Battle.Scripts
         {
             foreach (var dict in _cache.Values)
             {
-                if (dict.ContainsKey(uid))
+                if (dict.TryGetValue(uid, out CharBase c))
                 {
-                    return dict[uid];
+                    return c;
                 }
             }
             return null;

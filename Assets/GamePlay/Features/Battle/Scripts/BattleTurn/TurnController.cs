@@ -23,28 +23,24 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public int CurrentRound => _round;
         public Turn CurrentTurn { get; private set; }
         public CharBase TurnOwner => CurrentTurn?.TurnOwner;
-        public event Func<UniTask> OnRoundProceeds;
-        public event Action OnRoundEnd;
+        //public event Func<UniTask> OnRoundProceeds;
         public IReadOnlyCollection<Turn> TurnCollection => _turnBuffer.AsReadOnly();
         
         #endregion
         
         #region New Events - Testing
+        
+        // Domain Event
         public event Func<RoundEventContext, UniTask> OnRoundProceedAsync;
         public event Func<TurnEventContext, UniTask> OnTurnBeganAsync;
         public event Func<TurnEventContext, UniTask> OnTurnEndedAsync;
-        
+        public event Action OnRoundEnd;
+        // UI Event 
+        public event Action<TurnChangedDTO> OnTurnChanged;
+        public event Action<TurnOrderDTO> OnTurnOrderChanged;
+        public event Action<TurnActionDTO> OnCurrentTurnActionChanged;
         #endregion
         
-        #region UI Model
-
-        public class TurnModel
-        {
-            public readonly Turn Turn;
-            public TurnModel(Turn turn) =>  Turn = turn;
-        }
-
-        #endregion        
  
         private void InitializeTurnQueue(List<CharBase> battleMembers)
         {
@@ -52,6 +48,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             {
                 Turn newTurn = new(character);
                 newTurn.OnAITurnCompleted += () => ChangeTurn().Forget();
+                newTurn.OnTurnAction += dto =>
+                {
+                    if (newTurn == CurrentTurn)
+                        OnCurrentTurnActionChanged?.Invoke(dto);
+                };
                 _turnBuffer.Add(newTurn);
             }
             _turnBuffer.Sort(new TurnComparer(VanillaComparer));
@@ -78,10 +79,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             InitializeTurnQueue(newRoundMembers);
         }
         
-        public void RefreshTurn() => RebuildTurnQueue();
-        
-        public Action<TurnModel> OnTurnChanged;
-        
         
         public async UniTask ChangeTurn()
         {
@@ -94,7 +91,17 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                     _actorTurnCounts.TryGetValue(actorID, out int actorTurnCount);
 
                     TurnEventContext endCtx = new(_round, TurnOwner, actorTurnCount);
-                    await OnTurnEndedAsync(endCtx);
+                    if (OnTurnEndedAsync != null)
+                    {
+                        foreach (var d in OnTurnEndedAsync.GetInvocationList())
+                        {
+                            if (d is Func<TurnEventContext, UniTask> handler)
+                            {
+                                await handler(endCtx);
+                            }
+                        }
+                    }
+                    
                 }
                 
                 CurrentTurn?.End();
@@ -113,11 +120,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                     RoundEventContext roundCtx = new(_round);
                     await OnRoundProceedAsync.Invoke(roundCtx);
                 }
-                //TODO : 하나에 다 묶을 지 선택할 것
-                if (OnRoundProceeds != null)
-                {
-                    await OnRoundProceeds.Invoke();
-                }
+                
+                OnTurnOrderChanged?.Invoke(new TurnOrderDTO(TurnCollection));
             }
             #endregion
             
@@ -137,13 +141,18 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 if (OnTurnBeganAsync != null)
                 {
                     TurnEventContext beginCtx = new(_round, TurnOwner, actorTurnCount);
-                    await OnTurnBeganAsync(beginCtx);
+                    foreach (var d in OnTurnBeganAsync.GetInvocationList())
+                    {
+                        if (d is Func<TurnEventContext, UniTask> handler)
+                        {
+                            await handler(beginCtx);
+                        }
+                    }
                 }
             }
             
             CurrentTurn.Begin();
-            OnTurnChanged?.Invoke(new TurnModel(CurrentTurn));
-            
+            OnTurnChanged?.Invoke(new TurnChangedDTO(_round, TurnOwner));
             #endregion
         }
         

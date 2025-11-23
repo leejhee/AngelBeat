@@ -13,23 +13,23 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         public CharBase TurnOwner { get; private set; }
         public Side WhoseSide { get; private set; }
         public bool IsValid => TurnOwner && !_isDead;
-        
-        public TurnActionState ActionState { get; private set; }
+
+        private TurnActionState _actionState = new();
         
         private bool _isDead = false;
         private event Action OnBeginTurn =     delegate { };
         private event Action OnEndTurn =       delegate { };
 
-        private Action TurnOwnerOutline;
+        private event Action TurnOwnerOutline;
         public event Action OnAITurnCompleted;
+        public event Action<TurnActionDTO> OnTurnAction;
+        
         
         public Turn(CharBase turnOwner)
         {
             TurnOwner = turnOwner;
             WhoseSide = turnOwner.GetCharType() == SystemEnum.eCharType.Enemy ?
                 Side.Enemy : Side.Player;
-            
-            ActionState = new TurnActionState();
             
             OnBeginTurn += DefaultTurnBegin;
             OnEndTurn += DefaultTurnEnd;
@@ -56,11 +56,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         private void DefaultTurnBegin()
         {
             #region Action Point Initialize
-            float movePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
-            ActionState.Initialize(movePoint);
             
             long maxMovePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NMACTION_POINT);
             long currentMovePoint = TurnOwner.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            _actionState.Initialize(maxMovePoint);
             
             if (currentMovePoint != maxMovePoint)
             {
@@ -87,8 +86,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             
             TurnOwnerOutline = () => TurnOwner.OutlineCharacter(Color.green, 10f);
             TurnOwner.OnUpdate += TurnOwnerOutline;
-            //TurnOwner.KeywordInfo.ExecuteByPhase(SystemEnum.eExecutionPhase.SoT, TriggerType.EoT);
-
+            
+            RaiseTurnActionChanged();
             #endregion
         }
         
@@ -99,7 +98,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
                 await monster.ExecuteAITurn(this);
                 Debug.Log($"[Turn] {monster.name} AI 행동 완료");
                 
-                TurnActionUtility.LogActionState(monster.name, ActionState);
+                TurnActionUtility.LogActionState(monster.name, _actionState);
                 
                 await UniTask.Delay(500);
                 Debug.Log($"[Turn] {monster.name} AI 턴 종료");
@@ -132,12 +131,19 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             TurnOwner.ClearOutline();
         }
         
+        private void RaiseTurnActionChanged()
+        {
+            if (OnTurnAction == null) return;
+            TurnActionDTO dto = new(TurnOwner.GetID(), _actionState);
+            OnTurnAction.Invoke(dto);
+        }
+        
         /// <summary>
         /// 행동 수행 가능 여부 검증
         /// </summary>
         public bool CanPerformAction(TurnActionState.ActionCategory category, int moveDistance=0)
         {
-            return ActionState.CanPerformAction(category, moveDistance);
+            return _actionState.CanPerformAction(category, moveDistance);
         }
         
         /// <summary>
@@ -145,23 +151,34 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
         /// </summary>
         public bool TryConsumeMove(float distance)
         {
-            if (!ActionState.ConsumeMovePoint(distance))
+            if (!_actionState.ConsumeMovePoint(distance))
             {
                 return false;
             }
             
             TurnOwner.RuntimeStat.ChangeStat(SystemEnum.eStats.NACTION_POINT, -(long)distance);
-            
-            Debug.Log($"[Turn] {TurnOwner.name} 이동력 소모 완료: {distance} (남은: {ActionState.RemainingMovePoint})");
-            
+            RaiseTurnActionChanged();
+            Debug.Log($"[Turn] {TurnOwner.name} 이동력 소모 완료: {distance} (남은: {_actionState.RemainingMovePoint})");
             return true;
         }
-        
+
         /// <summary>
         /// 주요 행동 실행 (밀기/점프/스킬)
         /// </summary>
-        public bool TryUseSkill() => ActionState.UseSkillAction();
-        
-        public bool TryUseExtra() => ActionState.UseExtraAction();
+        public bool TryUseSkill()
+        {
+            if (!_actionState.UseSkillAction())
+                return false;
+            RaiseTurnActionChanged();
+            return true;
+        }
+
+        public bool TryUseExtra()
+        {
+            if (!_actionState.UseExtraAction())
+                return false;
+            RaiseTurnActionChanged();
+            return true;
+        }
     }
 }

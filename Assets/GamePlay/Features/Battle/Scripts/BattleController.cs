@@ -68,34 +68,14 @@ namespace GamePlay.Features.Battle.Scripts
         public CharBase FocusChar => _turnManager.TurnOwner;
         public Party PlayerParty => _playerParty;
         public TurnController TurnController => _turnManager;
+        public StageField StageField => _battleStage;
+        public BattleStageGrid StageGrid => _battleStage?.GetComponent<BattleStageGrid>();
 
         public event Func<UniTask> OnBattleStartAsync;
         public event Func<SystemEnum.eCharType, UniTask> OnBattleEndAsync;
         public event Action<BattleActionContext, BattleActionPreviewData> OnActionPreviewStarted;
         public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
         public event Action<long> OnCharacterDead;
-        #endregion
-        
-        #region UI Model
-        
-        public class TurnStructureModel
-        {
-            public IReadOnlyCollection<Turn> TurnCollection;
-            
-            public TurnStructureModel(IReadOnlyCollection<Turn> turnCollection) =>  TurnCollection = turnCollection;
-        }
-        public TurnStructureModel GetChangedTurnStructureModel => new(_turnManager.TurnCollection);
-        
-        //TODO : temporary. 절대 그냥 냅두지 말것.
-        public StageField GetStageField()
-        {
-            return _battleStage;
-        }
-        
-        public BattleStageGrid GetBattleGrid()
-        {
-            return _battleStage?.GetComponent<BattleStageGrid>();
-        }
         
         #endregion
         
@@ -111,10 +91,12 @@ namespace GamePlay.Features.Battle.Scripts
             if(Camera.main != null)
                 Camera.main.orthographicSize = cameraSize;
             
-            _turnManager.OnTurnChanged += async m =>
+            _turnManager.OnTurnBeganAsync += async m =>
             {
-                if (cameraDriver && m?.Turn?.TurnOwner)
-                    await cameraDriver.Focus(m.Turn.TurnOwner.CharCameraPos, 0.4f);
+                //if (cameraDriver && m?.Turn?.TurnOwner)
+                //    await cameraDriver.Focus(m.Turn.TurnOwner.CharCameraPos, 0.4f);
+                if (cameraDriver && m.Actor)
+                    await cameraDriver.Focus(m.Actor.CharCameraPos, 0.4f);
             };
         }
         
@@ -362,7 +344,6 @@ namespace GamePlay.Features.Battle.Scripts
                 // 이동 가능 여부
                 if (!currentTurn.CanPerformAction(TurnActionState.ActionCategory.Move, moveDistance))
                 {
-                    Debug.LogWarning($"이동력 부족: {moveDistance:F1} 필요, {currentTurn.ActionState.RemainingMovePoint:F1} 남음");
                     CancelPreview();
                     return;
                 }

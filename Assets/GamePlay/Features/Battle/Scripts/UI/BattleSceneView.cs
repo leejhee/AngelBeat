@@ -54,6 +54,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
         #endregion
         
         
+        
+        
         public struct SkillResourceRoot
         {
             public string iconRoot;
@@ -75,29 +77,22 @@ namespace GamePlay.Features.Battle.Scripts.UI
             #region Model Events
             
             // 턴 바뀜 이벤트 구독
-            ModelEvents.Subscribe<TurnController.TurnModel>(
+            ModelEvents.Subscribe<TurnChangedDTO>(
                 act => BattleController.Instance.TurnController.OnTurnChanged += act,
                 act => BattleController.Instance.TurnController.OnTurnChanged -= act,
                 OnTurnChanged
-                    );
-
-            ModelEvents.SubscribeAsync(
-                act => BattleController.Instance.TurnController.OnRoundProceeds += act,
-                act => BattleController.Instance.TurnController.OnRoundProceeds -= act,
-                InstantiateTurnPortrait
-                );
-
-            ModelEvents.Subscribe(
-                act => BattleController.Instance.TurnController.OnRoundEnd += act,
-                act => BattleController.Instance.TurnController.OnRoundEnd -= act,
-                OnRoundEnd
-                );
+            );
             
-            // 행동 종료 후 토글 해제
-            ModelEvents.Subscribe<BattleActionBase, BattleActionResult>(
-                act => BattleController.Instance.ActionCompleted += act,
-                act => BattleController.Instance.ActionCompleted -= act,
-                OnBattleActionCompleted
+            ModelEvents.Subscribe<TurnActionDTO>(
+                act => BattleController.Instance.TurnController.OnCurrentTurnActionChanged += act,
+                act => BattleController.Instance.TurnController.OnCurrentTurnActionChanged -= act,
+                OnCurrentTurnActionChanged
+            );
+            
+            ModelEvents.Subscribe<TurnOrderDTO>(
+                act => BattleController.Instance.TurnController.OnTurnOrderChanged += act,
+                act => BattleController.Instance.TurnController.OnTurnOrderChanged -= act,
+                OnRoundChanged
             );
 
             ModelEvents.Subscribe<long>(
@@ -188,58 +183,66 @@ namespace GamePlay.Features.Battle.Scripts.UI
         #region Model To View
 
         private readonly PresenterEventBag _focusCharacterEvents = new();
-        
-        private void OnRoundStart()
-        {
-            // 턴 HUD 초상화 생성
-            GameObject InstantiatePortrait(CharBase charBase)
-            {
-                // TODO: 나중에 바꿀것
-                GameObject go = ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnHUD.gameObject.transform).GetAwaiter().GetResult();
-                // 캐릭터 초상화 설정
-                //go.GetComponent<TurnPortrait>().SetPortraitImage(charBase., charBase.GetID());
-                return go;
-            }
+        private bool _turnPortraitsReady;
+        private bool _pendingFirstHighlight;
 
-            foreach (Turn turn in BattleController.Instance.TurnController.TurnCollection)
-            {
-                GameObject turnObject = InstantiatePortrait(turn.TurnOwner);
-                // 턴 초상화 오브젝트 만들어서 리스트에 넣기
-                View.TurnHUD.AddToTurnList(turnObject.GetComponent<TurnPortrait>());
-            }
-            View.TurnHUD.OnRoundStart(); 
+        private void OnRoundChanged(TurnOrderDTO dto)
+        {
+            View.TurnHUD.ClearList();
+            View.TurnHUD.OnRoundStart();
+            _turnPortraitsReady = false;
+            _pendingFirstHighlight = false;
+            InstantiateTurnPortrait(dto).Forget();
         }
-
-        private async UniTask InstantiateTurnPortrait()
+        
+        private async UniTask InstantiateTurnPortrait(TurnOrderDTO dto)
         {
-            foreach (Turn turn in BattleController.Instance.TurnController.TurnCollection)
+            foreach (TurnSlotDTO turn in dto.Slots)
             {
+                if (turn.IsDead) continue;
+                CharBase character = BattleCharManager.Instance.GetFieldChar(turn.ActorId);
+                
                 UniTask<GameObject> task = ResourceManager.Instance.InstantiateAsync(_turnPortraitAddress, View.TurnHUD.transform);
                 TurnPortrait turnPortrait = (await task).GetComponent<TurnPortrait>();
-                string root = turn.TurnOwner.CharInfo.IconSpriteRoot;
+                
+                string root = character.CharInfo.IconSpriteRoot;
                 Sprite sprite = await ResourceManager.Instance.LoadAsync<Sprite>(root);
                 Debug.Log(sprite);
-                turnPortrait.SetPortraitImage(sprite, turn.TurnOwner.GetID());
+                turnPortrait.SetPortraitImage(sprite, turn.ActorId);
                 
                 View.TurnHUD.AddToTurnList(turnPortrait);
             }
-            View.TurnHUD.OnRoundStart();
-        }
-        
-        private void OnRoundEnd()
-        {
-            View.TurnHUD.ClearList();
+            
+            _turnPortraitsReady = true;
+            
+            if (_pendingFirstHighlight)
+            {
+                _pendingFirstHighlight = false;
+                View.TurnHUD.MoveToNextTurn();
+            }
         }
 
-        private void OnTurnChanged(TurnController.TurnModel turnModel)
+        private void OnTurnChanged(TurnChangedDTO turnModel)
         {
             // 현재 턴 표시자 옮기기
-            View.TurnHUD.MoveToNextTurn();
+            if (!_turnPortraitsReady)
+            {
+                _pendingFirstHighlight = true;
+            }
+            else
+            {
+                View.TurnHUD.MoveToNextTurn();
+            }
             
-            // 아군 턴이면 캐릭터 HDU 오픈
-            //CharacterModel charModel = turnModel.Turn.TurnOwner.CharInfo;
-            CharBase character = turnModel.Turn.TurnOwner;
-            if (character.GetCharType() == SystemEnum.eCharType.Player)
+            // 아군 턴이면 캐릭터 HUD 오픈
+            CharBase character = BattleCharManager.Instance.GetFieldChar(turnModel.ActorId);
+            if (!character)
+            {
+                Debug.Log("[Battle Turn Changed Event] : Invalid Character ");
+                return;
+            }
+            
+            if (turnModel.Side == SystemEnum.eCharType.Player)
             {
                 OnCharacterHUDOpen(character);
             }
@@ -250,12 +253,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
             }
         }
 
-        private void OnBattleActionCompleted(BattleActionBase b, BattleActionResult r)
-        {
-            if(b.ActionType != ActionType.Move)
-                View.CharacterHUD.DisableAllToggleButton();
-        }
-        
         private void OnCharacterHUDOpen(CharBase character)
         {
             _focusCharacterEvents.Clear();
@@ -333,16 +330,16 @@ namespace GamePlay.Features.Battle.Scripts.UI
             else if (stat == SystemEnum.eStats.NACTION_POINT) View.ChangeAp(delta);
         }
         
-        private void OnHPChanged(HPModel model)
+        
+        private void OnCurrentTurnActionChanged(TurnActionDTO dto)
         {
-            long delta = model.Delta;
-            View.ChangeHp(delta);
-        }
+            bool isPlayer = BattleCharManager.Instance
+                .GetFieldChar(dto.ActorId)?.GetCharType() == SystemEnum.eCharType.Player;
 
-        private void OnAPChanged(ApModel model)
-        {
-            int delta = model.Delta;
-            View.ChangeAp(delta);
+            if (!isPlayer) return;
+            View.CharacterHUD.DisableAllToggleButton();
+            View.CharacterHUD.SetSkillInteractable(dto.CanUseSkill);
+            View.CharacterHUD.SetExtraInteractable(dto.CanUseExtra);
         }
         
         #endregion

@@ -40,7 +40,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
             await UniTask.Delay(1000); // 연출용 딜레이
             
             #region Grid Initialization
-            _stageField = BattleController.Instance.GetStageField();
+            _stageField = BattleController.Instance.StageField;
             if (!_stageField)
             {
                 Debug.LogError("[AI] StageField를 찾을 수 없습니다.");
