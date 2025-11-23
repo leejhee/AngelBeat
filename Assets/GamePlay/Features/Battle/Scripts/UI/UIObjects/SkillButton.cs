@@ -1,17 +1,10 @@
-using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Battle.Scripts.UI.UIObjects;
 using System;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using static Core.Scripts.Foundation.Define.SystemString;
+using UnityEngine.UI;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
     public class SkillButton : ToggleButton, IPointerEnterHandler, IPointerExitHandler
     {

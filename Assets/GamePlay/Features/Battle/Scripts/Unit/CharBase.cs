@@ -302,7 +302,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             if (model.SkillType == SystemEnum.eSkillType.MagicAttack) return false;
 
             float hitChance = model.SkillAccuracy + damageInfo.Attacker.BonusAccuracy - Dodge + 5;
-            bool succeed = UnityEngine.Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
+            bool succeed = Random.Range(0f, 100f) > Mathf.Clamp(hitChance, 0, 100);
             if (!succeed) return false;
 
             Debug.Log($"{damageInfo.Attacker.name}의 공격을 {name}이 회피했습니다.");

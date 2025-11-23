@@ -1,14 +1,12 @@
 ﻿using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
-using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
+namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
     /// <summary>
     /// PDF "적 AI 판단 로직 (Simple Ver.)" 완전 구현

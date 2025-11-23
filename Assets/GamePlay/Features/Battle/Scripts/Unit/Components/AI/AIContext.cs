@@ -1,13 +1,9 @@
 ﻿using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
-using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
+namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
     /// <summary>
     /// AI가 한 턴 동안 상황을 판단한 결과를 저장하는 컨텍스트

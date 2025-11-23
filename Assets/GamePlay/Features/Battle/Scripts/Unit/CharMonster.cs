@@ -1,8 +1,8 @@
 using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Common.Scripts.Entities.Character.Components.AI;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
+using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
 using UnityEngine;
 
 

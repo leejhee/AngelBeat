@@ -1,15 +1,13 @@
 using Cysharp.Threading.Tasks;
-using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
-using GamePlay.Features.Battle.Scripts.Unit;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
+namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
     /// <summary>
     /// 적 AI 제어 (ActionSet 기반)

@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace AngelBeat
+namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 {
     
     public class SkillButtonPanel : MonoBehaviour
@@ -15,8 +13,8 @@ namespace AngelBeat
         {
             foreach (SkillButton skillButton in skillButtons)
             {
-                Button button = skillButton.GetComponent<Button>();
-                button.interactable = enable;
+                ToggleButton button = skillButton;
+                button.selectable = enable;
             }
         }
         

@@ -230,12 +230,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 
         public void SetExtraInteractable(bool dtoCanUseExtra)
         {
-            Button button = jumpButton.GetComponent<Button>();
-            button.interactable = dtoCanUseExtra;
-            button = pushButton.GetComponent<Button>();
-            button.interactable = dtoCanUseExtra;
-            button = invenButton.GetComponent<Button>();
-            button.interactable = dtoCanUseExtra;
+            ToggleButton button = jumpButton; button.selectable = dtoCanUseExtra;
+            button = pushButton; button.selectable = dtoCanUseExtra;
+            button = invenButton; button.selectable = dtoCanUseExtra;
         }
     }
 

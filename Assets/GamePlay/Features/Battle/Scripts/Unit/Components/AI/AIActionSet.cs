@@ -1,9 +1,7 @@
 ﻿using GamePlay.Common.Scripts.Entities.Skills;
-using GamePlay.Features.Battle.Scripts.Unit;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace GamePlay.Common.Scripts.Entities.Character.Components.AI
+namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
     public enum AIActionType
     {

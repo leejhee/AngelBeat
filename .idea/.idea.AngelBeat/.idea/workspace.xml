@@ -5,16 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCharManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCharManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/Turn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/Turn.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnEventParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnEventParameters.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIActionSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIActionSet.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIActionSetGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIActionSetGenerator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/AIContext.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/Components/AI/CharAI.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharAI.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButtonPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButtonPanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharMonster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/CharMonster.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +152,7 @@
       <workItem from="1763832661645" duration="2592000" />
       <workItem from="1763892510028" duration="594000" />
       <workItem from="1763893553613" duration="5846000" />
+      <workItem from="1763930243148" duration="2217000" />
     </task>
     <servers />
   </component>
@@ -182,13 +188,27 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>219</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="7249" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7298" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>215</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="7123" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7142" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
@@ -200,25 +220,53 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>222</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="7423" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7439" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>217</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="7173" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7215" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>224</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="7470" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7471" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/SkillRangeHelper.cs</url>
           <line>292</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
+          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
+            <startOffsets>
+              <option value="9550" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9605" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
