@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Shaders/GridXYWorldDevised.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Shaders/GridXYWorldDevised.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Shaders/GridXYWorldEdgeDevised.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Shaders/GridXYWorldEdgeDevised.shadergraph" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/Stage/TestMap.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/Stage/TestMap.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleGridProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleGridProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/StageField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/StageField.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnActionState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnActionState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Skill/Tooltip/ToolTip_MiasmaSpread.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Skill/Tooltip/ToolTip_PhantomReprisal.png.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +71,7 @@
       <method v="2" />
     </configuration>
     <configuration name="독립실행형 플레이어" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/졸프빌드/build\AngelBeat.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/졸프로그/build\AngelBeat.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -143,6 +138,7 @@
       <workItem from="1763538448311" duration="2511000" />
       <workItem from="1763716479313" duration="2061000" />
       <workItem from="1763796385710" duration="3904000" />
+      <workItem from="1763832661645" duration="2592000" />
     </task>
     <servers />
   </component>
