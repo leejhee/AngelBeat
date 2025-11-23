@@ -2,7 +2,9 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Entities.Skills;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
@@ -99,27 +101,48 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
         }
         private readonly PresenterEventBag _focusCharacterEvents = new();
+
+        public struct InfoPopupSkillResourceRoot
+        {
+            public string SkillName;
+            public string IconRoot;
+            public string TooltipRoot;
+            public bool IsUsing;
+
+            public InfoPopupSkillResourceRoot(string skillName, string iconRoot, string tooltipRoot, bool isUsing = false)
+            {
+                this.SkillName = skillName;
+                this.IconRoot = iconRoot;
+                this.TooltipRoot = tooltipRoot;
+                this.IsUsing = isUsing;
+            }
+        }
         
         private void SetCharacterInfoPopup(CharacterModel model)
         {
             View.PortraitPanel.SetPortraitPanel(model);
             View.PassivePanel.SetPassivePanel(model);
             
-            List<string> activeSkills = new();
-            List<string> usingSkills = new();
-            
-            foreach (var activeSkill in model.ActiveSkills)
+
+            List<InfoPopupSkillResourceRoot> skillResourceRoots = model.ActiveSkills.Select(activeSkill => 
+                new InfoPopupSkillResourceRoot(activeSkill.SkillName, activeSkill.Icon, activeSkill.TooltipName)).ToList();
+
+            foreach (SkillModel usingSkill in model.UsingSkills)
             {
-                Debug.Log(activeSkill.SkillName);
-                activeSkills.Add(activeSkill.SkillName);
-            }
-            foreach (var usingSkill in model.UsingSkills)
-            {
-                Debug.Log(usingSkill.SkillName);
-                usingSkills.Add(usingSkill.SkillName);
+                for (int i = 0; i < skillResourceRoots.Count; i++)
+                {
+                    if (usingSkill.SkillName != skillResourceRoots[i].SkillName)
+                    {
+                        continue;
+                    }
+
+                    InfoPopupSkillResourceRoot temp = skillResourceRoots[i];
+                    temp.IsUsing = true;
+                    skillResourceRoots[i] = temp;
+                }
             }
             
-            View.SkillPanel.SetSkills(activeSkills, usingSkills);
+            View.SkillPanel.SetSkills(skillResourceRoots);
             View.StatPanel.SetStats(model);
             View.EssencePanel.SetEssence(model);
         }

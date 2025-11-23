@@ -290,8 +290,6 @@ namespace GamePlay.Features.Battle.Scripts.UI
             
             foreach (var skill in character.SkillInfo.SkillSlots)
             {
-                Debug.Log(skill.Icon);
-                Debug.Log(skill.TooltipName);
                 SkillResourceRoot roots = new SkillResourceRoot(skill.Icon, skill.TooltipName);
                 skillRoots.Add(roots);
             }

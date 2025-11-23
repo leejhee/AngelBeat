@@ -140,9 +140,17 @@ namespace GamePlay.Common.Scripts.Entities.Character
             var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
             var twisterModel = new SkillModel(twisterData);
             _allSkillModels.Add(twisterModel);
+
+            var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
+            var skillModel = new SkillModel(skillData);
+            _allSkillModels.Add(skillModel);
+            
+            List<SkillModel> skillModels = new List<SkillModel>();
+            skillModels.Add(mungeModel);
+            skillModels.Add(twisterModel);
             
             _activeSkillModels = new List<SkillModel>(_allSkillModels);
-            
+            _usingSkillModels = new List<SkillModel>(skillModels);
             ////////////// SKILL TEST SECTION //////////////////// 
             
             

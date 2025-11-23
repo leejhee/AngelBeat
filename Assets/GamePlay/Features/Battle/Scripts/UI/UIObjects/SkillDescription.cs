@@ -13,8 +13,10 @@ public class SkillDescription : MonoBehaviour
 
     public void SetSkillDescription(Sprite description)
     {
+        Image tooltipImage = this.GetComponent<Image>();
         skillDescriptionSprite = description;
         
-        this.GetComponent<Image>().sprite = description;
+        tooltipImage.sprite = description;
+        tooltipImage.SetNativeSize();
     }
 }

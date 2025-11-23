@@ -67,7 +67,7 @@ namespace GamePlay.Common.Scripts.Skill
             }
         }
 
-        public async UniTask InitAsync(IReadOnlyList<SkillModel> activeSkills)
+        public async UniTask InitAsync(IReadOnlyList<SkillModel> usingSkills)
         {
             // SkillRoot 보장하기
             string skillRoot = "SkillRoot";
@@ -79,7 +79,7 @@ namespace GamePlay.Common.Scripts.Skill
             _SkillRoot = root.transform;
             
             // 런타임 할당 및 스킬 딕셔너리 초기화
-            foreach(SkillModel skill in activeSkills) _skillSlots.Add(skill);
+            foreach(SkillModel skill in usingSkills) _skillSlots.Add(skill);
             foreach (SkillModel t in _skillSlots)
             {
                 await AddSkill(t);

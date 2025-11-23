@@ -175,9 +175,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
                 SkillButton button = skillPanel.SkillButtons[i];
                 
                 button.BindSlot(i);
-
-                Debug.Log(skillRoots[i].iconRoot);
-                Debug.Log(skillRoots[i].descriptionRoot);
                 
                 Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].iconRoot);
                 Sprite description = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].descriptionRoot);
