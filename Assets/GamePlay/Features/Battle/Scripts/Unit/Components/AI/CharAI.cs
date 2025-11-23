@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -276,7 +277,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 battleField = _stageField,
                 skillModel = set.SkillToUse,
                 TargetCell = set.TargetCell.Value,
-                targets = new List<CharBase> { set.TargetChar }
+                targets = new List<IDamageable> { set.TargetChar }
             };
             
             // SkillBattleAction 실행

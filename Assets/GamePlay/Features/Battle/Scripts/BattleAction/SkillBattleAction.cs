@@ -1,5 +1,6 @@
 ﻿using Core.Scripts.Data;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts.BattleMap;
@@ -38,7 +39,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 return BattleActionResult.Fail(BattleActionResult.ResultReason.InvalidContext);
 
             CharBase caster = Context.actor;
-            List<CharBase> targets = Context.targets ?? new List<CharBase>();
+            List<IDamageable> targets = Context.targets ?? new List<IDamageable>();
 
             SkillParameter parameter = new(
                 caster: caster,

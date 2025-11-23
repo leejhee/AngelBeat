@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Skill;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.Unit;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -141,7 +142,7 @@ namespace GamePlay.Common.Scripts.Timeline.PlayableBehaviour
         {
             if (!skill) return null;
 
-            var targets = skill.SkillParameter.Target;
+            List<CharBase> targets = skill.SkillParameter.TargetCharacters;
             if (targets == null || targets.Count == 0) return null;
             
             return targets[0];

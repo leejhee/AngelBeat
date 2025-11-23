@@ -1,4 +1,5 @@
 ﻿using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -67,7 +68,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         private SystemEnum.ePivot _pivotType = SystemEnum.ePivot.TARGET_ENEMY;
         private int          _pointerRange = 0; // 0=단일
         private Vector2Int _cell;
-        private Action<CharBase, SkillModel, List<CharBase>, Vector2Int> _confirmAction;
+        private Action<CharBase, SkillModel, List<IDamageable>, Vector2Int> _confirmAction;
         private Action<Vector2Int> _onClickCell;
         
         #endregion
@@ -95,7 +96,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             Vector2Int cell,
             SystemEnum.ePivot pivotType = SystemEnum.ePivot.TARGET_ENEMY,
             int pointerRange = 0,
-            Action<CharBase, SkillModel, List<CharBase>, Vector2Int> confirmAction = null
+            Action<CharBase, SkillModel, List<IDamageable>, Vector2Int> confirmAction = null
         )
         {
             _caster = caster;
@@ -221,13 +222,13 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             if (!IsValidTarget(_hoverTarget)) return;
             
             // 타겟 담기
-            var targets = new List<CharBase> { _hoverTarget };
+            List<IDamageable> targets = new() { _hoverTarget };
             if (_pointerRange > 0)
             {
                 targets.Clear();
                 Vector2 center = (_pivotType == SystemEnum.ePivot.TARGET_SELF)
-                    ? (Vector2)_caster.CharTransform.position
-                    : (Vector2)transform.position;
+                    ? _caster.CharTransform.position
+                    : transform.position;
 
                 Vector2 box = new(_pointerRange, 1f);
                 //TODO : BattleStageGrid를 참조하도록 할 수 있는지 확인할 것.

@@ -1,22 +1,22 @@
-﻿using Core.Scripts.Foundation.Define;
-using GamePlay.Common.Scripts.Entities.Skills;
+﻿using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GamePlay.Common.Scripts.Skill
 {
     public class SkillParameter
     {
         public readonly CharBase                Caster;
-        public readonly List<CharBase>          Target;
+        public readonly List<IDamageable>          Target;
         //public readonly SkillModel              Model;
         //public readonly SystemEnum.eSkillType   SkillType;
         public readonly BattleStageGrid         Grid;
         
         public SkillParameter(
             CharBase caster, 
-            List<CharBase> target,
+            List<IDamageable> target,
             //SkillModel model,
             BattleStageGrid grid
         )
@@ -27,5 +27,8 @@ namespace GamePlay.Common.Scripts.Skill
             Grid = grid;
             //SkillType = model.skillType;
         }
+        
+        public List<CharBase> TargetCharacters =>
+            Target.OfType<CharBase>().ToList();
     }
 }

@@ -70,6 +70,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             #endregion
                 
             #region Control Logic
+            
+            RaiseTurnActionChanged();
+            
             if (TurnOwner.GetCharType() == SystemEnum.eCharType.Enemy)
             {
                 CharMonster monster = TurnOwner as CharMonster;
@@ -87,7 +90,6 @@ namespace GamePlay.Features.Battle.Scripts.BattleTurn
             TurnOwnerOutline = () => TurnOwner.OutlineCharacter(Color.green, 10f);
             TurnOwner.OnUpdate += TurnOwnerOutline;
             
-            RaiseTurnActionChanged();
             #endregion
         }
         

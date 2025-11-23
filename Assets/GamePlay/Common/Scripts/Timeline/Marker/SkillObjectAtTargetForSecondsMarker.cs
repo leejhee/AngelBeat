@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts;
+using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,11 +20,14 @@ namespace GamePlay.Common.Scripts.Timeline.Marker
 
             Queue<GameObject> instances = new();
             
-            foreach (var target in InputParam.Target)
+            foreach (IDamageable target in InputParam.Target)
             {
-                GameObject inst = Instantiate(lastingObject, target.transform);
-                inst.transform.position += new Vector3(offset.x, offset.y, 0f);
-                instances.Enqueue(inst);
+                if (target is CharBase character)
+                {
+                    GameObject inst = Instantiate(lastingObject, character.transform);
+                    inst.transform.position += new Vector3(offset.x, offset.y, 0f);
+                    instances.Enqueue(inst); }
+                
             }
             
             float timer = 0f;

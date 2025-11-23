@@ -1,4 +1,5 @@
-﻿using GamePlay.Common.Scripts.Entities.Skills;
+﻿using GamePlay.Common.Scripts.Contracts;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.Unit;
 
 namespace GamePlay.Common.Scripts.Entities.Character.Components
@@ -9,7 +10,7 @@ namespace GamePlay.Common.Scripts.Entities.Character.Components
     public struct DamageParameter
     {
         public CharBase Attacker;
-        public CharBase Target;
+        public IDamageable Target;
         public SkillModel Model;
     }
 }

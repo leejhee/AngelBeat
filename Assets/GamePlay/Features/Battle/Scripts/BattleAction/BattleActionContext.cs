@@ -1,4 +1,5 @@
-﻿using GamePlay.Common.Scripts.Entities.Skills;
+﻿using GamePlay.Common.Scripts.Contracts;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
@@ -35,7 +36,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         //=========== Action 중 별개 필요 요소 ============//
         public SkillModel skillModel;
 
-        public List<CharBase> targets;
+        public List<IDamageable> targets;
         
         //=========== 외부 Cancel Token ============//
         public CancellationToken ExternalToken;

@@ -2,6 +2,7 @@ using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts.BattleAction;
@@ -291,7 +292,7 @@ namespace GamePlay.Features.Battle.Scripts
         private async void OnSkillIndicatorConfirm(
             CharBase caster, 
             SkillModel skill, 
-            List<CharBase> targets, 
+            List<IDamageable> targets, 
             Vector2Int cell)
         {
             if (_currentActionState != BattleActionState.Preview) return;
