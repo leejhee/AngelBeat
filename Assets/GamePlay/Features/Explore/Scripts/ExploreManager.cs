@@ -86,10 +86,10 @@ namespace GamePlay.Features.Explore.Scripts
         
         #region Initialization
 
-        private async void Start()
-        {
-            await ExploreInitialize();
-        }
+        //private async void Start()
+        //{
+        //    await ExploreInitialize();
+        //}
 
         public UniTask InitializeForSceneAsync()
         {
@@ -114,20 +114,23 @@ namespace GamePlay.Features.Explore.Scripts
                 //    }
                 //}
                 Instantiate(tutorialMap, exploreMap.transform);
-                Transform startPoint = exploreMap.transform.Find("StartPoint");
-                Instantiate(controller, startPoint.position, startPoint.rotation);
+                GameObject startPoint = GameObject.Find("StartPoint");
+                Instantiate(controller, startPoint.transform.position, startPoint.transform.rotation);
                 
                 // 2. Payload / Save 분기
                 var payload = ExplorePayload.Instance;
-                if (payload.TargetDungeon != SystemEnum.Dungeon.None)
-                {
-                    await HandlePayloadExploration(payload);
-                    payload.Clear();
-                }
-                else
-                {
-                    await HandleSavedExploration();
-                }
+                currentDungeon = ExplorePayload.Instance.TargetDungeon;
+                
+                
+                //if (payload.TargetDungeon != SystemEnum.Dungeon.None)
+                //{
+                //    await HandlePayloadExploration(payload);
+                //    payload.Clear();
+                //}
+                //else
+                //{
+                //    await HandleSavedExploration();
+                //}
 
                 _isInitialized = true;
                 Debug.Log($"[ExploreManager] Exploration initialized: {currentDungeon} Floor {currentFloor}");
@@ -147,16 +150,16 @@ namespace GamePlay.Features.Explore.Scripts
             currentFloor = payload.TargetFloor;
             playerParty = payload.PlayerParty;
 
-            if (payload.IsNewExplore)
-            {
-                // 새 탐사 시작
-                await StartNewExploration();
-            }
-            else
-            {
-                // 기존 탐사 이어하기
-                await ContinueExistingExploration();
-            }
+            //if (payload.IsNewExplore)
+            //{
+            //    // 새 탐사 시작
+            //    await StartNewExploration();
+            //}
+            //else
+            //{
+            //    // 기존 탐사 이어하기
+            //    await ContinueExistingExploration();
+            //}
         }
 
         /// <summary>
