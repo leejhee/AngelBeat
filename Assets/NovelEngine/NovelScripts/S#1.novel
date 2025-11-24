@@ -145,7 +145,7 @@ Bilyeong: 그런 놈이 뭐가 그리 태평하느냐.
 그리고 또 다른 한 명은, 기억에 없는 자이다.
 
 @char ????.yoonsillouette pos: 50, 15 scale: 0.85
-@wiat 2
+@wait 2
 ????: 일어~~ 났구나~~ 연~~ 사~~ 제~~!
 
 @hide ????.yoonsillouette

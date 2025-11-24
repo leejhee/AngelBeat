@@ -24,7 +24,7 @@ Yoon: 괜찮겠어, 사제?
 
 @choice 전 괜찮습니다, 사저.
     @goto .wayA
-@choice ...지금 몸 상태가,
+@choice ...아무래도 지금 몸 상태가.
     @goto .wayB
 @wait
 
