@@ -14,7 +14,10 @@ namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            ExploreController player = other.GetComponent<ExploreController>();
+            if (!player) return;
             
+            PlayNovel();
         }
     }
 }
