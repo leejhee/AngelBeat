@@ -10,24 +10,37 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public class CharMonster : CharBase
     {
-        private CharAI _charAI;
+        private CharAI _defaultAI;
+        private CharacterAI _currentAI; // 현재 사용 중인 AI
+
         protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Enemy;
         
         public override async UniTask CharInit(CharacterModel charModel)
         {
             await base.CharInit(charModel);
             BattleCharManager.Instance.SetChar(this);
-            _charAI = new CharAI(this);
+
+            _defaultAI = new CharAI(this);
+            _currentAI = _defaultAI;
         }
-        
+
+        /// <summary>
+        /// 튜토리얼 쪽에서 AI를 덮어쓸 때 사용
+        /// </summary>
+        public void OverrideAI(CharacterAI newAI)
+        {
+            _currentAI = newAI ?? _defaultAI;
+        }
+
         public async UniTask ExecuteAITurn(Turn turn)
         {
-            if (_charAI == null)
+            if (_currentAI == null)
             {
                 Debug.LogWarning($"{name} AI 미초기화");
                 return;
             }
-            await _charAI.ExecuteTurn(turn);
+
+            await _currentAI.ExecuteTurn(turn);
         }
     }
 }

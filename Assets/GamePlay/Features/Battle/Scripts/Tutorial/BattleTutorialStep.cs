@@ -1,4 +1,5 @@
 ﻿using GamePlay.Features.Battle.Scripts.BattleAction;
+using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.Tutorial
@@ -42,10 +43,12 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         [Header("Guide 연출이라면 입력 유도 / 강제 옵션")]
         public bool lockInputDuringStep;  // 이 스텝이 활성화된 동안 입력을 제한할지
-        // 무엇을 클릭하게 할지
-        public TutorialGuideTarget requiredClickTarget = TutorialGuideTarget.None;
-        // 액터 기준 오프셋
-        public Vector2Int requiredCellOffset;
+        public TutorialGuideTarget requiredClickTarget = TutorialGuideTarget.None;  // 무엇을 클릭하게 할지
+        public Vector2Int requiredCellOffset; // 액터 기준 오프셋
+        
+        [Header("선택: 이 스텝에서 적 AI를 스크립트로 강제할지")]
+        public bool forceEnemyScript = false;
+        public EnemyScriptCommand[] enemyCommands;
 
     }
 }

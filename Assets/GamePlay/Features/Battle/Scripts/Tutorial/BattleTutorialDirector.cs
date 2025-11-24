@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
+using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -119,7 +120,9 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
                 if (!MatchTurnCondition(step, ctx))
                     continue;
-
+                
+                ApplyEnemyScriptForStep(step, ctx);
+                
                 await ExecuteStep(step);
             }
         }
@@ -320,8 +323,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             if (step.requiredCharId != 0 && actor.GetID() != step.requiredCharId)
                 return false;
 
-            if (step.requiredActorTurnCount > 0 && step.requiredActorTurnCount != ctx.ActorTurnCount)
-                return false;
+            //if (step.requiredActorTurnCount > 0 && step.requiredActorTurnCount != ctx.ActorTurnCount)
+            //    return false;
 
             return true;
         }
@@ -333,6 +336,28 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
             // 필요하면 스킬 ID 같은 조건도 여기서 추가
             return true;
+        }
+        
+        private void ApplyEnemyScriptForStep(BattleTutorialStep step, TurnEventContext ctx)
+        {
+            if (!step.forceEnemyScript)
+                return;
+
+            // 현재 턴 액터
+            CharMonster monster = ctx.Actor as CharMonster;
+            if (!monster)
+                return;
+
+            if (step.enemyCommands == null || step.enemyCommands.Length == 0)
+                return;
+
+            List<EnemyScriptCommand> commands = new(step.enemyCommands);
+
+            // 튜토리얼 AI 생성 후 주입
+            CharTutorialAI tutorialAI = new(monster, commands);
+            monster.OverrideAI(tutorialAI);
+
+            Debug.Log($"[Tutorial] {monster.name} 에 튜토리얼 AI 스크립트 주입 (stepID: {step.stepID})");
         }
         
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Features.Battle.Scripts.BattleMap;
+using GamePlay.Features.Battle.Scripts.Tutorial;
 using System;
 using System.Threading;
 using UnityEngine;
@@ -33,11 +34,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 
         public async UniTask DamageAsync(long _, CancellationToken ct)
         {
-            bool hit = Random.value < (damageProbability * 0.01f);
+            bool hit = Random.value < (damageProbability * 0.01f) ||
+                       BattleTutorialRules.HitRule == TutorialHitRule.AlwaysHit;
             if (hit)
             {
                 //대미지 폰트
+                var before = NHP;
                 NHP --;
+                Debug.Log($"{before} -> {NHP}");
+                
+                GameObject damageText =
+                    await BattleFXManager.Instance.PlayFX(FX.DamageFX, transform, new Vector2(1, 1), ct);
+                IngameDamageObject txt = damageText.GetComponent<IngameDamageObject>();
+                txt.Init(1);
+                
                 if (NHP <= 0)
                 {
                     Broken?.Invoke(this);
