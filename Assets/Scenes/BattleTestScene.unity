@@ -655,6 +655,11 @@ MonoBehaviour:
   battleFieldDB: {fileID: 11400000, guid: 7d085e60757bd6b429d8a0dce77253be, type: 2}
   DebugDungeon: 1
   DebugMapName: 
+  audioRef:
+    m_AssetGUID: d3a56dce98182b34f9559463c94edd88
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   cameraSize: 11
   cameraDriver: {fileID: 1229864060}
   indicatorPrefab: {fileID: 5673408793896508206, guid: 40313ca4d7436d446a43b9fa5daf23e6, type: 3}

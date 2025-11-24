@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -50,6 +51,7 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private BattleFieldDB battleFieldDB;
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
         [SerializeField] private string DebugMapName;
+        [SerializeField] public AssetReference audioRef;
         #endregion
         
         #region Core Field & Property
@@ -101,6 +103,7 @@ namespace GamePlay.Features.Battle.Scripts
                 if (cameraDriver && m.Actor)
                     await cameraDriver.Focus(m.Actor.CharCameraPos, 0.4f);
             };
+            
         }
         
         public async UniTask RaiseBattleStartAsync()
@@ -422,6 +425,8 @@ namespace GamePlay.Features.Battle.Scripts
             // 전투 종료 시의 특정 이벤트 수행
             if (OnBattleEndAsync != null)
                 await OnBattleEndAsync.Invoke(winnerType);
+            
+            SoundManager.Instance.StopBGM();
             
             // 마지막에는 전투 승리, 패배에 따른 통상 시퀀스
             if (winnerType == SystemEnum.eCharType.Player)

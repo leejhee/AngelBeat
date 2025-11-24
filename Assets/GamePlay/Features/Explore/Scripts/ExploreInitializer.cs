@@ -20,7 +20,7 @@ namespace GamePlay.Features.Explore.Scripts
             //await NovelManager.PlayScriptAndWait("2", ct);
             progress?.Report(0.05f);
 
-            await ExploreManager.Instance.InitializeForSceneAsync();
+            await ExploreManager.Instance.ExploreInitialize();
             progress?.Report(0.5f);
             
             await UIManager.Instance.ShowViewAsync(ViewID.ExploreSceneView);

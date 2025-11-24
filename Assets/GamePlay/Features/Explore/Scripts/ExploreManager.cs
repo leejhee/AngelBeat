@@ -91,37 +91,24 @@ namespace GamePlay.Features.Explore.Scripts
         //{
         //    await ExploreInitialize();
         //}
+        
 
-        public UniTask InitializeForSceneAsync()
-        {
-            return ExploreInitialize();
-        }
-
-        private async UniTask ExploreInitialize()
+        public async UniTask ExploreInitialize()
         {
             // 두 번 호출 방지
             if (_isInitialized) return;
 
             try
             {
-                //// 1. ExploreMap 컴포넌트 찾기
-                //if (exploreMap == null)
-                //{
-                //    exploreMap = FindObjectOfType<ExploreMap>();
-                //    if (exploreMap == null)
-                //    {
-                //        Debug.LogError("[ExploreManager] ExploreMap component not found in scene!");
-                //        return;
-                //    }
-                //}
                 Instantiate(tutorialMap, exploreMap.transform);
                 GameObject startPoint = GameObject.Find("StartPoint");
                 Instantiate(controller, startPoint.transform.position, startPoint.transform.rotation);
-                
+                Camera mainCamera = Camera.main;
+                mainCamera.transform.SetParent(controller.CameraTransform);
+                //mainCamera.transform.position += new Vector3(0f, 0f, -10f);
                 // 2. Payload / Save 분기
-                var payload = ExplorePayload.Instance;
+                //var payload = ExplorePayload.Instance;
                 currentDungeon = ExplorePayload.Instance.TargetDungeon;
-                
                 
                 //if (payload.TargetDungeon != SystemEnum.Dungeon.None)
                 //{

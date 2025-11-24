@@ -17,6 +17,7 @@ namespace GamePlay.Features.Explore.Scripts
         
         public Transform Transform { get; }
         public CancellationToken LifeTimeToken { get; }
+        public Transform CameraTransform;
         
         private void Start()
         {
