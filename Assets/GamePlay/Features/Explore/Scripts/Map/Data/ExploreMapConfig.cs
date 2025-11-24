@@ -11,6 +11,10 @@ namespace GamePlay.Features.Explore.Scripts.Map.Data
     [Serializable, CreateAssetMenu(fileName = "ExploreMapConfig", menuName = "ScriptableObject/ExploreMapConfig")]
     public class ExploreMapConfig : ScriptableObject
     {
+        [Header("Tutorial Map(미리 구움)")]
+        public bool useBakedSkeleton;
+        public ExploreTutorialAsset bakedMapAsset;
+        
         [Header("던전 이름")]
         public SystemEnum.Dungeon dungeonName;
         [Header("던전 층")]

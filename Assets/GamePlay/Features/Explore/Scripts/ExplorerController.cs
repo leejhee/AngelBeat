@@ -1,12 +1,9 @@
-using Core.Scripts.Managers;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Explore
+namespace GamePlay.Features.Explore.Scripts
 {
     /// <summary>
     /// '탐사' 씬에서 유저가 조종할 컨트롤러.

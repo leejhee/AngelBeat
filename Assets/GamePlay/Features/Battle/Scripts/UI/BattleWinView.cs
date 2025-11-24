@@ -200,9 +200,7 @@ namespace AngelBeat.UI
             Debug.Log(_selectedSkillId);
             BattleController.Instance.GetSkill(_selectedSkillId);
             
-            // 이후 다음 전투
-            
-            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
+            SceneLoader.LoadSceneWithLoading(BattleController.Instance.ReturningScene);
         }
 
 

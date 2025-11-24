@@ -43,7 +43,6 @@ namespace GamePlay.Features.Battle.Scripts
                 Instance = this;
             else
                 Destroy(gameObject);
-
         }
         #endregion
         
@@ -64,10 +63,12 @@ namespace GamePlay.Features.Battle.Scripts
         private Party _playerParty;
         private bool _initialized;
         private TurnController _turnManager;
+        private SystemEnum.eScene _returningScene;
         
         public BattleCameraDriver CameraDriver => cameraDriver;
         public CharBase FocusChar => _turnManager.TurnOwner;
         public Party PlayerParty => _playerParty;
+        public SystemEnum.eScene ReturningScene => _returningScene;
         public TurnController TurnController => _turnManager;
         public StageField StageField => _battleStage;
         public BattleStageGrid StageGrid => _battleStage?.GetComponent<BattleStageGrid>();
@@ -82,12 +83,13 @@ namespace GamePlay.Features.Battle.Scripts
         
         public void SetStageSource(IBattleSceneSource sceneSource) => _sceneSource = sceneSource;
 
-        public void Initialize(StageField stage, TurnController turnManager, Party party)
+        public void Initialize(StageField stage, TurnController turnManager, Party party, SystemEnum.eScene returningScene)
         {
             _battleStage = stage;
             _turnManager = turnManager;
             _playerParty = party;
-
+            _returningScene = returningScene;
+            
             _initialized = true;
             if(Camera.main != null)
                 Camera.main.orthographicSize = cameraSize;

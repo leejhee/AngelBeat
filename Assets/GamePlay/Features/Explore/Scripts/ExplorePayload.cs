@@ -1,6 +1,7 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.Singleton;
 using GamePlay.Common.Scripts.Entities.Character;
+using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts
 {
@@ -15,27 +16,30 @@ namespace GamePlay.Features.Explore.Scripts
         public int TargetFloor { get; private set; }
         public Party PlayerParty { get; private set; }
         public bool IsNewExplore { get; private set; }
+        public Vector3 PlayerRecentPosition {get; private set;}
         
         /// <summary>
         /// 새 탐사 시작 
         /// </summary>
-        public void SetNewExplore(SystemEnum.Dungeon dungeon, int floor, Party party)
+        public void SetNewExplore(SystemEnum.Dungeon dungeon, int floor, Party party, Vector3 playerRecentPosition)
         {
             TargetDungeon = dungeon;
             TargetFloor = floor;
             PlayerParty = party;
             IsNewExplore = true;
+            PlayerRecentPosition = playerRecentPosition;
         }
         
         /// <summary>
         /// 탐사 이어하기
         /// </summary>
-        public void SetContinueExplore(SystemEnum.Dungeon dungeon, int floor, Party party)
+        public void SetContinueExplore(SystemEnum.Dungeon dungeon, int floor, Party party, Vector3 playerRecentPosition)
         {
             TargetDungeon = dungeon;
             TargetFloor = floor;
             PlayerParty = party;
             IsNewExplore = false;
+            PlayerRecentPosition = playerRecentPosition;
         }
         
         /// <summary>
@@ -47,6 +51,7 @@ namespace GamePlay.Features.Explore.Scripts
             TargetFloor = 0;
             PlayerParty = null;
             IsNewExplore = false;
+            PlayerRecentPosition = Vector3.zero;
         }
     }
 }

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2388a2e990d74676844dd4503b28ca2b, type: 3}
+  m_Name: "\uB4B7\uC0B0_Tutorial"
+  m_EditorClassIdentifier: 
+  useBakedSkeleton: 0
+  bakedMapAsset: {fileID: 0}
+  dungeonName: 0
+  floor: 0
+  xCapacity: 20
+  yCapacity: 20
+  floorPrefab: {fileID: 4645370274386212317, guid: cc62849f5fa079e41a8ee8f812430d0b, type: 3}
+  wallPrefab: {fileID: 5986098223241787332, guid: 47e069d36dc1e3148a50c57c475d26eb, type: 3}
+  symbolConfig: []
+  itemCandidate: []
+  eventCandidate: []

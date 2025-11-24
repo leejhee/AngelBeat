@@ -22,7 +22,7 @@ namespace Core.Scripts.Foundation.SceneUtil
             SceneArgs = sceneArgs;
             SceneManager.LoadScene(nameof(SystemEnum.eScene.LoadingScene));
         }
-
+        
         public static void Clear()
         {
             DestinationScene = SystemEnum.eScene.None;
