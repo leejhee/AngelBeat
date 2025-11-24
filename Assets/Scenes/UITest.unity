@@ -975,7 +975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6516776549584666469, guid: 084656c32e8680e498c8cd96911dff22, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7481750165144503634, guid: 084656c32e8680e498c8cd96911dff22, type: 3}
       propertyPath: m_AspectRatio
@@ -3152,10 +3152,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2107012116188536935, guid: ed1c585b5fcac194e9981c0123709076, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed1c585b5fcac194e9981c0123709076, type: 3}
 --- !u!1 &6298050697903506601
 GameObject:
