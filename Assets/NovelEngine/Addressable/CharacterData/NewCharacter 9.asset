@@ -17,8 +17,10 @@ MonoBehaviour:
   faceDict:
     pairs:
     - _key: yoonsillouette
-      value: {fileID: 21300000, guid: 7b7d5fda349fbdf418e021d205ee3e83, type: 3}
-    keys: []
-    values: []
+      value: {fileID: 21300000, guid: d8a8a1c087e62f94eacfeb23fd9760ae, type: 3}
+    keys:
+    - yoonsillouette
+    values:
+    - {fileID: 21300000, guid: d8a8a1c087e62f94eacfeb23fd9760ae, type: 3}
   headOffset: {x: 0, y: 0}
   novelName: 

@@ -24,7 +24,7 @@
 
 @hideui
 @hide ???
-@char ??.Bilyeong pos: 50, 50 scale: 0.7
+@char ??.Bilyeongoriginal pos: 50, 50 scale: 0.7
 @wait 1
 @char ??.BilyeongSurprised
 @wait 1
@@ -36,7 +36,7 @@
 ???: 그래, 보다시피.
 
 @hide ???
-@char ??.Bilyeong pos: 20, 50 scale: 0.7
+@char ??.Bilyeongoriginal pos: 20, 50 scale: 0.7
 ??: 실로 오랜만에 깨어나서 처음 보는 풍경이라는 것이.
 ??: 주인이라는 것이 땅바닥에 퍼질러 있는 꼴이라니... 
 ??: 난 네가 드디어 죽은 줄 알았다.
