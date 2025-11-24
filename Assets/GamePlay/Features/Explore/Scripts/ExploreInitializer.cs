@@ -1,3 +1,5 @@
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
@@ -9,8 +11,9 @@ namespace GamePlay.Features.Explore.Scripts
     {
         public static async UniTask InitializeAsync(CancellationToken ct, IProgress<float> progress)
         {
+            GameManager.Instance.GameState = SystemEnum.GameState.Explore;
             await NovelManager.PlayScriptAndWait("1", ct);
-            await NovelManager.PlayScriptAndWait("2", ct);
+            //await NovelManager.PlayScriptAndWait("2", ct);
             progress?.Report(0.05f);
 
             await ExploreManager.Instance.InitializeForSceneAsync();

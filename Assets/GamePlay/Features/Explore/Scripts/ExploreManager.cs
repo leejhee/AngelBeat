@@ -31,8 +31,12 @@ namespace GamePlay.Features.Explore.Scripts
                 return instance;
             }
         }
-        #endregion
         
+        
+        #endregion
+
+        [SerializeField] private GameObject tutorialMap;
+        [SerializeField] private ExploreController controller;
         [Header("Map References")] 
         public ExploreMap exploreMap;
         
@@ -82,6 +86,11 @@ namespace GamePlay.Features.Explore.Scripts
         
         #region Initialization
 
+        private async void Start()
+        {
+            await ExploreInitialize();
+        }
+
         public UniTask InitializeForSceneAsync()
         {
             return ExploreInitialize();
@@ -94,17 +103,20 @@ namespace GamePlay.Features.Explore.Scripts
 
             try
             {
-                // 1. ExploreMap 컴포넌트 찾기
-                if (exploreMap == null)
-                {
-                    exploreMap = FindObjectOfType<ExploreMap>();
-                    if (exploreMap == null)
-                    {
-                        Debug.LogError("[ExploreManager] ExploreMap component not found in scene!");
-                        return;
-                    }
-                }
-
+                //// 1. ExploreMap 컴포넌트 찾기
+                //if (exploreMap == null)
+                //{
+                //    exploreMap = FindObjectOfType<ExploreMap>();
+                //    if (exploreMap == null)
+                //    {
+                //        Debug.LogError("[ExploreManager] ExploreMap component not found in scene!");
+                //        return;
+                //    }
+                //}
+                Instantiate(tutorialMap, exploreMap.transform);
+                Transform startPoint = exploreMap.transform.Find("StartPoint");
+                Instantiate(controller, startPoint.position, startPoint.rotation);
+                
                 // 2. Payload / Save 분기
                 var payload = ExplorePayload.Instance;
                 if (payload.TargetDungeon != SystemEnum.Dungeon.None)
@@ -172,6 +184,8 @@ namespace GamePlay.Features.Explore.Scripts
         /// </summary>
         private async UniTask StartNewExploration()
         {
+            playerParty = new Party();
+            
             // 1. RNG에서 맵 시드 생성
             if (SaveLoadManager.Instance.HasCurrentSlot)
             {
