@@ -1,8 +1,7 @@
 using Core.Scripts.Foundation.Define;
-using Core.Scripts.Foundation.SceneUtil;
 using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts;
-using GamePlay.Features.Scripts.Explore;
 using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts
@@ -11,16 +10,19 @@ namespace GamePlay.Features.Explore.Scripts
     public class ExploreBattleSymbol : MonoBehaviour
     {
         [SerializeField] private SystemEnum.Dungeon dungeon;
-        
+        [SerializeField] private string mapName;
         private void OnTriggerEnter2D(Collider2D other)
         {
             ExploreController player = other.GetComponent<ExploreController>();
-            Party party = player.PlayerParty;
+            if (!player) return;
             
+            Party party = ExploreManager.Instance.playerParty;
             #region Move to Battle Scene
-            BattlePayload.Instance.SetBattleData(party, dungeon);
-            //TODO : 씬 연출 이펙트. 필요한가?
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene, null);
+            
+            //TODO : 추후 씬 트랜지션 지침 받고 이 부분에 기입할 것
+            
+            BattlePayload.Instance.SetBattleData(party, dungeon, mapName);
+            GamePlaySceneUtil.LoadBattleScene();
             Debug.Log("씬 로딩 완료!");
             #endregion
         }

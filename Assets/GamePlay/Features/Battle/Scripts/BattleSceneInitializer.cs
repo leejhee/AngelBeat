@@ -89,7 +89,7 @@ namespace GamePlay.Features.Battle.Scripts
                 Debug.Log("[Battle Initializer] 턴 관리 및 이벤트 주입 완료!");
                 progress?.Report(0.8f);
             
-                controller.Initialize(stage, turnManager, src.PlayerParty);
+                controller.Initialize(stage, turnManager, src.PlayerParty, src.ReturningScene);
                 progress?.Report(0.9f);
                 
                 Debug.Log("[Battle Initializer] UI 초기화...");

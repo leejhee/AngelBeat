@@ -8,7 +8,12 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
     {
         public static async UniTask<ExploreMapSkeleton> BuildSkeleton(ExploreMapConfig cfg, ulong seed)
         {
-            if (cfg == null) throw new ArgumentNullException(nameof(cfg));
+            if (!cfg) throw new ArgumentNullException(nameof(cfg));
+            if (cfg.useBakedSkeleton && cfg.bakedMapAsset && cfg.bakedMapAsset.skeleton != null)
+            {
+                return cfg.bakedMapAsset.skeleton;
+            }
+            
             if (cfg.xCapacity <= 0 || cfg.yCapacity <= 0) 
                 throw new ArgumentException("Invalid grid size");
 

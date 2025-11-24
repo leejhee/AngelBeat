@@ -65,7 +65,12 @@ namespace GamePlay.Features.Explore.Scripts.Map.Logic
                     Debug.LogError($"Invalid dungeon parameter - {dungeon} & {floor} ");
                     return;
                 }
-
+                
+                currentConfig  = config;
+                currentDungeon = dungeon;
+                currentFloor   = floor;
+                currentSeed    = seed;
+                
                 ClearExistingMap();
 
                 // 3. 스켈레톤 생성

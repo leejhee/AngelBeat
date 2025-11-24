@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5652458495169920971}
   - component: {fileID: 8632252556556079070}
+  - component: {fileID: 5832642426256385639}
   m_Layer: 0
   m_Name: TutorialExploreGrid
   m_TagString: Untagged
@@ -131,6 +132,28 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 3
   m_CellSwizzle: 0
+--- !u!114 &5832642426256385639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362822751880167696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64d10dd30a342c0b51e45b676da1dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorTilemap: {fileID: 6571493734987370016}
+  wallTilemap: {fileID: 7120391916759255594}
+  symbolRoots:
+  - {fileID: 8974652866907852991}
+  - {fileID: 8892640868454315035}
+  - {fileID: 1395720073989544601}
+  - {fileID: 1455232926063757231}
+  - {fileID: 61604578108418683}
+  mapConfig: {fileID: 11400000, guid: 62bfed68a2dbf7a4e837eccada8df78a, type: 2}
+  outputAsset: {fileID: 0}
 --- !u!1 &1427254060738239141
 GameObject:
   m_ObjectHideFlags: 0

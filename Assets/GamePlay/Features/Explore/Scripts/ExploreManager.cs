@@ -8,6 +8,7 @@ using GamePlay.Features.Explore.Scripts.Map.Data;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
 using System;
 using System.Net;
+using System.Threading;
 using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts
@@ -80,14 +81,17 @@ namespace GamePlay.Features.Explore.Scripts
         #endregion
         
         #region Initialization
-        private async void Start()
+
+        public UniTask InitializeForSceneAsync()
         {
-            // 탐사 초기화
-            await ExploreInitialize();
+            return ExploreInitialize();
         }
 
         private async UniTask ExploreInitialize()
         {
+            // 두 번 호출 방지
+            if (_isInitialized) return;
+
             try
             {
                 // 1. ExploreMap 컴포넌트 찾기
@@ -101,17 +105,15 @@ namespace GamePlay.Features.Explore.Scripts
                     }
                 }
 
-                // 2. 씬 전환 시 전달된 Payload 확인
+                // 2. Payload / Save 분기
                 var payload = ExplorePayload.Instance;
                 if (payload.TargetDungeon != SystemEnum.Dungeon.None)
                 {
-                    // 새 탐사 시작 또는 이어하기
                     await HandlePayloadExploration(payload);
-                    payload.Clear(); // 사용 후 정리
+                    payload.Clear();
                 }
                 else
                 {
-                    // 기존 세이브에서 복원
                     await HandleSavedExploration();
                 }
 
@@ -123,7 +125,6 @@ namespace GamePlay.Features.Explore.Scripts
                 Debug.LogError($"[ExploreManager] Failed to initialize exploration: {ex}");
             }
         }
-        
         
         /// <summary>
         /// Payload 기반 탐사 처리

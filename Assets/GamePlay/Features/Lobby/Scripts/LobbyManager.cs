@@ -2,6 +2,7 @@
 using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.GameSave;
 using Core.Scripts.Managers;
+using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
@@ -96,9 +97,12 @@ namespace GamePlay.Features.Lobby.Scripts
             }
 
             Debug.Log($"[LobbyManager] New slot created: {slotName} (Index: {slotIndex})");
-
-            // 게임 시작 씬 - 튜토리얼로 전환 
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene, BattleSceneInitializer.InitializeAsync);
+            
+            
+            // 게임 시작 씬 - 튜토리얼로 전환
+            //GamePlaySceneUtil.LoadBattleScene();
+            GamePlaySceneUtil.LoadExploreScene();
+            //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene, BattleSceneInitializer.InitializeAsync);
         }
         
         /// <summary>

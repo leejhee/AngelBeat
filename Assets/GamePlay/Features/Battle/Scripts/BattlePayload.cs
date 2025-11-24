@@ -9,15 +9,16 @@ namespace GamePlay.Features.Battle.Scripts
         public Party PlayerParty { get; private set; }
         public SystemEnum.Dungeon DungeonName { get; private set; }
         public string StageName { get; private set; }
-
+        public SystemEnum.eScene ReturningScene { get; private set; }
         private BattlePayload() { }
-        
-        public void SetBattleData(Party party, SystemEnum.Dungeon dungeon, string stageName=null)
+
+        public void SetBattleData(Party party, SystemEnum.Dungeon dungeon, string stageName = null,
+            SystemEnum.eScene returningScene = SystemEnum.eScene.ExploreScene)
         {
             PlayerParty = party;
             DungeonName = dungeon;
             StageName = stageName;
-            
+            ReturningScene = returningScene;
             Debug.Log($"{party}");
         }
 
