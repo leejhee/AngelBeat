@@ -7,9 +7,11 @@ namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
     public class NovelEncounter : MonoBehaviour
     {
         [SerializeField] private string novelTitle;
-        private void PlayNovel()
+        private async void PlayNovel()
         {
-            _ = NovelManager.PlayScriptAndWait(novelTitle);
+            await NovelManager.PlayScriptAndWait(novelTitle);
+            
+            Destroy(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -18,6 +20,8 @@ namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
             if (!player) return;
             
             PlayNovel();
+            
+            
         }
     }
 }

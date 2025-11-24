@@ -45,9 +45,9 @@ namespace GamePlay.Features.Explore.Scripts.UI
         public override UniTask EnterAction(CancellationToken token)
         {
             // 재화 수치 변경 이벤트 구독
-            
-            
-            
+
+            Debug.Log("탐사 파티원");
+            Debug.Log(ExploreManager.Instance.playerParty.partyMembers.Count);
             // 파티원 초상화 생성
             InstantiatePartyPortrait(ExploreManager.Instance.playerParty.partyMembers);
             
