@@ -1,6 +1,7 @@
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
 using System.Threading;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,8 +22,9 @@ namespace GamePlay.Features.Explore.Scripts
         
         private void Start()
         {
-            // playerParty = new Party();
-            // Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+            CinemachineCamera cam = CameraTransform.gameObject.GetComponent<CinemachineCamera>();
+            var lens = cam.Lens;
+            lens.OrthographicSize = 1f;
         }
         
         private void Update()
