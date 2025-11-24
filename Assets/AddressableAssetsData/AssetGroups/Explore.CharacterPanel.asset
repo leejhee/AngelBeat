@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Battle.Character.Common
+  m_Name: Explore.CharacterPanel
   m_EditorClassIdentifier: 
-  m_GroupName: Battle.Character.Common
+  m_GroupName: Explore.CharacterPanel
   m_Data:
     m_SerializedData: []
-  m_GUID: 0306c3e2350fbf540bb87d43ea59b63d
+  m_GUID: 73640278de91a704783eb98d33f08b55
   m_SerializeEntries:
-  - m_GUID: a2a7727ae46c9814da06ea4d18f3bb99
-    m_Address: KeywordObject
+  - m_GUID: 468b10d91a8365146ae30f52d6ab6710
+    m_Address: Explore_Seol
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ffa684c029c4e9248a5caa987f2b59c5
-    m_Address: DamageObject
+  - m_GUID: a83c26b3f4060b14babb1fcb495492fa
+    m_Address: Explore_Yeon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +31,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 845581cf0c66f664d9db0b925a2230b3, type: 2}
-    - {fileID: 11400000, guid: 3402b8e45e9216a42b5dcfd8d20d2904, type: 2}
+    - {fileID: 11400000, guid: 338f4754bc0962f48985d7ee796ccf74, type: 2}
+    - {fileID: 11400000, guid: 91db2ffd5e6727e49bf97cf2541ef5f1, type: 2}

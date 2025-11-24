@@ -175,8 +175,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -270.2, y: -161}
-  m_SizeDelta: {x: 540.4044, y: 0}
+  m_AnchoredPosition: {x: -327.5, y: 33}
+  m_SizeDelta: {x: 415, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7751504938560786505
 CanvasRenderer:
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9c6716709f32f934a9927085b5e8a467, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d66d3734ea54f0243ad3569cccd9db13, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 1
-  m_AspectRatio: 0.69140625
+  m_AspectRatio: 1.200154
 --- !u!1 &502489589566857863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2201,34 +2201,6 @@ MonoBehaviour:
   jumpButton: {fileID: 1434355046594534228}
   pushButton: {fileID: 2578373764342122692}
   invenButton: {fileID: 888585677640883666}
-  skillInfos:
-  - skllId: 10101001
-    skillIcon: {fileID: 21300000, guid: 3269ad126219d2940afe7972b93e654b, type: 3}
-    skillDescription: {fileID: 21300000, guid: 90a98e8b80b2ac14e99ca402e033dc3c, type: 3}
-  - skllId: 10101002
-    skillIcon: {fileID: 21300000, guid: 14878dd1685cfc14ab597e3d0dc3ef12, type: 3}
-    skillDescription: {fileID: 21300000, guid: 6d47257e60e1cba42998d1007be2367a, type: 3}
-  - skllId: 10101003
-    skillIcon: {fileID: 21300000, guid: 326ffcfffb5a44942b916afde8f894c3, type: 3}
-    skillDescription: {fileID: 21300000, guid: b611fb167154cb04a8a2b0bd31a9177d, type: 3}
-  - skllId: 10101004
-    skillIcon: {fileID: 21300000, guid: 50b741ece48493b448c1e5784a9ac9b1, type: 3}
-    skillDescription: {fileID: 21300000, guid: a4364a904e3159e48b4515a273d6f968, type: 3}
-  - skllId: 10101005
-    skillIcon: {fileID: 21300000, guid: 27e30b4478a929d4096b9f04663ddd9d, type: 3}
-    skillDescription: {fileID: 21300000, guid: 51eaaf871bd58054b854cd786facae39, type: 3}
-  - skllId: 20101001
-    skillIcon: {fileID: 0}
-    skillDescription: {fileID: 0}
-  - skllId: 20101002
-    skillIcon: {fileID: 0}
-    skillDescription: {fileID: 0}
-  - skllId: 20101003
-    skillIcon: {fileID: 0}
-    skillDescription: {fileID: 0}
-  - skllId: 20101004
-    skillIcon: {fileID: 0}
-    skillDescription: {fileID: 0}
   buttons:
   - {fileID: 4487811941367017510}
   - {fileID: 6344198213702961423}
