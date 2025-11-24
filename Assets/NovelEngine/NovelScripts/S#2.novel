@@ -211,9 +211,6 @@ Seol: ......
 
 @hide Hwi
 @hide Seol
-@char Yeon pos: 50, 15 scale: 0.85 transition: Fadein time: 1.5 
-Yeon: ...
-
 @hide Yeon
 우리와 뜻이 맞는다는 것은, 목숨 걸고 요괴를 막아설 각오가 되었다는 것인데.
 그저 요괴를 물리치겠다는 사명감만으로 설 수 있는 자리는 아니라고 생각한다.

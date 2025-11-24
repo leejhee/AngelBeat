@@ -423,7 +423,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1710743193}
   - component: {fileID: 1710743194}
-  - component: {fileID: 1710743195}
   m_Layer: 0
   m_Name: ExploreManager
   m_TagString: Untagged
@@ -458,6 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad57b5ed094abfa0b7fb1fab77a5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialMap: {fileID: 1362822751880167696, guid: 6f29c61bb7b290b4eba769e148f000b6, type: 3}
+  controller: {fileID: 8584788725554893437, guid: 79ca423cf3b5bf8409c85a046f9e7f6a, type: 3}
   exploreMap: {fileID: 1060932398}
   currentDungeon: 0
   currentFloor: 0
@@ -470,33 +471,6 @@ MonoBehaviour:
     revivalTalisman: 0
   playerPosition: {x: 0, y: 0}
   currentMapSeed: 0
---- !u!114 &1710743195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1710743192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd40a486f17b4122a131b1441cb1c2ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: d7409f2027011d447a7bae57f61526e2, type: 2}
-  eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
-  symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
-  seed: 9715120915796197376
-  useRandomSeedOnGenerate: 1
-  floorPrefabOverride: {fileID: 0}
-  wallPrefabOverride: {fileID: 0}
-  tileWidth: 6
-  tileHeight: 3
-  spawnFloors: 1
-  spawnWalls: 1
-  spawnSymbols: 1
-  clearBeforeGenerate: 1
-  drawSymbolGizmos: 1
-  symbolGizmoSize: 0.3
 --- !u!1 &1928290617
 GameObject:
   m_ObjectHideFlags: 0

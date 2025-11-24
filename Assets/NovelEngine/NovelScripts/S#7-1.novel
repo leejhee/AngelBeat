@@ -93,15 +93,15 @@ Yeon: 둘이서 말입니까?
 @hide Yeon
 @hide Hwi
 @char Bilyeong pos: 50, 50 scale: 0.7
-Bilyeong: 나까지 셋이겠지, 이것아. 왜 난 빼느냐?
+Bilyeong: 나까지 셋이겠지, 이것아. 나는 왜 빼느냐?
 
 @hide Bilyeong
 @char Hwi pos: 20, 15 scale: 0.8
 @char Yeon pos: 80, 15 scale: 0.85
 Hwi: 그래, 그곳은 나랑 사매만 갔다오면 충분할 것 같네만, 사제는 비령하고 먼저 요괴곡을 둘러보는 게 좋을 것 같네. 
 Hwi: 사제의 실력을 보니, 나와 사매 없이도 사제는 충분히 갈 수 있을 것 같아서 말이지.
-Hwi: 설이 길을 알고 있네.
-Yeon: 전 괜찮습니다만.
+Hwi: 설이 길을 알고 있으니 함께 가게나.
+Yeon: 그리 말하시다면야.
 
 @hide Yeon
 @hide Hwi
@@ -121,7 +121,7 @@ Hwi: 그래, 그러면 그렇게 하지.
 @wait 1.5
 @char Yoon pos: 50, 15 scale: 0.85 transition: Fadein time: 0.5
 @wait 1
-Yoon: 그럼 나중에 봐, 사제!
+Yoon: 그럼 이따 봐, 사제!
 
 @hide Yoon
 @char Yeon pos: 50, 15 scale: 0.85

@@ -2,6 +2,7 @@ using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GamePlay.Features.Explore.Scripts
 {
@@ -10,7 +11,7 @@ namespace GamePlay.Features.Explore.Scripts
     /// </summary>
     public class ExploreController : MonoBehaviour, IInteractor
     {
-        [SerializeField] private float speed;
+        [SerializeField] private float speed = 3f;
         [SerializeField] private Party playerParty;
         public Party PlayerParty => playerParty;
         
@@ -21,6 +22,26 @@ namespace GamePlay.Features.Explore.Scripts
         {
             // playerParty = new Party();
             // Debug.Log($"{playerParty.SearchCharacter("샤오").Name}");
+        }
+        
+        private void Update()
+        {
+            // ====== WASD 이동 ======
+            Vector2 move = Vector2.zero;
+            var keyboard = Keyboard.current;
+
+            if (keyboard != null)
+            {
+                if (keyboard.wKey.isPressed) move.y += 1f;
+                if (keyboard.sKey.isPressed) move.y -= 1f;
+                if (keyboard.aKey.isPressed) move.x -= 1f;
+                if (keyboard.dKey.isPressed) move.x += 1f;
+            }
+
+            if (move.sqrMagnitude > 1f)
+                move = move.normalized;
+
+            transform.position += (Vector3)move * speed * Time.deltaTime;
         }
         
         #region Interaction Part

@@ -153,7 +153,8 @@ namespace UIs.Runtime
             _worldRoot = _uiRoot.Find("@WorldRoot") ?? CreateLayer("@WorldRoot", 1000);
             
             // 배경화면 전용 캔버스 불필요시 나중에 제거
-            _bgRoot = _uiRoot.Find("@BGRoot") ?? CreateBackgroundUILayer("@BGRoot");
+            if(GameManager.Instance.GameState == SystemEnum.GameState.Battle)
+                _bgRoot = _uiRoot.Find("@BGRoot") ?? CreateBackgroundUILayer("@BGRoot");
         }
         
         private Transform CreateLayer(string layerName, int order)
