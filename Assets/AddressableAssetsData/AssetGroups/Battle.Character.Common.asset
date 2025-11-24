@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 0306c3e2350fbf540bb87d43ea59b63d
   m_SerializeEntries:
+  - m_GUID: a2a7727ae46c9814da06ea4d18f3bb99
+    m_Address: KeywordObject
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ffa684c029c4e9248a5caa987f2b59c5
     m_Address: DamageObject
     m_ReadOnly: 0

@@ -295,17 +295,17 @@ public static class NovelParser
                     IfParameter ifParameter = ParseIfParameter(line);
 
                     result = new CharCommand(index, charName, charAppearance, charTransition, charPos, charScale, charTime, isFlip, charCommandType, ifParameter);
-                    Debug.Log(
-                        $"Character : {charName}\n" +
-                        $"Pos : {charPos}\n" +
-                        $"Appearance : {charAppearance}\n" +
-                        $"Scale : {charScale}\n" +
-                        $"transition : {charTransition}\n" +
-                        $"Type : {charCommandType}\n" +
-                        $"time : {charTime}\n" +
-                        $"flip : {isFlip}\n" +
-                        $"Index : {index}\n"+
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"Character : {charName}\n" +
+                    //     $"Pos : {charPos}\n" +
+                    //     $"Appearance : {charAppearance}\n" +
+                    //     $"Scale : {charScale}\n" +
+                    //     $"transition : {charTransition}\n" +
+                    //     $"Type : {charCommandType}\n" +
+                    //     $"time : {charTime}\n" +
+                    //     $"flip : {isFlip}\n" +
+                    //     $"Index : {index}\n"+
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
                 }
                 break;
             case CommandType.HideCharacter:

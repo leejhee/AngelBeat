@@ -240,7 +240,7 @@ namespace novel
                         
                         break;
                     case CharCommandType.Hide:
-                        Debug.Log($"Hide Character : {charName}");
+                        //Debug.Log($"Hide Character : {charName}");
                         if (!dict.TryGetValue(charSO, out GameObject hideObject) || hideObject == null)
                         {
                             // 이미 없으면 조용히 정리

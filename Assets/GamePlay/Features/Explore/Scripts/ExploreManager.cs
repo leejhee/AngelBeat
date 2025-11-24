@@ -9,6 +9,7 @@ using GamePlay.Features.Explore.Scripts.Map.Logic;
 using System;
 using System.Net;
 using System.Threading;
+using UIs.Runtime;
 using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts
@@ -386,6 +387,18 @@ namespace GamePlay.Features.Explore.Scripts
         public FeatureSnapshot Capture()
         {
             return _currentSnapshot ?? new ExploreSnapshot();
+        }
+
+        #endregion
+        
+        
+        #region UI Events
+
+        public CharacterModel SelectedCharacter;
+        public void ShowCharacterInfoPopup(int idx)
+        {
+            SelectedCharacter = playerParty.partyMembers[idx];
+            UIManager.Instance.ShowViewAsync(ViewID.CharacterInfoPopUpView);
         }
 
         #endregion

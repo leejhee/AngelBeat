@@ -5,10 +5,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UIs.Runtime;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class NovelPlayer : MonoBehaviour
 {
@@ -32,26 +34,11 @@ public class NovelPlayer : MonoBehaviour
     
     public GameObject DialoguePanel => _dialoguePanel;
     
-    // 임시코드
-    public int CurrentIndex = 0;
+    
 
     public event Action OnScriptEnd;
     
-    private void Update()
-    {
-        CurrentIndex = CurrentAct.CurrentIndex;
-    }
-
-    // 여기까지
-    //private void OnDisable()
-    //{
-    //    if (!NovelManager.Instance.firstTutoEnd)
-    //    {
-    //        NovelManager.Instance.firstTutoEnd = true;
-    //    }
-    //}
-
-    // 나중에 private로 돌릴것들
+    
 
     // 현재 배경화면
     public GameObject CurrentBackgroundObject { get; private set; }
@@ -61,7 +48,8 @@ public class NovelPlayer : MonoBehaviour
     //  현재 선택지
     public NovelEngine.Scripts.SerializableDict<ChoiceCommand, GameObject> currentChoices = new();
 
-
+    private List<AsyncOperationHandle<GameObject>> backgroundHandles = new();
+    private Dictionary<string, AsyncOperationHandle<GameObject>> standingHandles = new();
 
     // 이거 나중에 설정 가능하도록 바꾸기
     public float typingSpeed = 0.015f;

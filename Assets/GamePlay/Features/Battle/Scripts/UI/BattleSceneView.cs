@@ -253,7 +253,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             }
         }
 
-        private void OnCharacterHUDOpen(CharBase character)
+        private async void OnCharacterHUDOpen(CharBase character)
         {
             _focusCharacterEvents.Clear();
             // 초상화
@@ -276,6 +276,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnFocusStatChanged
             );
             
+            Sprite characterPortrait = await ResourceManager.Instance.LoadAsync<Sprite>($"BattlePanel_{character.CharInfo.PrefabRoot}");
             // HUD 패널 오픈
             View.CharacterHUD.gameObject.SetActive(true);
             // 체력, 액션포인트, 초상화 설정

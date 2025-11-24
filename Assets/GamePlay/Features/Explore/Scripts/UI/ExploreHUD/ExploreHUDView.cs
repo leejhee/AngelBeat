@@ -49,7 +49,7 @@ namespace GamePlay.Features.Explore.Scripts.UI
             
             
             // 파티원 초상화 생성
-            
+            InstantiatePartyPortrait(ExploreManager.Instance.playerParty.partyMembers);
             
             
             return UniTask.CompletedTask;
@@ -81,8 +81,7 @@ namespace GamePlay.Features.Explore.Scripts.UI
                 ExplorePartyCharacterUI exploreCharacter = (await goTask).GetComponent<ExplorePartyCharacterUI>();
                 
                 // 스프라이트 불러오기
-                UniTask<Sprite> spriteTask = ResourceManager.Instance.LoadAsync<Sprite>(models[i].LdRoot);
-                Sprite sprite = await spriteTask;
+                Sprite sprite = await ResourceManager.Instance.LoadAsync<Sprite>($"Explore_{models[i].PrefabRoot}");
                 
                 // 이미지, 체력 설정
                 exploreCharacter.InitExplorePartyCharacter(
@@ -90,10 +89,6 @@ namespace GamePlay.Features.Explore.Scripts.UI
                     models[i].BaseStat.GetStat(SystemEnum.eStats.NHP),
                     models[i].BaseStat.GetStat(SystemEnum.eStats.NMHP),
                     i);
-                
-                
-                // 딕셔너리에 넣어주기 이거 필요한지 고민
-                //_exploreCharacters.Add(i, exploreCharacter);
             }
         }
 

@@ -143,7 +143,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             long maxAp,
             Sprite portrait = null)
         {
-            // TODO : 튜토
             //characterPortraitImage.sprite = curCharacter.
             // 이름 변경
             

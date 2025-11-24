@@ -3,6 +3,7 @@ using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Features.Explore.Scripts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -46,7 +47,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
     public class CharacterInfoPresenter : PresenterBase<CharacterInfoView>
     {
         public CharacterInfoPresenter(IView view) : base(view) { }
-
+        private List<CharacterModel> partyMembers = new List<CharacterModel>();
+        private CharacterModel currentCharacter;
         public override UniTask EnterAction(CancellationToken token)
         {
             #region Model To View
@@ -55,14 +57,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             
             if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
             {
-                // // 전
-                // ModelEvents.Subscribe<CharacterModel>(
-                //     action => ExploreManager.Instance.playerParty.partyMembers
-                // );
+                PreloadProcessInExplore();
             }
             else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
             {
-                PreloadProcess();
+                PreloadProcessInBattle();
             }
 
             
@@ -90,15 +89,25 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             return UniTask.CompletedTask;
         }
 
-        private async void PreloadProcess()
+        private async void PreloadProcessInBattle()
         {
-            // TODO 여기 Race 체크 바람 오류날수도 있음
+
             // 파티원 LD 미리 다 로드해두기
             await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
-            
-            
+
+            partyMembers = BattleController.Instance.PlayerParty.partyMembers;
+            currentCharacter = BattleController.Instance.FocusChar.CharInfo;
             // 현재 포커스된 캐릭터 다른 정보칸 입력
-            SetCharacterInfoPopup(BattleController.Instance.FocusChar.CharInfo);
+            SetCharacterInfoPopup(currentCharacter);
+        }
+
+        private async void PreloadProcessInExplore()
+        {
+            await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
+
+            partyMembers = ExploreManager.Instance.playerParty.partyMembers;
+            currentCharacter = ExploreManager.Instance.SelectedCharacter;
+            SetCharacterInfoPopup(currentCharacter);
         }
         private readonly PresenterEventBag _focusCharacterEvents = new();
 
@@ -123,6 +132,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             View.PortraitPanel.SetPortraitPanel(model);
             View.PassivePanel.SetPassivePanel(model);
             
+            Debug.Log(model.Name);
 
             List<InfoPopupSkillResourceRoot> skillResourceRoots = model.ActiveSkills.Select(activeSkill => 
                 new InfoPopupSkillResourceRoot(activeSkill.SkillName, activeSkill.Icon, activeSkill.TooltipName)).ToList();
@@ -141,20 +151,39 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
                     skillResourceRoots[i] = temp;
                 }
             }
-            
+
+
             View.SkillPanel.SetSkills(skillResourceRoots);
             View.StatPanel.SetStats(model);
             View.EssencePanel.SetEssence(model);
         }
-        
+        private void SetCharacterInfoPopup()
+        {
+            SetCharacterInfoPopup(currentCharacter);
+        }
         private void OnClickLeftButton()
         {
-            //List<CharacterModel> characters = BattleContoller.Instance.
+            Debug.Log("왼쪽 버튼 클릭");
+            int nextIndex = partyMembers.IndexOf(currentCharacter) - 1;
+            if (nextIndex < 0)
+            {
+                nextIndex += partyMembers.Count;
+            }
+
+            currentCharacter = partyMembers[nextIndex];
+            SetCharacterInfoPopup();
         }
 
         private void OnClickRightButton()
         {
-            
+            Debug.Log("오른쪽 버튼 클릭");
+            int nextIndex = partyMembers.IndexOf(currentCharacter) + 1;
+            if (nextIndex >= 0)
+            {
+                nextIndex -= partyMembers.Count;
+            }
+            currentCharacter = partyMembers[nextIndex];
+            SetCharacterInfoPopup();
         }
         
         // 팝업창 닫을때
