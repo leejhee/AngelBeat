@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9004885445505460248}
   - component: {fileID: 4517142061970645463}
   - component: {fileID: 87157381817593339}
+  - component: {fileID: 4780323002503185827}
   m_Layer: 5
   m_Name: ChoiceButtonBase_Origin
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2918, y: 262}
+  m_SizeDelta: {x: 1707.634, y: 153.3243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9004885445505460248
 CanvasRenderer:
@@ -121,6 +122,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4780323002503185827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6842113844703858137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 0
+  m_AspectRatio: 11.137404
 --- !u!1 &8116056983128269769
 GameObject:
   m_ObjectHideFlags: 0
