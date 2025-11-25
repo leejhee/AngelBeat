@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VillageViewCatalog
   m_EditorClassIdentifier: 
   viewTable:
-  - viewID: 4
+  - viewID: 101
     viewReference:
       m_AssetGUID: 
       m_SubObjectName: 

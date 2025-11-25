@@ -5,9 +5,6 @@ using UnityEngine.InputSystem;
 
 namespace GamePlay.Common.Scripts.Input
 {
-    /// <summary>
-    /// Unity Input System 사용
-    /// </summary>
     public class InputManager : MonoBehaviour
     {
         #region Singleton

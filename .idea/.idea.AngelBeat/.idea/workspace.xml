@@ -5,27 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Boot/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Boot/Bootstrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/Keymaps/PlayerInput.inputactions.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/Keymaps/PlayerInput.inputactions.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/Village_Explore/ExploreCharacter.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/Village_Explore/ExploreCharacter.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Contracts/Interaction/IInteractable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Contracts/Interaction/IInteractable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Interaction/Interactor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Interaction/Interactor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreBattleSymbol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/ExploreBattleSymbol.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreBattleSymbol.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/ExploreBattleSymbol.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExplorerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExplorerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/BattleEncounter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/BattleEncounter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/NovelEncounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/NovelEncounter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/NovelEncounter.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/NovelEncounter.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/ExploreEntrance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/ExploreEntrance.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/InteractPromptVM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/InteractPromptVM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/ExploreViewCatalog.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/ExploreViewCatalog.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/HerbEncounter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/HerbEncounter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/InputInteraction/Encounter/HerbEncounter.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/HerbEncounter.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UIs/Runtime/MVPInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UIs/Runtime/MVPInterface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UIs/Runtime/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UIs/Runtime/UIManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +169,7 @@
       <workItem from="1763978893703" duration="1291000" />
       <workItem from="1764007986113" duration="2188000" />
       <workItem from="1764055551219" duration="1353000" />
-      <workItem from="1764078812357" duration="15507000" />
+      <workItem from="1764078812357" duration="17129000" />
     </task>
     <servers />
   </component>
@@ -414,58 +402,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/UIs/Runtime/UIManager.cs</url>
-          <line>49</line>
-          <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\UIs\Runtime\UIManager.cs" containingFunctionPresentation="메서드 'ChangeCatalog'">
-            <startOffsets>
-              <option value="1331" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1387" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs</url>
-          <line>97</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Common\Scripts\Input\InputManager.cs" containingFunctionPresentation="메서드 'ApplyStateMaps'">
-            <startOffsets>
-              <option value="2737" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2743" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs</url>
-          <line>96</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Common\Scripts\Input\InputManager.cs" containingFunctionPresentation="메서드 'ApplyStateMaps'">
-            <startOffsets>
-              <option value="2699" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2720" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Input/InputManager.cs</url>
-          <line>95</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Common\Scripts\Input\InputManager.cs" containingFunctionPresentation="메서드 'ApplyStateMaps'">
-            <startOffsets>
-              <option value="2660" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2682" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

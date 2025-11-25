@@ -11,18 +11,18 @@ namespace UIs.Runtime
     /// </summary>
     public enum ViewID
     {
-        None,
+        None = 0,
         
-        LobbySceneView,
+        LobbySceneView = 1,
         
-        VillageSceneView,
+        VillageSceneView = 101,
         VillageToExploreView,
         VillageToExploreInteractionView,
         
-        ExploreSceneView,
+        ExploreSceneView = 201,
         ExploreHerbPopup,
         
-        BattleSceneView,
+        BattleSceneView = 301,
         CharacterInfoPopUpView,
         
         BattleHoveringView,

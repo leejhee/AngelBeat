@@ -1,7 +1,7 @@
 using UIs.Runtime;
 using UnityEngine;
 
-namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
+namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
 {
     public class HerbEncounter : MonoBehaviour
     {

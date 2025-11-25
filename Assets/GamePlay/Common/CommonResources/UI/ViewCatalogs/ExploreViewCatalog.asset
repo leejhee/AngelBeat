@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: ExploreViewCatalog
   m_EditorClassIdentifier: 
   viewTable:
-  - viewID: 5
+  - viewID: 201
     viewReference:
       m_AssetGUID: 084656c32e8680e498c8cd96911dff22
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - viewID: 7
+  - viewID: 302
     viewReference:
       m_AssetGUID: 459afaa99bf66d8479f3fe36d88dc537
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 1
-  - viewID: 6
+  - viewID: 202
     viewReference:
       m_AssetGUID: 47c056efba9735643990dfc61903f084
       m_SubObjectName: 

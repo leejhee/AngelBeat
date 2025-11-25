@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -42,12 +43,12 @@ namespace UIs.Runtime
         /// View에 대한 데이터베이스
         /// </summary>
         [SerializeField] private List<CatalogEntry> entries = new();
-        
-        private ViewCatalog _focusingCatalog;
+
+        [SerializeField, ReadOnly] private ViewCatalog focusingCatalog;
         
         private readonly Dictionary<SystemEnum.GameState, ViewCatalog> _catalogDict = new();
         
-        private void ChangeCatalog(SystemEnum.GameState state) => _focusingCatalog = _catalogDict.GetValueOrDefault(state);
+        private void ChangeCatalog(SystemEnum.GameState state) => focusingCatalog = _catalogDict.GetValueOrDefault(state);
         
         #endregion
         
@@ -207,7 +208,7 @@ namespace UIs.Runtime
             {
                 _catalogDict[pair.keyState] = pair.catalog; //빠른 인덱싱을 위해
             }
-            _focusingCatalog = _catalogDict[SystemEnum.GameState.Lobby]; // 초기 포커싱 설정
+            focusingCatalog = _catalogDict[SystemEnum.GameState.Lobby]; // 초기 포커싱 설정
             _uiCts = new CancellationTokenSource();
         }
         
@@ -237,11 +238,11 @@ namespace UIs.Runtime
         public async UniTask ShowViewAsync(ViewID viewID)
         {
             
-            if (!_focusingCatalog) return;
+            if (!focusingCatalog) return;
 
             await EnsureRoot(_uiCts.Token);
 
-            if (!_focusingCatalog.TryGet(viewID, out ViewCatalog.ViewEntry viewRef))
+            if (!focusingCatalog.TryGet(viewID, out ViewCatalog.ViewEntry viewRef))
             {
                 Debug.LogWarning($"[UIManager] No Entry for {viewID}");
                 return;
@@ -259,7 +260,7 @@ namespace UIs.Runtime
                     return;
                 }
 
-                IPresenter presenter = _focusingCatalog.GetPresenter(viewID, view);
+                IPresenter presenter = focusingCatalog.GetPresenter(viewID, view);
                 _stack.Push(new OpenedUI { ID = viewID, Presenter = presenter, Go = go });
 
                 using var linked = CancellationTokenSource.CreateLinkedTokenSource(_uiCts.Token);
