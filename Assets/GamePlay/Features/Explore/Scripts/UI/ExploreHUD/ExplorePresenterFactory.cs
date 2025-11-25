@@ -15,6 +15,8 @@ namespace GamePlay.Features.Explore.Scripts.UI
                     return new ExploreHUDPresenter(view);
                 case ViewID.CharacterInfoPopUpView:
                     return new CharacterInfoPresenter(view);
+                case ViewID.ExploreHerbPopup:
+                    return new ExploreHerbPresenter(view);
                 default:
                     return new NullPresenter(view);
             }

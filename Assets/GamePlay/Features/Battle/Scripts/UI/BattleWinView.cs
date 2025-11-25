@@ -1,8 +1,10 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts;
 using GamePlay.Features.Battle.Scripts.UI.UIObjects;
+using GamePlay.Features.Battle.Scripts.UI.UIObjects.Reward;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,51 +12,38 @@ using System.Linq;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
+using UnityEngine.ResourceManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using ResourceManager = Core.Scripts.Managers.ResourceManager;
 
 namespace AngelBeat.UI
 {
-    // 보상을 위한 임시 구조체 > 이거 다른 보상들이랑 공유하는 추상 클래스의 자식으로 만들 예정
-    [Serializable]
-    public struct SKillReward
-    {
-        public long id;
-        public Sprite selected;
-        public Sprite deSelected;
-
-        public SKillReward(long id, Sprite selected = null, Sprite deSelected = null)
-        {
-            this.id = id;
-            this.selected = selected;
-            this.deSelected = deSelected;
-        }
-    }
     
     public class BattleWinView : MonoBehaviour, IView
     {
 
-        // 얘도 나중에 바꿔줄거임
-        [Serializable]
-        public struct RewardTable
-        {
-            public string name;
-            public List<SKillReward> rewardRange;
-        }
-        
-        [SerializeField] private GameObject rewardUIPrefab;
-        [SerializeField] private List<RewardTable> rewardList;
-        [SerializeField] private Transform rewardPanel;
 
-        [SerializeField] private Button getRewardButton;
+
+        [SerializeField] private GameObject rewardTypeObject;
+        [SerializeField] private GameObject skillRewardUIPrefab;
+        [SerializeField] private List<RewardTable> rewardList;
+        [SerializeField] private Transform skillRewardPanel;
+        [SerializeField] private Transform skillRewardObjectParent;
+        [SerializeField] private Transform rewardPanel;
+        [SerializeField] private Transform rewardObjectParent;
+        [SerializeField] private Button rewardSkipButton;
+        [SerializeField] private Button getSkillButton;
+        
         
         [SerializeField] private List<ToggleButton> buttons = new List<ToggleButton>();
 
         public void AddToggleButton(ToggleButton toggleButton)
         {
-            if (toggleButton is RewardObject reward)
+            if (toggleButton is SkillRewardObject reward)
             {
                 reward.InterActionButton.onClick.AddListener(()=> Toggling(reward));
             }
@@ -88,11 +77,16 @@ namespace AngelBeat.UI
         }
         
         
-        public Button GetRewardButton => getRewardButton;
+        public Button RewardSkipButton => rewardSkipButton;
+        public Button GetSkillButton => getSkillButton;
         public List<RewardTable>  RewardList => rewardList;
-        public GameObject RewardUIPrefab => rewardUIPrefab;
+        public GameObject RewardTypeObject => rewardTypeObject;
+        public GameObject SkillRewardUIPrefab => skillRewardUIPrefab;
+        public Transform SkillRewardPanel => skillRewardPanel;
+        public Transform SkillRewardObjectParent => skillRewardObjectParent;
         public Transform RewardPanel => rewardPanel;
-
+        public Transform RewardObjectParent => rewardObjectParent;
+        
 
         public GameObject Root { get; }
         public void Show() => gameObject.SetActive(true);
@@ -120,55 +114,98 @@ namespace AngelBeat.UI
 
         public override UniTask EnterAction(CancellationToken token)
         {
-            InstantiateSkillRewardObjects();
-            
-            
-            // ModelEvents.Subscribe<long>(
-            //     action => BattleController.Instance.rewardSkillSelectedEvent += action,
-            //     action => BattleController.Instance.rewardSkillSelectedEvent -= action,
-            //     SelectRewardSkill
-            //         );
+            InstantiateRewardObjects();
             
             ViewEvents.Subscribe(
-                act => View.GetRewardButton.onClick.AddListener(new UnityAction(act)),
-                act => View.GetRewardButton.onClick.RemoveAllListeners(),
-                GetReward
+                act => View.RewardSkipButton.onClick.AddListener(new UnityAction(act)),
+                act => View.RewardSkipButton.onClick.RemoveAllListeners(),
+                SkipReward
             );
+            ViewEvents.Subscribe(
+                act => View.GetSkillButton.onClick.AddListener(new UnityAction(act)),
+                act => View.GetSkillButton.onClick.RemoveAllListeners(),
+                GetSkillReward
+            );
+            
             
             return UniTask.CompletedTask;
         }
 
         private readonly PresenterEventBag _eventBag = new();
-        
-        private void InstantiateSkillRewardObjects()
+
+        private void InstantiateRewardObjects()
         {
+            foreach (RewardTable table in View.RewardList)
+            {
+                GameObject rewardTypeObject = Object.Instantiate(View.RewardTypeObject, View.RewardObjectParent, true);
+                RewardObject rewardObject = rewardTypeObject.GetComponent<RewardObject>();
+                Debug.Log(table.name);
+                rewardObject.RewardButton.onClick.AddListener(() => OnClickRewardButton(table.name, rewardTypeObject));
+            }
+
+        }
+        // 이건 나아아아중에 바꿀거임
+        private void OnClickRewardButton(string rewardType, GameObject rewardTypeObject, int amount = 0)
+        {
+            Debug.Log(rewardType);
+            
+            switch (rewardType)
+            {
+                case "Skill":
+                    {
+                        Debug.Log("보상 패널 띄우기");
+                        View.RewardPanel.gameObject.SetActive(false);
+                        View.SkillRewardPanel.gameObject.SetActive(true);
+                        InstantiateSkillRewardObjects();
+                    }
+                    break;
+            }
+            Object.Destroy(rewardTypeObject);
+        }
+        private async void InstantiateSkillRewardObjects()
+        {
+            _rewardList = new();
+            
             // 이거 나중에 보상 테이블에서 가져오도록 설정할것 일단 뷰에서 가져오는거로 함
             
             // 리워드 테이블에서 Skill 태그 있는것
-            foreach (BattleWinView.RewardTable table in View.RewardList.Where(table => table.name == "Skill"))
+            foreach (RewardTable table in View.RewardList.Where(table => table.name == "Skill"))
             {
+                // 현재 도깨비가 가지고 있는 스킬 개수
+                int curDokSkillCount = BattleController.Instance.PlayerParty.partyMembers[0].ActiveSkills.Count;
                 
-                // 보상 3개 뽑기
-                for (int i = 0; i < 3; i++)
+                // 튜토리얼 기준 도깨비의 최대 스킬 개수는 5개
+                // 가지고 있는 스킬 개수가 3보다 작으면 보상은 3개, 3보다 크거나 같으면 5에서 보유스킬 개수 빼줌
+                int maxReward = curDokSkillCount < 3 ? 3 : 5 - curDokSkillCount;
+
+                List<long> ownedSKills = new();
+                Debug.Log("현재 보유중인 스킬 id");
+                foreach (var skill in BattleController.Instance.PlayerParty.partyMembers[0].ActiveSkills)
+                {
+                    Debug.Log(skill.SkillIndex);
+                    ownedSKills.Add(skill.SkillIndex);
+                }
+                
+                // 보상 뽑기
+                for (int i = 0; i < maxReward; i++)
                 {
                     // 테이블에 있는 스킬 개수에서 랜덤으로 정수 뽑음
                     int randIndex =  UnityEngine.Random.Range(0, table.rewardRange.Count);
-                    SKillReward reward = table.rewardRange[randIndex];
-                    
+                    SkillReward reward = table.rewardRange[randIndex];
                     long skillId = table.rewardRange[randIndex].id;
-                    
-                    //랜덤 정수 번째 스킬
-                    if (_rewardList.Contains(skillId))
+
+                    // 이미 보유중인 스킬
+                    if (ownedSKills.Contains(skillId) || _rewardList.Contains(skillId))
                     {
-                        // 이미 딕셔너리에 스킬이 포함되어 있으면 다시한번 추첨
+                        Debug.Log($"{skillId} : 이미 가지고 있거나 뽑힌 스킬");
                         i--;
                     }
                     else
                     {
                         _rewardList.Add(skillId);
                         
-                        GameObject rewardObject = Object.Instantiate(View.RewardUIPrefab, View.RewardPanel, true);
-                        RewardObject rewardObj = rewardObject.GetComponent<RewardObject>();
+                        GameObject rewardObject = Object.Instantiate(View.SkillRewardUIPrefab, View.SkillRewardObjectParent, true);
+                        SkillRewardObject rewardObj = rewardObject.GetComponent<SkillRewardObject>();
                         
                         // 보상 인덱스 및 스프라이트 설정
                         rewardObj.SetReward(i, reward.deSelected, reward.selected);
@@ -186,23 +223,49 @@ namespace AngelBeat.UI
                             act=> rewardObj.Selected -= act,
                             SelectRewardSkill
                         );
+                        _eventBag.Subscribe<int>(
+                            action =>
+                            {
+                                rewardObj.Deselected -= action;
+                                rewardObj.Deselected += action;
+                            },
+                            act => rewardObj.Deselected -= act,
+                            DeselectRewardSkill);
                     }
                 }
+            }
+            Debug.Log("뽑힌 스킬들");
+            foreach (var ids in _rewardList)
+            {
+                Debug.Log(ids);
             }
         }
         private void SelectRewardSkill(int idx)
         {
             _selectedSkillId = _rewardList[idx];
+            View.GetSkillButton.interactable = true;
         }
-        private void GetReward()
+
+        private void DeselectRewardSkill(int idx)
+        {
+            View.GetSkillButton.interactable = false;
+        }
+        private void GetSkillReward()
         {
             //selectedSkillId << 이 아이디의 스킬을 넣어라
             Debug.Log(_selectedSkillId);
             BattleController.Instance.GetSkill(_selectedSkillId);
             
-            SceneLoader.LoadSceneWithLoading(BattleController.Instance.ReturningScene);
+            View.SkillRewardPanel.gameObject.SetActive(false);
+            View.RewardPanel.gameObject.SetActive(true);
         }
 
-
+        private void SkipReward()
+        {
+            Debug.Log("보상 받기 완료");
+            
+            //SceneLoader.LoadSceneWithLoading(BattleController.Instance.ReturningScene);
+        }
+        
     }
 }

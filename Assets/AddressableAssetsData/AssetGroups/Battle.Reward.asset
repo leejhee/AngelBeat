@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle.Reward
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle.Reward
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0daa1e81ac141a84d8ccfb99233eb13f
+  m_SerializeEntries:
+  - m_GUID: 4a454c74992ccdd42a1434539745c44c
+    m_Address: SmokeStep_Deselected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6977b6fb3225caa49a2ca17e7c57a672
+    m_Address: SmokeWave_Deselected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cff6d4515d7aa14288c560479a01ea3
+    m_Address: Twister_Selected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 938766bfd04b85647918fea66c7e6d72
+    m_Address: SmokeBind_Selected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99fbde99040f3d54ab6806a4eb3d11f6
+    m_Address: Twister_Deselected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aca6fb118b802e44e82f0974cf87a486
+    m_Address: SmokeBind_Deselected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8224b977f581a44bbde978571be7d62
+    m_Address: SmokeWave_Selected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f80fe101b9fccdf49a700d373a570d5d
+    m_Address: SmokeStep_Selected
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9923f6987f28590418c4ec4a9bb980f6, type: 2}
+    - {fileID: 11400000, guid: 2033d58a5fbb4b84abae97e929baecff, type: 2}

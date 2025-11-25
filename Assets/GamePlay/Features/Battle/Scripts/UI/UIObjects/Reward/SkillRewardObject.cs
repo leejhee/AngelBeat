@@ -1,15 +1,10 @@
-﻿using Core.Scripts.Data;
-using System;
-using System.Collections;
-using TMPro;
+﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using DataManager = Core.Scripts.Managers.DataManager;
 
-namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
+namespace GamePlay.Features.Battle.Scripts.UI.UIObjects.Reward
 {
-    public class RewardObject : ToggleButton
+    public class SkillRewardObject : ToggleButton
     {
         //[SerializeField] private TMP_Text rewardText;
         [SerializeField] private Image rewardImage;
@@ -36,13 +31,11 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
 
         public override void OnSelect()
         {
-            Debug.Log($"{slotIndex} 번 보상 선택");
             Selected?.Invoke(slotIndex);
         }
 
         public override void OnDeselect()
         {
-            Debug.Log($"{slotIndex} 번 해제");
             Deselected?.Invoke(slotIndex);
         }
     }

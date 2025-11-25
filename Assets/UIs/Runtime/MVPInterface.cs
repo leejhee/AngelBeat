@@ -20,6 +20,7 @@ namespace UIs.Runtime
         VillageToExploreInteractionView,
         
         ExploreSceneView,
+        ExploreHerbPopup,
         
         BattleSceneView,
         CharacterInfoPopUpView,

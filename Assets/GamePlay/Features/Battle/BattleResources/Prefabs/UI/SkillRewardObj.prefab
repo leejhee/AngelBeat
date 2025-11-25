@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 5615960091513917996}
   - component: {fileID: 3067940806519506162}
   m_Layer: 5
-  m_Name: RewardObj
+  m_Name: SkillRewardObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
