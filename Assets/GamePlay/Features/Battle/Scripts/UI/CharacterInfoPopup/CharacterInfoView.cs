@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Explore.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -103,11 +104,19 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
         private async void PreloadProcessInExplore()
         {
-            await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
+            try
+            {
+                await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
 
-            partyMembers = ExploreManager.Instance.playerParty.partyMembers;
-            currentCharacter = ExploreManager.Instance.SelectedCharacter;
-            SetCharacterInfoPopup(currentCharacter);
+                partyMembers = ExploreManager.Instance.playerParty.partyMembers;
+                currentCharacter = ExploreManager.Instance.SelectedCharacter;
+                SetCharacterInfoPopup(currentCharacter);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
         private readonly PresenterEventBag _focusCharacterEvents = new();
 

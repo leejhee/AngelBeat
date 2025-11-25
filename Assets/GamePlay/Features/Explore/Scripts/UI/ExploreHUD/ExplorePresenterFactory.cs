@@ -10,6 +10,8 @@ namespace GamePlay.Features.Explore.Scripts.UI
         {
             switch (id)
             {
+                case ViewID.ExploreSceneView:
+                    return new ExploreHUDPresenter(view);
                 default:
                     return new NullPresenter(view);
             }

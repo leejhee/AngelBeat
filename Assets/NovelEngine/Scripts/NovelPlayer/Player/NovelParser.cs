@@ -145,7 +145,7 @@ public static class NovelParser
                     string labelName = labelMatch.Groups["name"].Value;
 
                     NovelManager.Player.LabelDict.Add(labelName, index);
-                    Debug.Log($"Label Name : {labelName}\nIndex : {index}");
+                    //Debug.Log($"Label Name : {labelName}\nIndex : {index}");
                     result = new LabelLine(index, labelName);
                     break;
             }
@@ -467,14 +467,14 @@ public static class NovelParser
                         ifParameter);
 
 
-                    Debug.Log(
-                        $"BackName : {backName}\n" +
-                        $"Transition : {backgroundTransition}\n" +
-                        $"pos : {backgroundPos}\n" +
-                        $"scale : {backgroundScale}\n" +
-                        $"Time : {backgroundTime}\n" +
-                        $"Index : {index}" +
-                        $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
+                    // Debug.Log(
+                    //     $"BackName : {backName}\n" +
+                    //     $"Transition : {backgroundTransition}\n" +
+                    //     $"pos : {backgroundPos}\n" +
+                    //     $"scale : {backgroundScale}\n" +
+                    //     $"Time : {backgroundTime}\n" +
+                    //     $"Index : {index}" +
+                    //     $"If : {ifParameter.Var} {ifParameter.Op} {ifParameter.Value}");
 
                 }
 

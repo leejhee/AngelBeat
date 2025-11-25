@@ -6,7 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/Seol_Controller.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/Seol_Controller.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/Skill/PoisonShot/Seol_PoisonShot.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/Skill/PoisonShot/Seol_PoisonShot.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterInfo/BattleCharacterInfoPopUp.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterInfo/BattleCharacterInfoPopUp.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattlePresenterFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattlePresenterFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/test/AnimationSoundCheck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/test/AnimationSoundCheck.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/UI/ExploreHUDView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/UI/ExploreHUDView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExplorePresenterFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExplorePresenterFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/NovelEngine/Scripts/NovelPlayer/Player/NovelParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NovelEngine/Scripts/NovelPlayer/Player/NovelParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SPUM/Basic_Resources/Package/SPUM177.unitypackage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,8 +86,10 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -84,8 +98,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -94,18 +110,22 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="22064">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="22064" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -402,6 +422,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs</url>
+          <line>83</line>
+          <properties documentPath="D:\Unity\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\UI\CharacterInfoPopup\CharacterInfoView.cs" containingFunctionPresentation="람다 식 내부 메서드 'EnterAction'">
+            <startOffsets>
+              <option value="3112" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3170" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

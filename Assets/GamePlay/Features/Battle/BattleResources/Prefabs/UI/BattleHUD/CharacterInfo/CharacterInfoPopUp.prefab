@@ -1504,7 +1504,7 @@ GameObject:
   - component: {fileID: 6543772637207731841}
   - component: {fileID: 1901183833409759934}
   m_Layer: 0
-  m_Name: BattleCharacterInfoPopUp
+  m_Name: CharacterInfoPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

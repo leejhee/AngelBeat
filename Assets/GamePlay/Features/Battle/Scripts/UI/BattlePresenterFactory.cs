@@ -1,6 +1,7 @@
 ﻿using AngelBeat.UI;
 using GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup;
 using GamePlay.Features.Battle.Scripts.UI.IngameUI;
+using GamePlay.Features.Explore.Scripts.UI;
 using UIs.Runtime;
 using UnityEngine;
 

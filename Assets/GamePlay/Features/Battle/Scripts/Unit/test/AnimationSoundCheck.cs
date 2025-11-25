@@ -69,5 +69,8 @@ public class AnimationSoundCheck : MonoBehaviour
         
         Scream,
         EchoShot,
+        
+        
+        PoisonShot
     }
 }
