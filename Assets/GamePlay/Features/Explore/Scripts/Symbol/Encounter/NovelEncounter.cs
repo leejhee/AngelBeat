@@ -1,9 +1,10 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
+namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
 {
+    /// <summary>
+    /// 고정된 맵에서만 우선 사용 가능
+    /// </summary>
     public class NovelEncounter : MonoBehaviour
     {
         [SerializeField] private string novelTitle;
@@ -20,8 +21,6 @@ namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction.Encounter
             if (!player) return;
             
             PlayNovel();
-            
-            
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts.Interaction;
 using GamePlay.Contracts.Interaction;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Interaction
+namespace GamePlay.Common.Scripts.Interaction
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public sealed class Interactor : MonoBehaviour, IInteractor
+    public class Interactor : MonoBehaviour, IInteractor
     {
         public Transform Transform => transform;
         public CancellationToken LifeTimeToken => this.GetCancellationTokenOnDestroy();

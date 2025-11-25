@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Explore.Symbol.InputInteraction
+namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction
 {
     public class InteractPromptVM
     {

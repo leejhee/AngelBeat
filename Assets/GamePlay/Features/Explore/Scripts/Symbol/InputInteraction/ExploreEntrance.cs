@@ -1,11 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts.Interaction;
+using GamePlay.Common.Scripts.Interaction;
 using GamePlay.Contracts.Interaction;
-using GamePlay.Features.Scripts.Interaction;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Features.Scripts.Explore.Symbol.InputInteraction
+namespace GamePlay.Features.Explore.Scripts.Symbol.InputInteraction
 {
     /// <summary>
     /// 탐사 진입로 오브젝트

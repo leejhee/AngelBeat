@@ -16,6 +16,7 @@ namespace Core.Scripts.Boot
         [SerializeField] private SystemEnum.eScene nextScene = SystemEnum.eScene.LobbyScene;
         
         [SerializeField] private GameObject uiManager;
+        [SerializeField] private GameObject inputManager;
         [SerializeField] private GameObject mainCamera;
         [SerializeField] private GameObject eventSystem;
         
@@ -27,10 +28,12 @@ namespace Core.Scripts.Boot
                 await GameReady.InitializeOnceAsync(); // 전체 매니저 초기화
                 
                 GameObject ui = Instantiate(uiManager);
+                GameObject input = Instantiate(inputManager);
                 GameObject cam = Instantiate(mainCamera);
                 GameObject es = Instantiate(eventSystem);
                 
                 DontDestroyOnLoad(ui);
+                DontDestroyOnLoad(input);
                 DontDestroyOnLoad(cam);
                 DontDestroyOnLoad(es);
                 

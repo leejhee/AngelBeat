@@ -4,7 +4,7 @@ using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts;
 using UnityEngine;
 
-namespace GamePlay.Features.Explore.Scripts
+namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
 {
     
     public class ExploreBattleSymbol : MonoBehaviour
@@ -21,10 +21,10 @@ namespace GamePlay.Features.Explore.Scripts
             
             //TODO : 추후 씬 트랜지션 지침 받고 이 부분에 기입할 것
             
-            BattlePayload.Instance.SetBattleData(party, dungeon, mapName, SystemEnum.eScene.ExploreScene);
+            BattlePayload.Instance.SetBattleData(party, dungeon, mapName);
             ExplorePayload.Instance.SetContinueExplore(dungeon, 1, party, player.transform.position);
+            
             GamePlaySceneUtil.LoadBattleScene();
-            Debug.Log("씬 로딩 완료!");
             #endregion
         }
     }

@@ -1,29 +1,31 @@
-using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Contracts.Interaction;
-using System;
+using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Contracts.Interaction;
+using GamePlay.Common.Scripts.Input;
+using GamePlay.Common.Scripts.Interaction;
 using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 namespace GamePlay.Features.Explore.Scripts
 {
     /// <summary>
     /// '탐사' 씬에서 유저가 조종할 컨트롤러.
     /// </summary>
-    public class ExploreController : MonoBehaviour, IInteractor
+    public class ExploreController : Interactor
     {
         [SerializeField] private float speed = 3f;
-        [SerializeField] private Party playerParty;
-        public Party PlayerParty => playerParty;
-        
+
         public Transform Transform { get; }
         public CancellationToken LifeTimeToken { get; }
         public Transform CameraTransform;
 
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
-
+        
+        private IInteractable _focused;
+        private bool _isInteracting;
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -32,67 +34,75 @@ namespace GamePlay.Features.Explore.Scripts
         private void Start()
         {
             CinemachineCamera cam = CameraTransform.gameObject.GetComponent<CinemachineCamera>();
-            LensSettings lens = cam.Lens;
-            lens.OrthographicSize = 1f;
+            cam.Lens.OrthographicSize = 1f;
         }
         
         private void Update()
         {
-            Vector2 move = Vector2.zero;
-            var keyboard = Keyboard.current;
-
-            if (keyboard != null)
+            if (InputManager.Instance.GetExploreInteractDown())
             {
-                if (keyboard.wKey.isPressed) move.y += 1f;
-                if (keyboard.sKey.isPressed) move.y -= 1f;
-                if (keyboard.aKey.isPressed) move.x -= 1f;
-                if (keyboard.dKey.isPressed) move.x += 1f;
+                TryInteractCurrent().Forget();
             }
-
-            if (move.sqrMagnitude > 1f)
-                move = move.normalized;
-
-            _moveInput = move;
         }
 
         private void FixedUpdate()
         {
-            var targetPos = _rb.position + _moveInput * speed * Time.fixedDeltaTime;
-            _rb.MovePosition(targetPos);
+            Vector2 move = InputManager.Instance.GetExploreMove();
+
+            if (move.sqrMagnitude > 1f)
+                move.Normalize();
+
+            Vector2 delta = move * (speed * Time.fixedDeltaTime);
+            _rb.MovePosition(_rb.position + delta);
         }
 
-        #region Interaction Part
         
-        private IInteractable interactable;
-        /// <summary>
-        /// Input System 기반 메서드. Focus Object에 대한 상호작용
-        /// </summary>
-        private void OnInteract()
+        private async UniTaskVoid TryInteractCurrent()
         {
-            
+            if (_isInteracting) return;          // 이미 상호작용 중이면 무시
+            if (_focused == null) return;        // 대상 없으면 무시
+
+            // 상호작용 가능 상태인지 한 번 더 체크 
+            if (!_focused.Interactable(this))
+                return;
+
+            _isInteracting = true;
+            try
+            {
+                await TryInteract(_focused, CancellationToken.None);
+            }
+            finally
+            {
+                _isInteracting = false;
+            }
         }
         
         // 상호작용 전용 이벤트
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.TryGetComponent(out IInteractable focused))
+            if (other.TryGetComponent(out IInteractable candidate))
             {
-                focused.OnFocusEnter(this);
+                if (_focused == null || candidate.Priority >= _focused.Priority)
+                {
+                    _focused?.OnFocusExit(this);
+                    _focused = candidate;
+                    _focused.OnFocusEnter(this);
+                }
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (TryGetComponent(out IInteractable focused))
+            if (_focused == null) return;
+            
+            if (other.TryGetComponent(out IInteractable candidate) &&
+                _focused == candidate)
             {
-                focused.OnFocusExit(this);
+                candidate.OnFocusExit(this);
+                _focused = null;
             }
         }
-
-        #endregion
-
-
-
+        
         
     }
 }

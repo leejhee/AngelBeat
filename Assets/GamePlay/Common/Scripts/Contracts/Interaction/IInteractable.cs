@@ -1,10 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
-using GamePlay.Features.Scripts.Interaction;
+using GamePlay.Common.Scripts.Interaction;
+using GamePlay.Contracts.Interaction;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace GamePlay.Contracts.Interaction
+namespace GamePlay.Common.Scripts.Contracts.Interaction
 {
     public interface IInteractable
     {
