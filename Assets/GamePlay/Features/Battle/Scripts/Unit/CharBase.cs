@@ -27,18 +27,21 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [SerializeField] private BoxCollider2D _battleCollider;
         [SerializeField] private Transform charCameraPos;
         [SerializeField] private GameObject _charSnapShot;
+        
+        [Header("Movement Field")]
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 10f;
+        [SerializeField] private float movingTime = 1f;
+        [SerializeField] private GameObject jumpOutFX;
+        [SerializeField] private GameObject jumpInFX;
+        [SerializeField] private GameObject pushFX;
+        
+        [Header("Direction Field")]
         [SerializeField] private Transform _charUnitRoot;
         [SerializeField] private CharacterHpBar _hpBar;
         [SerializeField] private GameObject protectionIndicator;
         [SerializeField] private GameObject tauntIndicator;
         [SerializeField] private CharAnimDriver anim;
-        
-        //TODO : 점프 효과 관련 프리팹을 어떻게 관리할지 생각할 것
-        [SerializeField] private GameObject jumpOutFX;
-        [SerializeField] private GameObject jumpInFX;
-        [SerializeField] private GameObject pushFX;
         
         private SpriteRenderer  _spriteRenderer;
         private SpriteRenderer  _outlineRenderer;
@@ -377,22 +380,38 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         /// 캐릭터 이동 연출 메서드
         /// 외부에서 이동력을 조사하므로, 이동력을 초과하지 않음을 전제로 함.
         /// </summary>
-        public async UniTask CharMove(Vector3 targetPos)
+        public async UniTask CharMove(Vector3 targetPos, float timeMultiplier)
         {
-            await anim.WithMoving(async _ =>
+            float duration = movingTime * timeMultiplier;
+            
+            await anim.WithMoving(async ct =>
             {
+                Vector2 start = _rigid.position;
                 Vector2 target = targetPos;
-                const float eps = 0.05f;
+                float elapsed = 0f;
 
-                while (Vector2.Distance(_rigid.position, target) > eps)
+                if (duration <= 0f) // 혹시나 하는 예외 처리
                 {
-                    Vector2 dir = (target - _rigid.position).normalized;
-                    Vector2 next = _rigid.position + dir * (moveSpeed * Time.fixedDeltaTime);
+                    SetCharacterToward(target - start);
+                    _rigid.MovePosition(target);
+                    _rigid.velocity = Vector2.zero;
+                    return;
+                }
+                
+                while (elapsed < duration)
+                {
+                    elapsed += Time.fixedDeltaTime;
+                    float u = Mathf.Clamp01(elapsed / duration);
+
+                    Vector2 next = Vector2.Lerp(start, target, u);
+
+                    Vector2 dir = next - _rigid.position;
+                    if (dir.sqrMagnitude > 0.0001f)
+                        SetCharacterToward(dir);
 
                     _rigid.MovePosition(next);
-                    SetCharacterToward(dir);
 
-                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate);
+                    await UniTask.Yield(PlayerLoopTiming.FixedUpdate, ct);
                 }
 
                 _rigid.MovePosition(target);

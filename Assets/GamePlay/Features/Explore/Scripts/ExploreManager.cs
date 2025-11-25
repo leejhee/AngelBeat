@@ -103,7 +103,7 @@ namespace GamePlay.Features.Explore.Scripts
                 Instantiate(tutorialMap, exploreMap.transform);
                 GameObject startPoint = GameObject.Find("StartPoint");
                 Instantiate(controller, startPoint.transform.position, startPoint.transform.rotation);
-                Camera mainCamera = Camera.main;
+                //Camera mainCamera = Camera.main;
                 //mainCamera.transform.SetParent(controller.CameraTransform);
                 //mainCamera.transform.position += new Vector3(0f, 0f, -10f);
                 // 2. Payload / Save 분기

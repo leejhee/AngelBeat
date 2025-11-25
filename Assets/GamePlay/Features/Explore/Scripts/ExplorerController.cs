@@ -1,5 +1,6 @@
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Contracts.Interaction;
+using System;
 using System.Threading;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -19,17 +20,24 @@ namespace GamePlay.Features.Explore.Scripts
         public Transform Transform { get; }
         public CancellationToken LifeTimeToken { get; }
         public Transform CameraTransform;
-        
+
+        private Rigidbody2D _rb;
+        private Vector2 _moveInput;
+
+        private void Awake()
+        {
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
         private void Start()
         {
             CinemachineCamera cam = CameraTransform.gameObject.GetComponent<CinemachineCamera>();
-            var lens = cam.Lens;
+            LensSettings lens = cam.Lens;
             lens.OrthographicSize = 1f;
         }
         
         private void Update()
         {
-            // ====== WASD 이동 ======
             Vector2 move = Vector2.zero;
             var keyboard = Keyboard.current;
 
@@ -44,9 +52,15 @@ namespace GamePlay.Features.Explore.Scripts
             if (move.sqrMagnitude > 1f)
                 move = move.normalized;
 
-            transform.position += (Vector3)move * speed * Time.deltaTime;
+            _moveInput = move;
         }
-        
+
+        private void FixedUpdate()
+        {
+            var targetPos = _rb.position + _moveInput * speed * Time.fixedDeltaTime;
+            _rb.MovePosition(targetPos);
+        }
+
         #region Interaction Part
         
         private IInteractable interactable;
@@ -61,7 +75,7 @@ namespace GamePlay.Features.Explore.Scripts
         // 상호작용 전용 이벤트
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (TryGetComponent(out IInteractable focused))
+            if (other.TryGetComponent(out IInteractable focused))
             {
                 focused.OnFocusEnter(this);
             }

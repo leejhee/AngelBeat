@@ -10,10 +10,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components
     [RequireComponent(typeof(Animator))]
     public sealed class CharAnimDriver : MonoBehaviour
     {
-        // ===== 통일된 파라미터 이름들 (모든 Animator에 동일하게 만들어 둘 것) =====
-        // - Animator Parameters:
         //   Bool:  IsMoving, OnAttack, Push, Evade, JumpOut, JumpIn
-        //   Float: Speed   (선택; BlendTree 쓰는 경우)
+        //   Float: Speed - BlendTree 쓰는 경우
         private static readonly int P_IsMoving = Animator.StringToHash("IsMoving");
         private static readonly int P_OnAttack = Animator.StringToHash("OnAttack");
         private static readonly int P_Push = Animator.StringToHash("Push");

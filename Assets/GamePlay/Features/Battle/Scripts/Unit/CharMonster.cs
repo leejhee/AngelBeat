@@ -10,7 +10,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
 {
     public class CharMonster : CharBase
     {
-        private CharAI _defaultAI;
+        private CharSimpleAI _defaultAI;
         private CharacterAI _currentAI; // 현재 사용 중인 AI
 
         protected override SystemEnum.eCharType CharType => SystemEnum.eCharType.Enemy;
@@ -20,7 +20,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
             await base.CharInit(charModel);
             BattleCharManager.Instance.SetChar(this);
 
-            _defaultAI = new CharAI(this);
+            _defaultAI = new CharSimpleAI(this);
             _currentAI = _defaultAI;
         }
 
