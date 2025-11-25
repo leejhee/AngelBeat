@@ -71,6 +71,9 @@ public class AnimationSoundCheck : MonoBehaviour
         EchoShot,
         
         
-        PoisonShot
+        PoisonShot,
+        Purify,
+        SingleHeal
+        
     }
 }
