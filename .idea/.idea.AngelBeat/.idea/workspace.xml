@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NovelEngine/Addressable/NovelResourceData/NovelCharacterData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NovelEngine/Addressable/NovelResourceData/NovelCharacterData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ExploreScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ExploreScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreInitializer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,22 +74,18 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
     <configuration name="독립실행형 플레이어" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/졸프빌드/build\AngelBeat.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/졸프로그/build\AngelBeat.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -100,10 +94,8 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
-      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -163,6 +155,8 @@
       <workItem from="1763964261621" duration="6465000" />
       <workItem from="1763972258241" duration="2481000" />
       <workItem from="1763978893703" duration="1291000" />
+      <workItem from="1764007986113" duration="2188000" />
+      <workItem from="1764055551219" duration="1353000" />
     </task>
     <servers />
   </component>

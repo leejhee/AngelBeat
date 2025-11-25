@@ -13,7 +13,8 @@ namespace GamePlay.Features.Explore.Scripts
         public static async UniTask InitializeAsync(CancellationToken ct, IProgress<float> progress)
         {
             GameManager.Instance.GameState = SystemEnum.GameState.Explore;
-            Party playerParty = new Party();
+            Party playerParty = new ();
+            playerParty.InitParty();
             ExploreManager.Instance.playerParty = playerParty;
             
             await NovelManager.PlayScriptAndWait("1", ct);
