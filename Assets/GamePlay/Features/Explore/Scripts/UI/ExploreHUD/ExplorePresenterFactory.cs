@@ -1,4 +1,5 @@
-﻿using UIs.Runtime;
+﻿using GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup;
+using UIs.Runtime;
 using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts.UI
@@ -12,6 +13,8 @@ namespace GamePlay.Features.Explore.Scripts.UI
             {
                 case ViewID.ExploreSceneView:
                     return new ExploreHUDPresenter(view);
+                case ViewID.CharacterInfoPopUpView:
+                    return new CharacterInfoPresenter(view);
                 default:
                     return new NullPresenter(view);
             }

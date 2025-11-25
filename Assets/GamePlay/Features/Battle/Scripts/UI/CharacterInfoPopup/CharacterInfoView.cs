@@ -58,6 +58,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             
             if (GameManager.Instance.GameState == SystemEnum.GameState.Explore)
             {
+                
                 PreloadProcessInExplore();
             }
             else if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
@@ -106,7 +107,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             try
             {
-                await View.PortraitPanel.PreloadPortraits(BattleController.Instance.PlayerParty.partyMembers);
+                await View.PortraitPanel.PreloadPortraits(ExploreManager.Instance.playerParty.partyMembers);
 
                 partyMembers = ExploreManager.Instance.playerParty.partyMembers;
                 currentCharacter = ExploreManager.Instance.SelectedCharacter;

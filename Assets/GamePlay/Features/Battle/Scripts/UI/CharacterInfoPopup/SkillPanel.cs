@@ -1,3 +1,4 @@
+using Core.Scripts.Foundation.Define;
 using GamePlay.Common.Scripts.Entities.Skills;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,11 +18,16 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
                 // 매개변수 리스트 크기만큼만 스킬 활성화 해줌
                 if (idx < skillResourceRoots.Count)
                 {
-                    skill.SetSkillImage(skillResourceRoots[idx]);
+                    skill.SetSkillImage(skillResourceRoots[idx], idx);
                 }
                 else
                 {
                     skill.InactiveSkillImage();
+                }
+
+                if (GameManager.Instance.GameState == SystemEnum.GameState.Battle)
+                {
+                    skill.ActivateInteractable(false);
                 }
                 idx++;
             }
