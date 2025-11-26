@@ -258,12 +258,13 @@ namespace AngelBeat.UI
             
             View.SkillRewardPanel.gameObject.SetActive(false);
             View.RewardPanel.gameObject.SetActive(true);
+            BattleController.Instance.OnWinRewardClosed();
         }
 
         private void SkipReward()
         {
             Debug.Log("보상 받기 완료");
-            
+            BattleController.Instance.OnWinRewardClosed();
             //SceneLoader.LoadSceneWithLoading(BattleController.Instance.ReturningScene);
         }
         

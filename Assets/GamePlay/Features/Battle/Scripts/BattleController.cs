@@ -414,6 +414,17 @@ namespace GamePlay.Features.Battle.Scripts
             OnCharacterDead?.Invoke(unit.GetID());
         }
         
+        #region Battle End Management
+        
+        private enum PostWinFlow
+        {
+            None,
+            NextBattle,     // 다음 스테이지로 이어간다 (멀티 배틀)
+            ReturnToScene   // ReturningScene으로 돌아간다
+        }
+
+        private PostWinFlow _postWinFlow = PostWinFlow.None;
+        
         private void RestartBattle()
         {
             SoundManager.Instance.StopBGM();
@@ -429,24 +440,11 @@ namespace GamePlay.Features.Battle.Scripts
             // 전투 종료 시의 특정 이벤트 수행
             if (OnBattleEndAsync != null)
                 await OnBattleEndAsync.Invoke(winnerType);
-            
-            if (TryHandleMultiBattleEnd(winnerType))
-                return;
-            
-            SoundManager.Instance.StopBGM();
-            
-            // 마지막에는 전투 승리, 패배에 따른 통상 시퀀스
-            if (winnerType == SystemEnum.eCharType.Player)
-            {
-                await UIManager.Instance.ShowViewAsync(ViewID.GameWinView);
-            }
-            else
-            {
-                SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
-            }
+
+            TryHandleMultiBattleEnd(winnerType);
         }
         
-        private bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
+        public bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
         {
             BattlePayload payload = BattlePayload.Instance;
             if (payload == null || !payload.HasAnyStage)
@@ -455,17 +453,20 @@ namespace GamePlay.Features.Battle.Scripts
             // 승리 시
             if (winnerType == SystemEnum.eCharType.Player)
             {
-                // 다음 스테이지가 남아 있으면 인덱스를 올리고 BattleScene을 다시 로드
-                if (payload.MoveToNextStage())
+                // 보상 UI 띄우기
+                UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();
+
+                // 보상 이후에 할 일만 계획해 둔다.
+                if (payload.HasNextStage)
                 {
-                    RestartBattle();
-                    return true;
+                    _postWinFlow = PostWinFlow.NextBattle;
+                }
+                else
+                {
+                    _postWinFlow = PostWinFlow.ReturnToScene;
                 }
 
-                // 마지막 스테이지를 클리어한 경우:
-                // 여기서는 payload만 정리하고, 나머지 승리 연출은 EndBattle의 기본 플로우에 맡긴다.
-                payload.Clear();
-                return false;
+                return true;
             }
 
             // 패배 시: 현재 인덱스를 유지한 채로 전투 재시작
@@ -474,6 +475,54 @@ namespace GamePlay.Features.Battle.Scripts
             return true;
         }
         
+        public void OnWinRewardClosed()
+        {
+            BattlePayload payload = BattlePayload.Instance;
+
+            switch (_postWinFlow)
+            {
+                case PostWinFlow.NextBattle:
+                    // 다음 스테이지 인덱스로 옮기고 배틀 재시작
+                    if (payload != null && payload.MoveToNextStage())
+                    {
+                        RestartBattle();
+                    }
+                    else
+                    {
+                        // 혹시라도 다음 스테이지가 없으면 그냥 귀환
+                        GoBackToReturningScene(payload);
+                    }
+                    break;
+
+                case PostWinFlow.ReturnToScene:
+                    GoBackToReturningScene(payload);
+                    break;
+        
+                case PostWinFlow.None:
+                default:
+                    // 멀티 배틀이 아니거나, 별도 계획이 없었던 경우:
+                    SceneLoader.LoadSceneWithLoading(ReturningScene);
+                    break;
+            }
+
+            _postWinFlow = PostWinFlow.None;
+        }
+
+        private void GoBackToReturningScene(BattlePayload payload)
+        {
+            SystemEnum.eScene scene = ReturningScene;
+
+            if (payload != null)
+            {
+                scene = payload.ReturningScene;
+                payload.Clear();
+            }
+
+            SceneLoader.LoadSceneWithLoading(scene);
+        }
+        
+        
+        #endregion
         
 #if UNITY_EDITOR
         [ContextMenu("전투 승리 치트")]

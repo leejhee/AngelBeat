@@ -6,48 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Group.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Default Group.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Define/SystemEnum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Define/SystemEnum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleFieldGroup/BattleFieldDB.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleFieldGroup/BattleFieldDB.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleFieldGroup/MOUNTAIN_BACK.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleFieldGroup/MOUNTAIN_BACK.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_EnemyAction_01.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_EnemyAction_01.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_EnemyAction_02.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_EnemyAction_02.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Event_RoundStart_02.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Event_RoundStart_02.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Event_RoundStart_03.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Event_RoundStart_03.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_MovePreview_01.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_MovePreview_01.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_Move_01.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_Move_01.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_TurnEnd_01.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01_Guide_TurnEnd_01.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleEndStep.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleEndStep.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleStartStep.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleStartStep.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleTutorialConfig.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/BattleTutorialConfig.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleRangeHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleRangeHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/JumpBattleAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/JumpBattleAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/MoveBattleAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/MoveBattleAction.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattlePayload.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattlePayload.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSceneInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSceneInitializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/IBattleSceneSource.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/IBattleSceneSource.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleWinView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleWinView.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharSimpleAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharSimpleAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharacterAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharacterAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/ExploreBattleSymbol.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/ExploreBattleSymbol.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleTestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleTestScene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

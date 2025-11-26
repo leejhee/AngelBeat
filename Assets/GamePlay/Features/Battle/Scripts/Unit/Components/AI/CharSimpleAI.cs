@@ -25,34 +25,37 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             Debug.Log($"[AI] ====== {Owner.name} 턴 시작 ======");
 
             _context = new AIContext(Owner, Grid);
-            _context.AnalyzeSituation();
-            //Debug.Log(_context.GetSummary());
-
+            _context.AnalyzeSituation(); //기본적인 이동 가능 범위로 컨텍스트를 확보하고
+            
+            // 제너레이터를 통해 행동 셋을 생성하고
             _setGenerator = new AIActionSetGenerator(_context);
             List<AIActionSet> allSets = _setGenerator.GenerateAllActionSets();
-
+            
+            // 셋에다가 '행동 이후 잔여 이동'을 업데이트하고 
             foreach (AIActionSet set in allSets)
                 _setGenerator.CheckAfterMoveForSet(set);
 
+            // 쓸모없는 거 거른 다음에
             List<AIActionSet> validSets = _setGenerator.FilterInvalidSets(allSets);
             Debug.Log($"[AI] 유효한 세트: {validSets.Count}/{allSets.Count}");
-
+            
             if (validSets.Count == 0)
             {
                 Debug.LogWarning($"[AI] {Owner.name} 실행 가능한 행동 없음, 턴 종료");
                 await UniTask.Delay(500);
                 return;
             }
-
-            // 5. 가중치
+            
+            // 행동 셋의 점수들을 계산하고
             foreach (var set in validSets)
                 _setGenerator.CalculateWeight(set);
 
-            // 6. 상위 세트 선택
+            // 상위 3개 셋을 선택
             List<AIActionSet> topSets = _setGenerator.SelectTopSets(validSets, 3);
 
-            // 7. 실행
+            // 행동 enum의 priority에 따라 선정
             bool actionSuccess = false;
+            AIActionSet optimal;
             foreach (var set in topSets)
             {
                 Debug.Log($"[AI] 시도: {set}");
