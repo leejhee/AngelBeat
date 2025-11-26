@@ -130,28 +130,28 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             _baseStat = new CharStat(dok);
             
-            //도깨비는 처음부터 스킬을 얻지 않는다는 전제
-            ////////////// SKILL TEST SECTION ////////////////////
-            
-            var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
-            var mungeModel = new SkillModel(mungeData);
-            _allSkillModels.Add(mungeModel);
-            
-            var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
-            var twisterModel = new SkillModel(twisterData);
-            _allSkillModels.Add(twisterModel);
-
-            var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
-            var skillModel = new SkillModel(skillData);
-            _allSkillModels.Add(skillModel);
-            
-            List<SkillModel> skillModels = new List<SkillModel>();
-            skillModels.Add(mungeModel);
-            skillModels.Add(twisterModel);
-            
-            _activeSkillModels = new List<SkillModel>(_allSkillModels);
-            _usingSkillModels = new List<SkillModel>(skillModels);
-            ////////////// SKILL TEST SECTION //////////////////// 
+            // //도깨비는 처음부터 스킬을 얻지 않는다는 전제
+            // ////////////// SKILL TEST SECTION ////////////////////
+            //
+            // var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
+            // var mungeModel = new SkillModel(mungeData);
+            // _allSkillModels.Add(mungeModel);
+            //
+            // var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
+            // var twisterModel = new SkillModel(twisterData);
+            // _allSkillModels.Add(twisterModel);
+            //
+            // var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
+            // var skillModel = new SkillModel(skillData);
+            // _allSkillModels.Add(skillModel);
+            //
+            // List<SkillModel> skillModels = new List<SkillModel>();
+            // skillModels.Add(mungeModel);
+            // skillModels.Add(twisterModel);
+            //
+            // _activeSkillModels = new List<SkillModel>(_allSkillModels);
+            // _usingSkillModels = new List<SkillModel>(skillModels);
+            // ////////////// SKILL TEST SECTION //////////////////// 
             
             
         }
@@ -176,16 +176,16 @@ namespace GamePlay.Common.Scripts.Entities.Character
         /// <param name="skillModel"></param>
         public void AddSkill(SkillModel skillModel)
         {
-            if (_activeSkillModels.Contains(skillModel) || _allSkillModels.Contains(skillModel))
+            if (_activeSkillModels.Contains(skillModel) || _usingSkillModels.Contains(skillModel))
             {
                 Debug.LogWarning("이미 있는 스킬 데이터입니다.");
                 return;
             }
             
-            _allSkillModels.Add(skillModel);
-            if (_activeSkillModels.Count < 4)
+            _activeSkillModels.Add(skillModel);
+            if (_usingSkillModels.Count < 4)
             {
-                _activeSkillModels.Add(skillModel);
+                _usingSkillModels.Add(skillModel);
             }
         }
         
