@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/Reward/SkillRewardObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/Reward/SkillRewardObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SPUM/Basic_Resources/Package/SPUM177.unitypackage.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +78,10 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -89,8 +90,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -99,8 +102,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -165,6 +170,7 @@
       <workItem from="1764078812357" duration="19823000" />
       <workItem from="1764124796095" duration="13404000" />
       <workItem from="1764171784366" duration="1036000" />
+      <workItem from="1764199531801" duration="419000" />
     </task>
     <servers />
   </component>
@@ -284,13 +290,27 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnActionState.cs</url>
           <line>54</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleTurn\TurnActionState.cs" containingFunctionPresentation="메서드 'CanPerformAction'" />
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleTurn\TurnActionState.cs" containingFunctionPresentation="메서드 'CanPerformAction'">
+            <startOffsets>
+              <option value="1619" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1636" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharacterAI.cs</url>
           <line>123</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Unit\Components\AI\CharacterAI.cs" containingFunctionPresentation="메서드 'ExecuteSkill'" />
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Unit\Components\AI\CharacterAI.cs" containingFunctionPresentation="메서드 'ExecuteSkill'">
+            <startOffsets>
+              <option value="3861" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3862" />
+            </endOffsets>
+          </properties>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>

@@ -19,6 +19,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects.Reward
         
         public void SetReward(int idx, Sprite deselected = null, Sprite selected = null)
         {
+            frame = transform.GetChild(0).GetComponent<Image>();
+            
+            
             isSelected = false;
             slotIndex = idx;
             selectedFrame =  selected;
