@@ -26,7 +26,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             CharBase actor = Context.actor;
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();
-            BattleActionPreviewData data = SkillRangeHelper.ComputeSkillRange(stageGrid, range, actor);
+            BattleActionPreviewData data = BattleRangeHelper.ComputeSkillRange(stageGrid, range, actor);
             
             return UniTask.FromResult(data);
         }

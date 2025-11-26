@@ -34,12 +34,12 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         {
             List<AIActionSet> allSets = new();
             
-            Debug.Log($"[AISetGen] ====== ActionSet 생성 시작 ======");
-            Debug.Log($"[AISetGen] 현재 위치: {_context.CurrentCell}");
-            Debug.Log($"[AISetGen] 이동 가능: {_context.WalkableCells.Count}칸, 점프 가능: {_context.JumpableCells.Count}칸");
-            Debug.Log($"[AISetGen] 적 수: {_context.AllEnemies.Count}명");
+            //Debug.Log($"[AISetGen] ====== ActionSet 생성 시작 ======");
+            //Debug.Log($"[AISetGen] 현재 위치: {_context.CurrentCell}");
+            //Debug.Log($"[AISetGen] 이동 가능: {_context.MovableCells.Count}칸, 점프 가능: {_context.JumpableCells.Count}칸");
+            //Debug.Log($"[AISetGen] 적 수: {_context.AllEnemies.Count}명");
             
-            // 🔍 스킬 정보 출력
+            // 스킬 정보 출력
             Debug.Log($"[AISetGen] 보유 스킬: {_self.SkillInfo.SkillSlots.Count}개");
             foreach (var skill in _self.SkillInfo.SkillSlots)
             {
@@ -55,7 +55,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             Debug.Log($"[AISetGen] 현재 위치 행동: {currentPosSets.Count}개");
             
             // 2. 각 이동 가능 위치에서 가능한 행동들 (이동 → 행동)
-            foreach (Vector2Int movePos in _context.WalkableCells)
+            foreach (Vector2Int movePos in _context.MovableCells)
             {
                 var moveSets = GenerateActionsAtPosition(movePos, moveFrom: _context.CurrentCell);
                 allSets.AddRange(moveSets);
@@ -63,20 +63,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             Debug.Log($"[AISetGen] 이동 후 행동: {allSets.Count - currentPosSets.Count}개");
             
             // 3. 점프 행동들
-            foreach (Vector2Int jumpPos in _context.JumpableCells)
-            {
-                // 점프는 이동력을 소모하지 않으므로 점프 자체만
-                allSets.Add(new AIActionSet
-                {
-                    MoveTo = null,
-                    AIActionType = AIActionType.Jump,
-                    TargetCell = jumpPos
-                });
-                
-                // 점프 후 해당 위치에서 가능한 행동들도 추가
-                var jumpAfterSets = GenerateActionsAtPosition(jumpPos, moveFrom: null, isAfterJump: true);
-                allSets.AddRange(jumpAfterSets);
-            }
+            //foreach (Vector2Int jumpPos in _context.JumpableCells)
+            //{
+            //    // 점프는 이동력을 소모하지 않으므로 점프 자체만
+            //    allSets.Add(new AIActionSet
+            //    {
+            //        MoveTo = null,
+            //        AIActionType = AIActionType.Jump,
+            //        TargetCell = jumpPos
+            //    });
+            //    
+            //    // 점프 후 해당 위치에서 가능한 행동들도 추가
+            //    var jumpAfterSets = GenerateActionsAtPosition(jumpPos, moveFrom: null, isAfterJump: true);
+            //    allSets.AddRange(jumpAfterSets);
+            //}
             Debug.Log($"[AISetGen] 점프 포함: {allSets.Count}개");
             
             // 4. 대기 행동 (현재 위치)
@@ -206,7 +206,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 Debug.Log($"[AISetGen]     임시 방향 설정: {(faceRight ? "→" : "←")}");
                 
                 // 스킬 범위 계산
-                BattleActionPreviewData rangeData = SkillRangeHelper.ComputeSkillRange(
+                BattleActionPreviewData rangeData = BattleRangeHelper.ComputeSkillRange(
                     _grid,
                     skill.SkillRange,
                     _self
@@ -216,24 +216,24 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 Debug.Log($"[AISetGen]     가능 칸: {string.Join(", ", rangeData.PossibleCells)}");
                 
                 // 범위 내 적 확인
-                foreach (CharBase enemy in _context.AllEnemies)
-                {
-                    if (!enemy || enemy.CurrentHP <= 0) continue;
-                    
-                    Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
-                    
-                    Debug.Log($"[AISetGen]     적 {enemy.name} 위치: {enemyCell}");
-                    
-                    if (rangeData.PossibleCells.Contains(enemyCell))
-                    {
-                        targets.Add(enemy);
-                        Debug.Log($"[AISetGen]     ✓ 타겟 추가: {enemy.name}");
-                    }
-                    else
-                    {
-                        Debug.Log($"[AISetGen]     ✗ 범위 밖: {enemy.name}");
-                    }
-                }
+                //foreach (CharBase enemy in _context.AllEnemies)
+                //{
+                //    if (!enemy || enemy.CurrentHP <= 0) continue;
+                //    
+                //    Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
+                //    
+                //    Debug.Log($"[AISetGen]     적 {enemy.name} 위치: {enemyCell}");
+                //    
+                //    if (rangeData.PossibleCells.Contains(enemyCell))
+                //    {
+                //        targets.Add(enemy);
+                //        Debug.Log($"[AISetGen]     ✓ 타겟 추가: {enemy.name}");
+                //    }
+                //    else
+                //    {
+                //        Debug.Log($"[AISetGen]     ✗ 범위 밖: {enemy.name}");
+                //    }
+                //}
             }
             catch (System.Exception e)
             {
@@ -457,14 +457,14 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         {
             float bonus = 0f;
             
-            if (_context.LowHP)
-                bonus += AIWeightConstants.LOW_HP_BONUS;
-            
-            if (_context.Grouped)
-                bonus += AIWeightConstants.GROUPED_BONUS;
-            
-            if (_context.CanAttack)
-                bonus += AIWeightConstants.CAN_ATTACK_BONUS;
+            //if (_context.LowHP)
+            //    bonus += AIWeightConstants.LOW_HP_BONUS;
+            //
+            //if (_context.Grouped)
+            //    bonus += AIWeightConstants.GROUPED_BONUS;
+            //
+            //if (_context.CanAttack)
+            //    bonus += AIWeightConstants.CAN_ATTACK_BONUS;
             
             return bonus;
         }
@@ -515,23 +515,23 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         
         private float EvaluatePositionSafety(Vector2Int position)
         {
-            if (_context.AllEnemies.Count == 0)
-                return 10f;
+            //if (_context.AllEnemies.Count == 0)
+            //    return 10f;
             
             float minDistance = float.MaxValue;
             
-            foreach (CharBase enemy in _context.AllEnemies)
-            {
-                if (!enemy || enemy.CurrentHP <= 0) continue;
-                
-                Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
-                float distance = Mathf.Abs(enemyCell.x - position.x) + Mathf.Abs(enemyCell.y - position.y);
-                
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                }
-            }
+            //foreach (CharBase enemy in _context.AllEnemies)
+            //{
+            //    if (!enemy || enemy.CurrentHP <= 0) continue;
+            //    
+            //    Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
+            //    float distance = Mathf.Abs(enemyCell.x - position.x) + Mathf.Abs(enemyCell.y - position.y);
+            //    
+            //    if (distance < minDistance)
+            //    {
+            //        minDistance = distance;
+            //    }
+            //}
             
             return minDistance;
         }

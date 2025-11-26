@@ -7,8 +7,23 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
 {
-    public static class SkillRangeHelper
+    public static class BattleRangeHelper
     {
+        public static readonly List<Vector2Int> jumpableRange = new()
+        {
+            //   * * * 
+            // *   x   * 
+            //   * * *
+            new Vector2Int(-1, -1),
+            new Vector2Int(0, -1),
+            new Vector2Int(1, -1),
+            new Vector2Int(2, 0),
+            new Vector2Int(-2, 0),
+            new Vector2Int(-1, 1),
+            new Vector2Int(0, 1),
+            new Vector2Int(1, 1)
+        };
+        
         private static bool IsMaskMatch(BattleStageGrid grid, Vector2Int coord, SystemEnum.eCharType maskType)
         {
             if (!grid.IsOccupied(coord) || maskType == SystemEnum.eCharType.None) return false;

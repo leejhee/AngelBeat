@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5396983912938304915}
   - component: {fileID: 5216061711392037542}
   m_Layer: 0
-  m_Name: BackMountain_PlatformUnit
+  m_Name: BackMountain_PlatformUnit6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 60b3754b60204f14a918febb6463dab3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60fd6e8a6a576144fa992edaaad3882a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,18 +118,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02, y: -0.18}
+  m_Offset: {x: -0.19, y: -0.18}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.75}
-    oldSize: {x: 6.65, y: 1.33}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 22.021505, y: 2}
     newSize: {x: 6.65, y: 1.33}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 0.5}
+  m_Size: {x: 15, y: 0.5}
   m_EdgeRadius: 0
 --- !u!50 &5216061711392037542
 Rigidbody2D:

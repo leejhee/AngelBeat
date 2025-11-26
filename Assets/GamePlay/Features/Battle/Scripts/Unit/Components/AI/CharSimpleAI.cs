@@ -24,12 +24,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 
             Debug.Log($"[AI] ====== {Owner.name} 턴 시작 ======");
 
-            // 1. 상황 분석
             _context = new AIContext(Owner, Grid);
             _context.AnalyzeSituation();
             //Debug.Log(_context.GetSummary());
 
-            // 2. ActionSet 생성
             _setGenerator = new AIActionSetGenerator(_context);
             List<AIActionSet> allSets = _setGenerator.GenerateAllActionSets();
 

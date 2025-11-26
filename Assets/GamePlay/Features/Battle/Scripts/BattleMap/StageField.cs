@@ -260,19 +260,38 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             Gizmos.DrawSphere(originW, Mathf.Min(cellW.x, cellW.y) * 0.1f);
 
             var pad = 0.95f;
+            // Vector2 -> Vector3 로 사이즈 한 번만 만들어 두기
+            var cellSize3 = new Vector3(cellW.x, cellW.y, 0f) * pad;
+
+            // 1) 플랫폼 : 초록 + 반투명 (지면)
             Gizmos.color = new Color(0, 1, 0, 0.25f);
             foreach (var c in platformGridCells)
             {
-                var p = originW + (c + Vector2.one * 0.5f) * cellW;
-                Gizmos.DrawCube(p, cellW * pad);
-            }
-            Gizmos.color = new Color(1, 0, 0, 0.25f);
-            foreach (var c in obstacleGridCells)
-            {
-                var p = originW + (c.cell + Vector2.one * 0.5f) * cellW;
-                Gizmos.DrawCube(p, cellW * pad);
+                var center2D = originW + (c + Vector2.one * 0.5f) * cellW;
+                var center3D = new Vector3(center2D.x, center2D.y, 0f);
+                Gizmos.DrawCube(center3D, cellSize3);
             }
 
+            // 2) 장애물 : 빨강 + 불투명, 카메라 쪽으로 살짝 당김
+            foreach (var c in obstacleGridCells)
+            {
+                var center2D = originW + (c.cell + Vector2.one * 0.5f) * cellW;
+                var center3D = new Vector3(center2D.x, center2D.y, -0.01f); // z를 약간 음수로 = 카메라 쪽
+
+                Gizmos.color = new Color(1, 0, 0, 0.25f);            // alpha = 1, 완전 빨강
+                Gizmos.DrawCube(center3D, cellSize3);
+            }
+            
+            foreach (var c in coverageGridCells)
+            {
+                var center2D = originW + (c.cell + Vector2.one * 0.5f) * cellW;
+                var center3D = new Vector3(center2D.x, center2D.y, -0.02f); // z를 약간 음수로 = 카메라 쪽
+
+                Gizmos.color = new Color(1, 1, 0, 0.25f);            // alpha = 1, 완전 빨강
+                Gizmos.DrawCube(center3D, cellSize3);
+            }
+            
+            // 이하 스폰 위치 그리기 그대로 유지
             List<FieldSpawnInfo> fieldInfo = battleSpawnerData.fieldSpawnInfos;
             foreach (FieldSpawnInfo tp in fieldInfo)
             {
@@ -280,11 +299,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
                     Gizmos.color = new Color(1, 0.5f, 0);
                 else if (tp.SpawnType == eCharType.Enemy)
                     Gizmos.color = new Color(0, 0, 1);
+
                 foreach (var info in tp.UnitSpawnList)
-                {
                     Gizmos.DrawSphere(info.SpawnPosition, 1f);
-                }
-                
             }
         }
 

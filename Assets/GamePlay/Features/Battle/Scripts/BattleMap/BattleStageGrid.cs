@@ -10,6 +10,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
     {
         private StageField _stage;
 
+        private Vector2Int _gridSize;
+        
         private Dictionary<Vector2Int, CharBase> _characters;
         private Dictionary<CharBase, Vector2Int> _unitToCell;
         
@@ -24,6 +26,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         private HashSet<Vector2Int> _coverages; //엄폐물이 있는 자리
         
         #region Public Properties
+        
+        public Vector2Int GridSize => _gridSize;
+        
         /// <summary> 여기서 필요한 cell position 가져다 쓸 것 </summary>
         public IReadOnlyDictionary<Vector2Int, CharBase> CharacterPositions => _characters;
         public IReadOnlyCollection<Vector2Int> WalkablePositions => _walkable;
@@ -35,6 +40,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         public void InitGrid(StageField staticField)
         {
             _stage = staticField;
+
+            _gridSize = staticField.GridSize;
+            
             _walkable = staticField.PlatformGridCells.ToHashSet();
             _obstacles = new HashSet<Vector2Int>();
             _coverages = new HashSet<Vector2Int>();

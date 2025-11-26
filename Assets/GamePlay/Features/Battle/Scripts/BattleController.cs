@@ -51,7 +51,7 @@ namespace GamePlay.Features.Battle.Scripts
         [SerializeField] private BattleFieldDB battleFieldDB;
         [SerializeField] private SystemEnum.Dungeon DebugDungeon;
         [SerializeField] private string DebugMapName;
-        [SerializeField] public AssetReference audioRef;
+        [SerializeField] public AssetReference bgmRef;
         #endregion
         
         #region Core Field & Property

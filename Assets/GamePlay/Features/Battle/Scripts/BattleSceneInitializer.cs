@@ -95,7 +95,7 @@ namespace GamePlay.Features.Battle.Scripts
                 Debug.Log("[Battle Initializer] UI 초기화...");
                 await UIManager.Instance.ShowViewAsync(ViewID.BattleSceneView);
                 
-                var bgm = await ResourceManager.Instance.LoadAsync<AudioClip>(BattleController.Instance.audioRef);
+                var bgm = await ResourceManager.Instance.LoadAsync<AudioClip>(BattleController.Instance.bgmRef);
                 SoundManager.Instance.Play(bgm, SystemEnum.Sound.Bgm, pitch: 1f);
                 
                 BattleSceneRunner.RunAfterLoading(stage, turnManager);
