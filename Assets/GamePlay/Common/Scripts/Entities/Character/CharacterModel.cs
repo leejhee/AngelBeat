@@ -133,25 +133,19 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             //도깨비는 처음부터 스킬을 얻지 않는다는 전제
             ////////////// SKILL TEST SECTION ////////////////////
+
+
+            // for (int i = 0; i < 5; i++)
+            // {
+            //     var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001 + i);
+            //     var skillModel = new SkillModel(skillData);
+            //     _allSkillModels.Add(skillModel);
+            // }
+            //
+            //
+            // _activeSkillModels = new List<SkillModel>(_allSkillModels);
             
-            var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
-            var mungeModel = new SkillModel(mungeData);
-            _allSkillModels.Add(mungeModel);
-            
-            var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
-            var twisterModel = new SkillModel(twisterData);
-            _allSkillModels.Add(twisterModel);
-            
-            var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
-            var skillModel = new SkillModel(skillData);
-            _allSkillModels.Add(skillModel);
-            
-            List<SkillModel> skillModels = new List<SkillModel>();
-            skillModels.Add(mungeModel);
-            skillModels.Add(twisterModel);
-            
-            _activeSkillModels = new List<SkillModel>(_allSkillModels);
-            _usingSkillModels = new List<SkillModel>(skillModels);
+            //_usingSkillModels = new List<SkillModel>(skillModels);
             ////////////// SKILL TEST SECTION //////////////////// 
             
             
