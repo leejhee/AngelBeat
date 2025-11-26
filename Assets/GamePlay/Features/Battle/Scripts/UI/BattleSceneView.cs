@@ -257,7 +257,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             _focusCharacterEvents.Clear();
             // 초상화
-            //Sprite charPortrait = model.
+            Sprite charPortrait = await ResourceManager.Instance.LoadAsync<Sprite>($"BattlePanel_{character.CharInfo.IconSpriteRoot}");
             // 이름
             string name = character.CharInfo.Name;
             // 현재 체력
@@ -276,11 +276,11 @@ namespace GamePlay.Features.Battle.Scripts.UI
                 OnFocusStatChanged
             );
             
-            Sprite characterPortrait = await ResourceManager.Instance.LoadAsync<Sprite>($"BattlePanel_{character.CharInfo.PrefabRoot}");
+            Sprite characterPortrait = await ResourceManager.Instance.LoadAsync<Sprite>($"BattlePanel_{character.CharInfo.IconSpriteRoot}");
             // HUD 패널 오픈
             View.CharacterHUD.gameObject.SetActive(true);
             // 체력, 액션포인트, 초상화 설정
-            View.CharacterHUD.ShowCharacterHUD(name, curHp, maxHp, curAp, maxAp);
+            View.CharacterHUD.ShowCharacterHUD(name, curHp, maxHp, curAp, maxAp, characterPortrait);
 
 
 
@@ -288,6 +288,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
             
             foreach (var skill in character.SkillInfo.SkillSlots)
             {
+                Debug.Log(skill.SkillName);
+                
                 SkillResourceRoot roots = new SkillResourceRoot(skill.Icon, skill.TooltipName);
                 skillRoots.Add(roots);
             }

@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 6c0caac0de4e2c44a82f4d2f25ff464e
   m_SerializeEntries:
+  - m_GUID: 0938eca6be512854aa6525deb62c4aad
+    m_Address: Seol
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3190e8dea7abe9e42b60f41b8e0bbd2a
     m_Address: LDGaon
     m_ReadOnly: 0
@@ -24,6 +29,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3736d8b92891a51469f7c56e8be72130
     m_Address: Gaon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 45eaef653150d244eb46c7bebad73129
+    m_Address: Scream
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -29,7 +29,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         
         public async void SetSkillImage(CharacterInfoPresenter.InfoPopupSkillResourceRoot skillResourceRoot, int idx)
         {
-            Debug.Log($"{idx}번째 스킬 {skillResourceRoot.SkillName}");
             _index = idx;
             Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.IconRoot);
             Sprite tooltip = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.TooltipRoot);
@@ -47,7 +46,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         public void InactiveSkillImage()
         {
             iconObject.SetActive(false);
-            //skillDescription
+            frameImage.sprite = inActiveFrame;
+            _isActivate = false;
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -63,8 +63,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
         public void SelectSkill()
         {
-            
-            
             // 스킬이 이미 선택되어 있을 경우 -> 스킬 해제
             if (_isSelected)
             {
@@ -79,7 +77,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             {
                 // 스킬 선택 이벤트 발사
                 Selected?.Invoke(_index);
-
             }
         }
 

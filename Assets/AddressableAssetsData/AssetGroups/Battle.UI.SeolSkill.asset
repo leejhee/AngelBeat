@@ -27,6 +27,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43f6b0b660fa18349969e81b387b08d8
+    m_Address: Tooltip_PoisonShot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 844bb65fd00411f4fa90a40c60d8148f
+    m_Address: Tooltip_Purify
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb1a7a1a7f789414abf86852884ea4a4
+    m_Address: Tooltip_SingleHeal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c37097f9239be09489ab15edd6fcbeb0
     m_Address: icon_Purify
     m_ReadOnly: 0
@@ -34,6 +49,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7d427bcb6e46b646858dcac755ea4ee
     m_Address: icon_SingleHeal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e896a9bf3e82d2d46b36da00c237166e
+    m_Address: Tooltip_ThrowHeal
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

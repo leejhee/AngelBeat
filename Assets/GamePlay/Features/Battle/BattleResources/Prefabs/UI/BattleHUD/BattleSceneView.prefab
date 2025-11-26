@@ -3249,10 +3249,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
-    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (1)
@@ -3366,10 +3362,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
-    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (3)
@@ -3483,10 +3475,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
-    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton (2)
@@ -3600,10 +3588,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1864282989136172736}
     m_Modifications:
-    - target: {fileID: -4466978587040071930, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 240911250465412738, guid: c1388ae391f553e44a865a81d590eae3, type: 3}
       propertyPath: m_Name
       value: SkillButton

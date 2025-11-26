@@ -6,16 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleRangeHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleRangeHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/PushBattleAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/PushBattleAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIActionSetGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/AIContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleTestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleTestScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.UI.SeolSkill.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.UI.SeolSkill.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Common.CharacterSprites.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Common.CharacterSprites.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/BattleSceneView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/BattleSceneView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterHUD/SkillButton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/CharacterHUD/SkillButton.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Timeline/Seol/Seol_ThrowHeal.playable" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Timeline/Seol/Seol_ThrowHeal.playable" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/PassivePanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/PassivePanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/PortraitPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/PortraitPanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/CharacterHUD.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/UIObjects/SkillButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/Floor/흙타일.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/Floor/흙타일.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,8 +91,10 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -96,8 +103,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -106,20 +115,20 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="20780">
+    <configuration name="Unity 에디터에 연결" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="20780" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -247,6 +256,12 @@
           <line>292</line>
           <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'" />
           <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
+          <line>364</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ApplyEnemyScriptForStep'" />
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>

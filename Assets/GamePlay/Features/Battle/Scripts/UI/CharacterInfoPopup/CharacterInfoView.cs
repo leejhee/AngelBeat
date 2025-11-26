@@ -142,7 +142,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             View.PortraitPanel.SetPortraitPanel(model);
             View.PassivePanel.SetPassivePanel(model);
             
-            Debug.Log(model.Name);
 
             List<InfoPopupSkillResourceRoot> skillResourceRoots = model.ActiveSkills.Select(activeSkill => 
                 new InfoPopupSkillResourceRoot(activeSkill.SkillName, activeSkill.Icon, activeSkill.TooltipName)).ToList();
@@ -234,7 +233,9 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         {
             Debug.Log("오른쪽 버튼 클릭");
             int nextIndex = partyMembers.IndexOf(currentCharacter) + 1;
-            if (nextIndex >= 0)
+            
+            // if -> while 도 가능
+            if (nextIndex >= partyMembers.Count)
             {
                 nextIndex -= partyMembers.Count;
             }

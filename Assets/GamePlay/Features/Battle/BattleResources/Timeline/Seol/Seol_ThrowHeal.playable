@@ -42,7 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 3
   lastingObject: {fileID: 5358219405251250283, guid: dbe80b4742fdfdb488a175352548ac73, type: 3}
-  seconds: 30
+  seconds: 0.5
   offset: {x: 0, y: 0}
 --- !u!114 &-6167945125662811625
 MonoBehaviour:
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: Skill Object Last For Seconds Marker
   m_EditorClassIdentifier: 
   m_Time: 1.5
-  lastingSeconds: 20
+  lastingSeconds: 0.3
   lastingObject: {fileID: 5358219405251250283, guid: ac946224e8b22e14ab6cb64db593b712, type: 3}
   offset: {x: 0, y: 0}
 --- !u!114 &-2741379023026733558
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 3
   lastingObject: {fileID: 5358219405251250283, guid: cc6fa39fd1070964798c3c392f97fa89, type: 3}
-  seconds: 30
+  seconds: 0.5
   offset: {x: 0, y: 0}
 --- !u!114 &4701706047276397833
 MonoBehaviour:
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Time: 2.1666666666666665
   lastingObject: {fileID: 5358219405251250283, guid: 4288f042e2922114d85fc5f03ed4d915, type: 3}
-  seconds: 30
+  seconds: 0.5
   offset: {x: 0, y: 0}
 --- !u!114 &5569854103547121013
 MonoBehaviour:
