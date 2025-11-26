@@ -1,4 +1,7 @@
 using Cysharp.Threading.Tasks;
+using GamePlay.Features.Explore.Scripts;
+using GamePlay.Features.Explore.Scripts.Models;
+using GamePlay.Features.Explore.Scripts.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -35,7 +38,7 @@ public class ExploreChestPresenter : PresenterBase<ExploreChestView>
         ViewEvents.Subscribe(
             act => View.GatherButton.onClick.AddListener(new UnityAction(act)),
             act => View.GatherButton.onClick.RemoveAllListeners(),
-            GatherHerb
+            GetTalisman
         );
         ViewEvents.Subscribe(
             act => View.QuitButton.onClick.AddListener(new UnityAction(act)),
@@ -46,8 +49,9 @@ public class ExploreChestPresenter : PresenterBase<ExploreChestView>
         return UniTask.CompletedTask;
     }
 
-    private void GatherHerb()
+    private void GetTalisman()
     {
+        ExploreManager.Instance.GetExploreResource(new ExploreResourceModel(ExploreResourceType.Talisman, 1));
         View.Hide();
     }
     

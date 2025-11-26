@@ -301,8 +301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d304314cf62134489983a05b572176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gatherButton: {fileID: 0}
-  quitButton: {fileID: 0}
+  gatherButton: {fileID: 1760764121405106512}
+  quitButton: {fileID: 7869539163898248381}
 --- !u!1 &7172582614785859763
 GameObject:
   m_ObjectHideFlags: 0

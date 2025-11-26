@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleWinView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleWinView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharSimpleAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharSimpleAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/Chest.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/Chest.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/ClosedChest.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/ClosedChest.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/OpenedChest.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Sprites/ExploreMapTiles/OpenedChest.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/UI/ExploreChestPopupView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/UI/ExploreChestPopupView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/ExploreManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreChestView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreChestView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +84,10 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -89,8 +96,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -99,8 +108,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -242,118 +253,55 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>357</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ApplyEnemyScriptForStep'">
-            <startOffsets>
-              <option value="11518" />
-            </startOffsets>
-            <endOffsets>
-              <option value="11549" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ApplyEnemyScriptForStep'" />
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>123</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'OnTurnBeganAsync'">
-            <startOffsets>
-              <option value="4096" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4131" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'OnTurnBeganAsync'" />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>311</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'">
-            <startOffsets>
-              <option value="9972" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9985" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>315</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'">
-            <startOffsets>
-              <option value="10067" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10080" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>318</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'">
-            <startOffsets>
-              <option value="10185" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10198" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>320</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'">
-            <startOffsets>
-              <option value="10301" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10314" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
           <line>323</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'">
-            <startOffsets>
-              <option value="10414" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10427" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleTurn/TurnActionState.cs</url>
           <line>54</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleTurn\TurnActionState.cs" containingFunctionPresentation="메서드 'CanPerformAction'">
-            <startOffsets>
-              <option value="1619" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1636" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleTurn\TurnActionState.cs" containingFunctionPresentation="메서드 'CanPerformAction'" />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharacterAI.cs</url>
           <line>123</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Unit\Components\AI\CharacterAI.cs" containingFunctionPresentation="메서드 'ExecuteSkill'">
-            <startOffsets>
-              <option value="3798" />
-            </startOffsets>
-            <endOffsets>
-              <option value="3876" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Unit\Components\AI\CharacterAI.cs" containingFunctionPresentation="메서드 'ExecuteSkill'" />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>

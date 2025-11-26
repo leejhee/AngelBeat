@@ -47,6 +47,13 @@ namespace GamePlay.Features.Explore.Scripts.UI
         {
             // 재화 수치 변경 이벤트 구독
 
+            ModelEvents.Subscribe<ExploreResourceModel>(
+                act => ExploreManager.Instance.GetExploreResourceEvent += act,
+                act => ExploreManager.Instance.GetExploreResourceEvent -= act,
+                ChangeResourceAmount
+            );
+            
+            
             Debug.Log("탐사 파티원");
             Debug.Log(ExploreManager.Instance.playerParty.partyMembers.Count);
             // 파티원 초상화 생성
@@ -55,8 +62,32 @@ namespace GamePlay.Features.Explore.Scripts.UI
             
             return UniTask.CompletedTask;
         }
+
+        private void SetResourceAmount()
+        {
+            int money = ExploreManager.Instance.playerParty.money;
+            int talisman = ExploreManager.Instance.playerParty.talisman;
+            int revivalTalisman = ExploreManager.Instance.playerParty.revivalTalisman;
+
+            foreach (var resource in View.ExploreResources)
+            {
+                switch (resource.ResourceType)
+                {
+                    case ExploreResourceType.Talisman:
+                        resource.SetResourceAmount(talisman);
+                        break;
+                    case ExploreResourceType.ReviveTalisman:
+                        resource.SetResourceAmount(revivalTalisman);
+                        break;
+                    case ExploreResourceType.Money:
+                        resource.SetResourceAmount(money);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
             
-        
+        }
         // 보유 재화 수치 변경
         public void ChangeResourceAmount(ExploreResourceModel model)
         {

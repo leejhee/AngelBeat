@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Explore.Scripts.Map.Data;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
+using GamePlay.Features.Explore.Scripts.Models;
 using System;
 using System.Net;
 using System.Threading;
@@ -380,6 +381,13 @@ namespace GamePlay.Features.Explore.Scripts
         {
             SelectedCharacter = playerParty.partyMembers[idx];
             UIManager.Instance.ShowViewAsync(ViewID.CharacterInfoPopUpView);
+        }
+        
+        public event Action<ExploreResourceModel> GetExploreResourceEvent;
+
+        public void GetExploreResource(ExploreResourceModel talisman)
+        {
+            GetExploreResourceEvent?.Invoke(talisman);
         }
 
         #endregion
