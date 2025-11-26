@@ -11,7 +11,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
         public void SetPassivePanel(CharacterModel model)
         {
-            Debug.Log("패시브 스킬 이미지 세팅");
+            
         }
     }
 }

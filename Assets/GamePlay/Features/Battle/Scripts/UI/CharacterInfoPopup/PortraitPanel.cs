@@ -22,8 +22,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
 
                 _partyPortraits[model.Name] = sprite;
                 
-                
-                Debug.Log(model.Name);
             }
         }
 
@@ -40,7 +38,6 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         [SerializeField] private Image characterClass;
         public async void SetPortraitPanel(CharacterModel model)
         {
-            Debug.Log($"{model.Name} 초상화 설정");
             
             characterPortrait.sprite = _partyPortraits[model.Name];
             characterName.text = model.Name;

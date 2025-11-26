@@ -11,12 +11,15 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text skillName;
         [SerializeField] private SkillDescription skillDescription;
-        
+
+        [SerializeField] private Sprite inactiveFrame;
         // 어떻게 하든 상관은 없을거같음.
         public int SlotIndex { get; private set; }
         public void BindSlot(int idx) => SlotIndex = idx;
         public event Action<int> Selected;
         public event Action<int> Deselected;
+
+        private bool isActivate = false;
         
         private void Start()
         {
@@ -33,16 +36,27 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
             
             this.GetComponent<Button>().interactable = true;
             selectable = true;
+            isActivate = true;
             skillDescription.SetSkillDescription(info.skillDescription);
+        }
+
+        public void InactiveButton()
+        {
+            icon.gameObject.SetActive(false);
+            this.GetComponent<Button>().interactable = false;
+            selectable = false;
+            isActivate = false;
+            this.GetComponent<Image>().sprite = inactiveFrame;
+            
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (selectable)
+            if (isActivate)
                 skillDescription.gameObject.SetActive(true);
         }
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (selectable)
+            if (isActivate)
                 skillDescription.gameObject.SetActive(false);
         }
         

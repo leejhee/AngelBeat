@@ -166,23 +166,27 @@ namespace GamePlay.Features.Battle.Scripts.UI.UIObjects
         public async void SetSkillButtons(List<BattleHUDPresenter.SkillResourceRoot> skillRoots)
         {
             int skillCount = skillRoots.Count;
-            for (int i = 0; i < skillCount; i++)
+            // 스킬버튼 4개에 전부 적용
+            for (int i = 0; i < 4; i++)
             {
                 SkillButton button = skillPanel.SkillButtons[i];
-                
                 button.BindSlot(i);
                 
-                Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].iconRoot);
-                Sprite description = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].descriptionRoot);
+                if (i < skillCount)
+                {
+                    Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].iconRoot);
+                    Sprite description = await ResourceManager.Instance.LoadAsync<Sprite>(skillRoots[i].descriptionRoot);
+                    
+                    SkillInfo info = new SkillInfo(icon, description);
                 
-                
-                
-                SkillInfo info = new SkillInfo(icon, description);
-                
-                button.SetButton(info);
-                
-
+                    button.SetButton(info);
+                }
+                else
+                {
+                    button.InactiveButton();
+                }
             }
+            
 
             buttons[4].selectable = true;
             buttons[5].selectable = true;
