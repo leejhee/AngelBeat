@@ -22,6 +22,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
                 }
                 else
                 {
+                    // 활성화 되지 않는 스킬
                     skill.InactiveSkillImage();
                 }
 

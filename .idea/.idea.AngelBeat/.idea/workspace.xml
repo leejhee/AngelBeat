@@ -6,11 +6,91 @@
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoPopupSkill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/SkillPanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/SkillPanel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/UI/ExploreHUD/ExploreHUDView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AddressableAssetSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.Character.Seol.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.Character.Seol.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Common.CharacterSprites.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Common.CharacterSprites.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Fonts/Yeongwol SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Fonts/Yeongwol SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/BattleSceneView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/BattleSceneView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/TurnPortrait.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleHUD/TurnPortrait.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/Seol_PoisonShot_4.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/FX/독침_이펙트3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/의녀독침-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/의녀독침-1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/의녀독침-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/PoisonShot/의녀독침-2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/FX/침전_이펙트3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/Seol_Purify.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/Purify/Seol_Purify.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트4.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트5.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트_발밑.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트_발밑.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트_발밑2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/FX/청혈_이펙트_발밑2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/의녀청혈.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/SingleHeal/의녀청혈.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Break1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Break1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Break2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Break2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX3.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX4.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_FX5.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Throw1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Throw1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Throw2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Throw2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Under1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Under1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Under2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/FX/Seol_ThrowHeal_Under2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/Seol_ThrowHeal_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/Seol_ThrowHeal_1.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/Seol_ThrowHeal_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Seol/Skill/ThrowHeal/Seol_ThrowHeal_2.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/AudioMixer.mixer" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/AudioMixer.mixer" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SPUM/Basic_Resources/Package/SPUM177.unitypackage.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/UITest.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -250,43 +330,43 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>357</line>
+          <line>364</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ApplyEnemyScriptForStep'" />
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>123</line>
+          <line>130</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'OnTurnBeganAsync'" />
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>311</line>
+          <line>318</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>315</line>
+          <line>322</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>318</line>
+          <line>325</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>320</line>
+          <line>327</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>323</line>
+          <line>330</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
           <option name="timeStamp" value="43" />
         </line-breakpoint>

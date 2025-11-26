@@ -20,6 +20,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         [SerializeField] private GameObject iconObject;
         private int _index;
         private bool _isSelected = false;
+        private bool _isActivate = false;
         
         public Button SkillButton => skillButton;
         public event Action<int> Selected;
@@ -32,8 +33,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             _index = idx;
             Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.IconRoot);
             Sprite tooltip = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.TooltipRoot);
-            
-            
+
+            _isActivate = true;
             iconObject.SetActive(true);
             skillImage.sprite = icon;
             skillDescription.SetSkillDescription(tooltip);
@@ -46,17 +47,17 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         public void InactiveSkillImage()
         {
             iconObject.SetActive(false);
-            skillDescription = null;
+            //skillDescription
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (skillDescription != null)
+            if (_isActivate)
                 skillDescription.gameObject.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {            
-            if (skillDescription != null)
+            if (_isActivate)
                 skillDescription.gameObject.SetActive(false);
         }
 

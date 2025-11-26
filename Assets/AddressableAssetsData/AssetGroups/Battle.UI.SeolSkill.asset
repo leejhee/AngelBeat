@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Battle.UI.SeolSkill
+  m_EditorClassIdentifier: 
+  m_GroupName: Battle.UI.SeolSkill
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 4c3a9125b02f0e7489671d2574333d7c
+  m_SerializeEntries:
+  - m_GUID: 016a3b0a5dfb8394191640e0a5d2820b
+    m_Address: icon_PoisonShot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 379113a14b4a619409da5222cccfbc7b
+    m_Address: icon_ThrowHeal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c37097f9239be09489ab15edd6fcbeb0
+    m_Address: icon_Purify
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7d427bcb6e46b646858dcac755ea4ee
+    m_Address: icon_SingleHeal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ba8fb26c54551dc4286ce893951bf96b, type: 2}
+    - {fileID: 11400000, guid: b43407ae3bf668e44a08ab15a54a98e5, type: 2}

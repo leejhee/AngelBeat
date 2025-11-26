@@ -27,13 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 494ee01f68d76b948837de5b3ab43a78
-    m_Address: skillicon_SmokeWave
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 62b9f9bf2d9748a43aa7eb2ffdd56dce
-    m_Address: skillicon_MungeCloud
+  - m_GUID: 6dc114dc901bc2e4688f8a2aae83e03b
+    m_Address: LDSeol
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -44,16 +39,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9c6716709f32f934a9927085b5e8a467
     m_Address: LD_Yeon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a224a1db72e38fc4988e8d850e5a49be
-    m_Address: LDSeol
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b6f1ad3764268af4f804da81b65f5558
-    m_Address: skillicon_SmokeStep
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
