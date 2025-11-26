@@ -32,64 +32,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
 
             // 이동 포인트를 가져오기
             CharBase actor = Context.actor;
-            CharStat stat = actor.RuntimeStat;
-            long movePoint = stat.GetStat(SystemEnum.eStats.NACTION_POINT);
-            
-            // 갈수없는곳 나올때까지 좌우로 탐색하여 반환 구조체에 담기
-            
-            List<Vector2Int> movablePoints = new();
-            List<Vector2Int> blockedPoints = new();
-            
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();
-            Vector2Int pivot = stageGrid.WorldToCell(actor.CharTransform.position);
-            
-            #region Right Inspection
 
-            bool blocked = false;
-            for (int offset = 1; offset <= (int)movePoint; offset++)
-            {
-                Vector2Int candidate = new Vector2Int(pivot.x + offset, pivot.y);
-                if (stageGrid.IsMaskable(candidate)) break;
-                if (stageGrid.IsWalkable(candidate) && !blocked)
-                {
-                    movablePoints.Add(candidate);
-                }
-                else if(blocked)
-                {
-                    blockedPoints.Add(candidate);
-                }
-                else
-                {
-                    blocked = true;
-                    blockedPoints.Add(candidate);
-                }
-            }
-            #endregion
-            #region Left Inspection
-
-            blocked = false;
-            for (int offset = 1; offset <= (int)movePoint; offset++)
-            {
-                Vector2Int candidate = new Vector2Int(pivot.x - offset, pivot.y);
-                if (stageGrid.IsMaskable(candidate)) break;
-                if (stageGrid.IsWalkable(candidate) && !blocked)
-                {
-                    movablePoints.Add(candidate);
-                }
-                else if(blocked)
-                {
-                    blockedPoints.Add(candidate);
-                }
-                else
-                {
-                    blocked = true;
-                    blockedPoints.Add(candidate);
-                }
-            }
-            #endregion
-            
-            // 상태 머신 그냥 안만들기 위해서
-            return UniTask.FromResult(new BattleActionPreviewData(movablePoints, blockedPoints));
+            BattleActionPreviewData resultData = BattleRangeHelper.ComputeMoveRangeFromClient(stageGrid, actor);
+            return UniTask.FromResult(resultData);
         }
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)

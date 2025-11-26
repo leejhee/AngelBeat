@@ -1,5 +1,6 @@
 ﻿using Core.Scripts.Data;
 using Core.Scripts.Foundation.Define;
+using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
@@ -23,6 +24,98 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             new Vector2Int(0, 1),
             new Vector2Int(1, 1)
         };
+
+        public static BattleActionPreviewData ComputeMoveRangeFromClient(BattleStageGrid grid, CharBase client)
+        {
+            CharStat stat = client.RuntimeStat;
+            long movePoint = stat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            
+            Vector2Int pivot = grid.WorldToCell(client.CharTransform.position);
+            
+            return ComputeMoveRangeFromPos(grid, pivot, movePoint);
+        }
+
+        public static BattleActionPreviewData ComputeMoveRangeFromPos(
+            BattleStageGrid grid, Vector2Int pivot, long movePoint)
+        {
+            List<Vector2Int> movablePoints = new();
+            List<Vector2Int> blockedPoints = new();
+            
+            #region Right Inspection
+
+            bool blocked = false;
+            for (int offset = 1; offset <= (int)movePoint; offset++)
+            {
+                Vector2Int candidate = new(pivot.x + offset, pivot.y);
+                if (grid.IsMaskable(candidate)) break;
+                if (grid.IsWalkable(candidate) && !blocked)
+                {
+                    movablePoints.Add(candidate);
+                }
+                else if(blocked)
+                {
+                    blockedPoints.Add(candidate);
+                }
+                else
+                {
+                    blocked = true;
+                    blockedPoints.Add(candidate);
+                }
+            }
+            #endregion
+            #region Left Inspection
+
+            blocked = false;
+            for (int offset = 1; offset <= (int)movePoint; offset++)
+            {
+                Vector2Int candidate = new(pivot.x - offset, pivot.y);
+                if (grid.IsMaskable(candidate)) break;
+                if (grid.IsWalkable(candidate) && !blocked)
+                {
+                    movablePoints.Add(candidate);
+                }
+                else if(blocked)
+                {
+                    blockedPoints.Add(candidate);
+                }
+                else
+                {
+                    blocked = true;
+                    blockedPoints.Add(candidate);
+                }
+            }
+            #endregion
+            
+            return new BattleActionPreviewData(movablePoints, blockedPoints);
+        }
+
+        public static BattleActionPreviewData ComputeJumpRangeFromClient(BattleStageGrid grid, CharBase client)
+        {
+            Vector2Int pivot = grid.WorldToCell(client.CharTransform.position);
+
+            return ComputeJumpRangeFromPos(grid, pivot);   
+        }
+
+        public static BattleActionPreviewData ComputeJumpRangeFromPos(BattleStageGrid grid, Vector2Int pivot)
+        {
+            List<Vector2Int> jumpablePoints = new();
+            List<Vector2Int> blockedPoints = new();
+            foreach (Vector2Int candidate in jumpableRange)
+            {
+                Vector2Int sum = pivot + candidate;
+                if (grid.IsMaskable(sum)) continue;
+                if (grid.IsWalkable(sum))
+                {
+                    jumpablePoints.Add(sum);
+                }
+                else
+                {
+                    blockedPoints.Add(sum);
+                }
+            }
+            
+            return new BattleActionPreviewData(jumpablePoints, blockedPoints);
+        }
         
         private static bool IsMaskMatch(BattleStageGrid grid, Vector2Int coord, SystemEnum.eCharType maskType)
         {

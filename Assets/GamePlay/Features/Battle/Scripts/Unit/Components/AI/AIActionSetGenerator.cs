@@ -8,48 +8,72 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
-    /// <summary>
-    /// PDF "적 AI 판단 로직 (Simple Ver.)" 완전 구현
-    /// 모든 이동 가능 위치에서 모든 행동을 시뮬레이션
-    /// </summary>
+
     public class AIActionSetGenerator
     {
         private AIContext _context;
         private BattleStageGrid _grid;
-        private CharBase _self;
+        private CharBase _actor;
         
         public AIActionSetGenerator(AIContext context)
         {
             _context = context;
             _grid = context.Grid;
-            _self = context.Self;
+            _actor = context.Actor;
         }
         
-        #region PDF 2단계: 각 위치에서 가능한 행동 탐색 (GenerateActionSets)
+        #region GenerateActionSets
         
         /// <summary>
-        /// PDF 2단계: 모든 이동 가능 위치 × 모든 행동 조합 생성
+        /// 모든 이동 가능 위치 - 모든 행동 조합 생성
         /// </summary>
         public List<AIActionSet> GenerateAllActionSets()
         {
             List<AIActionSet> allSets = new();
             
-            //Debug.Log($"[AISetGen] ====== ActionSet 생성 시작 ======");
-            //Debug.Log($"[AISetGen] 현재 위치: {_context.CurrentCell}");
-            //Debug.Log($"[AISetGen] 이동 가능: {_context.MovableCells.Count}칸, 점프 가능: {_context.JumpableCells.Count}칸");
-            //Debug.Log($"[AISetGen] 적 수: {_context.AllEnemies.Count}명");
+            Debug.Log($"[AISetGen] ====== ActionSet 생성 시작 ======");
+            Debug.Log($"[AISetGen] 현재 위치: {_context.CurrentCell}");
+            Debug.Log($"[AISetGen] 이동 가능: {_context.MovableCells.Count}칸");
+            Debug.Log($"[AISetGen] 적 수: {_context.AllEnemies.Count}명");
             
             // 스킬 정보 출력
-            Debug.Log($"[AISetGen] 보유 스킬: {_self.SkillInfo.SkillSlots.Count}개");
-            foreach (var skill in _self.SkillInfo.SkillSlots)
+            #region Skill Info
+            Debug.Log($"[AISetGen] 보유 스킬: {_actor.SkillInfo.SkillSlots.Count}개");
+            foreach (var skill in _actor.SkillInfo.SkillSlots)
             {
                 if (skill != null)
                 {
                     Debug.Log($"  - {skill.SkillName} (타입: {skill.SkillType}, 사거리: F{skill.SkillRange.Forward}/B{skill.SkillRange.Backward})");
                 }
             }
+            #endregion
             
-            // 1. 현재 위치에서 가능한 행동들
+            // 이동 가능 한 곳마다에서 행동 셋들을 다 뽑아본다. pos는 이동 가능한 곳이다.
+            foreach (Vector2Int pos in _context.MovableCells)
+            {
+                // 현재 위치에서는 moveFrom = null, 그 외는 시작 위치
+                Vector2Int? moveFrom = (pos == _context.CurrentCell) ? null : _context.CurrentCell;
+
+                List<AIActionSet> setsAtPos = GenerateActionsAtPosition(
+                    position: pos,
+                    moveFrom: moveFrom,
+                    isAfterJump: false  //아직 점프를 안쓴다.
+                );
+
+                allSets.AddRange(setsAtPos);
+            }
+            
+            //대기
+            allSets.Add(new AIActionSet
+            {
+                MoveTo = null,
+                AIActionType = AIActionType.Wait
+            });
+
+            Debug.Log($"[AISetGen] ====== 총 {allSets.Count}개 생성 완료 ======");
+            return allSets;
+            
+            /*
             var currentPosSets = GenerateActionsAtPosition(_context.CurrentCell, moveFrom: null);
             allSets.AddRange(currentPosSets);
             Debug.Log($"[AISetGen] 현재 위치 행동: {currentPosSets.Count}개");
@@ -88,12 +112,15 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             
             Debug.Log($"[AISetGen] ====== 총 {allSets.Count}개 생성 완료 ======");
             return allSets;
+            */
         }
-        
+
         /// <summary>
         /// 특정 위치에서 수행 가능한 모든 행동 세트 생성
-        /// PDF의 핵심: 이동 후 각 위치에서 공격/푸시 가능 여부 체크
         /// </summary>
+        /// <param name="position">이동할 경우 이동한 곳의 위치</param>
+        /// <param name="moveFrom">이동 시작한 위치. 이동 안하면 null</param>
+        /// <param name="isAfterJump">점프 이후? (빠질 예정)</param>
         private List<AIActionSet> GenerateActionsAtPosition(
             Vector2Int position, 
             Vector2Int? moveFrom,
@@ -101,14 +128,17 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         {
             List<AIActionSet> sets = new();
             
-            // 1. 공격 행동들 (모든 스킬 × 양방향)
+            // 1. 점프
+            sets.AddRange(GenerateJumpActions(position, moveFrom, isAfterJump));
+            
+            // 2. 스킬
             sets.AddRange(GenerateAttackActions(position, moveFrom, isAfterJump));
             
-            // 2. 푸시 행동들
+            // 3. 푸시
             sets.AddRange(GeneratePushActions(position, moveFrom, isAfterJump));
             
-            // 3. 단순 이동만 (행동 없이 이동으로 끝)
-            if (moveFrom.HasValue && !isAfterJump)
+            // 4. 단순 이동만
+            if (moveFrom.HasValue)
             {
                 sets.Add(new AIActionSet
                 {
@@ -118,12 +148,45 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 });
             }
             
+            
+            
+            return sets;
+        }
+
+        private List<AIActionSet> GenerateJumpActions(
+            Vector2Int position, 
+            Vector2Int? moveFrom, 
+            bool isAfterJump)
+        {
+            List<AIActionSet> sets = new();
+            if (isAfterJump) return sets;
+
+            foreach (Vector2Int movable in _context.MovableCells)
+            {
+                List<Vector2Int> jumpables = 
+                    BattleRangeHelper.ComputeJumpRangeFromPos(_grid, movable).PossibleCells;
+
+                foreach (Vector2Int jumpable in jumpables)
+                {
+                    Vector2Int targetCell = jumpable + movable;
+
+                    AIActionSet set = new()
+                    {
+                        MoveTo = moveFrom.HasValue ? position : null, 
+                        AIActionType = AIActionType.Jump,
+                        SkillToUse = null,
+                        TargetCell = targetCell,
+                        TargetChar = null
+                    };
+                    sets.Add(set);
+                }
+            }
+
             return sets;
         }
         
         /// <summary>
-        /// 특정 위치에서 모든 스킬 × 모든 방향 × 모든 타겟 공격 세트 생성
-        /// 핵심: 양방향 모두 시뮬레이션
+        /// 스킬 세트 생성
         /// </summary>
         private List<AIActionSet> GenerateAttackActions(
             Vector2Int position, 
@@ -132,17 +195,19 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         {
             List<AIActionSet> sets = new();
             
-            foreach (SkillModel skill in _self.SkillInfo.SkillSlots)
+            // 현재 몬스터가 사용 가능한 스킬들
+            foreach (SkillModel skill in _actor.SkillInfo.SkillSlots)
             {
                 if (skill == null) continue;
                 
                 // 공격 스킬만
                 if (skill.SkillType != SystemEnum.eSkillType.PhysicalAttack &&
-                    skill.SkillType != SystemEnum.eSkillType.MagicAttack)
+                    skill.SkillType != SystemEnum.eSkillType.MagicAttack &&
+                    skill.SkillType != SystemEnum.eSkillType.Debuff)
                     continue;
                 
-                // 🔍 각 스킬 처리 로그
-                Debug.Log($"[AISetGen] 위치 {position}에서 스킬 [{skill.SkillName}] 체크 중...");
+                // 각 스킬 처리 로그
+                Debug.Log($"[AISetGen] 위치 {position}에서 스킬 [{skill.SkillName}] 체크 시작");
                 
                 // 좌우 양방향 모두 시도
                 foreach (bool faceRight in new[] { true, false })
@@ -158,7 +223,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                         var set = new AIActionSet
                         {
                             MoveTo = moveFrom.HasValue ? position : null,
-                            AIActionType = isAfterJump ? AIActionType.Jump : AIActionType.Attack,
+                            AIActionType = AIActionType.Attack,
                             SkillToUse = skill,
                             TargetCell = targetCell,
                             TargetChar = target
@@ -191,49 +256,48 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         {
             List<CharBase> targets = new();
             
-            // 원본 저장
-            Vector3 originalPos = _self.CharTransform.position;
-            bool originalDir = _self.LastDirectionRight;
+            // 원본 
+            Vector3 originalPos = _actor.CharTransform.position;
+            bool originalDir = _actor.LastDirectionRight;
             
             try
             {
                 // 임시 변경
-                _self.CharTransform.position = _grid.CellToWorldCenter(position);
-                _self.LastDirectionRight = faceRight;
+                _actor.CharTransform.position = _grid.CellToWorldCenter(position);
+                _actor.LastDirectionRight = faceRight;
                 
-                // 🔍 상세 로그
-                Debug.Log($"[AISetGen]     임시 위치 설정: {position} (월드: {_self.CharTransform.position})");
+                // 상세 로그
+                Debug.Log($"[AISetGen]     임시 위치 설정: {position} (월드: {_actor.CharTransform.position})");
                 Debug.Log($"[AISetGen]     임시 방향 설정: {(faceRight ? "→" : "←")}");
                 
                 // 스킬 범위 계산
                 BattleActionPreviewData rangeData = BattleRangeHelper.ComputeSkillRange(
                     _grid,
                     skill.SkillRange,
-                    _self
+                    _actor
                 );
                 
                 Debug.Log($"[AISetGen]     범위 계산 완료: 가능 {rangeData.PossibleCells.Count}칸, 불가 {rangeData.BlockedCells.Count}칸");
                 Debug.Log($"[AISetGen]     가능 칸: {string.Join(", ", rangeData.PossibleCells)}");
                 
-                // 범위 내 적 확인
-                //foreach (CharBase enemy in _context.AllEnemies)
-                //{
-                //    if (!enemy || enemy.CurrentHP <= 0) continue;
-                //    
-                //    Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
-                //    
-                //    Debug.Log($"[AISetGen]     적 {enemy.name} 위치: {enemyCell}");
-                //    
-                //    if (rangeData.PossibleCells.Contains(enemyCell))
-                //    {
-                //        targets.Add(enemy);
-                //        Debug.Log($"[AISetGen]     ✓ 타겟 추가: {enemy.name}");
-                //    }
-                //    else
-                //    {
-                //        Debug.Log($"[AISetGen]     ✗ 범위 밖: {enemy.name}");
-                //    }
-                //}
+                foreach (CharBase enemy in _context.AllEnemies)
+                {
+                    if (!enemy || enemy.CurrentHP <= 0) continue;
+                    
+                    Vector2Int enemyCell = _grid.WorldToCell(enemy.CharTransform.position);
+                    
+                    Debug.Log($"[AISetGen]     적 {enemy.name} 위치: {enemyCell}");
+                    
+                    if (rangeData.PossibleCells.Contains(enemyCell))
+                    {
+                        targets.Add(enemy);
+                        Debug.Log($"[AISetGen]     ✓ 타겟 추가: {enemy.name}");
+                    }
+                    else
+                    {
+                        Debug.Log($"[AISetGen]     ✗ 범위 밖: {enemy.name}");
+                    }
+                }
             }
             catch (System.Exception e)
             {
@@ -242,15 +306,15 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             finally
             {
                 // 복원
-                _self.CharTransform.position = originalPos;
-                _self.LastDirectionRight = originalDir;
+                _actor.CharTransform.position = originalPos;
+                _actor.LastDirectionRight = originalDir;
             }
             
             return targets;
         }
         
         /// <summary>
-        /// 특정 위치에서 푸시 가능한 행동들
+        /// 특정 위치에서 푸시 가능한 행동들 - 점프를 했으면 못하도록 막음
         /// </summary>
         private List<AIActionSet> GeneratePushActions(
             Vector2Int position, 
@@ -258,6 +322,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             bool isAfterJump)
         {
             List<AIActionSet> sets = new();
+            if (isAfterJump) return sets;
             
             // 좌우 인접 셀만 푸시 가능
             foreach (Vector2Int dir in new[] { Vector2Int.left, Vector2Int.right })
@@ -267,10 +332,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 if (!_grid.IsOccupied(targetCell)) continue;
                 
                 CharBase victim = _grid.GetUnitAt(targetCell);
-                if (!victim || victim.CurrentHP <= 0) continue;
-                if (victim.GetCharType() == _self.GetCharType()) continue; // 아군 제외
-                
-                var set = new AIActionSet
+                if (!victim || victim.CurrentHP <= 0) continue; // 그럴일은 없겠지만.
+                if (victim.GetCharType() == _actor.GetCharType()) continue; // 아군 제외
+
+                AIActionSet set = new()
                 {
                     MoveTo = moveFrom.HasValue ? position : null,
                     AIActionType = AIActionType.Push,
@@ -292,29 +357,103 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         #region PDF 3단계: 행동 후 재이동 판단 (CheckAfterMove)
         
         /// <summary>
-        /// PDF 3단계: 행동 후 남은 이동력으로 재배치 가능 여부 확인
+        /// 행동 후 남은 이동력으로 재배치 가능 여부 확인
         /// </summary>
         public void CheckAfterMoveForSet(AIActionSet set)
         {
+            if (set.AIActionType != AIActionType.Attack &&
+                set.AIActionType != AIActionType.Push &&
+                set.AIActionType != AIActionType.Jump)
+            {
+                return;
+            }
+            
             // 행동 후 위치
             Vector2Int posAfterAction = set.MoveTo ?? _context.CurrentCell;
             
+            int preMoveCost = 0;
+            if (set.MoveTo.HasValue)
+            {
+                preMoveCost = Mathf.Abs(set.MoveTo.Value.x - _context.CurrentCell.x);
+            }
+
+            int remainingMove = _context.AvailableMoveRange - preMoveCost;
+            if (remainingMove <= 0)
+            {
+                // 남은 이동력이 없으면 재이동 불가
+                return;
+            }
+            
+            /*
             if (set.AIActionType == AIActionType.Jump && set.TargetCell.HasValue)
             {
                 posAfterAction = set.TargetCell.Value;
             }
-            
-            // TODO: 실제 AP 계산 (현재는 간단히 1칸 재이동 가능한지만 체크)
-            // 현재는 이동 → 행동 순서이므로 행동 후 재이동은 제한적
+            */
             
             // 재이동 가능한 인접 칸 중 안전한 곳 선택
-            Vector2Int? safeRetreat = FindSafeAdjacentCell(posAfterAction);
-            
-            if (safeRetreat.HasValue)
+            Vector2Int? bestRetreat = FindBestRetreatCellBFS(posAfterAction, remainingMove);
+
+            if (bestRetreat.HasValue && bestRetreat.Value != posAfterAction)
             {
-                set.AfterMove = safeRetreat.Value;
-                Debug.Log($"[AISetGen] 재이동 설정: {posAfterAction} → {safeRetreat.Value}");
+                set.AfterMove = bestRetreat.Value;
+                Debug.Log($"[AISetGen] AfterMove 설정: {posAfterAction} -> {set.AfterMove.Value} (남은 이동력: {remainingMove})");
             }
+        }
+        
+        private Vector2Int? FindBestRetreatCellBFS(Vector2Int from, int maxStep)
+        {
+            if (maxStep <= 0)
+                return null;
+
+            // pos -> 그 위치까지의 최소 cost
+            var visited = new Dictionary<Vector2Int, int>();
+            var q = new Queue<(Vector2Int pos, int cost)>();
+
+            visited[from] = 0;
+            q.Enqueue((from, 0));
+
+            Vector2Int? bestCell = null;
+            float bestSafety = float.NegativeInfinity;
+
+            while (q.Count > 0)
+            {
+                var (pos, cost) = q.Dequeue();
+
+                // 시작 칸(from)은 "도망 후보"에서 제외하고, 나머지들만 평가
+                if (cost > 0)
+                {
+                    float safety = EvaluatePositionSafety(pos);
+                    if (safety > bestSafety)
+                    {
+                        bestSafety = safety;
+                        bestCell = pos;
+                    }
+                }
+
+                // 더 이상 확장 불가
+                if (cost >= maxStep)
+                    continue;
+
+                // 좌우로 한 칸씩 확장
+                foreach (Vector2Int dir in new[] { Vector2Int.left, Vector2Int.right })
+                {
+                    Vector2Int next = pos + dir;
+
+                    if (!_grid.IsInBounds(next)) continue;
+                    if (!_grid.IsWalkable(next)) continue;
+
+                    int nextCost = cost + 1;
+
+                    if (visited.TryGetValue(next, out int prevCost) && prevCost <= nextCost)
+                        continue;
+
+                    visited[next] = nextCost;
+                    q.Enqueue((next, nextCost));
+                }
+            }
+
+            return bestCell;
         }
         
         /// <summary>
@@ -396,7 +535,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             }
             
             // 4. 자기 자신을 타겟으로
-            if (set.TargetChar == _self)
+            if (set.TargetChar == _actor)
             {
                 return false;
             }

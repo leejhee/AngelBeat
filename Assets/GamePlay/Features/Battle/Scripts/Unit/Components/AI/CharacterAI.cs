@@ -31,8 +31,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         /// </summary>
         public async UniTask ExecuteTurn(Turn turn)
         {
-            if (turn == null) throw new ArgumentNullException(nameof(turn));
-            CurrentTurn = turn;
+            CurrentTurn = turn ?? throw new ArgumentNullException(nameof(turn));
 
             if (!TryInitFieldAndGrid())
                 return;

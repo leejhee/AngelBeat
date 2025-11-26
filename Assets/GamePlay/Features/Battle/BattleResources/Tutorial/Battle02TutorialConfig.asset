@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0eedd57e54546e1bdb8e2103571ca88, type: 3}
-  m_Name: BattleFieldDB
+  m_Script: {fileID: 11500000, guid: 8177b5e9f02c43c38685568256fe4f37, type: 3}
+  m_Name: Battle02TutorialConfig
   m_EditorClassIdentifier: 
-  db:
-  - dungeon: 1
-    group: {fileID: 11400000, guid: 8c62231b44f73c24f8d67e2952d7769d, type: 2}
-  - dungeon: 2
-    group: {fileID: 11400000, guid: e330b58f6eb03b9408a90bc51d01fa36, type: 2}
+  steps:
+  - {fileID: 11400000, guid: 800014270e6fea04fb678ec5fe2c17b2, type: 2}

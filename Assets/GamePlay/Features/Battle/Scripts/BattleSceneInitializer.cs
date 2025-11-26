@@ -116,7 +116,7 @@ namespace GamePlay.Features.Battle.Scripts
             if (SceneLoader.SceneArgs is IBattleSceneSource args) return args;
 
             bool hasParty = BattlePayload.Instance != null && BattlePayload.Instance.PlayerParty != null;
-            bool hasStage = BattlePayload.Instance != null && !string.IsNullOrEmpty(BattlePayload.Instance.StageName);
+            bool hasStage = BattlePayload.Instance != null && BattlePayload.Instance.StageNames.Count > 0;
             if (hasStage && hasParty)
                 return new BattlePayloadSource();
             

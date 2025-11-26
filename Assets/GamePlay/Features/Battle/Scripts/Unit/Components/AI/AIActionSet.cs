@@ -42,6 +42,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             {
                 actionStr = $"Attack[{SkillToUse.SkillName}]→{(TargetChar ? TargetChar.name : "?")}";
             }
+            
             else if (AIActionType == AIActionType.Push && TargetChar)
             {
                 actionStr = $"Push[{TargetChar.name}]";
@@ -59,12 +60,11 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
     
     /// <summary>
     /// 가중치 계산 관련 상수
-    /// PDF 5단계: CalcWeight 기준값
     /// </summary>
     public static class AIWeightConstants
     {
         // Base 가중치
-        public const float ATTACK_BASE = 50f;
+        public const float ATTACK_BASE = 80f;
         public const float PUSH_BASE = 45f;
         public const float JUMP_BASE = 40f;
         public const float MOVE_BASE = 30f;

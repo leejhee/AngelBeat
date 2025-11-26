@@ -10,18 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96dd8082d14946dab68a06de4717d8e7, type: 3}
-  m_Name: MOUNTAIN_BACK
+  m_Name: TUTORIAL
   m_EditorClassIdentifier: 
   stages:
-  - stageName: 0101
+  - stageName: TestMap0
     stageField:
-      m_AssetGUID: 11a86dac5512ed345ba8cadd5f596ed1
+      m_AssetGUID: 76012417a12a620448b173e60a9bb482
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - stageName: 0102
+  - stageName: TestMap1
     stageField:
-      m_AssetGUID: e03e9b2fbbc57da4e9799568ea92a770
+      m_AssetGUID: 09e2471522072464c8773c757bf49258
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+  - stageName: TestMap2
+    stageField:
+      m_AssetGUID: 2a936487b88329d48ac8c5aceaa76588
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

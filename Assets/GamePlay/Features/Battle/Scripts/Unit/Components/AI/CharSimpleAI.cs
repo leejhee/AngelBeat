@@ -31,11 +31,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             _setGenerator = new AIActionSetGenerator(_context);
             List<AIActionSet> allSets = _setGenerator.GenerateAllActionSets();
 
-            // 3. 재이동 설정
-            foreach (var set in allSets)
+            foreach (AIActionSet set in allSets)
                 _setGenerator.CheckAfterMoveForSet(set);
 
-            // 4. 유효성 필터
             List<AIActionSet> validSets = _setGenerator.FilterInvalidSets(allSets);
             Debug.Log($"[AI] 유효한 세트: {validSets.Count}/{allSets.Count}");
 

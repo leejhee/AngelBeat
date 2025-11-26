@@ -56,276 +56,73 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
     public class AIContext
     {
         // AI 주체
-        public CharBase Self { get; private set; }
+        public CharBase Actor { get; private set; }
         
         // 그리드 시스템 (필수)
         public BattleStageGrid Grid { get; private set; }
         
-        //// 상황 판단 플래그들 (PDF 1단계)
-        //public bool CanAttack { get; private set; }      // 사거리 내 적 존재 (더 이상 현재 위치만 체크하지 않음)
-        //public bool LowHP { get; private set; }          // HP ≤ 30%
-        //public bool Grouped { get; private set; }        // 주변 2칸 내 아군 ≥ 2
+        public bool LowHP { get; private set; }
+        public bool Grouped { get; private set; }        
         //
         //// 분석된 전장 정보
         //public CharBase NearestEnemy { get; private set; }
         //public float DistanceToNearestEnemy { get; private set; }
         //public int GridDistanceToNearestEnemy { get; private set; }
-        //public List<CharBase> NearbyAllies { get; private set; }
-        //public List<CharBase> AllEnemies { get; private set; }
+        public List<CharBase> NearbyAllies { get; private set; }
+        public List<CharBase> AllEnemies { get; private set; }
         //
         //// 이동 정보
         public Vector2Int CurrentCell { get; private set; }
         public int AvailableMoveRange { get; private set; }  // 현재 행동력
-        public Dictionary<Vector2Int, MoveState> ReachableStates { get; private set; }
+        //public Dictionary<Vector2Int, MoveState> ReachableStates { get; private set; }
         public List<Vector2Int> MovableCells { get; private set; }  // 실제 이동 가능한 칸
-        public Dictionary<MoveKey, MoveParent?> MoveParents { get; private set; }
+        //public Dictionary<MoveKey, MoveParent?> MoveParents { get; private set; }
         
-        //public List<Vector2Int> JumpableCells { get; private set; }  // 점프 가능한 칸
-        
-        public AIContext(CharBase self, BattleStageGrid grid)
+        public AIContext(CharBase actor, BattleStageGrid grid)
         {
-            Self = self;
+            Actor = actor;
             Grid = grid;
-            ReachableStates = new Dictionary<Vector2Int, MoveState>();
             MovableCells = new List<Vector2Int>();
-            MoveParents = new Dictionary<MoveKey, MoveParent?>();
             
-            //NearbyAllies = new List<CharBase>();
-            //AllEnemies = new List<CharBase>();
-
-            //JumpableCells = new List<Vector2Int>();
+            NearbyAllies = new List<CharBase>();
+            AllEnemies = new List<CharBase>();
         }
 
         public void AnalyzeSituation()
         {
-            // 현재 위치
-            CurrentCell = Grid.WorldToCell(Self.CharTransform.position);
-            // 이동력 계산
-            AvailableMoveRange = (int)Self.RuntimeStat.GetStat(SystemEnum.eStats.NACTION_POINT);
+            // 현재 셀 초기화
+            CurrentCell = Grid.WorldToCell(Actor.CharTransform.position);
             
-            CalculateMovableCells(CurrentCell);
+            // 점프를 포함, 행동 이전에 이동 가능한 모든 경우 계산 및 저장
+            CalculateMovableCells();
             
-            /*
-            // 이동 가능한 칸 계산
-            
-            CalculateJumpableCells();
-            
-            // 적 목록 가져오기
+            // 전체 적 목록 가져오기
             AllEnemies = BattleCharManager.Instance.GetEnemies(
-                BattleCharManager.GetEnemyType(Self.GetCharType())
+                BattleCharManager.GetEnemyType(Actor.GetCharType())
             );
             
-            // 가장 가까운 적 찾기
-            NearestEnemy = BattleCharManager.Instance.GetNearestEnemy(Self);
-            if (NearestEnemy)
-            {
-                DistanceToNearestEnemy = Vector3.Distance(
-                    Self.CharTransform.position,
-                    NearestEnemy.CharTransform.position
-                );
-                
-                // 그리드 거리 계산 (맨해튼 거리)
-                Vector2Int enemyCell = Grid.WorldToCell(NearestEnemy.CharTransform.position);
-                GridDistanceToNearestEnemy = Mathf.Abs(enemyCell.x - CurrentCell.x) + 
-                                              Mathf.Abs(enemyCell.y - CurrentCell.y);
-            }
-            
-            // 1. canAttack: 이제 Generator에서 직접 판단하므로 간단히 거리 기반으로만
-            //    실제로는 이동 후 각 위치에서 공격 가능 여부를 Generator가 체크
-            CanAttack = CheckIfInAttackRange();
-            
-            // 2. lowHP: 체력이 30% 이하인지
-            LowHP = Self.CurrentHP <= Self.MaxHP * 0.3f;
-            
-            // 3. grouped: 주변 2칸 내 아군이 2명 이상인지
-            Grouped = CheckIfGrouped();
-            
-            Debug.Log($"[AIContext] ====== 상황 분석 ======");
-            Debug.Log($"  위치: {CurrentCell}, 이동력: {AvailableMoveRange}");
-            Debug.Log($"  가장 가까운 적: {(NearestEnemy ? NearestEnemy.name : "없음")} (거리: {GridDistanceToNearestEnemy})");
-            Debug.Log($"  HP: {Self.CurrentHP:F0}/{Self.MaxHP:F0} (LowHP: {LowHP})");
-            Debug.Log($"  주변 아군: {NearbyAllies.Count}명 (Grouped: {Grouped})");
-            Debug.Log($"  공격 가능 범위 내: {CanAttack}");*/
-        }
-        
-        /// <summary>
-        /// 이동 가능한 전체 범위 세팅(벽 부수고 이동하기 st)
-        /// </summary>
-        private void CalculateMovableCells(Vector2Int currentPos)
-        {
-            ReachableStates.Clear();
-            MovableCells.Clear();
-            MoveParents.Clear();
-            
-            Queue<MoveState> q = new();
-            int[,,] visited = new int[Grid.GridSize.x + 1, Grid.GridSize.y + 1, 2];
-            for (int i = 0; i < visited.GetLength(0); i++)
-            {
-                for (int j = 0; j < visited.GetLength(1); j++)
-                {
-                    visited[i, j, 0] = visited[i, j, 1] = int.MaxValue;
-                }
-            }
-
-            MoveKey startKey = new() { pos = currentPos, jumped = false };
-            MoveParents[startKey] = null;
-            
-            q.Enqueue(new MoveState { pos = currentPos, jumped = false, cost = 0 });
-            visited[currentPos.x, currentPos.y, 0] = 0;
-
-            while (q.Count > 0)
-            {
-                MoveState s = q.Dequeue();
-                if (s.cost > AvailableMoveRange)
-                    continue;
-
-                MoveKey curKey = new() { pos = s.pos, jumped = s.jumped };
-                
-                // 지금까지 상태 기록
-                if (!ReachableStates.TryGetValue(s.pos, out MoveState best)
-                    || s.cost < best.cost
-                    || (s.cost == best.cost && best.jumped && !s.jumped))
-                {
-                    ReachableStates[s.pos] = s;
-
-                    if (s.pos != currentPos)
-                        MovableCells.Add(s.pos);
-                }
-                
-                // 좌우 확인
-                foreach (Vector2Int dir in new[] { Vector2Int.left, Vector2Int.right })
-                {
-                    Vector2Int nextPos = s.pos + dir;
-                    if (!Grid.IsInBounds(nextPos)) continue;
-                    if (!Grid.IsWalkable(nextPos)) continue;
-
-                    int newCost = s.cost + 1;
-                    if (newCost > AvailableMoveRange) continue;
-
-                    int jumpedIdx = s.jumped ? 1 : 0;
-                    if (newCost >= visited[nextPos.x, nextPos.y, jumpedIdx]) continue;
-
-                    visited[nextPos.x, nextPos.y, jumpedIdx] = newCost;
-                    MoveKey childKey = new() { pos = nextPos, jumped = s.jumped };
-                    MoveParents[childKey] = new MoveParent
-                    {
-                        Parent = curKey,
-                        Step   = MoveStepType.Walk,
-                        Offset = dir
-                    };
-                    
-                    q.Enqueue(new MoveState {
-                        pos = nextPos,
-                        jumped = s.jumped,
-                        cost = newCost
-                    });
-                }
-                
-                if (s.jumped) continue;
-                // 점프
-                foreach (Vector2Int offset in BattleRangeHelper.jumpableRange)
-                {
-                    Vector2Int jumpPos = s.pos + offset;
-                    if (!Grid.IsInBounds(jumpPos)) continue;
-                    if (!Grid.IsWalkable(jumpPos)) continue;
-
-                    int newCost = s.cost; // 점프는 이동력 소모 없음
-                    const int jumpedIdx = 1;
-                    if (newCost >= visited[jumpPos.x, jumpPos.y, jumpedIdx]) continue;
-
-                    MoveKey childKey = new() { pos = jumpPos, jumped = true };
-                    MoveParents[childKey] = new MoveParent
-                    {
-                        Parent = curKey,
-                        Step   = MoveStepType.Jump,
-                        Offset = offset
-                    };
-                    
-                    visited[jumpPos.x, jumpPos.y, jumpedIdx] = newCost;
-                    q.Enqueue(new MoveState {
-                        pos = jumpPos,
-                        jumped = true,
-                        cost = newCost
-                    });
-                }
-                
-            }
-            
+            // lowHP: 체력이 30% 이하인지
+            LowHP = Actor.CurrentHP <= Actor.MaxHP * 0.3f;
             
             /*
-            // 오른쪽 탐색
-            for (int offset = 1; offset <= AvailableMoveRange; offset++)
-            {
-                Vector2Int candidate = new Vector2Int(CurrentCell.x + offset, CurrentCell.y);
-
-                // 맵 밖이면 중단
-                if (Grid.IsMaskable(candidate)) break;
-
-                // 갈 수 있으면 추가
-                if (Grid.IsWalkable(candidate))
-                {
-                    WalkableCells.Add(candidate);
-                }
-                else
-                {
-                    // 갈 수 없는 칸(장애물/유닛)이면 탐색 중단
-                    break;
-                }
-            }
-
-            // 왼쪽 탐색
-            for (int offset = 1; offset <= AvailableMoveRange; offset++)
-            {
-                Vector2Int candidate = new Vector2Int(CurrentCell.x - offset, CurrentCell.y);
-
-                // 맵 밖이면 중단
-                if (Grid.IsMaskable(candidate)) break;
-
-                // 갈 수 있으면 추가
-                if (Grid.IsWalkable(candidate))
-                {
-                    WalkableCells.Add(candidate);
-                }
-                else
-                {
-                    // 갈 수 없는 칸(장애물/유닛)이면 탐색 중단
-                    break;
-                }
-            }
-
-            Debug.Log($"[AIContext] 이동 가능 칸: {string.Join(", ", WalkableCells)}");
-            */
+           Debug.Log($"[AIContext] ====== 상황 분석 ======");
+           Debug.Log($"  위치: {CurrentCell}, 이동력: {AvailableMoveRange}");
+           Debug.Log($"  가장 가까운 적: {(NearestEnemy ? NearestEnemy.name : "없음")} (거리: {GridDistanceToNearestEnemy})");
+           Debug.Log($"  HP: {Self.CurrentHP:F0}/{Self.MaxHP:F0} (LowHP: {LowHP})");
+           Debug.Log($"  주변 아군: {NearbyAllies.Count}명 (Grouped: {Grouped})");
+           Debug.Log($"  공격 가능 범위 내: {CanAttack}");*/
         }
         
         /// <summary>
-        /// 점프 가능한 칸 계산 (JumpBattleAction 로직 기반)
+        /// 이동 가능한 전체 범위 세팅
         /// </summary>
-        private void CalculateJumpableCells()
+        private void CalculateMovableCells()
         {
-            //JumpableCells.Clear();
-            //
-            //// JumpBattleAction의 JumpableRange 참조
-            //List<Vector2Int> jumpOffsets = new List<Vector2Int>
-            //{
-            //    new Vector2Int(-1, -1),
-            //    new Vector2Int(0, -1),
-            //    new Vector2Int(1, -1),
-            //    new Vector2Int(2, 0),
-            //    new Vector2Int(-2, 0),
-            //    new Vector2Int(-1, 1),
-            //    new Vector2Int(0, 1),
-            //    new Vector2Int(1, 1)
-            //};
-            //
-            //foreach (Vector2Int offset in jumpOffsets)
-            //{
-            //    Vector2Int candidate = CurrentCell + offset;
-            //    if (Grid.IsMaskable(candidate)) continue;
-            //    if (Grid.IsWalkable(candidate))
-            //    {
-            //        JumpableCells.Add(candidate);
-            //    }
-            //}
+            var moveData = BattleRangeHelper.ComputeMoveRangeFromClient(Grid, Actor);
+            MovableCells = moveData.PossibleCells;
+            MovableCells.Add(CurrentCell); // 현재 좌표를 포함해야한다.
+            Debug.Log($"[AIContext] 이동 가능 칸: {string.Join(", ", MovableCells)}");
+            
         }
         
         /// </summary>

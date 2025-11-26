@@ -1,6 +1,7 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
 using GamePlay.Common.Scripts.Entities.Character;
+using System.Collections.Generic;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -17,7 +18,8 @@ namespace GamePlay.Features.Battle.Scripts
     {
         public SystemEnum.Dungeon Dungeon => BattlePayload.Instance.DungeonName;
         public Party PlayerParty => BattlePayload.Instance.PlayerParty;
-        public string StageName => BattlePayload.Instance.StageName;
+        
+        public string StageName => BattlePayload.Instance.CurrentStageName;
         public SystemEnum.eScene ReturningScene => BattlePayload.Instance.ReturningScene;
         public void ClearPayload() => BattlePayload.Instance.Clear();
     }
@@ -33,7 +35,7 @@ namespace GamePlay.Features.Battle.Scripts
         public string StageName => _stageName;
         public SystemEnum.eScene ReturningScene => SystemEnum.eScene.LobbyScene;
         
-        public DebugMockSource(SystemEnum.Dungeon dungeon, Party playerParty,  string stageName)
+        public DebugMockSource(SystemEnum.Dungeon dungeon, Party playerParty, string stageName)
         {
             _dungeon = dungeon;
             _playerParty = playerParty;

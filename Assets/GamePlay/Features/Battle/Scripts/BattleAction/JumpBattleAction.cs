@@ -31,25 +31,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             CharBase actor = Context.actor;
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();
-            List<Vector2Int> jumpablePoints = new();
-            List<Vector2Int> blockedPoints = new();
-            Vector2Int pivot = stageGrid.WorldToCell(actor.CharTransform.position);
-                
-            foreach (Vector2Int candidate in JumpableRange)
-            {
-                Vector2Int sum = pivot + candidate;
-                if (stageGrid.IsMaskable(sum)) continue;
-                if (stageGrid.IsWalkable(sum))
-                {
-                    jumpablePoints.Add(sum);
-                }
-                else
-                {
-                    blockedPoints.Add(sum);
-                }
-            }
             
-            return UniTask.FromResult(new BattleActionPreviewData(jumpablePoints, blockedPoints));
+            BattleActionPreviewData resultData = BattleRangeHelper.ComputeJumpRangeFromClient(stageGrid, actor);
+            
+            return UniTask.FromResult(resultData);
         }
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)

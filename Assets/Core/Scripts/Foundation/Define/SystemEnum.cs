@@ -101,6 +101,12 @@ namespace Core.Scripts.Foundation.Define
         #endregion
         
         #region Gameplay Domain
+
+        public enum eRandomName
+        {
+            
+        }
+        
         public enum eCharType
         {
             None, 
@@ -311,7 +317,8 @@ namespace Core.Scripts.Foundation.Define
         public enum Dungeon
         {
             None,
-        
+            
+            TUTORIAL,
             MOUNTAIN_BACK,
         
             eMax

@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Contracts;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Entities.Skills;
+using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
@@ -21,30 +22,25 @@ namespace GamePlay.Features.Battle.Scripts
     public class BattleController : MonoBehaviour
     {
         #region singleton
-        private static BattleController instance;
-        
-        public static BattleController Instance
-        {
-            get
-            {
-                GameObject go = GameObject.Find("BattleController");
-                if (!go)
-                {
-                    go = new GameObject("BattleController");
-                    instance = go.AddComponent<BattleController>();
-                }
-                return instance;
-            }
-            private set => instance = value;
-        }
+        public static BattleController Instance { get; private set; }
 
         private void Awake()
         {
-            if (Instance == null)
-                Instance = this;
-            else
+            if (Instance != null && Instance != this)
+            {
                 Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
         }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
+        }
+        
         #endregion
         
         #region Battle Map DataBase
@@ -418,13 +414,24 @@ namespace GamePlay.Features.Battle.Scripts
             OnCharacterDead?.Invoke(unit.GetID());
         }
         
+        private void RestartBattle()
+        {
+            SoundManager.Instance.StopBGM();
+            GamePlaySceneUtil.LoadBattleScene();
+        }
+        
+        
         public async void EndBattle(SystemEnum.eCharType winnerType)
         {
+            // 캐릭터 자원 정리
             BattleCharManager.Instance.ClearAll();
             
             // 전투 종료 시의 특정 이벤트 수행
             if (OnBattleEndAsync != null)
                 await OnBattleEndAsync.Invoke(winnerType);
+            
+            if (TryHandleMultiBattleEnd(winnerType))
+                return;
             
             SoundManager.Instance.StopBGM();
             
@@ -438,6 +445,36 @@ namespace GamePlay.Features.Battle.Scripts
                 SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
             }
         }
+        
+        private bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
+        {
+            BattlePayload payload = BattlePayload.Instance;
+            if (payload == null || !payload.HasAnyStage)
+                return false;
+
+            // 승리 시
+            if (winnerType == SystemEnum.eCharType.Player)
+            {
+                // 다음 스테이지가 남아 있으면 인덱스를 올리고 BattleScene을 다시 로드
+                if (payload.MoveToNextStage())
+                {
+                    RestartBattle();
+                    return true;
+                }
+
+                // 마지막 스테이지를 클리어한 경우:
+                // 여기서는 payload만 정리하고, 나머지 승리 연출은 EndBattle의 기본 플로우에 맡긴다.
+                payload.Clear();
+                return false;
+            }
+
+            // 패배 시: 현재 인덱스를 유지한 채로 전투 재시작
+            payload.RestartCurrentStage();
+            RestartBattle();
+            return true;
+        }
+        
+        
 #if UNITY_EDITOR
         [ContextMenu("전투 승리 치트")]
         public void GameWinCheat()

@@ -21,18 +21,24 @@ namespace GamePlay.Features.Explore.Scripts
     {
         #region Singleton
         private static ExploreManager instance;
-        public static ExploreManager Instance
-        {
-            get
-            {
-                instance = FindObjectOfType<ExploreManager>();
-                if(!instance)
-                    instance = new GameObject("ExploreManager").AddComponent<ExploreManager>();
+        public static ExploreManager Instance { get; private set; }
 
-                return instance;
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
             }
+
+            Instance = this;
         }
-        
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
+        }
         
         #endregion
 
@@ -56,18 +62,6 @@ namespace GamePlay.Features.Explore.Scripts
         private bool _isInitialized = false;
         
         #region Unity Events
-        private void Awake()
-        {
-            if (!instance)
-            {
-                instance = this;
-            }
-            else if(instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
-
         
         private void OnEnable()
         {

@@ -29499,6 +29499,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: dungeon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: useRandomOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: mapNames.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: mapNames.Array.data[0]
+      value: TestMap0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: mapNames.Array.data[1]
+      value: TestMap1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: mapNames.Array.data[2]
+      value: TestMap2
+      objectReference: {fileID: 0}
     - target: {fileID: 6341088926301991168, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
       propertyPath: m_IsTrigger
       value: 1

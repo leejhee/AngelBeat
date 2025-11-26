@@ -5,6 +5,7 @@ using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.Tutorial
@@ -24,24 +25,31 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             Instance = this;
         }
         #endregion
-        
-        [Header("전투 튜토리얼에 대한 config 삽입")]
-        [SerializeField] private BattleTutorialConfig config;
+
+        [Header("전투 튜토리얼에 대한 config 삽입")] 
+        [SerializeField] private List<BattleTutorialConfig> configs;
+        [SerializeField, ReadOnly] private BattleTutorialConfig currentConfig;
         [SerializeField] private BattleInputGate inputGate;
         
         private readonly HashSet<string> _completedSteps = new();
 
+        private int _currentIndex;
         private TurnEventContext _lastTurnContext;
         private TurnController _turnController;
         private BattleController _battleController;
         
         public void Init(TurnController turnController, BattleController battleController)
         {
-            if (config == null)
+            if (configs == null || configs.Count == 0)
             {
                 Debug.LogError("[BattleTutorialDirector] No config assigned.");
                 return;
             }
+            
+            int fromPayload = BattlePayload.Instance?.CurrentTutorialIndex ?? 0;
+            _currentIndex = Mathf.Clamp(fromPayload, 0, configs.Count - 1);
+            
+            currentConfig = configs[_currentIndex];
             
             _turnController = turnController;
             _battleController = battleController;
@@ -61,9 +69,9 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
         private async UniTask OnBattleStartAsync()
         {
-            if (config == null) return;
+            if (currentConfig == null) return;
 
-            foreach (var step in config.steps)
+            foreach (var step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.BattleStart)
                     continue;
@@ -76,9 +84,9 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
         private async UniTask OnBattleEndAsync(SystemEnum.eCharType winnerType)
         {
-            if (!config) return;
+            if (!currentConfig) return;
 
-            foreach (var step in config.steps)
+            foreach (var step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.BattleEnd)
                     continue;
@@ -86,13 +94,19 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                     continue;
 
                 // 나중에 승패 조건 넣고 싶으면 여기에서 winnerType 보고 필터
+                if (step.winnerType != winnerType)
+                    continue;
+                if (step.isRestartBattle)
+                {
+                    //전투 재시작 필요
+                }
                 await ExecuteStep(step);
             }
         }
         
         private async UniTask OnRoundProceedAsync(RoundEventContext ctx)
         {
-            foreach (BattleTutorialStep step in config.steps)
+            foreach (BattleTutorialStep step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.RoundStart)
                     continue;
@@ -111,7 +125,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         {
             _lastTurnContext = ctx;
 
-            foreach (BattleTutorialStep step in config.steps)
+            foreach (BattleTutorialStep step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.TurnStart)
                     continue;
@@ -129,7 +143,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
         private async UniTask OnTurnEndedAsync(TurnEventContext ctx)
         {
-            foreach (BattleTutorialStep step in config.steps)
+            foreach (BattleTutorialStep step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.TurnEnd)
                     continue;
@@ -159,7 +173,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             
             TurnEventContext ctx = _lastTurnContext;
 
-            foreach (var step in config.steps)
+            foreach (var step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.ActionCompleted)
                     continue;
@@ -186,7 +200,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         {
             TurnEventContext turnCtx = _lastTurnContext;
 
-            foreach (BattleTutorialStep step in config.steps)
+            foreach (BattleTutorialStep step in currentConfig.steps)
             {
                 if (step.triggerType != TutorialTriggerEventType.ActionPreviewStart)
                     continue;
@@ -208,6 +222,20 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         #endregion
         
         #region Core Methods
+
+        private bool SetNextTutorialConfig()
+        {
+            if (++_currentIndex >= configs.Count)
+            {
+                currentConfig = null;
+                Debug.Log("튜토리얼 종료. 해당 director 개입 종료");
+                return false;
+            }
+            currentConfig = configs[_currentIndex];
+            _completedSteps.Clear();
+            _lastTurnContext = null;
+            return true;
+        }
         
         private bool IsStepAvailable(BattleTutorialStep step)
         {

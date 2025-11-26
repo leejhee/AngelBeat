@@ -16,7 +16,23 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: d38806e631f20004fb2eb15fd517529a
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 11a86dac5512ed345ba8cadd5f596ed1
+    m_Address: Assets/GamePlay/Features/Battle/BattleResources/StageResources/Stage/BackMountain_0101.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a936487b88329d48ac8c5aceaa76588
+    m_Address: Assets/GamePlay/Features/Battle/BattleResources/StageResources/Stage/TestMap
+      2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e03e9b2fbbc57da4e9799568ea92a770
+    m_Address: Assets/GamePlay/Features/Battle/BattleResources/StageResources/Stage/BackMountain_0102.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:
