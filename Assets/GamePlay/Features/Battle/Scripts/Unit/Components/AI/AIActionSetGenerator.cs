@@ -646,9 +646,33 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 }
             }
             
+            if (_context.HasPrimaryTarget)
+            {
+                Vector2Int finalPos = set.AfterMove ?? set.MoveTo ?? _context.CurrentCell;
+                Vector2Int targetCell = _context.PrimaryTargetCell;
+
+                int currentDist = Mathf.Abs(_context.CurrentCell.x - targetCell.x)
+                                  + Mathf.Abs(_context.CurrentCell.y - targetCell.y);
+                int newDist = Mathf.Abs(finalPos.x - targetCell.x)
+                              + Mathf.Abs(finalPos.y - targetCell.y);
+
+                if (!_context.LowHP)
+                {
+                    // 공격 모드: 타겟에게 "다가가는" 걸 좋아함
+                    if (newDist < currentDist)
+                        bonus += AIWeightConstants.APPROACH_TARGET_BONUS;
+                }
+                else
+                {
+                    // 방어 모드(피 적음): 타겟에게서 "멀어지는" 걸 좋아함
+                    if (newDist > currentDist)
+                        bonus += AIWeightConstants.RETREAT_FROM_TARGET_BONUS;
+                }
+            }
+            
             // 낙사 인접 페널티
-            Vector2Int finalPos = set.AfterMove ?? set.MoveTo ?? _context.CurrentCell;
-            if (IsNearFall(finalPos))
+            Vector2Int res = set.AfterMove ?? set.MoveTo ?? _context.CurrentCell;
+            if (IsNearFall(res))
             {
                 bonus += AIWeightConstants.NEAR_FALL_PENALTY;
             }

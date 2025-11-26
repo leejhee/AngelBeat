@@ -22,9 +22,9 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         public bool Grouped { get; private set; }        
         //
         //// 분석된 전장 정보
-        //public CharBase NearestEnemy { get; private set; }
-        //public float DistanceToNearestEnemy { get; private set; }
-        //public int GridDistanceToNearestEnemy { get; private set; }
+        public CharBase PrimaryTarget { get; private set; }
+        public Vector2Int PrimaryTargetCell { get; private set; }
+        public bool HasPrimaryTarget => PrimaryTarget != null;
         public List<CharBase> NearbyAllies { get; private set; }
         public List<CharBase> AllEnemies { get; private set; }
         //
@@ -61,6 +61,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             // lowHP: 체력이 30% 이하인지
             LowHP = Actor.CurrentHP <= Actor.MaxHP * 0.3f;
             
+            SelectPrimaryTarget();
             /*
            Debug.Log($"[AIContext] ====== 상황 분석 ======");
            Debug.Log($"  위치: {CurrentCell}, 이동력: {AvailableMoveRange}");
@@ -80,6 +81,32 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             MovableCells.Add(CurrentCell); // 현재 좌표를 포함해야한다.
             Debug.Log($"[AIContext] 이동 가능 칸: {string.Join(", ", MovableCells)}");
             
+        }
+        
+        private void SelectPrimaryTarget()
+        {
+            float bestDist = float.MaxValue;
+            CharBase best = null;
+            Vector2Int bestCell = default;
+
+            foreach (var enemy in AllEnemies)
+            {
+                if (!enemy || enemy.CurrentHP <= 0) continue;
+
+                var cell = Grid.WorldToCell(enemy.CharTransform.position);
+                float dist = Mathf.Abs(cell.x - CurrentCell.x)
+                             + Mathf.Abs(cell.y - CurrentCell.y);
+
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    best = enemy;
+                    bestCell = cell;
+                }
+            }
+
+            PrimaryTarget = best;
+            PrimaryTargetCell = bestCell;
         }
         
         /// </summary>
