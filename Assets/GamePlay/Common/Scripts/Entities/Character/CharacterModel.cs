@@ -135,15 +135,15 @@ namespace GamePlay.Common.Scripts.Entities.Character
             ////////////// SKILL TEST SECTION ////////////////////
 
 
-            // for (int i = 0; i < 5; i++)
-            // {
-            //     var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001 + i);
-            //     var skillModel = new SkillModel(skillData);
-            //     _allSkillModels.Add(skillModel);
-            // }
+            for (int i = 0; i < 5; i++)
+            {
+                var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001 + i);
+                var skillModel = new SkillModel(skillData);
+                _allSkillModels.Add(skillModel);
+            }
+            
             //
-            //
-            // _activeSkillModels = new List<SkillModel>(_allSkillModels);
+             _activeSkillModels = new List<SkillModel>(_allSkillModels);
             
             //_usingSkillModels = new List<SkillModel>(skillModels);
             ////////////// SKILL TEST SECTION //////////////////// 

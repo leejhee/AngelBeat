@@ -137,6 +137,14 @@ namespace AngelBeat.UI
         {
             foreach (RewardTable table in View.RewardList)
             {
+                
+                // 스킬 5개 이상 보유시
+                if (BattleController.Instance.PlayerParty.partyMembers[0].ActiveSkills.Count >= 5)
+                {
+                    continue;
+                }
+                
+                
                 GameObject rewardTypeObject = Object.Instantiate(View.RewardTypeObject, View.RewardObjectParent, true);
                 RewardObject rewardObject = rewardTypeObject.GetComponent<RewardObject>();
                 Debug.Log(table.name);
