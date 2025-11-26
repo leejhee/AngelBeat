@@ -145,6 +145,7 @@ MonoBehaviour:
     - {fileID: -4513155025641068502}
     - {fileID: 7416611184069441982}
     - {fileID: -3191126200641922610}
+    - {fileID: 4346736138254460096}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +167,22 @@ MonoBehaviour:
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: -2685871878902079012}
+--- !u!114 &4346736138254460096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a131b508da2548c68beb8517baad27e5, type: 3}
+  m_Name: Skill Object At Target For Seconds Marker
+  m_EditorClassIdentifier: 
+  m_Time: 0.3333333333333333
+  lastingObject: {fileID: 5358219405251250283, guid: 80e9adfee890c0d47b0649fd511833c6, type: 3}
+  seconds: 0.75
+  offset: {x: 0, y: 0}
 --- !u!114 &7416611184069441982
 MonoBehaviour:
   m_ObjectHideFlags: 1
