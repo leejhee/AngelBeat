@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Core.Scripts.Managers;
 using GamePlay.Features.Explore.Scripts;
+using System;
 using UnityEngine.Serialization;
 
 namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
@@ -17,10 +18,18 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         [SerializeField] private Sprite inActiveFrame;
         [SerializeField] private Button skillButton;
         [SerializeField] private GameObject iconObject;
-        private int index;
+        private int _index;
         private bool _isSelected = false;
+        
+        public Button SkillButton => skillButton;
+        public event Action<int> Selected;
+        public event Action<int> Deselected;
+        
+        
         public async void SetSkillImage(CharacterInfoPresenter.InfoPopupSkillResourceRoot skillResourceRoot, int idx)
         {
+            Debug.Log($"{idx}번째 스킬 {skillResourceRoot.SkillName}");
+            _index = idx;
             Sprite icon = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.IconRoot);
             Sprite tooltip = await ResourceManager.Instance.LoadAsync<Sprite>(skillResourceRoot.TooltipRoot);
             
@@ -58,19 +67,25 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             // 스킬이 이미 선택되어 있을 경우 -> 스킬 해제
             if (_isSelected)
             {
+                Deselected?.Invoke(_index);
+                
                 // 스킬 해제
-                Debug.Log("NonSelectSkill");
                 _isSelected = false;
                 frameImage.sprite = nonSelectedFrame;
             }
             // 스킬이 미선택일 경우 -> 스킬 선택
             else
             {
-                // 스킬 선택
-                Debug.Log("SelectSkill");
-                _isSelected = true;
-                frameImage.sprite = selectedFrame;
+                // 스킬 선택 이벤트 발사
+                Selected?.Invoke(_index);
+
             }
+        }
+
+        public void SetSelectedSkill()
+        {
+            _isSelected = true;
+            frameImage.sprite = selectedFrame;
         }
         
         public void ActivateInteractable(bool value)

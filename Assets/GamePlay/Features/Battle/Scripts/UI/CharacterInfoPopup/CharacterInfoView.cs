@@ -119,7 +119,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             }
 
         }
-        private readonly PresenterEventBag _focusCharacterEvents = new();
+        private readonly PresenterEventBag _presenterEventBag = new();
 
         public struct InfoPopupSkillResourceRoot
         {
@@ -163,6 +163,28 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
             }
 
 
+
+            foreach (CharacterInfoPopupSkill skillButton in View.SkillPanel.SkillList)
+            {
+                _presenterEventBag.Subscribe<int>(act =>
+                    {
+                        skillButton.Selected -= act;
+                        skillButton.Selected += act;
+                    },
+                    act => skillButton.Selected -= act,
+                    OnSkillSelect
+                );
+                
+                _presenterEventBag.Subscribe<int>(act =>
+                    {
+                        skillButton.Deselected -= act;
+                        skillButton.Deselected += act;
+                    },
+                    act => skillButton.Deselected -= act,
+                    OnSkillDeselect
+                );
+            }
+            
             View.SkillPanel.SetSkills(skillResourceRoots);
             View.StatPanel.SetStats(model);
             View.EssencePanel.SetEssence(model);
@@ -170,6 +192,30 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         private void SetCharacterInfoPopup()
         {
             SetCharacterInfoPopup(currentCharacter);
+        }
+
+
+        private void OnSkillSelect(int idx)
+        {
+            // 스킬 선택 되었는지 물어보기
+            if (currentCharacter.UseSkill(currentCharacter.ActiveSkills[idx]))
+            {
+                // 되었으면 해당하는 버튼 설정해줌
+                Debug.Log($"{idx}번째 스킬 선택");
+                View.SkillPanel.SkillList[idx].SetSelectedSkill();
+            }
+        }
+
+        private void OnSkillDeselect(int idx)
+        {
+            Debug.Log($"{idx}번째 스킬 해제");
+            
+            currentCharacter.NotUseSkill(currentCharacter.ActiveSkills[idx]);
+        }
+
+        private long GetSkillIDFromIndex(int idx)
+        {
+            return currentCharacter.ActiveSkills[idx].SkillIndex;
         }
         private void OnClickLeftButton()
         {

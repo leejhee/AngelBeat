@@ -9,7 +9,7 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
     public class SkillPanel: MonoBehaviour
     {
         [SerializeField] private List<CharacterInfoPopupSkill> skillList = new();
-        
+        public List<CharacterInfoPopupSkill> SkillList => skillList;
         public void SetSkills(List<CharacterInfoPresenter.InfoPopupSkillResourceRoot> skillResourceRoots)
         {
             int idx = 0;

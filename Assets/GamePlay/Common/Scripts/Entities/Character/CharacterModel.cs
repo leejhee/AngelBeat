@@ -6,6 +6,7 @@ using GamePlay.Common.Scripts.Entities.Skills;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace GamePlay.Common.Scripts.Entities.Character
 {
@@ -130,28 +131,28 @@ namespace GamePlay.Common.Scripts.Entities.Character
             
             _baseStat = new CharStat(dok);
             
-            // //도깨비는 처음부터 스킬을 얻지 않는다는 전제
-            // ////////////// SKILL TEST SECTION ////////////////////
-            //
-            // var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
-            // var mungeModel = new SkillModel(mungeData);
-            // _allSkillModels.Add(mungeModel);
-            //
-            // var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
-            // var twisterModel = new SkillModel(twisterData);
-            // _allSkillModels.Add(twisterModel);
-            //
-            // var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
-            // var skillModel = new SkillModel(skillData);
-            // _allSkillModels.Add(skillModel);
-            //
-            // List<SkillModel> skillModels = new List<SkillModel>();
-            // skillModels.Add(mungeModel);
-            // skillModels.Add(twisterModel);
-            //
-            // _activeSkillModels = new List<SkillModel>(_allSkillModels);
-            // _usingSkillModels = new List<SkillModel>(skillModels);
-            // ////////////// SKILL TEST SECTION //////////////////// 
+            //도깨비는 처음부터 스킬을 얻지 않는다는 전제
+            ////////////// SKILL TEST SECTION ////////////////////
+            
+            var mungeData = DataManager.Instance.GetData<DokkaebiSkillData>(10101001);
+            var mungeModel = new SkillModel(mungeData);
+            _allSkillModels.Add(mungeModel);
+            
+            var twisterData = DataManager.Instance.GetData<DokkaebiSkillData>(10101005);
+            var twisterModel = new SkillModel(twisterData);
+            _allSkillModels.Add(twisterModel);
+            
+            var skillData = DataManager.Instance.GetData<DokkaebiSkillData>(10101002);
+            var skillModel = new SkillModel(skillData);
+            _allSkillModels.Add(skillModel);
+            
+            List<SkillModel> skillModels = new List<SkillModel>();
+            skillModels.Add(mungeModel);
+            skillModels.Add(twisterModel);
+            
+            _activeSkillModels = new List<SkillModel>(_allSkillModels);
+            _usingSkillModels = new List<SkillModel>(skillModels);
+            ////////////// SKILL TEST SECTION //////////////////// 
             
             
         }
@@ -186,6 +187,46 @@ namespace GamePlay.Common.Scripts.Entities.Character
             if (_usingSkillModels.Count < 4)
             {
                 _usingSkillModels.Add(skillModel);
+            }
+        }
+
+        public bool UseSkill(SkillModel skillModel)
+        {
+            bool useSKillSuccess = false;
+
+            // 사용중인 스킬이 4개 이상이면 사용 불가
+            if (_usingSkillModels.Count >= 4)
+            {
+                Debug.Log("스킬 4개 선택 완료");
+            }
+            else
+            {
+                // 이미 사용중인 스킬이면 선택x
+                if (_usingSkillModels.Contains(skillModel))
+                {
+                    Debug.Log("이미 사용중인 스킬입니다.");
+                }
+                else
+                {
+                    // 스킬이 4개 미만으로 선택되어 있고 사용중인 스킬이 아니라면 선택
+                    _usingSkillModels.Add(skillModel);
+                    useSKillSuccess = true;
+                }
+            }
+
+
+            return useSKillSuccess;
+        }
+
+        public void NotUseSkill(SkillModel skillModel)
+        {
+            if (_usingSkillModels.Contains(skillModel))
+            {
+                _usingSkillModels.Remove(skillModel);
+            }
+            else
+            {
+                Debug.Log("이미 사용 해제한 스킬");
             }
         }
         
