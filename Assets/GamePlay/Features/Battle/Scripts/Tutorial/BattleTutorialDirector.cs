@@ -1,5 +1,9 @@
-﻿using Core.Scripts.Foundation.Define;
+﻿using Core.Scripts.Data;
+using Core.Scripts.Foundation.Define;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
+using GamePlay.Common.Scripts.Entities.Character;
+using GamePlay.Common.Scripts.Novel;
 using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
@@ -96,9 +100,12 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 // 나중에 승패 조건 넣고 싶으면 여기에서 winnerType 보고 필터
                 if (step.winnerType != winnerType)
                     continue;
-                if (step.isRestartBattle)
+                if (step.partyAddIndex != 0)
                 {
-                    //전투 재시작 필요
+                    CompanionData data = DataManager.Instance.GetData<CompanionData>(step.partyAddIndex);
+                    if (data == null) continue;
+                    CharacterModel model = new(data);
+                    BattlePayload.Instance.PlayerParty.AddMember(model);
                 }
                 await ExecuteStep(step);
             }
@@ -290,7 +297,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             if (string.IsNullOrEmpty(step.novelScriptId))
                 return;
 
-            await NovelManager.PlayScriptAndWait(step.novelScriptId);
+            await NovelDomainPlayer.PlayNovelScript(step.novelScriptId);
         }
         
         private async UniTask PlayGuideStepAsync(BattleTutorialStep step)

@@ -1,6 +1,6 @@
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Contracts.Interaction;
-using GamePlay.Common.Scripts.Input;
 using GamePlay.Common.Scripts.Interaction;
 using System.Threading;
 using Unity.Cinemachine;

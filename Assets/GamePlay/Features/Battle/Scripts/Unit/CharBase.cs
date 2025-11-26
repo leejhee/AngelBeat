@@ -31,7 +31,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         [Header("Movement Field")]
         [SerializeField] private Rigidbody2D _rigid;
         [SerializeField] private float moveSpeed = 10f;
-        [SerializeField] private float movingTime = 1f;
+        [SerializeField] private float movingTime = 0.2f;
         [SerializeField] private GameObject jumpOutFX;
         [SerializeField] private GameObject jumpInFX;
         [SerializeField] private GameObject pushFX;
@@ -178,7 +178,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit
         public virtual async UniTask CharInit(CharacterModel charModel)
         {
             _charInfo = charModel; //모델
-            _runtimeStat = charModel.BaseStat; // 스탯 복사
+            RuntimeStat = charModel.BaseStat; // 스탯 복사
             _hpBar.SetFillAmount(MaxHP, MaxHP);
             
             //스킬 초기화 - 이미 ActiveSkills로 저장해놓은 애들만 뽑아줌.

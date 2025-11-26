@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8177b5e9f02c43c38685568256fe4f37, type: 3}
-  m_Name: Battle02TutorialConfig
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: Battle.Character.Scream_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  steps:
-  - {fileID: 11400000, guid: 800014270e6fea04fb678ec5fe2c17b2, type: 2}
-  - {fileID: 11400000, guid: b4da7e750836f1d4592d01672d947fe7, type: 2}
+  m_Group: {fileID: 11400000, guid: 61dd2ac917c064c44a25d15000cc2b19, type: 2}
+  m_StaticContent: 0

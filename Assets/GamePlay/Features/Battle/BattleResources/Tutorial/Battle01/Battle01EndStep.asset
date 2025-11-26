@@ -30,3 +30,7 @@ MonoBehaviour:
   lockInputDuringStep: 0
   requiredClickTarget: 0
   requiredCellOffset: {x: 0, y: 0}
+  forceEnemyScript: 0
+  enemyCommands: []
+  winnerType: 1
+  isRestartBattle: 0

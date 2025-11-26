@@ -7,6 +7,7 @@ using System.Threading;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -237,7 +238,6 @@ namespace UIs.Runtime
         
         public async UniTask ShowViewAsync(ViewID viewID)
         {
-            
             if (!focusingCatalog) return;
 
             await EnsureRoot(_uiCts.Token);
@@ -293,6 +293,8 @@ namespace UIs.Runtime
                 current.Presenter.Dispose();
                 ReturnViewToCache(current.ID, current.Go);
             }
+            
+            if (_stack.Count == 0) InputManager.Instance.SetUIOnly(false);
         }
         
         #region Unity Events

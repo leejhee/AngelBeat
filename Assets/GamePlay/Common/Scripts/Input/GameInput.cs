@@ -277,7 +277,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             ""id"": ""0b40e3ff-4d10-41b0-8dc1-35ae56856124"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""EndBattleCheat"",
                     ""type"": ""Button"",
                     ""id"": ""e926d0b4-54d8-4e57-83ab-d1df0af7dc1a"",
                     ""expectedControlType"": """",
@@ -290,11 +290,11 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d1839f94-c53f-4765-9f74-d5c533686639"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""EndBattleCheat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -437,7 +437,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_ExploreVillage_CameraMove = m_ExploreVillage.FindAction("CameraMove", throwIfNotFound: true);
         // Battle
         m_Battle = asset.FindActionMap("Battle", throwIfNotFound: true);
-        m_Battle_Newaction = m_Battle.FindAction("New action", throwIfNotFound: true);
+        m_Battle_EndBattleCheat = m_Battle.FindAction("EndBattleCheat", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -744,7 +744,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     // Battle
     private readonly InputActionMap m_Battle;
     private List<IBattleActions> m_BattleActionsCallbackInterfaces = new List<IBattleActions>();
-    private readonly InputAction m_Battle_Newaction;
+    private readonly InputAction m_Battle_EndBattleCheat;
     /// <summary>
     /// Provides access to input actions defined in input action map "Battle".
     /// </summary>
@@ -757,9 +757,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// </summary>
         public BattleActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Battle/Newaction".
+        /// Provides access to the underlying input action "Battle/EndBattleCheat".
         /// </summary>
-        public InputAction @Newaction => m_Wrapper.m_Battle_Newaction;
+        public InputAction @EndBattleCheat => m_Wrapper.m_Battle_EndBattleCheat;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -786,9 +786,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_BattleActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_BattleActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @EndBattleCheat.started += instance.OnEndBattleCheat;
+            @EndBattleCheat.performed += instance.OnEndBattleCheat;
+            @EndBattleCheat.canceled += instance.OnEndBattleCheat;
         }
 
         /// <summary>
@@ -800,9 +800,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="BattleActions" />
         private void UnregisterCallbacks(IBattleActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @EndBattleCheat.started -= instance.OnEndBattleCheat;
+            @EndBattleCheat.performed -= instance.OnEndBattleCheat;
+            @EndBattleCheat.canceled -= instance.OnEndBattleCheat;
         }
 
         /// <summary>
@@ -1115,12 +1115,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     public interface IBattleActions
     {
         /// <summary>
-        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "EndBattleCheat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnEndBattleCheat(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -8,8 +8,8 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         Attack,     // 스킬 공격
         Push,       // 밀치기
         Jump,       // 점프
-        Move,       // 단순 이동
-        Wait        // 대기
+        Move,       // 단순 이동만 하는 경우
+        Wait        // 이동도 안하고 대기만 하는 경우(moveto가 null이어야만 함)
     }
     
     /// <summary>
@@ -17,20 +17,20 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
     /// </summary>
     public class AIActionSet
     {
-        // 이동 정보
-        public Vector2Int? MoveTo { get; set; }           // null이면 현재 위치에서 실행
+        // 1차 이동 정보
+        public Vector2Int? MoveTo { get; set; }           // "어디로 이동할 건지". null이면 현재 위치에서 실행
         
         // 행동 정보
         public AIActionType AIActionType { get; set; }
         public SkillModel SkillToUse { get; set; }        // ActionType.Attack일 때 사용
-        public Vector2Int? TargetCell { get; set; }       // 타겟 위치
+        public Vector2Int? TargetCell { get; set; }       // 행동 타겟 위치
         public CharBase TargetChar { get; set; }          // 타겟 캐릭터
         
-        // 재이동 정보
+        // 2차 이동 정보
         public Vector2Int? AfterMove { get; set; }        // null이면 재이동 없음
         
         // 가중치
-        public float Weight { get; set; } = 0f;
+        public float Weight { get; set; }
 
         
 

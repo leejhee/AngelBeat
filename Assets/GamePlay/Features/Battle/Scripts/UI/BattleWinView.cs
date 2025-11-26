@@ -1,5 +1,6 @@
 ﻿using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Skills;
 using GamePlay.Features.Battle.Scripts;

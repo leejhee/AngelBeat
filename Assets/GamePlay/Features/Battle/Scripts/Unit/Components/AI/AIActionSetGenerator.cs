@@ -103,13 +103,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             //}
             Debug.Log($"[AISetGen] 점프 포함: {allSets.Count}개");
             
-            // 4. 대기 행동 (현재 위치)
-            allSets.Add(new AIActionSet
-            {
-                MoveTo = null,
-                AIActionType = AIActionType.Wait
-            });
-            
             Debug.Log($"[AISetGen] ====== 총 {allSets.Count}개 생성 완료 ======");
             return allSets;
             */
@@ -152,7 +145,10 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             
             return sets;
         }
-
+        
+        /// <summary>
+        /// 점프 액션 셋을 생성
+        /// </summary>
         private List<AIActionSet> GenerateJumpActions(
             Vector2Int position, 
             Vector2Int? moveFrom, 
@@ -161,26 +157,24 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             List<AIActionSet> sets = new();
             if (isAfterJump) return sets;
 
-            foreach (Vector2Int movable in _context.MovableCells)
+            BattleActionPreviewData jumpData = BattleRangeHelper.ComputeJumpRangeFromPos(_grid, position);
+            foreach (Vector2Int targetCell in jumpData.PossibleCells)
             {
-                List<Vector2Int> jumpables = 
-                    BattleRangeHelper.ComputeJumpRangeFromPos(_grid, movable).PossibleCells;
+                // 혹시 몰라서 예외체크용
+                if (!_grid.IsInBounds(targetCell)) continue;
 
-                foreach (Vector2Int jumpable in jumpables)
+                var set = new AIActionSet
                 {
-                    Vector2Int targetCell = jumpable + movable;
-
-                    AIActionSet set = new()
-                    {
-                        MoveTo = moveFrom.HasValue ? position : null, 
-                        AIActionType = AIActionType.Jump,
-                        SkillToUse = null,
-                        TargetCell = targetCell,
-                        TargetChar = null
-                    };
-                    sets.Add(set);
-                }
+                    // 현재 위치(pos)로 걸어온 뒤 점프하는 셋
+                    MoveTo      = moveFrom.HasValue ? position : (Vector2Int?)null,
+                    AIActionType = AIActionType.Jump,
+                    SkillToUse  = null,
+                    TargetCell  = targetCell,
+                    TargetChar  = null
+                };
+                sets.Add(set);
             }
+
 
             return sets;
         }
