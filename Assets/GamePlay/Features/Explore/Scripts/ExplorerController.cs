@@ -14,6 +14,7 @@ namespace GamePlay.Features.Explore.Scripts
     /// </summary>
     public class ExploreController : Interactor
     {
+        private static readonly int Move = Animator.StringToHash("Move");
         [SerializeField] private float speed = 3f;
 
         public Transform Transform { get; }
@@ -23,12 +24,18 @@ namespace GamePlay.Features.Explore.Scripts
         private Rigidbody2D _rb;
         private Vector2 _moveInput;
         
+        private Animator animator;
+        private SpriteRenderer spriteRenderer;
+        
+        
         private IInteractable _focused;
         private bool _isInteracting;
         
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Start()
@@ -49,9 +56,29 @@ namespace GamePlay.Features.Explore.Scripts
         {
             Vector2 move = InputManager.Instance.GetExploreMove();
 
+
+            if (move != Vector2.zero)
+            {
+                animator.SetBool(Move, true);
+
+                if (move.x > 0)
+                {
+                    spriteRenderer.flipX = false;
+                }
+                else if (move.x < 0)
+                {
+                    spriteRenderer.flipX = true;
+                }
+            }
+            else if (move == Vector2.zero)
+            {
+                animator.SetBool(Move, false);
+            }
+            
+            
             if (move.sqrMagnitude > 1f)
                 move.Normalize();
-
+            
             Vector2 delta = move * (speed * Time.fixedDeltaTime);
             _rb.MovePosition(_rb.position + delta);
         }
