@@ -1,9 +1,8 @@
 using Core.Scripts.Foundation.Define;
-using Core.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GamePlay.Common.Scripts.Input
+namespace Core.Scripts.Managers
 {
     public class InputManager : MonoBehaviour
     {

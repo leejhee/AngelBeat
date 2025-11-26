@@ -1,3 +1,4 @@
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,8 +10,17 @@ using UnityEngine.UI;
 public class ExploreHerbView : MonoBehaviour, IView
 {
     public GameObject Root { get; }
-    public void Show() => gameObject.SetActive(true);
-    public void Hide() => gameObject.SetActive(false);
+    public void Show()
+    {
+        InputManager.Instance.SetUIOnly(true);
+        gameObject.SetActive(true);
+    }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        InputManager.Instance.SetUIOnly(false);
+    }
+
     public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
     public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
 
@@ -49,6 +59,7 @@ public class ExploreHerbPresenter : PresenterBase<ExploreHerbView>
     private void GatherHerb()
     {
         View.Hide();
+        
     }
     
 }

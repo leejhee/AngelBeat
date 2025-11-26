@@ -1,3 +1,4 @@
+using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Features.Explore.Scripts;
 using GamePlay.Features.Explore.Scripts.Models;
@@ -12,8 +13,17 @@ using UnityEngine.UI;
 public class ExploreChestView : MonoBehaviour, IView
 {
     public GameObject Root { get; }
-    public void Show() => gameObject.SetActive(true);
-    public void Hide() => gameObject.SetActive(false);
+    public void Show()
+    {
+        InputManager.Instance.SetUIOnly(true);
+        gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        InputManager.Instance.SetUIOnly(false);
+    }
     public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
     public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
 

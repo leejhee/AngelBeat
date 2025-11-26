@@ -51,8 +51,9 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         public bool forceEnemyScript = false;
         public EnemyScriptCommand[] enemyCommands;
 
-        [Header("전투 끝나고 winnerType을 따질 때")] 
+        [Header("전투 끝나고")] 
         public SystemEnum.eCharType winnerType;
         public bool isRestartBattle;
+        public long partyAddIndex;
     }
 }

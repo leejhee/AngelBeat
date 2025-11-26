@@ -10,35 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Battle.Character.Seol
+  m_Name: Battle.Character.Scream
   m_EditorClassIdentifier: 
-  m_GroupName: Battle.Character.Seol
+  m_GroupName: Battle.Character.Scream
   m_Data:
     m_SerializedData: []
-  m_GUID: 718132b0878405d4a865eeb9827d3cb6
+  m_GUID: 33622fe7963494647b0ace4ec434cbf9
   m_SerializeEntries:
-  - m_GUID: 507247a44a4ddd4429ef08a459640a13
-    m_Address: timeline_ThrowHeal
+  - m_GUID: 3f0b90adb307a00498ad8584f7bf34e5
+    m_Address: testScream
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5320e105a7aab554baf0135af59c7300
-    m_Address: testSeol
+  - m_GUID: 977a06c676ea0104ca4dc2e4f9dbdc3e
+    m_Address: timeline_EchoShot
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 62e39b33463ce844e9af29a8af201bcc
-    m_Address: timeline_PoisonShot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6c4483167f30d8b4f80f4fc1810aae7b
-    m_Address: timeline_Purify
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dfe5168b13ef3bb40be5fdc1ef8f6169
-    m_Address: timeline_SingleHeal
+  - m_GUID: 98b333950e594c74b8b111cc391dd7e3
+    m_Address: timeline_Scream
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -46,5 +36,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: eae70a4ff10fd8848b78914fd36ba3be, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 0f78cabdd8d2de64bb9b7916f244612a, type: 2}
-    - {fileID: 11400000, guid: 940c12e239155e344ad28e2835f5aee4, type: 2}
+    - {fileID: 11400000, guid: 8beb00b58897a9d408dfe9b3f605d287, type: 2}
+    - {fileID: 11400000, guid: 81325b20eb19ddb4baccbfcec1e200d1, type: 2}

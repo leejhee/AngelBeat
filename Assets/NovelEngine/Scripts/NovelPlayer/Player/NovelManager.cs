@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine.PlayerLoop;
 
 public class NovelManager : MonoBehaviour
 {
@@ -251,6 +252,7 @@ public class NovelManager : MonoBehaviour
         Player.Play();
 
         await tcs.Task;
+        
     }
     
     

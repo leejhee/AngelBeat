@@ -1,3 +1,4 @@
+using GamePlay.Common.Scripts.Novel;
 using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
@@ -10,8 +11,7 @@ namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
         [SerializeField] private string novelTitle;
         private async void PlayNovel()
         {
-            await NovelManager.PlayScriptAndWait(novelTitle);
-            
+            await NovelDomainPlayer.PlayNovelScript(novelTitle);
             Destroy(gameObject);
         }
 

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe92d91731e4435791f63c2e896d92de, type: 3}
-  m_Name: Battle02LoseAndRebattle
+  m_Name: Battle02EndAddSeol
   m_EditorClassIdentifier: 
-  stepID: Battle02LoseAndRebattle
+  stepID: Battle02EndAddSeol
   triggerOnce: 1
   triggerType: 1
   viewType: 0
@@ -32,5 +32,6 @@ MonoBehaviour:
   requiredCellOffset: {x: 0, y: 0}
   forceEnemyScript: 0
   enemyCommands: []
-  winnerType: 2
-  isRestartBattle: 1
+  winnerType: 1
+  isRestartBattle: 0
+  partyAddIndex: 20001001

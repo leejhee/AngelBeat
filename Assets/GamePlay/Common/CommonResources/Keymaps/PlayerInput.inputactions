@@ -191,7 +191,7 @@
             "id": "0b40e3ff-4d10-41b0-8dc1-35ae56856124",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "EndBattleCheat",
                     "type": "Button",
                     "id": "e926d0b4-54d8-4e57-83ab-d1df0af7dc1a",
                     "expectedControlType": "",
@@ -204,11 +204,11 @@
                 {
                     "name": "",
                     "id": "d1839f94-c53f-4765-9f74-d5c533686639",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "EndBattleCheat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
