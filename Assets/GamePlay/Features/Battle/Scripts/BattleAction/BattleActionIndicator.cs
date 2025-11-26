@@ -77,12 +77,14 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         private CharBase       _hoverTarget;
         private SpriteRenderer _baseSR;        // UnitRoot의 기본 SR
         private SpriteRenderer _hoverSR;       // UnitRoot의 자식 hoverSR(오버레이 SR)
-        private SpriteRenderer _cellSR;        // 인디케이터 칸 SR
+        [SerializeField]private SpriteRenderer _cellSR;        // 인디케이터 칸 SR
         private Color          _baseCellColor;
         private bool           _hovered;
         private Sprite         _lastBaseSprite; // 동기화용 캐시
         
         #endregion
+        
+        public SpriteRenderer CellSR => _cellSR;
         
         #region Initialization
         private bool _initialized = false;
@@ -107,7 +109,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             _pointerRange = Mathf.Max(0, pointerRange);
             _confirmAction = confirmAction;
             
-            _cellSR ??= GetComponent<SpriteRenderer>();
+            //_cellSR ??= GetComponent<SpriteRenderer>();
             if(_cellSR) 
             {
                 _baseCellColor = _cellSR.color;
@@ -136,7 +138,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         #region Unity Events
         private void Awake()
         {
-            _cellSR = GetComponent<SpriteRenderer>();
+            //_cellSR = GetComponent<SpriteRenderer>();
             if (_cellSR != null) _baseCellColor = _cellSR.color;
 
             if (autoProbeFromScale)

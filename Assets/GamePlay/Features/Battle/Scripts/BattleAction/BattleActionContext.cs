@@ -46,11 +46,15 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
     {
         public readonly List<Vector2Int> PossibleCells;
         public readonly List<Vector2Int> BlockedCells;
-
-        public BattleActionPreviewData(List<Vector2Int> possibleCells, List<Vector2Int> blockedCells)
+        public readonly List<Vector2Int> MaskedCells;
+        public BattleActionPreviewData(
+            List<Vector2Int> possibleCells, 
+            List<Vector2Int> blockedCells,
+            List<Vector2Int> maskedCells)
         {
             PossibleCells = possibleCells;
             BlockedCells = blockedCells;
+            MaskedCells = maskedCells;
         }
     }
 

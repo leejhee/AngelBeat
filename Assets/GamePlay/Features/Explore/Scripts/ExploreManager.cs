@@ -4,12 +4,9 @@ using Core.Scripts.GameSave.Contracts;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Features.Explore.Scripts.Map.Data;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
 using GamePlay.Features.Explore.Scripts.Models;
 using System;
-using System.Net;
-using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
 

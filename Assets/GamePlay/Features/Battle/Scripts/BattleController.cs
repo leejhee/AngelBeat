@@ -250,23 +250,26 @@ namespace GamePlay.Features.Battle.Scripts
         {
             HideBattleActionPreview(); //혹시 비활성화되어있거나 남아있는 거 제거
             _battleStage.ShowGridOverlay(true);
-            
+
+            foreach (var c in data.MaskedCells) CreateIndicator(c, blocked: false, masked: true);
             foreach (var c in data.PossibleCells) CreateIndicator(c, blocked:false);
             foreach (var c in data.BlockedCells)  CreateIndicator(c, blocked:true);
         }
 
-        private void CreateIndicator(Vector2Int cell, bool blocked)
+        private void CreateIndicator(Vector2Int cell, bool blocked, bool masked=false)
         {
             Vector3 pos = _battleStage.CellToWorldCenter(cell);
             GameObject go = Instantiate(indicatorPrefab, pos, Quaternion.identity, _battleStage.transform);
             indicatorLists.Add(go);
             go.transform.localScale = new Vector3(_battleStage.Grid.cellSize.x, _battleStage.Grid.cellSize.y, 1f);
-            
-            var sr = go.GetComponent<SpriteRenderer>();
-            if (sr) sr.color = blocked ? blockedColor : possibleColor;
-            
+
+            if (masked) return;
+
             var indi = go.GetComponent<BattleActionIndicator>();
             if (!indi) return;
+
+            var sr = indi.CellSR;
+            if(sr)  sr.color = blocked ? blockedColor : possibleColor;
             
             // 행동마다 콜백이 달라서 이런 형태로 사용
             if (_currentActionContext.battleActionType == ActionType.Skill)
