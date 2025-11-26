@@ -1,6 +1,4 @@
-﻿using AngelBeat;
-using Core.Scripts.Foundation.Define;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System;
@@ -26,6 +24,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             List<Vector2Int> pushablePoints = new();
             List<Vector2Int> blockedPoints = new();
+            List<Vector2Int> maskedCells = new();
             
             BattleStageGrid stageGrid = Context.battleField.GetComponent<BattleStageGrid>();
             Vector2Int pivot = stageGrid.WorldToCell(actor.CharTransform.position);
@@ -33,8 +32,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             foreach (Vector2Int point in PushableRange)
             {
                 Vector2Int candidate = pivot + point;
-                if (stageGrid.IsMaskable(candidate)) continue;
-                if (stageGrid.IsOccupied(candidate) && stageGrid.IsPlatform(candidate))
+                if (stageGrid.IsMaskable(candidate))
+                {
+                    maskedCells.Add(candidate);
+                }
+                else if (stageGrid.IsOccupied(candidate) && stageGrid.IsPlatform(candidate))
                 {
                     pushablePoints.Add(candidate);
                 }
@@ -44,7 +46,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                 }
             }
             // 상태 머신 그냥 안만들기 위해서
-            return UniTask.FromResult(new BattleActionPreviewData(pushablePoints, blockedPoints));
+            return UniTask.FromResult(new BattleActionPreviewData(pushablePoints, blockedPoints, maskedCells));
         }
 
         public override async UniTask<BattleActionResult> ExecuteAction(CancellationToken ct)

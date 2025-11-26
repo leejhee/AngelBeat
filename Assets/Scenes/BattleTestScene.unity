@@ -664,8 +664,8 @@ MonoBehaviour:
   cameraDriver: {fileID: 1229864060}
   indicatorPrefab: {fileID: 5673408793896508206, guid: 40313ca4d7436d446a43b9fa5daf23e6, type: 3}
   indicatorLists: []
-  possibleColor: {r: 0, g: 1, b: 0, a: 0.5686275}
-  blockedColor: {r: 1, g: 0.2028302, b: 0.2028302, a: 0.64705884}
+  possibleColor: {r: 0.1254902, g: 0.38823533, b: 0.1764706, a: 1}
+  blockedColor: {r: 0.5019608, g: 0.24313727, b: 0.24313727, a: 1}
 --- !u!4 &881014747
 Transform:
   m_ObjectHideFlags: 0

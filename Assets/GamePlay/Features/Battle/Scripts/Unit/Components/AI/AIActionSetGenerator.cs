@@ -363,7 +363,24 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             }
             
             // 행동 후 위치
-            Vector2Int posAfterAction = set.MoveTo ?? _context.CurrentCell;
+            Vector2Int posAfterAction;
+            if (set.AIActionType == AIActionType.Jump)
+            {
+                if (set.TargetCell == null) return;
+                posAfterAction = set.TargetCell.Value;
+            }
+            else
+            {
+                posAfterAction = set.MoveTo ?? _context.CurrentCell;
+            }
+            
+            bool shouldRetreat = false;
+
+            if (_context.LowHP)
+                shouldRetreat = true;
+
+            if (!shouldRetreat)
+                return; // 공격적으로 그냥 자리에 선다
             
             int preMoveCost = 0;
             if (set.MoveTo.HasValue)
@@ -377,13 +394,6 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                 // 남은 이동력이 없으면 재이동 불가
                 return;
             }
-            
-            /*
-            if (set.AIActionType == AIActionType.Jump && set.TargetCell.HasValue)
-            {
-                posAfterAction = set.TargetCell.Value;
-            }
-            */
             
             // 재이동 가능한 인접 칸 중 안전한 곳 선택
             Vector2Int? bestRetreat = FindBestRetreatCellBFS(posAfterAction, remainingMove);
@@ -510,30 +520,30 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
             {
                 return false;
             }
-            
+    
             // 2. 타겟이 죽어있음
             if (set.TargetChar && set.TargetChar.CurrentHP <= 0)
             {
                 return false;
             }
-            
+    
             // 3. 이동/재이동 위치가 낙사
             if (set.MoveTo.HasValue && !_grid.IsPlatform(set.MoveTo.Value))
             {
                 return false;
             }
-            
+    
             if (set.AfterMove.HasValue && !_grid.IsPlatform(set.AfterMove.Value))
             {
                 return false;
             }
-            
+    
             // 4. 자기 자신을 타겟으로
             if (set.TargetChar == _actor)
             {
                 return false;
             }
-            
+    
             // 5. 이동 거리가 이동력 초과 (간단 체크)
             if (set.MoveTo.HasValue)
             {
@@ -543,7 +553,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
                     return false;
                 }
             }
-            
+    
             return true;
         }
         

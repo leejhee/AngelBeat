@@ -7,51 +7,8 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
 {
-    #region Contextual Calculation Class
-    public class MoveState
-    {
-        public Vector2Int pos;
-        public bool jumped;
-        public int cost;
-    }
-
-    public struct MoveKey : IEquatable<MoveKey>
-    {
-        public Vector2Int pos;
-        public bool jumped;
-
-        public bool Equals(MoveKey other)
-        {
-            return pos.Equals(other.pos) && jumped == other.jumped;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is MoveKey other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(pos, jumped);
-        }
-    }
-
-    public enum MoveStepType
-    {
-        Walk, Jump
-    }
-
-    public struct MoveParent
-    {
-        public MoveKey Parent;
-        public MoveStepType Step;
-        public Vector2Int Offset;
-    }
-    
-    #endregion
     /// <summary>
     /// AI가 한 턴 동안 상황을 판단한 결과를 저장하는 컨텍스트
-    /// PDF 1단계: 상황 분석
     /// </summary>
     public class AIContext
     {
@@ -118,7 +75,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         /// </summary>
         private void CalculateMovableCells()
         {
-            var moveData = BattleRangeHelper.ComputeMoveRangeFromClient(Grid, Actor);
+            BattleActionPreviewData moveData = BattleRangeHelper.ComputeMoveRangeFromClient(Grid, Actor);
             MovableCells = moveData.PossibleCells;
             MovableCells.Add(CurrentCell); // 현재 좌표를 포함해야한다.
             Debug.Log($"[AIContext] 이동 가능 칸: {string.Join(", ", MovableCells)}");

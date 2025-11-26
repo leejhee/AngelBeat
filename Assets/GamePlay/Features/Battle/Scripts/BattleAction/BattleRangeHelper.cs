@@ -4,6 +4,7 @@ using GamePlay.Common.Scripts.Entities.Character.Components;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.Unit;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts.BattleAction
@@ -40,14 +41,18 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             List<Vector2Int> movablePoints = new();
             List<Vector2Int> blockedPoints = new();
-            
+            List<Vector2Int> maskedPoints = new();
             #region Right Inspection
 
             bool blocked = false;
             for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new(pivot.x + offset, pivot.y);
-                if (grid.IsMaskable(candidate)) break;
+                if (grid.IsMaskable(candidate))
+                {
+                    maskedPoints.Add(candidate);
+                    break;
+                }
                 if (grid.IsWalkable(candidate) && !blocked)
                 {
                     movablePoints.Add(candidate);
@@ -69,7 +74,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int offset = 1; offset <= (int)movePoint; offset++)
             {
                 Vector2Int candidate = new(pivot.x - offset, pivot.y);
-                if (grid.IsMaskable(candidate)) break;
+                if (grid.IsMaskable(candidate))
+                {
+                    maskedPoints.Add(candidate);
+                    break;
+                }
                 if (grid.IsWalkable(candidate) && !blocked)
                 {
                     movablePoints.Add(candidate);
@@ -86,7 +95,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             }
             #endregion
             
-            return new BattleActionPreviewData(movablePoints, blockedPoints);
+            return new BattleActionPreviewData(movablePoints, blockedPoints, maskedPoints);
         }
 
         public static BattleActionPreviewData ComputeJumpRangeFromClient(BattleStageGrid grid, CharBase client)
@@ -100,9 +109,11 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             List<Vector2Int> jumpablePoints = new();
             List<Vector2Int> blockedPoints = new();
+            List<Vector2Int> maskedPoints = new();
             foreach (Vector2Int candidate in jumpableRange)
             {
                 Vector2Int sum = pivot + candidate;
+                maskedPoints.Add(sum);
                 if (grid.IsMaskable(sum)) continue;
                 if (grid.IsWalkable(sum))
                 {
@@ -113,8 +124,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
                     blockedPoints.Add(sum);
                 }
             }
-            
-            return new BattleActionPreviewData(jumpablePoints, blockedPoints);
+            var masked = maskedPoints.Except(jumpablePoints).ToList();
+            masked = masked.Except(blockedPoints).ToList();
+            return new BattleActionPreviewData(jumpablePoints, blockedPoints, masked);
         }
         
         private static bool IsMaskMatch(BattleStageGrid grid, Vector2Int coord, SystemEnum.eCharType maskType)
@@ -132,6 +144,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         {
             List<Vector2Int> targetable = new(); // 지정 가능
             List<Vector2Int> unable = new();    // 지정 불가
+            List<Vector2Int> masked = new();
             
             // Current Position
             Vector2Int origin = grid.WorldToCell(client.CharTransform.position);
@@ -152,7 +165,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             if (skillPivot == SystemEnum.ePivot.TARGET_SELF)
             {
                 targetable.Add(origin); // 만약 나 자신이라면 그냥 나만 넣고 끝내면 됨.
-                return new BattleActionPreviewData(targetable, unable);
+                return new BattleActionPreviewData(targetable, unable, new());
             }
             
             // Calculation
@@ -171,6 +184,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             
             if (rangeData.Origin)
             {
+                masked.Add(origin);
                 if(IsMaskMatch(grid, origin, maskType)) targetable.Add(origin);
                 else unable.Add(origin);
             }
@@ -178,6 +192,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.Forward; i++)
             {
                 Vector2Int pos = origin + forward * i;
+                masked.Add(pos);
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue; // 범위 밖이거나 플랫폼이 아니면 무시
                 if (!canAccessAny && blocked)
                 {
@@ -209,8 +224,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.Backward; i++)
             {
                 Vector2Int pos =  origin - forward * i;
-                if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
+                masked.Add(pos);
                 
+                if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 if (!canAccessAny && blocked)
                 {
                     // 물리공격이고 현재 막혀있는 상태면 불가 타일
@@ -245,6 +261,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             if (rangeData.Up)
             {
                 Vector2Int pos = origin + Vector2Int.up;
+                masked.Add(pos);
                 if (grid.IsInBounds(pos) && grid.IsPlatform(pos))
                 {
                     if(IsMaskMatch(grid, pos, maskType)) targetable.Add(pos);
@@ -256,6 +273,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.UpForward; i++)
             {
                 Vector2Int pos = origin + forward * i + Vector2Int.up;
+                masked.Add(pos);
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 
                 if (!canAccessAny && blocked)
@@ -288,6 +306,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.UpBackward; i++)
             {
                 Vector2Int pos = origin - forward * i + Vector2Int.up;
+                masked.Add(pos);
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 
                 if (!canAccessAny && blocked)
@@ -324,7 +343,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             if (rangeData.Down)
             {
                 Vector2Int pos = origin + Vector2Int.down;
-                
+                masked.Add(pos);
                 if (grid.IsInBounds(pos) && grid.IsPlatform(pos))
                 {
                     if(IsMaskMatch(grid, pos, maskType)) targetable.Add(origin);
@@ -336,6 +355,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.DownForward; i++)
             {
                 Vector2Int pos = origin + forward * i + Vector2Int.down;
+                masked.Add(pos);
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 
                 if (!canAccessAny && blocked)
@@ -368,6 +388,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             for (int i = 1; i <= rangeData.DownBackward; i++)
             {
                 Vector2Int pos = origin - forward * i + Vector2Int.down;
+                masked.Add(pos);
                 if (!grid.IsInBounds(pos) || !grid.IsPlatform(pos)) continue;
                 
                 if (!canAccessAny && blocked)
@@ -397,8 +418,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             }
             
             #endregion
+            var maskedList = masked.Except(targetable).ToList();
+            maskedList =  maskedList.Except(unable).ToList();
             
-            return new BattleActionPreviewData(targetable, unable);
+            return new BattleActionPreviewData(targetable, unable, maskedList);
         }
     }
 }
