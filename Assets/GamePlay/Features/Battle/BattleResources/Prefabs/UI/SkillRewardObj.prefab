@@ -171,9 +171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectable: 1
   isSelected: 0
-  frame: {fileID: 1496630013443811840}
+  frame: {fileID: 0}
   selectedFrame: {fileID: 0}
   nonSelectedFrame: {fileID: 0}
-  rewardImage: {fileID: 1496630013443811840}
-  interactionButton: {fileID: 4154973975090956217}
+  interactionButton: {fileID: 0}
   slotIndex: 0
