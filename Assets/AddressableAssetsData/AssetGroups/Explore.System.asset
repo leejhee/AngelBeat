@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - View
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 336a91a7c48b6414daa4b1cf94ff15ba
+    m_Address: ExploreChestPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 47c056efba9735643990dfc61903f084
     m_Address: ExploreHerbPopupView
     m_ReadOnly: 0

@@ -12,18 +12,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
 {
     public class GameOverView : MonoBehaviour, IView
     {
-        [SerializeField] private Button toLobbyButton;
-        public Button ToLobbyButton => toLobbyButton;
-        // void Start()
-        // {
-        //     //StartCoroutine(QuitCountDown());
-        // }
-    
-        // IEnumerator QuitCountDown()
-        // {
-        //     yield return new WaitForSeconds(3);
-        //     Application.Quit();
-        // }
+        [SerializeField] private Button restartButton;
+        public Button RestartButton => restartButton;
 
         public GameObject Root { get; }
         public void Show() => gameObject.SetActive(true);
@@ -42,17 +32,18 @@ namespace GamePlay.Features.Battle.Scripts.UI
         public override UniTask EnterAction(CancellationToken token)
         {
             ViewEvents.Subscribe(
-                act => View.ToLobbyButton.onClick.AddListener(new UnityAction(act)),
-                act => View.ToLobbyButton.onClick.RemoveAllListeners(),
-                ToLobbyScene
+                act => View.RestartButton.onClick.AddListener(new UnityAction(act)),
+                act => View.RestartButton.onClick.RemoveAllListeners(),
+                Restart
             );
             
             return UniTask.CompletedTask;
         }
 
-        private void ToLobbyScene()
+        private void Restart()
         {
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
+            View.Hide();
+            //BattleController.Instance.
         }
     }
 }

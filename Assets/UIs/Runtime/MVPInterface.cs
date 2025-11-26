@@ -21,6 +21,7 @@ namespace UIs.Runtime
         
         ExploreSceneView = 201,
         ExploreHerbPopup,
+        ExploreChestPopup,
         
         BattleSceneView = 301,
         CharacterInfoPopUpView,

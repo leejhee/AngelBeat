@@ -87,6 +87,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92e0be8b2e4d36f4d88d4206eea384d1
+    m_Address: BattleLoseView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ca9190f5c82e7bc4b9cab86d4c9494fe
     m_Address: KeywordPopupView
     m_ReadOnly: 0

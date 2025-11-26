@@ -17,6 +17,8 @@ namespace GamePlay.Features.Explore.Scripts.UI
                     return new CharacterInfoPresenter(view);
                 case ViewID.ExploreHerbPopup:
                     return new ExploreHerbPresenter(view);
+                case ViewID.ExploreChestPopup:
+                    return new ExploreChestPresenter(view);
                 default:
                     return new NullPresenter(view);
             }
