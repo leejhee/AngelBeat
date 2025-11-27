@@ -6,11 +6,14 @@ using UnityEngine;
 
 namespace GamePlay.Features.Battle.Scripts
 {
-    public class BattlePayload : SingletonObject<BattlePayload>{
+    public class BattleSession : SingletonObject<BattleSession>{
         public Party PlayerParty { get; private set; }
         public SystemEnum.Dungeon DungeonName { get; private set; }
+        public int DungeonFloor {get; private set;}
         public List<string> StageNames { get; private set; }
+        public int RandomStageCount { get; private set; }
         public SystemEnum.eScene ReturningScene { get; private set; }
+        public bool IsEndExploreBattle { get; private set; }
         
         public int CurrentStageIndex { get; private set; }
         public string CurrentStageName =>
@@ -20,7 +23,7 @@ namespace GamePlay.Features.Battle.Scripts
                 ? StageNames[CurrentStageIndex]
                 : null;
         
-        public int StageCount => StageNames?.Count ?? 0;
+        public int StageCount => StageNames?.Count ?? RandomStageCount;
         public bool HasAnyStage => StageCount > 0;
         public bool HasNextStage => HasAnyStage && CurrentStageIndex + 1 < StageCount;
         
@@ -31,17 +34,19 @@ namespace GamePlay.Features.Battle.Scripts
         public bool NeedTutorial => CurrentTutorialIndex < TutorialMaxCount;
         #endregion
         
-        private BattlePayload() { }
+        private BattleSession() { }
 
         public void SetBattleData(
-            Party party, 
+            Party party,
             SystemEnum.Dungeon dungeon, 
+            int dungeonFloor,
             List<string> stageNames = null,
-            SystemEnum.eScene returningScene = SystemEnum.eScene.ExploreScene)
+            SystemEnum.eScene returningScene = SystemEnum.eScene.ExploreScene,
+            bool isEndExploreBattle = false)
         {
             PlayerParty = party;
             DungeonName = dungeon;
-            
+            DungeonFloor = dungeonFloor;
             StageNames ??= new List<string>();
             StageNames.Clear();
             if (stageNames != null)
@@ -49,10 +54,11 @@ namespace GamePlay.Features.Battle.Scripts
             
             ReturningScene = returningScene;
             CurrentStageIndex = 0;
-            CurrentTutorialIndex = 0;
-            
+            IsEndExploreBattle = isEndExploreBattle;
             Debug.Log($"{party}");
         }
+        
+        public void UpdateParty(Party party) => PlayerParty = party;
         
         public bool MoveToNextStage()
         {
@@ -60,8 +66,15 @@ namespace GamePlay.Features.Battle.Scripts
                 return false;
 
             CurrentStageIndex++;
-            CurrentTutorialIndex++;
+            //if(NeedTutorial)
+            //    CurrentTutorialIndex++;
             return true;
+        }
+        
+        public void MarkTutorialBattleCompleted()
+        {
+            if (CurrentTutorialIndex < TutorialMaxCount)
+                CurrentTutorialIndex++;
         }
         
         public void RestartCurrentStage()
@@ -74,10 +87,9 @@ namespace GamePlay.Features.Battle.Scripts
         {
             PlayerParty = null;
             DungeonName = default;
-
+            DungeonFloor = 0;
             StageNames?.Clear();
             CurrentStageIndex = 0;
-            CurrentTutorialIndex = 0;
             ReturningScene = SystemEnum.eScene.ExploreScene;
         }
     }

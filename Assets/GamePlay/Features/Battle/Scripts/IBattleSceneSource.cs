@@ -16,12 +16,12 @@ namespace GamePlay.Features.Battle.Scripts
 
     public class BattlePayloadSource : IBattleSceneSource
     {
-        public SystemEnum.Dungeon Dungeon => BattlePayload.Instance.DungeonName;
-        public Party PlayerParty => BattlePayload.Instance.PlayerParty;
+        public SystemEnum.Dungeon Dungeon => BattleSession.Instance.DungeonName;
+        public Party PlayerParty => BattleSession.Instance.PlayerParty;
         
-        public string StageName => BattlePayload.Instance.CurrentStageName;
-        public SystemEnum.eScene ReturningScene => BattlePayload.Instance.ReturningScene;
-        public void ClearPayload() => BattlePayload.Instance.Clear();
+        public string StageName => BattleSession.Instance.CurrentStageName;
+        public SystemEnum.eScene ReturningScene => BattleSession.Instance.ReturningScene;
+        public void ClearPayload() => BattleSession.Instance.Clear();
     }
 
     public class DebugMockSource : IBattleSceneSource

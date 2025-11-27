@@ -149,5 +149,15 @@ namespace Core.Scripts.Managers
         }
 
         #endregion
+        
+        #region Battle Input Wrapper
+
+        public bool GetBattleWinCheat()
+        {
+            if(_battleMap == null) return false;
+            InputAction action =  _battleMap.FindAction("EndBattleCheat");
+            return action != null && action.WasPressedThisFrame();
+        }
+        #endregion
     }
 }

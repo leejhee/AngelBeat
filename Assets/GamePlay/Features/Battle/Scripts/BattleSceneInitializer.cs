@@ -45,7 +45,7 @@ namespace GamePlay.Features.Battle.Scripts
                 {
                     throw new Exception("BattleController를 씬에서 찾을 수 없습니다!");
                 }
-
+                controller.SetStageSource(src);
                 BattleFieldDB db = await ResourceManager.Instance.LoadAsync <BattleFieldDB>("BattleFieldDB", ct);
                 StageLoader loader = new(src, db);
                 StageField stage = await loader.InstantiateBattleFieldAsync(src.StageName, null, ct);
@@ -115,8 +115,8 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (SceneLoader.SceneArgs is IBattleSceneSource args) return args;
 
-            bool hasParty = BattlePayload.Instance != null && BattlePayload.Instance.PlayerParty != null;
-            bool hasStage = BattlePayload.Instance != null && BattlePayload.Instance.StageNames.Count > 0;
+            bool hasParty = BattleSession.Instance != null && BattleSession.Instance.PlayerParty != null;
+            bool hasStage = BattleSession.Instance != null && BattleSession.Instance.StageNames.Count > 0;
             if (hasStage && hasParty)
                 return new BattlePayloadSource();
             

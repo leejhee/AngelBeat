@@ -1,11 +1,10 @@
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
-using GamePlay.Common.Scripts.Entities.Character;
-using GamePlay.Common.Scripts.Novel;
 using System;
 using System.Threading;
 using UIs.Runtime;
+using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts
 {
@@ -13,13 +12,8 @@ namespace GamePlay.Features.Explore.Scripts
     {
         public static async UniTask InitializeAsync(CancellationToken ct, IProgress<float> progress)
         {
+            Debug.Log($"-----------------Explore Initialization Started----------------");
             GameManager.Instance.GameState = SystemEnum.GameState.Explore;
-            Party playerParty = new ();
-            playerParty.InitParty();
-            ExploreManager.Instance.playerParty = playerParty;
-            
-            await NovelDomainPlayer.PlayNovelScript("1", ct);
-            //await NovelManager.PlayScriptAndWait("2", ct);
             progress?.Report(0.05f);
 
             await ExploreManager.Instance.ExploreInitialize();
@@ -30,6 +24,7 @@ namespace GamePlay.Features.Explore.Scripts
             
             ExploreSceneRunner.RunAfterLoading();
             progress?.Report(1.0f);
+            Debug.Log($"-----------------Explore Initialization Succeed----------------");
         }
     }
 }

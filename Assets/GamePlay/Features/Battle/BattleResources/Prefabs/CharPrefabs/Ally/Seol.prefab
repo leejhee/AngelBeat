@@ -392,14 +392,15 @@ MonoBehaviour:
   _charSnapShot: {fileID: 0}
   _rigid: {fileID: -1711375296147896922}
   moveSpeed: 5
+  movingTime: 0.2
+  jumpOutFX: {fileID: 0}
+  jumpInFX: {fileID: 0}
+  pushFX: {fileID: 0}
   _charUnitRoot: {fileID: 294029816145623234}
   _hpBar: {fileID: 2602572123908965433}
   protectionIndicator: {fileID: 0}
   tauntIndicator: {fileID: 0}
   anim: {fileID: 0}
-  jumpOutFX: {fileID: 0}
-  jumpInFX: {fileID: 0}
-  pushFX: {fileID: 0}
   UnitName: 
   IsDead: 0
 --- !u!95 &2821619371975844126

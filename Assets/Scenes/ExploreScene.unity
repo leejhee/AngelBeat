@@ -364,10 +364,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configDB: {fileID: 11400000, guid: 0b7b30ca4e4d1f841ad47c3c2bd5ef8e, type: 2}
-  symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
   eventDB: {fileID: 11400000, guid: 122510760a14e7e449eeae1a14812c71, type: 2}
-  tileParent: {fileID: 0}
-  symbolParent: {fileID: 0}
+  symbolDB: {fileID: 11400000, guid: e16286dc038b88441ba67e810a0ac9f7, type: 2}
+  tileWidth: 1
+  tileHeight: 0.5
+  spawnFloors: 1
+  spawnWalls: 1
+  spawnSymbols: 1
+  currentConfig: {fileID: 0}
+  currentDungeon: 0
+  currentFloor: 0
+  currentSeed: 0
 --- !u!1 &1710743192
 GameObject:
   m_ObjectHideFlags: 0

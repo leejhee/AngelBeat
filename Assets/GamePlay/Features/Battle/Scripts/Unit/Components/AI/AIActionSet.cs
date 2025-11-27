@@ -85,7 +85,7 @@ namespace GamePlay.Features.Battle.Scripts.Unit.Components.AI
         public const float TARGET_KILLABLE_BONUS = 30f; // 타겟을 처치 가능
         public const float TARGET_LOW_HP_BONUS = 15f;   // 타겟 HP 낮음 (30% 이하)
 
-        public const float APPROACH_TARGET_BONUS = 30f;
-        public const float RETREAT_FROM_TARGET_BONUS = 20f;
+        public const float APPROACH_TARGET_BONUS = 60f;
+        public const float RETREAT_FROM_TARGET_BONUS = 45f;
     }
 }

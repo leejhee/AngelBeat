@@ -16,6 +16,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         }
         public List<StageFieldEntry> stages = new();
         
+        public int StageCount => stages?.Count ?? 0;
+        
         public AssetReferenceT<GameObject> GetStageRef(string stageName)
         {
             if (string.IsNullOrEmpty(stageName))
@@ -23,6 +25,17 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
 
             int i = stages.FindIndex(s => s.stageName == stageName);
             return i >= 0 ? stages[i].stageField : null;
+        }
+        
+        public AssetReferenceT<GameObject> GetStageRefByIndex(int index)
+        {
+            if (stages == null || stages.Count == 0)
+                return null;
+
+            if (index < 0 || index >= stages.Count)
+                return null;
+
+            return stages[index].stageField;
         }
     }
 }

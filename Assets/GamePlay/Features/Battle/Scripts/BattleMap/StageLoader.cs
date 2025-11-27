@@ -12,6 +12,8 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
         private readonly IBattleSceneSource _sceneSource;
         private readonly BattleFieldDB _db;
         
+        private int _autoStageIndex = 0;
+        
         public StageLoader(IBattleSceneSource source, BattleFieldDB db)
         {
             _sceneSource = source;
@@ -30,8 +32,29 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
                 throw new Exception($"BattleFieldGroup not found for {_sceneSource.Dungeon}");
             }
 
-            AssetReferenceT<GameObject> stageRef = group.GetStageRef(stageName);
-            if (stageRef == null) throw new Exception($"Stage not found : {stageName}");
+            AssetReferenceT<GameObject> stageRef;
+           //if (stageRef == null) throw new Exception($"Stage not found : {stageName}");
+            
+            if (!string.IsNullOrEmpty(stageName))
+            {
+               stageRef = group.GetStageRef(stageName);
+               if (stageRef == null)
+                   throw new Exception($"Stage not found : {stageName}");
+            }
+            else
+            {
+               if (_autoStageIndex >= group.StageCount)
+                   throw new Exception(
+                       $"No more stages available in group {_sceneSource.Dungeon}. " +
+                       $"Requested index = {_autoStageIndex}, Count = {group.StageCount}");
+
+               stageRef = group.GetStageRefByIndex(_autoStageIndex);
+               if (stageRef == null)
+                   throw new Exception(
+                       $"Stage not found at index {_autoStageIndex} in group {_sceneSource.Dungeon}");
+
+               _autoStageIndex++; 
+            }
 
             GameObject go = await ResourceManager.Instance.InstantiateAsync(stageRef, parent, false, ct);
             StageField field = go.GetComponent<StageField>();

@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 73640278de91a704783eb98d33f08b55
   m_SerializeEntries:
   - m_GUID: 468b10d91a8365146ae30f52d6ab6710
-    m_Address: Explore_Seol
+    m_Address: Explore_testSeol
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

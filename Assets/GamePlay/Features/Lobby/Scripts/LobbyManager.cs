@@ -2,6 +2,7 @@
 using Core.Scripts.Foundation.SceneUtil;
 using Core.Scripts.GameSave;
 using Core.Scripts.Managers;
+using GamePlay.Common.Scripts.NewGameUtil;
 using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ namespace GamePlay.Features.Lobby.Scripts
             NewGameStart(defaultSaveName);
         }
         
-        public void NewGameStart(string slotName)
+        public async void NewGameStart(string slotName)
         {
             if (string.IsNullOrWhiteSpace(slotName))
             {
@@ -101,7 +102,7 @@ namespace GamePlay.Features.Lobby.Scripts
             
             // 게임 시작 씬 - 튜토리얼로 전환
             //GamePlaySceneUtil.LoadBattleScene();
-            GamePlaySceneUtil.LoadExploreScene();
+            await NewGameStartUtil.StartNewGame();
             //SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene, BattleSceneInitializer.InitializeAsync);
         }
         

@@ -614,7 +614,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.012000024, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.03333336, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 3
@@ -39213,8 +39213,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: cellIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
       propertyPath: useRandomOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: isEndExploreBattle
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4842998559766648648, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
       propertyPath: mapNames.Array.size

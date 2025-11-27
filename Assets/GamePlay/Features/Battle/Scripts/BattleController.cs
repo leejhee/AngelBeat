@@ -1,5 +1,6 @@
 using Core.Scripts.Foundation.Define;
 using Core.Scripts.Foundation.SceneUtil;
+using Core.Scripts.Foundation.Utils;
 using Core.Scripts.Managers;
 using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Contracts;
@@ -10,12 +11,14 @@ using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
+using GamePlay.Features.Explore.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering.Universal;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -40,7 +43,15 @@ namespace GamePlay.Features.Battle.Scripts
             if (Instance == this)
                 Instance = null;
         }
-        
+
+        private void Update()
+        {
+            if (InputManager.Instance.GetBattleWinCheat())
+            {
+                EndBattle(SystemEnum.eCharType.Player);
+            }
+        }
+
         #endregion
         
         #region Battle Map DataBase
@@ -449,8 +460,8 @@ namespace GamePlay.Features.Battle.Scripts
         
         public bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
         {
-            BattlePayload payload = BattlePayload.Instance;
-            if (payload == null || !payload.HasAnyStage)
+            BattleSession session = BattleSession.Instance;
+            if (session == null || !session.HasAnyStage)
                 return false;
 
             // 승리 시
@@ -460,7 +471,7 @@ namespace GamePlay.Features.Battle.Scripts
                 UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();
 
                 // 보상 이후에 할 일만 계획해 둔다.
-                if (payload.HasNextStage)
+                if (session.HasNextStage)
                 {
                     _postWinFlow = PostWinFlow.NextBattle;
                 }
@@ -473,32 +484,32 @@ namespace GamePlay.Features.Battle.Scripts
             }
 
             // 패배 시: 현재 인덱스를 유지한 채로 전투 재시작
-            payload.RestartCurrentStage();
+            session.RestartCurrentStage();
             RestartBattle();
             return true;
         }
         
         public void OnWinRewardClosed()
         {
-            BattlePayload payload = BattlePayload.Instance;
-
+            BattleSession session = BattleSession.Instance;
+            session.UpdateParty(_playerParty);
             switch (_postWinFlow)
             {
                 case PostWinFlow.NextBattle:
                     // 다음 스테이지 인덱스로 옮기고 배틀 재시작
-                    if (payload != null && payload.MoveToNextStage())
+                    if (session != null && session.MoveToNextStage())
                     {
                         RestartBattle();
                     }
                     else
                     {
                         // 혹시라도 다음 스테이지가 없으면 그냥 귀환
-                        GoBackToReturningScene(payload);
+                        GoBackToReturningScene(session);
                     }
                     break;
 
                 case PostWinFlow.ReturnToScene:
-                    GoBackToReturningScene(payload);
+                    GoBackToReturningScene(session);
                     break;
         
                 case PostWinFlow.None:
@@ -511,19 +522,39 @@ namespace GamePlay.Features.Battle.Scripts
             _postWinFlow = PostWinFlow.None;
         }
 
-        private void GoBackToReturningScene(BattlePayload payload)
+        private void GoBackToReturningScene(BattleSession session)
         {
             SystemEnum.eScene scene = ReturningScene;
-
-            if (payload != null)
+            Camera mainCamera = Camera.main;
+            CameraUtil.SetRenderType(mainCamera, CameraRenderType.Base);
+            CameraUtil.ClearStack(mainCamera);
+            mainCamera.clearFlags = CameraClearFlags.Skybox;
+            
+            if (session != null)
             {
-                scene = payload.ReturningScene;
-                payload.Clear();
-            }
+                scene = session.ReturningScene;
 
-            SceneLoader.LoadSceneWithLoading(scene);
+                // 전투가 끝나고 돌아갈 곳이 탐사인 경우에만 ExploreSession 건드린다.
+                if (scene == SystemEnum.eScene.ExploreScene)
+                {
+                    ExploreSession explore = ExploreSession.Instance;
+
+                    if (!session.IsEndExploreBattle)
+                    {
+                        explore.SetContinueExplore(
+                            session.DungeonName,
+                            session.DungeonFloor,
+                            session.PlayerParty,
+                            explore.PlayerRecentPosition
+                        );
+                    }
+                }
+
+                session.Clear();
+            }
+            if(scene == SystemEnum.eScene.ExploreScene)
+                GamePlaySceneUtil.LoadExploreScene();
         }
-        
         
         #endregion
         

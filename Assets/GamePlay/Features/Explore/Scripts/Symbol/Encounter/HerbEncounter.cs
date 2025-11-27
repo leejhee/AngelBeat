@@ -3,13 +3,10 @@ using UnityEngine;
 
 namespace GamePlay.Features.Explore.Scripts.Symbol.Encounter
 {
-    public class HerbEncounter : MonoBehaviour
+    public class HerbEncounter : EncounterSymbol
     {
-        private void OnTriggerEnter2D(Collider2D other)
+        protected override void OnEncounter(ExploreController player)
         {
-            ExploreController player = other.GetComponent<ExploreController>();
-            if (!player) return;
-
             _ = UIManager.Instance.ShowViewAsync(ViewID.ExploreHerbPopup);
             
             Destroy(gameObject);

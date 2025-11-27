@@ -80,8 +80,12 @@ namespace Core.Scripts.Foundation.SceneUtil
             }
             
             #endregion
+
+            if (!ct.IsCancellationRequested)
+            {
+                SceneManager.UnloadSceneAsync(gameObject.scene);    
+            }
             
-            SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 
         private void OnDestroy()

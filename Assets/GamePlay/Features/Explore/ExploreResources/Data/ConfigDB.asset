@@ -15,7 +15,7 @@ MonoBehaviour:
   mapConfigs:
     pairs:
     - key:
-        dungeon: 1
+        dungeon: 2
         floor: 1
       value: {fileID: 11400000, guid: d7409f2027011d447a7bae57f61526e2, type: 2}
     keys: []

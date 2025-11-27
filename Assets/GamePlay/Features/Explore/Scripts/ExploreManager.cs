@@ -7,6 +7,7 @@ using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Features.Explore.Scripts.Map.Logic;
 using GamePlay.Features.Explore.Scripts.Models;
 using System;
+using System.Linq;
 using UIs.Runtime;
 using UnityEngine;
 
@@ -79,39 +80,44 @@ namespace GamePlay.Features.Explore.Scripts
         
         #region Initialization
 
-        //private async void Start()
-        //{
-        //    await ExploreInitialize();
-        //}
-        
-
         public async UniTask ExploreInitialize()
         {
             // 두 번 호출 방지
             if (_isInitialized) return;
-
             try
             {
-                Instantiate(tutorialMap, exploreMap.transform);
-                GameObject startPoint = GameObject.Find("StartPoint");
-                Instantiate(controller, startPoint.transform.position, startPoint.transform.rotation);
-                //Camera mainCamera = Camera.main;
-                //mainCamera.transform.SetParent(controller.CameraTransform);
-                //mainCamera.transform.position += new Vector3(0f, 0f, -10f);
-                // 2. Payload / Save 분기
-                //var payload = ExplorePayload.Instance;
-                currentDungeon = ExplorePayload.Instance.TargetDungeon;
+                ExploreSession session = ExploreSession.Instance;
+                currentDungeon = session.TargetDungeon;
+                currentFloor = session.TargetFloor;
+                playerParty = session.PlayerParty;
                 
-                //if (payload.TargetDungeon != SystemEnum.Dungeon.None)
-                //{
-                //    await HandlePayloadExploration(payload);
-                //    payload.Clear();
-                //}
-                //else
-                //{
-                //    await HandleSavedExploration();
-                //}
+                if (currentDungeon == SystemEnum.Dungeon.TUTORIAL)
+                {
+                    Instantiate(tutorialMap, exploreMap.transform);
+                    GameObject startPoint = GameObject.Find("StartPoint");
+                    Instantiate(controller, startPoint.transform.position, startPoint.transform.rotation);
+                }
+                else
+                {
+                    await HandlePayloadExploration(session);
+                    Vector3 spawnPos;
+                    if (session.IsNewExplore)
+                    {
+                        spawnPos = exploreMap.CellToWorld(playerPosition);
+                    }
+                    else
+                    {
+                        // 배틀에서 돌아오는 경우 → 떠나기 직전 월드 좌표
+                        spawnPos = session.PlayerRecentPosition;
+                        if (spawnPos == Vector3.zero)
+                        {
+                            spawnPos = exploreMap.CellToWorld(playerPosition);
+                        }
+                    }
+                    Instantiate(controller, spawnPos, Quaternion.identity);
+                }
 
+                
                 _isInitialized = true;
                 Debug.Log($"[ExploreManager] Exploration initialized: {currentDungeon} Floor {currentFloor}");
             }
@@ -124,22 +130,22 @@ namespace GamePlay.Features.Explore.Scripts
         /// <summary>
         /// Payload 기반 탐사 처리
         /// </summary>
-        private async UniTask HandlePayloadExploration(ExplorePayload payload)
+        private async UniTask HandlePayloadExploration(ExploreSession session)
         {
-            currentDungeon = payload.TargetDungeon;
-            currentFloor = payload.TargetFloor;
-            playerParty = payload.PlayerParty;
+            currentDungeon = session.TargetDungeon;
+            currentFloor = session.TargetFloor;
+            playerParty = session.PlayerParty;
 
-            //if (payload.IsNewExplore)
-            //{
-            //    // 새 탐사 시작
-            //    await StartNewExploration();
-            //}
-            //else
-            //{
-            //    // 기존 탐사 이어하기
-            //    await ContinueExistingExploration();
-            //}
+            if (session.IsNewExplore)
+            {
+                // 새 탐사 시작
+                await StartNewExploration();
+            }
+            else
+            {
+                // 기존 탐사 이어하기
+                await ContinueExistingExploration();
+            }
         }
 
         /// <summary>
@@ -167,9 +173,6 @@ namespace GamePlay.Features.Explore.Scripts
         /// </summary>
         private async UniTask StartNewExploration()
         {
-            playerParty = new Party();
-            
-            // 1. RNG에서 맵 시드 생성
             if (SaveLoadManager.Instance.HasCurrentSlot)
             {
                 var rng = SaveLoadManager.Instance.CurrentSlot.RNG;
@@ -180,28 +183,27 @@ namespace GamePlay.Features.Explore.Scripts
                 currentMapSeed = (ulong)DateTime.Now.Ticks;
             }
 
-            // 2. 맵 생성
             await exploreMap.GenerateMap(currentMapSeed, currentFloor, currentDungeon);
-
-            // 3. 플레이어 시작 위치 설정 (StartPoint 심볼 위치)
+           
+            
             playerPosition = FindStartPosition();
 
-            // 4. 탐사 스냅샷 초기화
+            Vector2Int mapSize = exploreMap.GetMapSize();
             _currentSnapshot = new ExploreSnapshot();
             _currentSnapshot.StartNewExploration(
                 currentDungeon, 
                 currentFloor, 
                 currentMapSeed, 
                 playerPosition,
-                exploreMap.GetMapSize()
+                mapSize.x * mapSize.y
             );
-
-            // 5. 첫 셀 방문 처리
+            
             int startCellIndex = exploreMap.GetCellIndex(playerPosition);
             _currentSnapshot.UpdatePlayerPosition(playerPosition, startCellIndex);
 
             OnExplorationStarted?.Invoke(currentDungeon, currentFloor);
             Debug.Log($"[ExploreManager] New exploration started at {currentDungeon} Floor {currentFloor}, Seed: {currentMapSeed}");
+            ExploreSession.Instance.SetCurrentSkeleton(exploreMap.CurrentSkeleton, exploreMap.CurrentSeed);
         }
 
         /// <summary>
@@ -209,6 +211,26 @@ namespace GamePlay.Features.Explore.Scripts
         /// </summary>
         private async UniTask ContinueExistingExploration()
         {
+            ExploreSession session = ExploreSession.Instance;
+
+            // 이번 런에서 이미 스켈레톤을 가진 경우 
+            if (session.CurrentSkeleton != null)
+            {
+                currentDungeon = session.TargetDungeon;
+                currentFloor   = session.TargetFloor;
+                currentMapSeed = session.RandomSeed;
+
+                // 같은 seed로 맵 재생성 (씬이 바뀌었으니 오브젝트는 다시 찍어야 함)
+                await exploreMap.GenerateMap(currentMapSeed, currentFloor, currentDungeon);
+
+                // 혹시 GenerateMap 안에서 새로운 스켈레톤이 만들어지면 다시 세션에 싱크
+                session.SetCurrentSkeleton(exploreMap.CurrentSkeleton, currentMapSeed);
+
+                Debug.Log("[ExploreManager] Continue exploration from session (battle return).");
+                return;
+            }
+            
+            
             if (SaveLoadManager.Instance.HasCurrentSlot &&
                 SaveLoadManager.Instance.CurrentSlot.TryGet("Explore", out ExploreSnapshot snapshot))
             {
@@ -234,7 +256,7 @@ namespace GamePlay.Features.Explore.Scripts
 
             // 동일한 시드로 맵 재생성
             await exploreMap.GenerateMap(currentMapSeed, currentFloor, currentDungeon);
-
+            ExploreSession.Instance.SetCurrentSkeleton(exploreMap.CurrentSkeleton, currentMapSeed);
             Debug.Log($"[ExploreManager] Exploration restored: {currentDungeon} Floor {currentFloor}");
         }
 
@@ -243,9 +265,17 @@ namespace GamePlay.Features.Explore.Scripts
         /// </summary>
         private Vector2Int FindStartPosition()
         {
-            // ExploreMap에서 StartPoint 위치를 가져오는 로직
-            // 임시로 (0,0) 반환
-            return Vector2Int.zero;
+            if (exploreMap == null || exploreMap.CurrentSkeleton == null)
+                return Vector2Int.zero;
+
+            ExploreMapSkeleton skel = exploreMap.CurrentSkeleton;
+            SkeletonSymbol startSymbol = skel.GetSymbolsOfType(SystemEnum.MapSymbolType.StartPoint)
+                .FirstOrDefault();
+
+            if (startSymbol == null)
+                return Vector2Int.zero;
+
+            return new Vector2Int(startSymbol.X, startSymbol.Y);
         }
 
         #endregion

@@ -8,6 +8,7 @@ using GamePlay.Features.Battle.Scripts.BattleAction;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
+using GamePlay.Features.Explore.Scripts;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
@@ -50,9 +51,13 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 return;
             }
             
-            int fromPayload = BattlePayload.Instance?.CurrentTutorialIndex ?? 0;
-            _currentIndex = Mathf.Clamp(fromPayload, 0, configs.Count - 1);
+            if (!BattleSession.Instance.NeedTutorial)
+            {
+                Destroy(gameObject);
+                return;
+            }
             
+            _currentIndex = BattleSession.Instance.CurrentTutorialIndex;
             currentConfig = configs[_currentIndex];
             
             _turnController = turnController;
@@ -105,10 +110,34 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                     CompanionData data = DataManager.Instance.GetData<CompanionData>(step.partyAddIndex);
                     if (data == null) continue;
                     CharacterModel model = new(data);
-                    BattlePayload.Instance.PlayerParty.AddMember(model);
+                    BattleController.Instance.PlayerParty.AddMember(model);
                 }
                 await ExecuteStep(step);
             }
+
+            await HandleTutorialEndBattleAsync(winnerType);
+            if (winnerType == SystemEnum.eCharType.Player && BattleSession.Instance != null)
+            {
+                BattleSession.Instance.MarkTutorialBattleCompleted();
+            }
+        }
+
+        private async UniTask HandleTutorialEndBattleAsync(SystemEnum.eCharType winnerType)
+        {
+            var battle = BattleSession.Instance;
+            var explore = ExploreSession.Instance;
+
+            if (!battle.IsEndExploreBattle)
+                return;
+            if (winnerType != SystemEnum.eCharType.Player)
+                return;
+            if (_currentIndex != configs.Count - 1) // 마지막이어야지
+                return;
+            
+            SystemEnum.Dungeon nextDungeon = SystemEnum.Dungeon.MOUNTAIN_BACK;
+            int nextFloor = 1;
+            Party nextParty = battle.PlayerParty; 
+            explore.SetNewExplore(nextDungeon, nextFloor, nextParty);
         }
         
         private async UniTask OnRoundProceedAsync(RoundEventContext ctx)
