@@ -6,7 +6,7 @@
 Bilyeong: 그래서, 어느 방향으로 가면 되는 것이냐?
 
 @hide Bilyeong
-@char Hwi pos: 50, 0 scale: 0.8
+@char Hwi pos: 50, 15 scale: 0.8
 @wait 0.5
 Hwi: 여기서 동쪽으로 삼십 리쯤만 가면 되네.
 
@@ -28,7 +28,7 @@ Yoon: 너는 사제한테 찰싹 붙어서는 걷지도 않는 것이, 무슨 �
 @wait 1
 Bilyeong: 지루하단 말이다! 그 먼 거리를 가는 동안 난 대체 뭘 하냔 말이냐?
 
-@char Yeon.sigh pos: 80, 0 scale: 0.85
+@char Yeon.sigh pos: 80, 15 scale: 0.85
 @hide Bilyeong
 Yeon: 도착할 때까지 그리 툴툴댈거면 잠이라도 자고 있거라.
 @char Bilyeong pos: 20, 50 scale: 0.7
@@ -59,16 +59,16 @@ Bilyeong: 어서 가자! 한시가 급하다!
 
 @hide Yeon
 @hide Bilyeong
-@char Yoon.Sigh pos: 50, 0 scale: 0.85 transition: Fadein time: 1
+@char Yoon.Sigh pos: 50, 15 scale: 0.85 transition: Fadein time: 1
 @wait 2
 Yoon: ......
 Yoon: 내가 더 싫거든...
 
 @char Yoon transition: Fadeout time: 0.5
 @wait 1.7
-@char Seol.EyeClosed pos: 80, 0 scale: 0.85 transition: Fadein time: 1
+@char Seol.EyeClosed pos: 80, 15 scale: 0.85 transition: Fadein time: 1
 @wait 1.7
 Seol: ......
-@char Hwi.Sigh pos: 20, 0 scale: 0.8 transition: Fadein time: 1
+@char Hwi.Sigh pos: 20, 15 scale: 0.8 transition: Fadein time: 1
 @wait 1.7
 Hwi: 하아...
