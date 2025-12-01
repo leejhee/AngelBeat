@@ -15,6 +15,9 @@ public class IngameDamageObject : MonoBehaviour
 
     public async void Init(long damage)
     {
+        var renderer = GetComponent<Renderer>();
+        renderer.sortingOrder = 25;
+        
         // 텍스트 바꿔주고
         damageText.text = damage.ToString();
         
