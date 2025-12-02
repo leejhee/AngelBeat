@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/NormalAction/Seol_Idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Animations/Ally/Seol/NormalAction/Seol_Idle.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/CharPrefabs/Ally/Seol.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/CharPrefabs/Ally/Seol.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0000.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0000.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0001.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0001.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0002.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0002.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0003.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Sprites/Ally/Yeon/Motion/Idle/도깨비 idle0003.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LobbyScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LobbyScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleSceneView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +172,7 @@
       <workItem from="1764171784366" duration="1036000" />
       <workItem from="1764199531801" duration="743000" />
       <workItem from="1764605857451" duration="48000" />
-      <workItem from="1764684808457" duration="596000" />
+      <workItem from="1764684808457" duration="1566000" />
     </task>
     <servers />
   </component>

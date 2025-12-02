@@ -123,9 +123,9 @@ MonoBehaviour:
         - spawnType: 1
           unitSpawnList:
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -22.5, y: 3, z: 0}
+            SpawnPosition: {x: -22.5, y: 2.5, z: 0}
           - SpawnCharacterIndex: 0
-            SpawnPosition: {x: -22.5, y: -3, z: 0}
+            SpawnPosition: {x: -22.5, y: -3.5, z: 0}
         - spawnType: 2
           unitSpawnList:
           - SpawnCharacterIndex: 30001001

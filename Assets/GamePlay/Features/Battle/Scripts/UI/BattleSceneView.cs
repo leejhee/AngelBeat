@@ -260,6 +260,7 @@ namespace GamePlay.Features.Battle.Scripts.UI
             Sprite charPortrait = await ResourceManager.Instance.LoadAsync<Sprite>($"BattlePanel_{character.CharInfo.IconSpriteRoot}");
             // 이름
             string name = character.CharInfo.Name;
+            Debug.Log("캐릭터 이름 : " + name);
             // 현재 체력
             long curHp = character.RuntimeStat.GetStat(SystemEnum.eStats.NHP);
             long maxHp = character.RuntimeStat.GetStat(SystemEnum.eStats.NMHP);
