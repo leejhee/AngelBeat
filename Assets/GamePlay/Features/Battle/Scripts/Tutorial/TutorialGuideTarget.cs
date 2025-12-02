@@ -6,6 +6,6 @@
         ScreenTop,
         ActorWorld,
         CellWorld,
-        
+        BattleUIButton
     }
 }

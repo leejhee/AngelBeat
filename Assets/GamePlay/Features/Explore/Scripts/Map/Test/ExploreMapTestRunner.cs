@@ -59,7 +59,6 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
             { SystemEnum.MapSymbolType.Gather,      new Color(0.0f, 0.7f, 1f, 1f)   },
             { SystemEnum.MapSymbolType.Event,       new Color(1f,   1f,   0.0f, 1f) },
             { SystemEnum.MapSymbolType.Item,        new Color(0.0f, 1f,   1f, 1f)   },
-            // 만약 enum에 ItemChest가 있다면 추가 색상:
             // { SystemEnum.MapSymbolType.ItemChest,   new Color(0.0f, 0.9f, 0.9f, 1f) },
         };
 
@@ -161,8 +160,6 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
 
                     if (t == SystemEnum.MapSymbolType.Event)
                     {
-                        // 이벤트는 EventType 우선 → 없으면 심볼DB의 Event 기본 프리팹
-                        // SkeletonSymbol에 EventType 프로퍼티가 있을 것으로 가정
                         try
                         {
                             var evType = s.EventType; // nullable일 수 있음
@@ -173,24 +170,17 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
                         }
                         catch
                         {
-                            // EventType 노출되지 않는 구현일 경우: generic Event 프리팹만 사용
                             if (symbolDB != null && symbolDB.TryGet(SystemEnum.MapSymbolType.Event, out var genericEv))
                                 prefab = genericEv;
                         }
                     }
                     else
                     {
-                        // 일반 심볼: 심볼DB에서 타입 매핑
                         if (symbolDB != null && symbolDB.TryGet(t, out var pf))
                             prefab = pf;
-
-                        // 모든 아이템을 상자 프리팹으로 통일하고 싶다면:
-                        // - enum에 ItemChest가 있으면 그걸 우선 사용
-                        // - 없으면 Item 타입 엔트리에 "상자 프리팹"을 넣어두면 그대로 사용됨
+                        
                         if (prefab == null && t == SystemEnum.MapSymbolType.Item)
                         {
-                            // 폴백: ItemChest가 존재한다면 사용
-                            // (enum에 없으면 컴파일러가 이 분기를 dead code 처리)
                             try
                             {
                                 if (symbolDB != null && symbolDB.TryGet(SystemEnum.MapSymbolType.Item /* or ItemChest */, out var chest))
@@ -258,11 +248,7 @@ namespace GamePlay.Features.Explore.Scripts.Map.Test
         }
 
         // ---------- Iso Mapping ----------
-
-        /// <summary>
-        /// 아이소메트릭(마름모) 월드 좌표 변환
-        /// world = ( (x - y) * tileWidth/2, (x + y) * tileHeight/2, 0 )
-        /// </summary>
+        
         private Vector3 CellToWorld(int x, int y)
         {
             float wx = (x - y) * (tileWidth  * 0.5f);

@@ -74,10 +74,9 @@ namespace Core.Scripts.Foundation.Utils
             if (!cam) return false;
             if (!cam.TryGetComponent(out data))
                 data = cam.gameObject.AddComponent<UniversalAdditionalCameraData>();
-            return data != null;
+            return data;
         }
 #else
-        // URP 미사용/미인식 시 컴파일은 되지만 호출하면 false
         public static bool SetRenderType(Camera cam, object type) { return false; }
         public static bool SetRenderer(Camera cam, int rendererIndex) { return false; }
         public static bool TryStackOverlay(Camera baseCam, Camera overlayCam) { return false; }

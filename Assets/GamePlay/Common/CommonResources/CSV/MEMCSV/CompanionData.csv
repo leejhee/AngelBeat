@@ -1,4 +1,4 @@
-﻿동료 ID,#동료 설명,캐릭터 이름(추후 stringcode로 교체할 것),캐릭터 스탯 ID,첫 번째 패시브,두 번째 패시브,해금조건,강화단계,캐릭터 프리팹 루트,캐릭터 아이콘 루트,캐릭터 LD 루트,,,,,,
-index,#,companionName,charStatID,PassiveD1,PassiveD2,UnlockCondition,UpgradeLevel,charPrefabName,charImage,charLDRoute,,,,,,
-long,#,string,long,long,long,eUnlockCondition,eUpgradeLevel,string,string,string,,,,,,
-20001001,#의녀,설,20002001,,,Default,,testSeol,Seol,LDSeol,,,,,,
+﻿동료 ID,#동료 설명,캐릭터 이름(추후 stringcode로 교체할 것),캐릭터 스탯 ID,첫 번째 패시브,두 번째 패시브,해금조건,강화단계,캐릭터 프리팹 루트,캐릭터 아이콘 루트,캐릭터 LD 루트,캐릭터 이름,,,,,
+index,#,companionName,charStatID,PassiveD1,PassiveD2,UnlockCondition,UpgradeLevel,charPrefabName,charImage,charLDRoute,charName,,,,,
+long,#,string,long,long,long,eUnlockCondition,eUpgradeLevel,string,string,string,string,,,,,
+20001001,#의녀,설,20002001,,,Default,,testSeol,Seol,LDSeol,설,,,,,

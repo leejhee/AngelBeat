@@ -48,40 +48,39 @@ namespace GamePlay.Features.Battle.Scripts
         {
             if (InputManager.Instance.GetBattleWinCheat())
             {
-                EndBattle(SystemEnum.eCharType.Player);
+                //UI 띄워야 함.
+                UIManager.Instance.ShowViewAsync(ViewID.BattleQuitQueryView).Forget();
             }
         }
 
         #endregion
         
-        #region Battle Map DataBase
-        [SerializeField] private BattleFieldDB battleFieldDB;
-        [SerializeField] private SystemEnum.Dungeon DebugDungeon;
-        [SerializeField] private string DebugMapName;
-        [SerializeField] public AssetReference bgmRef;
-        #endregion
-        
         #region Core Field & Property
+        
+        [SerializeField] private BattleFieldDB battleFieldDB;
+        [SerializeField] public AssetReference bgmRef;
         [SerializeField] private float cameraSize = 11;
         [SerializeField] private BattleCameraDriver cameraDriver;
         
         private IBattleSceneSource _sceneSource;
         private IMapLoader _mapLoader;
+        private bool _initialized;
         
         private StageField _battleStage;
         private Party _playerParty;
-        private bool _initialized;
         private TurnController _turnManager;
         private SystemEnum.eScene _returningScene;
         
         public BattleCameraDriver CameraDriver => cameraDriver;
-        public CharBase FocusChar => _turnManager.TurnOwner;
+        
         public Party PlayerParty => _playerParty;
         public SystemEnum.eScene ReturningScene => _returningScene;
         public TurnController TurnController => _turnManager;
         public StageField StageField => _battleStage;
         public BattleStageGrid StageGrid => _battleStage?.GetComponent<BattleStageGrid>();
-
+        public CharBase FocusChar => _turnManager.TurnOwner;
+        
+        
         public event Func<UniTask> OnBattleStartAsync;
         public event Func<SystemEnum.eCharType, UniTask> OnBattleEndAsync;
         public event Action<BattleActionContext, BattleActionPreviewData> OnActionPreviewStarted;
@@ -92,7 +91,11 @@ namespace GamePlay.Features.Battle.Scripts
         
         public void SetStageSource(IBattleSceneSource sceneSource) => _sceneSource = sceneSource;
 
-        public void Initialize(StageField stage, TurnController turnManager, Party party, SystemEnum.eScene returningScene)
+        public void Initialize(
+            StageField stage, 
+            TurnController turnManager, 
+            Party party, 
+            SystemEnum.eScene returningScene)
         {
             _battleStage = stage;
             _turnManager = turnManager;
@@ -105,8 +108,6 @@ namespace GamePlay.Features.Battle.Scripts
             
             _turnManager.OnTurnBeganAsync += async m =>
             {
-                //if (cameraDriver && m?.Turn?.TurnOwner)
-                //    await cameraDriver.Focus(m.Turn.TurnOwner.CharCameraPos, 0.4f);
                 if (cameraDriver && m.Actor)
                     await cameraDriver.Focus(m.Actor.CharCameraPos, 0.4f);
             };
@@ -433,8 +434,8 @@ namespace GamePlay.Features.Battle.Scripts
         private enum PostWinFlow
         {
             None,
-            NextBattle,     // 다음 스테이지로 이어간다 (멀티 배틀)
-            ReturnToScene   // ReturningScene으로 돌아간다
+            NextBattle,     
+            ReturnToScene   
         }
 
         private PostWinFlow _postWinFlow = PostWinFlow.None;
@@ -445,7 +446,10 @@ namespace GamePlay.Features.Battle.Scripts
             GamePlaySceneUtil.LoadBattleScene();
         }
         
-        
+        /// <summary>
+        /// 전투 종료 로직 엔트리 포인트
+        /// </summary>
+        /// <param name="winnerType">이긴 타입 판정</param>
         public async void EndBattle(SystemEnum.eCharType winnerType)
         {
             // 캐릭터 자원 정리
@@ -458,10 +462,14 @@ namespace GamePlay.Features.Battle.Scripts
             TryHandleMultiBattleEnd(winnerType);
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
         {
             BattleSession session = BattleSession.Instance;
-            if (session == null || !session.HasAnyStage)
+            if (session is not { HasAnyStage: true })
                 return false;
 
             // 승리 시
@@ -470,15 +478,7 @@ namespace GamePlay.Features.Battle.Scripts
                 // 보상 UI 띄우기
                 UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();
 
-                // 보상 이후에 할 일만 계획해 둔다.
-                if (session.HasNextStage)
-                {
-                    _postWinFlow = PostWinFlow.NextBattle;
-                }
-                else
-                {
-                    _postWinFlow = PostWinFlow.ReturnToScene;
-                }
+                _postWinFlow = session.HasNextStage ? PostWinFlow.NextBattle : PostWinFlow.ReturnToScene;
 
                 return true;
             }
@@ -525,10 +525,16 @@ namespace GamePlay.Features.Battle.Scripts
         private void GoBackToReturningScene(BattleSession session)
         {
             SystemEnum.eScene scene = ReturningScene;
+            
+            #region Camera Control
             Camera mainCamera = Camera.main;
-            CameraUtil.SetRenderType(mainCamera, CameraRenderType.Base);
-            CameraUtil.ClearStack(mainCamera);
-            mainCamera.clearFlags = CameraClearFlags.Skybox;
+            if (mainCamera)
+            {
+                CameraUtil.SetRenderType(mainCamera, CameraRenderType.Base);
+                CameraUtil.ClearStack(mainCamera);
+                mainCamera.clearFlags = CameraClearFlags.Skybox;
+            }
+            #endregion
             
             if (session != null)
             {

@@ -45,6 +45,24 @@ namespace GamePlay.Features.Battle.Scripts.UI
         {
             characterHUD.ChangeApUI(delta);
         }
+        
+        #region External UI Getter By string key
+        public RectTransform GetTutorialTarget(string key)
+        {
+            switch (key)
+            {
+                case "JumpButton":
+                    return characterHUD.JumpButton.transform as RectTransform;
+                case "EndTurnButton":
+                    return turnEndButton.transform as RectTransform;
+                case "PushButton":
+                    return characterHUD.PushButton.transform as RectTransform;
+                default:
+                    return null;
+            }
+        }
+        #endregion
+        
     }
 
     public class BattleHUDPresenter : PresenterBase<BattleHUDView>

@@ -3,7 +3,6 @@ using Core.Scripts.Foundation.Utils;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Scene;
 using GamePlay.Features.Battle.Scripts;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 

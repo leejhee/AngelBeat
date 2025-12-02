@@ -25,6 +25,7 @@ public long index; // 동료 ID
 		public string charPrefabName; // 캐릭터 프리팹 루트
 		public string charImage; // 캐릭터 아이콘 루트
 		public string charLDRoute; // 캐릭터 LD 루트
+		public string charName; // 캐릭터 이름
 		
         /// <summary>Addressable(RM)로 CSV를 비동기 로드해 파싱함</summary>
         public override UniTask<Dictionary<long, SheetData>> ParseAsync(string csv, CancellationToken ct = default)
@@ -97,6 +98,11 @@ public long index; // 동료 ID
 					    data.charLDRoute = default;
 					else
 					    data.charLDRoute = Convert.ToString(values[10]);
+					
+					if(values[11] == "")
+					    data.charName = default;
+					else
+					    data.charName = Convert.ToString(values[11]);
 					
 
                     dataList[data.index] = data;

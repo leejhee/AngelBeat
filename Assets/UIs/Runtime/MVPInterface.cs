@@ -25,8 +25,9 @@ namespace UIs.Runtime
         
         BattleSceneView = 301,
         CharacterInfoPopUpView,
+        BattleQuitQueryView,
         
-        BattleHoveringView,
+        BattleHoveringView = 351,
         KeywordPopUpView,
         
         GameWinView,
