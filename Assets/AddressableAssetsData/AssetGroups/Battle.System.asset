@@ -103,6 +103,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e208f9059f80c3d4794688b4e10c2a73
+    m_Address: BattleQuitQueryView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e655065696571044288b085ba2544c29
     m_Address: TurnPortrait
     m_ReadOnly: 0

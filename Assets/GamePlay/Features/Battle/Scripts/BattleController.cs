@@ -463,28 +463,38 @@ namespace GamePlay.Features.Battle.Scripts
         }
         
         /// <summary>
-        /// 
+        /// 다음 전투 여부 및 승패 여부에 따라서 
         /// </summary>
         /// <returns></returns>
         public bool TryHandleMultiBattleEnd(SystemEnum.eCharType winnerType)
         {
             BattleSession session = BattleSession.Instance;
+            
+            if (winnerType == SystemEnum.eCharType.None)
+            {
+                ReturnToLobbyAndClearSession(session);
+                return true;
+            }
+            
             if (session is not { HasAnyStage: true })
                 return false;
-
+        
             // 승리 시
             if (winnerType == SystemEnum.eCharType.Player)
             {
                 // 보상 UI 띄우기
                 UIManager.Instance.ShowViewAsync(ViewID.GameWinView).Forget();
-
                 _postWinFlow = session.HasNextStage ? PostWinFlow.NextBattle : PostWinFlow.ReturnToScene;
-
+                return true;
+            }
+            
+            if (winnerType == SystemEnum.eCharType.Enemy)
+            {
+                UIManager.Instance.ShowViewAsync(ViewID.GameOverView).Forget();
                 return true;
             }
 
-            // 패배 시: 현재 인덱스를 유지한 채로 전투 재시작
-            session.RestartCurrentStage();
+            // 특수한 이유일 경우 재시작
             RestartBattle();
             return true;
         }
@@ -521,20 +531,20 @@ namespace GamePlay.Features.Battle.Scripts
 
             _postWinFlow = PostWinFlow.None;
         }
-
+        
+        private void ReturnToLobbyAndClearSession(BattleSession session)
+        {
+            CameraUtil.ReturnMainCamera();
+            // TODO : 이 포인트에서 저장할 것
+            session?.Clear();
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.LobbyScene);
+        }
+        
         private void GoBackToReturningScene(BattleSession session)
         {
             SystemEnum.eScene scene = ReturningScene;
             
-            #region Camera Control
-            Camera mainCamera = Camera.main;
-            if (mainCamera)
-            {
-                CameraUtil.SetRenderType(mainCamera, CameraRenderType.Base);
-                CameraUtil.ClearStack(mainCamera);
-                mainCamera.clearFlags = CameraClearFlags.Skybox;
-            }
-            #endregion
+            CameraUtil.ReturnMainCamera();
             
             if (session != null)
             {

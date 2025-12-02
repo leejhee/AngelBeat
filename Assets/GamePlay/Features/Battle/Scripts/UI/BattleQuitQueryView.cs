@@ -1,23 +1,51 @@
+using Core.Scripts.Foundation.Define;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace GamePlay.Features.Battle.Scripts.UI
 {
-    public class BattleQuitQueryView : MonoBehaviour, IView
+    // TODO : 간단한 선택 UI의 경우 상속으로 처리해서 재사용할 지 결정할 것
+    public class BattleQuitQueryView : PopupView
     {
-        public GameObject Root { get; }
-        public void Show() => gameObject.SetActive(true);
-        public void Hide() => gameObject.SetActive(false);
+        public Button confirmButton;
+        public Button cancelButton;
+    }
 
-        public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
-        public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
-
-        public void OnCancelButtonClick()
+    public class BattleQuitQueryPresenter : PresenterBase<BattleQuitQueryView>
+    {
+        public BattleQuitQueryPresenter(IView view) : base(view)
         {
-            
         }
-        
+
+        public override UniTask EnterAction(CancellationToken token)
+        {
+            ViewEvents.Subscribe(
+                act => View.confirmButton.onClick.AddListener(new UnityAction(act)),
+                act => View.confirmButton.onClick.RemoveAllListeners(),
+                OnConfirm
+            );
+            
+            ViewEvents.Subscribe(
+                act => View.cancelButton.onClick.AddListener(new UnityAction(act)),
+                act => View.cancelButton.onClick.RemoveAllListeners(),
+                OnCancel
+            );
+            
+            return UniTask.CompletedTask;
+        }
+
+        private void OnConfirm()
+        {
+            BattleController.Instance.EndBattle(SystemEnum.eCharType.None);
+        }
+
+        private void OnCancel()
+        {
+            UIManager.Instance.HideTopViewAsync().Forget();
+        }
     }
 }

@@ -82,6 +82,7 @@ namespace UIs.Runtime
             public ViewID ID; 
             public IPresenter Presenter;
             public GameObject Go;
+            public bool isPopup;
         }
         
         private readonly Stack<OpenedUI> _stack = new();
@@ -93,7 +94,8 @@ namespace UIs.Runtime
         private Dictionary<ViewID, Stack<GameObject>> _cache = new();
 
         [SerializeField] private int cacheCapacity = 5;
-
+        private int _popupCount = 0;
+        
         private async UniTask<GameObject> GetViewFromCache(ViewID id, ViewCatalog.ViewEntry entry, Transform parent)
         {
             if (_cache.TryGetValue(id, out Stack<GameObject> st) && st.Count > 0)
@@ -260,9 +262,22 @@ namespace UIs.Runtime
                     return;
                 }
 
+                bool isPopup = view is PopupView;
+                if (isPopup && _modalRoot)
+                {
+                    go.transform.SetParent(_modalRoot, false);
+                    go.transform.SetAsLastSibling();
+                }
+                
                 IPresenter presenter = focusingCatalog.GetPresenter(viewID, view);
-                _stack.Push(new OpenedUI { ID = viewID, Presenter = presenter, Go = go });
-
+                _stack.Push(new OpenedUI { ID = viewID, Presenter = presenter, Go = go, isPopup = isPopup });
+                if (isPopup)
+                {
+                    _popupCount++;
+                    if(_popupCount == 1)
+                        InputManager.Instance.SetUIOnly(true);
+                }
+                
                 using var linked = CancellationTokenSource.CreateLinkedTokenSource(_uiCts.Token);
                 await presenter.OnEnterAsync(linked.Token);
 
@@ -293,8 +308,16 @@ namespace UIs.Runtime
                 current.Presenter.Dispose();
                 ReturnViewToCache(current.ID, current.Go);
             }
-            
-            if (_stack.Count == 0) InputManager.Instance.SetUIOnly(false);
+
+            if (current.isPopup)
+            {
+                _popupCount--;
+                if (_popupCount <= 0)
+                {
+                    _popupCount = 0;
+                    InputManager.Instance.SetUIOnly(false);
+                }
+            }
         }
         
         #region Unity Events
@@ -308,7 +331,12 @@ namespace UIs.Runtime
         {
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
-
+        
+        /// <summary>
+        /// 씬이 교체될 때 UI 스택을 모두 정리시켜준다.
+        /// </summary>
+        /// <param name="oldScene"></param>
+        /// <param name="newScene"></param>
         private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
         {
             _uiCts?.Cancel(); _uiCts?.Dispose(); _uiCts = new CancellationTokenSource();
@@ -336,6 +364,9 @@ namespace UIs.Runtime
                 ResourceManager.Instance.ReleaseInstance(_uiRoot.gameObject);
                 _uiRoot = _mainRoot = _modalRoot = _systemRoot = _worldRoot = _bgRoot = _cacheRoot = null;
             }
+            
+            _popupCount = 0;
+            InputManager.Instance.SetUIOnly(false);
         }
         
         /// <summary>
@@ -364,7 +395,10 @@ namespace UIs.Runtime
                 }
             }
             _cache.Clear();
-
+            
+            _popupCount = 0;
+            InputManager.Instance.SetUIOnly(false);
+            
             if (_uiRoot)
             {
                 ResourceManager.Instance.ReleaseInstance(_uiRoot.gameObject);

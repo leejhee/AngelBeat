@@ -247,7 +247,8 @@ namespace GamePlay.Features.Battle.Scripts.UI.CharacterInfoPopup
         private void OnClickHideButton()
         {
             View.PortraitPanel.ReleaseAllPortraits();
-            View.Hide();
+            //View.Hide();
+            UIManager.Instance.HideTopViewAsync().Forget();
         }
     }
 }

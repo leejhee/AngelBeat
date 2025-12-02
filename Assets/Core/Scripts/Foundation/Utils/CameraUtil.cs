@@ -76,6 +76,17 @@ namespace Core.Scripts.Foundation.Utils
                 data = cam.gameObject.AddComponent<UniversalAdditionalCameraData>();
             return data;
         }
+
+        public static void ReturnMainCamera()
+        {
+            Camera mainCamera = Camera.main;
+            if (!mainCamera) return;
+
+            SetRenderType(mainCamera, CameraRenderType.Base);
+            ClearStack(mainCamera);
+            mainCamera.clearFlags = CameraClearFlags.Skybox;
+        }
+        
 #else
         public static bool SetRenderType(Camera cam, object type) { return false; }
         public static bool SetRenderer(Camera cam, int rendererIndex) { return false; }

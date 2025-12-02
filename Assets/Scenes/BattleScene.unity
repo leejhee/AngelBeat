@@ -768,8 +768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleFieldDB: {fileID: 11400000, guid: 7d085e60757bd6b429d8a0dce77253be, type: 2}
-  DebugDungeon: 1
-  DebugMapName: 
   bgmRef:
     m_AssetGUID: d3a56dce98182b34f9559463c94edd88
     m_SubObjectName: 

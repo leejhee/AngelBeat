@@ -24,6 +24,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
                     return new GameOverPresenter(view);
                 case ViewID.CharacterView:
                     return new HoveringUIPresenter(view);
+                case ViewID.BattleQuitQueryView:
+                    return new BattleQuitQueryPresenter(view);
                 default:
                     return new NullPresenter(view);
             }

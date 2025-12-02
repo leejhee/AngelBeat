@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ExploreScene.unity
     guid: e083064a829f48047802a098288934b8
   - enabled: 1
-    path: Assets/Scenes/BattleTestScene.unity
+    path: Assets/Scenes/BattleScene.unity
     guid: f14172bff74c55a4cb4e271677be6cc4
   - enabled: 0
     path: Assets/Scenes/NovelTest/NovelTestScene.unity

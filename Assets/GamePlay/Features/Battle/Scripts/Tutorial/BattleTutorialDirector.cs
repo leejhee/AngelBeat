@@ -93,7 +93,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
         private async UniTask OnBattleEndAsync(SystemEnum.eCharType winnerType)
         {
-            if (!currentConfig) return;
+            if (!currentConfig || winnerType == SystemEnum.eCharType.None) return;
 
             foreach (var step in currentConfig.steps)
             {

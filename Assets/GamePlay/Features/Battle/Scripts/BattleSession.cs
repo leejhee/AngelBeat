@@ -77,11 +77,6 @@ namespace GamePlay.Features.Battle.Scripts
                 CurrentTutorialIndex++;
         }
         
-        public void RestartCurrentStage()
-        {
-            // 인덱스를 바꾸지 않음
-        }
-        
         
         public void Clear()
         {
