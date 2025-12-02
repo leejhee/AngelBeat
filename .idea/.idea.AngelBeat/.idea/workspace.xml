@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Define/SystemEnum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Define/SystemEnum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Scene/GamePlaySceneUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Scene/GamePlaySceneUtil.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/StageField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/StageField.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSceneContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSceneContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleQuitQueryView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleQuitQueryView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Lobby/Scripts/LobbyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Lobby/Scripts/LobbyManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Entities/Character/CharacterModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SPUM/Basic_Resources/Package/SPUM177.unitypackage.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,8 +80,10 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\user\Documents\GitHub\AngelBeat -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -94,8 +92,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Desktop\졸프빌드\build" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -104,8 +104,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\user\Documents\GitHub\AngelBeat -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\user\Documents\GitHub\AngelBeat" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>

@@ -65,7 +65,7 @@ namespace GamePlay.Common.Scripts.Entities.Character
         {
             index = companion.index;
             _type = SystemEnum.eCharType.Player;
-            _characterName = companion.charPrefabName;
+            _characterName = companion.charName;
             _prefabRoot = companion.charPrefabName;
             _iconSpriteRoot = companion.charImage;
             _ldRoot = companion.charLDRoute;
