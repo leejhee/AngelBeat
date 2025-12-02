@@ -133,7 +133,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             }
             BattleCharManager.Instance.CharGenerate(new CharParameter()
             {
-                Scene = eScene.BattleTestScene,
+                Scene = eScene.BattleScene,
                 GeneratePos = _spawnDict[type][squadOrder].SpawnPosition,
                 CharIndex = charBase.Index
             });
@@ -150,7 +150,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleMap
             {
                 BattleCharManager.Instance.CharGenerate(new CharParameter()
                 {
-                    Scene = eScene.BattleTestScene,
+                    Scene = eScene.BattleScene,
                     GeneratePos = _spawnDict[type][i].SpawnPosition,
                     CharIndex = characters[i].Index
                 });

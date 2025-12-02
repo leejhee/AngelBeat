@@ -9,7 +9,7 @@ namespace GamePlay.Common.Scripts.Scene
     {
         public static void LoadBattleScene()
         {
-            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene, BattleSceneInitializer.InitializeAsync);
+            SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleScene, BattleSceneInitializer.InitializeAsync);
         }
 
         public static void LoadExploreScene()

@@ -51,7 +51,7 @@ namespace Core.Scripts.Foundation.Define
             LobbyScene,
             LoadingScene,
             ExploreScene,
-            BattleTestScene,
+            BattleScene,
             VillageScene,
             ViewTestScene,
             NovelTestScene,

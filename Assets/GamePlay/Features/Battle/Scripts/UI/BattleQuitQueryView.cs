@@ -11,15 +11,8 @@ namespace GamePlay.Features.Battle.Scripts.UI
         public void Show() => gameObject.SetActive(true);
         public void Hide() => gameObject.SetActive(false);
 
-        public UniTask PlayEnterAsync(CancellationToken ct)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public UniTask PlayExitAsync(CancellationToken ct)
-        {
-            throw new System.NotImplementedException();
-        }
+        public UniTask PlayEnterAsync(CancellationToken ct) => UniTask.CompletedTask;
+        public UniTask PlayExitAsync(CancellationToken ct) => UniTask.CompletedTask;
 
         public void OnCancelButtonClick()
         {

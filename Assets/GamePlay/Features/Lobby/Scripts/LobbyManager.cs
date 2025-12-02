@@ -248,7 +248,7 @@ namespace GamePlay.Features.Lobby.Scripts
                     break;
                 
                 case SystemEnum.GameState.Battle:
-                    SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleTestScene);
+                    SceneLoader.LoadSceneWithLoading(SystemEnum.eScene.BattleScene);
                     break;
                 
                 case SystemEnum.GameState.Lobby:

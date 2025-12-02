@@ -6,7 +6,7 @@ namespace GamePlay.Features.Battle.Scripts
 {
     public class BattleSceneContext : ISceneContext
     {
-        public SystemEnum.eScene Scene => SystemEnum.eScene.BattleTestScene;
+        public SystemEnum.eScene Scene => SystemEnum.eScene.BattleScene;
         
         public Party PlayerParty { get; }
         
