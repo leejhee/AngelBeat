@@ -648,8 +648,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 162250756}
   - {fileID: 176508872}
+  - {fileID: 162250756}
   m_Father: {fileID: 963226342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1169,9 +1169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   driver: {fileID: 1229864060}
   stage: {fileID: 0}
-  panButton: {fileID: 7858437705492857727, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
-  pan: {fileID: -7991056327057769435, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
-  zoom: {fileID: 4699203901749905772, guid: 8233300a5f03ca74ab39d994b38edcc2, type: 3}
   dragSensitivity: 1
   wheelStep: 1
   enableDuringTurn: 1

@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_MovePreview_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_MovePreview_01.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_Move_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_Move_01.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_TurnEnd_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_TurnEnd_01.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01TutorialConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01TutorialConfig.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraDriver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraDriver.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleStageGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleStageGrid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialGuideUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialGuideUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/TutorialTriggerEventType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/TutorialTriggerEventType.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" afterDir="false" />
-    </list>
+    <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -192,7 +170,7 @@
       <workItem from="1764684808457" duration="1566000" />
       <workItem from="1764692156053" duration="1697000" />
       <workItem from="1764738045806" duration="41759000" />
-      <workItem from="1764791834527" duration="1037000" />
+      <workItem from="1764791834527" duration="1680000" />
     </task>
     <servers />
   </component>
@@ -390,19 +368,6 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>365</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ExecuteStep'">
-            <startOffsets>
-              <option value="13427" />
-            </startOffsets>
-            <endOffsets>
-              <option value="13458" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>

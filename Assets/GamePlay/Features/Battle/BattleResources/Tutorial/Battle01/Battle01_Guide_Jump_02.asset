@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepID: Battle01_Guide_Jump_02
   triggerOnce: 1
-  triggerType: 3
+  triggerType: 7
   viewType: 2
   requiredRound: 2
   onlyPlayer: 1
