@@ -28,8 +28,9 @@ MonoBehaviour:
   autoEndTurn: 0
   novelScriptId: 
   guidePages:
-  - text: "\uAC15\uC870\uB41C \uBC84\uD2BC\uC744 \uD074\uB9AD\uD574\uC11C \uC810\uD504
-      \uBC94\uC704\uB97C \uD655\uC778\uD558\uC138\uC694!"
+  - text: "\uB3C4\uC57D\uC744 \uC0AC\uC6A9\uD574 \uB2E4\uB978 \uCE35\uC73C\uB85C
+      \uC774\uB3D9\uD558\uAC70\uB098,\r\n\uC7A5\uC560\uBB3C\uC744 \uB6F0\uC5B4\uB118\uC744
+      \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     anchor: 0
     screenNormalizedPos: {x: 0.5, y: 0.5}
   lockInputDuringStep: 1

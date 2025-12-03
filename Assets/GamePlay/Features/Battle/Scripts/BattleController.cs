@@ -526,7 +526,10 @@ namespace GamePlay.Features.Battle.Scripts
         public void OnWinRewardClosed()
         {
             BattleSession session = BattleSession.Instance;
+            
+            // TODO : 파티의 상태가 이어져야 함.
             session.UpdateParty(_playerParty);
+            
             switch (_postWinFlow)
             {
                 case PostWinFlow.NextBattle:
