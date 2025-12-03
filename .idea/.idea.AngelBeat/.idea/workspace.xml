@@ -5,25 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49c55001-6918-459a-a0f7-500774636abc" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Lobby/Scripts/LobbySceneInitializer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Lobby/Scripts/LobbySceneInitializer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/UIs/Runtime/PopupView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/UIs/Runtime/PopupView.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AngelBeat/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.System.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AddressableAssetsData/AssetGroups/Battle.System.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Utils/CameraUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Foundation/Utils/CameraUtil.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/ViewCatalogs/BattleViewCatalog.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleLoseView.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Prefabs/UI/BattleLoseView.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Core/Scripts/Managers/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Fonts/Pretendard-Regular SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/StageResources/BattleSystem/IndicatorPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_MovePreview_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_MovePreview_01.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_Move_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_Move_01.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_TurnEnd_01.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01/Battle01_Guide_TurnEnd_01.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01TutorialConfig.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/BattleResources/Tutorial/Battle01TutorialConfig.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleActionIndicator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraDriver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraDriver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleCameraInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattlePayload.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSession.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattlePayload.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleSession.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleStageGrid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleMap/BattleStageGrid.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattlePresenterFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattlePresenterFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleQuitQueryView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/BattleQuitQueryView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/UI/CharacterInfoPopup/CharacterInfoView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialGuideUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialGuideUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialStep.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/TutorialTriggerEventType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/TutorialTriggerEventType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GamePlay/Features/Explore/ExploreResources/Prefabs/MapObjects/TutorialExploreGrid.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BattleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UIs/Runtime/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UIs/Runtime/UIManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +40,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1071a2cb0cb3433aae80a793c277a04846ac00/63/495c89b4/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d25464293e514597ac3d5c5d28c2344f4200/ca/3f3248e3/Grid.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GamePlay/Common/CommonResources/UI/PresenterFactories/BattlePresenterFactory.asset" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/NewGameUtil/NewGameStartUtil.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/GamePlay/Common/Scripts/Scene/GamePlaySceneUtil.cs" root0="FORCE_HIGHLIGHTING" />
@@ -80,7 +83,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;Unity 에디터에 연결.Unity 에디터에 연결.executor&quot;: &quot;Debug&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.59345794&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.5186916&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -188,6 +191,8 @@
       <workItem from="1764605857451" duration="48000" />
       <workItem from="1764684808457" duration="1566000" />
       <workItem from="1764692156053" duration="1697000" />
+      <workItem from="1764738045806" duration="41759000" />
+      <workItem from="1764791834527" duration="1037000" />
     </task>
     <servers />
   </component>
@@ -231,13 +236,19 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="UnityEngine.MissingReferenceException" breakIfHandledByUserCode="true" breakIfUnhandled="false" isInternal="false" displayValue="MissingReferenceException" namespaceName="UnityEngine">
+        <breakpoint enabled="true" suspend="NONE" type="DotNet_Exception_Breakpoints">
+          <properties exception="UnityEngine.MissingReferenceException" breakIfHandledByUserCode="true" isInternal="false" displayValue="MissingReferenceException" namespaceName="UnityEngine">
             <option name="internal" value="false" />
           </properties>
           <option name="timeStamp" value="62" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.NullReferenceException" breakIfHandledByUserCode="true" breakIfUnhandled="false" isInternal="false" displayValue="NullReferenceException" namespaceName="System">
+            <option name="internal" value="false" />
+          </properties>
+          <option name="timeStamp" value="66" />
+        </breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleAction/BattleRangeHelper.cs</url>
           <line>292</line>
           <properties documentPath="C:\Users\user\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleAction\SkillRangeHelper.cs" containingFunctionPresentation="메서드 'ComputeSkillRange'">
@@ -250,37 +261,7 @@
           </properties>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>376</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>380</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>383</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>385</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
-          <line>388</line>
-          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'MatchTurnCondition'" />
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+        <line-breakpoint type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Unit/Components/AI/CharacterAI.cs</url>
           <line>123</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Unit\Components\AI\CharacterAI.cs" containingFunctionPresentation="메서드 'ExecuteSkill'">
@@ -293,7 +274,7 @@
           </properties>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+        <line-breakpoint type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Explore/Scripts/Symbol/Encounter/EncounterSymbol.cs</url>
           <line>29</line>
           <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Explore\Scripts\Symbol\Encounter\EncounterSymbol.cs" containingFunctionPresentation="메서드 'OnTriggerEnter2D'">
@@ -305,6 +286,136 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
+          <line>317</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ApplyInputLockForStep'">
+            <startOffsets>
+              <option value="11516" />
+            </startOffsets>
+            <endOffsets>
+              <option value="11583" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs</url>
+          <line>203</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialFocusMask.cs" containingFunctionPresentation="메서드 'ShowHoleAroundWorldPosition'">
+            <startOffsets>
+              <option value="7181" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7215" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs</url>
+          <line>200</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialFocusMask.cs" containingFunctionPresentation="메서드 'ShowHoleAroundWorldPosition'">
+            <startOffsets>
+              <option value="7016" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7077" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialFocusMask.cs</url>
+          <line>199</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialFocusMask.cs" containingFunctionPresentation="메서드 'ShowHoleAroundWorldPosition'">
+            <startOffsets>
+              <option value="6942" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7003" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs</url>
+          <line>109</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleInputGate.cs" containingFunctionPresentation="메서드 'CanStartAction'">
+            <startOffsets>
+              <option value="3395" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3413" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs</url>
+          <line>110</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleInputGate.cs" containingFunctionPresentation="메서드 'CanStartAction'">
+            <startOffsets>
+              <option value="3439" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3462" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/BattleInputGate.cs</url>
+          <line>112</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\BattleInputGate.cs" containingFunctionPresentation="메서드 'CanStartAction'">
+            <startOffsets>
+              <option value="3489" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3524" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
+          <line>266</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'TryExecuteCurrentStepForTurnEvent'">
+            <startOffsets>
+              <option value="9713" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9748" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
+          <line>365</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'ExecuteStep'">
+            <startOffsets>
+              <option value="13427" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13458" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/GamePlay/Features/Battle/Scripts/Tutorial/BattleTutorialDirector.cs</url>
+          <line>265</line>
+          <properties documentPath="C:\Users\jehee\Documents\GitHub\AngelBeat\Assets\GamePlay\Features\Battle\Scripts\Tutorial\BattleTutorialDirector.cs" containingFunctionPresentation="메서드 'TryExecuteCurrentStepForTurnEvent'">
+            <startOffsets>
+              <option value="9646" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9696" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

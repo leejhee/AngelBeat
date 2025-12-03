@@ -116,7 +116,7 @@ MonoBehaviour:
   followBaseSpriteWhileHover: 1
   hoverBrightnessMul: 0.9
   hoverAlphaAdd: 0.05
-  _cellSR: {fileID: 809339220805782754}
+  _cellMarkSR: {fileID: 809339220805782754}
 --- !u!61 &-4609730519168071529
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.16, y: 0.16, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8113943317638452996}
@@ -236,7 +236,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: e6b49ee92f055c244b253de4b775df68, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.23529412}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

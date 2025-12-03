@@ -39169,6 +39169,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 8928198450695444218}
     m_Modifications:
     - target: {fileID: 1411901246333071941, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1411901246333071941, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1411901246333071941, guid: 5dea2ed15cb999e4eb9f711097d9a219, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.92
       objectReference: {fileID: 0}
@@ -39310,6 +39318,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5638330182441703898, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638330182441703898, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6703678530297656786, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
       propertyPath: m_Name
       value: Scenario1
@@ -39378,6 +39394,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892834409020230513, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638330182441703898, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638330182441703898, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6703678530297656786, guid: 379e92deba4c9d844b8c87edf0082dae, type: 3}

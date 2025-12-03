@@ -152,12 +152,66 @@ namespace Core.Scripts.Managers
         
         #region Battle Input Wrapper
 
-        public bool GetBattleWinCheat()
+        public void EnableBattleInput()
+        {
+            _battleMap?.Enable();
+            _cameraMap?.Enable();
+        }
+        
+        public void DisableBattleInput()
+        {
+            _battleMap?.Disable();
+            _cameraMap?.Disable();
+        }
+
+        public bool GetBattleQuitQuery()
         {
             if(_battleMap == null) return false;
             InputAction action =  _battleMap.FindAction("EndBattleCheat");
             return action != null && action.WasPressedThisFrame();
         }
+        
+        #endregion
+        
+        #region Camera Input Wrapper
+
+        private InputAction GetCameraAction(string actionName)
+        {
+            if (_cameraMap == null) return null;
+            return _cameraMap.FindAction(actionName);
+        }
+
+        /// <summary>카메라 드래그 버튼 (PanButton) 다운</summary>
+        public bool GetCameraPanButtonDown()
+        {
+            InputAction action = GetCameraAction("PanButton");
+            return action != null && action.WasPressedThisFrame();
+        }
+
+        /// <summary>카메라 드래그 버튼 업</summary>
+        public bool GetCameraPanButtonUp()
+        {
+            InputAction action = GetCameraAction("PanButton");
+            return action != null && action.WasReleasedThisFrame();
+        }
+
+        /// <summary>마우스 드래그 델타 (Pan)</summary>
+        public Vector2 GetCameraPanDelta()
+        {
+            InputAction action = GetCameraAction("Pan");
+            return action != null ? action.ReadValue<Vector2>() : Vector2.zero;
+        }
+
+        /// <summary>휠 스크롤 값</summary>
+        public float GetCameraZoomDelta()
+        {
+            InputAction action = GetCameraAction("Zoom");
+            if (action == null) return 0f;
+
+            Vector2 v = action.ReadValue<Vector2>();
+            return v.y;
+        }
+
         #endregion
     }
 }

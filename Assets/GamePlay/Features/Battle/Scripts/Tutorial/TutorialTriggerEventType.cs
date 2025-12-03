@@ -8,6 +8,7 @@
         TurnStart,
         TurnEnd,
         ActionCompleted,
-        ActionPreviewStart
+        ActionPreviewStart,
+        TurnFocused,
     }
 }

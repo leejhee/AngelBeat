@@ -31,10 +31,12 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         
         [Header("행동 조건 - ActionCompleted에서만 사용")]
         public bool filterActionType;
-        public ActionType requiredActionType;
+        public ActionType requiredCompletedActionType; // 어떤 행동이 끝나고 invoke되어야 하는가?
         
         public bool filterSkillId;
         public int requiredSkillId;
+
+        public bool autoEndTurn;
         
         [Header("Novel 연출이라면 Script의 ID를 작성할 것")]
         public string novelScriptId;   
@@ -45,7 +47,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         [Header("Guide 연출이라면 입력 유도 / 강제 옵션")]
         public bool lockInputDuringStep;  // 이 스텝이 활성화된 동안 입력을 제한할지
         public TutorialGuideTarget requiredClickTarget = TutorialGuideTarget.None;  // 무엇을 클릭하게 할지
-
+        public ActionType guidingActionType; // 입력을 강제하게 할 행동 타입
+        
         public string uiTargetKey;
         public Vector2Int requiredCellOffset; // 액터 기준 오프셋
         

@@ -33,4 +33,10 @@ MonoBehaviour:
     screenNormalizedPos: {x: 0.5, y: 0.5}
   lockInputDuringStep: 1
   requiredClickTarget: 3
-  requiredCellOffset: {x: 2, y: 0}
+  uiTargetKey: 
+  requiredCellOffset: {x: 1, y: 0}
+  forceEnemyScript: 0
+  enemyCommands: []
+  winnerType: 0
+  isRestartBattle: 0
+  partyAddIndex: 0

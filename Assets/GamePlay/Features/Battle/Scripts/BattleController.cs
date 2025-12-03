@@ -18,7 +18,6 @@ using System.Threading;
 using UIs.Runtime;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Rendering.Universal;
 
 namespace GamePlay.Features.Battle.Scripts
 {
@@ -46,7 +45,7 @@ namespace GamePlay.Features.Battle.Scripts
 
         private void Update()
         {
-            if (InputManager.Instance.GetBattleWinCheat())
+            if (InputManager.Instance.GetBattleQuitQuery())
             {
                 //UI 띄워야 함.
                 UIManager.Instance.ShowViewAsync(ViewID.BattleQuitQueryView).Forget();
@@ -82,8 +81,10 @@ namespace GamePlay.Features.Battle.Scripts
         
         
         public event Func<UniTask> OnBattleStartAsync;
+        public event Func<TurnEventContext, UniTask> OnFocusedAsync; 
         public event Func<SystemEnum.eCharType, UniTask> OnBattleEndAsync;
         public event Action<BattleActionContext, BattleActionPreviewData> OnActionPreviewStarted;
+        public event Action OnBattleActionStarted;
         public event Action<BattleActionBase, BattleActionResult> ActionCompleted;
         public event Action<long> OnCharacterDead;
         
@@ -105,19 +106,33 @@ namespace GamePlay.Features.Battle.Scripts
             _initialized = true;
             if(Camera.main != null)
                 Camera.main.orthographicSize = cameraSize;
-            
-            _turnManager.OnTurnBeganAsync += async m =>
-            {
-                if (cameraDriver && m.Actor)
-                    await cameraDriver.Focus(m.Actor.CharCameraPos, 0.4f);
-            };
-            
+
+            _turnManager.OnTurnBeganAsync += HandleCameraFocusAsync;
         }
         
         public async UniTask RaiseBattleStartAsync()
         {
             if (OnBattleStartAsync != null)
                 await OnBattleStartAsync.Invoke();
+        }
+
+        private async UniTask HandleCameraFocusAsync(TurnEventContext ctx)
+        {
+            if (cameraDriver && ctx.Actor && ctx.Actor.CharCameraPos)
+            {
+                await cameraDriver.Focus(ctx.Actor.CharCameraPos, 0.4f);
+            }
+
+            if (OnFocusedAsync != null)
+            {
+                foreach (Delegate d in OnFocusedAsync.GetInvocationList())
+                {
+                    if (d is Func<TurnEventContext, UniTask> handler)
+                    {
+                        await handler(ctx);
+                    }
+                }
+            }
         }
         
         #region Battle Action Managing
@@ -131,13 +146,13 @@ namespace GamePlay.Features.Battle.Scripts
         
         #region Action Indicator Settings
         [SerializeField] private GameObject indicatorPrefab;
-        [SerializeField] private List<GameObject> indicatorLists = new();
+        [SerializeField] private List<BattleActionIndicator> indicatorLists = new();
         [SerializeField] private Color possibleColor;
         [SerializeField] private Color blockedColor;
         #endregion
         
         public bool IsModal => _currentActionState != BattleActionState.Idle;
-        
+        public IReadOnlyList<BattleActionIndicator>  IndicatorList => indicatorLists.AsReadOnly();
         
         /// <summary>
         /// BattleAction 시작을 위한 Preview 제시 
@@ -250,9 +265,9 @@ namespace GamePlay.Features.Battle.Scripts
 
         public void HideBattleActionPreview()
         {
-            foreach (GameObject go in indicatorLists)
+            foreach (BattleActionIndicator go in indicatorLists)
             {
-                Destroy(go);
+                Destroy(go.gameObject);
             }
             indicatorLists.Clear();
             _battleStage.ShowGridOverlay(false);
@@ -272,15 +287,14 @@ namespace GamePlay.Features.Battle.Scripts
         {
             Vector3 pos = _battleStage.CellToWorldCenter(cell);
             GameObject go = Instantiate(indicatorPrefab, pos, Quaternion.identity, _battleStage.transform);
-            indicatorLists.Add(go);
             go.transform.localScale = new Vector3(_battleStage.Grid.cellSize.x, _battleStage.Grid.cellSize.y, 1f);
-
-            if (masked) return;
 
             var indi = go.GetComponent<BattleActionIndicator>();
             if (!indi) return;
-
-            var sr = indi.CellSR;
+            indicatorLists.Add(indi);
+            
+            if (masked) return;
+            var sr = indi.CellMarkSR;
             if(sr)  sr.color = blocked ? blockedColor : possibleColor;
             
             // 행동마다 콜백이 달라서 이런 형태로 사용
@@ -331,8 +345,13 @@ namespace GamePlay.Features.Battle.Scripts
             BattleActionResult result = BattleActionResult.Fail(BattleActionResult.ResultReason.BattleActionAborted);
             try
             {
+                InputManager.Instance.DisableBattleInput();
+                
                 HideBattleActionPreview();
+                OnBattleActionStarted?.Invoke();
                 result = await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+                
+                InputManager.Instance.EnableBattleInput();
             }
             catch (OperationCanceledException)
             { /*Silence*/ }
@@ -392,8 +411,13 @@ namespace GamePlay.Features.Battle.Scripts
 
             try
             {
+                InputManager.Instance.DisableBattleInput();
+                
                 HideBattleActionPreview();
+                OnBattleActionStarted?.Invoke();
                 result = await _currentActionBase.ExecuteAction(_actionCts?.Token ?? CancellationToken.None);
+                
+                InputManager.Instance.EnableBattleInput();
             }
             catch (OperationCanceledException)
             { /* Silence */ }

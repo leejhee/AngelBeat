@@ -5,11 +5,14 @@ using Cysharp.Threading.Tasks;
 using GamePlay.Common.Scripts.Entities.Character;
 using GamePlay.Common.Scripts.Novel;
 using GamePlay.Features.Battle.Scripts.BattleAction;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using GamePlay.Features.Battle.Scripts.BattleTurn;
+using GamePlay.Features.Battle.Scripts.UI;
 using GamePlay.Features.Battle.Scripts.Unit;
 using GamePlay.Features.Battle.Scripts.Unit.Components.AI;
 using GamePlay.Features.Explore.Scripts;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 
@@ -36,9 +39,10 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         [SerializeField, ReadOnly] private BattleTutorialConfig currentConfig;
         [SerializeField] private BattleInputGate inputGate;
         
+        [SerializeField, ReadOnly] private int currentConfigIndex;  // 몇 번째 config?
+        [SerializeField, ReadOnly] private int stepCursor;          // 현재 config 안에서 얼마나 진행?
+        
         private readonly HashSet<string> _completedSteps = new();
-
-        private int _currentIndex;
         private TurnEventContext _lastTurnContext;
         private TurnController _turnController;
         private BattleController _battleController;
@@ -57,63 +61,67 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 return;
             }
             
-            _currentIndex = BattleSession.Instance.CurrentTutorialIndex;
-            currentConfig = configs[_currentIndex];
+            currentConfigIndex = BattleSession.Instance.CurrentTutorialIndex;
+            currentConfig = configs[currentConfigIndex];
+            stepCursor = 0;
             
             _turnController = turnController;
             _battleController = battleController;
             
             _battleController.OnBattleStartAsync += OnBattleStartAsync;
             _battleController.OnBattleEndAsync += OnBattleEndAsync;
+            _battleController.OnBattleActionStarted += OnBattleActionStarted;
             _battleController.ActionCompleted += OnActionCompleted;
             _battleController.OnActionPreviewStarted += OnActionPreviewStarted;
+            _battleController.OnFocusedAsync += OnFocusedAsync;
             
             _turnController.OnRoundProceedAsync += OnRoundProceedAsync;
             _turnController.OnTurnBeganAsync += OnTurnBeganAsync;
             _turnController.OnTurnEndedAsync += OnTurnEndedAsync;
             
         }
+
         
+
         #region Events
 
         private async UniTask OnBattleStartAsync()
         {
             if (currentConfig == null) return;
+            BattleTutorialStep step = GetCurrentStep();
+            if (step == null) return;
+            if (step.triggerType != TutorialTriggerEventType.BattleStart) return;
+            if (!IsStepAvailable(step)) return;
 
-            foreach (var step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.BattleStart)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
-
-                await ExecuteStep(step);
-            }
+            await ExecuteStep(step);
+            stepCursor++;
+            
         }
 
         private async UniTask OnBattleEndAsync(SystemEnum.eCharType winnerType)
         {
-            if (!currentConfig || winnerType == SystemEnum.eCharType.None) return;
+            BattleTutorialStep step = GetCurrentStep();
+            if (step == null) return;
+            if (step.triggerType != TutorialTriggerEventType.BattleEnd) return;
+            if (!IsStepAvailable(step)) return;
+            
+            if (step.winnerType != SystemEnum.eCharType.None &&
+                step.winnerType != winnerType)
+                return;
 
-            foreach (var step in currentConfig.steps)
+            // 파티 합류 처리
+            if (step.partyAddIndex != 0)
             {
-                if (step.triggerType != TutorialTriggerEventType.BattleEnd)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
-
-                // 나중에 승패 조건 넣고 싶으면 여기에서 winnerType 보고 필터
-                if (step.winnerType != winnerType)
-                    continue;
-                if (step.partyAddIndex != 0)
+                CompanionData data = DataManager.Instance.GetData<CompanionData>(step.partyAddIndex);
+                if (data != null)
                 {
-                    CompanionData data = DataManager.Instance.GetData<CompanionData>(step.partyAddIndex);
-                    if (data == null) continue;
                     CharacterModel model = new(data);
                     BattleController.Instance.PlayerParty.AddMember(model);
                 }
-                await ExecuteStep(step);
             }
+
+            await ExecuteStep(step);
+            stepCursor++;
 
             await HandleTutorialEndBattleAsync(winnerType);
             if (winnerType == SystemEnum.eCharType.Player && BattleSession.Instance != null)
@@ -131,67 +139,45 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                 return;
             if (winnerType != SystemEnum.eCharType.Player)
                 return;
-            if (_currentIndex != configs.Count - 1) // 마지막이어야지
+            if (currentConfigIndex != configs.Count - 1) // 마지막이어야지
                 return;
             
-            SystemEnum.Dungeon nextDungeon = SystemEnum.Dungeon.MOUNTAIN_BACK;
-            int nextFloor = 1;
+            const SystemEnum.Dungeon nextDungeon = SystemEnum.Dungeon.MOUNTAIN_BACK;
+            const int nextFloor = 1;
             Party nextParty = battle.PlayerParty; 
             explore.SetNewExplore(nextDungeon, nextFloor, nextParty);
         }
         
         private async UniTask OnRoundProceedAsync(RoundEventContext ctx)
         {
-            foreach (BattleTutorialStep step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.RoundStart)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
+            BattleTutorialStep step = GetCurrentStep();
+            if (!step) return;
+            if (step.triggerType != TutorialTriggerEventType.RoundStart) return;
+            if (!IsStepAvailable(step)) return;
 
-                // 라운드 조건
-                if (step.requiredRound > 0 && step.requiredRound != ctx.Round)
-                    continue;
+            // 라운드 조건
+            if (step.requiredRound > 0 && step.requiredRound != ctx.Round)
+                return;
 
-                await ExecuteStep(step);
-            }
+            await ExecuteStep(step);
+            stepCursor++;
         }
 
         private async UniTask OnTurnBeganAsync(TurnEventContext ctx)
         {
             _lastTurnContext = ctx;
-
-            foreach (BattleTutorialStep step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.TurnStart)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
-
-                if (!MatchTurnCondition(step, ctx))
-                    continue;
-                
-                ApplyEnemyScriptForStep(step, ctx);
-                
-                await ExecuteStep(step);
-            }
+            await TryExecuteCurrentStepForTurnEvent(TutorialTriggerEventType.TurnStart, ctx);
         }
 
+        private async UniTask OnFocusedAsync(TurnEventContext ctx)
+        {
+            _lastTurnContext = ctx;
+            await TryExecuteCurrentStepForTurnEvent(TutorialTriggerEventType.TurnFocused, ctx);
+        }
+        
         private async UniTask OnTurnEndedAsync(TurnEventContext ctx)
         {
-            foreach (BattleTutorialStep step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.TurnEnd)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
-
-                if (!MatchTurnCondition(step, ctx))
-                    continue;
-
-                await ExecuteStep(step);
-            }
-            
+            await TryExecuteCurrentStepForTurnEvent(TutorialTriggerEventType.TurnEnd, ctx);
             ClearInputLock();
         }
         
@@ -207,22 +193,18 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             if (!result.ActionSuccess)
                 return;
             
-            TurnEventContext ctx = _lastTurnContext;
+            BattleTutorialStep step = GetCurrentStep();
+            if (step == null) return;
+            if (step.triggerType != TutorialTriggerEventType.ActionCompleted) return;
+            if (!IsStepAvailable(step)) return;
 
-            foreach (var step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.ActionCompleted)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
-
-                if (!MatchTurnCondition(step, ctx))
-                    continue;
-                if (!MatchActionCondition(step, action, result))
-                    continue;
-
-                await ExecuteStep(step);
-            }
+            if (!MatchTurnCondition(step, _lastTurnContext)) return;
+            if (!MatchActionCondition(step, action, result)) return;
+            
+            
+            await ExecuteStep(step);
+            stepCursor++;
+            await AutoEndTurnIfNeeded(step);
         }
         
         private void OnActionPreviewStarted(BattleActionContext ctx, BattleActionPreviewData data)
@@ -234,44 +216,60 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             BattleActionContext ctx, 
             BattleActionPreviewData data)
         {
-            TurnEventContext turnCtx = _lastTurnContext;
+            ClearInputLock();
+            BattleTutorialStep step = GetCurrentStep();
+            if (!step) return;
+            if (step.triggerType != TutorialTriggerEventType.ActionPreviewStart) return;
+            if (!IsStepAvailable(step)) return;
 
-            foreach (BattleTutorialStep step in currentConfig.steps)
-            {
-                if (step.triggerType != TutorialTriggerEventType.ActionPreviewStart)
-                    continue;
-                if (!IsStepAvailable(step))
-                    continue;
+            // Actor 조건은 TurnContext를 써야 하니까 lastTurnContext 사용
+            if (!MatchTurnCondition(step, _lastTurnContext)) return;
 
-                if (!MatchTurnCondition(step, turnCtx))
-                    continue;
+            if (step.filterActionType &&
+                step.guidingActionType != ctx.battleActionType)
+                return;
 
-                if (step.filterActionType && step.requiredActionType != ctx.battleActionType)
-                    continue;
-
-                // 필요하면 data(PossibleCells 등)도 여기서 활용 가능
-
-                await ExecuteStep(step);
-            }
+            await ExecuteStep(step);
+            stepCursor++;
+        }
+        
+        private void OnBattleActionStarted()
+        {
+            BattleTutorialGuideUI.Instance?.Hide();
+            BattleTutorialFocusMask.Instance?.Hide();
         }
         
         #endregion
         
         #region Core Methods
-
-        private bool SetNextTutorialConfig()
+        
+        private BattleTutorialStep GetCurrentStep()
         {
-            if (++_currentIndex >= configs.Count)
-            {
-                currentConfig = null;
-                Debug.Log("튜토리얼 종료. 해당 director 개입 종료");
-                return false;
-            }
-            currentConfig = configs[_currentIndex];
-            _completedSteps.Clear();
-            _lastTurnContext = null;
-            return true;
+            if (currentConfig == null || currentConfig.steps == null)
+                return null;
+            if (stepCursor < 0 || stepCursor >= currentConfig.steps.Length)
+                return null;
+            return currentConfig.steps[stepCursor];
         }
+        
+        private async UniTask TryExecuteCurrentStepForTurnEvent(
+            TutorialTriggerEventType trigger,
+            TurnEventContext ctx)
+        {
+            BattleTutorialStep step = GetCurrentStep();
+            if (step == null) return;
+            if (step.triggerType != trigger) return;
+            if (!IsStepAvailable(step)) return;
+            if (!MatchTurnCondition(step, ctx)) return;
+
+            // 적 AI 강제는 TurnStart에서만
+            if (trigger == TutorialTriggerEventType.TurnStart)
+                ApplyEnemyScriptForStep(step, ctx);
+
+            await ExecuteStep(step);
+            stepCursor++;
+        }
+        
         
         private bool IsStepAvailable(BattleTutorialStep step)
         {
@@ -293,19 +291,72 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         {
             if (!inputGate || !step.lockInputDuringStep)
                 return;
-
+            
+            // TODO : 지금 의미 있는지? domain input manager로 승격시킬 생각 할 것.
             inputGate.ApplyTutorialLock(step, _lastTurnContext);
+            
+            //===================== Masking Input ====================//
+            BattleTutorialFocusMask mask = BattleTutorialFocusMask.Instance;
+            if (!mask) return;
+
+            CharBase actor = _lastTurnContext?.Actor;
+            BattleStageGrid grid = _battleController?.StageGrid;
+            
+            switch (step.requiredClickTarget)
+            {
+                case TutorialGuideTarget.None:
+                    mask.Hide();
+                    break;
+
+                case TutorialGuideTarget.ActorWorld:
+                    if (actor && grid)
+                    {
+                        Vector2Int actorCell = grid.WorldToCell(actor.CharTransform.position);
+                        Vector2    worldPos  = grid.CellToWorldCenter(actorCell);
+                        Vector2    worldSize = grid.CellSize;
+
+                        mask.ShowHoleAroundWorldPosition(worldPos, worldSize, padding: 0f);
+                    }
+                    break;
+
+                case TutorialGuideTarget.CellWorld:
+                    if (actor && grid)
+                    {
+                        Vector2Int actorCell = grid.WorldToCell(actor.CharTransform.position);
+                        Vector2Int maskCell  = actorCell + step.requiredCellOffset;
+
+                        Vector2 worldPos  = grid.CellToWorldCenter(maskCell);
+                        Vector2 worldSize = grid.CellSize;
+
+                        mask.ShowHoleAroundWorldPosition(worldPos, worldSize, padding: 0f);
+                    }
+                    break;
+
+                // hud를 싱글톤으로 하지 않을 거기 때문에 그냥 find로 해결한다.
+                // TODO : viewID로 view를 찾아주는 헬퍼를 UIManager에 추가할 것
+                case TutorialGuideTarget.BattleUIButton:
+                    GameObject go = GameObject.Find("BattleSceneView");
+                    if (!go) return;
+                    if (!go.TryGetComponent(out BattleHUDView view)) return;
+                    RectTransform rect = view.GetTutorialTarget(step.uiTargetKey);
+                    if (rect)
+                        mask.ShowHoleForRectTransform(rect, padding: 12f);
+                    break;
+            }
         }
         
         private void ClearInputLock()
         {
             inputGate?.ClearTutorialLock();
+            BattleTutorialGuideUI.Instance?.Hide();
+            BattleTutorialFocusMask.Instance?.Hide();
+            
         }
         
         private async UniTask ExecuteStep(BattleTutorialStep step)
         {
             if (!step) return;
-
+            InputManager.Instance.DisableBattleInput();
             MarkStepCompleted(step);
             ApplyInputLockForStep(step);
             
@@ -319,6 +370,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
                     PlayGuideStepAsync(step).Forget();
                     break;
             }
+            InputManager.Instance.EnableBattleInput();
         }
         
         private async UniTask PlayNovelStepAsync(BattleTutorialStep step)
@@ -345,23 +397,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
             foreach (BattleTutorialGuidePage page in step.guidePages)
             {
-                if (page == null) continue;
-
-                switch (page.anchor)
-                {
-                    case GuideAnchor.ScreenTop:
-                        ui.ShowScreenTop(page.text);
-                        break;
-                    case GuideAnchor.Actor:
-                        if (actor)
-                            ui.ShowForActor(actor, page.text);
-                        else
-                            ui.ShowScreenTop(page.text);
-                        break;
-                    case GuideAnchor.ScreenPosition:
-                        ui.ShowForScreenPosition(page.screenNormalizedPos, page.text);
-                        break;
-                }
+                ui.ShowFixedLeft(page.text);
 
                 await ui.WaitForNextAsync();
             }
@@ -395,7 +431,7 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
 
         private bool MatchActionCondition(BattleTutorialStep step, BattleActionBase action, BattleActionResult result)
         {
-            if (step.filterActionType && action.ActionType != step.requiredActionType)
+            if (step.filterActionType && action.ActionType != step.requiredCompletedActionType)
                 return false;
 
             // 필요하면 스킬 ID 같은 조건도 여기서 추가
@@ -424,6 +460,25 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             Debug.Log($"[Tutorial] {monster.name} 에 튜토리얼 AI 스크립트 주입 (stepID: {step.stepID})");
         }
         
+        private async UniTask AutoEndTurnIfNeeded(BattleTutorialStep step)
+        {
+            // step 설정상 자동 종료가 아니면 아무 것도 안 함
+            if (!step.autoEndTurn)
+                return;
+
+            if (_turnController == null)
+                return;
+
+            // 플레이어 턴일 때만 강제 턴 종료
+            CharBase actor = _lastTurnContext?.Actor;
+            if (!actor)
+                return;
+            if (actor.GetCharType() != SystemEnum.eCharType.Player)
+                return;
+
+            await _turnController.ChangeTurn();
+        }
+        
         #endregion
         
         private void OnDestroy()
@@ -438,9 +493,11 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             if (_battleController != null)
             {
                 _battleController.ActionCompleted -= OnActionCompleted;
+                _battleController.OnBattleActionStarted -= OnBattleActionStarted;
                 _battleController.OnBattleStartAsync -= OnBattleStartAsync;
                 _battleController.OnBattleEndAsync -= OnBattleEndAsync;
                 _battleController.OnActionPreviewStarted -= OnActionPreviewStarted;
+                _battleController.OnFocusedAsync -= OnFocusedAsync;
             }
             
             if (Instance == this)

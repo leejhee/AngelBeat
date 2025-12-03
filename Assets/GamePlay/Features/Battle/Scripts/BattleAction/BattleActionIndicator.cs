@@ -77,14 +77,15 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         private CharBase       _hoverTarget;
         private SpriteRenderer _baseSR;        // UnitRoot의 기본 SR
         private SpriteRenderer _hoverSR;       // UnitRoot의 자식 hoverSR(오버레이 SR)
-        [SerializeField]private SpriteRenderer _cellSR;        // 인디케이터 칸 SR
+        [SerializeField]private SpriteRenderer _cellMarkSR;        // 인디케이터 칸 SR
         private Color          _baseCellColor;
         private bool           _hovered;
         private Sprite         _lastBaseSprite; // 동기화용 캐시
         
         #endregion
         
-        public SpriteRenderer CellSR => _cellSR;
+        public SpriteRenderer CellMarkSR => _cellMarkSR;
+        public Vector2 Cell => _cell;
         
         #region Initialization
         private bool _initialized = false;
@@ -110,9 +111,9 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             _confirmAction = confirmAction;
             
             //_cellSR ??= GetComponent<SpriteRenderer>();
-            if(_cellSR) 
+            if(_cellMarkSR) 
             {
-                _baseCellColor = _cellSR.color;
+                _baseCellColor = _cellMarkSR.color;
                 _hovered = false;
             }
             _initialized = true;
@@ -124,10 +125,10 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
             _cell = cell;
             _onClickCell = onClickCell;
             
-            _cellSR ??= GetComponent<SpriteRenderer>();
-            if(_cellSR) 
+            _cellMarkSR ??= GetComponent<SpriteRenderer>();
+            if(_cellMarkSR) 
             {
-                _baseCellColor = _cellSR.color;
+                _baseCellColor = _cellMarkSR.color;
                 _hovered = false;
             }
             _initialized = true;
@@ -139,7 +140,7 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         private void Awake()
         {
             //_cellSR = GetComponent<SpriteRenderer>();
-            if (_cellSR != null) _baseCellColor = _cellSR.color;
+            if (_cellMarkSR != null) _baseCellColor = _cellMarkSR.color;
 
             if (autoProbeFromScale)
             {
@@ -394,20 +395,20 @@ namespace GamePlay.Features.Battle.Scripts.BattleAction
         #region Util
         private void ApplyCellHoverTint(bool on)
         {
-            if (_cellSR == null) return;
+            if (_cellMarkSR == null) return;
             if (on)
             {
-                if (!_hovered) { _baseCellColor = _cellSR.color; _hovered = true; }
+                if (!_hovered) { _baseCellColor = _cellMarkSR.color; _hovered = true; }
                 var c = _baseCellColor;
                 c.r = Mathf.Clamp01(c.r * hoverBrightnessMul);
                 c.g = Mathf.Clamp01(c.g * hoverBrightnessMul);
                 c.b = Mathf.Clamp01(c.b * hoverBrightnessMul);
                 c.a = Mathf.Clamp01(c.a + hoverAlphaAdd);
-                _cellSR.color = c;
+                _cellMarkSR.color = c;
             }
             else
             {
-                if (_hovered) { _cellSR.color = _baseCellColor; _hovered = false; }
+                if (_hovered) { _cellMarkSR.color = _baseCellColor; _hovered = false; }
             }
         }
 

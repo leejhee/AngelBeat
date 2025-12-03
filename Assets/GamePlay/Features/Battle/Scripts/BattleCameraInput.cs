@@ -1,4 +1,5 @@
-﻿using GamePlay.Features.Battle.Scripts.BattleMap;
+﻿using Core.Scripts.Managers;
+using GamePlay.Features.Battle.Scripts.BattleMap;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,11 +10,6 @@ namespace GamePlay.Features.Battle.Scripts
         [Header("Refs")]
         public BattleCameraDriver driver;
         public StageField stage;
-
-        [Header("Input Actions (InputActionReference)")]
-        public InputActionReference panButton;   // Button: <Mouse>/middleButton (or rightButton)
-        public InputActionReference pan;         // Vector2: <Pointer>/delta
-        public InputActionReference zoom;        // Vector2: <Mouse>/scroll
 
         [Header("Tuning")]
         public float dragSensitivity = 1.0f;     // 드래그 속도
@@ -33,60 +29,78 @@ namespace GamePlay.Features.Battle.Scripts
         private void OnEnable()
         {
             _cam ??= Camera.main;
-
-            if (panButton) { panButton.action.Enable(); panButton.action.performed += OnPanPressed; panButton.action.canceled += OnPanReleased; }
-            if (pan)       { pan.action.Enable(); }
-            if (zoom)      { zoom.action.Enable(); }
+            _panning = false;
         }
 
         private void OnDisable()
         {
-            if (panButton) { panButton.action.performed -= OnPanPressed; panButton.action.canceled -= OnPanReleased; panButton.action.Disable(); }
-            if (pan)       { pan.action.Disable(); }
-            if (zoom)      { zoom.action.Disable(); }
+            _panning = false;
         }
 
         private void Update()
         {
             if (!enableDuringTurn || !driver || !stage) return;
+            if (BattleInputGate.Instance != null && BattleInputGate.Instance.InputLocked)
+                return;
+
+            // 전투 액션(프리뷰/실행) 중일 때도 카메라 막기
+            if (BattleController.Instance != null && BattleController.Instance.IsModal)
+                return;
+
+            var input = InputManager.Instance;
+            if (input == null)
+                return;
+
             _cam ??= Camera.main;
 
-            // --- Zoom ---
-            if (zoom)
+            // ===== Pan 버튼 상태 업데이트 =====
+            if (input.GetCameraPanButtonDown())
             {
-                float raw = zoom.action.ReadValue<Vector2>().y;
-                if (Mathf.Abs(raw) > 0.01f && driver.IsOrtho)
+                if (!driver.IsLockedToTarget)
                 {
-                    // 1) OS/디바이스 차이 정규화
-                    float steps = normalizeWheel ? (raw / Mathf.Max(1f, wheelDetent)) : raw;
-
-                    float cur = driver.CurrentOrthoSize;
-                    float next;
-
-                    // 2) 비율/선형 중 택1
-                    if (multiplicative)
-                    {
-                        // steps>0 (위로 스크롤)일 때 0.9^steps → 사이즈 감소(줌 인)
-                        next = cur * Mathf.Pow(zoomMulPerStep, steps);
-                    }
-                    else
-                    {
-                        // 선형: 한 칸당 zoomLinearStep 만큼 변화
-                        next = cur - steps * zoomLinearStep;
-                    }
-
-                    driver.SetZoom(next);
+                    _panning = true;
+                }
+                else
+                {
+                    // 타겟에 잠겨있다면 첫 드래그 때 Free 모드 진입
+                    driver.EnterFree(stage);
+                    _panning = true;
                 }
             }
-
-            // --- Pan ---
-            if (_panning && pan)
+            else if (input.GetCameraPanButtonUp())
             {
-                Vector2 pxDelta = pan.action.ReadValue<Vector2>(); // 픽셀 단위
+                _panning = false;
+            }
+
+            // ===== Zoom =====
+            float rawZoom = input.GetCameraZoomDelta();
+            if (Mathf.Abs(rawZoom) > 0.01f && driver.IsOrtho)
+            {
+                float steps = normalizeWheel ? (rawZoom / Mathf.Max(1f, wheelDetent)) : rawZoom;
+
+                float cur = driver.CurrentOrthoSize;
+                float next;
+
+                if (multiplicative)
+                {
+                    next = cur * Mathf.Pow(zoomMulPerStep, steps);
+                }
+                else
+                {
+                    next = cur - steps * zoomLinearStep;
+                }
+
+                driver.SetZoom(next);
+            }
+
+            // ===== Pan =====
+            if (_panning)
+            {
+                Vector2 pxDelta = input.GetCameraPanDelta(); // 픽셀 단위
                 if (pxDelta.sqrMagnitude > 0.0001f && driver.IsOrtho)
                 {
                     float worldPerPixel = WorldUnitsPerPixel();
-                    Vector2 worldDelta = -pxDelta * worldPerPixel * dragSensitivity;
+                    Vector2 worldDelta  = -pxDelta * worldPerPixel * dragSensitivity;
                     driver.PanFree(worldDelta);
                 }
             }
@@ -104,16 +118,6 @@ namespace GamePlay.Features.Battle.Scripts
 #endif
             }
         }
-        
-        void OnPanPressed(InputAction.CallbackContext _)
-        {
-            if (!driver.IsLockedToTarget) { _panning = true; return; }
-            // 처음 드래그 시작 시 Free 모드로 전환
-            driver.EnterFree(stage);
-            _panning = true;
-        }
-
-        void OnPanReleased(InputAction.CallbackContext _) => _panning = false;
 
         float WorldUnitsPerPixel()
         {

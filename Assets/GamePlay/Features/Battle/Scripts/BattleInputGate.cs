@@ -64,8 +64,7 @@ namespace GamePlay.Features.Battle.Scripts
             _requiredActorId = 0;
 
             _filterActionType = step.filterActionType;
-            _requiredActionType = step.requiredActionType;
-
+            _requiredActionType = step.guidingActionType;
             
             if (_requiredClickTarget == Tutorial.TutorialGuideTarget.ActorWorld
                 && turnCtx?.Actor)

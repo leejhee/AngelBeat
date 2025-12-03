@@ -15,22 +15,26 @@ MonoBehaviour:
   stepID: Battle01_Guide_TurnEnd_01
   triggerOnce: 1
   triggerType: 5
-  viewType: 2
+  viewType: 0
   requiredRound: 1
   onlyPlayer: 1
   onlyEnemy: 0
   requiredCharId: 0
   requiredActorTurnCount: 1
-  filterActionType: 1
-  requiredActionType: 1
+  filterActionType: 0
+  requiredCompletedActionType: 2
   filterSkillId: 0
   requiredSkillId: 0
+  autoEndTurn: 1
   novelScriptId: 
-  guidePages:
-  - text: "\"\uD134 \uC885\uB8CC\" \uBC84\uD2BC\uC744 \uD074\uB9AD\uD574 \uD134\uC744
-      \uC885\uB8CC\uD558\uC138\uC694!"
-    anchor: 0
-    screenNormalizedPos: {x: 0.5, y: 0.5}
-  lockInputDuringStep: 1
+  guidePages: []
+  lockInputDuringStep: 0
   requiredClickTarget: 1
+  guidingActionType: 0
+  uiTargetKey: 
   requiredCellOffset: {x: 0, y: 0}
+  forceEnemyScript: 0
+  enemyCommands: []
+  winnerType: 0
+  isRestartBattle: 0
+  partyAddIndex: 0

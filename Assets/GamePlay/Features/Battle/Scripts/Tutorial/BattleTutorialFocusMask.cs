@@ -29,7 +29,8 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
             }
             Instance = this;
 
-            _canvasRect = rootCanvas.transform as RectTransform;
+            _canvasRect = maskRoot ?? rootCanvas.transform as RectTransform;
+            
             if (worldCamera == null)
                 worldCamera = Camera.main;
 
@@ -183,16 +184,23 @@ namespace GamePlay.Features.Battle.Scripts.Tutorial
         /// <summary>
         /// 월드 좌표 하나를 기준으로 임의의 크기를 가진 사각형 구멍
         /// </summary>
-        public void ShowHoleAroundWorldPosition(Vector3 worldPos, Vector2 size, float padding = 0f)
+        public void ShowHoleAroundWorldPosition(Vector3 worldPos, Vector2 worldSize, float padding = 0f)
         {
-            if (worldCamera == null) return;
+            if (!worldCamera) return;
 
-            Vector3 screen = worldCamera.WorldToScreenPoint(worldPos);
-            Rect r = new Rect(
-                screen.x - size.x * 0.5f,
-                screen.y - size.y * 0.5f,
-                size.x,
-                size.y);
+            //Vector3 screen = worldCamera.WorldToScreenPoint(worldPos);
+            //Rect r = new Rect(
+            //    screen.x - size.x * 0.5f,
+            //    screen.y - size.y * 0.5f,
+            //    size.x,
+            //    size.y);
+            Vector3 worldMin = worldPos - new Vector3(worldSize.x * 0.5f, worldSize.y * 0.5f, 0f);
+            Vector3 worldMax = worldPos + new Vector3(worldSize.x * 0.5f, worldSize.y * 0.5f, 0f);
+
+            Vector3 screenMin = worldCamera.WorldToScreenPoint(worldMin);
+            Vector3 screenMax = worldCamera.WorldToScreenPoint(worldMax);
+
+            Rect r = Rect.MinMaxRect(screenMin.x, screenMin.y, screenMax.x, screenMax.y);
             ShowHoleForScreenRect(r, padding);
         }
     }

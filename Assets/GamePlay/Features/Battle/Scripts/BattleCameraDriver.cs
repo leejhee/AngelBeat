@@ -289,9 +289,13 @@ namespace GamePlay.Features.Battle.Scripts
             var blendWait = UniTask.WaitUntil(() => !_brain.IsBlending);
             await UniTask.WhenAll(blendWait, zoomTask);
 
+            await WaitForCameraSettled();
+            
             def = _brain.DefaultBlend;
             def.Time = prevBlend;
             _brain.DefaultBlend = def;
+
+            await UniTask.Delay(500); // 안정적인 카메라 고정을 위한 임시 wait
         }
 
         /// <summary>
@@ -336,6 +340,38 @@ namespace GamePlay.Features.Battle.Scripts
             followCam.Follow = target;
             followCam.LookAt = target;
             followCam.Priority = 100;
+        }
+        
+        private async UniTask WaitForCameraSettled(
+            float positionEpsilon = 0.01f, // 이 이하 움직이면 멈췄다고 본다
+            int stableFrames = 2           // 몇 프레임 연속으로 안 움직여야 하는지
+        )
+        {
+            if (_brain == null || _brain.OutputCamera == null)
+                return;
+
+            var camTr = _brain.OutputCamera.transform;
+            Vector3 lastPos = camTr.position;
+            int stableCount = 0;
+
+            while (stableCount < stableFrames)
+            {
+                await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+
+                if (camTr == null) break;
+
+                Vector3 now = camTr.position;
+                if ((now - lastPos).sqrMagnitude < positionEpsilon * positionEpsilon)
+                {
+                    stableCount++;
+                }
+                else
+                {
+                    stableCount = 0;
+                }
+
+                lastPos = now;
+            }
         }
         
         #endregion
